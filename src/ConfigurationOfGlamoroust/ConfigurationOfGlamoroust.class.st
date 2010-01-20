@@ -44,7 +44,7 @@ ConfigurationOfGlamoroust >> default: spec [
 		spec repository: 'http://www.squeaksource.com/glamoroust'.
 		spec 
 			package: 'GT-Model';
-			package: 'GT-Tools' with: [ spec requires: #('GT-Model') ].
+			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour') ].
 		spec project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
