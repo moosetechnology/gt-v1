@@ -1,6 +1,6 @@
 Class {
-	#name : #GLMSTProtocol,
-	#superclass : #GLMSTNamedModel,
+	#name : #GTSTProtocol,
+	#superclass : #GTSTNamedModel,
 	#instVars : [
 		'glmBehavior'
 	],
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #accessing }
-GLMSTProtocol >> glmBehavior [
+GTSTProtocol >> glmBehavior [
 	^ glmBehavior
 ]
 
 { #category : #accessing }
-GLMSTProtocol >> glmBehavior: anObject [ 
+GTSTProtocol >> glmBehavior: anObject [ 
 	glmBehavior := anObject
 ]
 
 { #category : #testing }
-GLMSTProtocol >> isCategory [
+GTSTProtocol >> isCategory [
 	^ true
 ]
 
 { #category : #accessing }
-GLMSTProtocol >> methods [
+GTSTProtocol >> methods [
 	^ (self glmBehavior stBehavior organization listAtCategoryNamed: self name) asSortedCollection collect: 
 		[ :each | 
-		GLMSTMethod new
+		GTSTMethod new
 			name: each;
 			glmCategory: self;
 			yourself ]

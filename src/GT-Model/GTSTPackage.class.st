@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMSTPackage,
-	#superclass : #GLMSTNamedModel,
+	#name : #GTSTPackage,
+	#superclass : #GTSTNamedModel,
 	#category : #'GT-Model'
 }
 
 { #category : #'instance creation' }
-GLMSTPackage class >> named: aString environment: anEnvironment [
+GTSTPackage class >> named: aString environment: anEnvironment [
 	^ self new
 		name: aString;
 		environment: anEnvironment;
@@ -13,13 +13,13 @@ GLMSTPackage class >> named: aString environment: anEnvironment [
 ]
 
 { #category : #'instance creation' }
-GLMSTPackage class >> rootPackagesOn: anEnvironment [
+GTSTPackage class >> rootPackagesOn: anEnvironment [
 	^ ((anEnvironment categories collect: [:string | string readStream upTo: $-]) asSet asSortedCollection)
 			collect: [:string | self named: string environment: anEnvironment]
 ]
 
 { #category : #accessing }
-GLMSTPackage >> allClasses [
+GTSTPackage >> allClasses [
 	| all |
 	all := self classes asOrderedCollection.
 	self subPackages do: [:each | 
@@ -28,13 +28,13 @@ GLMSTPackage >> allClasses [
 ]
 
 { #category : #accessing }
-GLMSTPackage >> classes [
+GTSTPackage >> classes [
 	^ (self environment classNamesFor: self name)
-		collect: [:className | GLMSTClass behavior: (self environment at: className) environment: self environment ]
+		collect: [:className | GTSTClass behavior: (self environment at: className) environment: self environment ]
 ]
 
 { #category : #accessing }
-GLMSTPackage >> subPackages [
+GTSTPackage >> subPackages [
 	^ self environment categories
 		select: [:string | string  beginsWith: self name, '-']
 		thenCollect: [:string  | self class named: string environment: self environment]

@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMSTModel,
+	#name : #GTSTModel,
 	#superclass : #Object,
 	#instVars : [
 		'environment'
@@ -8,51 +8,51 @@ Class {
 }
 
 { #category : #defaults }
-GLMSTModel class >> defaultEnvironment [
+GTSTModel class >> defaultEnvironment [
 	^ BrowserEnvironment new
 ]
 
 { #category : #accessing }
-GLMSTModel >> = anObject [
+GTSTModel >> = anObject [
 	^ self class = anObject class and: [self name = anObject name ]
 ]
 
 { #category : #accessing }
-GLMSTModel >> environment [
+GTSTModel >> environment [
 	^ environment ifNil: [environment := self class defaultEnvironment]
 ]
 
 { #category : #accessing }
-GLMSTModel >> environment: anObject [
+GTSTModel >> environment: anObject [
 	environment := anObject
 ]
 
 { #category : #testing }
-GLMSTModel >> isCategory [
+GTSTModel >> isCategory [
 	^ false
 ]
 
 { #category : #testing }
-GLMSTModel >> isClass [
+GTSTModel >> isClass [
 	^ false
 ]
 
 { #category : #testing }
-GLMSTModel >> isClassCategory [
+GTSTModel >> isClassCategory [
 	^ false
 ]
 
 { #category : #testing }
-GLMSTModel >> isMethod [
+GTSTModel >> isMethod [
 	^ false
 ]
 
 { #category : #accessing }
-GLMSTModel >> name [
+GTSTModel >> name [
 	self subclassResponsibility
 ]
 
 { #category : #printing }
-GLMSTModel >> printOn: aStream [
+GTSTModel >> printOn: aStream [
 	aStream nextPutAll: self name
 ]

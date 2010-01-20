@@ -1,6 +1,6 @@
 Class {
-	#name : #GLMSTBehavior,
-	#superclass : #GLMSTNamedModel,
+	#name : #GTSTBehavior,
+	#superclass : #GTSTNamedModel,
 	#instVars : [
 		'stBehavior',
 		'instanceAndMetaMethods',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMSTBehavior class >> behavior: aBehavior environment: anEnvironment [
+GTSTBehavior class >> behavior: aBehavior environment: anEnvironment [
 	^ self new
 		stBehavior: aBehavior;
 		environment: anEnvironment;
@@ -19,46 +19,46 @@ GLMSTBehavior class >> behavior: aBehavior environment: anEnvironment [
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> comment [
+GTSTBehavior >> comment [
 	^ self stBehavior comment
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> definition [
+GTSTBehavior >> definition [
 	^ self stBehavior definition
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> glmPackage [
-	^ GLMSTPackage named: (PackageOrganizer default mostSpecificPackageOfClass: self stBehavior) packageName environment: self environment
+GTSTBehavior >> glmPackage [
+	^ GTSTPackage named: (PackageOrganizer default mostSpecificPackageOfClass: self stBehavior) packageName environment: self environment
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> instVars [
+GTSTBehavior >> instVars [
 	^ instVars ifNil: [
 		instVars := self stBehavior instVarNames collect: [:each | 
-			GLMSTVariable new name: each; glmBehavior: self; yourself ] ]
+			GTSTVariable new name: each; glmBehavior: self; yourself ] ]
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> instanceAndMetaMethods [
+GTSTBehavior >> instanceAndMetaMethods [
 	^ instanceAndMetaMethods ifNil: [ instanceAndMetaMethods := (self methods, self metaSide methods) asSortedCollection: [:a :b | a name < b name] ]
 ]
 
 { #category : #testing }
-GLMSTBehavior >> isMetaSide [ 
+GTSTBehavior >> isMetaSide [ 
 	^ self stBehavior class = Metaclass 
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> metaSide [
-	^ (GLMSTClass named: self name) 
+GTSTBehavior >> metaSide [
+	^ (GTSTClass named: self name) 
 		stBehavior: self stBehavior class;
 		yourself
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> methods [
+GTSTBehavior >> methods [
 	^ methods ifNil: [
 		methods := OrderedCollection new.
 		self protocols do: [:each |
@@ -67,45 +67,45 @@ GLMSTBehavior >> methods [
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> name [
+GTSTBehavior >> name [
 	^ self stBehavior name
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> protocols [
+GTSTBehavior >> protocols [
 	^ (self environment protocolsFor: self stBehavior) collect: 
 		[ :each | 
-		GLMSTProtocol new
+		GTSTProtocol new
 			name: each;
 			glmBehavior: self;
 			yourself ]
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> references [
+GTSTBehavior >> references [
 	| association |
 	association := Smalltalk associationAt: self name ifAbsent: [ ^ #() ].
 	^ (self systemNavigation allCallsOn: association) collect: [ :each |
-		GLMSTMethod fromMethodReference: each ]
+		GTSTMethod fromMethodReference: each ]
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> sourceCodeAt: aSelector [
+GTSTBehavior >> sourceCodeAt: aSelector [
 	^ self stBehavior sourceCodeAt: aSelector
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> stBehavior [
+GTSTBehavior >> stBehavior [
 	^ stBehavior
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> stBehavior: anObject [
+GTSTBehavior >> stBehavior: anObject [
 	stBehavior := anObject
 ]
 
 { #category : #accessing }
-GLMSTBehavior >> traits [
+GTSTBehavior >> traits [
 	^ self stBehavior traitComposition traits collect: [:each |
-		GLMSTTrait new stBehavior: each; yourself]
+		GTSTTrait new stBehavior: each; yourself]
 ]

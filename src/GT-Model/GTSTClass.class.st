@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMSTClass,
-	#superclass : #GLMSTBehavior,
+	#name : #GTSTClass,
+	#superclass : #GTSTBehavior,
 	#category : #'GT-Model'
 }
 
 { #category : #accessing }
-GLMSTClass >> superclass [
+GTSTClass >> superclass [
 	self class behavior: self stBehavior superclass environment: self environment
 
 ]

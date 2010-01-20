@@ -1,6 +1,6 @@
 Class {
-	#name : #GLMSTMethod,
-	#superclass : #GLMSTNamedModel,
+	#name : #GTSTMethod,
+	#superclass : #GTSTNamedModel,
 	#instVars : [
 		'glmCategory'
 	],
@@ -8,52 +8,52 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMSTMethod class >> fromMethodReference: aMethodReference [
+GTSTMethod class >> fromMethodReference: aMethodReference [
 	| cls cat |
-	cls := GLMSTClass new.
+	cls := GTSTClass new.
 	cls stBehavior: (Smalltalk at: aMethodReference classSymbol).
-	cat := GLMSTProtocol new.
+	cat := GTSTProtocol new.
 	cat name: aMethodReference category.
 	cat glmBehavior: cls.
-	^ GLMSTMethod new
+	^ GTSTMethod new
 		name: aMethodReference methodSymbol;
 		glmCategory: cat;
 		yourself
 ]
 
 { #category : #accessing }
-GLMSTMethod >> glmBehavior [ 
+GTSTMethod >> glmBehavior [ 
 	^ self glmCategory glmBehavior 
 ]
 
 { #category : #accessing }
-GLMSTMethod >> glmCategory [
+GTSTMethod >> glmCategory [
 	^ glmCategory
 ]
 
 { #category : #accessing }
-GLMSTMethod >> glmCategory: anObject [
+GTSTMethod >> glmCategory: anObject [
 	glmCategory := anObject
 ]
 
 { #category : #accessing }
-GLMSTMethod >> implementors [
+GTSTMethod >> implementors [
 	^ (self systemNavigation allImplementorsOf:	self name) collect: [:each | 
-			GLMSTMethod fromMethodReference: each ]
+			GTSTMethod fromMethodReference: each ]
 ]
 
 { #category : #testing }
-GLMSTMethod >> isMethod [
+GTSTMethod >> isMethod [
 	^ true
 ]
 
 { #category : #accessing }
-GLMSTMethod >> senders [
+GTSTMethod >> senders [
 	^ (self systemNavigation allSendersOf:	self name) collect: [:each | 
-			GLMSTMethod fromMethodReference: each ]
+			GTSTMethod fromMethodReference: each ]
 ]
 
 { #category : #accessing }
-GLMSTMethod >> sourceCode [
+GTSTMethod >> sourceCode [
 	^ self glmCategory glmBehavior sourceCodeAt: self name
 ]

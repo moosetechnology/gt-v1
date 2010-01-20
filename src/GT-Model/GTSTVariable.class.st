@@ -1,6 +1,6 @@
 Class {
-	#name : #GLMSTVariable,
-	#superclass : #GLMSTNamedModel,
+	#name : #GTSTVariable,
+	#superclass : #GTSTNamedModel,
 	#instVars : [
 		'glmBehavior'
 	],
@@ -8,18 +8,18 @@ Class {
 }
 
 { #category : #accessing }
-GLMSTVariable >> accessingMethods [
+GTSTVariable >> accessingMethods [
 	| selectors |
 	selectors := self glmBehavior stBehavior whichSelectorsAccess: self name.
 	^ self glmBehavior methods select: [:each | selectors includes: each name ]
 ]
 
 { #category : #accessing }
-GLMSTVariable >> glmBehavior [
+GTSTVariable >> glmBehavior [
 	^ glmBehavior
 ]
 
 { #category : #accessing }
-GLMSTVariable >> glmBehavior: anObject [
+GTSTVariable >> glmBehavior: anObject [
 	glmBehavior := anObject
 ]

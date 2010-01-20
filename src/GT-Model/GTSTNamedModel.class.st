@@ -1,6 +1,6 @@
 Class {
-	#name : #GLMSTNamedModel,
-	#superclass : #GLMSTModel,
+	#name : #GTSTNamedModel,
+	#superclass : #GTSTModel,
 	#instVars : [
 		'name'
 	],
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMSTNamedModel class >> named: aString [
+GTSTNamedModel class >> named: aString [
 	^ self named: aString environment: self defaultEnvironment
 ]
 
 { #category : #'instance creation' }
-GLMSTNamedModel class >> named: aString environment: anEnvironment [
+GTSTNamedModel class >> named: aString environment: anEnvironment [
 	^ self new
 		name: aString;
 		environment: anEnvironment;
@@ -21,11 +21,11 @@ GLMSTNamedModel class >> named: aString environment: anEnvironment [
 ]
 
 { #category : #accessing }
-GLMSTNamedModel >> name [
+GTSTNamedModel >> name [
 	^ name
 ]
 
 { #category : #accessing }
-GLMSTNamedModel >> name: anObject [
+GTSTNamedModel >> name: anObject [
 	name := anObject
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMOBCommandAdaptor,
+	#name : #GTOBCommandAdaptor,
 	#superclass : #Object,
 	#category : #'GT-Model'
 }
 
 { #category : #'as yet unclassified' }
-GLMOBCommandAdaptor >> actionsFrom: aCollectionOfOBCommandClasses on: aTarget for: aRequestor [
+GTOBCommandAdaptor >> actionsFrom: aCollectionOfOBCommandClasses on: aTarget for: aRequestor [
 	^ (aCollectionOfOBCommandClasses "select: [ :each | each isActive ]") collect: [ :each |
 		| command |
 		command := each on: aTarget for: aRequestor.

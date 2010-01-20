@@ -1,18 +1,18 @@
 Class {
-	#name : #GLMSTClassCategory,
-	#superclass : #GLMSTNamedModel,
+	#name : #GTSTClassCategory,
+	#superclass : #GTSTNamedModel,
 	#category : #'GT-Model'
 }
 
 { #category : #'as yet unclassified' }
-GLMSTClassCategory class >> all [
+GTSTClassCategory class >> all [
 	|env|
 	env := self defaultEnvironment.
 	^ env categories collect: [:each | self named: each environment: env]
 ]
 
 { #category : #accessing }
-GLMSTClassCategory >> classes [
+GTSTClassCategory >> classes [
 	^ (Smalltalk organization listAtCategoryNamed: self name) collect: [ :className |
-		GLMSTClass behavior: (Smalltalk classNamed: className) environment: self environment]
+		GTSTClass behavior: (Smalltalk classNamed: className) environment: self environment]
 ]
