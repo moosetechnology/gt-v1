@@ -1,6 +1,9 @@
 Class {
 	#name : #ConfigurationOfGlamoroust,
 	#superclass : #Object,
+	#instVars : [
+		'project'
+	],
 	#category : #ConfigurationOfGlamoroust
 }
 
@@ -26,6 +29,12 @@ ConfigurationOfGlamoroust class >> loadDefault [
 	(self project version: 'default') load
 ]
 
+{ #category : #accessing }
+ConfigurationOfGlamoroust class >> project [
+
+	^self new project
+]
+
 { #category : #baselines }
 ConfigurationOfGlamoroust >> default: spec [ 
 	<version: 'default'>
@@ -43,4 +52,16 @@ ConfigurationOfGlamoroust >> default: spec [
 					version: 'default';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 	]
+]
+
+{ #category : #accessing }
+ConfigurationOfGlamoroust >> project [
+
+	^ project ifNil: [ | constructor |
+		"Bootstrap Metacello if it is not already loaded"
+		self class ensureMetacello.
+		"Construct Metacello project"
+		constructor := (Smalltalk at: #MetacelloVersionConstructor) on: self.
+		project := constructor project.
+		project]
 ]
