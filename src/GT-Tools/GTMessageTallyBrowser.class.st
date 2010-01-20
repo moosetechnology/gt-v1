@@ -2,13 +2,13 @@
 self openOn: [10000 timesRepeat: [1.23 printString]]
 "
 Class {
-	#name : #GLMMessageTallyBrowser,
+	#name : #GTMessageTallyBrowser,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #building }
-GLMMessageTallyBrowser >> buildBrowser [
+GTMessageTallyBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Message Tally'.
 	browser column: #messages; column: #details.
@@ -24,6 +24,6 @@ GLMMessageTallyBrowser >> buildBrowser [
 ]
 
 { #category : #building }
-GLMMessageTallyBrowser >> openOn: aBlock [
+GTMessageTallyBrowser >> openOn: aBlock [
 	^ super openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself)
 ]

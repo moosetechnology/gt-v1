@@ -2,13 +2,13 @@
 self openOn: #buildBrowser
 "
 Class {
-	#name : #GLMChaser,
+	#name : #GTChaser,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #building }
-GLMChaser >> buildBrowser [
+GTChaser >> buildBrowser [
 	"self openOn: #browser"
 	browser := GLMFinder new.
 	browser title: [:each | 'Chasing Browser of #', each].
@@ -19,7 +19,7 @@ GLMChaser >> buildBrowser [
 ]
 
 { #category : #building }
-GLMChaser >> methodSourceBrowser [
+GTChaser >> methodSourceBrowser [
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #methods; row: #source.

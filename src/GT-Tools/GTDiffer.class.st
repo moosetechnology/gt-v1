@@ -2,18 +2,18 @@
 self openOn: Collection withAllSubclasses andOn: MooseGroup withAllSubclasses
 "
 Class {
-	#name : #GLMDiffer,
+	#name : #GTDiffer,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMDiffer class >> openOn: aCollectionOfClasses andOn: anotherCollectionOfClasses [
+GTDiffer class >> openOn: aCollectionOfClasses andOn: anotherCollectionOfClasses [
 	^ self new openOn: aCollectionOfClasses andOn: anotherCollectionOfClasses
 ]
 
 { #category : #building }
-GLMDiffer >> buildBrowser [
+GTDiffer >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Glamorous Diff Browser'.
 	browser
@@ -21,8 +21,8 @@ GLMDiffer >> buildBrowser [
 		row: #diff.
 	browser sendTo: #outer->#leftClasses from: #outer->#entity with: [:assoc | assoc key].
 	browser sendTo: #outer->#rightClasses from: #outer->#entity with: [:assoc | assoc value].
-	browser showOn: #left; from: #outer->#leftClasses; using: [browser custom: GLMSimpleClassesBrowser new browser ].
-	browser showOn: #right; from: #outer->#rightClasses; using: [browser custom: GLMSimpleClassesBrowser new browser ].
+	browser showOn: #left; from: #outer->#leftClasses; using: [browser custom: GTSimpleClassesBrowser new browser ].
+	browser showOn: #right; from: #outer->#rightClasses; using: [browser custom: GTSimpleClassesBrowser new browser ].
 	browser showOn: #diff; 
 		from: #left->#selectedClass; from: #left->#selectedMethod;
 		from: #right->#selectedClass; from: #right->#selectedMethod;
@@ -36,11 +36,11 @@ GLMDiffer >> buildBrowser [
 ]
 
 { #category : #opening }
-GLMDiffer >> openOn: aCollectionOfClasses [
+GTDiffer >> openOn: aCollectionOfClasses [
 	self browser openOn: aCollectionOfClasses andOn: aCollectionOfClasses
 ]
 
 { #category : #opening }
-GLMDiffer >> openOn: aCollectionOfClasses andOn: anotherCollectionOfClasses [
+GTDiffer >> openOn: aCollectionOfClasses andOn: anotherCollectionOfClasses [
 	self browser openOn: aCollectionOfClasses -> anotherCollectionOfClasses
 ]

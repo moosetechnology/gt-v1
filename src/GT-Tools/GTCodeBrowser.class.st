@@ -2,18 +2,18 @@
 self open
 "
 Class {
-	#name : #GLMCodeBrowser,
+	#name : #GTCodeBrowser,
 	#superclass : #GLMGlobalBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #accessing }
-GLMCodeBrowser class >> defaultEnvironment [
-	^ GLMSTModel defaultEnvironment
+GTCodeBrowser class >> defaultEnvironment [
+	^ GTSTModel defaultEnvironment
 ]
 
 { #category : #building }
-GLMCodeBrowser >> buildBrowser [
+GTCodeBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Glamorous ST Browser'.
 	self layout.
@@ -30,12 +30,12 @@ GLMCodeBrowser >> buildBrowser [
 ]
 
 { #category : #opening }
-GLMCodeBrowser >> entity [ 
-	^ GLMSTPackage rootPackagesOn: self class defaultEnvironment
+GTCodeBrowser >> entity [ 
+	^ GTSTPackage rootPackagesOn: self class defaultEnvironment
 ]
 
 { #category : #building }
-GLMCodeBrowser >> layout [
+GTCodeBrowser >> layout [
 	browser
 		column: #packages;
 		column: [:c | c row: #classes; row: #instVars ];
@@ -43,7 +43,7 @@ GLMCodeBrowser >> layout [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> onClassesFromPackages [
+GTCodeBrowser >> onClassesFromPackages [
 	browser
 		showOn: #classes; from: #packages;
 		using: [browser tree
@@ -58,7 +58,7 @@ GLMCodeBrowser >> onClassesFromPackages [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
+GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 	browser
 		showOn: #details; from: #classes; from: #methods; from: #packages; 
 		using: [
@@ -93,7 +93,7 @@ GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> onInstVarsFromClasses [
+GTCodeBrowser >> onInstVarsFromClasses [
 	browser showOn: #instVars; from: #classes; using: [ 
 		browser list
 				display: [ :class | class instVars ];
@@ -102,7 +102,7 @@ GLMCodeBrowser >> onInstVarsFromClasses [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> onMethodsFromClasses [
+GTCodeBrowser >> onMethodsFromClasses [
 	browser transmit to: #methods; from: #classes; andShow: [ :a | 
 		a accordionArrangement.
 		a list
@@ -119,7 +119,7 @@ GLMCodeBrowser >> onMethodsFromClasses [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> onMethodsFromInstVars [
+GTCodeBrowser >> onMethodsFromInstVars [
 	browser showOn: #methods; from: #instVars; using: [ 
 		browser list
 				display: [ :var | var accessingMethods ];
@@ -129,7 +129,7 @@ GLMCodeBrowser >> onMethodsFromInstVars [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> onPackages [
+GTCodeBrowser >> onPackages [
 	browser
 		showOn: #packages;
 		using: 

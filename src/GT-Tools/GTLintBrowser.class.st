@@ -2,13 +2,13 @@
 self openOn: GLMPresentation withAllSubclasses asOrderedCollection
 "
 Class {
-	#name : #GLMLintBrowser,
+	#name : #GTLintBrowser,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #building }
-GLMLintBrowser >> buildBrowser [
+GTLintBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Lint Browser'.
 	browser column: #groups; column: #rules; column: #results.
@@ -31,7 +31,7 @@ GLMLintBrowser >> buildBrowser [
 ]
 
 { #category : #private }
-GLMLintBrowser >> getLintResult: anEnvironment [
+GTLintBrowser >> getLintResult: anEnvironment [
 
 	| results stream |
 	results := OrderedCollection new.
@@ -40,7 +40,7 @@ GLMLintBrowser >> getLintResult: anEnvironment [
 ]
 
 { #category : #private }
-GLMLintBrowser >> runRule: aRule forClasses: aClassesCollection [
+GTLintBrowser >> runRule: aRule forClasses: aClassesCollection [
 
 	| environment |
 	environment := BrowserEnvironment new forClasses: aClassesCollection.

@@ -2,13 +2,13 @@
 self openOn: Collection withAllSubclasses
 "
 Class {
-	#name : #GLMSimpleClassesBrowser,
+	#name : #GTSimpleClassesBrowser,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMSimpleClassesBrowser >> buildBrowser [
+GTSimpleClassesBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser column: #classes; column: #methods.
 	browser showOn: #classes; using: [

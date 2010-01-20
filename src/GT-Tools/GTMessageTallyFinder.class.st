@@ -2,13 +2,13 @@
 self openOn: [10000 timesRepeat: [1.23 printString]]
 "
 Class {
-	#name : #GLMMessageTallyFinder,
+	#name : #GTMessageTallyFinder,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMMessageTallyFinder >> buildBrowser [
+GTMessageTallyFinder >> buildBrowser [
 	| finder |
 	finder := GLMFinder new.
 	finder list
@@ -32,6 +32,6 @@ GLMMessageTallyFinder >> buildBrowser [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMessageTallyFinder >> openOn: aBlock [
+GTMessageTallyFinder >> openOn: aBlock [
 	^ super openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself)
 ]

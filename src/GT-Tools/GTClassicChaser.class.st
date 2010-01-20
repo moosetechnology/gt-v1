@@ -2,13 +2,13 @@
 self openOn: #browse
 "
 Class {
-	#name : #GLMClassicChaser,
+	#name : #GTClassicChaser,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMClassicChaser >> buildBrowser [
+GTClassicChaser >> buildBrowser [
 	"self openOn: #buildBrowser"
 	| finder |
 	finder := GLMFinder new.

@@ -2,13 +2,13 @@
 self openOn: Smalltalk organization categories.
 "
 Class {
-	#name : #GLMClassicCodeNavigator,
+	#name : #GTClassicCodeNavigator,
 	#superclass : #GLMGlobalBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMClassicCodeNavigator >> buildBrowser [
+GTClassicCodeNavigator >> buildBrowser [
 	browser := GLMTabulator new.
 	browser
 		column: #classCats;

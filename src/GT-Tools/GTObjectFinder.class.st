@@ -2,13 +2,13 @@
 self openOn: Smalltalk
 "
 Class {
-	#name : #GLMObjectFinder,
+	#name : #GTObjectFinder,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMObjectFinder >> buildBrowser [
+GTObjectFinder >> buildBrowser [
 	browser := GLMFinder new.
 	browser list
 		title: [ :anObject | self printObjectAsAnItem: anObject ];
@@ -45,7 +45,7 @@ GLMObjectFinder >> buildBrowser [
 ]
 
 { #category : #private }
-GLMObjectFinder >> printObjectAsAnItem: anObject [ 
+GTObjectFinder >> printObjectAsAnItem: anObject [ 
 	| title stream |
 	stream := String new writeStream.
 	title := anObject class name.

@@ -2,13 +2,13 @@
 self openOn: Smalltalk organization categories.
 "
 Class {
-	#name : #GLMClassicCodeBrowser,
+	#name : #GTClassicCodeBrowser,
 	#superclass : #GLMGlobalBrowserTemplate,
 	#category : #'GT-Tools'
 }
 
 { #category : #'as yet unclassified' }
-GLMClassicCodeBrowser >> buildBrowser [
+GTClassicCodeBrowser >> buildBrowser [
 	| lintBrowser |
 	browser := GLMTabulator new.
 	browser
@@ -16,7 +16,7 @@ GLMClassicCodeBrowser >> buildBrowser [
 		row: #sourceCode.
 	browser
 		showOn: #navigation;
-		using: [ browser custom: GLMClassicCodeNavigator new browser ].
+		using: [ browser custom: GTClassicCodeNavigator new browser ].
 	browser
 		showOn: #sourceCode;
 		from: #navigation -> #selectedClass;
@@ -38,7 +38,7 @@ GLMClassicCodeBrowser >> buildBrowser [
 				display: [ :class | class comment ];
 				useExplicitNotNil;
 				when: [:class | class notNil].
-			lintBrowser := GLMLintBrowser new browser.
+			lintBrowser := GTLintBrowser new browser.
 			lintBrowser allowNil; when: [:clas :mth | clas notNil ].
 			browser custom: lintBrowser
 		].
