@@ -25,6 +25,25 @@ GTMetaceller >> entity [
 ]
 
 { #category : #private }
+GTMetaceller >> goferForVersion: version [
+	| g |
+	g := Gofer new.
+	version spec repositories list do: [:each | g url: each name ].
+	version spec packages do: [:each | 
+		(each isKindOf: MetacelloPackageSpec) ifTrue: [ g package: each name]].
+	^ g
+]
+
+{ #category : #private }
+GTMetaceller >> packageSpec: packageSpec hasNewerVersionsFrom: version [
+	| g |
+	g := Gofer new.
+	version spec repositories list do: [:each | g url: each name ].
+	g package: packageSpec name.
+	^ g resolved first name ~= packageSpec currentVersionInfo name
+]
+
+{ #category : #private }
 GTMetaceller >> packageSpecHasNewerVersions: aPackageSpec [
 	| copy |
 	copy := aPackageSpec workingCopy.
@@ -101,11 +120,20 @@ GTMetaceller >> toPackagesFromVersionsAndShow [
 				version spec printString ].
 		a list
 			title: 'Newer in repository?';
-			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
-					self packageSpecHasNewerVersions: packageSpec])
+			display: [:version | version spec packages packageSpecsInLoadOrder ];
+			format: [:packageSpec :version | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+					self  packageSpec: packageSpec hasNewerVersionsFrom: version])
 				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
 			act: [:list  | list selection inspect] entitled: 'Inspect'
+"			
+			
+		a list
+			title: 'Newer in repository?';
+			display: [:version | version spec packages packageSpecsInLoadOrder];
+			format: [:packageSpec :version | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+					self  packageSpecHasNewerVersions: packageSpec])
+				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
+			act: [:list  | list selection inspect] entitled: 'Inspect'"
 	]
 ]
 
@@ -120,6 +148,8 @@ GTMetaceller >> toVersionsFromConfigsAndShow. [
 				([each isPossibleBaseline not] on: Error do: [true])
 					ifTrue: [Text string: each versionNumber asString attribute: TextColor gray] 
 					ifFalse: [each versionNumber asString] ];
+			act: [:list | 
+				(self goferForVersion: list selection) browseRemoteChanges ] entitled: 'Browse remote changes';
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
 		a mondrian
 			title: 'Imports';
