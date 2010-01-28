@@ -44,14 +44,6 @@ GTMetaceller >> packageSpec: packageSpec hasNewerVersionsFrom: version [
 ]
 
 { #category : #private }
-GTMetaceller >> packageSpecHasNewerVersions: aPackageSpec [
-	| copy |
-	copy := aPackageSpec workingCopy.
-	copy isNil ifTrue: [^ false ].
-	^ copy possiblyNewerVersions notEmpty
-]
-
-{ #category : #private }
 GTMetaceller >> packageSpecNeedsSaving: aPackageSpec [
 	| copy |
 	copy := aPackageSpec workingCopy.
@@ -86,41 +78,45 @@ GTMetaceller >> tagsOf: packageSpec in: version [
 { #category : #building }
 GTMetaceller >> toConfigsAndShow [
 	browser transmit to: #configs; andShow: [ :a |
+		| configList |
 		a title: 'Configurations'.
-		a list
-			format: [:configClass | | label version |
+		configList := a list
+			format: [:configClass | | text label version |
 				label := self shortNameOf: configClass.
-				(version := configClass project currentVersion) notNil
-					ifTrue: [ 
-						label := label, ' [', version versionString, ']'.
-						label := Text string: label attribute: TextEmphasis bold ].
-				label];
+				version := configClass project currentVersion.
+				text := version notNil
+					ifTrue: [ (label, ' [', version versionString, ']') ]
+					ifFalse: [ Text string: label attribute: TextColor gray].
+				text ];
 			act: [:list  | list selection browse ] entitled: 'Browse implementation';
-			act: [:list  | list selection project inspect] entitled: 'Inspect';
-			actions: [:list | 
-				(GTOBCommandAdaptor new 
-					actionsFrom: OBCmdMetacello subclasses 
-					on: list selection 
-					for: nil ) do: [:each | each category: 'OB Commands'] ] ]
+			act: [:list  | list selection project inspect] entitled: 'Inspect'.
+			Smalltalk at: #OBCmdMetacello ifPresent: [ :x |
+				configList actions: [:list | 
+					(GTOBCommandAdaptor new 
+						actionsFrom: (Smalltalk at: #OBCmdMetacello) subclasses 
+						on: list selection 
+						for: nil ) do: [:each | each category: 'OB Commands'] ] ] ]
 ]
 
 { #category : #building }
 GTMetaceller >> toPackagesFromVersionsAndShow [
 	browser transmit to: #packages; from: #versions; andShow: [ :a |
 		a title: [:version | version name ].
-		a list
+		a tree
 			title: 'Items';
 			display: [:version | version spec packages packageSpecsInLoadOrder];
 			format: [:packageSpec | | text |
 				text := ((packageSpec isKindOf: MetacelloPackageSpec) and: [
 					self packageSpecNeedsSaving: packageSpec])
 						ifTrue: [Text string: packageSpec name attribute: TextColor blue] 
-						ifFalse: [  packageSpec name asText].
-				packageSpec isLoaded ifTrue: [ text allBold ].
-				(packageSpec isKindOf: MetacelloProjectReferenceSpec) 
-					ifTrue: [ text addAttribute: TextEmphasis underlined from: 1 to: text size ].
+						ifFalse: [ Text string: packageSpec name attribute: (packageSpec isLoaded ifTrue: [TextColor black] ifFalse: [TextColor gray])].
 				(packageSpec isKindOf: MetacelloGroupSpec) ifTrue: [ text addAttribute: TextEmphasis italic from: 1 to: text size ].
 				text] ;
+			children: [:spec | 
+				(spec isKindOf: MetacelloProjectReferenceSpec) 
+					ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
+					ifFalse: [	#() ]
+				];
 			tags: [:packageSpec :version | 
 				self tagsOf: packageSpec in: version  ]; 
 			act: [:list  | list selection inspect] entitled: 'Inspect';
@@ -140,15 +136,6 @@ GTMetaceller >> toPackagesFromVersionsAndShow [
 					self  packageSpec: packageSpec hasNewerVersionsFrom: version])
 				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
 			act: [:list  | list selection inspect] entitled: 'Inspect'
-"			
-			
-		a list
-			title: 'Newer in repository?';
-			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: [:packageSpec :version | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
-					self  packageSpecHasNewerVersions: packageSpec])
-				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
-			act: [:list  | list selection inspect] entitled: 'Inspect'"
 	]
 ]
 
