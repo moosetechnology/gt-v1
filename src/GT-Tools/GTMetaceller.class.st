@@ -70,6 +70,20 @@ GTMetaceller >> shortNameOf: config [
 		ifFalse: [config name]) asString
 ]
 
+{ #category : #building }
+GTMetaceller >> spawnNewVersionFrom: sourceVersion in: aSmalltalkClass [
+	| vn targetVersionString selector |
+	vn := sourceVersion versionString asMetacelloVersionNumber copy incrementMinorVersionNumber.
+	targetVersionString := OBTextRequest prompt: 'Enter the target version number (source: ', sourceVersion versionString, ').' template: vn printString.
+	selector := OBTextRequest prompt: 'Enter the new method selector' template: ('version', (targetVersionString copyWithout: $.) copyWithout: $-), ':'.
+	selector numArgs ~~ 1 ifTrue: [ ^ self error: 'Selector must take a single argument: ', selector ].
+	MetacelloVersionConstructor 
+		spawnPackageMethodIn: aSmalltalkClass new 
+		named: selector asSymbol
+		sourceVersion: sourceVersion versionString
+		targetVersion: targetVersionString 
+]
+
 { #category : #private }
 GTMetaceller >> tagsOf: packageSpec in: version [
 	^ (self packagesAndGroupsOf: version) at: packageSpec ifAbsent: [OrderedCollection new]
@@ -152,6 +166,9 @@ GTMetaceller >> toVersionsFromConfigsAndShow. [
 					ifFalse: [each versionNumber asString asText].
 				config project currentVersion = each ifTrue: [ text allBold ].
 				text ];
+			act: [:list :config | 
+				self spawnNewVersionFrom: list selection in: config.
+				] entitled: 'Spawn new version';
 			act: [:list | 
 				(self goferForVersion: list selection) browseRemoteChanges ] entitled: 'Browse remote changes';
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
