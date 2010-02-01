@@ -15,11 +15,12 @@ GTProfStef class >> openOn: tutorial [
 { #category : #building }
 GTProfStef >> buildBrowser [
 	browser := GLMFinder new.
+	browser title: 'Prof Stef'.
 	browser text
 		forSmalltalk;
 		display: [ :lesson | lesson lesson ];
 		when: [:lesson | lesson isKindOf: Lesson];
-		title: 'Evaluator';
+		title: #title;
 		update: #selection
 			on: $o
 			entitled: 'Open (o)'
