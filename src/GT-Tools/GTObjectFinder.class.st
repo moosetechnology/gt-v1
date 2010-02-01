@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-Tools'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTObjectFinder >> buildBrowser [
 	browser := GLMFinder new.
 	browser list
