@@ -12,11 +12,16 @@ GTRemoteMetaceller >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Remote Metaceller'.
 	browser column: #configs; column: #details.
-	browser transmit to: #configs; andShow: [:a | 
-		a list ].
-	browser transmit to: #details; from: #configs; andShow: [:a | 
+	browser transmit to: #configs; andShow: [ :a | 
 		a list 
-			display: [:reference | reference version snapshot definitions ]].
+			format: #name;
+			act: [:list | list selection version load ] entitled: 'Load configuration code' ].
+	browser transmit to: #details; from: #configs; andShow: [ :a | 
+		a list 
+			format: #selector;
+			display: [:reference | reference version snapshot definitions select: [:each | 
+					each isMethodDefinition and: [each classIsMeta not] ]];
+			act: [:list | list selection inspect ] entitled: 'Inspect'].
 	^ browser 
 ]
 
