@@ -60,4 +60,5 @@ GTMetaceller >> toDetailsFromConfigsAndShow [
 		a custom: (GTMetacellerDetails new browser noTitle)
 		].
 	browser transmit from: #configs; to: #details->#entityToSelect.
+	browser transmit from: #details->#activeEntity; to: #configs->#selection.
 ]
