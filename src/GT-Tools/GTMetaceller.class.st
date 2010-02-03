@@ -11,6 +11,10 @@ Class {
 GTMetaceller >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Metacello Browser'.
+	browser act: [:b | 
+		Workspace new 
+			contents: self helpText; 
+			openLabel: 'Metaceller help' ] icon: MenuIcons smallHelpIcon entitled: 'Help'.
 	browser column: #configs; column: #details span: 4.
 	self toConfigsAndShow.
 	self toDetailsFromConfigsAndShow.
@@ -21,6 +25,31 @@ GTMetaceller >> buildBrowser [
 GTMetaceller >> entity [ 
 	^ (Object subclasses select: [:each | (each class canUnderstand: #isMetacelloConfig) and: [
 			each isMetacelloConfig ] ]) sort: [:a :b | a name < b name]
+]
+
+{ #category : #private }
+GTMetaceller >> helpText [
+	^'Metaceller is a tool for browsing the Metacello configurations present in the image.
+
+The Configurations tab lists all the projects from the ConfigurationOfXXX present in the image. Double clicking on an item spawns the configuration details.
+
+The Versions tab lists all the versions defined in the configuration. The color coding shows:
+- black = a possible baseline
+- gray = not a possible baseline (probably due to packages no longer in the image)
+- bold = the current version
+
+The Imports tab shows how versions import from one another.
+
+Upon selecting a version, the third pane shows the details of the specification of the version.
+
+The Items tab shows the packages, groups and projects from the version. Each project can be expanded to display its items.
+
+The color coding shows:
+- blue = dirty packages 
+- gray = packages that are not present in the image
+- italics = groups
+
+The "Newer in repository?" shows in red the packages that have newer versions published in the Monticello repository, thus indicating a possible need for update.'
 ]
 
 { #category : #private }
