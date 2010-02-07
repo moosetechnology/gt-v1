@@ -22,3 +22,8 @@ GTProfStefNoView >> showLesson: aLesson [
 GTProfStefNoView >> showLesson: aLesson withTitle: aString [
 	^ aLesson
 ]
+
+{ #category : #'as yet unclassified' }
+GTProfStefNoView >> showTutorialNode: aTutorialNode [
+	^ aTutorialNode 
+]
