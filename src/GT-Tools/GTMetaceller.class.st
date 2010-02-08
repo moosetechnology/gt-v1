@@ -4,6 +4,9 @@ self open
 Class {
 	#name : #GTMetaceller,
 	#superclass : #GLMGlobalBrowserTemplate,
+	#instVars : [
+		'metacelloCache'
+	],
 	#category : #'GT-Tools'
 }
 
@@ -52,6 +55,13 @@ The color coding shows:
 The "Newer in repository?" shows in red the packages that have newer versions published in the Monticello repository, thus indicating a possible need for update.'
 ]
 
+{ #category : #accessing }
+GTMetaceller >> metacelloCache [
+
+	metacelloCache == nil ifTrue: [ metacelloCache := Dictionary new ].
+	^metacelloCache
+]
+
 { #category : #private }
 GTMetaceller >> shortNameOf: config [
 	"self new shortNameOf: ConfigurationOfAlien"
@@ -68,8 +78,8 @@ GTMetaceller >> toConfigsAndShow [
 		configList := a list
 			format: [:configClass | | text label version |
 				label := self shortNameOf: configClass.
-				version := configClass project currentVersion.
-				text := version notNil
+				self useCacheDuring: [ version := configClass project currentVersion ].
+				text := (self validCurrentVersion: version)
 					ifTrue: [ (label, ' [', version versionString, ']') ]
 					ifFalse: [ Text string: label attribute: TextColor gray].
 				text ];
@@ -86,8 +96,33 @@ GTMetaceller >> toConfigsAndShow [
 { #category : #building }
 GTMetaceller >> toDetailsFromConfigsAndShow [
 	browser transmit from: #configs->#strongSelection; to: #details; andShowWithoutOverride: [ :a |
-		a custom: (GTMetacellerDetails new browser noTitle)
+		a custom: 
+			(((GTMetacellerDetails new)
+				master: self;
+				yourself) browser noTitle )
 		].
 	browser transmit from: #configs; to: #details->#entityToSelect.
 	browser transmit from: #details->#activeEntity; to: #configs->#selection.
+]
+
+{ #category : #private }
+GTMetaceller >> useCacheDuring: aBlock [
+
+	"Use #respondsTo: until 1.0-beta.23 is in general use"
+	(MetacelloPlatform current respondsTo: #useStackCacheDuring:defaultDictionary:)
+		ifTrue: [
+			MetacelloPlatform current
+				useStackCacheDuring: [:dict | ^aBlock value ] 
+				defaultDictionary: self metacelloCache ]
+		ifFalse: [ ^aBlock value ]
+]
+
+{ #category : #private }
+GTMetaceller >> validCurrentVersion: version [
+
+	version isNil ifTrue: [ ^false ].
+	(version respondsTo: #versionStatus) 
+		ifTrue: [ "Use #respondsTo: until 1.0-beta.23 is in general use"
+			^#(allLoadedToSpec loadedToSpec loadedMatchConstraints) includes: version versionStatus ].
+	^true
 ]

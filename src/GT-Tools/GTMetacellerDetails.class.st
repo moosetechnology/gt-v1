@@ -4,6 +4,9 @@ self openOn: ConfigurationOfGlamour
 Class {
 	#name : #GTMetacellerDetails,
 	#superclass : #GLMBrowserTemplate,
+	#instVars : [
+		'master'
+	],
 	#category : #'GT-Tools'
 }
 
@@ -28,9 +31,19 @@ GTMetacellerDetails >> goferForVersion: version [
 	| g |
 	g := Gofer new.
 	version spec repositories list do: [:each | g url: each name ].
-	version spec packages do: [:each | 
+	version packages do: [:each | 
 		(each isKindOf: MetacelloPackageSpec) ifTrue: [ g package: each name]].
 	^ g
+]
+
+{ #category : #accessing }
+GTMetacellerDetails >> master [
+	^ master
+]
+
+{ #category : #accessing }
+GTMetacellerDetails >> master: anObject [
+	master := anObject
 ]
 
 { #category : #private }
@@ -99,7 +112,7 @@ GTMetacellerDetails >> toPackagesFromVersionsAndShow: innerBrowser [
 				text := ((packageSpec isKindOf: MetacelloPackageSpec) and: [
 					self packageSpecNeedsSaving: packageSpec])
 						ifTrue: [Text string: packageSpec name attribute: TextColor blue] 
-						ifFalse: [ Text string: packageSpec name attribute: (packageSpec isLoaded ifTrue: [TextColor black] ifFalse: [TextColor gray])].
+						ifFalse: [ Text string: packageSpec name attribute: ((self master useCacheDuring: [ packageSpec isLoaded ]) ifTrue: [TextColor black] ifFalse: [TextColor gray])].
 				(packageSpec isKindOf: MetacelloGroupSpec) ifTrue: [ text addAttribute: TextEmphasis italic from: 1 to: text size ].
 				text] ;
 			children: [:spec | 
@@ -143,7 +156,7 @@ GTMetacellerDetails >> toVersionsAndShow: innerBrowser [
 				text := ([each isPossibleBaseline not] on: Error do: [true])
 					ifTrue: [Text string: each versionNumber asString attribute: TextColor gray] 
 					ifFalse: [each versionNumber asString asText].
-				config project currentVersion = each ifTrue: [ text allBold ].
+				(self master useCacheDuring: [ config project currentVersion ]) = each ifTrue: [ text allBold ].
 				text ];
 			act: [:list :config | 
 				self spawnNewVersionFrom: list selection in: config.
