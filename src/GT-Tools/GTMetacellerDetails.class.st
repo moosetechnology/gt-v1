@@ -19,6 +19,8 @@ GTMetacellerDetails >> buildBrowser [
 	browser show: [ :a |
 		a title: 	[:config | self shortNameOf: config ].
 		a custom: innerBrowser ].
+	browser transmit toOutside: #entity; fromOutside: #strongSelection.
+
 ]
 
 { #category : #private }
@@ -124,7 +126,11 @@ GTMetacellerDetails >> toPackagesFromVersionsAndShow: innerBrowser [
 					self  packageSpec: packageSpec hasNewerVersionsFrom: version])
 				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
 			act: [:list  | list selection inspect] entitled: 'Inspect'
-	]
+	].
+	innerBrowser transmit 
+		toOutside: #strongSelection; from: #packages->#strongSelection; 
+		when: [:selection | selection isKindOf: MetacelloProjectReferenceSpec ]; 
+		transformed: [:selection | selection projectReference projectClass ]
 ]
 
 { #category : #building }
