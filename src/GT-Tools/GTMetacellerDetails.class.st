@@ -36,6 +36,28 @@ GTMetacellerDetails >> goferForVersion: version [
 	^ g
 ]
 
+{ #category : #private }
+GTMetacellerDetails >> labelOfItemSpec: packageSpec [
+
+	| label text |
+	label := packageSpec name.
+	(packageSpec isKindOf: MetacelloPackageSpec) ifTrue: [label := packageSpec file].
+	(packageSpec isKindOf: MetacelloProjectReferenceSpec) ifTrue: [label := packageSpec name, ' ', packageSpec versionString].
+	
+	text := ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+		self packageSpecNeedsSaving: packageSpec])
+			ifTrue: [Text string: label attribute: TextColor blue] 
+			ifFalse: [ 
+				Text 
+					string: label
+					attribute: ((self master useCacheDuring: [ packageSpec isLoaded ]) 
+					ifTrue: [TextColor black] 
+					ifFalse: [TextColor gray])].
+	(packageSpec isKindOf: MetacelloGroupSpec) ifTrue: [ 
+		text addAttribute: TextEmphasis italic from: 1 to: text size ].
+	^ text
+]
+
 { #category : #accessing }
 GTMetacellerDetails >> master [
 	^ master
@@ -108,13 +130,8 @@ GTMetacellerDetails >> toPackagesFromVersionsAndShow: innerBrowser [
 		a tree
 			title: 'Items';
 			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: [:packageSpec | | text |
-				text := ((packageSpec isKindOf: MetacelloPackageSpec) and: [
-					self packageSpecNeedsSaving: packageSpec])
-						ifTrue: [Text string: packageSpec name attribute: TextColor blue] 
-						ifFalse: [ Text string: packageSpec name attribute: ((self master useCacheDuring: [ packageSpec isLoaded ]) ifTrue: [TextColor black] ifFalse: [TextColor gray])].
-				(packageSpec isKindOf: MetacelloGroupSpec) ifTrue: [ text addAttribute: TextEmphasis italic from: 1 to: text size ].
-				text] ;
+			format: [:packageSpec | 
+				self labelOfItemSpec: packageSpec] ;
 			children: [:spec | 
 				(spec isKindOf: MetacelloProjectReferenceSpec) 
 					ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
@@ -160,6 +177,7 @@ GTMetacellerDetails >> toVersionsAndShow: innerBrowser [
 				text ];
 			act: [:list :config | 
 				self spawnNewVersionFrom: list selection in: config.
+				list update.
 				] entitled: 'Spawn new version';
 			act: [:list | 
 				(self goferForVersion: list selection) browseRemoteChanges ] entitled: 'Browse remote changes';
