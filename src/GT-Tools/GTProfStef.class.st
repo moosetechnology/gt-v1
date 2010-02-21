@@ -21,7 +21,7 @@ GTProfStef >> buildBrowser [
 		display: [ :lesson | lesson lessonInstance lesson ];
 		when: [:lesson | lesson isKindOf: TutorialNode];
 		title: [:lesson | lesson lessonInstance title];
-		update: #selection
+		populate: #selection
 			on: $o
 			entitled: 'Open (o)'
 			with: 

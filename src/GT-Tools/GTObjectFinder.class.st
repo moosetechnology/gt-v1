@@ -24,7 +24,7 @@ GTObjectFinder >> buildBrowser [
 		forSmalltalk;
 		display: [ :entity | 'self' ];
 		title: 'Evaluator';
-		update: #selection
+		populate: #selection
 			on: $o
 			entitled: 'Open (o)'
 			with: 
