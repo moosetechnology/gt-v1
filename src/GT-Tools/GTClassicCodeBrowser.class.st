@@ -4,6 +4,9 @@ self openOn: Smalltalk organization categories.
 Class {
 	#name : #GTClassicCodeBrowser,
 	#superclass : #GLMGlobalBrowserTemplate,
+	#classInstVars : [
+		'announcer'
+	],
 	#category : #'GT-Tools'
 }
 
