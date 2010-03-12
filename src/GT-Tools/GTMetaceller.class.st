@@ -95,7 +95,7 @@ GTMetaceller >> toConfigsAndShow [
 
 { #category : #building }
 GTMetaceller >> toDetailsFromConfigsAndShow [
-	browser transmit from: #configs->#strongSelection; to: #details; andShowWithoutOverride: [ :a |
+	browser transmit from: #configs->#strongSelection; to: #details; andShowIfNone: [ :a |
 		a custom: 
 			(((GTMetacellerDetails new)
 				master: self;
