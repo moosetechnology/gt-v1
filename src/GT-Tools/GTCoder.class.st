@@ -25,11 +25,17 @@ GTCoder >> browser [
 			display: [ :package :class | 
 				(package extensionMethodsForClass: class) asOrderedCollection ,
 				(package definedMethodsForClass: class) asOrderedCollection ];
-			format: #selector .
+			format: [:each :package |
+				(each isExtensionInPackage: package ) 
+					ifTrue: [Text string: each selector asString attribute: TextEmphasis italic]
+					ifFalse: [each selector asString] ].
 		a list 
 			title: 'Meta';
 			display: [ :package :class | (package extensionMethodsForClass: class) asOrderedCollection ,
 				(package definedMethodsForClass: class theMetaClass) asOrderedCollection ];
-			format: #selector ]. 
+			format: [:each :package |
+				(each isExtensionInPackage: package ) 
+					ifTrue: [Text string: each selector attribute: TextEmphasis italic]
+					ifFalse: [each selector asString] ] ]. 
 	^ browser
 ]
