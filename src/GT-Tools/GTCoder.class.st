@@ -14,7 +14,7 @@ GTCoder >> browser [
 	browser column: #packages; column: #classes; column: #methods.
 	browser transmit to: #packages; andShow: [ :a |
 		a list 
-			display: [ :organizer | organizer packages ];
+			display: [ :organizer | organizer packages asSortedCollection: [:x :y | x packageName < y packageName ] ];
 			format: #packageName ].
 	browser transmit to: #classes; from: #packages; andShow: [ :a | 
 		a list
@@ -22,25 +22,21 @@ GTCoder >> browser [
 			format: [ :each :package |
 				(package extendsClass: each)
 					ifTrue: [Text string: each name asString attribute: TextEmphasis italic]
-					ifFalse: [each name asString] ]
-				].
+					ifFalse: [each name asString] ] ].
 	browser transmit to: #methods; from: #packages; from: #classes; andShow: [ :a | 
 		a list 
 			title: 'Instance';
-			display: [ :package :class | 
-				(package extensionMethodsForClass: class) asOrderedCollection ,
-				(package definedMethodsForClass: class) asOrderedCollection ];
-			format: [:each :package |
-				(each isExtensionInPackage: package ) 
-					ifTrue: [Text string: each selector asString attribute: TextEmphasis italic]
-					ifFalse: [each selector asString] ].
+			display: [ :package :class | class selectors ];
+			format: [:each :package :class |
+				(package includesDefinedSelector: each ofClass: class) 
+					ifFalse: [Text string: each asString attribute: TextEmphasis italic]
+					ifTrue: [each asString] ].
 		a list 
 			title: 'Meta';
-			display: [ :package :class | (package extensionMethodsForClass: class) asOrderedCollection ,
-				(package definedMethodsForClass: class theMetaClass) asOrderedCollection ];
-			format: [:each :package |
-				(each isExtensionInPackage: package ) 
-					ifTrue: [Text string: each selector attribute: TextEmphasis italic]
-					ifFalse: [each selector asString] ] ]. 
+			display: [ :package :class | class theMetaClass selectors ];
+			format: [:each :package :class |
+				(package includesDefinedSelector: each ofClass: class class) 
+					ifFalse: [Text string: each asString attribute: TextEmphasis italic]
+					ifTrue: [each asString] ] ].
 	^ browser
 ]
