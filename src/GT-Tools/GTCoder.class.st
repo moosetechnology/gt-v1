@@ -20,7 +20,7 @@ GTCoder >> browser [
 		a list
 			display: [ :package | package classes ];
 			format: [ :each :package |
-				(each packageFromOrganizer: RMockFilledPackageOrganizer default) ~= package
+				(package extendsClass: each)
 					ifTrue: [Text string: each name asString attribute: TextEmphasis italic]
 					ifFalse: [each name asString] ]
 				].
