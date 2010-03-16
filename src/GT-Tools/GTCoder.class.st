@@ -18,7 +18,12 @@ GTCoder >> browser [
 			format: #packageName ].
 	browser transmit to: #classes; from: #packages; andShow: [ :a | 
 		a list
-			display: [ :package | package classes  ]].
+			display: [ :package | package classes ];
+			format: [ :each :package |
+				(each packageFromOrganizer: RMockFilledPackageOrganizer default) ~= package
+					ifTrue: [Text string: each name asString attribute: TextEmphasis italic]
+					ifFalse: [each name asString] ]
+				].
 	browser transmit to: #methods; from: #packages; from: #classes; andShow: [ :a | 
 		a list 
 			title: 'Instance';
