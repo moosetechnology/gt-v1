@@ -87,7 +87,7 @@ GTMetaceller >> toConfigsAndShow [
 			act: [:list  | list selection project inspect] entitled: 'Inspect'.
 			Smalltalk at: #OBCmdMetacello ifPresent: [ :x |
 				configList actions: [:list | 
-					(GTOBCommandAdaptor new 
+					(GLMOBCommandAdaptor new 
 						actionsFrom: (Smalltalk at: #OBCmdMetacello) subclasses 
 						on: list selection 
 						for: nil ) do: [:each | each category: 'OB Commands'] ] ] ]
