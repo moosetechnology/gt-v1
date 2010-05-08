@@ -44,13 +44,20 @@ ConfigurationOfGlamoroust >> default: spec [
 		spec repository: 'http://www.squeaksource.com/glamoroust'.
 		spec 
 			package: 'GT-Model';
-			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour') ].
+			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour' 'Mondrian' 'MondrianGraphVizLayout') ].
 		spec project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
 					version: 'default';
 					repository: 'http://www.squeaksource.com/Glamour' ].
+		spec project: 'Mondrian' with: [
+				spec
+					className: 'ConfigurationOfMondrian';
+					file: 'ConfigurationOfMondrian';
+					version: 'default';
+					repository: 'http://www.squeaksource.com/Mondrian' ].
+		spec package: 'MondrianGraphVizLayout' with: [ spec repository: 'http://www.squeaksource.com/Mondrian' ]
 	]
 ]
 
