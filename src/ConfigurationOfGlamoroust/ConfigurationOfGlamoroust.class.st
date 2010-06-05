@@ -43,6 +43,8 @@ ConfigurationOfGlamoroust >> default: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/glamoroust'.
 		spec 
+			package: 'SystemAnnouncements' with: [
+				spec repository: 'http://www.squeaksource.com/PharoTaskForces'];
 			package: 'GT-Model';
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour' 'Mondrian' 'MondrianGraphVizLayout') ].
 		spec project: 'Glamour' with: [
