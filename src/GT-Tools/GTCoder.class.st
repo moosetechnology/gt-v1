@@ -12,7 +12,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GTCoder >> browser [ 
-	"self openOn: RMockFilledPackageOrganizer default"
+	"self openOn: RMockPackageOrganizer default"
 	"self openOn: RPackageOrganizer default"
 	browser := GLMTabulator new.
 	browser column: #packages; column: #classes; column: #methods.
@@ -77,12 +77,12 @@ GTCoder >> classPointOfViewBrowser [
 				(package includesSelector: each ofClass: class) 
 					ifFalse: [Text string: each asString attribute: TextColor gray]
 					ifTrue: [each asString] ].
-"		a list 
+		a list 
 			title: 'Meta';
 			display: [ :package :class | class theMetaClass selectors ];
 			format: [:each :package :class |
 				(package includesSelector: each ofClass: class class) 
 					ifFalse: [Text string: each asString attribute: TextColor gray]
-					ifTrue: [each asString] ]" ].
+					ifTrue: [each asString] ] ].
 	^ browser
 ]

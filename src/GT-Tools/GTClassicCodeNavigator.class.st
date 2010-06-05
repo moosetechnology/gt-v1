@@ -20,7 +20,7 @@ GTClassicCodeNavigator >> buildBrowser [
 		using: 
 			[ browser list 
 				display: #categories;
-				updateOn: AbstractEvent from: GTSystemAnnouncer categoryAnnouncer ].
+				updateOn: AbstractEvent from: SystemAnnouncer categoryAnnouncer ].
 	browser
 		showOn: #classes;
 		from: #classCats;
@@ -31,14 +31,14 @@ GTClassicCodeNavigator >> buildBrowser [
 					(Smalltalk organization listAtCategoryNamed: classCat) 
 						collect: [ :className | Smalltalk classNamed: className ] ];
 				children: [ :each | each traitComposition traits ];
-				updateOn: AbstractEvent from: GTSystemAnnouncer classAnnouncer;
+				updateOn: AbstractEvent from: SystemAnnouncer classAnnouncer;
 				title: 'Class list'.
 			browser mondrian 
 				painting: [ :view :package |
 					view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [:name | Smalltalk classNamed: name]).
 					view edgesFrom: #superclass.
 					view treeLayout.];
-				updateOn: AbstractEvent from: GTSystemAnnouncer classAnnouncer;
+				updateOn: AbstractEvent from: SystemAnnouncer classAnnouncer;
 				title: 'Hierarchy'.
  ].
 	browser
@@ -46,7 +46,7 @@ GTClassicCodeNavigator >> buildBrowser [
 		from: #classes;
 		using: [ 
 			browser list 
-				updateOn: AbstractEvent from: GTSystemAnnouncer protocolAnnouncer;
+				updateOn: AbstractEvent from: SystemAnnouncer protocolAnnouncer;
 				display: [ :class | class organization categories ] ].
 	browser 
 		showOn: #methods;
@@ -54,13 +54,13 @@ GTClassicCodeNavigator >> buildBrowser [
 		from: #categories;
 		using: 
 			[ browser list
-				updateOn: AbstractEvent from: GTSystemAnnouncer methodAnnouncer;
+				updateOn: AbstractEvent from: SystemAnnouncer methodAnnouncer;
 				display: 
 					[ :class :category | 
 					(class organization listAtCategoryNamed: category) asSortedCollection].
 			browser list
 				useExplicitNotNil;
-				updateOn: AbstractEvent from: GTSystemAnnouncer methodAnnouncer;
+				updateOn: AbstractEvent from: SystemAnnouncer methodAnnouncer;
 				when: [ :class :category | class notNil and: [ category isNil ] ];
 				display: [ :class :category | class selectors asSortedCollection ] ].
 	browser 
