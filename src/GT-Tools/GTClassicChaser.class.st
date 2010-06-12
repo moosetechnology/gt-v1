@@ -16,6 +16,7 @@ GTClassicChaser >> buildBrowser [
 		a title: [:each | (each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ] ].
 		a tree
 			title: 'Implementors';
+			showOnly: 20;
 			display: [ :each | 
 				self systemNavigation allImplementorsOf: ((each isKindOf: MethodReference) ifTrue: [each selector ] ifFalse: [ each ]) ];
 			format: [:each | 
@@ -24,6 +25,7 @@ GTClassicChaser >> buildBrowser [
 				(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]].
 		a tree
 			title: 'Senders';
+			showOnly: 20;
 			display: [ :each | 
 				self systemNavigation allSendersOf:	((each isKindOf: MethodReference) ifTrue: [each selector ] ifFalse: [ each ]) ];
 			format: [:each | 
