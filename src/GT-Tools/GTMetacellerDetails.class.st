@@ -48,11 +48,12 @@ GTMetacellerDetails >> labelOfItemSpec: packageSpec [
 		self packageSpecNeedsSaving: packageSpec])
 			ifTrue: [Text string: label attribute: TextColor blue] 
 			ifFalse: [ 
-				Text 
+				label
+				"Text 
 					string: label
 					attribute: ((self master useCacheDuring: [ packageSpec isLoaded ]) 
 					ifTrue: [TextColor black] 
-					ifFalse: [TextColor gray])].
+					ifFalse: [TextColor gray])"].
 	(packageSpec isKindOf: MetacelloGroupSpec) ifTrue: [ 
 		text addAttribute: TextEmphasis italic from: 1 to: text size ].
 	^ text
