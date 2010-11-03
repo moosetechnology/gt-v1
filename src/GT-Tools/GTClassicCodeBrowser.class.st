@@ -1,5 +1,5 @@
 "
-self openOn: Smalltalk organization categories.
+self openOn: Smalltalk organization.
 "
 Class {
 	#name : #GTClassicCodeBrowser,

@@ -19,8 +19,8 @@ GTClassicCodeNavigator >> buildBrowser [
 		showOn: #classCats;
 		using: 
 			[ browser list 
-				display: #categories;
-				updateOn: AbstractEvent from: SystemAnnouncer categoryAnnouncer ].
+				display: [:organization | organization categories asSortedCollection: [:x :y | x < y]];
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer ].
 	browser
 		showOn: #classes;
 		from: #classCats;
@@ -31,14 +31,14 @@ GTClassicCodeNavigator >> buildBrowser [
 					(Smalltalk organization listAtCategoryNamed: classCat) 
 						collect: [ :className | Smalltalk classNamed: className ] ];
 				children: [ :each | each traitComposition traits ];
-				updateOn: AbstractEvent from: SystemAnnouncer classAnnouncer;
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 				title: 'Class list'.
 			browser mondrian 
 				painting: [ :view :package |
 					view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [:name | Smalltalk classNamed: name]).
 					view edgesFrom: #superclass.
 					view treeLayout.];
-				updateOn: AbstractEvent from: SystemAnnouncer classAnnouncer;
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 				title: 'Hierarchy'.
  ].
 	browser
@@ -46,7 +46,7 @@ GTClassicCodeNavigator >> buildBrowser [
 		from: #classes;
 		using: [ 
 			browser list 
-				updateOn: AbstractEvent from: SystemAnnouncer protocolAnnouncer;
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 				display: [ :class | class organization categories ] ].
 	browser 
 		showOn: #methods;
@@ -54,13 +54,13 @@ GTClassicCodeNavigator >> buildBrowser [
 		from: #categories;
 		using: 
 			[ browser list
-				updateOn: AbstractEvent from: SystemAnnouncer methodAnnouncer;
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 				display: 
 					[ :class :category | 
 					(class organization listAtCategoryNamed: category) asSortedCollection].
 			browser list
 				useExplicitNotNil;
-				updateOn: AbstractEvent from: SystemAnnouncer methodAnnouncer;
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 				when: [ :class :category | class notNil and: [ category isNil ] ];
 				display: [ :class :category | class selectors asSortedCollection ] ].
 	browser 

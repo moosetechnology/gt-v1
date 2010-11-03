@@ -46,7 +46,8 @@ GTCodeBrowser >> layout [
 GTCodeBrowser >> onClassesFromPackages [
 	browser
 		showOn: #classes; from: #packages;
-		using: [browser tree
+		using: [
+			browser tree
 					when: [:package | package isCollection not];
 					display: [:package | package allClasses];
 					children: [ :each | each traits ];
@@ -54,7 +55,9 @@ GTCodeBrowser >> onClassesFromPackages [
 						each stBehavior theNonMetaClass browserIcon isNil ifFalse: 
 							[ OBMorphicIcons iconNamed: each stBehavior theNonMetaClass browserIcon ]
 						ifTrue: [ nil ] ];
-					format: [:class | class name]]
+					format: [:class | class name];
+					updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		]
 ]
 
 { #category : #building }
@@ -78,17 +81,20 @@ GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 					when: [:class | class notNil ];
 					display: [:class | class references];
 					format: [:each | each glmBehavior name, '>>', each name];
-					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ].
+					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ];
+					updateOn: SystemAnnouncement from: SystemAnnouncer announcer.
 			browser list
 					title: 'Senders';
 					display: [:class :method | method senders];
 					format: [:each | each glmBehavior name, '>>', each name];
-					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ].
+					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ];
+					updateOn: SystemAnnouncement from: SystemAnnouncer announcer.
 			browser list
 					title: 'Implementors';
 					display: [:class :method | method implementors];
 					format: [:each | each glmBehavior name, '>>', each name];
-					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ].
+					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ];
+					updateOn: SystemAnnouncement from: SystemAnnouncer announcer.
 		]
 ]
 
@@ -98,7 +104,8 @@ GTCodeBrowser >> onInstVarsFromClasses [
 		browser list
 				display: [ :class | class instVars ];
 				tags: [ :each | 
-					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST'] } ] ]
+					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST'] } ];
+				updateOn: SystemAnnouncement from: SystemAnnouncer announcer ]
 ]
 
 { #category : #building }
