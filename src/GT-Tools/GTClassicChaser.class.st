@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-Tools'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTClassicChaser >> buildBrowser [
 	"self openOn: #buildBrowser"
 	| finder |

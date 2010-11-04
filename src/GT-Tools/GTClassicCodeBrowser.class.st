@@ -10,9 +10,8 @@ Class {
 	#category : #'GT-Tools'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTClassicCodeBrowser >> buildBrowser [
-	| lintBrowser |
 	browser := GLMTabulator new.
 	browser
 		row: #navigation;
@@ -20,32 +19,38 @@ GTClassicCodeBrowser >> buildBrowser [
 	browser
 		showOn: #navigation;
 		using: [ browser custom: GTClassicCodeNavigator new browser ].
-	browser
-		showOn: #sourceCode;
-		from: #navigation -> #selectedClass;
-		from: #navigation -> #selectedMethod;
-		from: #navigation -> #selectedClassCategory;
-		using: 
-			[ browser text
-				title: 'Method source';
-				display: [ :class :method | class sourceCodeAt: method ];
-				forSmalltalk: [ :class | class ].
-			browser text
-				forSmalltalk;
-				useExplicitNotNil;
-				title: 'Class definition';
-				display: [ :class | class definition ];
-				when: [:class | class notNil].
-			browser text
-				title: 'Class comment';
-				display: [ :class | class comment ];
-				useExplicitNotNil;
-				when: [:class | class notNil].
-			lintBrowser := GTLintBrowser new browser.
-			lintBrowser allowNil; when: [:clas :mth | clas notNil ].
-			browser custom: lintBrowser
-		].
-	"for updating selection through lintBrowser"
-	"browser sendTo: #navigator->#faultyMethod from: #source->#faultyMethod."
+	(browser transmit)
+		to: #sourceCode;
+		from: #navigation port: #selectedClass;
+		from: #navigation port: #selectedMethod;
+		from: #navigation port: #selectedClassCategory;
+		andShow: [ :a | self sourceCodeIn: a ].
+		"for updating selection through lintBrowser"
+		"browser sendTo: #navigator->#faultyMethod from: #source->#faultyMethod."
 	^ browser
+]
+
+{ #category : #building }
+GTClassicCodeBrowser >> sourceCodeIn: a [
+	| lintBrowser |
+	(a text)
+		title: 'Method source';
+		display: [ :class :method | class sourceCodeAt: method ];
+		forSmalltalk: [ :class | class ].
+	(a text)
+		forSmalltalk;
+		useExplicitNotNil;
+		title: 'Class definition';
+		display: [ :class | class definition ];
+		when: [ :class | class notNil ].
+	(a text)
+		title: 'Class comment';
+		display: [ :class | class comment ];
+		useExplicitNotNil;
+		when: [ :class | class notNil ].
+	lintBrowser := GTLintBrowser new browser.
+	lintBrowser
+		allowNil;
+		when: [ :clas :mth | clas notNil ].
+	^ a custom: lintBrowser
 ]
