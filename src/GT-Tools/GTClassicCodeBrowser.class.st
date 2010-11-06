@@ -50,5 +50,5 @@ GTClassicCodeBrowser >> sourceCodeIn: a [
 	lintBrowser
 		allowNil;
 		when: [ :clas :mth | clas notNil ].
-	^ a custom: lintBrowser
+	a custom: lintBrowser
 ]
