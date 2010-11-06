@@ -18,10 +18,6 @@ GTClassicCodeNavigator >> buildBrowser [
 	browser transmit toOutside: #selectedClassCategory; from: #classCats.
 	browser transmit toOutside: #selectedClass; from: #classes.
 	browser transmit toOutside: #selectedMethod; from: #methods.
-	"for updating selection from lintBrowser"
-	"browser 
-		sendTo: #methods -> #selection
-		fromOutside: #faultyMethod."
 	^ browser
 ]
 
@@ -40,20 +36,30 @@ GTClassicCodeNavigator >> classCategoriesIn: a [
 ]
 
 { #category : #building }
-GTClassicCodeNavigator >> classesIn: a [
-	(a tree)
-		shouldValidate: true;
-		display: [ :classCat | (Smalltalk organization listAtCategoryNamed: classCat) collect: [ :className | Smalltalk classNamed: className ] ];
-		children: [ :each | each traitComposition traits ];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		title: 'Class list'.
-	^ (a mondrian)
+GTClassicCodeNavigator >> classesHierarchyIn: a [
+	(a mondrian)
 		painting: [ :view :package | 
 					view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [ :name | Smalltalk classNamed: name ]).
 					view edgesFrom: #superclass.
 					view treeLayout ];
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 		title: 'Hierarchy'
+]
+
+{ #category : #building }
+GTClassicCodeNavigator >> classesIn: a [
+	self classesListIn: a.
+	self classesHierarchyIn: a
+]
+
+{ #category : #building }
+GTClassicCodeNavigator >> classesListIn: a [
+	(a tree)
+		shouldValidate: true;
+		display: [ :classCat | (Smalltalk organization listAtCategoryNamed: classCat) collect: [ :className | Smalltalk classNamed: className ] ];
+		children: [ :each | each traitComposition traits ];
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		title: 'Class list'
 ]
 
 { #category : #building }

@@ -25,8 +25,6 @@ GTClassicCodeBrowser >> buildBrowser [
 		from: #navigation port: #selectedMethod;
 		from: #navigation port: #selectedClassCategory;
 		andShow: [ :a | self sourceCodeIn: a ].
-		"for updating selection through lintBrowser"
-		"browser sendTo: #navigator->#faultyMethod from: #source->#faultyMethod."
 	^ browser
 ]
 
