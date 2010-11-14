@@ -11,10 +11,17 @@ Class {
 }
 
 { #category : #building }
+GTClassicBrowser >> browserActionsIn: b [
+	"just for test"
+	b act: [ 
+		(b pane port: #classCategoryToSelect) value: (Smalltalk organization categoriesMatching: 'RPackage*') first ] entitled: 'Find'.
+
+]
+
+{ #category : #building }
 GTClassicBrowser >> buildBrowser [
 	browser := GLMTabulator new.
-	browser act: [:b | 
-		(browser pane port: #classCategoryToSelect) value: (Smalltalk organization categoriesMatching: 'RPackage*') first ] entitled: 'Find'.
+	self browserActionsIn: browser.
 	browser
 		row: [:row | row column: #classCats; column: #classes; column: #categories; column: #methods ];
 		row: #sourceCode.

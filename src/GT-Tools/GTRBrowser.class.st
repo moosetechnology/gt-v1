@@ -1,3 +1,6 @@
+"
+self openOn: RPackageOrganizer default
+"
 Class {
 	#name : #GTRBrowser,
 	#superclass : #GLMBrowserTemplate,
@@ -29,6 +32,7 @@ GTRBrowser >> buildBrowser [
 	(browser transmit)
 		from: #classes;
 		from: #categories;
+		passivelyFrom: #packages;
 		to: #methods;
 		andShow: [ :composite | self methodsIn: composite ]
 ]
@@ -36,6 +40,7 @@ GTRBrowser >> buildBrowser [
 { #category : #private }
 GTRBrowser >> categoriesIn: a [
 	^ (a list)
+		title: 'Categories';
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 		display: [ :class | class organization categories ]
 ]
@@ -43,6 +48,7 @@ GTRBrowser >> categoriesIn: a [
 { #category : #private }
 GTRBrowser >> classesIn: composite [
 	^ (composite list)
+		title: 'Classes';
 		display: [ :package | package classes ];
 		format: [ :class :package | 
 					(package extendsClass: class)
@@ -52,19 +58,37 @@ GTRBrowser >> classesIn: composite [
 
 { #category : #private }
 GTRBrowser >> methodsIn: a [
-	(a list)
+	a list
+		title: 'Instance methods';
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		display: [ :class :category | (class organization listAtCategoryNamed: category) asSortedCollection ].
-	^ (a list)
+		display: [ :class :category | (class organization listAtCategoryNamed: category) asSortedCollection ];
+		format: [:each :class :category :package |
+				(package includesSelector: each ofClass: class) 
+					ifFalse: [Text string: each asString attribute: TextColor gray]
+					ifTrue: [each asString] ].
+"	a list 
+		title: 'Meta';
+		display: [ :package :class | class theMetaClass selectors ];
+		format: [:each :package :class |
+			(package includesSelector: each ofClass: class class) 
+				ifFalse: [Text string: each asString attribute: TextColor gray]
+				ifTrue: [each asString] ].	"
+	a list
+		title: 'Instance methods';
 		useExplicitNotNil;
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 		when: [ :class :category | class notNil and: [ category isNil ] ];
-		display: [ :class :category | class selectors asSortedCollection ]
+		display: [ :class :category | class selectors asSortedCollection ];
+		format: [:each :class :category :package |
+				(package includesSelector: each ofClass: class) 
+					ifFalse: [Text string: each asString attribute: TextColor gray]
+					ifTrue: [each asString] ].
 ]
 
 { #category : #private }
 GTRBrowser >> packagesIn: composite [
 	composite list 
-			display: [:organizer | organizer packages sort: [:x :y | x name < y name ]];
-			format: [:package | package name ]
+		title: 'Packages';
+		display: [:organizer | organizer packages sort: [:x :y | x name < y name ]];
+		format: [:package | package name ]
 ]

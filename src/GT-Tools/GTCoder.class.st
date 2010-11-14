@@ -49,7 +49,7 @@ GTCoder >> browser [
 
 { #category : #'as yet unclassified' }
 GTCoder >> classPointOfViewBrowser [
-	"self new classPointOfViewBrowser openOn: RMockPackageOrganizer default"
+	"self new classPointOfViewBrowser openOn: RPackageOrganizer default"
 	browser := GLMTabulator new.
 	browser column: #packages; column: #classes; column: #definingPackages; column: #methods.
 	browser transmit to: #packages; andShow: [ :a |
