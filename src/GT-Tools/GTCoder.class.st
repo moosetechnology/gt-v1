@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTCoder >> browser [ 
+GTCoder >> buildBrowser [
 	"self openOn: RMockPackageOrganizer default"
 	"self openOn: RPackageOrganizer default"
 	browser := GLMTabulator new.
@@ -27,12 +27,12 @@ GTCoder >> browser [
 				(package extendsClass: each)
 					ifTrue: [Text string: each name asString attribute: TextColor gray]
 					ifFalse: [each name asString] ];
-			act: [:list | list selection inspect] on: $/ entitled: 'Inspect' ].
+			selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect' ].
 	browser transmit to: #methods; from: #packages; from: #classes; andShow: [ :a | 
 		a list 
 			title: 'Instance';
 			display: [ :package :class | class selectors ];
-			act: [:list :package :clas | (Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
+			selectionAct: [:list :package :clas | (Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
 			format: [:each :package :class |
 				(package includesSelector: each ofClass: class) 
 					ifFalse: [Text string: each asString attribute: TextColor gray]
