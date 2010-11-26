@@ -1,6 +1,4 @@
 "
-self openOn: RMockFilledPackageOrganizer default .
-
 self openOn: RPackageOrganizer default
 
 "
@@ -64,36 +62,41 @@ GTCoder >> classPointOfViewBrowser [
 { #category : #building }
 GTCoder >> classesIn: a [ 
 	a list
-			display: [ :package | package classes ];
-			format: [ :each :package |
-				(package extendsClass: each)
-					ifTrue: [Text string: each name asString attribute: TextColor gray]
-					ifFalse: [each name asString] ];
-			selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect'
+		title: 'Classes';
+		display: [ :package | package classes ];
+		format: [ :each :package |
+			(package extendsClass: each)
+				ifTrue: [Text string: each name asString attribute: TextColor gray]
+				ifFalse: [each name asString] ];
+		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect'
 ]
 
 { #category : #building }
 GTCoder >> methodsIn: a [ 
 	a list 
-			title: 'Instance';
-			display: [ :package :class | class selectors ];
-			selectionAct: [:list :package :clas | (Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
-			format: [:each :package :class |
-				(package includesSelector: each ofClass: class) 
-					ifFalse: [Text string: each asString attribute: TextColor gray]
-					ifTrue: [each asString] ].
-		a list 
-			title: 'Meta';
-			display: [ :package :class | class theMetaClass selectors ];
-			format: [:each :package :class |
-				(package includesSelector: each ofClass: class class) 
-					ifFalse: [Text string: each asString attribute: TextColor gray]
-					ifTrue: [each asString] ]
+		title: 'Instance';
+		display: [ :package :class | class methodDict values ];
+		selectionAct: [:list :package :clas | 
+			(Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
+		format: [:each :package :class |
+			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
+				ifTrue: [each selector asString]
+				ifFalse: [Text string: each selector asString attribute: TextColor gray] ].
+	a list 
+		title: 'Meta';
+		display: [ :package :class | class theMetaClass methodDict values ];
+		selectionAct: [:list :package :clas | 
+			(Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
+		format: [:each :package :class |
+			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package]) 
+				ifTrue: [each selector asString]
+				ifFalse: [Text string: each selector asString attribute: TextColor gray] ]
 ]
 
 { #category : #building }
 GTCoder >> packagesIn: a [ 
 	a list 
-			display: [ :organizer | organizer packages asSortedCollection: [:x :y | x name < y name ] ];
-			format: #name
+		title: 'Packages';
+		display: [ :organizer | organizer packages asSortedCollection: [:x :y | x name < y name ] ];
+		format: [:each | each name]
 ]
