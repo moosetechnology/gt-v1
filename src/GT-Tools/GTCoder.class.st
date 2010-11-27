@@ -12,14 +12,52 @@ Class {
 GTCoder >> buildBrowser [
 	"self openOn: RPackageOrganizer default"
 	browser := GLMTabulator new.
-	browser column: #packages; column: #classes; column: #methods.
-	browser transmit to: #packages; andShow: [ :a | self packagesIn: a ].
-	browser transmit to: #classes; from: #packages; andShow: [ :a | self classesIn: a ].
-	browser transmit to: #methods; from: #packages; from: #classes; andShow: [ :a | self methodsIn: a ].
+	browser column: #packages; column: #classes; column: #categoriesAndMethods span: 2.
+	browser transmit 
+		to: #packages; 
+		andShow: [ :a | self packagesIn: a ].
+	browser transmit 
+		to: #classes; 
+		from: #packages; 
+		andShow: [ :a | self classesIn: a ].
+	browser transmit
+		to: #categoriesAndMethods;
+		from: #packages;
+		from: #classes;
+		when: [:package :class | class notNil];
+		andShowIfNone: [:a | 
+			a custom: (GTCoderCategoriesMethods new browser
+				title: 'Instance';
+				display: [:package :class | Array with: package with: class]).
+			a custom: (GTCoderCategoriesMethods new browser
+				title: 'Meta';
+				display: [:package :class | Array with: package with: class theMetaClass]) ].
+"	browser transmit
+		to: #classes port: #metaClassSelection;
+		from: #classes;
+		transformed: [:class | class theMetaClass].
+	browser transmit 
+		to: #categories;
+		from: #classes;
+		andShow: [ :a | self categoriesIn: a ].
+	browser transmit 
+		to: #methods; 
+		from: #packages; 
+		from: #classes;
+		from: #categories; 
+		andShow: [ :a | self methodsIn: a ]."
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
+GTCoder >> categoriesIn: a [
+	a list
+		allowsDeselection;
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		display: [ :class | class organization categories ]
+]
+
+{ #category : #others }
 GTCoder >> classPointOfViewBrowser [
 	"self new classPointOfViewBrowser openOn: RPackageOrganizer default"
 	browser := GLMTabulator new.
@@ -72,25 +110,36 @@ GTCoder >> classesIn: a [
 ]
 
 { #category : #building }
-GTCoder >> methodsIn: a [ 
-	a list 
+GTCoder >> instanceMethodsIn: a [ 
+	a list
 		title: 'Instance';
-		display: [ :package :class | class methodDict values ];
-		selectionAct: [:list :package :clas | 
-			(Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		display: [ :package :class :category | 
+			(class methodDict values select: [:each | each category = category]) asSortedCollection: [:x :y | x selector < y selector ] ];
 		format: [:each :package :class |
 			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
 				ifTrue: [each selector asString]
 				ifFalse: [Text string: each selector asString attribute: TextColor gray] ].
-	a list 
-		title: 'Meta';
-		display: [ :package :class | class theMetaClass methodDict values ];
-		selectionAct: [:list :package :clas | 
-			(Array with: package with: clas with: list selection) inspect  ] on: $/ entitled: 'Inspect';
+	a list
+		title: 'Instance';
+		useExplicitNotNil;
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		when: [ :package :class :category | class notNil and: [ category isNil ] ];
+		display: [ :package :class :category | 
+			class methodDict values asSortedCollection: [:x :y | x selector < y selector ] ];
+		selectionAct: [:list :package :class | 
+			(Array with: package with: class with: list selection) inspect  ] on: $/ entitled: 'Inspect';
 		format: [:each :package :class |
-			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package]) 
+			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
 				ifTrue: [each selector asString]
-				ifFalse: [Text string: each selector asString attribute: TextColor gray] ]
+				ifFalse: [Text string: each selector asString attribute: TextColor gray] ].
+
+]
+
+{ #category : #building }
+GTCoder >> methodsIn: a [ 
+	self instanceMethodsIn: a.
+	
 ]
 
 { #category : #building }

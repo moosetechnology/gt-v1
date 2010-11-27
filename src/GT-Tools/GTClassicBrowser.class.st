@@ -50,6 +50,7 @@ GTClassicBrowser >> buildBrowser [
 { #category : #building }
 GTClassicBrowser >> categoriesIn: a [
 	^ (a list)
+		allowsDeselection;
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 		display: [ :class | class organization categories ]
 ]
