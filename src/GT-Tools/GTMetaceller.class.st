@@ -86,7 +86,7 @@ GTMetaceller >> toConfigsAndShow [
 			act: [:list  | list selection browse ] entitled: 'Browse implementation';
 			act: [:list  | list selection project inspect] entitled: 'Inspect'.
 			Smalltalk at: #OBCmdMetacello ifPresent: [ :x |
-				configList actions: [:list | 
+				configList dynamicActionsOnSelection: [:list | 
 					(GLMOBCommandAdaptor new 
 						actionsFrom: (Smalltalk at: #OBCmdMetacello) subclasses 
 						on: list selection 

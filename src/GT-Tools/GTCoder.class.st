@@ -32,29 +32,7 @@ GTCoder >> buildBrowser [
 			a custom: (GTCoderCategoriesMethods new browser
 				title: 'Meta';
 				display: [:package :class | Array with: package with: class theMetaClass]) ].
-"	browser transmit
-		to: #classes port: #metaClassSelection;
-		from: #classes;
-		transformed: [:class | class theMetaClass].
-	browser transmit 
-		to: #categories;
-		from: #classes;
-		andShow: [ :a | self categoriesIn: a ].
-	browser transmit 
-		to: #methods; 
-		from: #packages; 
-		from: #classes;
-		from: #categories; 
-		andShow: [ :a | self methodsIn: a ]."
 	^ browser
-]
-
-{ #category : #building }
-GTCoder >> categoriesIn: a [
-	a list
-		allowsDeselection;
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		display: [ :class | class organization categories ]
 ]
 
 { #category : #others }
@@ -107,39 +85,6 @@ GTCoder >> classesIn: a [
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
 				ifFalse: [each name asString] ];
 		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect'
-]
-
-{ #category : #building }
-GTCoder >> instanceMethodsIn: a [ 
-	a list
-		title: 'Instance';
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		display: [ :package :class :category | 
-			(class methodDict values select: [:each | each category = category]) asSortedCollection: [:x :y | x selector < y selector ] ];
-		format: [:each :package :class |
-			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
-				ifTrue: [each selector asString]
-				ifFalse: [Text string: each selector asString attribute: TextColor gray] ].
-	a list
-		title: 'Instance';
-		useExplicitNotNil;
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		when: [ :package :class :category | class notNil and: [ category isNil ] ];
-		display: [ :package :class :category | 
-			class methodDict values asSortedCollection: [:x :y | x selector < y selector ] ];
-		selectionAct: [:list :package :class | 
-			(Array with: package with: class with: list selection) inspect  ] on: $/ entitled: 'Inspect';
-		format: [:each :package :class |
-			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
-				ifTrue: [each selector asString]
-				ifFalse: [Text string: each selector asString attribute: TextColor gray] ].
-
-]
-
-{ #category : #building }
-GTCoder >> methodsIn: a [ 
-	self instanceMethodsIn: a.
-	
 ]
 
 { #category : #building }
