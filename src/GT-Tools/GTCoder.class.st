@@ -5,8 +5,14 @@ self openOn: RPackageOrganizer default
 Class {
 	#name : #GTCoder,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Coder'
 }
+
+{ #category : #'as yet unclassified' }
+GTCoder class >> open [
+	^ self openOn: RPackageOrganizer default
+
+]
 
 { #category : #building }
 GTCoder >> buildBrowser [
@@ -17,21 +23,15 @@ GTCoder >> buildBrowser [
 		to: #packages; 
 		andShow: [ :a | self packagesIn: a ].
 	browser transmit 
-		to: #classes; 
 		from: #packages; 
+		to: #classes; 
 		andShow: [ :a | self classesIn: a ].
 	browser transmit
-		to: #categoriesAndMethods;
 		from: #packages;
-		from: #classes;
-		when: [:package :class | class notNil];
+		to: #categoriesAndMethods port: #package;
 		andShowIfNone: [:a | 
-			a custom: (GTCoderCategoriesMethods new browser
-				title: 'Instance';
-				display: [:package :class | Array with: package with: class]).
-			a custom: (GTCoderCategoriesMethods new browser
-				title: 'Meta';
-				display: [:package :class | Array with: package with: class theMetaClass]) ].
+			a custom: (GTCoderInstanceAndMetaCategoriesMethods new browser) ].
+	browser transmit from: #classes; to: #categoriesAndMethods port: #class.
 	^ browser
 ]
 

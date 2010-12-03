@@ -1,7 +1,7 @@
 Class {
 	#name : #GTCoderCategoriesMethods,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Coder'
 }
 
 { #category : #building }
@@ -9,28 +9,28 @@ GTCoderCategoriesMethods >> buildBrowser [
 	browser := GLMTabulator new.
 	browser column: #categories; column: #methods.
 	browser transmit
-		toOutside: #package;
-		fromOutside: #entity;
+		toOutsidePort: #package;
+		fromOutsidePort: #entity;
 		transformed: [:packageAndClass | packageAndClass first ].
 	browser transmit
-		toOutside: #class;
-		fromOutside: #entity;
+		toOutsidePort: #class;
+		fromOutsidePort: #entity;
 		transformed: [:packageAndClass | packageAndClass last ].
 	browser transmit
 		to: #categories;
-		fromOutside: #class;
+		fromOutsidePort: #class;
 		andShow: [:a | self categoriesIn: a ].
 	browser transmit 
 		to: #methods; 
-		fromOutside: #package;
-		fromOutside: #class;
+		fromOutsidePort: #package;
+		fromOutsidePort: #class;
 		from: #categories; 
 		andShow: [ :a | self methodsIn: a ].
 	browser transmit 
-		toOutside: #selectedCategory;
+		toOutsidePort: #selectedCategory;
 		from: #categories.
 	browser transmit 
-		toOutside: #selectedMethod;
+		toOutsidePort: #selectedMethod;
 		from: #methods.
 	^ browser
 ]
@@ -67,6 +67,5 @@ GTCoderCategoriesMethods >> methodsIn: a [
 		format: [:each :package :class |
 			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
 				ifTrue: [each selector asString]
-				ifFalse: [Text string: each selector asString attribute: TextColor gray] ].
-
+				ifFalse: [Text string: each selector asString attribute: TextColor gray] ]
 ]
