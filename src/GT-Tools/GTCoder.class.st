@@ -16,7 +16,11 @@ GTCoder class >> open [
 
 { #category : #building }
 GTCoder >> buildBrowser [
-	"self openOn: RPackageOrganizer default"
+	"
+	| browser |
+	browser := self new browser.
+	browser openOn: RPackageOrganizer default.
+	browser"
 	browser := GLMTabulator new.
 	browser column: #packages; column: #classes; column: #categoriesAndMethods span: 2.
 	browser transmit 
@@ -29,9 +33,9 @@ GTCoder >> buildBrowser [
 	browser transmit
 		from: #packages;
 		to: #categoriesAndMethods port: #package;
-		andShowIfNone: [:a | 
+		andShow: [:a | 
 			a custom: (GTCoderInstanceAndMetaCategoriesMethods new browser) ].
-	browser transmit from: #classes; to: #categoriesAndMethods port: #class.
+	browser transmit from: #classes; to: #categoriesAndMethods.
 	^ browser
 ]
 
