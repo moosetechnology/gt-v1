@@ -1,11 +1,11 @@
 Class {
-	#name : #GTCoderCategoriesMethods,
+	#name : #GTClassicCoderCategoriesMethods,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools-Coder'
+	#category : #'GT-Tools-ClassicCoder'
 }
 
 { #category : #building }
-GTCoderCategoriesMethods >> buildBrowser [
+GTClassicCoderCategoriesMethods >> buildBrowser [
 	browser := GLMTabulator new.
 	browser column: #categories; column: #methods.
 	browser transmit
@@ -36,7 +36,7 @@ GTCoderCategoriesMethods >> buildBrowser [
 ]
 
 { #category : #private }
-GTCoderCategoriesMethods >> categoriesIn: a [
+GTClassicCoderCategoriesMethods >> categoriesIn: a [
 	a list
 		title: 'Categories';
 		allowsDeselection;
@@ -45,7 +45,7 @@ GTCoderCategoriesMethods >> categoriesIn: a [
 ]
 
 { #category : #private }
-GTCoderCategoriesMethods >> methodsIn: a [ 
+GTClassicCoderCategoriesMethods >> methodsIn: a [ 
 	a list
 		title: 'Methods';
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;

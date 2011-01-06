@@ -21,7 +21,7 @@ GTProfStef >> buildBrowser [
 		display: [ :lesson | lesson lessonInstance lesson ];
 		when: [:lesson | lesson isKindOf: TutorialNode];
 		title: [:lesson | lesson lessonInstance title];
-		populate: #selection
+		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open (o)'
 			with: 
@@ -30,7 +30,7 @@ GTProfStef >> buildBrowser [
 					evaluate: text selectedText
 					for: entity
 					logged: false ];
-		act: 
+		selectionAct: 
 				[ :text :entity | 
 				(Compiler 
 					evaluate: text selectedText

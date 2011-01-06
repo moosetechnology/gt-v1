@@ -3,19 +3,19 @@ self openOn: RPackageOrganizer default
 
 "
 Class {
-	#name : #GTCoder,
+	#name : #GTClassicCoder,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools-Coder'
+	#category : #'GT-Tools-ClassicCoder'
 }
 
 { #category : #'as yet unclassified' }
-GTCoder class >> open [
+GTClassicCoder class >> open [
 	^ self openOn: RPackageOrganizer default
 
 ]
 
 { #category : #building }
-GTCoder >> buildBrowser [
+GTClassicCoder >> buildBrowser [
 	"
 	| browser |
 	browser := self new browser.
@@ -34,13 +34,13 @@ GTCoder >> buildBrowser [
 		from: #packages;
 		to: #categoriesAndMethods port: #package;
 		andShow: [:a | 
-			a custom: (GTCoderInstanceAndMetaCategoriesMethods new browser) ].
+			a custom: (GTClassicCoderInstanceAndMetaCategoriesMethods new browser) ].
 	browser transmit from: #classes; to: #categoriesAndMethods.
 	^ browser
 ]
 
 { #category : #others }
-GTCoder >> classPointOfViewBrowser [
+GTClassicCoder >> classPointOfViewBrowser [
 	"self new classPointOfViewBrowser openOn: RPackageOrganizer default"
 	browser := GLMTabulator new.
 	browser column: #packages; column: #classes; column: #definingPackages; column: #methods.
@@ -80,7 +80,7 @@ GTCoder >> classPointOfViewBrowser [
 ]
 
 { #category : #building }
-GTCoder >> classesIn: a [ 
+GTClassicCoder >> classesIn: a [ 
 	a list
 		title: 'Classes';
 		display: [ :package | package classes ];
@@ -92,7 +92,7 @@ GTCoder >> classesIn: a [
 ]
 
 { #category : #building }
-GTCoder >> packagesIn: a [ 
+GTClassicCoder >> packagesIn: a [ 
 	a list 
 		title: 'Packages';
 		display: [ :organizer | organizer packages asSortedCollection: [:x :y | x name < y name ] ];

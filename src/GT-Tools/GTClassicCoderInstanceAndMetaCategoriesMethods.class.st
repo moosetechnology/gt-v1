@@ -1,11 +1,11 @@
 Class {
-	#name : #GTCoderInstanceAndMetaCategoriesMethods,
+	#name : #GTClassicCoderInstanceAndMetaCategoriesMethods,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools-Coder'
+	#category : #'GT-Tools-ClassicCoder'
 }
 
 { #category : #'as yet unclassified' }
-GTCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
+GTClassicCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
 	"
 	| browser |
 	browser := self new browser.
@@ -23,7 +23,7 @@ GTCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
 		to: #instance; 
 		andShow: [ :a |
 			a title: 'Instance'.
-			a custom: GTCoderCategoriesMethods new browser ].
+			a custom: GTClassicCoderCategoriesMethods new browser ].
 	browser transmit 
 		from: #outer->#package; 
 		from: #outer->#entity transformed: [:class | class ifNotNil: [class theMetaClass] ]; 
@@ -31,6 +31,6 @@ GTCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
 		transformed: [:package :class | {package . class} ]; 
 		to: #meta; andShow: [ :a |
 			a title: 'Meta'.
-			a custom: GTCoderCategoriesMethods new browser ].
+			a custom: GTClassicCoderCategoriesMethods new browser ].
 	^ browser
 ]
