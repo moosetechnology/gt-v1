@@ -1,6 +1,8 @@
 "
-self openOn: RPackageOrganizer default
-
+| browser |
+browser := self new browser.
+browser openOn: RPackageOrganizer default.
+browser inspect
 "
 Class {
 	#name : #GTClassicCoder,
@@ -22,7 +24,9 @@ GTClassicCoder >> buildBrowser [
 	browser openOn: RPackageOrganizer default.
 	browser"
 	browser := GLMTabulator new.
-	browser column: #packages; column: #classes; column: #categoriesAndMethods span: 2.
+	browser 
+		row: [:r | r column: #packages; column: #classes; column: #categoriesAndMethods span: 2];
+		row: #details.
 	browser transmit 
 		to: #packages; 
 		andShow: [ :a | self packagesIn: a ].
@@ -36,6 +40,16 @@ GTClassicCoder >> buildBrowser [
 		andShow: [:a | 
 			a custom: (GTClassicCoderInstanceAndMetaCategoriesMethods new browser) ].
 	browser transmit from: #classes; to: #categoriesAndMethods.
+	browser transmit 
+		from: #packages;
+		from: #classes;
+		from: #categoriesAndMethods port: #selectedMethod;
+		to: #details;
+		andShow: [:a | 
+			a text 
+				forSmalltalk: [:package :class | class ];
+				display: [:package :class :method |
+					method getSource ]].
 	^ browser
 ]
 

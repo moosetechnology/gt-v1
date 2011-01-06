@@ -25,12 +25,18 @@ GTClassicCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
 			a title: 'Instance'.
 			a custom: GTClassicCoderCategoriesMethods new browser ].
 	browser transmit 
-		from: #outer->#package; 
+		fromOutsidePort: #package; 
 		from: #outer->#entity transformed: [:class | class ifNotNil: [class theMetaClass] ]; 
 		when: [ :package :class | class notNil ];
 		transformed: [:package :class | {package . class} ]; 
 		to: #meta; andShow: [ :a |
 			a title: 'Meta'.
 			a custom: GTClassicCoderCategoriesMethods new browser ].
+	browser transmit 
+		toOutsidePort: #selectedMethod;
+		from: #instance port: #selectedMethod.
+	browser transmit 
+		toOutsidePort: #selectedMethod;
+		from: #meta port: #selectedMethod.
 	^ browser
 ]
