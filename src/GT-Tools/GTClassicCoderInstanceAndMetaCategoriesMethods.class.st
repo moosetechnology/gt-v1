@@ -1,7 +1,7 @@
 Class {
 	#name : #GTClassicCoderInstanceAndMetaCategoriesMethods,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools-ClassicCoder'
+	#category : #'GT-Tools-Coder'
 }
 
 { #category : #'as yet unclassified' }

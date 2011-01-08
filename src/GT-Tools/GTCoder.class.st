@@ -1,5 +1,5 @@
 Class {
 	#name : #GTCoder,
-	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools-ClassicCoder'
+	#superclass : #GTAbstractCoder,
+	#category : #'GT-Tools-Coder'
 }

@@ -6,8 +6,8 @@ browser inspect
 "
 Class {
 	#name : #GTClassicCoder,
-	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools-ClassicCoder'
+	#superclass : #GTAbstractCoder,
+	#category : #'GT-Tools-Coder'
 }
 
 { #category : #'as yet unclassified' }
@@ -37,20 +37,20 @@ GTClassicCoder >> buildBrowser [
 	browser transmit
 		from: #packages;
 		to: #categoriesAndMethods port: #package;
-		andShow: [:a | 
-			a custom: (GTClassicCoderInstanceAndMetaCategoriesMethods new browser) ].
+		andShow: [:a | self categoriesAndMethodsIn: a ].
 	browser transmit from: #classes; to: #categoriesAndMethods.
 	browser transmit 
 		from: #packages;
 		from: #classes;
 		from: #categoriesAndMethods port: #selectedMethod;
 		to: #details;
-		andShow: [:a | 
-			a text 
-				forSmalltalk: [:package :class | class ];
-				display: [:package :class :method |
-					method getSource ]].
+		andShow: [:a | self detailsIn: a ].
 	^ browser
+]
+
+{ #category : #building }
+GTClassicCoder >> categoriesAndMethodsIn: a [
+	a custom: (GTClassicCoderInstanceAndMetaCategoriesMethods new browser)
 ]
 
 { #category : #others }
@@ -91,24 +91,4 @@ GTClassicCoder >> classPointOfViewBrowser [
 					ifFalse: [Text string: each asString attribute: TextColor gray]
 					ifTrue: [each asString] ] ].
 	^ browser
-]
-
-{ #category : #building }
-GTClassicCoder >> classesIn: a [ 
-	a list
-		title: 'Classes';
-		display: [ :package | package classes ];
-		format: [ :each :package |
-			(package extendsClass: each)
-				ifTrue: [Text string: each name asString attribute: TextColor gray]
-				ifFalse: [each name asString] ];
-		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect'
-]
-
-{ #category : #building }
-GTClassicCoder >> packagesIn: a [ 
-	a list 
-		title: 'Packages';
-		display: [ :organizer | organizer packages asSortedCollection: [:x :y | x name < y name ] ];
-		format: [:each | each name]
 ]
