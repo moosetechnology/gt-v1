@@ -1,6 +1,6 @@
 Class {
 	#name : #GTAbstractCoder,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMGlobalBrowserTemplate,
 	#category : #'GT-Tools-Coder'
 }
 
@@ -33,11 +33,16 @@ GTAbstractCoder >> classesIn: a [
 	a list
 		title: 'Classes';
 		display: [ :package | package classes ];
+		icon: [ :each | 
+			each theNonMetaClass browserIcon isNil 
+				ifFalse: [ OBMorphicIcons iconNamed: each theNonMetaClass browserIcon ]
+				ifTrue: [ nil ] ];
 		format: [ :each :package |
 			(package extendsClass: each)
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
 				ifFalse: [each name asString] ];
-		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect'
+		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect';
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
 
 { #category : #reusable }
@@ -47,6 +52,11 @@ GTAbstractCoder >> detailsIn: a [
 	self classReferencesIn: a.
 	self sendersIn: a.
 	self implementorsIn: a
+]
+
+{ #category : #accessing }
+GTAbstractCoder >> entity [
+	^ RPackageOrganizer default
 ]
 
 { #category : #reusable }

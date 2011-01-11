@@ -1,8 +1,9 @@
 "
-| browser |
+self open
+""| browser |
 browser := self new browser.
 browser openOn: RPackageOrganizer default.
-browser inspect
+browser inspect""
 "
 Class {
 	#name : #GTClassicCoder,
