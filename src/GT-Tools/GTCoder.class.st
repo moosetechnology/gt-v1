@@ -1,3 +1,6 @@
+"
+self open
+"
 Class {
 	#name : #GTCoder,
 	#superclass : #GTAbstractCoder,
@@ -21,7 +24,7 @@ GTCoder >> buildBrowser [
 GTCoder >> implementorsIn: a [
 	a list
 		title: 'Implementors';
-		display: [ :package :class :method | (self systemNavigation allImplementorsOf: method selector) ];
+		display: [ :method | (self systemNavigation allImplementorsOf: method selector) ];
 		selectionPopulate: #focusOnMethod
 			on: $f
 			entitled: 'Jump there'
@@ -39,7 +42,8 @@ GTCoder >> methodsIn: a [
 		another title: [ :method | method selector ].
 		another text 
 			display: [ :method | method getSource ].
-		self sendersIn: another ].
+		self sendersIn: another.
+		self implementorsIn: another ].
 	a custom: expander
 ]
 
