@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'metacelloCache'
 	],
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #building }

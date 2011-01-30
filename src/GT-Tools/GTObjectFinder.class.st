@@ -1,5 +1,9 @@
 "
-self openOn: MooseModel root
+This is meant to be used for inspecting objects. It offers multiple views and it uses a finder as a navigation. One feature particular feature is that one can use the evaluator tab to enter code, and evaluating it results in opening another pane to the right.
+
+self openOn: MooseModel root.
+
+self new methodsBrowser openOn: 1
 "
 Class {
 	#name : #GTObjectFinder,
@@ -11,11 +15,11 @@ Class {
 GTObjectFinder >> buildBrowser [
 	browser := GLMFinder new.
 	browser title: [:anObject | (self printObjectAsAnItem: anObject), ' - Object Finder'].
-	browser
-		composite: [ :a | 
+	browser show: [ :a | 
 			a title: [ :anObject | self printObjectAsAnItem: anObject ].
 			self variablesIn: a.
 			self itemsIn: a.
+			a custom: self methodsBrowser.
 			self evaluatorIn: a ].
 	^ browser
 ]
@@ -44,15 +48,23 @@ GTObjectFinder >> itemsIn: a [
 		showOnly: 20
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTObjectFinder >> methodsBrowser [
-	 | b | 
-	b := GLMTabulator new.
-	b column: #hierarchy; column: #methods.
-	b transmit to: #hierarchy; andShow: [ :a | 
+	| methodsBrowser |
+	methodsBrowser := GLMTabulator new.
+	methodsBrowser title: 'Methods'.
+	methodsBrowser row: #methods; row: #source.
+	methodsBrowser transmit to: #methods; andShow: [:a | 
 		a list 
-			display: [ :anObject | anObject class withAllSuperclasses ] ].
-	^ b
+			display: [:object | object class methods ];
+			format: [:method | method selector];
+			selectionPopulate: #evaluatedObject on: $o entitled: 'Evaluate and open' with: [:list :object | object perform: list selection selector ] ].
+	methodsBrowser transmit to: #source; from: #methods; andShow: [:a | 
+		a text 
+			display: [:method | method getSource ];
+			forSmalltalk: [:method | method methodClass ]].
+	methodsBrowser transmit toOutside: #selection; from: #methods port: #evaluatedObject.
+	^ methodsBrowser 
 ]
 
 { #category : #private }

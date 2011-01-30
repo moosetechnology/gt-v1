@@ -4,7 +4,7 @@ self openOn: [10000 timesRepeat: [1.23 printString]]
 Class {
 	#name : #GTMessageTallyFinder,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #'as yet unclassified' }

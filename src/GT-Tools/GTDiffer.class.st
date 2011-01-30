@@ -19,15 +19,19 @@ GTDiffer >> buildBrowser [
 	browser
 		row: [:r | r column: #left; column: #right ];
 		row: #diff.
-	browser sendTo: #outer->#leftClasses from: #outer->#entity with: [:assoc | assoc key].
-	browser sendTo: #outer->#rightClasses from: #outer->#entity with: [:assoc | assoc value].
-	browser showOn: #left; from: #outer->#leftClasses; using: [browser custom: GTSimpleClassesBrowser new browser ].
-	browser showOn: #right; from: #outer->#rightClasses; using: [browser custom: GTSimpleClassesBrowser new browser ].
-	browser showOn: #diff; 
-		from: #left->#selectedClass; from: #left->#selectedMethod;
-		from: #right->#selectedClass; from: #right->#selectedMethod;
-		using: [
-		browser diff
+	browser transmit toOutsidePort: #leftClasses; fromOutsidePort: #entity; transformed: [:assoc | assoc key].
+	browser transmit toOutsidePort: #rightClasses; fromOutsidePort: #entity; transformed: [:assoc | assoc value].
+	browser transmit to: #left; fromOutsidePort: #leftClasses; andShow: [:a | 
+		(a custom: GTSimpleClassesMethodsBrowser new browser)
+			title: 'Left' ].
+	browser transmit to: #right; fromOutsidePort: #rightClasses; andShow: [:a | 
+		(a custom: GTSimpleClassesMethodsBrowser new browser)
+			title: 'Right' ].
+	browser transmit to: #diff; 
+		from: #left port: #selectedClass; from: #left port: #selectedMethod;
+		from: #right port: #selectedClass; from: #right port: #selectedMethod;
+		andShow: [:a | 
+		a diff
 			display: [:leftClass :leftMethod :rightClass :rightMethod | 
 				Array with: (leftClass sourceCodeAt: leftMethod) with: (rightClass sourceCodeAt: rightMethod)
 			]

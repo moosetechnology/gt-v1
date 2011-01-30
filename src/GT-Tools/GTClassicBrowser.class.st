@@ -7,7 +7,7 @@ Class {
 	#classInstVars : [
 		'announcer'
 	],
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #building }
