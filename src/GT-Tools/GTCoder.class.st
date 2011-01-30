@@ -14,10 +14,27 @@ GTCoder >> buildBrowser [
 		column: #packages;
 		column: [:c | c row: #classes; row: #instVars ];
 		column: #methods span: 3.
+	self defineActions.
 	browser transmit to: #packages; andShow: [:a | self packagesIn: a].
 	browser transmit from: #packages; to: #classes; andShow: [:a | self classesIn: a].
 	browser transmit from: #packages; from: #classes; to: #methods; andShow: [:a | self methodsIn: a ].
 	^ browser
+]
+
+{ #category : #building }
+GTCoder >> defineActions [
+	browser act: [:b |
+		| selectedClass |
+		selectedClass := OBCompletionRequest new
+			prompt: 'Find Class';
+			searchBlock: [ :string | OBCmdFindClass new findClassIn: Smalltalk pattern: string ];
+			labelBlock: [ :class | class name ];
+			iconBlock: [ :class | class browserIcon ];
+			signal.
+		((b paneNamed: #packages) port: #selection) value: selectedClass package.
+		((b paneNamed: #classes) port: #selection) value: selectedClass.
+	] icon: MooseIcons mooseSearch entitled: 'Search class'.
+
 ]
 
 { #category : #building }
