@@ -4,7 +4,7 @@ self openOn: #browse
 Class {
 	#name : #GTClassicChaser,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #building }

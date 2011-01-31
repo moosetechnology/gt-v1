@@ -4,6 +4,9 @@ This is a simple browser showing a list of methods on top and the source code be
 Class {
 	#name : #GTSimpleMethodsSourceBrowser,
 	#superclass : #GLMBrowserTemplate,
+	#instVars : [
+		'title'
+	],
 	#category : #'GT-Tools-Utils'
 }
 
@@ -13,9 +16,9 @@ GTSimpleMethodsSourceBrowser >> buildBrowser [
 	browser row: #methods; row: #source.
 	browser transmit to: #methods; andShow: [ :a | 
 		a tree
-			title: [:each | 'Senders of ', each printString];
+			title: self title;
 			display: [ :each | 
-				self systemNavigation allSendersOf:	((each isKindOf: MethodReference) ifTrue: [each selector ] ifFalse: [ each ]) ];
+				self systemNavigation allSendersOf: ((each isKindOf: MethodReference) ifTrue: [each selector ] ifFalse: [ each ]) ];
 			format: [:each | 
 				(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]]";
 			children: [ :each | 
@@ -27,4 +30,14 @@ GTSimpleMethodsSourceBrowser >> buildBrowser [
 			whenKindOf: MethodReference ].
 	browser transmit from: #methods; toOutsidePort: #selection.
 	^ browser
+]
+
+{ #category : #accessing }
+GTSimpleMethodsSourceBrowser >> title [
+	^ title
+]
+
+{ #category : #accessing }
+GTSimpleMethodsSourceBrowser >> title: anObject [
+	title := anObject
 ]
