@@ -26,7 +26,7 @@ GTCoder >> buildBrowser [
 
 { #category : #building }
 GTCoder >> defineActions [
-	browser act: [:b |
+	browser morphicAct: [:b |
 		| selectedClass |
 		selectedClass := OBCompletionRequest new
 			prompt: 'Find Class';
@@ -37,7 +37,7 @@ GTCoder >> defineActions [
 		selectedClass notNil ifTrue: [
 			(b pane port: #packageToSelect) value: selectedClass package.
 			(b pane port: #classToSelect) value: selectedClass ].
-	] icon: MooseIcons mooseSearch entitled: 'Search class'.
+	] on: $/ icon: MooseIcons mooseSearch entitled: 'Search class'
 
 ]
 
