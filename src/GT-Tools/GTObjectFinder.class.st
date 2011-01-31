@@ -17,6 +17,7 @@ GTObjectFinder >> buildBrowser [
 	browser title: [:anObject | (self printObjectAsAnItem: anObject), ' - Object Finder'].
 	browser show: [ :a | 
 			a title: [ :anObject | self printObjectAsAnItem: anObject ].
+			a morphicAct: [:composite | composite entity browse] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'.
 			self variablesIn: a.
 			self itemsIn: a.
 			a custom: self methodsBrowser.
@@ -84,7 +85,12 @@ GTObjectFinder >> printObjectAsAnItem: anObject [
 GTObjectFinder >> variablesIn: a [
 	(a list)
 		title: 'Variables';
-		display: [ :anObject | anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
+		display: [ :anObject | 
+			OrderedCollection new 
+				add: ('self' -> anObject);
+				addAll: (anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv)]);
+				yourself
+			 ];
 		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
 		icon: [ :each |  OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ];
 		send: #value
