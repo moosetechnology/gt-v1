@@ -1,7 +1,7 @@
 Class {
 	#name : #GTVisualizations,
 	#superclass : #Object,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Utils'
 }
 
 { #category : #'as yet unclassified' }

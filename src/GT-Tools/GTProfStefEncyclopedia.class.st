@@ -14,6 +14,7 @@ GTProfStefEncyclopedia >> buildBrowser [
 	browser column: #lessons; column: #details span: 4.
 	browser transmit to: #lessons; andShow: [:a | 
 		a list 
+			title: 'Tutorials';
 			send: [:class | ProfStef goOn: class viewedWith: GTProfStefNoView new ]].
 	browser transmit from: #lessons; to: #details; andShow: [:a | 
 		a custom: GTProfStef new browser noTitle ].
@@ -23,6 +24,4 @@ GTProfStefEncyclopedia >> buildBrowser [
 { #category : #opening }
 GTProfStefEncyclopedia >> entity [
 	^ AbstractTutorial allSubclasses 
-	
-"ProfStef goOn: 	viewedWith: GTProfStefNoView new"
 ]

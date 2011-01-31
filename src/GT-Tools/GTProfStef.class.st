@@ -24,12 +24,13 @@ GTProfStef >> buildBrowser [
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open (o)'
-			with: 
-				[ :text :entity | 
-				Compiler 
+			with: [ :text :entity | 
+				| result |
+				result := [Compiler 
 					evaluate: text selectedText
 					for: entity
-					logged: false ];
+					logged: false] on: Error do: [nil].
+				(result isNil or: [result isKindOf: GTProfStefNoView]) ifTrue: [nil] ifFalse: [result] ];
 		selectionAct: 
 				[ :text :entity | 
 				(Compiler 
@@ -37,7 +38,8 @@ GTProfStef >> buildBrowser [
 					for: entity
 					logged: false) inspect ]
 			on: $/
-			entitled: 'Inspect (/)'.
+			entitled: 'Inspect (/)';
+		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight entitled: 'Next lesson'  with: [:text :lesson | ProfStef next ].
 	^ browser
 ]
 
