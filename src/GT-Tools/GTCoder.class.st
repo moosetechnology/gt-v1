@@ -13,11 +13,12 @@ GTCoder >> buildBrowser [
 	browser
 		column: #packages;
 		column: #classes;
-		column: #methods span: 3.
+		column: #details span: 3.
 	self defineActions.
 	browser transmit to: #packages; andShow: [:a | self packagesIn: a].
 	browser transmit from: #packages; to: #classes; andShow: [:a | self classesIn: a].
-	browser transmit from: #packages; from: #classes; to: #methods; andShow: [:a | self methodsIn: a ].
+	browser transmit passivelyFrom: #packages; from: #classes; to: #details; when: [:package :class | class notNil ]; andShowIfNone: [:a | 
+		self detailsIn: a ].
 	browser transmit fromOutside: #packageToSelect; to: #packages port: #selection.
 	browser transmit fromOutside: #classToSelect; to: #classes port: #selection.
 	^ browser
@@ -41,6 +42,16 @@ GTCoder >> defineActions [
 ]
 
 { #category : #building }
+GTCoder >> detailsIn: a [
+	| accumulator |
+	accumulator := GLMAccumulator new.
+	accumulator show: [ :another | 
+		another title: [ :package :class | class name ].
+		self methodsIn: another ].
+	a custom: accumulator
+]
+
+{ #category : #building }
 GTCoder >> implementorsIn: a [
 	a list
 		title: 'Implementors';
@@ -53,17 +64,23 @@ GTCoder >> implementorsIn: a [
 ]
 
 { #category : #building }
+GTCoder >> methodSourceIn: another [
+	(another text)
+		title: 'Source';
+		display: [ :method | method getSource ]
+]
+
+{ #category : #building }
 GTCoder >> methodsIn: a [
 	| expander |
 	expander := GLMExpander new.
-	expander title: 'Methods'.
 	expander display: [ :package :class | class methods ].
-	expander show: [ :another | 
-		another title: [ :method | method selector ].
-		another text 
-			display: [ :method | method getSource ].
-		self sendersIn: another.
-		self implementorsIn: another ].
+	expander
+		show: [ :another | 
+			another title: [ :method | method selector ].
+			self methodSourceIn: another.
+			self sendersIn: another.
+			self implementorsIn: another ].
 	a custom: expander
 ]
 
