@@ -15,7 +15,8 @@ GTProfStefEncyclopedia >> buildBrowser [
 	browser transmit to: #lessons; andShow: [:a | 
 		a list 
 			title: 'Tutorials';
-			send: [:class | ProfStef goOn: class viewedWith: GTProfStefNoView new ]].
+			send: [:class | ProfStef goOn: class viewedWith: GTProfStefNoView new ]
+			"morphicSelectionAct: [:each | each selection browse ] entitled: 'Browse'"].
 	browser transmit from: #lessons; to: #details; andShow: [:a | 
 		a custom: GTProfStef new browser noTitle ].
 	^ browser

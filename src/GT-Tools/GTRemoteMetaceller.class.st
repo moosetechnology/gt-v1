@@ -14,10 +14,12 @@ GTRemoteMetaceller >> buildBrowser [
 	browser column: #configs; column: #details.
 	browser transmit to: #configs; andShow: [ :a | 
 		a list 
+			title: 'Remote configurations';
 			format: #name;
 			act: [:list | list selection version load ] entitled: 'Load configuration code' ].
 	browser transmit to: #details; from: #configs; andShow: [ :a | 
 		a list 
+			title: 'Details';
 			format: #selector;
 			display: [:reference | reference version snapshot definitions select: [:each | 
 					each isMethodDefinition and: [each classIsMeta not] ]];
