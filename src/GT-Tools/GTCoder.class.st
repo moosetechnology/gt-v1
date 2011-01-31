@@ -12,12 +12,14 @@ GTCoder >> buildBrowser [
 	browser := GLMTabulator new.
 	browser
 		column: #packages;
-		column: [:c | c row: #classes; row: #instVars ];
+		column: #classes;
 		column: #methods span: 3.
 	self defineActions.
 	browser transmit to: #packages; andShow: [:a | self packagesIn: a].
 	browser transmit from: #packages; to: #classes; andShow: [:a | self classesIn: a].
 	browser transmit from: #packages; from: #classes; to: #methods; andShow: [:a | self methodsIn: a ].
+	browser transmit fromOutside: #packageToSelect; to: #packages port: #selection.
+	browser transmit fromOutside: #classToSelect; to: #classes port: #selection.
 	^ browser
 ]
 
@@ -31,8 +33,9 @@ GTCoder >> defineActions [
 			labelBlock: [ :class | class name ];
 			iconBlock: [ :class | class browserIcon ];
 			signal.
-		((b paneNamed: #packages) port: #selection) value: selectedClass package.
-		((b paneNamed: #classes) port: #selection) value: selectedClass.
+		selectedClass notNil ifTrue: [
+			(b pane port: #packageToSelect) value: selectedClass package.
+			(b pane port: #classToSelect) value: selectedClass ].
 	] icon: MooseIcons mooseSearch entitled: 'Search class'.
 
 ]
@@ -46,7 +49,7 @@ GTCoder >> implementorsIn: a [
 			on: $f
 			entitled: 'Jump there'
 			with: [ :list | list selection ];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer 
 ]
 
 { #category : #building }
