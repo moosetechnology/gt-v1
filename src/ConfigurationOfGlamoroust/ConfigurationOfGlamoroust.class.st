@@ -65,7 +65,8 @@ ConfigurationOfGlamoroust >> default: spec [
 					file: 'ConfigurationOfMondrian';
 					version: 'default';
 					repository: 'http://www.squeaksource.com/Mondrian' ].
-		spec package: 'MondrianGraphVizLayout' with: [ spec repository: 'http://www.squeaksource.com/Mondrian' ]
+		spec package: 'MondrianGraphVizLayout' with: [ spec repository: 'http://www.squeaksource.com/Mondrian' ].
+		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.squeaksource.com/Glamour' ]
 	]
 ]
 
