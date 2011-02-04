@@ -17,14 +17,26 @@ GTCoder >> buildBrowser [
 	self defineActions.
 	browser transmit to: #packages; andShow: [:a | self packagesIn: a].
 	browser transmit from: #packages; to: #classes; andShow: [:a | self classesIn: a].
-	browser transmit passivelyFrom: #packages; from: #classes; to: #details; when: [:package :class | class notNil ]; andShowIfNone: [:a | 
-		self detailsIn: a ].
-	browser transmit fromOutside: #packageToSelect; to: #packages port: #selection.
-	browser transmit fromOutside: #classToSelect; to: #classes port: #selection.
+	browser transmit 
+		passivelyFrom: #packages; 
+		from: #classes; 
+		to: #details; 
+		when: [:package :class | class notNil ]; 
+		andShowIfNone: [:a | self detailsIn: a ].
+	browser transmit fromOutsidePort: #packageToSelect; to: #packages port: #selection.
+	browser transmit fromOutsidePort: #classToSelect; to: #classes port: #selection.
+	browser transmit 
+		toOutsidePort: #packageToSelect; 
+		from: #details port: #methodToSelect;
+		transformed: [:method | method methodClass package].
+	browser transmit 
+		toOutsidePort: #classToSelect; 
+		from: #details port: #methodToSelect;
+		transformed: [:method | method methodClass].
 	^ browser
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTCoder >> defineActions [
 	browser morphicAct: [:b |
 		| selectedClass |
@@ -41,7 +53,7 @@ GTCoder >> defineActions [
 
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTCoder >> detailsIn: a [
 	| accumulator |
 	accumulator := GLMAccumulator new.
@@ -51,7 +63,7 @@ GTCoder >> detailsIn: a [
 	a custom: accumulator
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTCoder >> implementorsIn: a [
 	a list
 		title: 'Implementors';
@@ -63,14 +75,14 @@ GTCoder >> implementorsIn: a [
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer 
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTCoder >> methodSourceIn: another [
 	(another text)
 		title: 'Source';
 		display: [ :method | method getSource ]
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTCoder >> methodsIn: a [
 	| expander |
 	expander := GLMExpander new.
@@ -84,7 +96,7 @@ GTCoder >> methodsIn: a [
 	a custom: expander
 ]
 
-{ #category : #building }
+{ #category : #private }
 GTCoder >> sendersIn: a [
 	a list
 		title: 'Senders';
