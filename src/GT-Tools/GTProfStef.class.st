@@ -18,9 +18,9 @@ GTProfStef >> buildBrowser [
 	browser title: 'Prof Stef'.
 	browser text
 		forSmalltalk;
-		display: [ :lesson | lesson lesson ];
-		when: [:lesson | lesson isKindOf: Lesson];
-		title: [:lesson | lesson title];
+		display: [ :lesson | lesson lessonInstance lesson ];
+		when: [:lesson | lesson isKindOf: TutorialNode];
+		title: [:lesson | lesson lessonInstance title];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open (o)'
