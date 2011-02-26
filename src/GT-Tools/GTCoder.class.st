@@ -49,7 +49,7 @@ GTCoder >> defineActions [
 		selectedClass notNil ifTrue: [
 			(b pane port: #packageToSelect) value: selectedClass package.
 			(b pane port: #classToSelect) value: selectedClass ].
-	] on: $/ icon: MooseIcons mooseSearch entitled: 'Search class'
+	] on: $/ icon: GLMUIThemeExtraIcons glamorousSearch entitled: 'Search class'
 
 ]
 
