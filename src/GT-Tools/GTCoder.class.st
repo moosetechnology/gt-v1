@@ -4,7 +4,7 @@ self open
 Class {
 	#name : #GTCoder,
 	#superclass : #GTAbstractCoder,
-	#category : #'GT-Tools-Coder'
+	#category : #'GT-Tools-Prototypes-Coder'
 }
 
 { #category : #building }

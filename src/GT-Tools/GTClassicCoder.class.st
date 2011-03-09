@@ -8,7 +8,7 @@ browser inspect""
 Class {
 	#name : #GTClassicCoder,
 	#superclass : #GTAbstractCoder,
-	#category : #'GT-Tools-Coder'
+	#category : #'GT-Tools-Prototypes-Coder'
 }
 
 { #category : #'as yet unclassified' }

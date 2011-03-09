@@ -1,0 +1,23 @@
+Class {
+	#name : #GTSimpleMethodsBrowser,
+	#superclass : #GLMBrowserTemplate,
+	#category : #'GT-Tools'
+}
+
+{ #category : #building }
+GTSimpleMethodsBrowser >> buildBrowser [ 
+	browser := GLMTabulator new.
+	browser title: 'Methods'.
+	browser row: #methods; row: #source.
+	browser transmit to: #methods; andShow: [:a | 
+		a list 
+			display: [:object | object class methods ];
+			format: [:method | method selector];
+			selectionPopulate: #evaluatedObject on: $o entitled: 'Evaluate and open' with: [:list :object | object perform: list selection selector ] ].
+	browser transmit to: #source; from: #methods; andShow: [:a | 
+		a text 
+			display: [:method | method getSource ];
+			forSmalltalk: [:method | method methodClass ]].
+	browser transmit toOutside: #selection; from: #methods port: #evaluatedObject.
+	^ browser 
+]

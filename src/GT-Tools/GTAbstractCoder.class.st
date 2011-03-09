@@ -1,7 +1,7 @@
 Class {
 	#name : #GTAbstractCoder,
 	#superclass : #GLMGlobalBrowserTemplate,
-	#category : #'GT-Tools-Coder'
+	#category : #'GT-Tools-Prototypes-Coder'
 }
 
 { #category : #reusable }

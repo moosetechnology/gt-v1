@@ -1,0 +1,52 @@
+Extension { #name : #Object }
+
+{ #category : #'*gt-tools' }
+Object >> objectFinderEvaluatorIn: composite [
+	<objectFinderPresentationOrder: 100>
+	(composite text)
+		forSmalltalk;
+		display: [ :entity | 'self' ];
+		title: 'Evaluator';
+		selectionPopulate: #selection
+			on: $o
+			entitled: 'Open (o)'
+			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ]
+			on: $/
+			entitled: 'Inspect (/)'
+]
+
+{ #category : #'*gt-tools' }
+Object >> objectFinderMethodsIn: composite [
+	<objectFinderPresentationOrder: 50>
+	composite custom: (GTSimpleMethodsBrowser new browser startOn: self) 
+]
+
+{ #category : #'*gt-tools' }
+Object >> objectFinderPresentationsIn: composite [
+	| pragmas |
+	pragmas := Pragma 
+				allNamed: #objectFinderPresentationOrder: 
+				from: self class 
+				to: Object 
+				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
+	pragmas do: [ :eachPragma | 
+		self perform: eachPragma selector with: composite ]
+
+]
+
+{ #category : #'*gt-tools' }
+Object >> objectFinderVariablesIn: composite [
+	<objectFinderPresentationOrder: 10>
+	(composite list)
+		title: 'Variables';
+		display: [ :anObject | 
+			OrderedCollection new 
+				add: ('self' -> anObject);
+				addAll: (anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv)]);
+				yourself
+			 ];
+		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
+		icon: [ :each |  OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ];
+		send: #value
+]
