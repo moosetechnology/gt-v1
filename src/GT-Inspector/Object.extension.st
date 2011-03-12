@@ -1,6 +1,14 @@
 Extension { #name : #Object }
 
 { #category : #'*gt-inspector' }
+Object >> finderVariablesFor: anObject [
+	^ (OrderedCollection new)
+		add: 'self' -> anObject;
+		addAll: (anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ]);
+		yourself
+]
+
+{ #category : #'*gt-inspector' }
 Object >> objectFinderEvaluatorIn: composite [
 	<objectFinderPresentationOrder: 100>
 	(composite text)
@@ -40,13 +48,8 @@ Object >> objectFinderVariablesIn: composite [
 	<objectFinderPresentationOrder: 10>
 	(composite list)
 		title: 'Variables';
-		display: [ :anObject | 
-			OrderedCollection new 
-				add: ('self' -> anObject);
-				addAll: (anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv)]);
-				yourself
-			 ];
+		display: [ :anObject | self finderVariablesFor: anObject ];
 		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
-		icon: [ :each |  OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ];
+		icon: [ :each | OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ];
 		send: #value
 ]
