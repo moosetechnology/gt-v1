@@ -49,7 +49,15 @@ Object >> objectFinderVariablesIn: composite [
 	(composite list)
 		title: 'Variables';
 		display: [ :anObject | self finderVariablesFor: anObject ];
-		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
+		format: [ :assoc |
+			| keyString valueString | 
+			keyString := [assoc key asString] 
+							on: Error 
+							do: [Text string: 'error printing' attribute: TextColor red].
+			valueString := [assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)] 
+							on: Error 
+							do: [Text string: 'error printing' attribute: TextColor red].
+			keyString , (Text fromString: ' : ') , valueString ];
 		icon: [ :each | OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ];
 		send: #value
 ]
