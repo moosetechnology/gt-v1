@@ -78,7 +78,7 @@ GTCoder >> implementorsIn: a [
 { #category : #private }
 GTCoder >> methodSourceIn: another [
 	(another text)
-		title: 'Source';
+		"title: 'Source';"
 		display: [ :method | method getSource ]
 ]
 
@@ -90,9 +90,7 @@ GTCoder >> methodsIn: a [
 	expander
 		show: [ :another | 
 			another title: [ :method | method selector ].
-			self methodSourceIn: another.
-			self sendersIn: another.
-			self implementorsIn: another ].
+			self methodSourceIn: another ].
 	a custom: expander
 ]
 
