@@ -51,10 +51,10 @@ Object >> objectFinderVariablesIn: composite [
 		display: [ :anObject | self finderVariablesFor: anObject ];
 		format: [ :assoc |
 			| keyString valueString | 
-			keyString := [assoc key asString] 
+			keyString := [Text fromString: assoc key asString] 
 							on: Error 
 							do: [Text string: 'error printing' attribute: TextColor red].
-			valueString := [assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)] 
+			valueString := [Text fromString: (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0))] 
 							on: Error 
 							do: [Text string: 'error printing' attribute: TextColor red].
 			keyString , (Text fromString: ' : ') , valueString ];
