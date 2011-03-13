@@ -1,18 +1,7 @@
 "
-[ [ 1+ 'a' ] on: Error do: [ :e |
-		| ctxtAndProcess |
-		ctxtAndProcess := {e signalerContext. Processor activeProcess}.
-		self debugIn: ctxtAndProcess ].
-	 1 asString.
-	 ] fork
-
-
-
-| ctxtAndProcess |
-[	ctxtAndProcess := {thisContext. Processor activeProcess}.
-	self debugIn: ctxtAndProcess.
+[ GTDebugger debugProcess: Processor activeProcess.
 	Processor activeProcess suspend.
-	 1 asString.
+	#(1 2 3 4 5) do: [:each | each asString]
 ] fork.
 "
 Class {
@@ -30,6 +19,15 @@ GTDebugger class >> debugIn: anArray [
 	WorldState addDeferredUIMessage: [ self openOn: anArray ].
 ]
 
+{ #category : #'instance creation' }
+GTDebugger class >> debugProcess: aProcess [
+
+	<primitive: 19> "simulation guard"
+	
+	WorldState addDeferredUIMessage: [
+		self openOn: (GTDebuggerModel process: aProcess) ].
+]
+
 { #category : #building }
 GTDebugger >> buildBrowser [
 	browser := GLMTabulator new.
@@ -38,20 +36,30 @@ GTDebugger >> buildBrowser [
 	browser
 		row: #stack;
 		row: #code.
+
 	browser transmit to: #stack; andShow: [ :composite |
 		composite list 
 			title: 'Stack';
-			display: [ :array | array first stackOfSize: 100  ];
+			showOnly: 10;
+			display: #stack;
 			format: [ :each | each methodClass name , '>>' , each methodSelector ] ].
-		
-	browser transmit from: #stack; to: #code; andShow: [ :composite |
-		composite text 
-			title: 'Source';
-			display: [:context | context method debuggerMap sourceText asText ];
-			forSmalltalk: [:context | thisContext receiver class ]].
 	
-	browser transmit fromOutsidePort: #entity; to: #stack port: #selection; transformed: [ :array | (array first stackOfSize: 100) first ]. 
-	browser transmit from: #stack port: #selection; toOutsidePort: #selectedContext.  
+	browser transmit fromOutsidePort: #entity; to: #stack port: #selection; transformed: #context.
+	browser transmit from: #stack port: #selection; to: #stack port: #pc; transformed: #pc.
+	
+	browser transmit from: #stack; fromOutsidePort: #entity; to: #code; andShow: [ :composite |
+		composite text 
+			selectionAct: [:text :context :model | model evaluate: text selectedText in: context ] on: $; entitled: 'Do (;)';
+			selectionAct: [:text :context :model |
+				(model evaluate: text selectedText in: context) printString. ] on: $/ entitled: 'Print (/)';
+			selectionAct: [:text :context :model | (model evaluate: text selectedText in: context) inspect ] on: $' entitled: 'Inspect ('')';
+			title: 'Source';
+			display: [ :context :model | model methodModel: context ];
+			format: #sourceText;
+			forSmalltalk: [ :context :model | model receiverClass: context ]].
+		
+	browser transmit from: #stack; fromOutsidePort: #entity; from: #stack port: #pc; to: #code port: #selectionInterval;
+		transformed: [ :context :model :pc | model selectedCodeRange: context ]
 ]
 
 { #category : #'private building' }
@@ -59,31 +67,35 @@ GTDebugger >> installBrowserActions [
 	self installRestartAction.
 	self installStepIntoAction.
 	self installStepOverAction.
+	self installResumeAction
 ]
 
 { #category : #'private building' }
 GTDebugger >> installRestartAction [
 	browser 
-		act: [ :b :array |  
-			| ctxt selectedContext |
-			selectedContext := (b pane port: #selectedContext) value.
-			ctxt := array second popTo: selectedContext.
-			ctxt == selectedContext ifTrue: [
-				array second restartTop; stepToSendOrReturn ].
-			b entity: { ctxt . array second } inspect ]
+		act: [ :b :model |
+			model restart: self selectedContext.
+			self selectTopOfStack: model context  ]
 		icon: GLMUIThemeExtraIcons glamorousRestart
 		entitled: 'Restart'
 ]
 
 { #category : #'private building' }
+GTDebugger >> installResumeAction [
+	browser 
+		act: [ :b :model |
+			"b close."
+			model resume ]
+		icon: GLMUIThemeExtraIcons glamorousPlay
+		entitled: 'Resume' 
+]
+
+{ #category : #'private building' }
 GTDebugger >> installStepIntoAction [
 	browser 
-		act: [ :b :array |  
-			| newContext |
-			newContext := array last "process" step: array first.
-			newContext := array last stepToSendOrReturn.
-			Transcript print: newContext; cr; print: newContext pc; flush.
-			b entity: {newContext. array second} ]
+		act: [ :b :model |
+			model stepInto: self selectedContext.
+			self selectTopOfStack: model context ]
 		icon: GLMUIThemeExtraIcons glamorousInto
 		entitled: 'Step into' 
 ]
@@ -91,13 +103,28 @@ GTDebugger >> installStepIntoAction [
 { #category : #'private building' }
 GTDebugger >> installStepOverAction [
 	browser 
-		act: [ :b :array |  
-			| newContext |
-			newContext := array last "process" completeStep: array first.
-			newContext == array first "context" ifTrue: [
-				newContext := array last stepToSendOrReturn ].
-			Transcript print: newContext; cr; print: newContext pc; flush.
-			b entity: {newContext. array second} ]
+		act: [ :b :model |
+			model stepOver: self selectedContext.
+			self selectTopOfStack: model context ]
 		icon: GLMUIThemeExtraIcons glamorousOver
 		entitled: 'Step over' 
+]
+
+{ #category : #accessing }
+GTDebugger >> model [
+	^ (browser pane port: #entity) value
+]
+
+{ #category : #private }
+GTDebugger >> selectTopOfStack: aContext [
+	| stackPane |
+	stackPane := browser paneNamed: #stack.
+	(stackPane port: #selection) value: aContext.
+	(stackPane port: #pc) value: aContext pc.
+	stackPane update
+]
+
+{ #category : #accessing }
+GTDebugger >> selectedContext [
+	^ ((browser paneNamed: #stack) port: #selection) value
 ]
