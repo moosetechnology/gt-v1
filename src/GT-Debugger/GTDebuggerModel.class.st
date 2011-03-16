@@ -126,6 +126,20 @@ GTDebuggerModel >> stepOver: selectedContext [
 			ifFalse: [ selectedContext ]
 ]
 
+{ #category : #'debugging actions' }
+GTDebuggerModel >> stepThrough [
+	self stepThrough: context
+]
+
+{ #category : #'debugging actions' }
+GTDebuggerModel >> stepThrough: selectedContext [
+	"Send messages until you return to the present method context.
+	 Used to step into a block in the method."
+	self halt.
+	context := process stepToHome: selectedContext.
+	process stepToSendOrReturn.
+]
+
 { #category : #private }
 GTDebuggerModel >> unwindTo: aContext [
 	|ctx|

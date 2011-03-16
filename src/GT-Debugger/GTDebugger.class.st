@@ -67,6 +67,7 @@ GTDebugger >> installBrowserActions [
 	self installRestartAction.
 	self installStepIntoAction.
 	self installStepOverAction.
+	self installStepThroughAction.
 	self installResumeAction
 ]
 
@@ -108,6 +109,16 @@ GTDebugger >> installStepOverAction [
 			self selectTopOfStack: model context ]
 		icon: GLMUIThemeExtraIcons glamorousOver
 		entitled: 'Step over' 
+]
+
+{ #category : #'private building' }
+GTDebugger >> installStepThroughAction [
+	browser 
+		act: [ :b :model |
+			model stepThrough: self selectedContext.
+			self selectTopOfStack: model context ]
+		icon: GLMUIThemeExtraIcons glamorousOver
+		entitled: 'Step through' 
 ]
 
 { #category : #accessing }
