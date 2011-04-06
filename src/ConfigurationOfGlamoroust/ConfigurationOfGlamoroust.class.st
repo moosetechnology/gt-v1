@@ -48,7 +48,10 @@ ConfigurationOfGlamoroust >> default: spec [
 			package: 'GT-Model' with: [spec requires: #('RPackage')];
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour' 'Mondrian' 'MondrianGraphVizLayout') ];
 			package: 'GT-Inspector' with: [ spec requires: #('Glamour')];
-			package: 'GT-Debugger' with: [ spec requires: #('Glamour')].
+			package: 'GT-Debugger' with: [ spec requires: #('Glamour')];
+			package: 'GT-Coder' with: [ spec requires: #('Glamour')];
+			package: 'GT-Playground' with: [ spec requires: #('Glamour')].			.			.
+			
 		spec project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
