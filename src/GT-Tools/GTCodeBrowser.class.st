@@ -75,6 +75,11 @@ GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 					useExplicitNotNil;
 					when: [:class :method | class notNil and: [method isNil]];
 					display: [:class | class definition ].
+			browser text
+					title: 'Comment';
+					useExplicitNotNil;
+					when: [:class :method | class notNil and: [method isNil]];
+					display: [:class | class comment ].
 			browser list
 					title: 'References';
 					useExplicitNotNil;
