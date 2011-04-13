@@ -113,12 +113,12 @@ GTCodeBrowser >> onMethodsFromClasses [
 	browser transmit to: #methods; from: #classes; andShow: [ :a | 
 		a accordionArrangement.
 		a list
-				title: 'Instance';
+				title: [:class | 'Instance (', class methods size printString, ')'];
 				display: [ :class | class methods ];
 				tags: [ :each | 
 					{each glmCategory name} ].
 		a list
-				title: 'Meta';
+				title: [:class | 'Meta (', class metaSide methods size printString, ')'];
 				display: [ :class | class metaSide methods ];
 				tags: [ :each | 
 					{each glmCategory name} ].
