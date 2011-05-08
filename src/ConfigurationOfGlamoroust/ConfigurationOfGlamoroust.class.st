@@ -62,7 +62,7 @@ ConfigurationOfGlamoroust >> default: spec [
 				spec
 					className: 'ConfigurationOfRPackage';
 					file: 'ConfigurationOfRPackage';
-					version: 'default';
+					version: #stable;
 					repository: 'http://www.squeaksource.com/PharoTaskForces' ].
 		spec project: 'Mondrian' with: [
 				spec
