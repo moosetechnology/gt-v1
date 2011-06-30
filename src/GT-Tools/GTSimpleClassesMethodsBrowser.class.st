@@ -15,10 +15,12 @@ GTSimpleClassesMethodsBrowser >> buildBrowser [
 	browser column: #classes; column: #methods.
 	browser showOn: #classes; using: [
 		browser list
-			display: [:classes | classes asOrderedCollection sorted: [:a :b | a name < b name] ]].
+			display: [:classes | classes ];
+			sorted: [:a :b | a name < b name]].
 	browser showOn: #methods; from: #classes; using: [
 		browser list
-			display: [:cls | cls selectors asOrderedCollection sorted: [:a :b | a < b]]].
+			display: [:class | class selectors];
+			sorted].
 	browser sendToOutside: #selectedClass from: #classes.
 	browser sendToOutside: #selectedMethod from: #methods.
 	^ browser

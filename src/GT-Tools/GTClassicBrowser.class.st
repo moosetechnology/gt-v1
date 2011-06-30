@@ -57,14 +57,15 @@ GTClassicBrowser >> categoriesIn: a [
 
 { #category : #building }
 GTClassicBrowser >> classCategoriesIn: a [
-	^ (a list)
-		display: [ :organization | organization categories asSortedCollection: [ :x :y | x < y ] ];
+	^ a list
+		display: [ :organization | organization categories];
+		sorted;
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
 
 { #category : #building }
 GTClassicBrowser >> classesHierarchyIn: a [
-	(a mondrian)
+	a mondrian
 		painting: [ :view :package | 
 					view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [ :name | Smalltalk classNamed: name ]).
 					view edgesFrom: #superclass.
