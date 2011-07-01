@@ -58,6 +58,6 @@ Object >> objectFinderVariablesIn: composite [
 							on: Error 
 							do: [Text string: 'error printing' attribute: TextColor red].
 			keyString , (Text fromString: ' : ') , valueString ];
-		icon: [ :each | OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ];
+		icon: [ :each | each value class theNonMetaClass browserIcon ifNotNil: [OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon] ];
 		send: #value
 ]
