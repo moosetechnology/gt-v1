@@ -126,42 +126,42 @@ GTMetacellerDetails >> tagsOf: packageSpec in: version [
 
 { #category : #building }
 GTMetacellerDetails >> toPackagesFromVersionsAndShow: innerBrowser [
-	innerBrowser transmit to: #packages; from: #versions; andShow: [ :a |
-		a title: [:version | version name ].
-		a tree
-			title: 'Items';
-			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: [:packageSpec | 
-				self labelOfItemSpec: packageSpec] ;
-			children: [:spec | 
-				(spec isKindOf: MetacelloProjectReferenceSpec) 
-					ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
-					ifFalse: [	#() ]
-				];
-			tags: [:packageSpec :version | 
-				self tagsOf: packageSpec in: version  ]; 
-			act: [:list  | list selection inspect] entitled: 'Inspect';
-			act: [:list :version | version load: list selection name ] entitled: 'Load'.
- 		a mondrian
-			title: 'Dependencies';
-			painting: [:view :version | self viewDependenciesOf: version on: view].
-		a text 
-			title: 'Script';
-			forSmalltalk;
-			display: [:version |
-				version spec printString ].
-		a list
-			title: 'Newer in repository?';
-			display: [:version | version spec packages packageSpecsInLoadOrder ];
-			format: [:packageSpec :version | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
-					self  packageSpec: packageSpec hasNewerVersionsFrom: version])
-				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
-			act: [:list  | list selection inspect] entitled: 'Inspect'
-	].
-	innerBrowser transmit 
-		toOutside: #strongSelection; from: #packages->#strongSelection; 
-		when: [:selection | selection isKindOf: MetacelloProjectReferenceSpec ]; 
-		transformed: [:selection | selection projectReference projectClass ]
+	(innerBrowser transmit)
+		to: #packages;
+		from: #versions;
+		andShow: [ :a | 
+					a title: [ :version | version name ].
+					(a tree)
+						title: 'Items';
+						display: [ :version | version spec packages packageSpecsInLoadOrder ];
+						format: [ :packageSpec | self labelOfItemSpec: packageSpec ];
+						children: [ :spec | 
+									(spec isKindOf: MetacelloProjectReferenceSpec)
+										ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
+										ifFalse: [ #() ] ];
+						tags: [ :packageSpec :version | self tagsOf: packageSpec in: version ];
+						act: [ :list | list selection inspect ] entitled: 'Inspect';
+						act: [ :list :version | version load: list selection name ] entitled: 'Load'.
+					(a mondrian)
+						title: 'Dependencies';
+						painting: [ :view :version | self viewDependenciesOf: version on: view ].
+					(a text)
+						title: 'Script';
+						forSmalltalk;
+						display: [ :version | version spec printString ].
+					(a list)
+						title: 'Newer in repository?';
+						display: [ :version | version spec packages packageSpecsInLoadOrder ];
+						format: [ :packageSpec :version | 
+									((packageSpec isKindOf: MetacelloPackageSpec) and: [ self packageSpec: packageSpec hasNewerVersionsFrom: version ])
+										ifTrue: [ Text string: packageSpec name attribute: TextColor red ]
+										ifFalse: [ packageSpec name ] ];
+						act: [ :list | list selection inspect ] entitled: 'Inspect' ].
+	(innerBrowser transmit)
+		toOutside: #strongSelection;
+		from: #packages port: #strongSelection;
+		when: [ :selection | selection isKindOf: MetacelloProjectReferenceSpec ];
+		transformed: [ :selection | selection projectReference projectClass ]
 ]
 
 { #category : #building }

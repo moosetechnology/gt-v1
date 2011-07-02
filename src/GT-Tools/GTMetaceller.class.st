@@ -95,14 +95,21 @@ GTMetaceller >> toConfigsAndShow [
 
 { #category : #building }
 GTMetaceller >> toDetailsFromConfigsAndShow [
-	browser transmit from: #configs->#strongSelection; to: #details; andShowIfNone: [ :a |
-		a custom: 
-			(((GTMetacellerDetails new)
-				master: self;
-				yourself) browser noTitle )
-		].
-	browser transmit from: #configs; to: #details->#entityToSelect.
-	browser transmit from: #details->#activeEntity; to: #configs->#selection.
+	(browser transmit)
+		from: #configs port: #strongSelection;
+		to: #details;
+		andShowIfNone: [ :a | 
+					a
+						custom:
+							((GTMetacellerDetails new)
+								master: self;
+								yourself) browser noTitle ].
+	(browser transmit)
+		from: #configs;
+		to: #details -> #entityToSelect.
+	(browser transmit)
+		from: #details port: #activeEntity;
+		to: #configs -> #selection
 ]
 
 { #category : #private }
