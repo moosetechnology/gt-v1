@@ -1,3 +1,9 @@
+"
+| browser |
+browser := self new browser.
+(browser pane port: #entity) value: {RPackageOrganizer default packages last . RPackageOrganizer default packages last classes anyOne}.
+browser open
+"
 Class {
 	#name : #GTClassicCoderInstanceAndMetaCategoriesMethods,
 	#superclass : #GLMBrowserTemplate,
@@ -6,12 +12,6 @@ Class {
 
 { #category : #building }
 GTClassicCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
-	"
-	| browser |
-	browser := self new browser.
-	(browser pane port: #entity) value: {RPackageOrganizer default packages last . RPackageOrganizer default packages last classes anyOne}.
-	browser open"
-
 	browser := GLMStacker new.
 	browser aPane: #instance; aPane: #meta.
 	browser transmit

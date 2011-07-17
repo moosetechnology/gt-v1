@@ -1,3 +1,9 @@
+"
+| browser |
+browser := self new browser.
+(browser pane port: #entity) value: {RPackageOrganizer default packages last . RPackageOrganizer default packages last classes anyOne}.
+browser open
+"
 Class {
 	#name : #GTClassicCoderCategoriesMethods,
 	#superclass : #GLMBrowserTemplate,
