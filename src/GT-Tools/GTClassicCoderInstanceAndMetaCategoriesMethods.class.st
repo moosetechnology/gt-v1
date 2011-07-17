@@ -4,38 +4,25 @@ Class {
 	#category : #'GT-Tools-Prototypes-Coder'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTClassicCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
 	"
 	| browser |
 	browser := self new browser.
-	(browser pane port: #package) value: RPackageOrganizer default packages first.
-	(browser pane port: #entity) value: RPackageOrganizer default packages first classes anyOne.
-	browser open.
-	browser inspect"
+	(browser pane port: #entity) value: {RPackageOrganizer default packages last . RPackageOrganizer default packages last classes anyOne}.
+	browser open"
 
 	browser := GLMStacker new.
-	browser
-		aPane: #instance;
-		aPane: #meta.
-	(browser transmit)
-		from: #outer port: #package;
-		from: #outer port: #entity;
-		when: [ :package :class | class notNil ];
-		transformed: [ :package :class | 
-					{package.
-					class} ];
+	browser aPane: #instance; aPane: #meta.
+	browser transmit
+		when: [ :packageClass | packageClass last notNil ];
 		to: #instance;
 		andShow: [ :a | 
 					a title: 'Instance'.
 					a custom: GTClassicCoderCategoriesMethods new browser ].
 	(browser transmit)
-		fromOutsidePort: #package;
-		from: #outer -> #entity transformed: [ :class | class ifNotNil: [ class theMetaClass ] ];
-		when: [ :package :class | class notNil ];
-		transformed: [ :package :class | 
-					{package.
-					class} ];
+		transformed: [ :packageClass | packageClass last ifNotNil: [ {packageClass first. packageClass last theMetaClass} ] ];
+		when: [ :packageClass | packageClass last notNil ];
 		to: #meta;
 		andShow: [ :a | 
 					a title: 'Meta'.
