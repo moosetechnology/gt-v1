@@ -167,9 +167,15 @@ GTClassicCoder >> methodSourceCodeIn: a [
 	a text 
 		title: 'Method';
 		forSmalltalk: [:package :class | class ];
+		act: [:text :package :class | class compile: text text notifying: nil ] 
+			icon: GLMUIThemeExtraIcons glamorousAccept 
+			on: $s
+			entitled: 'Accept';
+		act: [:text :package :class :method | class removeSelector: method selector ] 
+			icon: GLMUIThemeExtraIcons glamorousRemove
+			entitled: 'Remove';
 		display: [:package :class :method |
-			method getSource ].
-
+			method getSource ]
 ]
 
 { #category : #reusable }
