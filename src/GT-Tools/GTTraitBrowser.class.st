@@ -1,3 +1,6 @@
+"
+self open.
+"
 Class {
 	#name : #GTTraitBrowser,
 	#superclass : #Object,
@@ -9,10 +12,10 @@ GTTraitBrowser class >> open [
 	^ self new open
 ]
 
-{ #category : #building }
+{ #category : #'building-presentations' }
 GTTraitBrowser >> allMethodsIn: constructor [
-	constructor title: 'all methods'.
 	^ constructor list
+		title: 'all';
 		display: [:classOrTrait | classOrTrait allSelectors];
 		tags: [:selector :classOrTrait |
 					(classOrTrait includesLocalSelector: selector) 
@@ -24,17 +27,103 @@ GTTraitBrowser >> allMethodsIn: constructor [
 	
 ]
 
-{ #category : #'initialize-release' }
-GTTraitBrowser >> buildBrowser [ 
-	|browser|
-	browser := GLMFinder new.
-	browser fixedSizePanes: 2.
-	browser show: [:a | 
-		a custom: self innerBrowser].
+{ #category : #'building-browsers' }
+GTTraitBrowser >> build1Browser [
+	| browser |
+	browser := (GLMTabulator new)
+		row: #finder;
+		row: #traitComposition size: 20;
+		row: #source;
+		yourself.
+	browser title: [ :classOrTrait | classOrTrait name ].
+	(browser transmit)
+		to: #finder;
+		andShow: [ :a | a custom: self build2Finder ].
+	(browser transmit)
+		from: #finder;
+		to: #traitComposition;
+		andShow: [ :a | self classOrTraitNameIn: a ].
+	(browser transmit)
+		fromOutsidePort: #entity;
+		to: #traitComposition;
+		andShow: [ :a | self classOrTraitNameIn: a ].
+	(browser transmit)
+		from: #finder;
+		to: #source;
+		andShow: [ :a | a text ].
+	(browser transmit)
+		fromOutsidePort: #entity;
+		to: #source;
+		andShow: [ :a | a text ].
+	(browser transmit)
+		from: #finder port: #selection;
+		from: #finder port: #method;
+		to: #source;
+		andShow: [ :a | self methodSourceIn: a ].
+	(browser transmit)
+		fromOutsidePort: #entity;
+		from: #finder port: #method;
+		to: #source;
+		andShow: [ :a | self methodSourceIn: a ].
+	(browser transmit)
+		from: #finder;
+		to: #source.
 	^ browser
 ]
 
-{ #category : #building }
+{ #category : #'building-browsers' }
+GTTraitBrowser >> build2Finder [
+	| finder |
+	finder := GLMFinder new.
+	finder fixedSizePanes: 2.
+	finder show: [ :a | a custom: self build3Stacker ].
+	^ finder
+]
+
+{ #category : #'building-browsers' }
+GTTraitBrowser >> build3Stacker [
+	| stacker |
+	stacker := GLMStacker new.
+	stacker
+		aPane: #methods;
+		aPane: #hierarchy;
+		aPane: #traits.
+	(stacker transmit)
+		to: #methods;
+		andShow: [ :a | 
+					a title: 'methods'.
+					self localMethodsIn: a.
+					self allMethodsIn: a ].
+	(stacker transmit)
+		to: #hierarchy;
+		whenKindOf: Class;
+		andShow: [ :a | self hierarchyIn: a ].
+	(stacker transmit)
+		to: #traits;
+		when: [:classOrTrait | classOrTrait traitComposition notEmpty];
+		andShow: [ :a | self traitsIn: a ].
+	(stacker transmit)
+		from: #hierarchy;
+		toOutsidePort: #selection.
+	(stacker transmit)
+		from: #traits;
+		toOutsidePort: #selection.
+	(stacker transmit)
+		from: #methods port: #localSelectors;
+		toOutsidePort: #method.
+	^ stacker
+]
+
+{ #category : #'building-presentations' }
+GTTraitBrowser >> classOrTraitNameIn: constructor [
+	^ constructor label
+		display: [:classOrTraitName | classOrTraitName name, ': ', classOrTraitName traitComposition printString]
+	
+	
+	
+]
+
+{ #category : #'building-presentations' }
 GTTraitBrowser >> hierarchyIn: constructor [
 	constructor title: 'hierarchy'.
 	^ constructor list
@@ -42,58 +131,32 @@ GTTraitBrowser >> hierarchyIn: constructor [
 		display: [:class | class allSuperclasses]
 ]
 
-{ #category : #building }
-GTTraitBrowser >> innerBrowser [ 
-	|stacker browser|
-	browser := GLMTabulator new.
-	browser row: #classortraitName; row: #navigator span: 20.
-	
-	"have to try a composite presentation or a dynamic one"
-	stacker := GLMStacker new.
-	stacker 
-		aPane: #localMethods;
-		aPane: #hierarchy;
-		aPane: #traits;
-		aPane: #allMethods.
-		
-	stacker transmit to: #localMethods;
-			andShow: [:a | self localMethodsIn: a].
-	stacker transmit to: #hierarchy;
-			andShow: [:a | self hierarchyIn: a].
-	stacker transmit to: #traits;
-			andShow: [:a | self traitsIn: a].
-	stacker transmit to: #allMethods;
-			andShow: [:a | self allMethodsIn: a].
-			
-	stacker transmit from: #hierarchy; toOutsidePort: #selection.
-	stacker transmit from: #traits; toOutsidePort: #selection.
-	
-	browser transmit to: #classortraitName; andShow: [:a | a label display: [:classortrait | classortrait name]].
-	browser transmit to: #navigator; andShow: [:a | a custom: stacker].
-	browser transmit from: #navigator; toOutsidePort: #selection.
-	
-	^ browser
-]
-
-{ #category : #building }
+{ #category : #'building-presentations' }
 GTTraitBrowser >> localMethodsIn: constructor [
-	constructor title: 'methods'.
 	^ constructor list
+		title: 'local';
 		display: [:class | class localSelectors];
+		send: #yourself as: #localSelectors;
 		sorted
 	
 ]
 
+{ #category : #'building-presentations' }
+GTTraitBrowser >> methodSourceIn: constructor [
+	^ (constructor text)
+		forSmalltalk: [:class | class];
+		display: [ :classOrTrait :selector | classOrTrait sourceCodeAt: selector ]
+]
+
 { #category : #'initialize-release' }
 GTTraitBrowser >> open [
-	self buildBrowser openOn: NSCollectionStream 
+	self build1Browser openOn: NSCollectionStream 
 	
 ]
 
-{ #category : #building }
+{ #category : #'building-presentations' }
 GTTraitBrowser >> traitsIn: constructor [
 	constructor title: 'traits'.
 	^ constructor list
-		when: #hasTraitComposition;
 		display: #traits
 ]
