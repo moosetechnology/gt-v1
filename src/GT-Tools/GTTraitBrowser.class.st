@@ -52,16 +52,7 @@ GTTraitBrowser >> build1Browser [
 		to: #source;
 		andShow: [ :a | a text ].
 	(browser transmit)
-		fromOutsidePort: #entity;
-		to: #source;
-		andShow: [ :a | a text ].
-	(browser transmit)
-		from: #finder port: #selection;
-		from: #finder port: #method;
-		to: #source;
-		andShow: [ :a | self methodSourceIn: a ].
-	(browser transmit)
-		fromOutsidePort: #entity;
+		passivelyFrom: #finder port: #selection;
 		from: #finder port: #method;
 		to: #source;
 		andShow: [ :a | self methodSourceIn: a ].
@@ -111,6 +102,11 @@ GTTraitBrowser >> build3Stacker [
 	(stacker transmit)
 		from: #methods port: #localSelectors;
 		toOutsidePort: #method.
+	(stacker transmit)
+		from: #hierarchy;
+		from: #traits;
+		toOutsidePort: #method;
+		transformation: [nil].
 	^ stacker
 ]
 
