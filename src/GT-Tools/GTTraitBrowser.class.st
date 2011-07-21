@@ -102,11 +102,6 @@ GTTraitBrowser >> build3Stacker [
 	(stacker transmit)
 		from: #methods port: #localSelectors;
 		toOutsidePort: #method.
-	(stacker transmit)
-		from: #hierarchy;
-		from: #traits;
-		toOutsidePort: #method;
-		transformation: [nil].
 	^ stacker
 ]
 
