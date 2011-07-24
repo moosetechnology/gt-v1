@@ -34,34 +34,33 @@ GTTraitBrowser >> allMethodsIn: constructor [
 
 { #category : #'building-browsers' }
 GTTraitBrowser >> build1Browser [
-	| browser |
-	browser := (GLMTabulator new)
+	| tabulator |
+	tabulator := (GLMTabulator new)
 		row: #finder;
 		row: #traitComposition size: 20;
 		row: #source;
 		yourself.
-	browser title: [ :classOrTrait | classOrTrait name ].
-	(browser transmit)
+	tabulator title: [ :classOrTrait | classOrTrait name ].
+	(tabulator transmit)
 		to: #finder;
 		andShow: [ :a | a custom: self build2Finder ].
-	(browser transmit)
+	(tabulator transmit)
 		from: #finder;
 		to: #traitComposition;
 		andShow: [ :a | self classOrTraitNameIn: a ].
-	(browser transmit)
+	(tabulator transmit)
 		from: #finder;
 		to: #source;
 		andShow: [ :a | a text ].
-	(browser transmit)
+	(tabulator transmit)
 		passivelyFrom: #finder port: #selection;
 		from: #finder port: #method;
 		to: #source;
 		andShow: [ :a | self methodSourceIn: a ].
-	(browser transmit)
+	(tabulator transmit)
 		from: #finder;
 		to: #source.
-	browser transmit fromOutsidePort: #entity; to: #finder.
-	^ browser
+	^ tabulator
 ]
 
 { #category : #'building-browsers' }
@@ -70,6 +69,7 @@ GTTraitBrowser >> build2Finder [
 	finder := GLMFinder new.
 	finder fixedSizePanes: 2.
 	finder show: [ :a | a custom: self build3Stacker ].
+	finder transmit fromOutsidePort: #entity; toOutsidePort: #selection.
 	^ finder
 ]
 
