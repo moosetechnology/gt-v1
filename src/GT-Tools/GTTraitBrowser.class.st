@@ -4,12 +4,17 @@ self open.
 Class {
 	#name : #GTTraitBrowser,
 	#superclass : #Object,
+	#instVars : [
+		'browser'
+	],
 	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #'initialize-release' }
 GTTraitBrowser class >> open [
-	^ self new open
+	^ self new
+		open;
+		yourself
 ]
 
 { #category : #'building-presentations' }
@@ -44,10 +49,6 @@ GTTraitBrowser >> build1Browser [
 		to: #traitComposition;
 		andShow: [ :a | self classOrTraitNameIn: a ].
 	(browser transmit)
-		fromOutsidePort: #entity;
-		to: #traitComposition;
-		andShow: [ :a | self classOrTraitNameIn: a ].
-	(browser transmit)
 		from: #finder;
 		to: #source;
 		andShow: [ :a | a text ].
@@ -59,6 +60,7 @@ GTTraitBrowser >> build1Browser [
 	(browser transmit)
 		from: #finder;
 		to: #source.
+	browser transmit fromOutsidePort: #entity; to: #finder.
 	^ browser
 ]
 
@@ -136,12 +138,15 @@ GTTraitBrowser >> localMethodsIn: constructor [
 GTTraitBrowser >> methodSourceIn: constructor [
 	^ (constructor text)
 		forSmalltalk: [:class | class];
-		display: [ :classOrTrait :selector | classOrTrait sourceCodeAt: selector ]
+		display: [ :classOrTrait :selector | [classOrTrait sourceCodeAt: selector]
+											on: Error
+											do: ['Error: ', classOrTrait name, '>>', selector] ]
 ]
 
 { #category : #'initialize-release' }
 GTTraitBrowser >> open [
-	self build1Browser openOn: NSCollectionStream 
+	browser := self build1Browser.
+	browser openOn: NSCollectionStream 
 	
 ]
 
