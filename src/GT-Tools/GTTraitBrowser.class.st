@@ -68,7 +68,9 @@ GTTraitBrowser >> build2Finder [
 	| finder |
 	finder := GLMFinder new.
 	finder fixedSizePanes: 2.
-	finder show: [ :a | a custom: self build3Stacker ].
+	finder show: [ :a | a custom: self build3StackerBis].
+	
+	"Simulates a selection on the default entity displayed on the finder"
 	finder transmit fromOutsidePort: #entity; toOutsidePort: #selection.
 	^ finder
 ]
@@ -77,10 +79,7 @@ GTTraitBrowser >> build2Finder [
 GTTraitBrowser >> build3Stacker [
 	| stacker |
 	stacker := GLMStacker new.
-	stacker
-		aPane: #methods;
-		aPane: #hierarchy;
-		aPane: #traits.
+	stacker panes: #(methods hierarchy traits).
 	(stacker transmit)
 		to: #methods;
 		andShow: [ :a | 
@@ -105,6 +104,45 @@ GTTraitBrowser >> build3Stacker [
 		from: #methods port: #localSelectors;
 		toOutsidePort: #method.
 	^ stacker
+]
+
+{ #category : #'building-browsers' }
+GTTraitBrowser >> build3StackerBis [
+	| dynamic |
+	dynamic := GLMTabulator new row: #stacker; yourself.
+	dynamic transmit to: #stacker; andShow: [:a | 
+		a dynamic
+			display: [:classOrTrait | |stacker|
+				self halt.
+				stacker := GLMStacker new.
+				stacker aPane: #methods.
+				(classOrTrait isKindOf: Class)
+					ifTrue: [stacker aPane: #hierarchy.
+							(stacker transmit)
+								to: #hierarchy;
+								andShow: [ :c | self hierarchyIn: c].
+							(stacker transmit)
+								from: #hierarchy;
+								toOutsidePort: #selection].
+				(classOrTrait traitComposition notEmpty)
+					ifTrue: [stacker aPane: #traits.
+							(stacker transmit)
+								to: #traits;
+								andShow: [ :c | self traitsIn: c].
+							stacker transmit
+								from: #traits;
+								toOutsidePort: #selection].
+				(stacker transmit)
+					to: #methods;
+					andShow: [ :c | 
+						c title: 'methods'.
+						self localMethodsIn: c.
+						self allMethodsIn: c].
+				(stacker transmit)
+					from: #methods port: #localSelectors;
+					toOutsidePort: #method.
+				stacker]].
+	^ dynamic
 ]
 
 { #category : #'building-presentations' }
