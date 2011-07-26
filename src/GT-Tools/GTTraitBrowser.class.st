@@ -19,17 +19,18 @@ GTTraitBrowser class >> open [
 
 { #category : #'building-presentations' }
 GTTraitBrowser >> allMethodsIn: constructor [
-	^ constructor list
-		title: 'all';
-		display: [:classOrTrait | classOrTrait allSelectors];
-		tags: [:selector :classOrTrait |
-					(classOrTrait includesLocalSelector: selector) 
-						ifTrue: [{'local'}] ifFalse: [
-					(classOrTrait includesSelector: selector)
-								ifTrue: [{'trait'}] ifFalse: [
-					{(classOrTrait whichClassIncludesSelector: selector) name}]]];
-		sorted
-	
+	constructor dynamic presentation: [:a :classOrTrait|
+		a accordionArrangement.
+		(classOrTrait isKindOf: Class)
+			ifTrue: [	a tree
+						title: 'hierarchy methods';
+						display: [classOrTrait allSuperclasses];
+						children: [:superclass | (superclass isKindOf: Class) ifTrue: [superclass selectors sorted]]].
+		a list
+			title: 'trait methods';
+			display: [classOrTrait selectors difference: classOrTrait localSelectors];
+			sorted
+		]
 ]
 
 { #category : #'building-browsers' }
@@ -53,13 +54,11 @@ GTTraitBrowser >> build1Browser [
 		to: #source;
 		andShow: [ :a | a text ].
 	(tabulator transmit)
+		"passive because otherwise we would display the currently selected method for the newly selected class which is likely to not exist"
 		passivelyFrom: #finder port: #selection;
 		from: #finder port: #method;
 		to: #source;
 		andShow: [ :a | self methodSourceIn: a ].
-	(tabulator transmit)
-		from: #finder;
-		to: #source.
 	^ tabulator
 ]
 
@@ -68,7 +67,7 @@ GTTraitBrowser >> build2Finder [
 	| finder |
 	finder := GLMFinder new.
 	finder fixedSizePanes: 2.
-	finder show: [ :a | a custom: self build3StackerBis].
+	finder show: [ :a | a title: [:classOrTrait | classOrTrait name]; custom: self build3Stacker].
 	
 	"Simulates a selection on the default entity displayed on the finder"
 	finder transmit fromOutsidePort: #entity; toOutsidePort: #selection.
@@ -82,18 +81,14 @@ GTTraitBrowser >> build3Stacker [
 	stacker panes: #(methods hierarchy traits).
 	(stacker transmit)
 		to: #methods;
-		andShow: [ :a | 
-					a title: 'methods'.
-					self localMethodsIn: a.
-					self allMethodsIn: a ].
+		andShow: [ :a | a title: 'methods'.
+				a custom: self build4Methods].
 	(stacker transmit)
 		to: #hierarchy;
-		whenKindOf: Class;
-		andShow: [ :a | self hierarchyIn: a ].
+		andShow: [ :a | 	a title: 'hierarchy'. self hierarchyIn: a ].
 	(stacker transmit)
 		to: #traits;
-		when: [:classOrTrait | classOrTrait traitComposition notEmpty];
-		andShow: [ :a | self traitsIn: a ].
+		andShow: [ :a | a title: 'traits'. self traitsIn: a ].
 	(stacker transmit)
 		from: #hierarchy;
 		toOutsidePort: #selection.
@@ -101,7 +96,7 @@ GTTraitBrowser >> build3Stacker [
 		from: #traits;
 		toOutsidePort: #selection.
 	(stacker transmit)
-		from: #methods port: #localSelectors;
+		from: #methods;
 		toOutsidePort: #method.
 	^ stacker
 ]
@@ -145,6 +140,17 @@ GTTraitBrowser >> build3StackerBis [
 	^ dynamic
 ]
 
+{ #category : #'building-browsers' }
+GTTraitBrowser >> build4Methods [
+	|stacker|
+	stacker := GLMStacker new.
+	stacker panes: #(local all).
+	stacker transmit to: #local; andShow: [:a | a title: 'local'. self localMethodsIn: a].
+	stacker transmit to: #all; andShow: [:a | a title: 'external'. self allMethodsIn: a].
+	stacker transmit from: #local; toOutsidePort: #selection.
+	^ stacker
+]
+
 { #category : #'building-presentations' }
 GTTraitBrowser >> classOrTraitNameIn: constructor [
 	^ constructor label
@@ -156,7 +162,6 @@ GTTraitBrowser >> classOrTraitNameIn: constructor [
 
 { #category : #'building-presentations' }
 GTTraitBrowser >> hierarchyIn: constructor [
-	constructor title: 'hierarchy'.
 	^ constructor list
 		whenKindOf: Class;
 		display: [:class | class allSuperclasses]
@@ -165,7 +170,6 @@ GTTraitBrowser >> hierarchyIn: constructor [
 { #category : #'building-presentations' }
 GTTraitBrowser >> localMethodsIn: constructor [
 	^ constructor list
-		title: 'local';
 		display: [:class | class localSelectors];
 		send: #yourself as: #localSelectors;
 		sorted
@@ -190,7 +194,6 @@ GTTraitBrowser >> open [
 
 { #category : #'building-presentations' }
 GTTraitBrowser >> traitsIn: constructor [
-	constructor title: 'traits'.
 	^ constructor list
 		display: #traits
 ]
