@@ -41,6 +41,7 @@ GTCoder >> classesIn: a [
 	a list
 		title: 'Classes';
 		display: [ :package | package classes ];
+		sorted: [:c1 :c2 | c1 name < c2 name];
 		icon: [ :each | 
 			each theNonMetaClass browserIcon isNil 
 				ifFalse: [ OBMorphicIcons iconNamed: each theNonMetaClass browserIcon ]
@@ -100,8 +101,9 @@ GTCoder >> implementorsIn: a [
 { #category : #private }
 GTCoder >> methodSourceIn: another [
 	(another text)
-		"title: 'Source';"
-		display: [ :method | method getSource ]
+		title: 'Source';
+		display: [ :method | method getSource ];
+		forSmalltalk: [ :method | method methodClass ]
 ]
 
 { #category : #private }
