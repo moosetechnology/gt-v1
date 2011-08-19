@@ -13,11 +13,23 @@ GTSimpleMethodsBrowser >> buildBrowser [
 		a list 
 			display: [:object | object class methods ];
 			format: [:method | method selector];
-			selectionPopulate: #evaluatedObject on: $o entitled: 'Evaluate and open' with: [:list :object | object perform: list selection selector ] ].
+			dynamicActionsOnSelection: [:list |
+				list selection selector isUnary 
+					ifTrue: [
+						{GLMGenericAction new 
+							action:  [ :listPresentation :obj |
+								| result | 
+								result := obj perform: listPresentation selection selector.
+								(listPresentation pane port: #evaluatedObject) value: result ]; 
+							shortcut: $o; 
+							title: 'Evaluate and open';
+							yourself} ]
+					ifFalse: [#()] ]			
+			 ].
 	browser transmit to: #source; from: #methods; andShow: [:a | 
 		a text 
 			display: [:method | method getSource ];
 			forSmalltalk: [:method | method methodClass ]].
 	browser transmit toOutside: #selection; from: #methods port: #evaluatedObject.
-	^ browser 
+	^ browser
 ]
