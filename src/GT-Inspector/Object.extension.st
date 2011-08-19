@@ -48,6 +48,7 @@ Object >> objectFinderVariablesIn: composite [
 	<objectFinderPresentationOrder: 10>
 	(composite list)
 		title: 'Variables';
+		showOnly: 50;
 		display: [ :anObject | self finderVariablesFor: anObject ];
 		format: [ :assoc |
 			| keyString valueString | 

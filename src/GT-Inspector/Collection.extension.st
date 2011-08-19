@@ -10,5 +10,5 @@ Collection >> objectFinderItemsIn: composite [
 							on: Error 
 							do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		icon: [ :each |  OBMorphicIcons iconNamed: each class theNonMetaClass browserIcon ];
-		showOnly: 20 
+		showOnly: 50 
 ]
