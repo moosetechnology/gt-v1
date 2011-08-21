@@ -48,21 +48,22 @@ Object >> gtInspectorRetrieveVariableValuePairs [
 { #category : #'*gt-inspector' }
 Object >> gtInspectorVariablesIn: composite [
 	<gtInspectorPresentationOrder: 10>
-	composite list
+	composite table
 		title: 'Variables';
 		showOnly: 50;
 		display: [ :anObject | self gtInspectorRetrieveVariableValuePairs ];
-		format: [ :assoc | 
-					| keyString valueString |
-					keyString := [ Text fromString: assoc key asString ]
+		column: 'Variable' evaluated: [:assoc | 
+			| keyString  |
+			keyString := [ Text fromString: assoc key asString ]
 						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ].
-					valueString := [ Text fromString: (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ]
+						do: [ Text string: 'error printing' attribute: TextColor red ] ];
+		column: 'Value' evaluated: [:assoc | 
+			| valueString |
+			valueString := [ Text fromString: (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ]
 						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ].
-					keyString , (Text fromString: ' : ') , valueString ];
+						do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		icon: [ :each | 
-					each value class theNonMetaClass browserIcon
-						ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
+			each value class theNonMetaClass browserIcon
+				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
 		send: #value
 ]
