@@ -5,6 +5,9 @@ The object finder asks dynamically the object for the actual presentations that 
 
 Example:
 self openOn: Smalltalk.
+
+Register it as a replacement for explorer:
+self registerToolsOn: Smalltalk tools.
 "
 Class {
 	#name : #GTInspector,
@@ -14,7 +17,7 @@ Class {
 
 { #category : #'tools registry' }
 GTInspector class >> registerToolsOn: registry [
-	"Add ourselves to registry. See [Smalltalk tools]" 
+	"self registerToolsOn: Smalltalk tools " 
 	registry register: self as: #objectExplorer
 
 ]
