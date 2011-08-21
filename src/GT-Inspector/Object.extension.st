@@ -65,5 +65,6 @@ Object >> gtInspectorVariablesIn: composite [
 		icon: [ :each | 
 			each value class theNonMetaClass browserIcon
 				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
-		send: #value
+		send: #value;
+		morphicSelectionAct: [:each | each value browse ] icon: GLMUIThemeExtraIcons glamorousBrowse on: $b entitled: 'Browse'
 ]
