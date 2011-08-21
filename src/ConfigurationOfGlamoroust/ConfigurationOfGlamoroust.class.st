@@ -51,7 +51,7 @@ ConfigurationOfGlamoroust >> default: spec [
 			package: 'GT-Debugger' with: [ spec requires: #('Glamour')];
 			package: 'GT-Coder' with: [ spec requires: #('Glamour')];
 			package: 'GT-Playground' with: [ spec requires: #('Glamour')];
-			package: 'GT-Test-Inspector' with: [ spec requires: #('Glamour')].
+			package: 'GT-Tests-Inspector' with: [ spec requires: #('Glamour')].
 		spec group: 'Tests' with: #('GT-Tests-Inspector').
 		spec project: 'Glamour' with: [
 				spec
