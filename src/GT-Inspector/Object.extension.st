@@ -53,18 +53,22 @@ Object >> gtInspectorVariablesIn: composite [
 		showOnly: 50;
 		display: [ :anObject | self gtInspectorRetrieveVariableValuePairs ];
 		column: 'Variable' evaluated: [:assoc | 
-			| keyString  |
-			keyString := [ Text fromString: assoc key asString ]
+			[ Text fromString: assoc key asString ]
 						on: Error
 						do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		column: 'Value' evaluated: [:assoc | 
-			| valueString |
-			valueString := [ Text fromString: (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ]
+			[ Text fromString: 
+				(assoc value printString 
+					copyFrom: 1 
+					to: ((50 min: assoc value printString size) max: 0)) ]
 						on: Error
 						do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		icon: [ :each | 
 			each value class theNonMetaClass browserIcon
 				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
 		send: #value;
-		morphicSelectionAct: [:each | each value browse ] icon: GLMUIThemeExtraIcons glamorousBrowse on: $b entitled: 'Browse'
+		morphicSelectionAct: [:each | each value browse ] 
+			icon: GLMUIThemeExtraIcons glamorousBrowse 
+			on: $b 
+			entitled: 'Browse'
 ]

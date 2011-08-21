@@ -49,7 +49,7 @@ GTInspector >> openExplorerFor: anObject [
 
 { #category : #private }
 GTInspector >> printObjectAsAnItem: anObject [ 
-	| title stream |
+	| title stream previewString |
 	stream := String new writeStream.
 	title := anObject class name.
 	stream
@@ -57,5 +57,14 @@ GTInspector >> printObjectAsAnItem: anObject [
 				ifTrue: [ 'an ' ]
 				ifFalse: [ 'a ' ]);
 		nextPutAll: title.
+	previewString := [ Text fromString: 
+				( anObject printString 
+					copyFrom: 1 
+					to: ((30 min: anObject printString size) max: 0)) ]
+						on: Error
+						do: [ 'error printing' ].
+	stream 
+		nextPutAll: ' - ';
+		nextPutAll: previewString.
 	^ stream contents
 ]
