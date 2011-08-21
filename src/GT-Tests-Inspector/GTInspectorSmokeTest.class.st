@@ -35,7 +35,7 @@ GTInspectorSmokeTest >> testEachPresentation [
 
 	objectToTest := self objectToTest.
 	pragmas := Pragma 
-				allNamed: #objectFinderPresentationOrder: 
+				allNamed: #gtInspectorPresentationOrder: 
 				from: objectToTest class 
 				to: Object 
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
