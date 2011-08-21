@@ -16,6 +16,7 @@ GTSimpleMethodsBrowser >> buildBrowser [
 		andShow: [ :a | 
 					a list
 						display: [ :object | object class methods ];
+						sorted: [:method1 :method2 | method1 selector < method2 selector];
 						format: [ :method | method selector ];
 						dynamicActionsOnSelection: [ :list | self methodActionsFor: list ] ].
 	browser transmit
