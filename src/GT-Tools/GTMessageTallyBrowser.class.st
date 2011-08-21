@@ -1,8 +1,7 @@
 "
 This browser shows the result of applying method tally to a given computation block.
 
-For example:
-
+Example:
 self openOn: [10000 timesRepeat: [1.23 printString]]
 "
 Class {
@@ -35,7 +34,8 @@ GTMessageTallyBrowser >> messagesIn: a [
 		children: [ :each | each sonsOver: -1 ];
 		morphicSelectionAct: [ :list | GTUtils browseMethod: list selection method ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
-			entitled: 'Browse';
+			on: $b
+			entitled: 'Browse (b)';
 		format: [ :each | Text fromString: (GTUtils printCompiledMethod: each method) , ' (' , each tally printString , ')']
 ]
 
