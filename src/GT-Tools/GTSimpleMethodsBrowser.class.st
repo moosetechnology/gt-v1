@@ -18,6 +18,13 @@ GTSimpleMethodsBrowser >> buildBrowser [
 						display: [ :object | object class methods ];
 						sorted: [:method1 :method2 | method1 selector < method2 selector];
 						format: [ :method | method selector ];
+						morphicSelectionAct: [ :list :object | 
+							Smalltalk tools 
+								browse: object class
+								selector: list selection selector ] 
+							icon: GLMUIThemeExtraIcons glamorousBrowse 
+							on: $b 
+							entitled: 'Browse';
 						dynamicActionsOnSelection: [ :list | self methodActionsFor: list ] ].
 	browser transmit
 		to: #source;
