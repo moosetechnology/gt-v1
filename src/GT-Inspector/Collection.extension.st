@@ -1,8 +1,8 @@
 Extension { #name : #Collection }
 
 { #category : #'*gt-inspector' }
-Collection >> objectFinderItemsIn: composite [
-	<objectFinderPresentationOrder: 30>  
+Collection >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: 30>  
 	 (composite list)
 		title: [ :anObject | anObject size asString , ' items' ];
 		format: [ :assoc |

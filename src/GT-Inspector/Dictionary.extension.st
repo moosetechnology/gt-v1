@@ -1,11 +1,11 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*gt-inspector' }
-Dictionary >> finderVariablesFor: anObject [  
+Dictionary >> gtInspectorRetrieveVariableValuePairs [  
 	^ OrderedCollection new 
-		add: ( 'self' -> anObject); 
-		add: ( 'tally' -> anObject size );
-		add: ( 'array' -> anObject array );
+		add: ( 'self' -> self); 
+		add: ( 'tally' -> self size );
+		add: ( 'array' -> self array );
 		yourself
 
 ]

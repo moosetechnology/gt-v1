@@ -1,11 +1,12 @@
 Extension { #name : #ContextPart }
 
 { #category : #'*gt-inspector' }
-ContextPart >> finderVariablesFor: anObject [
+ContextPart >> gtInspectorRetrieveVariableValuePairs [
 	| tempIndex |
 	tempIndex := 0.
-	^ ( super finderVariablesFor: anObject )
-		addAll: ( anObject tempNames 
-					collect: [ :tempName | ( '[', tempName ,']' ) -> (anObject debuggerMap namedTempAt: ( tempIndex := tempIndex + 1 ) in: anObject ) ] );
+	^ super gtInspectorRetrieveVariableValuePairs
+		addAll:
+				(self tempNames
+						collect: [ :tempName | ('[' , tempName , ']') -> (self debuggerMap namedTempAt: (tempIndex := tempIndex + 1) in: self) ]);
 		yourself
 ]

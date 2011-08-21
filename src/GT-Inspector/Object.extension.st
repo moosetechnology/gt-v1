@@ -1,16 +1,8 @@
 Extension { #name : #Object }
 
 { #category : #'*gt-inspector' }
-Object >> finderVariablesFor: anObject [
-	^ (OrderedCollection new)
-		add: 'self' -> anObject;
-		addAll: (anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ]);
-		yourself
-]
-
-{ #category : #'*gt-inspector' }
-Object >> objectFinderEvaluatorIn: composite [
-	<objectFinderPresentationOrder: 100>
+Object >> gtInspectorEvaluatorIn: composite [
+	<gtInspectorPresentationOrder: 100>
 	(composite text)
 		forSmalltalk;
 		display: [ :entity | 'self' ];
@@ -25,16 +17,16 @@ Object >> objectFinderEvaluatorIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
-Object >> objectFinderMethodsIn: composite [
-	<objectFinderPresentationOrder: 50>
+Object >> gtInspectorMethodsIn: composite [
+	<gtInspectorPresentationOrder: 50>
 	composite custom: (GTSimpleMethodsBrowser new browser startOn: self) 
 ]
 
 { #category : #'*gt-inspector' }
-Object >> objectFinderPresentationsIn: composite [
+Object >> gtInspectorPresentationsIn: composite [
 	| pragmas |
 	pragmas := Pragma 
-				allNamed: #objectFinderPresentationOrder: 
+				allNamed: #gtInspectorPresentationOrder: 
 				from: self class 
 				to: Object 
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
@@ -44,21 +36,33 @@ Object >> objectFinderPresentationsIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
-Object >> objectFinderVariablesIn: composite [
-	<objectFinderPresentationOrder: 10>
-	(composite list)
+Object >> gtInspectorRetrieveVariableValuePairs [
+	"This is a helper method that returns a collection of variable names -> value for the current object.
+	Subclasses can override it to specialize what appears in the variables presentation"
+	^ (OrderedCollection new)
+		add: 'self' -> self;
+		addAll: (self class allInstVarNames collect: [ :iv | iv -> (self instVarNamed: iv) ]);
+		yourself
+]
+
+{ #category : #'*gt-inspector' }
+Object >> gtInspectorVariablesIn: composite [
+	<gtInspectorPresentationOrder: 10>
+	composite list
 		title: 'Variables';
 		showOnly: 50;
-		display: [ :anObject | self finderVariablesFor: anObject ];
-		format: [ :assoc |
-			| keyString valueString | 
-			keyString := [Text fromString: assoc key asString] 
-							on: Error 
-							do: [Text string: 'error printing' attribute: TextColor red].
-			valueString := [Text fromString: (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0))] 
-							on: Error 
-							do: [Text string: 'error printing' attribute: TextColor red].
-			keyString , (Text fromString: ' : ') , valueString ];
-		icon: [ :each | each value class theNonMetaClass browserIcon ifNotNil: [OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon] ];
+		display: [ :anObject | self gtInspectorRetrieveVariableValuePairs ];
+		format: [ :assoc | 
+					| keyString valueString |
+					keyString := [ Text fromString: assoc key asString ]
+						on: Error
+						do: [ Text string: 'error printing' attribute: TextColor red ].
+					valueString := [ Text fromString: (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ]
+						on: Error
+						do: [ Text string: 'error printing' attribute: TextColor red ].
+					keyString , (Text fromString: ' : ') , valueString ];
+		icon: [ :each | 
+					each value class theNonMetaClass browserIcon
+						ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
 		send: #value
 ]

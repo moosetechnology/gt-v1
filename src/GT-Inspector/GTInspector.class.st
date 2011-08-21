@@ -1,8 +1,9 @@
 "
-This is meant to be used for inspecting objects. It offers multiple views and it uses a finder as a navigation. One feature particular feature is that one can use the evaluator tab to enter code, and evaluating it results in opening another pane to the right.
+This is meant to be used for inspecting objects. It offers multiple views and it uses a finder as a navigation. One particular feature is that you can use the evaluator tab to enter code, and evaluating it results in opening another pane to the right.
 
 The object finder asks dynamically the object for the actual presentations that are displayed in each pane.
 
+Example:
 self openOn: Smalltalk.
 "
 Class {
@@ -11,24 +12,36 @@ Class {
 	#category : #'GT-Inspector'
 }
 
+{ #category : #'tools registry' }
+GTInspector class >> registerToolsOn: registry [
+	"Add ourselves to registry. See [Smalltalk tools]" 
+	registry register: self as: #objectExplorer
+
+]
+
 { #category : #building }
 GTInspector >> buildBrowser [
 	browser := GLMFinder new.
-	browser title: [:anObject | (self printObjectAsAnItem: anObject), ' - Object Finder'].
+	browser title: [:anObject | (self printObjectAsAnItem: anObject), ' - Inspector'].
 	browser show: [ :a | 
 		a title: [ :anObject | self printObjectAsAnItem: anObject ].
-		a morphicAct: [:composite | composite entity browse] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'.
+		a 
+			morphicAct: [:composite | composite entity browse]
+			icon: GLMUIThemeExtraIcons glamorousBrowse 
+			entitled: 'Browse'.
 		a dynamic 
 			display: [:each | 
 				| dynamic |
 				dynamic := GLMCompositePresentation new.
-				each objectFinderPresentationsIn: dynamic.
-				dynamic ] 		
-		"self variablesIn: a.
-		self itemsIn: a.
-		a custom: self methodsBrowser.
-		self evaluatorIn: a "].
+				each gtInspectorPresentationsIn: dynamic.
+				dynamic ] ].
 	^ browser
+]
+
+{ #category : #opening }
+GTInspector >> openExplorerFor: anObject [
+	"this method is needed for compatibility with ObjectExplorer"
+	self openOn: anObject
 ]
 
 { #category : #private }
