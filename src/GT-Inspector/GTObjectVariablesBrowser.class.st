@@ -1,3 +1,9 @@
+"
+This is a helper browser for the main view in the GTInspector.
+
+Example:
+self openOn: Smalltalk
+"
 Class {
 	#name : #GTObjectVariablesBrowser,
 	#superclass : #GLMBrowserTemplate,
@@ -8,11 +14,12 @@ Class {
 GTObjectVariablesBrowser >> buildBrowser [ 
 	browser := GLMTabulator new.
 	browser title: 'State'.
-	browser row: #variables span: 2; row: #evaluator.
+	browser row: #variables; row: #evaluator.
 	browser transmit to: #variables; andShow: [:a | 
 		self variablesIn: a ].
 	browser transmit to: #evaluator; andShow: [:a | 
 		self evaluatorIn: a ].
+	browser transmit from: #variables; toOutsidePort: #selection.
 	browser transmit from: #evaluator; toOutsidePort: #selection.
 	^ browser 
 ]
@@ -41,7 +48,7 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 GTObjectVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
-		display: [ :anObject | self gtInspectorRetrieveVariableValuePairs ];
+		display: [ :anObject | anObject gtInspectorRetrieveVariableValuePairs ];
 		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
 		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]
