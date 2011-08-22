@@ -52,6 +52,7 @@ Object >> gtInspectorVariablesIn: composite [
 		title: 'Variables';
 		showOnly: 50;
 		display: [ :anObject | self gtInspectorRetrieveVariableValuePairs ];
+		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
 		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]
 						on: Error

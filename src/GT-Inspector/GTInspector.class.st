@@ -57,7 +57,7 @@ GTInspector >> printObjectAsAnItem: anObject [
 				ifTrue: [ 'an ' ]
 				ifFalse: [ 'a ' ]);
 		nextPutAll: title.
-	previewString := [ Text fromString: (anObject printString contractTo: 30) ]
+	previewString := [ Text fromString: (anObject printString contractTo: 10) ]
 						on: Error
 						do: [ 'error printing' ].
 	stream 

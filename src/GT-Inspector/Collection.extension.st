@@ -8,8 +8,8 @@ Collection >> gtInspectorItemsIn: composite [
 		title: [ :anObject | anObject size asString, ' items' ];
 		searchOn: [:text :each | 
 			Compiler evaluate: ' | entity each | each := self. entity := each.', text for: each logged: false];		
-		format: [ :assoc |
-			[ Text fromString: assoc asString ] 
+		format: [ :each |
+			[ Text fromString: ((each asString contractTo: 50) replaceAll: String cr with: String space) ] 
 							on: Error 
 							do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		send: [ :result | result size = 1 ifTrue: [result anyOne] ifFalse: [result]];
