@@ -1,10 +1,6 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*gt-inspector' }
-CompiledMethod >> gtInspectorItemsIn: composite [
-]
-
-{ #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
 	| literalIndex |
 	literalIndex := 0.
