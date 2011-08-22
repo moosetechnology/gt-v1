@@ -1,28 +1,6 @@
 Extension { #name : #Object }
 
 { #category : #'*gt-inspector' }
-Object >> gtInspectorEvaluatorIn: composite [
-	<gtInspectorPresentationOrder: 100>
-	(composite text)
-		forSmalltalk;
-		display: [ :entity | 'self' ];
-		title: 'Evaluator';
-		selectionPopulate: #selection
-			on: $o
-			entitled: 'Do it and open (o)'
-			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		selectionAct: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
-			on: $d
-			entitled: 'Do it (d)';
-		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ]
-			on: $i
-			entitled: 'Inspect (i)';
-		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) explore ]
-			on: $I
-			entitled: 'Explore (I)'
-]
-
-{ #category : #'*gt-inspector' }
 Object >> gtInspectorMethodsIn: composite [
 	<gtInspectorPresentationOrder: 50>
 	composite custom: (GTSimpleMethodsBrowser new browser startOn: self) 
@@ -54,25 +32,5 @@ Object >> gtInspectorRetrieveVariableValuePairs [
 { #category : #'*gt-inspector' }
 Object >> gtInspectorVariablesIn: composite [
 	<gtInspectorPresentationOrder: 10>
-	composite table
-		title: 'Variables';
-		showOnly: 50;
-		display: [ :anObject | self gtInspectorRetrieveVariableValuePairs ];
-		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
-		column: 'Variable' evaluated: [:assoc | 
-			[ Text fromString: assoc key asString ]
-						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ] ];
-		column: 'Value' evaluated: [:assoc | 
-			[ Text fromString: (assoc value printString contractTo: 50) ]
-						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ] ];
-		icon: [ :each | 
-			each value class theNonMetaClass browserIcon
-				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
-		send: #value;
-		morphicSelectionAct: [:each | each value browse ] 
-			icon: GLMUIThemeExtraIcons glamorousBrowse 
-			on: $b 
-			entitled: 'Browse'
+	composite custom: (GTObjectVariablesBrowser new browser startOn: self)
 ]
