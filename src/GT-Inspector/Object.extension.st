@@ -57,10 +57,7 @@ Object >> gtInspectorVariablesIn: composite [
 						on: Error
 						do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		column: 'Value' evaluated: [:assoc | 
-			[ Text fromString: 
-				(assoc value printString 
-					copyFrom: 1 
-					to: ((50 min: assoc value printString size) max: 0)) ]
+			[ Text fromString: (assoc value printString contractTo: 50) ]
 						on: Error
 						do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		icon: [ :each | 

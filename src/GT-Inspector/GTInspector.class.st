@@ -25,7 +25,7 @@ GTInspector class >> registerToolsOn: registry [
 { #category : #building }
 GTInspector >> buildBrowser [
 	browser := GLMFinder new.
-	browser title: [:anObject | (self printObjectAsAnItem: anObject), ' - Inspector'].
+	browser title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	browser show: [ :a | 
 		a title: [ :anObject | self printObjectAsAnItem: anObject ].
 		a 
@@ -57,14 +57,12 @@ GTInspector >> printObjectAsAnItem: anObject [
 				ifTrue: [ 'an ' ]
 				ifFalse: [ 'a ' ]);
 		nextPutAll: title.
-	previewString := [ Text fromString: 
-				( anObject printString 
-					copyFrom: 1 
-					to: ((30 min: anObject printString size) max: 0)) ]
+	previewString := [ Text fromString: (anObject printString contractTo: 30) ]
 						on: Error
 						do: [ 'error printing' ].
 	stream 
-		nextPutAll: ' - ';
-		nextPutAll: previewString.
+		nextPutAll: ' (';
+		nextPutAll: previewString;
+		nextPut: $).
 	^ stream contents
 ]
