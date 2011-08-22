@@ -46,7 +46,7 @@ Object >> gtInspectorRetrieveVariableValuePairs [
 	"This is a helper method that returns a collection of variable names -> value for the current object.
 	Subclasses can override it to specialize what appears in the variables presentation"
 	^ (OrderedCollection new)
-		add: 'self' -> self;
+		add: '_self' -> self;
 		addAll: (self class allInstVarNames collect: [ :iv | iv -> (self instVarNamed: iv) ]);
 		yourself
 ]
