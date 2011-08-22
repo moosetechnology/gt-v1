@@ -9,11 +9,17 @@ Object >> gtInspectorEvaluatorIn: composite [
 		title: 'Evaluator';
 		selectionPopulate: #selection
 			on: $o
-			entitled: 'Open (o)'
+			entitled: 'Do it and open (o)'
 			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		selectionAct: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
+			on: $d
+			entitled: 'Do it (d)';
 		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ]
-			on: $/
-			entitled: 'Inspect (/)'
+			on: $i
+			entitled: 'Inspect (i)';
+		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) explore ]
+			on: $I
+			entitled: 'Explore (I)'
 ]
 
 { #category : #'*gt-inspector' }
