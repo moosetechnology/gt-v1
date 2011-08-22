@@ -4,7 +4,7 @@ This is a utility class to circumvent the design of ProfStef.
 Class {
 	#name : #GTProfStefNoView,
 	#superclass : #Object,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #'as yet unclassified' }

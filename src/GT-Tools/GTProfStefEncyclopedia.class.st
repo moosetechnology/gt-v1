@@ -4,7 +4,7 @@ self open
 Class {
 	#name : #GTProfStefEncyclopedia,
 	#superclass : #GLMGlobalBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #building }

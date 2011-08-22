@@ -4,7 +4,7 @@ self openOn: SmalltalkSyntaxTutorial.
 Class {
 	#name : #GTProfStef,
 	#superclass : #GLMGlobalBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #'as yet unclassified' }

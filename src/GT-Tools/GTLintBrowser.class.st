@@ -4,7 +4,7 @@ self openOn: GLMPresentation withAllSubclasses asOrderedCollection
 Class {
 	#name : #GTLintBrowser,
 	#superclass : #GLMBrowserTemplate,
-	#category : #'GT-Tools'
+	#category : #'GT-Tools-Prototypes'
 }
 
 { #category : #building }
