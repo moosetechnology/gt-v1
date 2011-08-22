@@ -16,7 +16,10 @@ Class {
 GTPlayground >> buildBrowser [
 	browser := GLMAccumulator new.
 	browser title: 'Playground'.
-	browser act: [:b | b entity: GTPlaygroundPage new] icon: GLMUIThemeExtraIcons glamorousAdd entitled: 'Add'.
+	browser 
+		act: [:b | b entity: (GTPlaygroundPage new title: 'Page ', (b panes size + 1) asString)] 
+		icon: GLMUIThemeExtraIcons glamorousAdd 
+		entitled: 'Add'.
 	browser show: [:a | 
 		a title: [:page | page title].
 		a text 
