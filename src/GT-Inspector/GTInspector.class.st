@@ -26,6 +26,7 @@ GTInspector class >> registerToolsOn: registry [
 GTInspector >> buildBrowser [
 	browser := GLMFinder new.
 	browser title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
+	browser act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	browser show: [ :a | 
 		a title: [ :anObject | self printObjectAsAnItem: anObject ].
 		a 
