@@ -12,3 +12,12 @@ CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
 		yourself
 
 ]
+
+{ #category : #'*gt-inspector' }
+CompiledMethod >> gtInspectorSourceIn: composite [
+	<gtInspectorPresentationOrder: 30> 
+	composite text 
+		title: 'Source';
+		forSmalltalk: [ :anObject | anObject methodClass ];
+		display: [:anObject | anObject getSource ]
+]
