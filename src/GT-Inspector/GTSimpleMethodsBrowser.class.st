@@ -13,26 +13,11 @@ GTSimpleMethodsBrowser >> buildBrowser [
 		row: #source.
 	browser transmit
 		to: #methods;
-		andShow: [ :a | 
-					a list
-						display: [ :object | object class methods ];
-						sorted: [:method1 :method2 | method1 selector < method2 selector];
-						format: [ :method | method selector ];
-						morphicSelectionAct: [ :list :object | 
-							Smalltalk tools 
-								browse: object class
-								selector: list selection selector ] 
-							icon: GLMUIThemeExtraIcons glamorousBrowse 
-							on: $b 
-							entitled: 'Browse';
-						dynamicActionsOnSelection: [ :list | self methodActionsFor: list ] ].
+		andShow: [ :a | self methodsIn: a ].
 	browser transmit
 		to: #source;
 		from: #methods;
-		andShow: [ :a | 
-					a text
-						display: [ :method | method getSource ];
-						forSmalltalk: [ :method | method methodClass ] ].
+		andShow: [ :a | self sourceIn: a ].
 	browser transmit
 		toOutside: #selection;
 		from: #methods port: #evaluatedObject.
@@ -56,4 +41,24 @@ GTSimpleMethodsBrowser >> methodActionsFor: list [
 	^ list selection selector isUnary
 		ifTrue: [ Array with: self evaluationAction ]
 		ifFalse: [ #() ]
+]
+
+{ #category : #building }
+GTSimpleMethodsBrowser >> methodsIn: a [
+	^ a list
+		display: [ :object | object class methods ];
+		sorted: [ :method1 :method2 | method1 selector < method2 selector ];
+		format: [ :method | method selector ];
+		morphicSelectionAct: [ :list :object | Smalltalk tools browse: object class selector: list selection selector ]
+			icon: GLMUIThemeExtraIcons glamorousBrowse
+			on: $b
+			entitled: 'Browse';
+		dynamicActionsOnSelection: [ :list | self methodActionsFor: list ]
+]
+
+{ #category : #building }
+GTSimpleMethodsBrowser >> sourceIn: a [
+	^ a text
+		display: [ :method | method getSource ];
+		forSmalltalk: [ :method | method methodClass ]
 ]
