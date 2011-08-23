@@ -1,14 +1,6 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*gt-inspector' }
-CompiledMethod >> gtInspectorBytecodeIn: composite [
-	<gtInspectorPresentationOrder: 40> 
-	composite text 
-		title: 'Bytecode';
-		display: [:anObject | anObject symbolic ]
-]
-
-{ #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
 	| literalIndex |
 	literalIndex := 0.

@@ -28,6 +28,7 @@ GTObjectVariablesBrowser >> buildBrowser [
 GTObjectVariablesBrowser >> evaluatorIn: composite [
 	(composite text)
 		forSmalltalk;
+		doItReceiver: #yourself;
 		display: [ :entity | ['"', entity printString, '"', String cr, 'self'] on: Error do: ['"Error printing. Try self printString to debug"'] ];
 		selectionPopulate: #selection
 			on: $o
