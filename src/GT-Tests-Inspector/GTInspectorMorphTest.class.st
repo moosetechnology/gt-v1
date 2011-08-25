@@ -1,10 +1,20 @@
 Class {
 	#name : #GTInspectorMorphTest,
 	#superclass : #GTInspectorSmokeTest,
+	#instVars : [
+		'morphWindow'
+	],
 	#category : #'GT-Tests-Inspector'
 }
 
 { #category : #tests }
 GTInspectorMorphTest >> objectToTest [ 
-	^ RectangleMorph new
+	"we spawn the morph to make sure there are no errors when the morph is actually drawn"
+	^ morphWindow := RectangleMorph new openInWindow 
+]
+
+{ #category : #running }
+GTInspectorMorphTest >> tearDown [ 
+	super tearDown.
+	morphWindow delete
 ]
