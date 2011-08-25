@@ -7,3 +7,13 @@ Morph >> gtInspectorMorphIn: composite [
 		title: 'Morph';
 		display: [:each | each imageForm asMorph ]
 ]
+
+{ #category : #'*gt-inspector' }
+Morph >> gtInspectorSubmorphsIn: composite [
+	<gtInspectorPresentationOrder: 80>  
+	composite tree 
+		title: 'Submorphs';
+		rootsExpanded;
+		display: [:each | {each} ];
+		children: [:each | each submorphs]
+]
