@@ -33,16 +33,7 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		selectionAct: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
-			on: $d
-			entitled: 'Do it (d)';
-		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ]
-			on: $i
-			entitled: 'Inspect (i)';
-		selectionAct: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) explore ]
-			on: $I
-			entitled: 'Explore (I)'
+			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
 ]
 
 { #category : #'private building' }
