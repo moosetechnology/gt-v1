@@ -15,12 +15,16 @@ GTSimpleMethodsBrowser >> buildBrowser [
 		to: #methods;
 		andShow: [ :a | self methodsIn: a ].
 	browser transmit
-		to: #source;
 		from: #methods;
+		fromOutsidePort: #entity;
+		to: #source;
 		andShow: [ :a | self sourceIn: a ].
 	browser transmit
 		toOutside: #selection;
 		from: #methods port: #evaluatedObject.
+	browser transmit
+		toOutside: #selection;
+		from: #source port: #evaluatedObject.
 	^ browser
 ]
 
@@ -60,5 +64,10 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 GTSimpleMethodsBrowser >> sourceIn: a [
 	^ a text
 		display: [ :method | method getSource ];
-		forSmalltalk: [ :method | method methodClass ]
+		forSmalltalk: [ :method | method methodClass ];
+		doItReceiver: [ :method :entity | entity ];
+		selectionPopulate: #evaluatedObject
+			on: $o
+			entitled: 'Do it and open (o)'
+			with: [ :text :method :entity | Compiler evaluate: text selectedText for: entity logged: false ]
 ]
