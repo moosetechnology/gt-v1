@@ -36,7 +36,7 @@ GTSimpleMethodsBrowser >> evaluationAction [
 					result := obj perform: listPresentation selection selector.
 					(listPresentation pane port: #evaluatedObject) value: result ];
 		shortcut: $o;
-		title: 'Evaluate and open';
+		title: 'Do it and open';
 		yourself
 ]
 
