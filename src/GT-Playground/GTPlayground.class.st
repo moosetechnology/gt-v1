@@ -22,8 +22,7 @@ GTPlayground >> buildBrowser [
 		entitled: 'Add'.
 	browser show: [:a | 
 		a title: [:page | page title].
-		a text 
-			forSmalltalk;
+		a smalltalkCode
 			display: [:page | page content ] ].
 	^ browser
 ]
