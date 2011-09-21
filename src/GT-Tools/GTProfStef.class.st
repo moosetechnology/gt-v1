@@ -16,8 +16,7 @@ GTProfStef class >> openOn: tutorial [
 GTProfStef >> buildBrowser [
 	browser := GLMFinder new.
 	browser title: 'Prof Stef'.
-	browser text
-		forSmalltalk;
+	browser smalltalkCode
 		display: [ :lesson | lesson lesson ];
 		when: [:lesson | lesson isKindOf: Lesson];
 		title: [:lesson | lesson title];

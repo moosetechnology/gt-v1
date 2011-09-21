@@ -145,9 +145,8 @@ GTMetacellerDetails >> toPackagesFromVersionsAndShow: innerBrowser [
 					(a mondrian)
 						title: 'Dependencies';
 						painting: [ :view :version | self viewDependenciesOf: version on: view ].
-					(a text)
+					(a smalltalkCode)
 						title: 'Script';
-						forSmalltalk;
 						display: [ :version | version spec printString ].
 					(a list)
 						title: 'Newer in repository?';

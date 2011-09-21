@@ -65,12 +65,11 @@ GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 	browser
 		showOn: #details; from: #classes; from: #methods; from: #packages; 
 		using: [
-			browser text
-					forSmalltalk: [:class | class stBehavior ];
+			browser smalltalkCode
+					smalltalkClass: [:class | class stBehavior ];
 					title: 'Method';
 					display: [:class :method | method sourceCode ].
-			browser text
-					forSmalltalk;
+			browser smalltalkCode
 					title: 'Class';
 					useExplicitNotNil;
 					when: [:class :method | class notNil and: [method isNil]];

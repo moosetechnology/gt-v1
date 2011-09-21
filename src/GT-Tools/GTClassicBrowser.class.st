@@ -105,10 +105,10 @@ GTClassicBrowser >> methodsIn: a [
 { #category : #building }
 GTClassicBrowser >> sourceCodeIn: a [
 	| lintBrowser |
-	(a text)
+	a smalltalkCode
 		title: 'Method source';
 		display: [ :class :method | class sourceCodeAt: method ];
-		forSmalltalk: [ :class | class ].
+		smalltalkClass: [ :class | class ].
 	(a text)
 		forSmalltalk;
 		useExplicitNotNil;

@@ -111,8 +111,7 @@ GTClassicCoder >> classReferencesIn: a [
 
 { #category : #reusable }
 GTClassicCoder >> classSourceIn: a [
-	(a text)
-		forSmalltalk;
+	a smalltalkCode
 		title: 'Class';
 		useExplicitNotNil;
 		when: [ :package :class :method | class notNil and: [ method isNil ] ];
