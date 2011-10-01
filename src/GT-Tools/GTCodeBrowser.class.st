@@ -63,23 +63,23 @@ GTCodeBrowser >> onClassesFromPackages [
 { #category : #building }
 GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 	browser
-		showOn: #details; from: #classes; from: #methods; from: #packages; 
-		using: [
-			browser smalltalkCode
+		transmit to: #details; from: #classes; from: #methods; from: #packages; 
+		andShow: [ :a | 
+			 a smalltalkCode
 					smalltalkClass: [:class | class stBehavior ];
 					title: 'Method';
 					display: [:class :method | method sourceCode ].
-			browser smalltalkCode
+			a smalltalkCode
 					title: 'Class';
 					useExplicitNotNil;
 					when: [:class :method | class notNil and: [method isNil]];
 					display: [:class | class definition ].
-			browser text
+			a text
 					title: 'Comment';
 					useExplicitNotNil;
 					when: [:class :method | class notNil and: [method isNil]];
 					display: [:class | class comment ].
-			browser list
+			a list
 					title: 'References';
 					useExplicitNotNil;
 					when: [:class | class notNil ];
@@ -87,13 +87,13 @@ GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 					format: [:each | each glmBehavior name, '>>', each name];
 					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ];
 					updateOn: SystemAnnouncement from: SystemAnnouncer announcer.
-			browser list
+			a list
 					title: 'Senders';
 					display: [:class :method | method senders];
 					format: [:each | each glmBehavior name, '>>', each name];
 					populate: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ];
 					updateOn: SystemAnnouncement from: SystemAnnouncer announcer.
-			browser list
+			a list
 					title: 'Implementors';
 					display: [:class :method | method implementors];
 					format: [:each | each glmBehavior name, '>>', each name];
