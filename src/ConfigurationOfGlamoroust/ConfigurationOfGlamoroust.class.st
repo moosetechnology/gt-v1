@@ -26,7 +26,7 @@ ConfigurationOfGlamoroust class >> isMetacelloConfig [
 
 { #category : #loading }
 ConfigurationOfGlamoroust class >> loadDefault [
-	(self project version: 'default') load
+	(self project version: #development) load
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ ConfigurationOfGlamoroust class >> project [
 
 { #category : #baselines }
 ConfigurationOfGlamoroust >> default: spec [ 
-	<version: 'default'>
+	<version: #development>
 	
 	spec for: #common do: [
 		spec blessing: #baseline.
@@ -49,6 +49,7 @@ ConfigurationOfGlamoroust >> default: spec [
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour' 'Mondrian' 'MondrianGraphVizLayout') ];
 			package: 'GT-Inspector' with: [ spec requires: #('Glamour')];
 			package: 'GT-Debugger' with: [ spec requires: #('Glamour')];
+			package: 'GT-ClassicCoder' with: [ spec requires: #('Glamour')];
 			package: 'GT-Coder' with: [ spec requires: #('Glamour')];
 			package: 'GT-Playground' with: [ spec requires: #('Glamour')];
 			package: 'GT-Tests-Inspector' with: [ spec requires: #('Glamour')].
