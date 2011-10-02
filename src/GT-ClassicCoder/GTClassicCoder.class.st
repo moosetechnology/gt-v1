@@ -126,7 +126,8 @@ GTClassicCoder >> classSourceIn: a [
 GTClassicCoder >> classesIn: a [ 
 	a list
 		title: 'Classes';
-		display: [ :package | package classes ];
+		display: [ :package | package classes];
+		sorted: [:x :y | x name < y name ];
 		icon: [ :each | 
 			each theNonMetaClass browserIcon isNil 
 				ifFalse: [ OBMorphicIcons iconNamed: each theNonMetaClass browserIcon ]
@@ -186,7 +187,8 @@ GTClassicCoder >> methodSourceCodeIn: a [
 GTClassicCoder >> packagesIn: a [ 
 	a list 
 		title: 'Packages';
-		display: [ :organizer | organizer packages asSortedCollection: [:x :y | x name < y name ] ];
+		display: [ :organizer | organizer packages ];
+		sorted: [:x :y | x name < y name ];
 		format: [:each | each name]
 ]
 
