@@ -47,6 +47,10 @@ GTClassicCoder >> buildBrowser [
 		from: #categoriesAndMethods port: #selectedMethod;
 		to: #details;
 		andShow: [ :a | self detailsIn: a ].
+	browser transmit toOutsidePort: #focusOnMethod; from: #details port: #focusOnMethod.
+	browser transmit to: #packages port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method compiledMethod packageFromOrganizer: RPackageOrganizer default].
+	browser transmit to: #classes port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method compiledMethod methodClass ].
+	browser transmit to: #categoriesAndMethods port: #methodToSelect; fromOutsidePort: #focusOnMethod.
 	^ browser
 ]
 
