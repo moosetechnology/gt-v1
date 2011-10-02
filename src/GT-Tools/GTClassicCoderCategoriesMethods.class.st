@@ -38,6 +38,8 @@ GTClassicCoderCategoriesMethods >> buildBrowser [
 	browser transmit 
 		toOutsidePort: #selectedMethod;
 		from: #methods.
+	browser transmit to: #categories port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:m | m category ].
+	browser transmit to: #methods port: #selection; fromOutsidePort: #focusOnMethod.
 	^ browser
 ]
 
@@ -69,7 +71,7 @@ GTClassicCoderCategoriesMethods >> methodsIn: a [
 		display: [ :package :class :category | 
 			class methodDict values asSortedCollection: [:x :y | x selector < y selector ] ];
 		selectionAct: [:list :package :class | 
-			(Array with: package with: class with: list selection) inspect  ] on: $/ entitled: 'Inspect';
+			(Array with: package with: class with: list selection) inspect  ] on: $i entitled: 'Inspect';
 		format: [:each :package :class |
 			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
 				ifTrue: [each selector asString]

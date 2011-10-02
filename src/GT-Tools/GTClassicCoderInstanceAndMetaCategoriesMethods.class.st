@@ -33,5 +33,7 @@ GTClassicCoderInstanceAndMetaCategoriesMethods >> buildBrowser [
 	(browser transmit)
 		toOutsidePort: #selectedMethod;
 		from: #meta port: #selectedMethod.
+	browser transmit to: #instance port: #focusOnMethod; fromOutsidePort: #focusOnMethod.
+	browser transmit to: #meta port: #focusOnMethod; fromOutsidePort: #focusOnMethod.
 	^ browser
 ]

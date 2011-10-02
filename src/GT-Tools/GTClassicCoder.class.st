@@ -48,9 +48,9 @@ GTClassicCoder >> buildBrowser [
 		to: #details;
 		andShow: [ :a | self detailsIn: a ].
 	browser transmit toOutsidePort: #focusOnMethod; from: #details port: #focusOnMethod.
-	browser transmit to: #packages port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method compiledMethod packageFromOrganizer: RPackageOrganizer default].
-	browser transmit to: #classes port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method compiledMethod methodClass ].
-	browser transmit to: #categoriesAndMethods port: #methodToSelect; fromOutsidePort: #focusOnMethod.
+	browser transmit to: #packages port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method packageFromOrganizer: RPackageOrganizer default].
+	browser transmit to: #classes port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method methodClass ].
+	browser transmit to: #categoriesAndMethods port: #focusOnMethod; fromOutsidePort: #focusOnMethod.
 	^ browser
 ]
 
@@ -105,11 +105,11 @@ GTClassicCoder >> classReferencesIn: a [
 		title: 'References';
 		useExplicitNotNil;
 		when: [ :package :class | class notNil ];
-		display: [ :package :class | self systemNavigation allCallsOn: (Smalltalk associationAt: class name) ];
+		display: [ :package :class | self systemNavigation allCallsOn: (Smalltalk associationAt: class theNonMetaClass name) ];
 		selectionPopulate: #focusOnMethod
-			on: $f
+			on: $b
 			entitled: 'Jump there'
-			with: [ :list | list selection ];
+			with: [ :list | list selection compiledMethod ];
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
 
