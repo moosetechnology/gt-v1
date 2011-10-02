@@ -136,7 +136,7 @@ GTClassicCoder >> classesIn: a [
 			(package extendsClass: each)
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
 				ifFalse: [each name asString] ];
-		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect';
+		selectionAct: [:list | list selection inspect] on: $i entitled: 'Inspect';
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
 

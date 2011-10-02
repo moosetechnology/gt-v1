@@ -24,6 +24,7 @@ GTClassicCoderCategoriesMethods >> buildBrowser [
 		transformed: [:packageAndClass | packageAndClass last ].
 	browser transmit
 		to: #categories;
+		fromOutsidePort: #package;
 		fromOutsidePort: #class;
 		andShow: [:a | self categoriesIn: a ].
 	browser transmit 
@@ -49,7 +50,11 @@ GTClassicCoderCategoriesMethods >> categoriesIn: a [
 		title: 'Categories';
 		allowsDeselection;
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		display: [ :class | class organization categories ]
+		display: [ :package :class | class organization categories ]";
+ 		format: [:each :package :class |
+			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
+				ifTrue: [each selector asString]
+				ifFalse: [Text string: each selector asString attribute: TextColor gray] ]"
 ]
 
 { #category : #private }
