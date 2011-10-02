@@ -36,8 +36,8 @@ ConfigurationOfGlamoroust class >> project [
 ]
 
 { #category : #baselines }
-ConfigurationOfGlamoroust >> default: spec [ 
-	<version: #development>
+ConfigurationOfGlamoroust >> baseline01: spec [ 
+	<version: 'baseline-0.1'>
 	
 	spec for: #common do: [
 		spec blessing: #baseline.
@@ -75,6 +75,14 @@ ConfigurationOfGlamoroust >> default: spec [
 		spec package: 'MondrianGraphVizLayout' with: [ spec repository: 'http://www.squeaksource.com/Mondrian' ].
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.squeaksource.com/Glamour' ]
 	]
+]
+
+{ #category : #baselines }
+ConfigurationOfGlamoroust >> development: spec [
+	<symbolicVersion: #'development'>
+
+	spec for: #'common' version: 'baseline-0.1'.
+
 ]
 
 { #category : #accessing }
