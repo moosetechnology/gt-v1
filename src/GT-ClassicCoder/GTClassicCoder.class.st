@@ -18,6 +18,37 @@ GTClassicCoder class >> open [
 ]
 
 { #category : #building }
+GTClassicCoder >> browserActionsIn: b [
+	b morphicAct: [:theBrowser :organizer |
+				| selected  composite packageRequest classRequest |
+				composite  := GLMSpotterRequest new.
+
+				packageRequest := GLMSingleSpotterRequest new 
+						prompt: 'Find Package';
+						searchBlock: [ :string | 
+							organizer packages select: [:each |
+								GLMSingleSpotterRequest substring: string matches: each name caseSensitive: false ] ];
+						labelBlock: [ :p | p name ].
+
+				classRequest := GLMSingleSpotterRequest new 
+						prompt: 'Find Class';
+						searchBlock: [ :string | 
+							Smalltalk allClassesAndTraits select: [:each |
+								GLMSingleSpotterRequest substring: string matches: each name caseSensitive: false ] ];
+						labelBlock: [ :c | c name ].
+						
+				selected := composite add: packageRequest; add: classRequest; signal.
+				(selected isKindOf: RPackage)
+					ifTrue: [ (b pane port: #packageToSelect) value: selected ].
+				(selected isKindOf: Behavior )
+					ifTrue: [ (b pane port: #classToSelect) value: selected ].
+				]
+			on: $/ 
+			icon: MooseIcons mooseSearch 
+			entitled: 'Find package'
+]
+
+{ #category : #building }
 GTClassicCoder >> buildBrowser [
 	"
 	| browser |
@@ -25,6 +56,8 @@ GTClassicCoder >> buildBrowser [
 	browser openOn: RPackageOrganizer default.
 	browser"
 	browser := GLMTabulator new.
+	browser title: 'Glamorous Classic Coder'.
+	self browserActionsIn: browser.
 	browser 
 		row: [:r | r column: #packages; column: #classes; column: #categoriesAndMethods span: 2];
 		row: #details.
@@ -47,6 +80,10 @@ GTClassicCoder >> buildBrowser [
 		from: #categoriesAndMethods port: #selectedMethod;
 		to: #details;
 		andShow: [ :a | self detailsIn: a ].
+	browser transmit to: #packages port: #selection; fromOutsidePort: #packageToSelect.
+	browser transmit to: #packages port: #selection; fromOutsidePort: #classToSelect; transformed: #package.
+	browser transmit to: #classes port: #selection; fromOutsidePort: #classToSelect.
+
 	browser transmit toOutsidePort: #focusOnMethod; from: #details port: #focusOnMethod.
 	browser transmit to: #packages port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method packageFromOrganizer: RPackageOrganizer default].
 	browser transmit to: #classes port: #selection; fromOutsidePort: #focusOnMethod; transformed: [:method | method methodClass ].
@@ -189,7 +226,8 @@ GTClassicCoder >> packagesIn: a [
 		title: 'Packages';
 		display: [ :organizer | organizer packages ];
 		sorted: [:x :y | x name < y name ];
-		format: [:each | each name]
+		format: [:each | each name];
+		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
 
 { #category : #reusable }
