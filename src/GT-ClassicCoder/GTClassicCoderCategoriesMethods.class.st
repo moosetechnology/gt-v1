@@ -50,11 +50,19 @@ GTClassicCoderCategoriesMethods >> categoriesIn: a [
 		title: 'Categories';
 		allowsDeselection;
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
-		display: [ :package :class | class organization categories ]";
+		display: [ :package :class | class organization categories ];
  		format: [:each :package :class |
-			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
-				ifTrue: [each selector asString]
-				ifFalse: [Text string: each selector asString attribute: TextColor gray] ]"
+			(self isCategory: each of: class definedIn: package)
+				ifTrue: [each asString]
+				ifFalse: [Text string: each asString attribute: TextColor gray] ]
+]
+
+{ #category : #private }
+GTClassicCoderCategoriesMethods >> isCategory: aString of: aClass definedIn: aPackage [
+
+	^ (aClass isDefinedInPackage: aPackage) 
+		ifTrue: [ (aString beginsWith: '*') not ]
+		ifFalse: [ aString = ('*', aPackage name) ]
 ]
 
 { #category : #private }
