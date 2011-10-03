@@ -62,9 +62,9 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 
 { #category : #building }
 GTSimpleMethodsBrowser >> sourceIn: a [
-	^ a text
+	^ a smalltalkCode
 		display: [ :method | method getSource ];
-		forSmalltalk: [ :method | method methodClass ];
+		smalltalkClass: [ :method | method methodClass ];
 		doItReceiver: [ :method :entity | entity ];
 		selectionPopulate: #evaluatedObject
 			on: $o
