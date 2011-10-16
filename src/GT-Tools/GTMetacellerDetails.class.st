@@ -14,11 +14,15 @@ Class {
 GTMetacellerDetails >> buildBrowser [
 	| innerBrowser |
 	browser := GLMAccumulator new.
-	browser title: 'Metaceller Configuration Browser'.
+	browser title: 'Glamorous Metaceller'.
+
 	innerBrowser := GLMTabulator new.
 	innerBrowser column: #versions; column: #packages span: 2.
-	self toPackagesFromVersionsAndShow: innerBrowser.
-	self toVersionsAndShow: innerBrowser.
+	innerBrowser transmit to: #versions; andShow: [ :a |
+		self versionsIn: a ].
+	innerBrowser transmit to: #packages; from: #versions; andShow: [ :a | 
+		self packagesIn: a ].
+
 	browser show: [ :a |
 		a title: 	[:config | self shortNameOf: config ].
 		a custom: innerBrowser ].
@@ -48,7 +52,7 @@ GTMetacellerDetails >> labelOfItemSpec: packageSpec [
 		self packageSpecNeedsSaving: packageSpec])
 			ifTrue: [Text string: label attribute: TextColor blue] 
 			ifFalse: [ 
-				label
+				Text fromString: label
 				"Text 
 					string: label
 					attribute: ((self master useCacheDuring: [ packageSpec isLoaded ]) 
@@ -97,6 +101,41 @@ GTMetacellerDetails >> packagesAndGroupsOf: version [
 	^ packageMap
 ]
 
+{ #category : #building }
+GTMetacellerDetails >> packagesIn: a [
+	a title: [ :version | version name ].
+	(a tree)
+		title: 'Items';
+		display: [ :version | version spec packages packageSpecsInLoadOrder ];
+		format: [ :packageSpec | self labelOfItemSpec: packageSpec ];
+		children: [ :spec | 
+					(spec isKindOf: MetacelloProjectReferenceSpec)
+						ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
+						ifFalse: [ #() ] ];
+		tags: [ :packageSpec :version | self tagsOf: packageSpec in: version ];
+		act: [ :list | list selection inspect ] entitled: 'Inspect';
+		act: [ :list :version | version load: list selection name ] entitled: 'Load'.
+	(a mondrian)
+		title: 'Dependencies';
+		painting: [ :view :version | self viewDependenciesOf: version on: view ].
+	(a smalltalkCode)
+		title: 'Script';
+		display: [ :version | version spec printString ].
+	(a list)
+		title: 'Newer in repository?';
+		display: [ :version | version spec packages packageSpecsInLoadOrder ];
+		format: [ :packageSpec :version | 
+					((packageSpec isKindOf: MetacelloPackageSpec) and: [ self packageSpec: packageSpec hasNewerVersionsFrom: version ])
+						ifTrue: [ Text string: packageSpec name attribute: TextColor red ]
+						ifFalse: [ packageSpec name ] ];
+		act: [ :list | list selection inspect ] entitled: 'Inspect'.
+"	(innerBrowser transmit)
+		toOutside: #strongSelection;
+		from: #packages port: #strongSelection;
+		when: [ :selection | selection isKindOf: MetacelloProjectReferenceSpec ];
+		transformed: [ :selection | selection projectReference projectClass ]"
+]
+
 { #category : #private }
 GTMetacellerDetails >> shortNameOf: config [
 	"self new shortNameOf: ConfigurationOfAlien"
@@ -125,66 +164,26 @@ GTMetacellerDetails >> tagsOf: packageSpec in: version [
 ]
 
 { #category : #building }
-GTMetacellerDetails >> toPackagesFromVersionsAndShow: innerBrowser [
-	(innerBrowser transmit)
-		to: #packages;
-		from: #versions;
-		andShow: [ :a | 
-					a title: [ :version | version name ].
-					(a tree)
-						title: 'Items';
-						display: [ :version | version spec packages packageSpecsInLoadOrder ];
-						format: [ :packageSpec | self labelOfItemSpec: packageSpec ];
-						children: [ :spec | 
-									(spec isKindOf: MetacelloProjectReferenceSpec)
-										ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
-										ifFalse: [ #() ] ];
-						tags: [ :packageSpec :version | self tagsOf: packageSpec in: version ];
-						act: [ :list | list selection inspect ] entitled: 'Inspect';
-						act: [ :list :version | version load: list selection name ] entitled: 'Load'.
-					(a mondrian)
-						title: 'Dependencies';
-						painting: [ :view :version | self viewDependenciesOf: version on: view ].
-					(a smalltalkCode)
-						title: 'Script';
-						display: [ :version | version spec printString ].
-					(a list)
-						title: 'Newer in repository?';
-						display: [ :version | version spec packages packageSpecsInLoadOrder ];
-						format: [ :packageSpec :version | 
-									((packageSpec isKindOf: MetacelloPackageSpec) and: [ self packageSpec: packageSpec hasNewerVersionsFrom: version ])
-										ifTrue: [ Text string: packageSpec name attribute: TextColor red ]
-										ifFalse: [ packageSpec name ] ];
-						act: [ :list | list selection inspect ] entitled: 'Inspect' ].
-	(innerBrowser transmit)
-		toOutside: #strongSelection;
-		from: #packages port: #strongSelection;
-		when: [ :selection | selection isKindOf: MetacelloProjectReferenceSpec ];
-		transformed: [ :selection | selection projectReference projectClass ]
-]
-
-{ #category : #building }
-GTMetacellerDetails >> toVersionsAndShow: innerBrowser [
-	innerBrowser transmit to: #versions; andShow: [ :a |
-		a list
-			title: 'Versions';
-			display: [:config | config project versions reverse ];
-			format: [:each :config | | text |
-				text := ([each isPossibleBaseline not] on: Error do: [true])
-					ifTrue: [Text string: each versionNumber asString attribute: TextColor gray] 
-					ifFalse: [each versionNumber asString asText].
-				(self master useCacheDuring: [ config project currentVersion ]) = each ifTrue: [ text allBold ].
-				text ];
-			act: [:list :config | 
-				self spawnNewVersionFrom: list selection in: config.
-				list update.
-				] entitled: 'Spawn new version';
-			act: [:list | 
-				(self goferForVersion: list selection) browseRemoteChanges ] entitled: 'Browse remote changes';
-			act: [:list  | list selection inspect] entitled: 'Inspect'.
-		a mondrian
-			title: 'Imports';
-			painting: [:view :config | self viewVersionMapOf: config on: view]]
+GTMetacellerDetails >> versionsIn: composer [
+	composer list
+		title: 'Versions';
+		display: [:config | config project versions reverse ];
+		"format: [:each :config | | text |
+			text := ([each isPossibleBaseline not] on: Error do: [true])
+				ifTrue: [Text string: each versionNumber asString attribute: TextColor gray] 
+				ifFalse: [each versionNumber asString asText].
+			(self master useCacheDuring: [ config project currentVersion ]) = each ifTrue: [ text allBold ].
+			text ];"
+		selectionAct: [:list :config | 
+			self spawnNewVersionFrom: list selection in: config.
+			list update.
+			] entitled: 'Spawn new version';
+		selectionAct: [:list | 
+			(self goferForVersion: list selection) browseRemoteChanges ] entitled: 'Browse remote changes';
+		selectionAct: [:list  | list selection inspect] entitled: 'Inspect'.
+	composer mondrian
+		title: 'Imports';
+		painting: [:view :config | self viewVersionMapOf: config on: view]
 ]
 
 { #category : #private }
