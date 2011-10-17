@@ -188,16 +188,19 @@ GTMetacellerDetails >> versionsIn: composer [
 
 { #category : #private }
 GTMetacellerDetails >> viewDependenciesOf: version on: view [
+	"| view |
+	view := MOViewRenderer new.
+	self new viewDependenciesOf: (ConfigurationOfMoose project version: 'default') on: view.
+	view open"
 	| all | 
 	all := Dictionary new.
 	version packages do: [:each | all at: each name put: each].
 	version projects do: [:each | all at: each name put: each].
 	view shape label text: [:each | each name ].
 	view nodes: all values.
-	view shape curvedLine.
 	view edges: version packages from: [:eachPackage | all at: eachPackage name] toAll: [:eachPackage |
 		eachPackage requires collect: [:each | all at: each ]].
-	view horizontalDominanceTreeLayout
+	view horizontalDominanceTreeLayout layered
 ]
 
 { #category : #private }
