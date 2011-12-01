@@ -41,16 +41,16 @@ GTMessageTallyBrowser >> messagesIn: a [
 
 { #category : #building }
 GTMessageTallyBrowser >> openOn: aBlock [
-	^ super openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself)
+	^ super openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself) inspect
 ]
 
 { #category : #building }
 GTMessageTallyBrowser >> sourceCodeIn: a [
-	^ (a text)
+	^ a smalltalkCode
 		title: [ :each | GTUtils printCompiledMethod: each method ];
 		morphicAct: [ :text :each | GTUtils browseMethod: each method ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			entitled: 'Browse';
-		forSmalltalk: [ :each | each method methodClass ];
+		smalltalkClass: [ :each | each method methodClass ];
 		display: [ :each | each method methodClass sourceCodeAt: each method selector ifAbsent: [ 'unknown' ] ]
 ]
