@@ -199,7 +199,7 @@ GTClassicCoder >> implementorsIn: a [
 		selectionPopulate: #focusOnMethod
 			on: $f
 			entitled: 'Jump there'
-			with: [ :list | list selection ];
+			with: [ :list | list selection compiledMethod ];
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
 
@@ -238,6 +238,6 @@ GTClassicCoder >> sendersIn: a [
 		selectionPopulate: #focusOnMethod
 			on: $j
 			entitled: 'Jump there'
-			with: [ :list | list selection ];
+			with: [ :list | list selection compiledMethod ];
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 ]
