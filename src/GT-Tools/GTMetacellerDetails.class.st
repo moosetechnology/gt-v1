@@ -120,15 +120,16 @@ GTMetacellerDetails >> packagesIn: a [
 		painting: [ :view :version | self viewDependenciesOf: version on: view ].
 	(a smalltalkCode)
 		title: 'Script';
+		variableBindings: {#spec -> MetacelloProjectReferenceSpec new};
 		display: [ :version | version spec printString ].
-	(a list)
+"	(a list)
 		title: 'Newer in repository?';
 		display: [ :version | version spec packages packageSpecsInLoadOrder ];
 		format: [ :packageSpec :version | 
 					((packageSpec isKindOf: MetacelloPackageSpec) and: [ self packageSpec: packageSpec hasNewerVersionsFrom: version ])
 						ifTrue: [ Text string: packageSpec name attribute: TextColor red ]
 						ifFalse: [ packageSpec name ] ];
-		act: [ :list | list selection inspect ] entitled: 'Inspect'.
+		act: [ :list | list selection inspect ] entitled: 'Inspect'."
 "	(innerBrowser transmit)
 		toOutside: #strongSelection;
 		from: #packages port: #strongSelection;
@@ -168,12 +169,7 @@ GTMetacellerDetails >> versionsIn: composer [
 	composer list
 		title: 'Versions';
 		display: [:config | config project versions reverse ];
-		"format: [:each :config | | text |
-			text := ([each isPossibleBaseline not] on: Error do: [true])
-				ifTrue: [Text string: each versionNumber asString attribute: TextColor gray] 
-				ifFalse: [each versionNumber asString asText].
-			(self master useCacheDuring: [ config project currentVersion ]) = each ifTrue: [ text allBold ].
-			text ];"
+		format: [:each :config | each versionNumber asString ];
 		selectionAct: [:list :config | 
 			self spawnNewVersionFrom: list selection in: config.
 			list update.

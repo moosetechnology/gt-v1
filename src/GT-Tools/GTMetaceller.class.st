@@ -19,7 +19,7 @@ GTMetaceller >> buildBrowser [
 			Workspace new
 				contents: self helpText;
 				openLabel: 'Metaceller help' ]
-		icon: MenuIcons smallHelpIcon
+		icon: GLMUIThemeExtraIcons glamorousHelp
 		entitled: 'Help'.
 	browser
 		column: #configs;
