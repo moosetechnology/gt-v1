@@ -45,9 +45,9 @@ GTCodeBrowser >> layout [
 { #category : #building }
 GTCodeBrowser >> onClassesFromPackages [
 	browser
-		showOn: #classes; from: #packages;
-		using: [
-			browser tree
+		transmit to: #classes; from: #packages;
+		andShow: [ :a |
+			a tree
 					when: [:package | package isCollection not];
 					display: [:package | package allClasses];
 					children: [ :each | each traits ];
@@ -104,8 +104,8 @@ GTCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 
 { #category : #building }
 GTCodeBrowser >> onInstVarsFromClasses [
-	browser showOn: #instVars; from: #classes; using: [ 
-		browser list
+	browser transmit to: #instVars; from: #classes; andShow: [ :a |  
+		a list
 				display: [ :class | class instVars ];
 				tags: [ :each | 
 					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST'] } ];
@@ -131,8 +131,8 @@ GTCodeBrowser >> onMethodsFromClasses [
 
 { #category : #building }
 GTCodeBrowser >> onMethodsFromInstVars [
-	browser showOn: #methods; from: #instVars; using: [ 
-		browser list
+	browser transmit to: #methods; from: #instVars; andShow: [ :a | 
+		a list
 				display: [ :var | var accessingMethods ];
 				tags: [ :each | 
 					{each glmCategory name.
@@ -142,9 +142,9 @@ GTCodeBrowser >> onMethodsFromInstVars [
 { #category : #building }
 GTCodeBrowser >> onPackages [
 	browser
-		showOn: #packages;
-		using: 
-			[ browser tree
+		transmit to: #packages;
+		andShow: [ :a | 
+			a tree
 				children: [ :package | package subPackages ];
 				format: [ :package | package name ];
 				filterOn: [ :text :each | text match: each name ] ]

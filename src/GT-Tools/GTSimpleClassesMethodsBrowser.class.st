@@ -13,15 +13,15 @@ Class {
 GTSimpleClassesMethodsBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser column: #classes; column: #methods.
-	browser showOn: #classes; using: [
-		browser list
+	browser transmit to: #classes; andShow: [ :a |
+		a list
 			display: [:classes | classes ];
-			sorted: [:a :b | a name < b name]].
-	browser showOn: #methods; from: #classes; using: [
-		browser list
+			sorted: [:x :y | x name < y name]].
+	browser transmit to: #methods; from: #classes; andShow: [ :a |
+		a list
 			display: [:class | class selectors];
 			sorted].
-	browser sendToOutside: #selectedClass from: #classes.
-	browser sendToOutside: #selectedMethod from: #methods.
+	browser transmit toOutsidePort: #selectedClass; from: #classes.
+	browser transmit toOutsidePort: #selectedMethod; from: #methods.
 	^ browser
 ]

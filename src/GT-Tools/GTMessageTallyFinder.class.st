@@ -11,15 +11,16 @@ Class {
 GTMessageTallyFinder >> buildBrowser [
 	| finder |
 	finder := GLMFinder new.
-	finder list
-		title: 'Messages';
-		display: [:each | each sonsOver: -1];
-		format: [:each | each printString, ' (', each tally printString, ')'].
+	finder show: [:a | 
+		a list
+			title: 'Messages';
+			display: [:each | each sonsOver: -1];
+			format: [:each | each printString, ' (', each tally printString, ')']].
 	browser := GLMTabulator new.
 	browser row: #messages; row: #source.
-	browser showOn: #messages; using: [browser custom: finder].
-	browser showOn: #source; from: #messages; using: [
-		browser text
+	browser transmit to: #messages; andShow: [:a | a custom: finder].
+	browser transmit to: #source; from: #messages; andShow: [ :a | 
+		a text
 			title: 'Source';
 			forSmalltalk: [:each | each method methodClass];			
 			display: [:each | each method methodClass sourceCodeAt: each method selector ifAbsent: ['unknown']]

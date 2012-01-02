@@ -17,8 +17,8 @@ GTLintBrowser >> buildBrowser [
 			display: [:dic | RBCompositeLintRule lintChecks rules];
 			allowNil;
 			format: #name ].
-	browser showOn: #rules; from: #groups; using: [
-		browser list
+	browser transmit to: #rules; from: #groups; andShow: [ :a | 
+		a list
 			display: [:group | group rules];
 			format: #name ].
 	browser transmit to: #results; from: #rules; from: #outer->#entity transformed: [:classOrCollection | classOrCollection isCollection ifFalse: [{ classOrCollection }] ifTrue: [ classOrCollection ]]; andShow: [ :a |
@@ -26,7 +26,7 @@ GTLintBrowser >> buildBrowser [
 			display: [:rule :tuple | self getLintResult:
 					(self runRule: rule forClasses: tuple) result] ].
 			"tuple = {class. selector} from the browser. We select the class"
-	browser sendToOutside: #faultyMethod from: #results->#selection.
+	browser transmit toOutsidePort: #faultyMethod; from: #results port: #selection.
 	^ browser
 ]
 
