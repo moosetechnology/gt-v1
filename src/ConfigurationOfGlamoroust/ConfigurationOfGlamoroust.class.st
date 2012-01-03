@@ -1,3 +1,6 @@
+"
+ConfigurationOfGlamoroust loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGlamoroust,
 	#superclass : #Object,
@@ -26,6 +29,12 @@ ConfigurationOfGlamoroust class >> isMetacelloConfig [
 
 { #category : #loading }
 ConfigurationOfGlamoroust class >> loadDefault [
+	"this will be deprecated soon"
+	self loadDevelopment
+]
+
+{ #category : #loading }
+ConfigurationOfGlamoroust class >> loadDevelopment [
 	(self project version: #development) load
 ]
 
@@ -37,7 +46,7 @@ ConfigurationOfGlamoroust class >> project [
 
 { #category : #baselines }
 ConfigurationOfGlamoroust >> baseline01: spec [ 
-	<version: 'baseline-0.1'>
+	<version: '0.1-baseline'>
 	
 	spec for: #common do: [
 		spec blessing: #baseline.
@@ -81,7 +90,7 @@ ConfigurationOfGlamoroust >> baseline01: spec [
 ConfigurationOfGlamoroust >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: 'baseline-0.1'.
+	spec for: #'common' version: '0.1-baseline'.
 
 ]
 
