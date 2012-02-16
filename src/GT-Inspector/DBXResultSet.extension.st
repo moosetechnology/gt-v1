@@ -8,8 +8,10 @@ DBXResultSet >> gtInspectorResultTableIn: composite [
 		display: [:result | 
 		| table |
 		table := GLMTablePresentation new.
-		table display: [:r | result rows inspect ].
+		table 
+			display: [:r | result rows ];
+			showOnly: 50.
 		result columnDescriptions doWithIndex: [:column :index | 
-			table column: [:r | column name ] evaluated: [:eachRow | eachRow rawValueAt: index ]].
+			table column: [:r | column name ] evaluated: [:eachRow | (eachRow rawValueAt: index) asString ]].
 		table ]
 ]
