@@ -55,7 +55,7 @@ ConfigurationOfGlamoroust >> baseline01: spec [
 			package: 'SystemAnnouncements' with: [
 				spec repository: 'http://www.squeaksource.com/PharoTaskForces'];
 			package: 'GT-Model' with: [spec requires: #('RPackage')];
-			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour' 'Mondrian' 'MondrianGraphVizLayout') ];
+			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour') ];
 			package: 'GT-Inspector' with: [ spec requires: #('Glamour')];
 			package: 'GT-Debugger' with: [ spec requires: #('Glamour')];
 			package: 'GT-ClassicCoder' with: [ spec requires: #('Glamour')];
@@ -75,13 +75,6 @@ ConfigurationOfGlamoroust >> baseline01: spec [
 					file: 'ConfigurationOfRPackage';
 					version: #stable;
 					repository: 'http://www.squeaksource.com/PharoTaskForces' ].
-		spec project: 'Mondrian' with: [
-				spec
-					className: 'ConfigurationOfMondrian';
-					file: 'ConfigurationOfMondrian';
-					version: 'default';
-					repository: 'http://www.squeaksource.com/Mondrian' ].
-		spec package: 'MondrianGraphVizLayout' with: [ spec repository: 'http://www.squeaksource.com/Mondrian' ].
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.squeaksource.com/Glamour' ]
 	]
 ]
