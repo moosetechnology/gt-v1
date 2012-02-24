@@ -49,9 +49,9 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 			[ Text fromString: (assoc value printString contractTo: 50) ]
 						on: Error
 						do: [ Text string: 'error printing' attribute: TextColor red ] ];
-		icon: [ :each | 
+"		icon: [ :each |
 			each value class theNonMetaClass browserIcon
-				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];
+				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];"
 		send: #value;
 		morphicSelectionAct: [:each | each value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 

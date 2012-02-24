@@ -17,10 +17,10 @@ Dictionary >> gtInspectorItemsIn: composite [
 		searchOn: [:text :each | 
 			Compiler evaluate: ' | entity each | each := self. entity := each.', text for: each logged: false];		
 		send: [ :result | result size = 1 ifTrue: [result anyOne] ifFalse: [result]];
-		icon: [ :each |  
+"		icon: [ :each |  
 			| iconName |
 			iconName := each class theNonMetaClass browserIcon ifNil: [#blank].
-			OBMorphicIcons iconNamed: iconName ];
+			OBMorphicIcons iconNamed: iconName ];"
 		showOnly: 50;
 		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'.
 ]
