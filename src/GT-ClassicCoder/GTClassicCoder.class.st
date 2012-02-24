@@ -165,10 +165,10 @@ GTClassicCoder >> classesIn: a [
 		title: 'Classes';
 		display: [ :package | package classes];
 		sorted: [:x :y | x name < y name ];
-		icon: [ :each | 
+"		icon: [ :each | 
 			each theNonMetaClass browserIcon isNil 
 				ifFalse: [ OBMorphicIcons iconNamed: each theNonMetaClass browserIcon ]
-				ifTrue: [ nil ] ];
+				ifTrue: [ nil ] ];"
 		format: [ :each :package |
 			(package extendsClass: each)
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
