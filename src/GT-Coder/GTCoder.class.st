@@ -42,10 +42,10 @@ GTCoder >> classesIn: a [
 		title: 'Classes';
 		display: [ :package | package classes ];
 		sorted: [:c1 :c2 | c1 name < c2 name];
-		icon: [ :each | 
+"		icon: [ :each | 
 			each theNonMetaClass browserIcon isNil 
 				ifFalse: [ OBMorphicIcons iconNamed: each theNonMetaClass browserIcon ]
-				ifTrue: [ nil ] ];
+				ifTrue: [ nil ] ];"
 		format: [ :each :package |
 			(package extendsClass: each)
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
@@ -57,13 +57,19 @@ GTCoder >> classesIn: a [
 { #category : #private }
 GTCoder >> defineActions [
 	browser morphicAct: [:b |
-		| selectedClass |
-		selectedClass := OBCompletionRequest new
+		| selectedClass composite single |
+		composite := GLMSpotterRequest new.
+		single := GLMSingleSpotterRequest new
 			prompt: 'Find Class';
-			searchBlock: [ :string | OBCmdFindClass new findClassIn: Smalltalk pattern: string ];
-			labelBlock: [ :class | class name ];
-			iconBlock: [ :class | class browserIcon ];
-			signal.
+			searchBlock: [ :string | 
+				(self class environment classNames
+					select: [ :each | 
+						GLMSingleSpotterRequest substring: string matches: each name caseSensitive: false ])
+					asSortedCollection collect: [ :each | self class environment at: each ]
+				 ];
+			labelBlock: [ :class | class name ]
+"			iconBlock: [ :class | class browserIcon ];".
+		selectedClass := composite add: single; signal.
 		selectedClass notNil ifTrue: [
 			(b pane port: #packageToSelect) value: selectedClass package.
 			(b pane port: #classToSelect) value: selectedClass ].
