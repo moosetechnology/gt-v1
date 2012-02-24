@@ -52,8 +52,6 @@ ConfigurationOfGlamoroust >> baseline01: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/glamoroust'.
 		spec 
-			package: 'SystemAnnouncements' with: [
-				spec repository: 'http://www.squeaksource.com/PharoTaskForces'];
 			package: 'GT-Model' with: [spec requires: #('RPackage')];
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour') ];
 			package: 'GT-Inspector' with: [ spec requires: #('Glamour')];
