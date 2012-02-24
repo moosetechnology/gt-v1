@@ -51,10 +51,10 @@ GTCodeBrowser >> onClassesFromPackages [
 					when: [:package | package isCollection not];
 					display: [:package | package allClasses];
 					children: [ :each | each traits ];
-					icon: [ :each | 
+"					icon: [ :each | 
 						each stBehavior theNonMetaClass browserIcon isNil ifFalse: 
 							[ OBMorphicIcons iconNamed: each stBehavior theNonMetaClass browserIcon ]
-						ifTrue: [ nil ] ];
+						ifTrue: [ nil ] ];"
 					format: [:class | class name];
 					updateOn: SystemAnnouncement from: SystemAnnouncer announcer
 		]
