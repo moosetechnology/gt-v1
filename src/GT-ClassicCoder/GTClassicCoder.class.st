@@ -29,7 +29,6 @@ GTClassicCoder >> browserActionsIn: b [
 							organizer packages select: [:each |
 								GLMSingleSpotterRequest substring: string matches: each name caseSensitive: false ] ];
 						labelBlock: [ :p | p name ].
-
 				classRequest := GLMSingleSpotterRequest new 
 						prompt: 'Find Class';
 						searchBlock: [ :string | 
@@ -142,7 +141,7 @@ GTClassicCoder >> classReferencesIn: a [
 		title: 'References';
 		useExplicitNotNil;
 		when: [ :package :class | class notNil ];
-		display: [ :package :class | self systemNavigation allCallsOn: (Smalltalk associationAt: class theNonMetaClass name) ];
+		display: [ :package :class | self systemNavigation allCallsOn: (self globals associationAt: class theNonMetaClass name) ];
 		selectionPopulate: #focusOnMethod
 			on: $b
 			entitled: 'Jump there'
@@ -189,6 +188,11 @@ GTClassicCoder >> detailsIn: a [
 { #category : #accessing }
 GTClassicCoder >> entity [
 	^ RPackageOrganizer default
+]
+
+{ #category : #others }
+GTClassicCoder >> globals [ 
+	^ Smalltalk globals
 ]
 
 { #category : #reusable }
