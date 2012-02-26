@@ -16,7 +16,8 @@ GTProfStef class >> openOn: tutorial [
 GTProfStef >> buildBrowser [
 	browser := GLMFinder new.
 	browser title: 'Prof Stef'.
-	browser smalltalkCode
+	browser show: [:a | 
+		a smalltalkCode
 		display: [ :lesson | lesson lesson ];
 		when: [:lesson | lesson isKindOf: Lesson];
 		title: [:lesson | lesson title];
@@ -38,7 +39,7 @@ GTProfStef >> buildBrowser [
 					logged: false) inspect ]
 			on: $/
 			entitled: 'Inspect (/)';
-		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight entitled: 'Next lesson'  with: [:text :lesson | ProfStef next ].
+		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight entitled: 'Next lesson'  with: [:text :lesson | ProfStef next ] ].
 	^ browser
 ]
 
