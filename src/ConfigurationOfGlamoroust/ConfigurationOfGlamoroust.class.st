@@ -93,7 +93,7 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 		spec 
 			package: 'GT-Model' with: [spec requires: #('RPackage')];
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour') ];
-			package: 'GT-Inspector' with: [ spec requires: #('Glamour')];
+			package: 'GT-Inspector' with: [ spec requires: #('Glamour' 'RB')];
 			package: 'GT-Debugger' with: [ spec requires: #('Glamour')];
 			package: 'GT-ClassicCoder' with: [ spec requires: #('Glamour')];
 			package: 'GT-Coder' with: [ spec requires: #('Glamour')];
