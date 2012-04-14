@@ -24,8 +24,8 @@ CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
 { #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 30> 
-	composite text 
+	composite smalltalkCode 
 		title: 'Source';
-		forSmalltalk: [ :anObject | anObject methodClass ];
+		smalltalkClass: [ :anObject | anObject methodClass ];
 		display: [:anObject | anObject getSource ]
 ]

@@ -53,7 +53,7 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 		display: [ :object | object class methods ];
 		sorted: [ :method1 :method2 | method1 selector < method2 selector ];
 		format: [ :method | method selector ];
-		morphicSelectionAct: [ :list :object | Smalltalk tools browse: object class selector: list selection selector ]
+		morphicSelectionAct: [ :list :object | Smalltalk tools browser fullOnClass: object class selector: list selection selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse';
