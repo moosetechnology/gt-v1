@@ -9,8 +9,8 @@ Class {
 
 { #category : #utils }
 GTUtils class >> browseMethod: aCompiledMethod [
-	ToolSet 
-		browse: aCompiledMethod methodClass 
+	Smalltalk tools browser 
+		fullOnClass: aCompiledMethod methodClass 
 		selector: aCompiledMethod selector
 ]
 
