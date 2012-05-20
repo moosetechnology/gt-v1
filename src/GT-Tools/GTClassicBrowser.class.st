@@ -36,13 +36,13 @@ GTClassicBrowser >> buildBrowser [
 		from: #classCats;
 		andShow: [ :a | self sourceCodeIn: a ].
 	browser transmit
-		fromOutside: #classCategoryToSelect;
+		fromOutsidePort: #classCategoryToSelect;
 		to: #classCats port: #selection.
 	browser transmit 
-		fromOutside: #classesToSelect;
+		fromOutsidePort: #classesToSelect;
 		to: #classes.
 	browser transmit 
-		fromOutside: #methodsToSelect;
+		fromOutsidePort: #methodsToSelect;
 		to: #methods.
 	^ browser
 ]

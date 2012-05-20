@@ -26,7 +26,7 @@ GTMetacellerDetails >> buildBrowser [
 	browser show: [ :a |
 		a title: 	[:config | self shortNameOf: config ].
 		a custom: innerBrowser ].
-	browser transmit toOutside: #entity; fromOutside: #strongSelection.
+	browser transmit toOutsidePort: #entity; fromOutsidePort: #strongSelection.
 
 ]
 
