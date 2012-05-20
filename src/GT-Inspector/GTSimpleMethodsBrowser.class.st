@@ -20,10 +20,10 @@ GTSimpleMethodsBrowser >> buildBrowser [
 		to: #source;
 		andShow: [ :a | self sourceIn: a ].
 	browser transmit
-		toOutside: #selection;
+		toOutsidePort: #selection;
 		from: #methods port: #evaluatedObject.
 	browser transmit
-		toOutside: #selection;
+		toOutsidePort: #selection;
 		from: #source port: #evaluatedObject.
 	^ browser
 ]

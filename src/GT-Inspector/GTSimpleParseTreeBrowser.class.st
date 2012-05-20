@@ -28,7 +28,7 @@ GTSimpleParseTreeBrowser >> buildBrowser [
 		to: #source port: #selectionInterval;
 		transformed: [ :rbNode | rbNode sourceInterval ].
 	browser transmit
-		toOutside: #selection;
+		toOutsidePort: #selection;
 		from: #tree port: #selectedNode.
 	^ browser
 ]
