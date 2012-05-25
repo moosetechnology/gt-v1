@@ -2,8 +2,8 @@ Extension { #name : #Dictionary }
 
 { #category : #'*gt-inspector' }
 Dictionary >> gtInspectorItemsIn: composite [
-	 (composite table)
-		display: #associations;
+ 	^ (composite table)
+		display: [:anObject | self associations];
 		column: 'Key' evaluated:  [:each | 
 			[ Text fromString: ((each key asString contractTo: 50) replaceAll: String cr with: String space) ] 
 							on: Error 
@@ -13,7 +13,7 @@ Dictionary >> gtInspectorItemsIn: composite [
 							on: Error 
 							do: [ Text string: 'error printing' attribute: TextColor red ]];
 		beMultiple;
-		title: [ :anObject | anObject size asString, ' items' ];
+		title: [ :anObject | self size asString, ' items' ];
 		searchOn: [:text :each | 
 			Compiler evaluate: ' | entity each | each := self. entity := each.', text for: each logged: false];		
 		send: [ :result | result size = 1 ifTrue: [result anyOne] ifFalse: [result]];

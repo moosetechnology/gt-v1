@@ -3,7 +3,7 @@ Extension { #name : #Collection }
 { #category : #'*gt-inspector' }
 Collection >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 30>  
-	 (composite list)
+	^ (composite list)
 		beMultiple;
 		title: [ :anObject | anObject size asString, ' items' ];
 		searchOn: [:text :each | 
