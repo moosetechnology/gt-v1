@@ -65,7 +65,8 @@ ConfigurationOfGlamoroust >> baseline01: spec [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
-					version: 'default';
+					version: #development;
+					loads: 'Core';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec project: 'RPackage' with: [
 				spec
@@ -92,19 +93,20 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 		spec repository: 'http://www.squeaksource.com/glamoroust'.
 		spec 
 			package: 'GT-Model' with: [spec requires: #('RPackage')];
-			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'Glamour') ];
-			package: 'GT-Inspector' with: [ spec requires: #('Glamour' 'RB')];
-			package: 'GT-Debugger' with: [ spec requires: #('Glamour')];
-			package: 'GT-ClassicCoder' with: [ spec requires: #('Glamour')];
-			package: 'GT-Coder' with: [ spec requires: #('Glamour')];
-			package: 'GT-Playground' with: [ spec requires: #('Glamour')];
-			package: 'GT-Tests-Inspector' with: [ spec requires: #('Glamour')].
+			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
+			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore' 'RB')];
+			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')].
 		spec group: 'Tests' with: #('GT-Tests-Inspector').
-		spec project: 'Glamour' with: [
+		spec project: 'GlamourCore' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
-					version: 'default';
+					version: #development;
+					loads: 'Core';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec project: 'RPackage' with: [
 				spec
