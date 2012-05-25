@@ -17,7 +17,7 @@ ConfigurationOfGlamoroust class >> ensureMetacello [
 				url: 'http://seaside.gemstone.com/ss/metacello';
 				package: 'ConfigurationOfMetacello';
 				load.
-		(Smalltalk at: #ConfigurationOfMetacello) project latestVersion load: #('default' 'UI') ]
+		(Smalltalk at: #ConfigurationOfMetacello) project latestVersion load: #('default') ]
 ]
 
 { #category : #'metacello tool support' }
