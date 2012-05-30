@@ -1,10 +1,10 @@
 Class {
-	#name : #GTInspectorBitmapTest,
+	#name : #GTInspectorSetTest,
 	#superclass : #GTInspectorSmokeTest,
 	#category : #'GT-Tests-Inspector'
 }
 
 { #category : #tests }
-GTInspectorBitmapTest >> objectToTest [ 
-	^ ThemeIcons pharoIcon bits
+GTInspectorSetTest >> objectToTest [ 
+	^ #('number' 42) asSet
 ]
