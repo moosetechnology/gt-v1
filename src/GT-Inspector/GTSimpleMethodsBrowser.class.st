@@ -70,8 +70,8 @@ GTSimpleMethodsBrowser >> evaluationAction [
 ]
 
 { #category : #building }
-GTSimpleMethodsBrowser >> methodActionsFor: list [
-	^ list selection selector isUnary
+GTSimpleMethodsBrowser >> methodActionsFor: aMethod [
+	^ aMethod selector isUnary
 		ifTrue: [ Array with: self evaluationAction ]
 		ifFalse: [ #() ]
 ]
@@ -86,7 +86,7 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse';
-		dynamicActionsOnSelection: [ :list | self methodActionsFor: list ]
+		dynamicActionsOnSelection: [ :list | self methodActionsFor: list selection ]
 ]
 
 { #category : #building }
@@ -98,5 +98,16 @@ GTSimpleMethodsBrowser >> sourceIn: a [
 		selectionPopulate: #evaluatedObject
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :method :entity | Compiler evaluate: text selectedText for: entity logged: false ]
+			with: [ :text :method :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		act: [:text :method :entity | 
+				| newMethod |
+				newMethod := entity class compile: text text notifying: nil. 
+				self flag: 'This is a hack because it accesses the state of another browser directly.
+				It should be solved through transmissions'.
+				text pane browser update.
+				(text pane browser panes second inspect port: #selection) 
+					value: (entity class methodNamed: newMethod) ] 
+			icon: GLMUIThemeExtraIcons glamorousAccept 
+			on: $s
+			entitled: 'Accept'
 ]
