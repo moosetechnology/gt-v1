@@ -92,6 +92,7 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 { #category : #building }
 GTSimpleMethodsBrowser >> sourceIn: a [
 	^ a smalltalkCode
+		title: [:method | method selector ];
 		display: [ :method | method getSource ];
 		smalltalkClass: [ :method | method methodClass ];
 		doItReceiver: [ :method :entity | entity ];
