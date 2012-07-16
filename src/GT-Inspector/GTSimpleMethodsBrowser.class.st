@@ -106,8 +106,8 @@ GTSimpleMethodsBrowser >> sourceIn: a [
 				self flag: 'This is a hack because it accesses the state of another browser directly.
 				It should be solved through transmissions'.
 				text pane browser update.
-				(text pane browser panes second inspect port: #selection) 
-					value: (entity class methodNamed: newMethod) ] 
+				((text pane browser paneNamed: #methods) port: #selection) 
+					value: (entity class methodNamed: newMethod ) ] 
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept'
