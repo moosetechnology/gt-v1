@@ -9,6 +9,32 @@ CompiledMethod >> gtInspectorBytecodeIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
+CompiledMethod >> gtInspectorPragmasIn: composite [
+	<gtInspectorPresentationOrder: 30> 
+	composite tabulator 
+		title: 'Pragmas';
+		with: [ :t |  
+		t row: #pragmas; row: #methods.
+		t transmit to: #pragmas; andShow: [:a | 
+			a list
+				title: 'Pragmas';
+				display: [ :method | method pragmas ];
+				when: [ :x | x pragmas notEmpty ] ].
+		t transmit from: #pragmas; to: #methods; andShow: [:a | 
+			a list 
+				title: 'Methods';
+				display: [ :pragma | 
+					| methods | 
+					methods := OrderedCollection new.
+					Object withAllSubclassesDo: [ :each | 
+						methods addAll: ((Pragma allNamed: pragma keyword in: each) collect: #method) ].
+					methods ];
+				format: #selector ]
+			];
+		startOn: self
+]
+
+{ #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
 	| literalIndex |
 	literalIndex := 0.
