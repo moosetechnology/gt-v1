@@ -1,5 +1,5 @@
 "
-self open
+self open maximize
 ""| browser |
 browser := self new browser.
 browser openOn: RPackageOrganizer default.
@@ -57,9 +57,8 @@ GTClassicCoder >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Glamorous Classic Coder'.
 	self browserActionsIn: browser.
-	browser 
-		row: [:r | r column: #packages; column: #classes; column: #categoriesAndMethods span: 2];
-		row: #details.
+	browser column: #packages; column: #classes; column: [:c |
+		c row: #categoriesAndMethods; row: #details ] span: 4.
 	browser transmit 
 		to: #packages; 
 		andShow: [ :a | self packagesIn: a ].
@@ -143,7 +142,7 @@ GTClassicCoder >> classReferencesIn: a [
 		when: [ :package :class | class notNil ];
 		display: [ :package :class | self systemNavigation allCallsOn: (self globals associationAt: class theNonMetaClass name) ];
 		selectionPopulate: #focusOnMethod
-			on: $b
+			on: $j
 			entitled: 'Jump there'
 			with: [ :list | list selection compiledMethod ];
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
@@ -201,7 +200,7 @@ GTClassicCoder >> implementorsIn: a [
 		title: 'Implementors';
 		display: [ :package :class :method | (self systemNavigation allImplementorsOf: method selector) ];
 		selectionPopulate: #focusOnMethod
-			on: $f
+			on: $j
 			entitled: 'Jump there'
 			with: [ :list | list selection compiledMethod ];
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
