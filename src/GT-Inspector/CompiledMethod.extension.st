@@ -13,6 +13,7 @@ CompiledMethod >> gtInspectorPragmasIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 	composite tabulator 
 		title: 'Pragmas';
+		when: [ :x | x pragmas notEmpty ];
 		with: [ :t |  
 		t row: #pragmas; row: #methods.
 		t transmit to: #pragmas; andShow: [:a | 
