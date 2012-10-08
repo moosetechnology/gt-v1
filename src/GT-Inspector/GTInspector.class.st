@@ -46,7 +46,6 @@ GTInspector class >> settingsOn: aBuilder [
 	
 	(aBuilder group: #glamorousInspector)
 		label: 'Glamorous Inspector';
-"		parent: #glamorousToolkit"
 		with: [
 			(aBuilder setting: #numberOfInspectorPanes)
 				target: self; 
