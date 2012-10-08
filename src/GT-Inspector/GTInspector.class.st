@@ -12,8 +12,26 @@ self registerToolsOn: Smalltalk tools.
 Class {
 	#name : #GTInspector,
 	#superclass : #GLMBrowserTemplate,
+	#classVars : [
+		'GTNumberOfInspectorPanes'
+	],
 	#category : #'GT-Inspector'
 }
+
+{ #category : #'class initialization' }
+GTInspector class >> initialize [ 
+	self numberOfInspectorPanes: 2
+]
+
+{ #category : #settings }
+GTInspector class >> numberOfInspectorPanes [
+	^ GTNumberOfInspectorPanes 
+]
+
+{ #category : #settings }
+GTInspector class >> numberOfInspectorPanes: anInteger [
+	GTNumberOfInspectorPanes := anInteger 
+]
 
 { #category : #'tools registry' }
 GTInspector class >> registerToolsOn: registry [
@@ -22,9 +40,24 @@ GTInspector class >> registerToolsOn: registry [
 
 ]
 
+{ #category : #settings }
+GTInspector class >> settingsOn: aBuilder [ 
+	<systemsettings>
+	
+	(aBuilder group: #glamorousInspector)
+		label: 'Glamorous Inspector';
+"		parent: #glamorousToolkit"
+		with: [
+			(aBuilder setting: #numberOfInspectorPanes)
+				target: self; 
+				label: 'Number of inspector panes';
+		 		description: 'Specifies the maximum number of panes that are visible at every moment in a Glamorous Inspector.'.]
+]
+
 { #category : #building }
 GTInspector >> buildBrowser [
 	browser := GLMFinder new.
+	browser fixedSizePanes: self class numberOfInspectorPanes.
 	browser title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	browser act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	browser show: [ :a | 
