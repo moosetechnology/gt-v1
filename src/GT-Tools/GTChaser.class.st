@@ -9,13 +9,6 @@ Class {
 	#category : #'GT-Tools'
 }
 
-{ #category : #private }
-GTChaser >> browse: method [
-	ToolSet 
-		browse: method methodClass 
-		selector: method selector
-]
-
 { #category : #building }
 GTChaser >> buildBrowser [
 	"self openOn: #browser"
@@ -46,7 +39,7 @@ GTChaser >> methodActionsFor: aListPresentation [
 	actions := OrderedCollection new.
 	(aListPresentation selection isKindOf: MethodReference) ifTrue: [
 		actions add: (GLMMorphicAction new 
-						action: [:list | self browse: list selection]; 
+						action: [:list | list selection browse]; 
 						icon: GLMUIThemeExtraIcons glamorousBrowse;
 						title: 'Browse';
 						yourself) ].
