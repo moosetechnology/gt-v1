@@ -26,6 +26,27 @@ GTDebuggerModel >> context [
 	^ context
 ]
 
+{ #category : #accessing }
+GTDebuggerModel >> contextVariableValuePairList: aContext [
+	"Return a collection of 'temporary variables name -> value' for the received context"
+	|fieldList|
+	
+	fieldList := OrderedCollection new.
+	fieldList add: ('thisContext' -> aContext ).
+	
+	aContext == nil ifTrue: [^fieldList].
+	
+	fieldList 
+		add: ('stack top' -> (aContext stackPtr > 0 ifTrue: [aContext top]));
+		add: ('all temp vars' -> aContext tempsAndValues).
+	(aContext tempNames size > 0) ifTrue: [
+		fieldList addAll: ((1 to: aContext tempNames size) collect: [ :index | 
+			(aContext tempNames at: index ) -> (aContext debuggerMap namedTempAt: index in: aContext ) ] ) ].
+		
+	^ fieldList
+					
+]
+
 { #category : #'private context' }
 GTDebuggerModel >> currentCodeRange: aContext [
 	^(self methodModel: aContext) sourceRangeForPC: (self activePC: aContext)
@@ -70,6 +91,26 @@ GTDebuggerModel >> process: aProcess [
 { #category : #'private context' }
 GTDebuggerModel >> receiverClass: aContext [
 	^ aContext receiver class
+]
+
+{ #category : #accessing }
+GTDebuggerModel >> receiverVariableValuePairList: aContext [
+	"Return a collection of 'variable name -> value' for the receiver of the given context"
+	|receiver fieldList|
+	
+	receiver := aContext receiver.
+	
+	fieldList := OrderedCollection new.
+	fieldList 
+		add: ('self' -> receiver);
+		add: ('all inst vars' -> (receiver longPrintStringLimitedTo: 20000)).	
+	fieldList addAll: (receiver class allInstVarNames collect: [:each | each -> (receiver instVarNamed: each) ]).
+
+	receiver class isVariable ifTrue: [
+		(1 to: receiver basicSize) collect: [:index | index -> (receiver instVarAt: index)  ]].
+	
+	^ fieldList
+					
 ]
 
 { #category : #'debugging actions' }
