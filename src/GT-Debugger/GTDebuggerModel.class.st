@@ -30,7 +30,7 @@ GTDebuggerModel >> context [
 GTDebuggerModel >> contextVariableValuePairList: aContext [
 	"Return a collection of 'temporary variables name -> value' for the received context"
 	|fieldList|
-	
+	self halt.
 	fieldList := OrderedCollection new.
 	fieldList add: ('thisContext' -> aContext ).
 	
@@ -58,6 +58,25 @@ GTDebuggerModel >> evaluate: expression in: aContext [
 		evaluate: expression
 		in: aContext
 		to: aContext receiver
+]
+
+{ #category : #private }
+GTDebuggerModel >> gtInspectorRetrieveVariableValuePairs [
+	"Return a collection of 'temporary variables name -> value' for the received context"
+	|fieldList|
+	fieldList := OrderedCollection new.
+	fieldList add: ('thisContext' -> context ).
+	
+	context == nil ifTrue: [^fieldList].
+	
+	fieldList 
+		add: ('stack top' -> (context stackPtr > 0 ifTrue: [context top]));
+		add: ('all temp vars' -> context tempsAndValues).
+	(context tempNames size > 0) ifTrue: [
+		fieldList addAll: ((1 to: context tempNames size) collect: [ :index | 
+			(context tempNames at: index ) -> (context debuggerMap namedTempAt: index in: context ) ] ) ].
+		
+	^ fieldList
 ]
 
 { #category : #'private process' }
