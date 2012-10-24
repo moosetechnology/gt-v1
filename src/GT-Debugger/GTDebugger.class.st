@@ -36,7 +36,7 @@ GTDebugger >> buildBrowser [
 	browser
 		row: #stack;
 		row: #code;
-		row: [:r| r column: #selfInspector;  column: #selfInspectorEvaluator; column: #contextInspector; column: #contextInspectorEvaluator].
+		row: #inspector span: 2.
 
 	browser transmit to: #stack; andShow: [ :composite |
 		composite list 
@@ -62,49 +62,8 @@ GTDebugger >> buildBrowser [
 	browser transmit from: #stack; fromOutsidePort: #entity; from: #stack port: #pc; to: #code port: #selectionInterval;
 		transformed: [ :context :model :pc | model selectedCodeRange: context ].
 		
-		
-	"Inspect the state of the current object"
-	browser transmit from: #stack; fromOutsidePort: #entity; to: #selfInspector; andShow: [ :composite |
-		composite list
-			showOnly: 50;
-			display: [ :context :model | model receiverVariableValuePairList: context];
-			format: [:assoc | self keyAsFormatedString: assoc key ] ].
-	
-	"Select the first entity. Not the best solution or ideea "
-	browser transmit from: #stack; fromOutsidePort: #entity; to: #selfInspector port: #selection;
-		transformed: [ :context :model | ('self' -> context receiver) ].
-	
-	browser transmit from: #selfInspector; from: #stack; fromOutsidePort: #entity; to: #selfInspectorEvaluator; 
-		andShow: [ :composite |
-			composite text
-				selectionAct: [ :text :assoc :context :model | model evaluate: text selectedText in: context] on: $; entitled: 'Do (;)';
-				display: [ :assoc :context :model | self valueAsFormatedString: assoc value ] ].
-			
-				"selectionPopulate: #newAttrValue
-					on: $o
-					entitled: 'Haba (o)'
-					with: [:text :assoc :context :model | Compiler evaluate: text selectedText for: context logged: false ] ]."
-	"browser transmit from: #selfInspectorEvaluator port: #newAttrValue; to: #selfInspector; ."
-			
-	"Inspect the context of the current method"
-	browser transmit from: #stack;  fromOutsidePort: #entity; to: #contextInspector; andShow: [ :composite |
-		composite list
-			showOnly: 50;
-			display: [ :context :model | model contextVariableValuePairList: context ];
-			format: [ :assoc | self keyAsFormatedString: assoc key ] ].
-	
-	"Select the first entity"
-	browser transmit from: #stack; fromOutsidePort: #entity; to: #contextInspector port: #selection;
-		transformed: [ :context :model | ('thisContext' -> context) ].
-			
-	browser transmit from:#contextInspector; from: #stack; fromOutsidePort: #entity; to: #contextInspectorEvaluator; 
-		andShow: [ :composite | 
-			composite text
-				selectionAct: [:text :assoc :context :model | model evaluate: text selectedText in: context] on: $; entitled: 'Do (;)';
-				display: [ :assoc :context :model | self valueAsFormatedString: assoc value ] ].
-			
-	
-
+	browser transmit fromOutsidePort: #entity; to: #inspector; andShow: [ :composite |
+			composite custom: (GTInspector new browser) ]
 ]
 
 { #category : #'private building' }

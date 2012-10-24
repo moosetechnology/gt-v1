@@ -26,27 +26,6 @@ GTDebuggerModel >> context [
 	^ context
 ]
 
-{ #category : #accessing }
-GTDebuggerModel >> contextVariableValuePairList: aContext [
-	"Return a collection of 'temporary variables name -> value' for the received context"
-	|fieldList|
-	self halt.
-	fieldList := OrderedCollection new.
-	fieldList add: ('thisContext' -> aContext ).
-	
-	aContext == nil ifTrue: [^fieldList].
-	
-	fieldList 
-		add: ('stack top' -> (aContext stackPtr > 0 ifTrue: [aContext top]));
-		add: ('all temp vars' -> aContext tempsAndValues).
-	(aContext tempNames size > 0) ifTrue: [
-		fieldList addAll: ((1 to: aContext tempNames size) collect: [ :index | 
-			(aContext tempNames at: index ) -> (aContext debuggerMap namedTempAt: index in: aContext ) ] ) ].
-		
-	^ fieldList
-					
-]
-
 { #category : #'private context' }
 GTDebuggerModel >> currentCodeRange: aContext [
 	^(self methodModel: aContext) sourceRangeForPC: (self activePC: aContext)
@@ -60,23 +39,27 @@ GTDebuggerModel >> evaluate: expression in: aContext [
 		to: aContext receiver
 ]
 
-{ #category : #private }
-GTDebuggerModel >> gtInspectorRetrieveVariableValuePairs [
-	"Return a collection of 'temporary variables name -> value' for the received context"
-	|fieldList|
-	fieldList := OrderedCollection new.
-	fieldList add: ('thisContext' -> context ).
+{ #category : #'as yet unclassified' }
+GTDebuggerModel >> gtInspectorPresentationsIn: composite [
+	"Add all the presentation belonging to the current context and its receiver"
+	|objectPresentation contextPresentation|
 	
-	context == nil ifTrue: [^fieldList].
+	"this does not work"
+	"self context gtInspectorPresentationsIn: composite.
+	self context receiver gtInspectorPresentationsIn: composite"
 	
-	fieldList 
-		add: ('stack top' -> (context stackPtr > 0 ifTrue: [context top]));
-		add: ('all temp vars' -> context tempsAndValues).
-	(context tempNames size > 0) ifTrue: [
-		fieldList addAll: ((1 to: context tempNames size) collect: [ :index | 
-			(context tempNames at: index ) -> (context debuggerMap namedTempAt: index in: context ) ] ) ].
-		
-	^ fieldList
+	"this also does not work"
+	contextPresentation := GLMCompositePresentation new.
+	contextPresentation title: [self context class printString].
+	self context gtInspectorPresentationsIn: contextPresentation.
+	composite custom: (contextPresentation startOn: self context).
+	
+	objectPresentation := GLMCompositePresentation new.
+	objectPresentation title: [self context receiver class printString  ].
+	self context receiver gtInspectorPresentationsIn: objectPresentation.
+	composite custom: (objectPresentation startOn: self context receiver).
+	
+	
 ]
 
 { #category : #'private process' }
@@ -110,26 +93,6 @@ GTDebuggerModel >> process: aProcess [
 { #category : #'private context' }
 GTDebuggerModel >> receiverClass: aContext [
 	^ aContext receiver class
-]
-
-{ #category : #accessing }
-GTDebuggerModel >> receiverVariableValuePairList: aContext [
-	"Return a collection of 'variable name -> value' for the receiver of the given context"
-	|receiver fieldList|
-	
-	receiver := aContext receiver.
-	
-	fieldList := OrderedCollection new.
-	fieldList 
-		add: ('self' -> receiver);
-		add: ('all inst vars' -> (receiver longPrintStringLimitedTo: 20000)).	
-	fieldList addAll: (receiver class allInstVarNames collect: [:each | each -> (receiver instVarNamed: each) ]).
-
-	receiver class isVariable ifTrue: [
-		(1 to: receiver basicSize) collect: [:index | index -> (receiver instVarAt: index)  ]].
-	
-	^ fieldList
-					
 ]
 
 { #category : #'debugging actions' }
