@@ -40,7 +40,7 @@ GTDebuggerModel >> evaluate: expression in: aContext [
 ]
 
 { #category : #'as yet unclassified' }
-GTDebuggerModel >> gtInspectorPresentationsIn: composite [
+GTDebuggerModel >> gtInspectorPresentationsInText: composite [
 	"Add all the presentation belonging to the current context and its receiver"
 	|objectPresentation contextPresentation|
 	
@@ -55,11 +55,32 @@ GTDebuggerModel >> gtInspectorPresentationsIn: composite [
 	composite custom: (contextPresentation startOn: self context).
 	
 	objectPresentation := GLMCompositePresentation new.
-	objectPresentation title: [self context receiver class printString  ].
+	objectPresentation title: [self context receiver class printString].
 	self context receiver gtInspectorPresentationsIn: objectPresentation.
-	composite custom: (objectPresentation startOn: self context receiver).
+	composite 
+		custom: (objectPresentation startOn: self context receiver);
+		display: [:anObject | self context receiver].
 	
 	
+	
+]
+
+{ #category : #'as yet unclassified' }
+GTDebuggerModel >> gtInspectorRetrieveVariableValuePairs [
+	|fieldList|
+
+	fieldList := OrderedCollection new.
+	fieldList 
+		add: ('self' -> self context receiver).
+		"add: ('all inst vars' -> (self context receiver longPrintStringLimitedTo: 20000)).	"
+
+	fieldList add: ('thisContext' -> self context).
+	self context == nil ifTrue: [^fieldList].
+	fieldList 
+		add: ('stack top' -> (self context stackPtr > 0 ifTrue: [self context top])).
+		"add: ('all temp vars' -> self context tempsAndValues)."
+		
+	^ fieldList
 ]
 
 { #category : #'private process' }
