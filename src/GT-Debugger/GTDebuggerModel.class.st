@@ -21,6 +21,12 @@ GTDebuggerModel >> activePC: aContext [
 		ifFalse: [ self previousPC: aContext ].
 ]
 
+{ #category : #private }
+GTDebuggerModel >> clear [
+	process := nil.
+	context := nil.
+]
+
 { #category : #accessing }
 GTDebuggerModel >> context [
 	^ context
@@ -182,6 +188,12 @@ GTDebuggerModel >> stepThrough: selectedContext [
 	self halt.
 	context := process stepToHome: selectedContext.
 	process stepToSendOrReturn.
+]
+
+{ #category : #'debugging actions' }
+GTDebuggerModel >> terminate [
+	self process isNil ifFalse: [self process terminate].
+	self clear.
 ]
 
 { #category : #private }

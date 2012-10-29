@@ -28,11 +28,18 @@ GTDebugger class >> debugProcess: aProcess [
 		self openOn: (GTDebuggerModel process: aProcess) ].
 ]
 
+{ #category : #'as yet unclassified' }
+GTDebugger >> actOnWindowClosing: ann [
+	self model terminate.
+]
+
 { #category : #building }
 GTDebugger >> buildBrowser [
 	browser := GLMTabulator new.
 	self installBrowserActions.
 	browser title: 'Glamorous Debugger'.
+	browser on: GLMWindowClosing send: #actOnWindowClosing: to: self.
+	
 	browser
 		row: #stack;
 		row: #code;
