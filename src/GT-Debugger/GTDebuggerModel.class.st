@@ -132,7 +132,8 @@ GTDebuggerModel >> restart: selectedContext [
 
 { #category : #'debugging actions' }
 GTDebuggerModel >> resume [
-	process resume
+	process resume.
+	self clear.
 ]
 
 { #category : #accessing }

@@ -104,8 +104,8 @@ GTDebugger >> installRestartAction [
 GTDebugger >> installResumeAction [
 	browser 
 		act: [ :b :model |
-			"b close."
-			model resume ]
+			model resume.
+			b close. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Resume' 
 ]
