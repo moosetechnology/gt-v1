@@ -96,7 +96,7 @@ GTDebuggerModel >> isLatestContext: aContext [
 
 { #category : #'private context' }
 GTDebuggerModel >> methodModel: aContext [
-	^ GTDebugMethodModel forMethod: aContext method
+	^ GTDebugContextModel forContext: aContext fromProcess: process
 ]
 
 { #category : #'private context' }

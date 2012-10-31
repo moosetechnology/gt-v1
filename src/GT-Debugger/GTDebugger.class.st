@@ -41,8 +41,7 @@ GTDebugger >> buildBrowser [
 	browser on: GLMWindowClosing send: #actOnWindowClosing: to: self.
 	
 	browser
-		row: #stack;
-		row: #code;
+		row: [:row| row column: #stack; column: #code];
 		row: #inspector span: 2.
 
 	browser transmit to: #stack; andShow: [ :composite |
@@ -53,24 +52,33 @@ GTDebugger >> buildBrowser [
 			format: [ :each | each methodClass name , '>>' , each methodSelector ] ].
 	
 	browser transmit fromOutsidePort: #entity; to: #stack port: #selection; transformed: #context.
-	browser transmit from: #stack port: #selection; to: #stack port: #pc; transformed: #pc.
 	
-	browser transmit from: #stack; fromOutsidePort: #entity; to: #code; andShow: [ :composite |
-		composite text 
-			selectionAct: [:text :context :model | model evaluate: text selectedText in: context ] on: $; entitled: 'Do (;)';
-			selectionAct: [:text :context :model |
-				(model evaluate: text selectedText in: context) printString. ] on: $/ entitled: 'Print (/)';
-			selectionAct: [:text :context :model | (model evaluate: text selectedText in: context) inspect ] on: $' entitled: 'Inspect ('')';
+	browser transmit from: #stack port: #selection; fromOutsidePort: #entity; to: #stack port: #context; 
+		transformed: [:context :model |  model methodModel: context ].
+		
+	browser transmit from: #stack port: #selection; to: #stack port: #pc; 
+		transformed: #pc.
+	
+	browser transmit from: #stack port: #context; fromOutsidePort: #entity; to: #code; andShow: [ :composite |
+		composite smalltalkCode  
+			selectionAct: [:text :model | model evaluate: text selectedText ] on: $; entitled: 'Do (;)';
+			selectionAct: [:text :model | (model evaluate: text selectedText) printString ] on: $/ entitled: 'Print (/)';
+			selectionAct: [:text :model | (model evaluate: text selectedText) inspect ] on: $' entitled: 'Inspect ('')';
 			title: 'Source';
-			display: [ :context :model | model methodModel: context ];
 			format: #sourceText;
-			forSmalltalk: [ :context :model | model receiverClass: context ]].
+			smalltalkClass: [ :model | model receiverClass ]].
 		
 	browser transmit from: #stack; fromOutsidePort: #entity; from: #stack port: #pc; to: #code port: #selectionInterval;
 		transformed: [ :context :model :pc | model selectedCodeRange: context ].
-		
-	browser transmit fromOutsidePort: #entity; to: #inspector; andShow: [ :composite |
-			composite custom: (GTInspector new browser) ]
+	
+	browser transmit from: #stack port: #context; to: #inspector; andShow: [ :composite |
+		composite dynamic 
+			display: [:each | 
+				GTInspector new browser 
+					noTitle;
+					noActions;
+					showFirst: [:a | a custom: (GTDebuggerVariablesBrowser new browser startOn: each) ]; 
+					startOn: each  ] ]
 ]
 
 { #category : #'private building' }
