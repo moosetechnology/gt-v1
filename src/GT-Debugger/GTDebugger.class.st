@@ -36,7 +36,6 @@ GTDebugger >> actOnBrowserClosing: ann [
 { #category : #building }
 GTDebugger >> buildBrowser [
 	browser := GLMTabulator new.
-	self installBrowserActions.
 	browser title: 'Glamorous Debugger'.
 	browser on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 	
@@ -44,12 +43,13 @@ GTDebugger >> buildBrowser [
 		row: [:row| row column: #stack; column: #code];
 		row: #inspector span: 2.
 
-	browser transmit to: #stack; andShow: [ :composite |
-		composite list 
+	browser transmit to: #stack; andShow: [ :composite | |presentation| 
+		presentation := composite list 
 			title: 'Stack';
 			showOnly: 10;
 			display: #stack;
-			format: [ :each | each methodClass name , '>>' , each methodSelector ] ].
+			format: [ :each | each methodClass name , '>>' , each methodSelector ].
+		self  installBrowserActions: presentation ].
 	
 	browser transmit fromOutsidePort: #entity; to: #stack port: #selection; transformed: #context.
 	
@@ -82,18 +82,18 @@ GTDebugger >> buildBrowser [
 ]
 
 { #category : #'private building' }
-GTDebugger >> installBrowserActions [
-	self installRestartAction.
-	self installStepIntoAction.
-	self installStepOverAction.
-	self installStepThroughAction.
-	self installResumeAction
+GTDebugger >> installBrowserActions: aPresentation [
+	self installRestartAction: aPresentation.
+	self installStepIntoAction: aPresentation.
+	self installStepOverAction: aPresentation.
+	self installStepThroughAction: aPresentation.
+	self installResumeAction: aPresentation 
 ]
 
 { #category : #'private building' }
-GTDebugger >> installRestartAction [
-	browser 
-		act: [ :b :model |
+GTDebugger >> installRestartAction: aPresentation [ 
+	aPresentation 
+		act: [ :presentation :model |
 			model restart: self selectedContext.
 			self selectTopOfStack: model context  ]
 		icon: GLMUIThemeExtraIcons glamorousRestart
@@ -101,19 +101,19 @@ GTDebugger >> installRestartAction [
 ]
 
 { #category : #'private building' }
-GTDebugger >> installResumeAction [
-	browser 
-		act: [ :b :model |
+GTDebugger >> installResumeAction: aPresentation [
+	aPresentation 
+		act: [ :presentation :model |
 			model resume.
-			b close. ]
+			browser close. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Resume' 
 ]
 
 { #category : #'private building' }
-GTDebugger >> installStepIntoAction [
-	browser 
-		act: [ :b :model |
+GTDebugger >> installStepIntoAction: aPresentation [ 
+	aPresentation 
+		act: [ :presentation :model |
 			model stepInto: self selectedContext.
 			self selectTopOfStack: model context ]
 		icon: GLMUIThemeExtraIcons glamorousInto
@@ -121,9 +121,9 @@ GTDebugger >> installStepIntoAction [
 ]
 
 { #category : #'private building' }
-GTDebugger >> installStepOverAction [
-	browser 
-		act: [ :b :model |
+GTDebugger >> installStepOverAction: aPresentation [
+	aPresentation 
+		act: [ :presentation :model |
 			model stepOver: self selectedContext.
 			self selectTopOfStack: model context ]
 		icon: GLMUIThemeExtraIcons glamorousOver
@@ -131,9 +131,9 @@ GTDebugger >> installStepOverAction [
 ]
 
 { #category : #'private building' }
-GTDebugger >> installStepThroughAction [
-	browser 
-		act: [ :b :model |
+GTDebugger >> installStepThroughAction: aPresentation [
+	aPresentation 
+		act: [ :presentation :model |
 			model stepThrough: self selectedContext.
 			self selectTopOfStack: model context ]
 		icon: GLMUIThemeExtraIcons glamorousOver
