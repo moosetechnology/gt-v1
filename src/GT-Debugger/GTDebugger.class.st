@@ -29,7 +29,7 @@ GTDebugger class >> debugProcess: aProcess [
 ]
 
 { #category : #'as yet unclassified' }
-GTDebugger >> actOnWindowClosing: ann [
+GTDebugger >> actOnBrowserClosing: ann [
 	self model terminate.
 ]
 
@@ -38,7 +38,7 @@ GTDebugger >> buildBrowser [
 	browser := GLMTabulator new.
 	self installBrowserActions.
 	browser title: 'Glamorous Debugger'.
-	browser on: GLMWindowClosing send: #actOnWindowClosing: to: self.
+	browser on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 	
 	browser
 		row: [:row| row column: #stack; column: #code];
