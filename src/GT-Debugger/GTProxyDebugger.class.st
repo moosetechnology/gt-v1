@@ -21,13 +21,12 @@ GTProxyDebugger >> preDebugButtonQuads [
 		{'Proceed' translated.	#proceed. 	#blue. 	'Continue execution' translated}.
 		{'Abandon' translated.	#abandon. 	#black.	'Abandon this execution by closing this window' translated}.
 		{'Debug'    		translated.		#debug.		#red. 	'Bring up a debugger' translated}.
-		{'New Debugger' translated. #spanNewDebugger. #red. 'Bring up the new debugger' translated}
+		{'Debug glamorously' translated. #spawnGTDebugger. #red. 'Bring up the Glamorous Debugger' translated}
 	}
 ]
 
 { #category : #'notifier menu' }
-GTProxyDebugger >> spanNewDebugger [
-	"Open a full DebuggerView."
+GTProxyDebugger >> spawnGTDebugger [
 	| topView |
 	topView := self topView.
 	topView model: nil.

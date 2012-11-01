@@ -7,7 +7,7 @@ Class {
 { #category : #building }
 GTDebuggerVariablesBrowser >> buildBrowser [ 
 	browser := GLMTabulator new.
-	browser title: 'State'.
+	browser title: [:each | each asString].
 	browser row: #variables; row: #evaluator.
 	browser transmit to: #variables; andShow: [:a | 
 		self variablesIn: a ].
