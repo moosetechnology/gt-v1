@@ -10,6 +10,15 @@ Class {
 	#category : #'GT-Debugger'
 }
 
+{ #category : #'instance creation' }
+GTDebugger class >> debugContext: aContext fromProcess: aProcess [
+
+	<primitive: 19> "simulation guard"
+
+	WorldState addDeferredUIMessage: [
+		self openOn: (GTDebuggerModel process: aProcess context: aContext) ].
+]
+
 { #category : #'as yet unclassified' }
 GTDebugger class >> debugIn: anArray [
 

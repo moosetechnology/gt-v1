@@ -27,5 +27,5 @@ GTProxyDebugger >> spanNewDebugger [
 	self breakDependents.
 	topView delete.
 	
-	GTDebugger debugProcess: self interruptedProcess
+	GTDebugger debugContext: self interruptedContext fromProcess: self interruptedProcess
 ]

@@ -14,6 +14,12 @@ GTDebuggerModel class >> process: aProcess [
 		process: aProcess
 ]
 
+{ #category : #'instance creation' }
+GTDebuggerModel class >> process: aProcess context: aContext [
+	^ self new
+		process: aProcess context: aContext
+]
+
 { #category : #'private process' }
 GTDebuggerModel >> activePC: aContext [
 	^ (self isLatestContext: aContext)
@@ -24,7 +30,7 @@ GTDebuggerModel >> activePC: aContext [
 { #category : #private }
 GTDebuggerModel >> clear [
 	process := nil.
-	context := nil.
+	context := nil
 ]
 
 { #category : #accessing }
@@ -96,7 +102,7 @@ GTDebuggerModel >> isLatestContext: aContext [
 
 { #category : #'private context' }
 GTDebuggerModel >> methodModel: aContext [
-	^ GTDebugContextModel forContext: aContext fromProcess: process
+	^ (GTDebugContextModel forContext: aContext) topContext: context
 ]
 
 { #category : #'private context' }
@@ -115,6 +121,16 @@ GTDebuggerModel >> process: aProcess [
 	aProcess stepToSendOrReturn.
 	context := aProcess suspendedContext.
 	process := aProcess
+
+]
+
+{ #category : #initialization }
+GTDebuggerModel >> process: aProcess context: aContext [
+	aProcess stepToSendOrReturn.
+	"context := aProcess suspendedContext."
+	process := aProcess.
+	context := aContext
+
 ]
 
 { #category : #'private context' }
@@ -174,7 +190,7 @@ GTDebuggerModel >> stepOver: selectedContext [
 	context := 
 		newContext == selectedContext
 			ifTrue: [ process stepToSendOrReturn ]
-			ifFalse: [ selectedContext ]
+			ifFalse: [ newContext ]
 ]
 
 { #category : #'debugging actions' }
@@ -186,7 +202,7 @@ GTDebuggerModel >> stepThrough [
 GTDebuggerModel >> stepThrough: selectedContext [
 	"Send messages until you return to the present method context.
 	 Used to step into a block in the method."
-	self halt.
+	
 	context := process stepToHome: selectedContext.
 	process stepToSendOrReturn.
 ]

@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'context',
-		'latestContext',
+		'topContext',
 		'method',
 		'methodNode',
 		'ranges'
@@ -16,8 +16,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTDebugContextModel class >> forContext: aContext fromProcess: aProcess [
-	^ self new forContext: aContext fromProcess: aProcess
+GTDebugContextModel class >> forContext: aContext [ 
+	^ self new forContext: aContext 
 ]
 
 { #category : #'evaluating actions' }
@@ -29,7 +29,7 @@ GTDebugContextModel >> evaluate: expression [
 ]
 
 { #category : #'instance creation' }
-GTDebugContextModel >> forContext: aContext fromProcess: aProcess [
+GTDebugContextModel >> forContext: aContext [ 
 	method := aContext method.
 	methodNode := method methodNode.
 
@@ -42,7 +42,7 @@ GTDebugContextModel >> forContext: aContext fromProcess: aProcess [
 				ifFalse: [ ranges at: node pc put: range ]].
 			
 	context := aContext.
-	latestContext := aProcess suspendedContext 
+	topContext := aContext.
 
 	" Sort all the Key PCs in the sortedKeyPCs "
 	"sortedKeyPCs := SortedCollection new."
@@ -95,4 +95,9 @@ GTDebugContextModel >> sourceRangeForPC: pc [
 { #category : #accessing }
 GTDebugContextModel >> sourceText [
 	^ self source asText
+]
+
+{ #category : #accessing }
+GTDebugContextModel >> topContext: aContext [
+	topContext  := aContext 
 ]
