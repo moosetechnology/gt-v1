@@ -145,7 +145,7 @@ GTDebugger >> installStepThroughAction: aPresentation [
 		act: [ :presentation :model |
 			model stepThrough: self selectedContext.
 			self selectTopOfStack: model context ]
-		icon: GLMUIThemeExtraIcons glamorousOver
+		icon: GLMUIThemeExtraIcons glamorousThrough
 		entitled: 'Step through' 
 ]
 
