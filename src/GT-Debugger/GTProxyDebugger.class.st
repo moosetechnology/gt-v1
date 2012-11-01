@@ -4,6 +4,14 @@ Class {
 	#category : #'GT-Debugger'
 }
 
+{ #category : #'class initialization' }
+GTProxyDebugger class >> initialize [
+	super initialize.
+
+	"Add ourselves to registry. See [Smalltalk tools]" 
+	Smalltalk tools register: self as: #debugger
+]
+
 { #category : #initialize }
 GTProxyDebugger >> preDebugButtonQuads [
 	| buttons |
