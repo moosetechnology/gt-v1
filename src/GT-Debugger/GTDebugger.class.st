@@ -22,15 +22,6 @@ GTDebugger class >> debugContext: aContext fromProcess: aProcess [
 		self openOn: (GTDebuggerModel process: aProcess context: aContext) ].
 ]
 
-{ #category : #'as yet unclassified' }
-GTDebugger class >> debugIn: anArray [
-
-	<primitive: 19> "simulation guard"
-	
-	
-	WorldState addDeferredUIMessage: [ self openOn: anArray ].
-]
-
 { #category : #'instance creation' }
 GTDebugger class >> debugProcess: aProcess [
 
@@ -62,7 +53,7 @@ GTDebugger >> buildBrowser [
 	browser transmit
 		fromOutsidePort: #entity;
 		to: #stack port: #selection;
-		transformed: #context.
+		transformed: [:model | model context].
 	browser transmit
 		from: #stack port: #selection;
 		fromOutsidePort: #entity;
