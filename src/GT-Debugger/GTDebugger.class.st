@@ -204,7 +204,7 @@ GTDebugger >> stackIn: composite [
 		title: 'Stack';
 		showOnly: 10;
 		display: #stack;
-		format: [ :each | each methodClass name , '>>' , each methodSelector ];
+		format: [ :each | String streamContents: [:stream | each printDebugOn: stream ] ];
 		with: [ :list | self installDebuggingActionsFor: list ]
 ]
 
