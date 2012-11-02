@@ -7,7 +7,7 @@ Class {
 { #category : #building }
 GTDebuggerVariablesBrowser >> buildBrowser [ 
 	browser := GLMTabulator new.
-	browser title: [:each | each asString].
+	browser title: [:each | GTInspector new printObjectAsAnItem: each receiver ].
 	browser row: #variables; row: #evaluator.
 	browser transmit to: #variables; andShow: [:a | 
 		self variablesIn: a ].
