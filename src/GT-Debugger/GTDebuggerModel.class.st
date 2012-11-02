@@ -1,3 +1,10 @@
+"
+This models the debugger. It contains the current context and process.
+
+Instance Variables:
+	context	<ContextPart>
+	process	<Process>
+"
 Class {
 	#name : #GTDebuggerModel,
 	#superclass : #Object,
@@ -49,24 +56,6 @@ GTDebuggerModel >> evaluate: expression in: aContext [
 		evaluate: expression
 		in: aContext
 		to: aContext receiver
-]
-
-{ #category : #'as yet unclassified' }
-GTDebuggerModel >> gtInspectorRetrieveVariableValuePairs [
-	|fieldList|
-
-	fieldList := OrderedCollection new.
-	fieldList 
-		add: ('self' -> self context receiver).
-		"add: ('all inst vars' -> (self context receiver longPrintStringLimitedTo: 20000)).	"
-
-	fieldList add: ('thisContext' -> self context).
-	self context == nil ifTrue: [^fieldList].
-	fieldList 
-		add: ('stack top' -> (self context stackPtr > 0 ifTrue: [self context top])).
-		"add: ('all temp vars' -> self context tempsAndValues)."
-		
-	^ fieldList
 ]
 
 { #category : #'private process' }
