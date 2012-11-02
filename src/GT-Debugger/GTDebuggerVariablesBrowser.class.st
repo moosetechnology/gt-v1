@@ -8,6 +8,10 @@ Class {
 GTDebuggerVariablesBrowser >> buildBrowser [ 
 	browser := GLMTabulator new.
 	browser title: [:each | GTInspector new printObjectAsAnItem: each receiver ].
+	browser 
+		morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
+			icon: GLMUIThemeExtraIcons glamorousBrowse 
+			entitled: 'Browse'.
 	browser row: #variables; row: #evaluator.
 	browser transmit to: #variables; andShow: [:a | 
 		self variablesIn: a ].

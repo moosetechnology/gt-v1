@@ -52,7 +52,7 @@ GTDebugger >> buildBrowser [
 					row
 						column: #stack;
 						column: #code ];
-		row: #inspector span: 2.
+		row: #inspector.
 	browser transmit
 		to: #stack;
 		andShow: [ :composite | self stackIn: composite ].
