@@ -126,6 +126,21 @@ GTDebuggerModel >> resume [
 	self clear.
 ]
 
+{ #category : #updating }
+GTDebuggerModel >> rewindContextToMethod: aMethod fromContext: aContext [
+	| ctxt |
+	ctxt :=  process popTo: aContext.
+	
+	process
+		restartTopWith: aMethod;
+		stepToSendOrReturn.
+	
+	self flag: 'need to check for errors during unwind'.
+	self flag: 'handle quick methods?'.
+	
+	^ context := ctxt
+]
+
 { #category : #accessing }
 GTDebuggerModel >> selectedCodeRange: selectedContext [
 	^ self currentCodeRange: selectedContext

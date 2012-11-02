@@ -77,7 +77,51 @@ GTDebugContextModel >> receiver [
 
 { #category : #accessing }
 GTDebugContextModel >> receiverClass [
+	"Answer the class of the receiver. 
+	It may differ from 'self selectedClass' "
+	
 	^ context receiver class
+]
+
+{ #category : #'evaluating actions' }
+GTDebugContextModel >> recompileCurrentMethodTo: aText [
+	| classOfMethod selector |
+	
+	"category := self selectedMessageCategoryName."
+	classOfMethod := self selectedClass.
+	
+	self flag: 'Better understand why the code below is nedded'.
+	selector := classOfMethod parserClass new parseSelector: aText.
+	(selector == self selectedMessageName
+	 or: [(self selectedMessageName beginsWith: 'DoIt')
+		and: [selector numArgs = self selectedMessageName numArgs]]) ifFalse: [
+			self inform: 'can''t change selector'. ^ nil].
+		
+	selector := classOfMethod compile: aText notifying: nil.
+	selector isNil 
+		ifFalse: [ ^ classOfMethod compiledMethodAt: selector. ]
+		ifTrue: [ ^ nil ] 
+		
+]
+
+{ #category : #accessing }
+GTDebugContextModel >> selectedClass [
+	"Answer the class in which the currently selected context's method was found."
+
+	^ context methodClass
+]
+
+{ #category : #accessing }
+GTDebugContextModel >> selectedMessageName [
+	"Answer the message selector of the currently selected context.
+	 If the method is unbound we can still usefully answer its old selector."
+
+	| selector |
+	selector := context methodSelector.
+	^(selector ~~ context method selector
+	    and: [selector beginsWith: 'DoIt'])
+		ifTrue: [context method selector]
+		ifFalse: [selector]
 ]
 
 { #category : #accessing }

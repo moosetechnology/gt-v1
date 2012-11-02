@@ -170,17 +170,22 @@ GTDebugger >> methodCodeIn: composite [
 "		selectionAct: [ :text :model | model evaluate: text selectedText ] on: $; entitled: 'Do (;)';
 		selectionAct: [ :text :model | (model evaluate: text selectedText) printString ] on: $/ entitled: 'Print (/)';
 		selectionAct: [ :text :model | (model evaluate: text selectedText) inspect ] on: $i entitled: 'Inspect ('')';
-"		act: [:text :model | 
+"		act: [:text :contextModel | 
 				| newMethod |
-				newMethod := model receiverClass class compile: text text notifying: nil. 
-				self halt: 'Here we should rewind the stack' ] 
+				
+				self flag: 'if in a block first revert to the method contaning the block'.
+				
+				newMethod := contextModel recompileCurrentMethodTo: text text.
+				newMethod isNil ifFalse: [ |ctxt|
+					ctxt := self model rewindContextToMethod: newMethod fromContext: self selectedContext.
+					self selectTopOfStack: ctxt] ] 
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept';
-		doItReceiver: [:model | model receiver ];
+		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #sourceText;
-		smalltalkClass: [ :model | model receiverClass ]
+		smalltalkClass: [ :contextModel | contextModel selectedClass ]
 ]
 
 { #category : #accessing }
