@@ -52,32 +52,6 @@ GTDebuggerModel >> evaluate: expression in: aContext [
 ]
 
 { #category : #'as yet unclassified' }
-GTDebuggerModel >> gtInspectorPresentationsInText: composite [
-	"Add all the presentation belonging to the current context and its receiver"
-	|objectPresentation contextPresentation|
-	
-	"this does not work"
-	"self context gtInspectorPresentationsIn: composite.
-	self context receiver gtInspectorPresentationsIn: composite"
-	
-	"this also does not work"
-	contextPresentation := GLMCompositePresentation new.
-	contextPresentation title: [self context class printString].
-	self context gtInspectorPresentationsIn: contextPresentation.
-	composite custom: (contextPresentation startOn: self context).
-	
-	objectPresentation := GLMCompositePresentation new.
-	objectPresentation title: [self context receiver class printString].
-	self context receiver gtInspectorPresentationsIn: objectPresentation.
-	composite 
-		custom: (objectPresentation startOn: self context receiver);
-		display: [:anObject | self context receiver].
-	
-	
-	
-]
-
-{ #category : #'as yet unclassified' }
 GTDebuggerModel >> gtInspectorRetrieveVariableValuePairs [
 	|fieldList|
 

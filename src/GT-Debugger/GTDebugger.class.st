@@ -37,7 +37,7 @@ GTDebugger class >> debugProcess: aProcess [
 		self openOn: (GTDebuggerModel process: aProcess) ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'building actions' }
 GTDebugger >> actOnBrowserClosing: ann [
 	self model terminate.
 ]
@@ -47,60 +47,67 @@ GTDebugger >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Glamorous Debugger'.
 	browser on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
-	
 	browser
-		row: [:row| row column: #stack; column: #code];
+		row: [ :row | 
+					row
+						column: #stack;
+						column: #code ];
 		row: #inspector span: 2.
-
-	browser transmit to: #stack; andShow: [ :composite | |presentation| 
-		presentation := composite list 
-			title: 'Stack';
-			showOnly: 10;
-			display: #stack;
-			format: [ :each | each methodClass name , '>>' , each methodSelector ].
-		self  installBrowserActions: presentation ].
-	
-	browser transmit fromOutsidePort: #entity; to: #stack port: #selection; transformed: #context.
-	
-	browser transmit from: #stack port: #selection; fromOutsidePort: #entity; to: #stack port: #context; 
-		transformed: [:context :model |  model methodModel: context ].
-		
-	browser transmit from: #stack port: #selection; to: #stack port: #pc; 
+	browser transmit
+		to: #stack;
+		andShow: [ :composite | self stackIn: composite ].
+	browser transmit
+		fromOutsidePort: #entity;
+		to: #stack port: #selection;
+		transformed: #context.
+	browser transmit
+		from: #stack port: #selection;
+		fromOutsidePort: #entity;
+		to: #stack port: #context;
+		transformed: [ :context :model | model methodModel: context ].
+	browser transmit
+		from: #stack port: #selection;
+		to: #stack port: #pc;
 		transformed: #pc.
-	
-	browser transmit from: #stack port: #context; fromOutsidePort: #entity; to: #code; andShow: [ :composite |
-		composite smalltalkCode  
-			selectionAct: [:text :model | model evaluate: text selectedText ] on: $; entitled: 'Do (;)';
-			selectionAct: [:text :model | (model evaluate: text selectedText) printString ] on: $/ entitled: 'Print (/)';
-			selectionAct: [:text :model | (model evaluate: text selectedText) inspect ] on: $' entitled: 'Inspect ('')';
-			title: 'Source';
-			format: #sourceText;
-			smalltalkClass: [ :model | model receiverClass ]].
-		
-	browser transmit from: #stack; fromOutsidePort: #entity; from: #stack port: #pc; to: #code port: #selectionInterval;
+	browser transmit
+		from: #stack port: #context;
+		fromOutsidePort: #entity;
+		to: #code;
+		andShow: [ :composite | self methodCodeIn: composite ].
+	browser transmit
+		from: #stack;
+		fromOutsidePort: #entity;
+		from: #stack port: #pc;
+		to: #code port: #selectionInterval;
 		transformed: [ :context :model :pc | model selectedCodeRange: context ].
-	
-	browser transmit from: #stack port: #context; to: #inspector; andShow: [ :composite |
-		composite dynamic 
-			display: [:each | 
-				GTInspector new browser 
-					noTitle;
-					noActions;
-					showFirst: [:a | a custom: (GTDebuggerVariablesBrowser new browser startOn: each) ]; 
-					startOn: each  ] ]
+	browser transmit
+		from: #stack port: #context;
+		to: #inspector;
+		andShow: [ :composite | self inspectorForContextAndSelfIn: composite ]
 ]
 
-{ #category : #'private building' }
-GTDebugger >> installBrowserActions: aPresentation [
-	self installRestartAction: aPresentation.
-	self installStepIntoAction: aPresentation.
-	self installStepOverAction: aPresentation.
-	self installStepThroughAction: aPresentation.
-	self installResumeAction: aPresentation 
+{ #category : #building }
+GTDebugger >> inspectorForContextAndSelfIn: composite [
+	composite dynamic
+		display: [ :each | 
+			GTInspector new browser
+				noTitle;
+				noActions;
+				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new browser startOn: each) ];
+				startOn: each ]
 ]
 
-{ #category : #'private building' }
-GTDebugger >> installRestartAction: aPresentation [ 
+{ #category : #'building actions' }
+GTDebugger >> installDebuggingActionsFor: aPresentation [
+	self installRestartActionFor: aPresentation.
+	self installStepIntoActionFor: aPresentation.
+	self installStepOverActionFor: aPresentation.
+	self installStepThroughActionFor: aPresentation.
+	self installResumeActionFor: aPresentation 
+]
+
+{ #category : #'building actions' }
+GTDebugger >> installRestartActionFor: aPresentation [ 
 	aPresentation 
 		act: [ :presentation :model |
 			model restart: self selectedContext.
@@ -109,8 +116,8 @@ GTDebugger >> installRestartAction: aPresentation [
 		entitled: 'Restart'
 ]
 
-{ #category : #'private building' }
-GTDebugger >> installResumeAction: aPresentation [
+{ #category : #'building actions' }
+GTDebugger >> installResumeActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :model |
 			model resume.
@@ -119,8 +126,8 @@ GTDebugger >> installResumeAction: aPresentation [
 		entitled: 'Resume' 
 ]
 
-{ #category : #'private building' }
-GTDebugger >> installStepIntoAction: aPresentation [ 
+{ #category : #'building actions' }
+GTDebugger >> installStepIntoActionFor: aPresentation [ 
 	aPresentation 
 		act: [ :presentation :model |
 			model stepInto: self selectedContext.
@@ -129,8 +136,8 @@ GTDebugger >> installStepIntoAction: aPresentation [
 		entitled: 'Step into' 
 ]
 
-{ #category : #'private building' }
-GTDebugger >> installStepOverAction: aPresentation [
+{ #category : #'building actions' }
+GTDebugger >> installStepOverActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :model |
 			model stepOver: self selectedContext.
@@ -139,8 +146,8 @@ GTDebugger >> installStepOverAction: aPresentation [
 		entitled: 'Step over' 
 ]
 
-{ #category : #'private building' }
-GTDebugger >> installStepThroughAction: aPresentation [
+{ #category : #'building actions' }
+GTDebugger >> installStepThroughActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :model |
 			model stepThrough: self selectedContext.
@@ -155,6 +162,25 @@ GTDebugger >> keyAsFormatedString: key [
 	^ [ Text fromString: (key asString contractTo: 50) ]
 			on: Error
 			do: [ Text string: 'error printing' attribute: TextColor red ] 
+]
+
+{ #category : #building }
+GTDebugger >> methodCodeIn: composite [
+	composite smalltalkCode
+"		selectionAct: [ :text :model | model evaluate: text selectedText ] on: $; entitled: 'Do (;)';
+		selectionAct: [ :text :model | (model evaluate: text selectedText) printString ] on: $/ entitled: 'Print (/)';
+		selectionAct: [ :text :model | (model evaluate: text selectedText) inspect ] on: $i entitled: 'Inspect ('')';
+"		act: [:text :model | 
+				| newMethod |
+				newMethod := model receiverClass class compile: text text notifying: nil. 
+				self halt: 'Here we should rewind the stack' ] 
+			icon: GLMUIThemeExtraIcons glamorousAccept 
+			on: $s
+			entitled: 'Accept';
+		doItReceiver: [:model | model receiver ];
+		title: 'Source';
+		format: #sourceText;
+		smalltalkClass: [ :model | model receiverClass ]
 ]
 
 { #category : #accessing }
@@ -174,6 +200,16 @@ GTDebugger >> selectTopOfStack: aContext [
 { #category : #accessing }
 GTDebugger >> selectedContext [
 	^ ((browser paneNamed: #stack) port: #selection) value
+]
+
+{ #category : #building }
+GTDebugger >> stackIn: composite [
+	composite list	
+		title: 'Stack';
+		showOnly: 10;
+		display: #stack;
+		format: [ :each | each methodClass name , '>>' , each methodSelector ];
+		with: [ :list | self installDebuggingActionsFor: list ]
 ]
 
 { #category : #private }
