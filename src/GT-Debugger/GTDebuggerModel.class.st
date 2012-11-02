@@ -1,5 +1,5 @@
 "
-This models the debugger. It contains the current context and process.
+This models the debugger. It contains the current context and process. Its main goal is to handle debugger actions such as restart or stepInto. It is the model used as an input to GTDebugger.
 
 Instance Variables:
 	context	<ContextPart>
@@ -117,6 +117,7 @@ GTDebuggerModel >> resume [
 
 { #category : #updating }
 GTDebuggerModel >> rewindContextToMethod: aMethod fromContext: aContext [
+	"this method is typically to be used after a hot compilation of a method from the stack"
 	| ctxt |
 	ctxt :=  process popTo: aContext.
 	

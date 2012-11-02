@@ -1,4 +1,7 @@
 "
+GTDebugger is a browser that provides Smalltalk debugging functionality.
+
+An example:
 [ GTDebugger debugProcess: Processor activeProcess.
 	Processor activeProcess suspend.
 	#(1 2 3 4 5) do: [:each | each asString]
@@ -167,10 +170,7 @@ GTDebugger >> keyAsFormatedString: key [
 { #category : #building }
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
-"		selectionAct: [ :text :model | model evaluate: text selectedText ] on: $; entitled: 'Do (;)';
-		selectionAct: [ :text :model | (model evaluate: text selectedText) printString ] on: $/ entitled: 'Print (/)';
-		selectionAct: [ :text :model | (model evaluate: text selectedText) inspect ] on: $i entitled: 'Inspect ('')';
-"		act: [:text :contextModel | 
+		act: [:text :contextModel | 
 				| newMethod |
 				
 				self flag: 'if in a block first revert to the method contaning the block'.

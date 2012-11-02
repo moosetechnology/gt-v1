@@ -1,3 +1,13 @@
+"
+GTDebugContextModel is a helper that complements the GTDebuggerModel. It is meant to be created dynamically for each selected method.
+
+Instance Variables:
+	context	<ContextPart>
+	topContext	<ProtoObject>
+	method	<CompiledMethod>
+	methodNode	<MethodNode>
+	ranges	<Dictionary>
+"
 Class {
 	#name : #GTDebugContextModel,
 	#superclass : #Object,
@@ -28,7 +38,7 @@ GTDebugContextModel >> evaluate: expression [
 		to: context receiver
 ]
 
-{ #category : #'instance creation' }
+{ #category : #initialization }
 GTDebugContextModel >> forContext: aContext [ 
 	method := aContext method.
 	methodNode := method methodNode.
@@ -49,7 +59,7 @@ GTDebugContextModel >> forContext: aContext [
 	" ranges keysDo: [ :pc | sortedKeyPCs add: pc ]."
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebugContextModel >> gtDebuggerRetrieveVariableValuePairs [
 	|fieldList|
 
@@ -87,7 +97,6 @@ GTDebugContextModel >> receiverClass [
 GTDebugContextModel >> recompileCurrentMethodTo: aText [
 	| classOfMethod selector |
 	
-	"category := self selectedMessageCategoryName."
 	classOfMethod := self selectedClass.
 	
 	self flag: 'Better understand why the code below is nedded'.

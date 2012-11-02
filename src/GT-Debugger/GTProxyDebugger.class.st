@@ -1,3 +1,8 @@
+"
+GTProxyDebugger is a simple extension of the existing debugger that adds a button for ""debug glamorously"" using the GTDebugger in the regular debugger.
+
+The goal is to provide the possibility of having the GTDebugger next to the classic debugger until the inevitable errors are ironed out.
+"
 Class {
 	#name : #GTProxyDebugger,
 	#superclass : #Debugger,

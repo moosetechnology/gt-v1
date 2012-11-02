@@ -1,3 +1,8 @@
+"
+GTDebuggerVariablesBrowser is a special browser that is used in the first pane of the inspector that is embedded in the debugger. Its main intention is to provide a unified list of variables that come from:
+- the instance variables of the receiver
+- the local variables from the context
+"
 Class {
 	#name : #GTDebuggerVariablesBrowser,
 	#superclass : #GLMBrowserTemplate,
@@ -37,8 +42,8 @@ GTDebuggerVariablesBrowser >> evaluatorIn: composite [
 GTDebuggerVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
-		display: [ :anObject | anObject gtDebuggerRetrieveVariableValuePairs ];
-		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
+		display: [ :contextModel | contextModel gtDebuggerRetrieveVariableValuePairs ];
+		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key];
 		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]
 						on: Error
