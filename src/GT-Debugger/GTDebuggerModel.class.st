@@ -50,14 +50,6 @@ GTDebuggerModel >> currentCodeRange: aContext [
 	^(self methodModel: aContext) sourceRangeForPC: (self activePC: aContext)
 ]
 
-{ #category : #'evaluating actions' }
-GTDebuggerModel >> evaluate: expression in: aContext [
-	^ Compiler new
-		evaluate: expression
-		in: aContext
-		to: aContext receiver
-]
-
 { #category : #'private process' }
 GTDebuggerModel >> isLatestContext: aContext [
 	^ process suspendedContext == aContext
@@ -90,15 +82,22 @@ GTDebuggerModel >> process: aProcess [
 { #category : #initialization }
 GTDebuggerModel >> process: aProcess context: aContext [
 	aProcess stepToSendOrReturn.
-	"context := aProcess suspendedContext."
 	process := aProcess.
 	context := aContext
 
 ]
 
-{ #category : #'private context' }
-GTDebuggerModel >> receiverClass: aContext [
-	^ aContext receiver class
+{ #category : #'evaluating actions' }
+GTDebuggerModel >> recompileMethodTo: text inContext: recompilationContext [
+	| newMethod |				
+				
+	newMethod := (self methodModel: recompilationContext) recompileCurrentMethodTo: text.
+	newMethod isNil 
+		ifFalse: [ 
+			self rewindContextToMethod: newMethod fromContext: recompilationContext. 
+			^ newMethod ] 
+		ifTrue: [
+			^ nil ]
 ]
 
 { #category : #'debugging actions' }
@@ -129,7 +128,7 @@ GTDebuggerModel >> rewindContextToMethod: aMethod fromContext: aContext [
 				restartTopWith: aMethod;
 				stepToSendOrReturn ].
 	
-	self flag: 'handle quick methods?'.
+	self flag: 'is it realy necessary to handle quick methods separately?'.
 	
 	^ context := ctxt
 ]

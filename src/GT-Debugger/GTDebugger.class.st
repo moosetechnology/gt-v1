@@ -163,13 +163,9 @@ GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
 		act: [:text :contextModel | 
 				| recompilationContext newMethod |				
-				
-				recompilationContext := contextModel locateClosureHome.
-				recompilationContext isNil ifFalse: [
-					newMethod := contextModel recompileMethodTo: text text inContext: recompilationContext.
-					newMethod isNil ifFalse: [ |ctxt|
-						ctxt := self model rewindContextToMethod: newMethod fromContext: recompilationContext.
-						self selectTopOfStack: ctxt] ] ] 
+				(recompilationContext := contextModel locateClosureHome) isNil ifFalse: [
+					newMethod := self model recompileMethodTo: text text inContext: recompilationContext.
+					newMethod isNil ifFalse: [ self selectTopOfStack: self model context ] ] ]
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept';
