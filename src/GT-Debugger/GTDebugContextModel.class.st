@@ -80,7 +80,7 @@ GTDebugContextModel >> gtDebuggerRetrieveVariableValuePairs [
 	^ fieldList
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTDebugContextModel >> locateClosureHome [
 	"In case the current context is a BlockContext locate the closureHome and ask the
 	user to validate the new context. If closureHome is not found or the user does not 
@@ -160,7 +160,7 @@ GTDebugContextModel >> selectedMessageName [
 		ifFalse: [selector]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTDebugContextModel >> source [
 	^ method holdsTempNames
 		ifTrue: [ method getSource ]
