@@ -162,14 +162,14 @@ GTDebugger >> keyAsFormatedString: key [
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
 		act: [:text :contextModel | 
-				| newMethod |
+				| recompilationContext newMethod |				
 				
-				self flag: 'if in a block first revert to the method contaning the block'.
-				
-				newMethod := contextModel recompileCurrentMethodTo: text text.
-				newMethod isNil ifFalse: [ |ctxt|
-					ctxt := self model rewindContextToMethod: newMethod fromContext: self selectedContext.
-					self selectTopOfStack: ctxt] ] 
+				recompilationContext := contextModel locateClosureHome.
+				recompilationContext isNil ifFalse: [
+					newMethod := contextModel recompileMethodTo: text text inContext: recompilationContext.
+					newMethod isNil ifFalse: [ |ctxt|
+						ctxt := self model rewindContextToMethod: newMethod fromContext: recompilationContext.
+						self selectTopOfStack: ctxt] ] ] 
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept';

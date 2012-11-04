@@ -121,11 +121,14 @@ GTDebuggerModel >> rewindContextToMethod: aMethod fromContext: aContext [
 	| ctxt |
 	ctxt :=  process popTo: aContext.
 	
-	process
-		restartTopWith: aMethod;
-		stepToSendOrReturn.
+	ctxt == aContext
+		ifFalse: [
+			self inform: 'Method saved, but current context unchanged\because of unwind error. Click OK to see error' withCRs]
+		ifTrue: [
+			process
+				restartTopWith: aMethod;
+				stepToSendOrReturn ].
 	
-	self flag: 'need to check for errors during unwind'.
 	self flag: 'handle quick methods?'.
 	
 	^ context := ctxt

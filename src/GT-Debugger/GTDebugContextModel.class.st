@@ -80,6 +80,26 @@ GTDebugContextModel >> gtDebuggerRetrieveVariableValuePairs [
 	^ fieldList
 ]
 
+{ #category : #private }
+GTDebugContextModel >> locateClosureHome [
+	"In case aContext is a BlockContext locate the closureHome and ask the
+	user to validate the new context. If closureHome is not found or the user
+	does not validate the new context, return nil.
+	If aContext is not a BlockContext return aContext."
+	| closureHome result aText |
+	
+	context isExecutingBlock ifTrue: [
+		closureHome := context activeHome.
+		closureHome ifNil: [
+			self inform: 'Method for block not found on stack, can''t edit and continue'.
+		 	^ nil].
+		 (self confirm: 'I will have to revert to the method from\which this block originated.  Is that OK?' withCRs) 
+			ifFalse: [^ nil].
+		^ closureHome].
+	
+	^ context
+]
+
 { #category : #accessing }
 GTDebugContextModel >> receiver [
 	^ context receiver
@@ -94,16 +114,15 @@ GTDebugContextModel >> receiverClass [
 ]
 
 { #category : #'evaluating actions' }
-GTDebugContextModel >> recompileCurrentMethodTo: aText [
-	| classOfMethod selector |
+GTDebugContextModel >> recompileMethodTo: aText inContext: aContext [
+	| classOfMethod selectedMessageName selector |
 	
-	classOfMethod := self selectedClass.
+	classOfMethod := self selectedClassForContex: aContext.
+	selectedMessageName := self selectedMessageNameForContext: aContext.
 	
-	self flag: 'Better understand why the code below is nedded'.
 	selector := classOfMethod parserClass new parseSelector: aText.
-	(selector == self selectedMessageName
-	 or: [(self selectedMessageName beginsWith: 'DoIt')
-		and: [selector numArgs = self selectedMessageName numArgs]]) ifFalse: [
+	(selector == selectedMessageName or: [(selectedMessageName beginsWith: 'DoIt')
+		and: [selector numArgs = selectedMessageName numArgs]]) ifFalse: [
 			self inform: 'can''t change selector'. ^ nil].
 		
 	selector := classOfMethod compile: aText notifying: nil.
@@ -115,21 +134,33 @@ GTDebugContextModel >> recompileCurrentMethodTo: aText [
 
 { #category : #accessing }
 GTDebugContextModel >> selectedClass [
-	"Answer the class in which the currently selected context's method was found."
+	
+	^ self selectedClassForContex: context
+]
 
-	^ context methodClass
+{ #category : #accessing }
+GTDebugContextModel >> selectedClassForContex: aContext [
+	"Answer the class in which aContext's method was found."
+
+	^ aContext methodClass
 ]
 
 { #category : #accessing }
 GTDebugContextModel >> selectedMessageName [
-	"Answer the message selector of the currently selected context.
+
+	^ self selectedMessageNameForContext: context
+]
+
+{ #category : #accessing }
+GTDebugContextModel >> selectedMessageNameForContext: aContext [
+	"Answer the message selector of aContext.
 	 If the method is unbound we can still usefully answer its old selector."
 
 	| selector |
-	selector := context methodSelector.
-	^(selector ~~ context method selector
+	selector := aContext methodSelector.
+	^(selector ~~ aContext method selector
 	    and: [selector beginsWith: 'DoIt'])
-		ifTrue: [context method selector]
+		ifTrue: [aContext method selector]
 		ifFalse: [selector]
 ]
 
