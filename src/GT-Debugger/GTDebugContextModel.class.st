@@ -115,17 +115,18 @@ GTDebugContextModel >> receiverClass [
 
 { #category : #'evaluating actions' }
 GTDebugContextModel >> recompileCurrentMethodTo: aText [ 
-	| classOfMethod selectedMessageName selector |
+	| classOfMethod selector |
 	
 	classOfMethod := self selectedClass.
-	selectedMessageName := self selectedMessageName.
-	
 	selector := classOfMethod parserClass new parseSelector: aText.
-	(selector == selectedMessageName or: [(selectedMessageName beginsWith: 'DoIt')
-		and: [selector numArgs = selectedMessageName numArgs]]) ifFalse: [
+	(selector == self selectedMessageName or: [(self selectedMessageName beginsWith: 'DoIt')
+		and: [selector numArgs = self selectedMessageName numArgs]]) ifFalse: [
 			self inform: 'can''t change selector'. ^ nil].
 		
-	selector := classOfMethod compile: aText notifying: nil.
+	selector := classOfMethod 
+		compile: aText 
+		classified: self selectedMessageCategoryName 
+		notifying: nil.
 	selector isNil 
 		ifFalse: [ ^ classOfMethod compiledMethodAt: selector. ]
 		ifTrue: [ ^ nil ] 
@@ -134,14 +135,21 @@ GTDebugContextModel >> recompileCurrentMethodTo: aText [
 
 { #category : #accessing }
 GTDebugContextModel >> selectedClass [
-	"Answer the class in which the currently selected context's method was found."
+	"Answer the class in which the current context's method was found."
 
 	^ context methodClass
 ]
 
 { #category : #accessing }
+GTDebugContextModel >> selectedMessageCategoryName [
+	"Answer the name of the message category of the message of the current context."
+
+	^ self selectedClass organization categoryOfElement: self selectedMessageName
+]
+
+{ #category : #accessing }
 GTDebugContextModel >> selectedMessageName [
-	"Answer the message selector of the currently selected context.
+	"Answer the message selector of the current context.
 	 If the method is unbound we can still usefully answer its old selector."
 
 	| selector |
