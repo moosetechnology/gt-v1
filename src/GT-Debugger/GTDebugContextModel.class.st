@@ -74,8 +74,12 @@ GTDebugContextModel >> gtDebuggerRetrieveVariableValuePairs [
 		add: ('_stack top' -> ( context stackPtr > 0 ifTrue: [ context top])).
 		
 	(context tempNames size > 0) ifTrue: [
-		fieldList addAll: ((1 to: context tempNames size) collect: [ :index | 
-			(context tempNames at: index ) -> (context debuggerMap namedTempAt: index in: context ) ] ) ].
+		fieldList addAll: ((1 to: context tempNames size) collect: [ :index || key value |
+			key := context tempNames at: index.
+			value := [context debuggerMap namedTempAt: index in: context] 
+				on: Error 
+				do: [value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
+			key -> value ] ) ].
 	
 	^ fieldList
 ]
