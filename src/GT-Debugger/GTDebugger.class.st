@@ -19,7 +19,7 @@ GTDebugger class >> debugContext: aContext fromProcess: aProcess [
 	<primitive: 19> "simulation guard"
 
 	WorldState addDeferredUIMessage: [
-		self openOn: (GTDebuggerModel process: aProcess context: aContext) ].
+		self openOn: (GTDebuggerSession process: aProcess context: aContext) ].
 ]
 
 { #category : #'instance creation' }
@@ -28,7 +28,7 @@ GTDebugger class >> debugProcess: aProcess [
 	<primitive: 19> "simulation guard"
 	
 	WorldState addDeferredUIMessage: [
-		self openOn: (GTDebuggerModel process: aProcess) ].
+		self openOn: (GTDebuggerSession process: aProcess) ].
 ]
 
 { #category : #'building actions' }

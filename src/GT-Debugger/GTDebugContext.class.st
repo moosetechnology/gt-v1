@@ -9,7 +9,7 @@ Instance Variables:
 	ranges	<Dictionary>
 "
 Class {
-	#name : #GTDebugContextModel,
+	#name : #GTDebugContext,
 	#superclass : #Object,
 	#instVars : [
 		'context',
@@ -26,12 +26,12 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTDebugContextModel class >> forContext: aContext [ 
+GTDebugContext class >> forContext: aContext [ 
 	^ self new forContext: aContext 
 ]
 
 { #category : #'evaluating actions' }
-GTDebugContextModel >> evaluate: expression [
+GTDebugContext >> evaluate: expression [
 	^ Compiler new
 		evaluate: expression
 		in: context
@@ -39,7 +39,7 @@ GTDebugContextModel >> evaluate: expression [
 ]
 
 { #category : #initialization }
-GTDebugContextModel >> forContext: aContext [ 
+GTDebugContext >> forContext: aContext [ 
 	method := aContext method.
 	methodNode := method methodNode.
 
@@ -60,7 +60,7 @@ GTDebugContextModel >> forContext: aContext [
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> gtDebuggerRetrieveVariableValuePairs [
+GTDebugContext >> gtDebuggerRetrieveVariableValuePairs [
 	|fieldList|
 
 	fieldList := OrderedCollection new.
@@ -85,7 +85,7 @@ GTDebugContextModel >> gtDebuggerRetrieveVariableValuePairs [
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> locateClosureHome [
+GTDebugContext >> locateClosureHome [
 	"In case the current context is a BlockContext locate the closureHome and ask the
 	user to validate the new context. If closureHome is not found or the user does not 
 	validate the new context, return nil. 
@@ -105,12 +105,12 @@ GTDebugContextModel >> locateClosureHome [
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> receiver [
+GTDebugContext >> receiver [
 	^ context receiver
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> receiverClass [
+GTDebugContext >> receiverClass [
 	"Answer the class of the receiver. 
 	It may differ from 'self selectedClass' "
 	
@@ -118,7 +118,7 @@ GTDebugContextModel >> receiverClass [
 ]
 
 { #category : #'evaluating actions' }
-GTDebugContextModel >> recompileCurrentMethodTo: aText [ 
+GTDebugContext >> recompileCurrentMethodTo: aText [ 
 	| classOfMethod selector |
 	
 	classOfMethod := self selectedClass.
@@ -138,21 +138,21 @@ GTDebugContextModel >> recompileCurrentMethodTo: aText [
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> selectedClass [
+GTDebugContext >> selectedClass [
 	"Answer the class in which the current context's method was found."
 
 	^ context methodClass
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> selectedMessageCategoryName [
+GTDebugContext >> selectedMessageCategoryName [
 	"Answer the name of the message category of the message of the current context."
 
 	^ self selectedClass organization categoryOfElement: self selectedMessageName
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> selectedMessageName [
+GTDebugContext >> selectedMessageName [
 	"Answer the message selector of the current context.
 	 If the method is unbound we can still usefully answer its old selector."
 
@@ -165,23 +165,23 @@ GTDebugContextModel >> selectedMessageName [
 ]
 
 { #category : #private }
-GTDebugContextModel >> source [
+GTDebugContext >> source [
 	^ method holdsTempNames
 		ifTrue: [ method getSource ]
 		ifFalse: [ methodNode sourceText ]
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> sourceRangeForPC: pc [
+GTDebugContext >> sourceRangeForPC: pc [
 	^ ranges at: pc ifAbsent: [ ^ 1 to: 0 ].
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> sourceText [
+GTDebugContext >> sourceText [
 	^ self source asText
 ]
 
 { #category : #accessing }
-GTDebugContextModel >> topContext: aContext [
+GTDebugContext >> topContext: aContext [
 	topContext  := aContext 
 ]

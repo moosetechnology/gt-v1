@@ -6,7 +6,7 @@ Instance Variables:
 	process	<Process>
 "
 Class {
-	#name : #GTDebuggerModel,
+	#name : #GTDebuggerSession,
 	#superclass : #Object,
 	#instVars : [
 		'context',
@@ -16,63 +16,63 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTDebuggerModel class >> process: aProcess [
+GTDebuggerSession class >> process: aProcess [
 	^ self new
 		process: aProcess
 ]
 
 { #category : #'instance creation' }
-GTDebuggerModel class >> process: aProcess context: aContext [
+GTDebuggerSession class >> process: aProcess context: aContext [
 	^ self new
 		process: aProcess context: aContext
 ]
 
 { #category : #'private process' }
-GTDebuggerModel >> activePC: aContext [
+GTDebuggerSession >> activePC: aContext [
 	^ (self isLatestContext: aContext)
 		ifTrue: [ context pc ]
 		ifFalse: [ self previousPC: aContext ].
 ]
 
 { #category : #private }
-GTDebuggerModel >> clear [
+GTDebuggerSession >> clear [
 	process := nil.
 	context := nil
 ]
 
 { #category : #accessing }
-GTDebuggerModel >> context [
+GTDebuggerSession >> context [
 	^ context
 ]
 
 { #category : #'private context' }
-GTDebuggerModel >> currentCodeRange: aContext [
+GTDebuggerSession >> currentCodeRange: aContext [
 	^(self methodModel: aContext) sourceRangeForPC: (self activePC: aContext)
 ]
 
 { #category : #'private process' }
-GTDebuggerModel >> isLatestContext: aContext [
+GTDebuggerSession >> isLatestContext: aContext [
 	^ process suspendedContext == aContext
 ]
 
 { #category : #'private context' }
-GTDebuggerModel >> methodModel: aContext [
-	^ (GTDebugContextModel forContext: aContext) topContext: context
+GTDebuggerSession >> methodModel: aContext [
+	^ (GTDebugContext forContext: aContext) topContext: context
 ]
 
 { #category : #'private context' }
-GTDebuggerModel >> previousPC: aContext [
+GTDebuggerSession >> previousPC: aContext [
 	^ (aContext method pcPreviousTo: aContext pc)
 		ifNil: [ aContext pc ]
 ]
 
 { #category : #accessing }
-GTDebuggerModel >> process [
+GTDebuggerSession >> process [
 	^ process
 ]
 
 { #category : #accessing }
-GTDebuggerModel >> process: aProcess [
+GTDebuggerSession >> process: aProcess [
 	aProcess stepToSendOrReturn.
 	context := aProcess suspendedContext.
 	process := aProcess
@@ -80,7 +80,7 @@ GTDebuggerModel >> process: aProcess [
 ]
 
 { #category : #initialization }
-GTDebuggerModel >> process: aProcess context: aContext [
+GTDebuggerSession >> process: aProcess context: aContext [
 	aProcess stepToSendOrReturn.
 	process := aProcess.
 	context := aContext
@@ -88,7 +88,7 @@ GTDebuggerModel >> process: aProcess context: aContext [
 ]
 
 { #category : #'evaluating actions' }
-GTDebuggerModel >> recompileMethodTo: text inContext: recompilationContext [
+GTDebuggerSession >> recompileMethodTo: text inContext: recompilationContext [
 	| newMethod |				
 				
 	newMethod := (self methodModel: recompilationContext) recompileCurrentMethodTo: text.
@@ -101,7 +101,7 @@ GTDebuggerModel >> recompileMethodTo: text inContext: recompilationContext [
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> restart: selectedContext [
+GTDebuggerSession >> restart: selectedContext [
 	self unwindTo: selectedContext.
 	process
 		restartTop;
@@ -109,13 +109,13 @@ GTDebuggerModel >> restart: selectedContext [
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> resume [
+GTDebuggerSession >> resume [
 	process resume.
 	self clear.
 ]
 
 { #category : #updating }
-GTDebuggerModel >> rewindContextToMethod: aMethod fromContext: aContext [
+GTDebuggerSession >> rewindContextToMethod: aMethod fromContext: aContext [
 	"this method is typically to be used after a hot compilation of a method from the stack"
 	| ctxt |
 	ctxt :=  process popTo: aContext.
@@ -134,38 +134,38 @@ GTDebuggerModel >> rewindContextToMethod: aMethod fromContext: aContext [
 ]
 
 { #category : #accessing }
-GTDebuggerModel >> selectedCodeRange: selectedContext [
+GTDebuggerSession >> selectedCodeRange: selectedContext [
 	^ self currentCodeRange: selectedContext
 ]
 
 { #category : #accessing }
-GTDebuggerModel >> stack [
+GTDebuggerSession >> stack [
 	^ context stack
 ]
 
 { #category : #accessing }
-GTDebuggerModel >> stackOfSize: size [
+GTDebuggerSession >> stackOfSize: size [
 	^ context stackOfSize: size
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> stepInto [
+GTDebuggerSession >> stepInto [
 	self stepInto: context
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> stepInto: selectedContext [
+GTDebuggerSession >> stepInto: selectedContext [
 	context := process step: selectedContext.
 	process stepToSendOrReturn.
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> stepOver [
+GTDebuggerSession >> stepOver [
 	self stepOver: context
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> stepOver: selectedContext [
+GTDebuggerSession >> stepOver: selectedContext [
 	| newContext |
 	newContext := process completeStep: selectedContext.
 	context := 
@@ -175,12 +175,12 @@ GTDebuggerModel >> stepOver: selectedContext [
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> stepThrough [
+GTDebuggerSession >> stepThrough [
 	self stepThrough: context
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> stepThrough: selectedContext [
+GTDebuggerSession >> stepThrough: selectedContext [
 	"Send messages until you return to the present method context.
 	 Used to step into a block in the method."
 	
@@ -189,13 +189,13 @@ GTDebuggerModel >> stepThrough: selectedContext [
 ]
 
 { #category : #'debugging actions' }
-GTDebuggerModel >> terminate [
+GTDebuggerSession >> terminate [
 	self process isNil ifFalse: [self process terminate].
 	self clear.
 ]
 
 { #category : #private }
-GTDebuggerModel >> unwindTo: aContext [
+GTDebuggerSession >> unwindTo: aContext [
 	|ctx|
 	ctx := process popTo: aContext.
 	ctx == aContext ifFalse: [ self error: 'Could not unwind stack' ].
