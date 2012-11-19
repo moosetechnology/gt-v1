@@ -100,11 +100,20 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')].
+		spec group: 'default' with: #(
+			'GT-Model'
+			'GT-Tools'
+			'GT-Inspector'
+			'GT-Debugger'
+			'GT-ClassicCoder'
+			'GT-Coder'
+			'GT-Playground'
+		).
 		spec group: 'Tests' with: #('GT-Tests-Inspector').
-		"spec group: 'OCD' with: #(
+		spec group: 'OCD' with: #(
 			'Bifrost'
 			'GT-Inspector'
-			'GT-Debugger')."
+			'GT-Debugger').
 		spec project: 'GlamourCore' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
@@ -124,12 +133,12 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 					version: #stable;
 					file:  'ConfigurationOfRefactoringBrowser';
 					repository: 'http://www.squeaksource.com/MetacelloRepository'].
-		"spec project: 'Bifrost' with: [
+		spec project: 'Bifrost' with: [
 			spec
 				className: 'ConfigurationOfBifrost';
 				version: 'default';
 				file: 'ConfigurationOfBifrost';
-				repository: 'http://www.squeaksource.com/bifrost' ]."
+				repository: 'http://www.squeaksource.com/bifrost' ].
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.squeaksource.com/Glamour' ]
 	]
 ]
