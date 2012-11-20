@@ -24,6 +24,7 @@ GTObjectCentricDebugger >> installAtStateChangedFor: aPresentation [
 { #category : #'building actions' }
 GTObjectCentricDebugger >> installDebuggingActionsFor: aPresentation [
 	super installDebuggingActionsFor: aPresentation.
+	
 	self installNextMessageActionFor: aPresentation.
 	self installAtStateChangedFor: aPresentation
 ]
@@ -91,7 +92,7 @@ GTObjectCentricDebugger >> updateWithContext: newContext fromProcess: aProcess [
 	
 			self model unwindTo: newContext.
 			self model process stepToSendOrReturn.
-	
+			
 			self selectTopOfStack: self model context].
 		
 	aProcess suspend.

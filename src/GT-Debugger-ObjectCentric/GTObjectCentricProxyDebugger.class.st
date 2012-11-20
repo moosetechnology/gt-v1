@@ -7,9 +7,12 @@ Class {
 { #category : #'as yet unclassified' }
 GTObjectCentricProxyDebugger class >> initialize [
 	super initialize.
+
+	"Add ourselves to registry. See [Smalltalk tools]" 
+	Smalltalk tools register: self as: #debugger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTObjectCentricProxyDebugger >> debuggerClass [
 	^ GTObjectCentricDebugger
 ]
