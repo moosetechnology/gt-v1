@@ -201,3 +201,13 @@ GTDebuggerSession >> unwindTo: aContext [
 	ctx == aContext ifFalse: [ self error: 'Could not unwind stack' ].
 	context := aContext
 ]
+
+{ #category : #updating }
+GTDebuggerSession >> updateWithContext: newContext fromProcess: aProcess [
+	self process: aProcess.
+			
+	Transcript crShow: '    self model process: ', self  process name.
+	
+	self unwindTo: newContext.
+	self process stepToSendOrReturn.
+]
