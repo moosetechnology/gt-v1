@@ -17,6 +17,11 @@ GTProxyDebugger class >> initialize [
 	Smalltalk tools register: self as: #debugger
 ]
 
+{ #category : #accessing }
+GTProxyDebugger >> debuggerClass [
+	^ GTProxyDebugger 
+]
+
 { #category : #initialize }
 GTProxyDebugger >> preDebugButtonQuads [
 	| buttons |
@@ -39,5 +44,5 @@ GTProxyDebugger >> spawnGTDebugger [
 	self breakDependents.
 	topView delete.
 	
-	GTDebugger debugContext: self interruptedContext fromProcess: self interruptedProcess
+	self debuggerClass debugContext: self interruptedContext fromProcess: self interruptedProcess
 ]

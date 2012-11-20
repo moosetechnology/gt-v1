@@ -111,7 +111,7 @@ GTDebuggerSession >> restart: selectedContext [
 { #category : #'debugging actions' }
 GTDebuggerSession >> resume [
 	process resume.
-	self clear.
+	"self clear."
 ]
 
 { #category : #updating }

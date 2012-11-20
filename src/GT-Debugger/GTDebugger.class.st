@@ -115,6 +115,7 @@ GTDebugger >> installResumeActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :model |
 			model resume.
+			model clear.
 			browser close. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Resume' 
