@@ -32,16 +32,14 @@ GTObjectCentricDebugger >> createWatcherThreadForModel: aModel [
 
 { #category : #'building actions' }
 GTObjectCentricDebugger >> installAtStateChangedFor: aPresentation [
-"	aPresentation
-		act: [ :presentation :model |
+	aPresentation
+		act: [ :presentation :model |		
+			self selectedContext receiver haltAtStateChangeAndNotify: self.
+			self createWatcherThreadForModel: model.
 			
-			self selectedContext receiver haltAtStateChange.
-			Smalltalk tools debugger openFull: true.
-			
-			model resume.
-			browser close]
+			model resume ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
-		entitled: '-> State'"
+		entitled: '-> State'
 ]
 
 { #category : #'building actions' }
@@ -56,7 +54,7 @@ GTObjectCentricDebugger >> installDebuggingActionsFor: aPresentation [
 GTObjectCentricDebugger >> installNextMessageActionFor: aPresentation [
 	aPresentation
 		act: [ :presentation :model |
-			Transcript crShow: 'GTDebugger>>installNextMessageActionFor:'.
+			Transcript crShow: 'GTObjectCentricDebugger>>installNextMessageActionFor:'.
 			Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
 			Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
 			Transcript crShow: '    self model process: ', self model process name.
@@ -77,7 +75,7 @@ GTObjectCentricDebugger >> resetDebuggerWithContext: newContext fromProcess: aPr
 	This message should be sent in response to an object centric action 
 	from within the process that generated the action."
 	
-	Transcript crShow: 'GTDebugger>>doSomethingElse: newContext with: aProcess'.	
+	Transcript crShow: 'GTObjectCentricDebugger>>resetDebuggerWithContext: newContext fromProcess: aProcess'.	
 	Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
 	Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
 	Transcript crShow: '    aProcess name: ', aProcess name.
@@ -103,7 +101,7 @@ GTObjectCentricDebugger >> terminateWatcher [
 GTObjectCentricDebugger >> updateModelWithContext: newContext fromProcess: aProcess [
 	"Update the debugger model and reset the selection"
 
-	Transcript crShow: 'GTDebugger -- addDeferredUIMessage:'.	
+	Transcript crShow: 'GTObjectCentricDebugger>>updateModelWithContext: newContext fromProcess: aProcess'.	
 	Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
 	Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
 	Transcript crShow: '    aProcess name: ', aProcess name.

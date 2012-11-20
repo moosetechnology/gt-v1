@@ -15,7 +15,7 @@ GTTransparentBreakpoint class >> signalAndNotify: anObject [
 
 { #category : #'as yet unclassified' }
 GTTransparentBreakpoint >> defaultAction [ 	
-	Transcript crShow: 'TransparentBreakpoint>>defaultAction activeProcess: ', Processor activeProcess name.
+	Transcript crShow: 'GTTransparentBreakpoint>>defaultAction activeProcess: ', Processor activeProcess name.
 	
 	receiver resetDebuggerWithContext: self signalerContext fromProcess:  Processor activeProcess.
 ]
