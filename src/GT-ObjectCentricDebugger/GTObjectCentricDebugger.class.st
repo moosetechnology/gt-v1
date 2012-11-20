@@ -7,6 +7,29 @@ Class {
 	#category : #'GT-ObjectCentricDebugger'
 }
 
+{ #category : #'as yet unclassified' }
+GTObjectCentricDebugger >> createWatcherThreadForModel: aModel [
+
+	watcher isNil ifTrue: [  
+		watcher := ([
+			Transcript crShow: 'Started'.
+			[aModel process isTerminated 
+				ifTrue: [
+					Transcript crShow: 'terminated'.
+					aModel clear.
+					browser close.
+					Processor activeProcess terminate.
+					"also remove the reification"]
+				ifFalse: [
+					Transcript crShow: 'wait'.
+					(Delay forMilliseconds:  100) wait ].
+			 false.
+			] whileFalse: []. 
+		] newProcess priority: Processor userBackgroundPriority).
+		watcher resume].
+
+]
+
 { #category : #'building actions' }
 GTObjectCentricDebugger >> installAtStateChangedFor: aPresentation [
 "	aPresentation
@@ -34,67 +57,59 @@ GTObjectCentricDebugger >> installNextMessageActionFor: aPresentation [
 	aPresentation
 		act: [ :presentation :model |
 			Transcript crShow: 'GTDebugger>>installNextMessageActionFor:'.
-
 			Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
 			Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
 			Transcript crShow: '    self model process: ', self model process name.
 		
 			self selectedContext receiver haltAtNextMessageAndNotify: self.
+			self createWatcherThreadForModel: model.
 			
-			watcher isNil ifTrue: [  
-				watcher := ([
-					Transcript crShow: 'Started'.
-					[model process isTerminated 
-						ifTrue: [
-							Transcript crShow: 'terminated'.
-							model clear.
-							browser close.
-							Processor activeProcess terminate.
-							"also remove the reification"]
-						ifFalse: [
-							Transcript crShow: 'wait'.
-							(Delay forMilliseconds:  100) wait ].
-					 false.
-					] whileFalse: []. 
-				] newProcess priority: Processor userBackgroundPriority).
-				watcher resume].
-			
-			model resume.
-			"browser close"]
+			model resume ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: '-> Message'
 ]
 
 { #category : #'as yet unclassified' }
-GTObjectCentricDebugger >> updateWithContext: newContext fromProcess: aProcess [
+GTObjectCentricDebugger >> resetDebuggerWithContext: newContext fromProcess: aProcess [
+	"Reset the context and the process associated with this debugger,
+	and make sure aProcess is not the UI thread.
+	
+	This message should be sent in response to an object centric action 
+	from within the process that generated the action."
+	
 	Transcript crShow: 'GTDebugger>>doSomethingElse: newContext with: aProcess'.	
 	Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
 	Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
 	Transcript crShow: '    aProcess name: ', aProcess name.
 	Transcript crShow: '    self model process: ', self model process name.
-	"self halt."
 	
-	watcher isNil ifFalse: [watcher terminate.  watcher :=nil].	
+	self terminateWatcher.
 	
 	UIManager default spawnNewProcessIfThisIsUI: aProcess.
-	
 	WorldState
-		addDeferredUIMessage: [ 
-			Transcript crShow: 'GTDebugger -- addDeferredUIMessage:'.	
-			Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
-			Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
-			Transcript crShow: '    aProcess name: ', aProcess name.
-			Transcript crShow: '    self model process: ', self model process name.
-			
-			self model process: aProcess.
-			
-			Transcript crShow: '    self model process: ', self model process name.
-	
-			self model unwindTo: newContext.
-			self model process stepToSendOrReturn.
-			
-			self selectTopOfStack: self model context].
-		
+		addDeferredUIMessage: [self updateModelWithContext: newContext fromProcess: aProcess].
 	aProcess suspend.
+	
+]
+
+{ #category : #'as yet unclassified' }
+GTObjectCentricDebugger >> terminateWatcher [
+	watcher isNil ifFalse: [
+		watcher isTerminated ifFalse:  [watcher terminate].  
+		watcher :=nil]
+]
+
+{ #category : #'as yet unclassified' }
+GTObjectCentricDebugger >> updateModelWithContext: newContext fromProcess: aProcess [
+	"Update the debugger model and reset the selection"
+
+	Transcript crShow: 'GTDebugger -- addDeferredUIMessage:'.	
+	Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
+	Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
+	Transcript crShow: '    aProcess name: ', aProcess name.
+	Transcript crShow: '    self model process: ', self model process name.
+			
+	self model updateWithContext: newContext fromProcess: aProcess.
+	self selectTopOfStack: self model context
 	
 ]
