@@ -35,7 +35,7 @@ GTObjectCentricDebugger >> installAtStateChangedFor: aPresentation [
 	aPresentation
 		act: [ :presentation :model |		
 			self selectedContext receiver haltAtStateChangeAndNotify: self.
-			self createWatcherThreadForModel: model.
+			"self createWatcherThreadForModel: model."
 			
 			model resume ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
@@ -60,9 +60,9 @@ GTObjectCentricDebugger >> installNextMessageActionFor: aPresentation [
 			Transcript crShow: '    self model process: ', self model process name.
 		
 			self selectedContext receiver haltAtNextMessageAndNotify: self.
-			self createWatcherThreadForModel: model.
+			"self createWatcherThreadForModel: model."
 			
-			model resume ]
+			model resume. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: '-> Message'
 ]
@@ -81,7 +81,7 @@ GTObjectCentricDebugger >> resetDebuggerWithContext: newContext fromProcess: aPr
 	Transcript crShow: '    aProcess name: ', aProcess name.
 	Transcript crShow: '    self model process: ', self model process name.
 	
-	self terminateWatcher.
+	"self terminateWatcher."
 	
 	UIManager default spawnNewProcessIfThisIsUI: aProcess.
 	WorldState
