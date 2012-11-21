@@ -200,7 +200,7 @@ GTDebugger >> stackIn: composite [
 	composite list	
 		title: 'Stack';
 		showOnly: 10;
-		display: #stack;
+		display: #filteredStack;
 		format: [ :each | String streamContents: [:stream | each printDebugOn: stream ] ];
 		with: [ :list | self installDebuggingActionsFor: list ]
 ]
