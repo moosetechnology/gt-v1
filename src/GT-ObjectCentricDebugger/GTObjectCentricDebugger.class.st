@@ -59,7 +59,7 @@ GTObjectCentricDebugger >> installNextMessageActionFor: aPresentation [
 			Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
 			Transcript crShow: '    self model process: ', self model process name.
 		
-			self selectedContext receiver haltAtNextMessageAndNotify: self.
+			self selectedContext receiver haltAtNextMessageAndNotify: (WeakSet new add: self ; yourself).
 			"self createWatcherThreadForModel: model."
 			
 			model resume. ]

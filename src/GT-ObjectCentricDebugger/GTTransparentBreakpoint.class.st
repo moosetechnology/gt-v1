@@ -2,27 +2,29 @@ Class {
 	#name : #GTTransparentBreakpoint,
 	#superclass : #Halt,
 	#instVars : [
-		'receiver'
+		'receivers'
 	],
 	#category : #'GT-ObjectCentricDebugger'
 }
 
 { #category : #'as yet unclassified' }
-GTTransparentBreakpoint class >> signalAndNotify: anObject [
+GTTransparentBreakpoint class >> signalAndNotify: aWeakCollection [
 
-	^ self new signalAndNotify: anObject 
+	^ self new signalAndNotify: aWeakCollection 
 ]
 
 { #category : #'as yet unclassified' }
 GTTransparentBreakpoint >> defaultAction [ 	
 	Transcript crShow: 'GTTransparentBreakpoint>>defaultAction activeProcess: ', Processor activeProcess name.
 	
-	receiver resetDebuggerWithContext: self signalerContext fromProcess:  Processor activeProcess.
+	receivers do: [:each| 
+		Transcript crShow: 'GTTransparentBreakpoint>>defaultAction each ', each class name.
+		each resetDebuggerWithContext: self signalerContext fromProcess:  Processor activeProcess].
 ]
 
 { #category : #'as yet unclassified' }
-GTTransparentBreakpoint >> signalAndNotify: anObject [
+GTTransparentBreakpoint >> signalAndNotify: aWeakCollection [
 
-	receiver := anObject.
+	receivers := aWeakCollection.
 	super signal.
 ]
