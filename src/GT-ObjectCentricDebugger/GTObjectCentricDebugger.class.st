@@ -1,42 +1,14 @@
 Class {
 	#name : #GTObjectCentricDebugger,
 	#superclass : #GTDebugger,
-	#instVars : [
-		'watcher'
-	],
 	#category : #'GT-ObjectCentricDebugger'
 }
-
-{ #category : #'as yet unclassified' }
-GTObjectCentricDebugger >> createWatcherThreadForModel: aModel [
-
-	watcher isNil ifTrue: [  
-		watcher := ([
-			Transcript crShow: 'Started'.
-			[aModel process isTerminated 
-				ifTrue: [
-					Transcript crShow: 'terminated'.
-					aModel clear.
-					browser close.
-					Processor activeProcess terminate.
-					"also remove the reification"]
-				ifFalse: [
-					Transcript crShow: 'wait'.
-					(Delay forMilliseconds:  100) wait ].
-			 false.
-			] whileFalse: []. 
-		] newProcess priority: Processor userBackgroundPriority).
-		watcher resume].
-
-]
 
 { #category : #'building actions' }
 GTObjectCentricDebugger >> installAtStateChangedFor: aPresentation [
 	aPresentation
 		act: [ :presentation :model |		
-			self selectedContext receiver haltAtStateChangeAndNotify: self.
-			"self createWatcherThreadForModel: model."
-			
+			self selectedContext receiver haltAtStateChangeAndNotify: (WeakSet new add: self ; yourself).
 			model resume ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: '-> State'
@@ -60,8 +32,6 @@ GTObjectCentricDebugger >> installNextMessageActionFor: aPresentation [
 			Transcript crShow: '    self model process: ', self model process name.
 		
 			self selectedContext receiver haltAtNextMessageAndNotify: (WeakSet new add: self ; yourself).
-			"self createWatcherThreadForModel: model."
-			
 			model resume. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: '-> Message'
@@ -81,20 +51,11 @@ GTObjectCentricDebugger >> resetDebuggerWithContext: newContext fromProcess: aPr
 	Transcript crShow: '    aProcess name: ', aProcess name.
 	Transcript crShow: '    self model process: ', self model process name.
 	
-	"self terminateWatcher."
-	
 	UIManager default spawnNewProcessIfThisIsUI: aProcess.
 	WorldState
 		addDeferredUIMessage: [self updateModelWithContext: newContext fromProcess: aProcess].
 	aProcess suspend.
 	
-]
-
-{ #category : #'as yet unclassified' }
-GTObjectCentricDebugger >> terminateWatcher [
-	watcher isNil ifFalse: [
-		watcher isTerminated ifFalse:  [watcher terminate].  
-		watcher :=nil]
 ]
 
 { #category : #'as yet unclassified' }
