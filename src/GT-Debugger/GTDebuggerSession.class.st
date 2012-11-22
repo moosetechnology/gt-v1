@@ -52,11 +52,13 @@ GTDebuggerSession >> currentCodeRange: aContext [
 
 { #category : #'private context' }
 GTDebuggerSession >> filterTopContext: aContext [
-	
-	(self shouldDisplayOnTopContext: aContext) ifTrue: [^ aContext].
+	|ctx|
+	 
+	ctx := aContext.
+	(self shouldDisplayOnTopContext: ctx) ifTrue: [^ ctx].
 	self flag: 'limit the number of iterations?'.
-	[(aContext := aContext sender) ~~ nil] whileTrue:
-		[(self shouldDisplayOnTopContext: aContext) ifTrue: [^ aContext].].
+	[(ctx := ctx sender) ~~ nil] whileTrue:
+		[(self shouldDisplayOnTopContext: ctx) ifTrue: [^ ctx]].
 	^ nil
 ]
 
