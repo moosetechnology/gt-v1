@@ -8,8 +8,9 @@ Class {
 GTObjectCentricDebugger >> installAtStateChangedFor: aPresentation [
 	aPresentation
 		act: [ :presentation :model |		
-			self selectedContext receiver haltAtStateChangeAndNotify: (WeakSet new add: self ; yourself).
-			model resume ]
+			(self shouldAdaptObject: self selectedContext receiver) ifTrue: [
+				self selectedContext receiver haltAtStateChangeAndNotify: (WeakSet new add: self ; yourself).
+				model resume ] ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: '-> State'
 ]
@@ -26,18 +27,28 @@ GTObjectCentricDebugger >> installDebuggingActionsFor: aPresentation [
 GTObjectCentricDebugger >> installNextMessageActionFor: aPresentation [
 	aPresentation
 		act: [ :presentation :model |
-			Transcript crShow: 'GTObjectCentricDebugger>>installNextMessageActionFor:'.
-			Transcript crShow: '    Processor activeProcess : ', Processor activeProcess name.
-			Transcript crShow: '    UIManager default : ',UIManager default uiProcess name.
-			Transcript crShow: '    self model process: ', self model process name.
-		
-			self selectedContext receiver haltAtNextMessageAndNotify: (WeakSet new add: self ; yourself).
-			model resume. ]
+			(self shouldAdaptObject: self selectedContext receiver) ifTrue: [
+				self selectedContext receiver haltAtNextMessageAndNotify: (WeakSet new add: self ; yourself).
+				model resume ] ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: '-> Message'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
+GTObjectCentricDebugger >> kernelClasses [
+
+	^ {
+		Boolean. True. False. BlockClosure. 
+		MethodContext. Array. OrderedCollection. Set. 
+		IdentitySet. Dictionary. IdentityDictionary. Class. 
+		Metaclass. Behavior. SmallInteger. Float. 
+		Error. Exception. UndefinedObject. String.
+		
+		BFBehavioralMetaObject. BFMetaObjectReflectiveMethod
+	}
+]
+
+{ #category : #events }
 GTObjectCentricDebugger >> resetDebuggerWithContext: newContext fromProcess: aProcess [
 	"Reset the context and the process associated with this debugger,
 	and make sure aProcess is not the UI thread.
@@ -58,7 +69,19 @@ GTObjectCentricDebugger >> resetDebuggerWithContext: newContext fromProcess: aPr
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'building actions' }
+GTObjectCentricDebugger >> shouldAdaptObject: anObject [
+
+	"Filter intances of kernelClasses and the kernelClasses themselves."
+	((self kernelClasses includes: anObject class) or: [self kernelClasses includes: anObject])	
+		ifFalse: [ ^ true].
+	
+	^ UIManager default confirm: 'The currently selected object is an instance of class "',anObject class asString,'".
+	Adapting such objects may lead to unexpected behaviour.
+	Are you sure you want to continue?'.
+]
+
+{ #category : #private }
 GTObjectCentricDebugger >> updateModelWithContext: newContext fromProcess: aProcess [
 	"Update the debugger model and reset the selection"
 
