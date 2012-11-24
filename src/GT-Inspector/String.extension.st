@@ -9,11 +9,5 @@ String >> gtInspectorITextIn: composite [
 
 { #category : #'*gt-inspector' }
 String >> gtInspectorItemsIn: composite [
-	"We offer the list of characters for a string"
-	^ (self asOrderedCollection gtInspectorItemsIn: composite)
-		title: [ :anObject | anObject size asString, ' chars' ];
-		format: [ :each |
-			[ each printString ] 
-							on: Error 
-							do: [ Text string: 'error printing' attribute: TextColor red ] ]
+	"We do not offer a list presentation for a string"
 ]
