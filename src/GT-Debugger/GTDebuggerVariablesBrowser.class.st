@@ -5,26 +5,25 @@ GTDebuggerVariablesBrowser is a special browser that is used in the first pane o
 "
 Class {
 	#name : #GTDebuggerVariablesBrowser,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMCompositePresentation,
 	#category : #'GT-Debugger'
 }
 
 { #category : #building }
-GTDebuggerVariablesBrowser >> buildBrowser [ 
-	browser := GLMTabulator new.
-	browser title: [:each | GTInspector new printObjectAsAnItem: each receiver ].
-	browser 
-		morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
-			icon: GLMUIThemeExtraIcons glamorousBrowse 
-			entitled: 'Browse'.
-	browser row: #variables; row: #evaluator.
-	browser transmit to: #variables; andShow: [:a | 
-		self variablesIn: a ].
-	browser transmit to: #evaluator; andShow: [:a | 
-		self evaluatorIn: a ].
-	browser transmit from: #variables; toOutsidePort: #selection.
-	browser transmit from: #evaluator; toOutsidePort: #selection.
-	^ browser 
+GTDebuggerVariablesBrowser >> compose [  
+	self title: [:each | GTInspector new printObjectAsAnItem: each receiver ].
+	self tabulator with: [:browser | 
+		browser 
+			morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
+				icon: GLMUIThemeExtraIcons glamorousBrowse 
+				entitled: 'Browse'.
+		browser row: #variables; row: #evaluator.
+		browser transmit to: #variables; andShow: [:a | 
+			self variablesIn: a ].
+		browser transmit to: #evaluator; andShow: [:a | 
+			self evaluatorIn: a ].
+		browser transmit from: #variables; toOutsidePort: #selection.
+		browser transmit from: #evaluator; toOutsidePort: #selection ]
 ]
 
 { #category : #'private building' }

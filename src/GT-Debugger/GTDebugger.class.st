@@ -9,7 +9,7 @@ An example:
 "
 Class {
 	#name : #GTDebugger,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMCompositePresentation,
 	#category : #'GT-Debugger'
 }
 
@@ -28,63 +28,69 @@ GTDebugger class >> debugProcess: aProcess [
 	self debugContext: aProcess suspendedContext fromProcess: aProcess
 ]
 
+{ #category : #'instance creation' }
+GTDebugger class >> openOn: anObject [ 
+	^ self new openOn: anObject
+]
+
 { #category : #'building actions' }
 GTDebugger >> actOnBrowserClosing: ann [
 	self model terminate.
 ]
 
 { #category : #building }
-GTDebugger >> buildBrowser [
-	browser := GLMTabulator new.
-	browser title: 'Glamorous Debugger'.
-	browser on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
-	browser
-		row: [ :row | 
-					row
-						column: #stack;
-						column: #code ];
-		row: #inspector.
-	browser transmit
-		to: #stack;
-		andShow: [ :composite | self stackIn: composite ].
-	browser transmit
-		fromOutsidePort: #entity;
-		to: #stack port: #selection;
-		transformed: [:model | model context].
-	browser transmit
-		from: #stack port: #selection;
-		fromOutsidePort: #entity;
-		to: #stack port: #context;
-		transformed: [ :context :model | model createModelForContext: context ].
-	browser transmit
-		from: #stack port: #selection;
-		to: #stack port: #pc;
-		transformed: #pc.
-	browser transmit
-		from: #stack port: #context;
-		fromOutsidePort: #entity;
-		to: #code;
-		andShow: [ :composite | self methodCodeIn: composite ].
-	browser transmit
-		from: #stack;
-		fromOutsidePort: #entity;
-		from: #stack port: #pc;
-		to: #code port: #selectionInterval;
-		transformed: [ :context :model :pc | model selectedCodeRange: context ].
-	browser transmit
-		from: #stack port: #context;
-		to: #inspector;
-		andShow: [ :composite | self inspectorForContextAndSelfIn: composite ]
+GTDebugger >> compose [
+	self title: 'Glamorous Debugger'.
+	self tabulator with: [:browser | 
+		browser on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
+		browser
+			row: [ :row | 
+						row
+							column: #stack;
+							column: #code ];
+			row: #inspector.
+		browser transmit
+			to: #stack;
+			andShow: [ :composite | self stackIn: composite ].
+		browser transmit
+			fromOutsidePort: #entity;
+			to: #stack port: #selection;
+			transformed: [:model | model context].
+		browser transmit
+			from: #stack port: #selection;
+			fromOutsidePort: #entity;
+			to: #stack port: #context;
+			transformed: [ :context :model | model createModelForContext: context ].
+		browser transmit
+			from: #stack port: #selection;
+			to: #stack port: #pc;
+			transformed: #pc.
+		browser transmit
+			from: #stack port: #context;
+			fromOutsidePort: #entity;
+			to: #code;
+			andShow: [ :composite | self methodCodeIn: composite ].
+		browser transmit
+			from: #stack;
+			fromOutsidePort: #entity;
+			from: #stack port: #pc;
+			to: #code port: #selectionInterval;
+			transformed: [ :context :model :pc | model selectedCodeRange: context ].
+		browser transmit
+			from: #stack port: #context;
+			to: #inspector;
+			andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] ]
 ]
 
 { #category : #building }
 GTDebugger >> inspectorForContextAndSelfIn: composite [
 	composite dynamic
 		display: [ :each | 
-			GTInspector new
+			"We use the first actual finder because need to send showFirst: to it"
+			GTInspector new first
 				noTitle;
 				noActions;
-				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new browser startOn: each) ];
+				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new startOn: each) ];
 				startOn: each ]
 ]
 
