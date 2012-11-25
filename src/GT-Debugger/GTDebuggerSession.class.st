@@ -16,12 +16,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTDebuggerSession class >> process: aProcess [
-	^ self new
-		process: aProcess
-]
-
-{ #category : #'instance creation' }
 GTDebuggerSession class >> process: aProcess context: aContext [
 	^ self new
 		process: aProcess context: aContext
@@ -45,9 +39,14 @@ GTDebuggerSession >> context [
 	^ context
 ]
 
+{ #category : #accessing }
+GTDebuggerSession >> createModelForContext: aContext [
+	^ (GTDebugContext forContext: aContext) topContext: context
+]
+
 { #category : #'private context' }
 GTDebuggerSession >> currentCodeRange: aContext [
-	^(self methodModel: aContext) sourceRangeForPC: (self activePC: aContext)
+	^(self createModelForContext: aContext) sourceRangeForPC: (self activePC: aContext)
 ]
 
 { #category : #'private context' }
@@ -56,36 +55,14 @@ GTDebuggerSession >> filterTopContext: aContext [
 	 
 	ctx := aContext.
 	(self shouldDisplayOnTopContext: ctx) ifTrue: [^ ctx].
-	self flag: 'limit the number of iterations?'.
 	[(ctx := ctx sender) ~~ nil] whileTrue:
 		[(self shouldDisplayOnTopContext: ctx) ifTrue: [^ ctx]].
 	^ nil
 ]
 
-{ #category : #accessing }
-GTDebuggerSession >> filteredStack [
-	"if the global settings are switched of simply return the full stack"
-	Debugger filterCommonMessageSends ifFalse: [ ^ self stack ].
-	"ask if we should keep each context or not"
-	^ self stack select: [ :aContext|
-		[self shouldDisplayContext: aContext]
-			on: Exception
-			do: [ :e| 
-				Transcript show: 'Exception occured while filtering context:', context asString; cr;
-					show: '------------------------------------------------------'; cr;
-					show: e asString; cr;
-					show: '------------------------------------------------------'; cr.
-				false]]
-]
-
 { #category : #'private process' }
 GTDebuggerSession >> isLatestContext: aContext [
 	^ process suspendedContext == aContext
-]
-
-{ #category : #'private context' }
-GTDebuggerSession >> methodModel: aContext [
-	^ (GTDebugContext forContext: aContext) topContext: context
 ]
 
 { #category : #'private context' }
@@ -99,26 +76,12 @@ GTDebuggerSession >> process [
 	^ process
 ]
 
-{ #category : #accessing }
-GTDebuggerSession >> process: aProcess [
-	aProcess stepToSendOrReturn.
-	context := aProcess suspendedContext.
-	process := aProcess
-
-]
-
 { #category : #initialization }
 GTDebuggerSession >> process: aProcess context: aContext [
-	
 	aProcess stepToSendOrReturn.
 	process := aProcess.
 	context := self filterTopContext: aContext.
 	context isNil ifTrue: [context := aContext].
-	
-	"If another context should be displayed on top unwind to that context."
-	(aProcess suspendedContext == context) ifFalse: [
-		self unwindTo: context. 
-		self process stepToSendOrReturn].
 	
 
 ]
@@ -127,7 +90,7 @@ GTDebuggerSession >> process: aProcess context: aContext [
 GTDebuggerSession >> recompileMethodTo: text inContext: recompilationContext [
 	| newMethod |				
 				
-	newMethod := (self methodModel: recompilationContext) recompileCurrentMethodTo: text.
+	newMethod := (self createModelForContext: recompilationContext) recompileCurrentMethodTo: text.
 	newMethod isNil 
 		ifFalse: [ 
 			self rewindContextToMethod: newMethod fromContext: recompilationContext. 
@@ -147,7 +110,6 @@ GTDebuggerSession >> restart: selectedContext [
 { #category : #'debugging actions' }
 GTDebuggerSession >> resume [
 	process resume.
-	"self clear."
 ]
 
 { #category : #updating }
@@ -175,43 +137,9 @@ GTDebuggerSession >> selectedCodeRange: selectedContext [
 ]
 
 { #category : #'private context' }
-GTDebuggerSession >> shouldDisplayContext: aContext [
-	"called by filterStack: on each context to see if it should be displayed 
-	in the Debugger view or not."
-	|selector receiver|
-	selector := aContext method selector.
-	receiver := aContext receiver.
-	
-	"special case for the DoIt selector"
-	(receiver class == UndefinedObject and: [selector == #DoIt]) 
-		ifTrue: [ ^ true ].
-	
-	"skip common slectors"
-	(#(isNil ifNil: ifNotNil: ifNotNilDo:) includes: selector) 
-		ifTrue: [ ^ false ].
-	
-	"skip sends to kernel classes"
-	({Boolean. True. False. BlockClosure. MethodContext. Array. OrderedCollection. Set. IdentitySet. Dictionary. IdentityDictionary. Class. Metaclass. Behavior. SmallInteger. Float. Error. Exception. UndefinedObject} 
-		includes: receiver class) 
-			ifTrue: [ ^ false ]. 
-	
-	"skip common message sends to TestCase"
-	(((receiver isKindOf: TestCase) 
-		and: [TestCase includesSelector: selector])
-		and: [(receiver class includesSelector: selector) not])
-			ifTrue: [ ^ false ].
-			
-	"...otherwise display the context"
-	^ true
-]
-
-{ #category : #'private context' }
 GTDebuggerSession >> shouldDisplayOnTopContext: aContext [
-	|shouldDisplay|
 	
-	shouldDisplay := (aContext receiver class = UndefinedObject and: [aContext method selector = #halt ]) not.
-	Debugger filterCommonMessageSends ifFalse: [ ^ shouldDisplay ].
-	^ shouldDisplay and: [self shouldDisplayContext: aContext].
+	^ aContext method selector ~= #halt
 ]
 
 { #category : #accessing }

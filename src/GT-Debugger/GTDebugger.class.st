@@ -25,10 +25,7 @@ GTDebugger class >> debugContext: aContext fromProcess: aProcess [
 { #category : #'instance creation' }
 GTDebugger class >> debugProcess: aProcess [
 
-	<primitive: 19> "simulation guard"
-	
-	WorldState addDeferredUIMessage: [
-		self openOn: (GTDebuggerSession process: aProcess) ].
+	self debugContext: aProcess suspendedContext fromProcess: aProcess
 ]
 
 { #category : #'building actions' }
@@ -58,7 +55,7 @@ GTDebugger >> buildBrowser [
 		from: #stack port: #selection;
 		fromOutsidePort: #entity;
 		to: #stack port: #context;
-		transformed: [ :context :model | model methodModel: context ].
+		transformed: [ :context :model | model createModelForContext: context ].
 	browser transmit
 		from: #stack port: #selection;
 		to: #stack port: #pc;
@@ -200,7 +197,7 @@ GTDebugger >> stackIn: composite [
 	composite list	
 		title: 'Stack';
 		showOnly: 10;
-		display: #filteredStack;
+		display: #stack;
 		format: [ :each | String streamContents: [:stream | each printDebugOn: stream ] ];
 		with: [ :list | self installDebuggingActionsFor: list ]
 ]
