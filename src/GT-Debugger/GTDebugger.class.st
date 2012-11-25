@@ -81,7 +81,7 @@ GTDebugger >> buildBrowser [
 GTDebugger >> inspectorForContextAndSelfIn: composite [
 	composite dynamic
 		display: [ :each | 
-			GTInspector new browser
+			GTInspector new
 				noTitle;
 				noActions;
 				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new browser startOn: each) ];
