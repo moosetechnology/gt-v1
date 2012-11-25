@@ -11,7 +11,7 @@ self registerToolsOn: Smalltalk tools.
 "
 Class {
 	#name : #GTInspector,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMCompositePresentation,
 	#classVars : [
 		'GTNumberOfInspectorPanes'
 	],
@@ -31,6 +31,11 @@ GTInspector class >> numberOfInspectorPanes [
 { #category : #settings }
 GTInspector class >> numberOfInspectorPanes: anInteger [
 	GTNumberOfInspectorPanes := anInteger 
+]
+
+{ #category : #openning }
+GTInspector class >> openOn: anObject [ 
+	^ self new openOn: anObject
 ]
 
 { #category : #'tools registry' }
@@ -54,24 +59,23 @@ GTInspector class >> settingsOn: aBuilder [
 ]
 
 { #category : #building }
-GTInspector >> buildBrowser [
-	browser := GLMFinder new.
-	browser fixedSizePanes: self class numberOfInspectorPanes.
-	browser title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
-	browser act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
-	browser show: [ :a | 
-		a title: [ :anObject | self printObjectAsAnItem: anObject ].
-		a 
-			morphicAct: [:composite | composite entity browse]
-			icon: GLMUIThemeExtraIcons glamorousBrowse 
-			entitled: 'Browse'.
-		a dynamic 
-			display: [:each | 
-				| dynamic |
-				dynamic := GLMCompositePresentation new.
-				each gtInspectorPresentationsIn: dynamic.
-				dynamic ] ].
-	^ browser
+GTInspector >> compose [
+	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
+	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
+	self finder with: [:browser | 
+		browser fixedSizePanes: self class numberOfInspectorPanes.
+		browser show: [ :a | 
+			a title: [ :anObject | self printObjectAsAnItem: anObject ].
+			a 
+				morphicAct: [:composite | composite entity browse]
+				icon: GLMUIThemeExtraIcons glamorousBrowse 
+				entitled: 'Browse'.
+			a dynamic 
+				display: [:each | 
+					| dynamic |
+					dynamic := GLMCompositePresentation new.
+					each gtInspectorPresentationsIn: dynamic.
+					dynamic ] ] ]
 ]
 
 { #category : #opening }
