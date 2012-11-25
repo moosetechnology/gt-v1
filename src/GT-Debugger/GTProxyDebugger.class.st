@@ -19,7 +19,7 @@ GTProxyDebugger class >> initialize [
 
 { #category : #accessing }
 GTProxyDebugger >> debuggerClass [
-	^ GTProxyDebugger 
+	^ GTDebugger 
 ]
 
 { #category : #initialize }
