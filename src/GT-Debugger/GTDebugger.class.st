@@ -38,6 +38,11 @@ GTDebugger >> actOnBrowserClosing: ann [
 	self model terminate.
 ]
 
+{ #category : #private }
+GTDebugger >> browser [ 
+	^ self presentations first
+]
+
 { #category : #building }
 GTDebugger >> compose [
 	self title: 'Glamorous Debugger'.
@@ -119,7 +124,7 @@ GTDebugger >> installResumeActionFor: aPresentation [
 		act: [ :presentation :model |
 			model resume.
 			model clear.
-			browser close. ]
+			self browser close. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Resume' 
 ]
@@ -181,13 +186,13 @@ GTDebugger >> methodCodeIn: composite [
 
 { #category : #accessing }
 GTDebugger >> model [
-	^ (browser pane port: #entity) value
+	^ (self browser pane port: #entity) value
 ]
 
 { #category : #private }
 GTDebugger >> selectTopOfStack: aContext [
 	| stackPane |
-	stackPane := browser paneNamed: #stack.
+	stackPane := self browser paneNamed: #stack.
 	(stackPane port: #selection) value: aContext.
 	(stackPane port: #pc) value: aContext pc.
 	stackPane update
@@ -195,7 +200,7 @@ GTDebugger >> selectTopOfStack: aContext [
 
 { #category : #accessing }
 GTDebugger >> selectedContext [
-	^ ((browser paneNamed: #stack) port: #selection) value
+	^ ((self browser paneNamed: #stack) port: #selection) value
 ]
 
 { #category : #building }
