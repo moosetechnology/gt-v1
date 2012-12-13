@@ -11,6 +11,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GTJustForAdapting class >> adaptedObjects [
+	^ adaptedObjects
+]
+
+{ #category : #'as yet unclassified' }
 GTJustForAdapting class >> createAdaptations [
 	| anObject aMetaObject|
 	

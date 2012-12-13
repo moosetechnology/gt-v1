@@ -69,7 +69,12 @@ GTAdaptationsBrowser >> adaptedObjectsIn: aComposite [
 	aComposite list
 			title: 'Adapted objects';
 			display: [:container | container adaptedObjectsAsHashDictionary ] ;
-			format: [:each | each value ,'(',each key asString,')'  ]
+			format: [:each | each value ,'(',each key asString,')'  ];
+			updateOn: BFMetaObjectBindingRemoved
+				from: [ :metaObjectContainer | metaObjectContainer announcer ];
+			updateOn: BFMetaObjectBindingAdded
+				from: [ :metaObjectContainer | metaObjectContainer announcer ]
+			
 ]
 
 { #category : #'as yet unclassified' }
@@ -95,9 +100,7 @@ GTAdaptationsBrowser >> compose [
 			passivelyFrom: #outer port: #entity; 
 			from: #adaptedObjects port: #selection; 
 			transformed: [:container :assoc | container metaObjectForHash: assoc key ];
-			andShow:  [:composite| self metaObjectInspectorIn: composite ] ].
-
-
+			andShow:  [:composite| self metaObjectInspectorIn: composite ] ]
 ]
 
 { #category : #'as yet unclassified' }
