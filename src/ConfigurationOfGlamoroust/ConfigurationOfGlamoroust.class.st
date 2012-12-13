@@ -95,8 +95,9 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 			package: 'GT-Model' with: [spec requires: #('RPackage')];
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore' 'RB')];
-			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore')];
-			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GlamourCore' 'GT-Debugger' 'GT-Inspector' 'Bifrost')];
+			package: 'GT-DebuggerModel';
+			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore' 'GT-DebuggerModel' 'GT-Inspector')];
+			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
 			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
@@ -106,6 +107,7 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 			'GT-Tools'
 			'GT-Inspector'
 			'GT-Debugger'
+			'GT-DebuggerModel'
 			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
