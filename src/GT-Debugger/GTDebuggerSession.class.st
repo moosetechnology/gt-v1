@@ -104,12 +104,17 @@ GTDebuggerSession >> restart: selectedContext [
 	self unwindTo: selectedContext.
 	process
 		restartTop;
-		stepToSendOrReturn
+		stepToSendOrReturn.
+	
+	self triggerEvent: #restart		
+	
 ]
 
 { #category : #'debugging actions' }
 GTDebuggerSession >> resume [
 	process resume.
+	
+	self triggerEvent: #resume
 ]
 
 { #category : #updating }
@@ -161,6 +166,8 @@ GTDebuggerSession >> stepInto [
 GTDebuggerSession >> stepInto: selectedContext [
 	context := process step: selectedContext.
 	process stepToSendOrReturn.
+	
+	self triggerEvent: #stepInto
 ]
 
 { #category : #'debugging actions' }
@@ -175,7 +182,9 @@ GTDebuggerSession >> stepOver: selectedContext [
 	context := 
 		newContext == selectedContext
 			ifTrue: [ process stepToSendOrReturn ]
-			ifFalse: [ newContext ]
+			ifFalse: [ newContext ].
+
+	self triggerEvent: #stepOver 
 ]
 
 { #category : #'debugging actions' }
@@ -190,12 +199,16 @@ GTDebuggerSession >> stepThrough: selectedContext [
 	
 	context := process stepToHome: selectedContext.
 	process stepToSendOrReturn.
+			
+	self triggerEvent: #stepThrough 
 ]
 
 { #category : #'debugging actions' }
 GTDebuggerSession >> terminate [
 	self process isNil ifFalse: [self process terminate].
 	self clear.
+	
+	self triggerEvent: #terminate
 ]
 
 { #category : #private }
