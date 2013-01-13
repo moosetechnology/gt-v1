@@ -36,7 +36,7 @@ GTDebugger class >> openOn: anObject [
 { #category : #private }
 GTDebugger class >> sessionClass [
 
-	^ GTDebuggerSession 
+	^ DebugSession 
 ]
 
 { #category : #'building actions' }
