@@ -111,7 +111,8 @@ GTDebugger >> installDebuggingActionsFor: aPresentation [
 	self installStepIntoActionFor: aPresentation.
 	self installStepOverActionFor: aPresentation.
 	self installStepThroughActionFor: aPresentation.
-	self installResumeActionFor: aPresentation 
+	self installRunToHereActionFor: aPresentation.
+	self installResumeActionFor: aPresentation
 ]
 
 { #category : #'building actions' }
@@ -133,6 +134,17 @@ GTDebugger >> installResumeActionFor: aPresentation [
 			self browser close. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Resume' 
+]
+
+{ #category : #'building actions' }
+GTDebugger >> installRunToHereActionFor: aPresentation [
+	aPresentation 
+		act: [ :presentation :model | 
+			self selectionInterval ifNotNil: [:selectionInterval | 
+				model runToSelection: selectionInterval inContext: self selectedContext.
+				self selectTopOfStack: model context 	] ]
+		icon: GLMUIThemeExtraIcons glamorousPlay
+		entitled: 'Run to Here' 
 ]
 
 { #category : #'building actions' }
@@ -207,6 +219,11 @@ GTDebugger >> selectTopOfStack: aContext [
 { #category : #accessing }
 GTDebugger >> selectedContext [
 	^ ((self browser paneNamed: #stack) port: #selection) value
+]
+
+{ #category : #accessing }
+GTDebugger >> selectionInterval [
+	^ ((self browser paneNamed: #code) port: #selectionInterval) value
 ]
 
 { #category : #building }
