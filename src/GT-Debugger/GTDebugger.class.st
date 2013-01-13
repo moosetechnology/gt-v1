@@ -196,6 +196,10 @@ GTDebugger >> methodCodeIn: composite [
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept';
+		act: [ self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
+			icon: GLMUIThemeExtraIcons glamorousSearch 
+			on: $w
+			entitled: 'Accept';
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #sourceText;
@@ -221,9 +225,14 @@ GTDebugger >> selectedContext [
 	^ ((self browser paneNamed: #stack) port: #selection) value
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTDebugger >> selectionInterval [
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value
+]
+
+{ #category : #private }
+GTDebugger >> selectionInterval: anInterval [
+	^ ((self browser paneNamed: #code) port: #selectionInterval) value: anInterval
 ]
 
 { #category : #building }
