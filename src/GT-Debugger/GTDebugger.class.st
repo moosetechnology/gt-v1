@@ -36,7 +36,7 @@ GTDebugger class >> openOn: anObject [
 { #category : #private }
 GTDebugger class >> sessionClass [
 
-	^ GTDebuggerSession"DebugSession" 
+	^ DebugSession 
 ]
 
 { #category : #'building actions' }
@@ -111,7 +111,7 @@ GTDebugger >> installDebuggingActionsFor: aPresentation [
 	self installStepIntoActionFor: aPresentation.
 	self installStepOverActionFor: aPresentation.
 	self installStepThroughActionFor: aPresentation.
-	"self installRunToHereActionFor: aPresentation."
+	self installRunToHereActionFor: aPresentation.
 	self installResumeActionFor: aPresentation
 ]
 
@@ -196,10 +196,10 @@ GTDebugger >> methodCodeIn: composite [
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept';
-		"act: [ self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
+		act: [ self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
 			icon: GLMUIThemeExtraIcons glamorousSearch 
 			on: $w
-			entitled: 'Accept';"
+			entitled: 'Accept';
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #sourceText;
