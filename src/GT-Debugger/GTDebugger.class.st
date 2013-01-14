@@ -44,6 +44,20 @@ GTDebugger >> actOnBrowserClosing: ann [
 	self model terminate.
 ]
 
+{ #category : #'building actions' }
+GTDebugger >> addCreateMessageActionFor: aPresentation to: aCollection [
+
+	self model isInterruptedContextDoesNotUnderstand ifTrue: [ 
+		aCollection add:
+			((GLMGenericAction new) 
+				action: [ :presentation :model |
+					model createMethodInContext: self selectedContext.
+					self selectTopOfStack: model context ]; 
+				icon: GLMUIThemeExtraIcons glamorousAdd;
+				title: 'Create method';
+				yourself) ]
+]
+
 { #category : #private }
 GTDebugger >> browser [ 
 	^ self presentations first
@@ -112,7 +126,16 @@ GTDebugger >> installDebuggingActionsFor: aPresentation [
 	self installStepOverActionFor: aPresentation.
 	self installStepThroughActionFor: aPresentation.
 	self installRunToHereActionFor: aPresentation.
-	self installResumeActionFor: aPresentation
+	self installResumeActionFor: aPresentation.
+	self installDynamicActionsFor: aPresentation
+]
+
+{ #category : #'building actions' }
+GTDebugger >> installDynamicActionsFor: aPresentation [
+	aPresentation dynamicActions: [ :presentation || newActions |
+		newActions := OrderedCollection new.
+		self addCreateMessageActionFor: aPresentation to: newActions.
+		newActions ]
 ]
 
 { #category : #'building actions' }
@@ -217,7 +240,7 @@ GTDebugger >> selectTopOfStack: aContext [
 	stackPane := self browser paneNamed: #stack.
 	(stackPane port: #selection) value: aContext.
 	(stackPane port: #pc) value: aContext pc.
-	stackPane update
+	stackPane update.
 ]
 
 { #category : #accessing }
