@@ -211,18 +211,17 @@ GTDebugger >> keyAsFormatedString: key [
 { #category : #building }
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
-		act: [:text :contextModel | 
-				| recompilationContext newMethod |				
-				(recompilationContext := contextModel locateClosureHome) isNil ifFalse: [
-					newMethod := self model recompileMethodTo: text text inContext: recompilationContext.
-					newMethod isNil ifFalse: [ self selectTopOfStack: self model context ] ] ]
+		act: [:text :contextModel | 			
+					 (self model recompileMethodTo: text text inContext: self selectedContext)
+						 ifNotNil: [ self selectTopOfStack: self model context ] ] 
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept';
-		act: [ self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
+		act: [:text :contextModel | 
+				self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
 			icon: GLMUIThemeExtraIcons glamorousSearch 
 			on: $w
-			entitled: 'Accept';
+			entitled: 'Where is?';
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #sourceText;
