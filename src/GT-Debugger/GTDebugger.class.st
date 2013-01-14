@@ -120,14 +120,20 @@ GTDebugger >> inspectorForContextAndSelfIn: composite [
 ]
 
 { #category : #'building actions' }
+GTDebugger >> installCodeActionsFor: aPresentation [
+	self installWhereIsActionFor: aPresentation.
+	self installRunToHereActionFor: aPresentation.
+	self installSaveActionFor: aPresentation.
+]
+
+{ #category : #'building actions' }
 GTDebugger >> installDebuggingActionsFor: aPresentation [
 	self installRestartActionFor: aPresentation.
 	self installStepIntoActionFor: aPresentation.
 	self installStepOverActionFor: aPresentation.
 	self installStepThroughActionFor: aPresentation.
-	self installRunToHereActionFor: aPresentation.
 	self installResumeActionFor: aPresentation.
-	self installDynamicActionsFor: aPresentation
+	self installDynamicActionsFor: aPresentation.
 ]
 
 { #category : #'building actions' }
@@ -162,12 +168,23 @@ GTDebugger >> installResumeActionFor: aPresentation [
 { #category : #'building actions' }
 GTDebugger >> installRunToHereActionFor: aPresentation [
 	aPresentation 
-		act: [ :presentation :model | 
+		act: [ :text :contextModel | 
 			self selectionInterval ifNotNil: [:selectionInterval | 
-				model runToSelection: selectionInterval inContext: self selectedContext.
-				self selectTopOfStack: model context 	] ]
+				self model runToSelection: selectionInterval inContext: self selectedContext.
+				self selectTopOfStack: self model context 	] ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Run to Here' 
+]
+
+{ #category : #'building actions' }
+GTDebugger >> installSaveActionFor: aPresentation [ 
+	aPresentation 
+		act: [ :text :contextModel | 			
+			 (self model recompileMethodTo: text text inContext: self selectedContext)
+				 ifNotNil: [ self selectTopOfStack: self model context ] ] 
+		icon: GLMUIThemeExtraIcons glamorousAccept 
+		on: $s
+		entitled: 'Accept'
 ]
 
 { #category : #'building actions' }
@@ -200,6 +217,16 @@ GTDebugger >> installStepThroughActionFor: aPresentation [
 		entitled: 'Step through' 
 ]
 
+{ #category : #'building actions' }
+GTDebugger >> installWhereIsActionFor: aPresentation [ 
+	aPresentation 
+		act: [ :text :contextModel | 
+			self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
+		icon: GLMUIThemeExtraIcons glamorousSearch 
+		on: $w
+		entitled: 'Where is?'
+]
+
 { #category : #private }
 GTDebugger >> keyAsFormatedString: key [
 
@@ -211,21 +238,11 @@ GTDebugger >> keyAsFormatedString: key [
 { #category : #building }
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
-		act: [:text :contextModel | 			
-					 (self model recompileMethodTo: text text inContext: self selectedContext)
-						 ifNotNil: [ self selectTopOfStack: self model context ] ] 
-			icon: GLMUIThemeExtraIcons glamorousAccept 
-			on: $s
-			entitled: 'Accept';
-		act: [:text :contextModel | 
-				self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
-			icon: GLMUIThemeExtraIcons glamorousSearch 
-			on: $w
-			entitled: 'Where is?';
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #sourceText;
-		smalltalkClass: [ :contextModel | contextModel selectedClass ]
+		smalltalkClass: [ :contextModel | contextModel selectedClass ];
+		with: [ :code | self installCodeActionsFor: code ]
 ]
 
 { #category : #accessing }
