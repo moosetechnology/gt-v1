@@ -44,5 +44,8 @@ GTProxyDebugger >> spawnGTDebugger [
 	self breakDependents.
 	topView delete.
 	
-	self debuggerClass debugContext: self interruptedContext fromProcess: self interruptedProcess
+	self debuggerClass debugSession: ((self debuggerClass 
+		spanNewSessionForContext: self interruptedContext fromProcess: self interruptedProcess)
+			errorWasInUIProcess: errorWasInUIProcess) 
+
 ]

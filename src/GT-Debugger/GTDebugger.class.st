@@ -16,16 +16,22 @@ Class {
 { #category : #'instance creation' }
 GTDebugger class >> debugContext: aContext fromProcess: aProcess [
 
-	<primitive: 19> "simulation guard"
-
-	WorldState addDeferredUIMessage: [
-		self openOn: (self sessionClass process: aProcess context: aContext) ].
+	self debugSession: (self spanNewSessionForContext: aContext fromProcess: aProcess)
 ]
 
 { #category : #'instance creation' }
 GTDebugger class >> debugProcess: aProcess [
 
 	self debugContext: aProcess suspendedContext fromProcess: aProcess
+]
+
+{ #category : #'instance creation' }
+GTDebugger class >> debugSession: aDebugSession [
+
+	<primitive: 19> "simulation guard"
+
+	WorldState addDeferredUIMessage: [
+		self openOn: aDebugSession ]
 ]
 
 { #category : #'instance creation' }
@@ -39,9 +45,15 @@ GTDebugger class >> sessionClass [
 	^ DebugSession 
 ]
 
+{ #category : #accessing }
+GTDebugger class >> spanNewSessionForContext: aContext fromProcess: aProcess [
+
+	^ self sessionClass process: aProcess context: aContext 
+]
+
 { #category : #'building actions' }
 GTDebugger >> actOnBrowserClosing: ann [
-	self model terminate.
+	self model terminate
 ]
 
 { #category : #'building actions' }
@@ -67,7 +79,6 @@ GTDebugger >> browser [
 GTDebugger >> compose [
 	self title: 'Glamorous Debugger'.
 	self tabulator with: [:browser | 
-		browser on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 		browser
 			row: [ :row | 
 						row
@@ -104,7 +115,8 @@ GTDebugger >> compose [
 		browser transmit
 			from: #stack port: #context;
 			to: #inspector;
-			andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] ]
+			andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] ].
+	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 ]
 
 { #category : #building }
@@ -290,4 +302,9 @@ GTDebugger >> valueAsFormatedString: value [
 	^ [ Text fromString: value printString]
 			on: Error
 			do: [ Text string: 'error printing' attribute: TextColor red ] 
+]
+
+{ #category : #events }
+GTDebugger >> windowIsClosing [ 
+	self announce: GLMBrowserClosing new
 ]
