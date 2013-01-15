@@ -96,7 +96,7 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore' 'RB')];
 			package: 'GT-DebuggerModel';
-			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore' 'GT-DebuggerModel' 'GT-Inspector')];
+			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore' 'DebuggerModel' 'GT-Inspector')];
 			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
 			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
@@ -140,6 +140,12 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 				version: 'default';
 				file: 'ConfigurationOfBifrost';
 				repository: 'http://www.squeaksource.com/bifrost' ].
+		spec project: 'DebuggerModel' with: [
+			spec
+				className: 'ConfigurationOfDebuggerModel';
+				version: 'default';
+				file: 'ConfigurationOfDebuggerModel';
+				repository: 'http://ss3.gemstone.com/ss/DebuggerModel' ].
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.squeaksource.com/Glamour' ]
 	]
 ]
