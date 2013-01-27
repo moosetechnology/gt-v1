@@ -120,7 +120,7 @@ ConfigurationOfGlamoroust >> baseline02: spec [
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
 					version: #development;
-					loads: #('Core' 'Core Tests');
+					loads: #('Core' 'Core Tests' 'Morphic');
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec project: 'RPackage' with: [
 				spec
