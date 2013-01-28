@@ -26,12 +26,12 @@ GTDebugger class >> debugProcess: aProcess [
 ]
 
 { #category : #'instance creation' }
-GTDebugger class >> debugSession: aDebugSession [
+GTDebugger class >> debugSession: aSession [
 
 	<primitive: 19> "simulation guard"
 
 	WorldState addDeferredUIMessage: [
-		self openOn: aDebugSession ]
+		self openOn: aSession ]
 ]
 
 { #category : #'instance creation' }
@@ -49,6 +49,12 @@ GTDebugger class >> sessionClass [
 GTDebugger class >> spanNewSessionForContext: aContext fromProcess: aProcess [
 
 	^ self sessionClass process: aProcess context: aContext 
+]
+
+{ #category : #accessing }
+GTDebugger class >> spanNewSessionForProcess: aProcess [
+
+	^ self spanNewSessionForContext: aProcess suspendedContext fromProcess: aProcess
 ]
 
 { #category : #'building actions' }
