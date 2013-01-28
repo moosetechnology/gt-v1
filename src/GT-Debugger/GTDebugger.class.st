@@ -30,8 +30,9 @@ GTDebugger class >> debugSession: aSession [
 
 	<primitive: 19> "simulation guard"
 
-	WorldState addDeferredUIMessage: [
-		self openOn: aSession ]
+	"WorldState addDeferredUIMessage: ["
+		self openOn: aSession 
+	"]"
 ]
 
 { #category : #'instance creation' }
