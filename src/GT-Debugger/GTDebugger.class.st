@@ -118,7 +118,7 @@ GTDebugger >> compose [
 			fromOutsidePort: #entity;
 			from: #stack port: #pc;
 			to: #code port: #selectionInterval;
-			transformed: [ :context :model :pc | model selectedCodeRange: context ].
+			transformed: [ :context :model :pc | model selectedCodeRangeForContext: context ].
 		browser transmit
 			from: #stack port: #context;
 			to: #inspector;
