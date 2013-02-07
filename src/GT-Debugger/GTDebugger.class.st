@@ -66,12 +66,13 @@ GTDebugger >> actOnBrowserClosing: ann [
 { #category : #'building actions' }
 GTDebugger >> addCreateMessageActionFor: aPresentation to: aCollection [
 
-	self model isInterruptedContextDoesNotUnderstand ifTrue: [ 
+	(self model isInterruptedContextDoesNotUnderstand and: [self model context = self selectedContext]) ifTrue: [ 
 		aCollection add:
 			((GLMGenericAction new) 
 				action: [ :presentation :model |
 					model createMethodInContext: self selectedContext.
-					self selectTopOfStack: model context ]; 
+					self selectTopOfStack: model context.
+					self updateCodePane ]; 
 				icon: GLMUIThemeExtraIcons glamorousAdd;
 				title: 'Create method';
 				yourself) ]
@@ -157,7 +158,8 @@ GTDebugger >> installDebuggingActionsFor: aPresentation [
 
 { #category : #'building actions' }
 GTDebugger >> installDynamicActionsFor: aPresentation [
-	aPresentation dynamicActions: [ :presentation || newActions |
+	
+	aPresentation dynamicActionsOnSelection: [ :presentation || newActions |
 		newActions := OrderedCollection new.
 		self addCreateMessageActionFor: aPresentation to: newActions.
 		newActions ]
@@ -240,7 +242,7 @@ GTDebugger >> installStepThroughActionFor: aPresentation [
 GTDebugger >> installWhereIsActionFor: aPresentation [ 
 	aPresentation 
 		act: [ :text :contextModel | 
-			self selectionInterval: (self model pcRangeForContext:  self selectedContext ) ]
+			self updateSelectionInterval ]
 		icon: GLMUIThemeExtraIcons glamorousSearch 
 		on: $w
 		entitled: 'Where is?'
@@ -301,6 +303,21 @@ GTDebugger >> stackIn: composite [
 		display: #stack;
 		format: [ :each | String streamContents: [:stream | each printDebugOn: stream ] ];
 		with: [ :list | self installDebuggingActionsFor: list ]
+]
+
+{ #category : #private }
+GTDebugger >> updateCodePane [ 
+	| codePane |
+	
+	codePane := self browser paneNamed: #code.
+	codePane update.
+	self updateSelectionInterval.
+]
+
+{ #category : #private }
+GTDebugger >> updateSelectionInterval [
+
+	self selectionInterval: (self model pcRangeForContext:  self selectedContext )
 ]
 
 { #category : #private }
