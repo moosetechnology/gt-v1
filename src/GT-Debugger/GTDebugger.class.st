@@ -202,7 +202,9 @@ GTDebugger >> installSaveActionFor: aPresentation [
 	aPresentation 
 		act: [ :text :contextModel | 			
 			 (self model recompileMethodTo: text text inContext: self selectedContext)
-				 ifNotNil: [ self selectTopOfStack: self model context ] ] 
+				 ifNotNil: [ 
+					self selectTopOfStack: self model context.
+					self updateCodePane ] ] 
 		icon: GLMUIThemeExtraIcons glamorousAccept 
 		on: $s
 		entitled: 'Accept'
