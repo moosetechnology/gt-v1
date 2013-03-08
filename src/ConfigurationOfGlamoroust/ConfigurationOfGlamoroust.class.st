@@ -187,7 +187,7 @@ ConfigurationOfGlamoroust >> baseline03: spec [
 					file: 'ConfigurationOfGlamour';
 					version: #development;
 					loads: #('Core' 'Core Tests' 'Morphic');
-					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour' ].
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
 		spec project: 'Bifrost' with: [
 			spec
 				className: 'ConfigurationOfBifrost';
@@ -200,7 +200,7 @@ ConfigurationOfGlamoroust >> baseline03: spec [
 				version: 'default';
 				file: 'ConfigurationOfDebuggerModel';
 				repository: 'http://ss3.gemstone.com/ss/DebuggerModel' ].
-		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour' ]
+		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ]
 	]
 ]
 
