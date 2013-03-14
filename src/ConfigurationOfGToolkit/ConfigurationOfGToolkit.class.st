@@ -174,6 +174,7 @@ ConfigurationOfGToolkit >> baseline03: spec [
 			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
+			'Tests'
 		).
 		spec group: 'Tests' with: #('GT-Tests-Inspector').
 		spec group: 'ObjectCentricDebugger' with: #(
