@@ -84,7 +84,7 @@ GTDebugger >> actOnBrowserClosing: ann [
 GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
 	(Smalltalk tools filterDebuggersForContext: self selectedContext)
 		remove: self class ifAbsent: [  ];
-		do: [ :each | 
+		do: [ :each |
 					aCollection
 						add:
 							(GLMGenericAction new
