@@ -14,6 +14,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+GTDebugger class >> debugBasedOnSession: aSession [
+
+	^ self debugContext: aSession context fromProcess: aSession process
+]
+
+{ #category : #'instance creation' }
 GTDebugger class >> debugContext: aContext fromProcess: aProcess [
 
 	^ self debugSession: (self spanNewSessionForContext: aContext fromProcess: aProcess)
@@ -33,6 +39,17 @@ GTDebugger class >> debugSession: aSession [
 	"WorldState addDeferredUIMessage: ["
 		^ self openOn: aSession 
 	"]"
+]
+
+{ #category : #accessing }
+GTDebugger class >> defaultTitle [
+	^ 'Glamorous Debugger'
+]
+
+{ #category : #'as yet unclassified' }
+GTDebugger class >> handlesContext: aContext [
+
+	^ true
 ]
 
 { #category : #'instance creation' }
@@ -60,7 +77,28 @@ GTDebugger class >> spanNewSessionForProcess: aProcess [
 
 { #category : #'building actions' }
 GTDebugger >> actOnBrowserClosing: ann [
-	self model terminate
+	self model ifNotNil: [ self model terminate ]
+]
+
+{ #category : #'building actions' }
+GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
+	(Smalltalk tools filterDebuggersForContext: self selectedContext)
+		remove: self class ifAbsent: [  ];
+		do: [ :each | 
+					aCollection
+						add:
+							(GLMGenericAction new
+								action: [ :presentation :model | |currentSession selectedContext|
+											currentSession := self model.
+											selectedContext := self selectedContext.
+											self detachSession.
+											self browser close.
+											currentSession updateContextTo: selectedContext.
+											each debugBasedOnSession: currentSession ];
+								icon: GLMUIThemeExtraIcons glamorousAdd;
+								title: each defaultTitle;
+								category: 'Available Debuggers';
+								yourself) ]
 ]
 
 { #category : #'building actions' }
@@ -85,7 +123,7 @@ GTDebugger >> browser [
 
 { #category : #building }
 GTDebugger >> compose [
-	self title: 'Glamorous Debugger'.
+	self title: self debuggerTitle.
 	self tabulator with: [:browser | 
 		browser
 			row: [ :row | 
@@ -127,6 +165,24 @@ GTDebugger >> compose [
 	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 ]
 
+{ #category : #accessing }
+GTDebugger >> debuggerTitle [
+	
+	^ self class defaultTitle 
+]
+
+{ #category : #'building actions' }
+GTDebugger >> detachSession [
+
+	(self browser pane port: #entity) silentValue: nil
+]
+
+{ #category : #intialization }
+GTDebugger >> errorWasInUIProcess: aBoolean [
+
+	self model errorWasInUIProcess: aBoolean
+]
+
 { #category : #building }
 GTDebugger >> inspectorForContextAndSelfIn: composite [
 	composite dynamic
@@ -162,6 +218,7 @@ GTDebugger >> installDynamicActionsFor: aPresentation [
 	aPresentation dynamicActionsOnSelection: [ :presentation || newActions |
 		newActions := OrderedCollection new.
 		self addCreateMessageActionFor: aPresentation to: newActions.
+		"self addChangeDebuggerActionFor: aPresentation to: newActions."
 		newActions ]
 ]
 
@@ -271,6 +328,25 @@ GTDebugger >> methodCodeIn: composite [
 { #category : #accessing }
 GTDebugger >> model [
 	^ (self browser pane port: #entity) value
+]
+
+{ #category : #accessing }
+GTDebugger >> model: anObject [
+
+	^ (self browser pane port: #entity) value: anObject
+]
+
+{ #category : #opening }
+GTDebugger >> openFullNoSuspendLabel: aString [
+	"TODO: do not ignore the title"
+	
+	self open.
+]
+
+{ #category : #intialization }
+GTDebugger >> process: aProcess controller: aController context: aContext [
+
+	self model: (self class spanNewSessionForContext: aContext fromProcess: aProcess)
 ]
 
 { #category : #private }
