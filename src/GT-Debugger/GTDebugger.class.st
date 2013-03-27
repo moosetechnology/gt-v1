@@ -75,7 +75,7 @@ GTDebugger class >> spanNewSessionForProcess: aProcess [
 	^ self spanNewSessionForContext: aProcess suspendedContext fromProcess: aProcess
 ]
 
-{ #category : #'building actions' }
+{ #category : #actions }
 GTDebugger >> actOnBrowserClosing: ann [
 	self session ifNotNil: [ :aSession | aSession terminate ]
 ]
@@ -171,7 +171,7 @@ GTDebugger >> debuggerTitle [
 	^ self class defaultTitle 
 ]
 
-{ #category : #'building actions' }
+{ #category : #actions }
 GTDebugger >> detachSession [
 
 	(self browser pane port: #entity) silentValue: nil
@@ -307,14 +307,6 @@ GTDebugger >> installWhereIsActionFor: aPresentation [
 		entitled: 'Where is?'
 ]
 
-{ #category : #private }
-GTDebugger >> keyAsFormatedString: key [
-
-	^ [ Text fromString: (key asString contractTo: 50) ]
-			on: Error
-			do: [ Text string: 'error printing' attribute: TextColor red ] 
-]
-
 { #category : #building }
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
@@ -396,14 +388,6 @@ GTDebugger >> updateCodePane [
 GTDebugger >> updateSelectionInterval [
 
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
-]
-
-{ #category : #private }
-GTDebugger >> valueAsFormatedString: value [
-
-	^ [ Text fromString: value printString]
-			on: Error
-			do: [ Text string: 'error printing' attribute: TextColor red ] 
 ]
 
 { #category : #events }
