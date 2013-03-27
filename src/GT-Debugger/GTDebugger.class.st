@@ -77,7 +77,7 @@ GTDebugger class >> spanNewSessionForProcess: aProcess [
 
 { #category : #'building actions' }
 GTDebugger >> actOnBrowserClosing: ann [
-	self model ifNotNil: [ self model terminate ]
+	self session ifNotNil: [ :aSession | aSession terminate ]
 ]
 
 { #category : #'building actions' }
@@ -88,8 +88,8 @@ GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
 					aCollection
 						add:
 							(GLMGenericAction new
-								action: [ :presentation :model | |currentSession selectedContext|
-											currentSession := self model.
+								action: [ |currentSession selectedContext|
+											currentSession := self session.
 											selectedContext := self selectedContext.
 											self detachSession.
 											self browser close.
@@ -104,19 +104,19 @@ GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
 { #category : #'building actions' }
 GTDebugger >> addCreateMessageActionFor: aPresentation to: aCollection [
 
-	(self model isInterruptedContextDoesNotUnderstand and: [self model context = self selectedContext]) ifTrue: [ 
+	(self session isInterruptedContextDoesNotUnderstand and: [self session context = self selectedContext]) ifTrue: [ 
 		aCollection add:
 			((GLMGenericAction new) 
-				action: [ :presentation :model |
-					model createMethodInContext: self selectedContext.
-					self selectTopOfStack: model context.
+				action: [ :presentation :session |
+					session createMethodInContext: self selectedContext.
+					self selectTopOfStack: session context.
 					self updateCodePane ]; 
 				icon: GLMUIThemeExtraIcons glamorousAdd;
 				title: 'Create method';
 				yourself) ]
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTDebugger >> browser [ 
 	^ self presentations first
 ]
@@ -137,12 +137,12 @@ GTDebugger >> compose [
 		browser transmit
 			fromOutsidePort: #entity;
 			to: #stack port: #selection;
-			transformed: [:model | model context].
+			transformed: [:session | session context].
 		browser transmit
 			from: #stack port: #selection;
 			fromOutsidePort: #entity;
 			to: #stack port: #context;
-			transformed: [ :context :model | model createModelForContext: context ].
+			transformed: [ :context :session | session createModelForContext: context ].
 		browser transmit
 			from: #stack port: #selection;
 			to: #stack port: #pc;
@@ -157,7 +157,7 @@ GTDebugger >> compose [
 			fromOutsidePort: #entity;
 			from: #stack port: #pc;
 			to: #code port: #selectionInterval;
-			transformed: [ :context :model :pc | model selectedCodeRangeForContext: context ].
+			transformed: [ :context :session :pc | session selectedCodeRangeForContext: context ].
 		browser transmit
 			from: #stack port: #context;
 			to: #inspector;
@@ -180,7 +180,7 @@ GTDebugger >> detachSession [
 { #category : #intialization }
 GTDebugger >> errorWasInUIProcess: aBoolean [
 
-	self model errorWasInUIProcess: aBoolean
+	self session errorWasInUIProcess: aBoolean
 ]
 
 { #category : #building }
@@ -225,9 +225,9 @@ GTDebugger >> installDynamicActionsFor: aPresentation [
 { #category : #'building actions' }
 GTDebugger >> installRestartActionFor: aPresentation [ 
 	aPresentation 
-		act: [ :presentation :model |
-			model restart: self selectedContext.
-			self selectTopOfStack: model context  ]
+		act: [ :presentation :session |
+			session restart: self selectedContext.
+			self selectTopOfStack: session context  ]
 		icon: GLMUIThemeExtraIcons glamorousRestart
 		entitled: 'Restart'
 ]
@@ -235,9 +235,9 @@ GTDebugger >> installRestartActionFor: aPresentation [
 { #category : #'building actions' }
 GTDebugger >> installResumeActionFor: aPresentation [
 	aPresentation 
-		act: [ :presentation :model |
-			model resume.
-			model clear.
+		act: [ :presentation :session |
+			session resume.
+			session clear.
 			self browser close. ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Resume' 
@@ -248,8 +248,8 @@ GTDebugger >> installRunToHereActionFor: aPresentation [
 	aPresentation 
 		act: [ :text :contextModel | 
 			self selectionInterval ifNotNil: [:selectionInterval | 
-				self model runToSelection: selectionInterval inContext: self selectedContext.
-				self selectTopOfStack: self model context 	] ]
+				self session runToSelection: selectionInterval inContext: self selectedContext.
+				self selectTopOfStack: self session context 	] ]
 		icon: GLMUIThemeExtraIcons glamorousPlay
 		entitled: 'Run to Here' 
 ]
@@ -258,9 +258,9 @@ GTDebugger >> installRunToHereActionFor: aPresentation [
 GTDebugger >> installSaveActionFor: aPresentation [ 
 	aPresentation 
 		act: [ :text :contextModel | 			
-			 (self model recompileMethodTo: text text inContext: self selectedContext)
+			 (self session recompileMethodTo: text text inContext: self selectedContext)
 				 ifNotNil: [ 
-					self selectTopOfStack: self model context.
+					self selectTopOfStack: self session context.
 					self updateCodePane ] ] 
 		icon: GLMUIThemeExtraIcons glamorousAccept 
 		on: $s
@@ -270,9 +270,9 @@ GTDebugger >> installSaveActionFor: aPresentation [
 { #category : #'building actions' }
 GTDebugger >> installStepIntoActionFor: aPresentation [ 
 	aPresentation 
-		act: [ :presentation :model |
-			model stepInto: self selectedContext.
-			self selectTopOfStack: model context ]
+		act: [ :presentation :session |
+			session stepInto: self selectedContext.
+			self selectTopOfStack: session context ]
 		icon: GLMUIThemeExtraIcons glamorousInto
 		entitled: 'Step into' 
 ]
@@ -280,9 +280,9 @@ GTDebugger >> installStepIntoActionFor: aPresentation [
 { #category : #'building actions' }
 GTDebugger >> installStepOverActionFor: aPresentation [
 	aPresentation 
-		act: [ :presentation :model |
-			model stepOver: self selectedContext.
-			self selectTopOfStack: model context ]
+		act: [ :presentation :session |
+			session stepOver: self selectedContext.
+			self selectTopOfStack: session context ]
 		icon: GLMUIThemeExtraIcons glamorousOver
 		entitled: 'Step over' 
 ]
@@ -290,9 +290,9 @@ GTDebugger >> installStepOverActionFor: aPresentation [
 { #category : #'building actions' }
 GTDebugger >> installStepThroughActionFor: aPresentation [
 	aPresentation 
-		act: [ :presentation :model |
-			model stepThrough: self selectedContext.
-			self selectTopOfStack: model context ]
+		act: [ :presentation :session |
+			session stepThrough: self selectedContext.
+			self selectTopOfStack: session context ]
 		icon: GLMUIThemeExtraIcons glamorousThrough
 		entitled: 'Step through' 
 ]
@@ -325,17 +325,6 @@ GTDebugger >> methodCodeIn: composite [
 		with: [ :code | self installCodeActionsFor: code ]
 ]
 
-{ #category : #accessing }
-GTDebugger >> model [
-	^ (self browser pane port: #entity) value
-]
-
-{ #category : #accessing }
-GTDebugger >> model: anObject [
-
-	^ (self browser pane port: #entity) value: anObject
-]
-
 { #category : #opening }
 GTDebugger >> openFullNoSuspendLabel: aString [
 	"TODO: do not ignore the title"
@@ -346,7 +335,7 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 { #category : #intialization }
 GTDebugger >> process: aProcess controller: aController context: aContext [
 
-	self model: (self class spanNewSessionForContext: aContext fromProcess: aProcess)
+	self session: (self class spanNewSessionForContext: aContext fromProcess: aProcess)
 ]
 
 { #category : #private }
@@ -373,6 +362,17 @@ GTDebugger >> selectionInterval: anInterval [
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value: anInterval
 ]
 
+{ #category : #accessing }
+GTDebugger >> session [
+	^ (self browser pane port: #entity) value
+]
+
+{ #category : #accessing }
+GTDebugger >> session: anObject [
+
+	^ (self browser pane port: #entity) value: anObject
+]
+
 { #category : #building }
 GTDebugger >> stackIn: composite [
 	composite list	
@@ -395,7 +395,7 @@ GTDebugger >> updateCodePane [
 { #category : #private }
 GTDebugger >> updateSelectionInterval [
 
-	self selectionInterval: (self model pcRangeForContext:  self selectedContext )
+	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
 ]
 
 { #category : #private }
