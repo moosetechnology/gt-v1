@@ -31,7 +31,7 @@ GTMetaceller >> buildBrowser [
 		from: #configs;
 		to: #details;
 		andShowIfNone: [ :a | 
-			a custom: (GTMetacellerDetails new master: self; yourself) browser noTitle ].
+			a custom: (GTMetacellerDetails new) first noTitle ].
 	(browser transmit)
 		from: #configs;
 		to: #details port: #entityToSelect.
