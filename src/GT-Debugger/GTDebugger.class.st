@@ -16,7 +16,8 @@ Class {
 { #category : #'instance creation' }
 GTDebugger class >> debugBasedOnSession: aSession [
 
-	^ self debugContext: aSession context fromProcess: aSession process
+	^ self debugSession: ((self spanNewSessionForContext: aSession context fromProcess: aSession process)
+		errorWasInUIProcess: aSession errorWasInUIProcess)
 ]
 
 { #category : #'instance creation' }
