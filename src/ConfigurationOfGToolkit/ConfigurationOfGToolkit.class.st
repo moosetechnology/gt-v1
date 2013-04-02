@@ -216,9 +216,7 @@ ConfigurationOfGToolkit >> baseline04: spec [
 			package: 'GT-Model';
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore')];
-			package: 'GT-Metaceller' with: [ spec requires: #('GT-Inspector')];
-			package: 'GT-DebuggerModel';
-			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore' 'DebuggerModel' 'GT-Inspector')];
+			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore' 'DebuggerExtensions' 'NewDebugger'  'GT-Inspector')];
 			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
 			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
@@ -228,13 +226,12 @@ ConfigurationOfGToolkit >> baseline04: spec [
 			'GT-Model'
 			'GT-Tools'
 			'GT-Inspector'
-			'GT-Metaceller'
 			'GT-Debugger'
-			'GT-DebuggerModel'
 			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
 			'Tests'
+			'AnnouncerCentricDebugger'
 		).
 		spec group: 'Tests' with: #('GT-Tests-Inspector').
 		spec group: 'ObjectCentricDebugger' with: #(
@@ -252,13 +249,21 @@ ConfigurationOfGToolkit >> baseline04: spec [
 				version: 'default';
 				file: 'ConfigurationOfBifrost';
 				repository: 'http://www.squeaksource.com/bifrost' ].
-		spec project: 'DebuggerModel' with: [
-			spec
-				className: 'ConfigurationOfDebuggerModel';
-				version: 'default';
-				file: 'ConfigurationOfDebuggerModel';
-				repository: 'http://ss3.gemstone.com/ss/DebuggerModel' ].
-		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ]
+		spec project: 'NewDebugger' with: [
+				spec
+					className: 'ConfigurationOfNewDebugger';
+					file: 'ConfigurationOfNewDebugger';
+					version: 'default';
+					repository: 'http://www.smalltalkhub.com/mc/Pharo/Debugger/main' ].
+		spec project: 'AnnouncerCentricDebugger' with: [
+				spec
+					className: 'ConfigurationOfAnnouncerCentricDebugger';
+					file: 'ConfigurationOfAnnouncerCentricDebugger';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ].
+		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main']
+		
 	]
 ]
 
