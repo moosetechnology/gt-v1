@@ -5,7 +5,7 @@ Morph >> gtInspectorMorphIn: composite [
 	<gtInspectorPresentationOrder: 90>  
 	composite morph 
 		title: 'Morph';
-		display: [:each | each imageForm asMorph ]
+		display: [:each | self imageForm asMorph ]
 ]
 
 { #category : #'*gt-inspector' }
