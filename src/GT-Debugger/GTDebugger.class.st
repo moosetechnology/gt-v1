@@ -82,23 +82,16 @@ GTDebugger >> actOnBrowserClosing: ann [
 
 { #category : #'building actions' }
 GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
-	(Smalltalk tools filterDebuggersForContext: self selectedContext)
-		remove: self class ifAbsent: [  ];
-		do: [ :each |
-					aCollection
-						add:
-							(GLMGenericAction new
-								action: [ |currentSession selectedContext|
-											currentSession := self session.
-											selectedContext := self selectedContext.
-											self detachSession.
-											self browser close.
-											currentSession updateContextTo: selectedContext.
-											each debugBasedOnSession: currentSession ];
-								icon: GLMUIThemeExtraIcons glamorousAdd;
-								title: each defaultTitle;
-								category: 'Available Debuggers';
-								yourself) ]
+	
+	(self debuggersForContext: self selectedContext)
+		do: [ :aDebuggerClass | 
+			aCollection
+				add:
+					(GLMGenericAction new
+						action: [ self debug: self selectedContext using: aDebuggerClass ];
+						title: aDebuggerClass defaultTitle;
+						category: 'Available Debuggers';
+						yourself) ]
 ]
 
 { #category : #'building actions' }
@@ -165,10 +158,29 @@ GTDebugger >> compose [
 	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 ]
 
+{ #category : #actions }
+GTDebugger >> debug: aContext using: aDebuggerClass [
+	| currentSession  |
+	
+	currentSession := self session.
+	self detachSession.
+	self browser close.
+	currentSession updateContextTo: aContext.
+	aDebuggerClass debugBasedOnSession: currentSession
+]
+
 { #category : #accessing }
 GTDebugger >> debuggerTitle [
 	
 	^ self class defaultTitle 
+]
+
+{ #category : #accessing }
+GTDebugger >> debuggersForContext: aContext [
+
+	^ (Smalltalk tools filterDebuggersForContext: aContext)
+		remove: self class ifAbsent: [  ];
+		yourself
 ]
 
 { #category : #actions }
