@@ -58,7 +58,7 @@ GTDebugger class >> initialize [
 	super initialize.
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
-	Smalltalk tools registerDebugger: self.
+	Smalltalk tools registerDebugger: self withRank: 3.
 ]
 
 { #category : #'instance creation' }
