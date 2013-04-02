@@ -178,10 +178,12 @@ GTDebugger >> debuggerTitle [
 
 { #category : #accessing }
 GTDebugger >> debuggersForContext: aContext [
+	"Ungly check to make sure the debugger will work until everything is in the image"
+	(Smalltalk tools respondsTo: #debuggersForContext:excluding:) 
+		ifTrue: [ ^ (Smalltalk tools debuggersForContext: aContext excluding: self class)]
+		ifFalse: [ ^ OrderedCollection new ]
 
-	^ (Smalltalk tools filterDebuggersForContext: aContext)
-		remove: self class ifAbsent: [  ];
-		yourself
+	
 ]
 
 { #category : #actions }
@@ -231,7 +233,7 @@ GTDebugger >> installDynamicActionsFor: aPresentation [
 	aPresentation dynamicActionsOnSelection: [ :presentation || newActions |
 		newActions := OrderedCollection new.
 		self addCreateMessageActionFor: aPresentation to: newActions.
-		"self addChangeDebuggerActionFor: aPresentation to: newActions."
+		self addChangeDebuggerActionFor: aPresentation to: newActions.
 		newActions ]
 ]
 
