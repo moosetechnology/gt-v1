@@ -347,6 +347,17 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 	self open.
 ]
 
+{ #category : #opening }
+GTDebugger >> openWith: aRenderer [
+	|window|
+	
+	window := super openWith: aRenderer.
+	window 
+		width: 1000; 
+		height: 600.
+	^ window
+]
+
 { #category : #intialization }
 GTDebugger >> process: aProcess controller: aController context: aContext [
 
