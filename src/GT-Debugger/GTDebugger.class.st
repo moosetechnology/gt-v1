@@ -1,7 +1,7 @@
 "
 GTDebugger is a browser that provides Smalltalk debugging functionality.
 
-An example:
+An example: 
 [ GTDebugger debugProcess: Processor activeProcess.
 	Processor activeProcess suspend.
 	#(1 2 3 4 5) do: [:each | each asString]
