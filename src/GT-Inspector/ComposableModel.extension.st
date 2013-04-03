@@ -3,7 +3,7 @@ Extension { #name : #ComposableModel }
 { #category : #'*gt-inspector' }
 ComposableModel >> gtInspectorDefaultMorphIn: composite [
 	<gtInspectorPresentationOrder: 30>
-	self buildWithSpec gtInspectorMorphIn: composite
+	self widget gtInspectorMorphIn: composite
 ]
 
 { #category : #'*gt-inspector' }

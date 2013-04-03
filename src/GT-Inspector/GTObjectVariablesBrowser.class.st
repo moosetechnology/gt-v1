@@ -21,8 +21,6 @@ GTObjectVariablesBrowser >> buildBrowser [
 		self evaluatorIn: a ].
 	browser transmit from: #variables; toOutsidePort: #selection.
 	browser transmit from: #evaluator; toOutsidePort: #selection.
-	browser transmit from: #variables port: #strongSelection; toOutsidePort: #strongSelection.
-	browser transmit from: #evaluator port: #strongSelection; toOutsidePort: #strongSelection.
 	^ browser 
 ]
 
