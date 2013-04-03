@@ -1,12 +1,6 @@
 Extension { #name : #ComposableModel }
 
 { #category : #'*gt-inspector' }
-ComposableModel >> gtInspectorDefaultMorphIn: composite [
-	<gtInspectorPresentationOrder: 30>
-	self widget gtInspectorMorphIn: composite
-]
-
-{ #category : #'*gt-inspector' }
 ComposableModel >> gtInspectorModelNestingIn: composite [
 	<gtInspectorPresentationOrder: 20>
 	composite tree 
@@ -20,4 +14,12 @@ ComposableModel >> gtInspectorModelNestingIn: composite [
 						and: [ (#('owner' 'window') includes: association key) not ] ] ];
 		format: [ :association | association key , ': ' , association value asString ];
 		send: #value
+]
+
+{ #category : #'*gt-inspector' }
+ComposableModel >> gtInspectorSpecIn: composite [
+	<gtInspectorPresentationOrder: 30>
+	composite spec 
+		title: 'Preview';
+		when: [ self widget notNil ]
 ]
