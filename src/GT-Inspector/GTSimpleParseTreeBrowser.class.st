@@ -35,7 +35,9 @@ GTSimpleParseTreeBrowser >> buildBrowser [
 
 { #category : #building }
 GTSimpleParseTreeBrowser >> sourceIn: a [
-	^ a text display: [ :each | each source ]
+	^ a smalltalkCode 
+		smalltalkClass: [ :each | each parents first classBinding value ]; 
+		display: [ :each | each source ]
 ]
 
 { #category : #building }
