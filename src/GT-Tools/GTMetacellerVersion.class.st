@@ -22,6 +22,11 @@ GTMetacellerVersion class >> isValidVersion: aVersion [
 	^false
 ]
 
+{ #category : #actions }
+GTMetacellerVersion class >> load: aString [ 
+	self version ifNotNil: [ self version load: aString ]
+]
+
 { #category : #'instance creation' }
 GTMetacellerVersion class >> on: aConfiguration method: aMethod [
 	^self basicNew
