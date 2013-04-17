@@ -6,7 +6,8 @@ Class {
 		'version',
 		'configuration',
 		'cachedPackageMap',
-		'attributes'
+		'attributes',
+		'project'
 	],
 	#category : #'GT-Tools-Metaceller'
 }
@@ -30,17 +31,22 @@ GTMetacellerVersion class >> load: aString [
 ]
 
 { #category : #'instance creation' }
-GTMetacellerVersion class >> on: aConfiguration method: aMethod [
+GTMetacellerVersion class >> on: aConfiguration method: aMethod project: aProject [
 	^self basicNew
-		initialize: aConfiguration method: aMethod;
+		initialize: aConfiguration method: aMethod project: aProject;
 		yourself
 ]
 
 { #category : #conveniance }
 GTMetacellerVersion class >> versionsForConfig: aConfiguration [
+	^self versionsForConfig: aConfiguration project: (GTMetacellerProject on: aConfiguration) 
+]
+
+{ #category : #conveniance }
+GTMetacellerVersion class >> versionsForConfig: aConfiguration project: project [
 	^(aConfiguration methods
 		select: [ :each | self isValidVersion: each ]
-		thenCollect: [ :each | self on: aConfiguration method: each ]) 
+		thenCollect: [ :each | self on: aConfiguration method: each project: project ]) 
 			asSortedCollection: [ :a :b | a name > b name ]
 ]
 
@@ -76,8 +82,9 @@ GTMetacellerVersion >> configuration: anObject [
 
 { #category : #accessing }
 GTMetacellerVersion >> determineVersion [
+	self project ifNil: [  ^nil ].
 	self method pragmas do: [ :each |
-		(each key beginsWith: 'version') ifTrue: [ ^self configuration project version: (each arguments first) ] ].
+		(each key beginsWith: 'version') ifTrue: [ ^self project version: (each arguments first) ] ].
 	^nil
 ]
 
@@ -92,29 +99,36 @@ GTMetacellerVersion >> groups [
 	^#()
 ]
 
-{ #category : #testing }
-GTMetacellerVersion >> initialize: aConfiguration method: aMethod [
+{ #category : #initialization }
+GTMetacellerVersion >> initialize: aConfiguration method: aMethod project: aProject [
 	self initialize.
 	method := aMethod.
-	configuration := aConfiguration
+	configuration := aConfiguration.
+	project := aProject
 ]
 
 { #category : #testing }
 GTMetacellerVersion >> isBleedingEdge [
+	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self version project bleedingEdge = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+	^false
+	"
+	This should be this code ... but this is a bit slow
+	[ ^(self project bleedingEdge = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ]."
 ]
 
 { #category : #testing }
 GTMetacellerVersion >> isCurrent [
+	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self version project currentVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+	[ ^(self project currentVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
 ]
 
 { #category : #testing }
 GTMetacellerVersion >> isDevelopment [
+	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self version project development = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+	[ ^(self project development = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
 ]
 
 { #category : #testing }
@@ -124,8 +138,9 @@ GTMetacellerVersion >> isGroup: aSpec [
 
 { #category : #testing }
 GTMetacellerVersion >> isStable [
+	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self version project stableVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+	[ ^(self project stableVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
 ]
 
 { #category : #actions }
@@ -194,6 +209,11 @@ GTMetacellerVersion >> packagesAndProjects [
 GTMetacellerVersion >> packagesForSpecNamed: aVersionString [ 
 	self version ifNotNil: [ ^self version packagesForSpecNamed: aVersionString ].
 	^#()
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> project [
+	^project
 ]
 
 { #category : #accessing }
