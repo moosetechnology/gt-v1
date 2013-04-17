@@ -5,9 +5,7 @@ Class {
 	#name : #GTMetaceller,
 	#superclass : #GLMGlobalBrowserTemplate,
 	#instVars : [
-		'announcer',
-		'cachedVersion',
-		'cachedPackageMap'
+		'announcer'
 	],
 	#category : #'GT-Tools-Metaceller'
 }
@@ -202,9 +200,10 @@ GTMetaceller >> helpText [
 The Configurations tab lists all the projects from the ConfigurationOfXXX present in the image. Double clicking on an item spawns the configuration details.
 
 The Versions tab lists all the versions defined in the configuration. The color coding shows:
-- black = a possible baseline
-- gray = not a possible baseline (probably due to packages no longer in the image)
-- bold = the current version
+- blue = the current bleeding edge
+- bold = the stable version
+- italic = the development version
+- underlined = the current version
 
 The Imports tab shows how versions import from one another.
 
@@ -213,11 +212,12 @@ Upon selecting a version, the third pane shows the details of the specification 
 The Items tab shows the packages, groups and projects from the version. Each project can be expanded to display its items.
 
 The color coding shows:
-- blue = dirty packages 
-- gray = packages that are not present in the image
-- italics = groups
-
-The "Newer in repository?" shows in red the packages that have newer versions published in the Monticello repository, thus indicating a possible need for update.'
+- blue = project
+- bold = newer package in version
+- underlined = package / project loaded in image
+- italic = groups
+- (*) = newer package in image
+.'
 ]
 
 { #category : #testing }
@@ -268,7 +268,7 @@ GTMetaceller >> isProjectLoaded: aProjectSpec [
 GTMetaceller >> itemsForVersion: aVersion [
 	aVersion ifNil: [ ^#() ].
 	(aVersion isKindOf: Association) ifTrue: [  ^#() ].
-	^(aVersion spec packages packageSpecsInLoadOrder) select: [  :each | (self isGroup: each) not ]
+	^aVersion packagesAndProjects
 ]
 
 { #category : #actions }
@@ -325,7 +325,7 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 		children: [ :item | self childrenForProject: item ];	"note: asking children of a group in a subproject is buggy, so we do not expand groups here."
 		format: [ :item | self nameForItem: item ];
 		tags: [ :packageSpec :version | self tagsOf: packageSpec in: version ];
-		dynamicActionsOnSelection: [:list :version | self actionsForItem: list selection ];
+		dynamicActionsOnSelection: [ :list | self actionsForItem: list selection ];
 		updateOn: GTConfigChanged from: self announcer.
 	aBrowser tree
 		title: 'Groups';
@@ -336,19 +336,6 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 	aBrowser roassal
 		title: 'Dependencies';
 		painting: [ :view :version | self viewDependenciesOf: version on: view ]
-]
-
-{ #category : #display }
-GTMetaceller >> packagesAndGroupsOf: aVersion [
-	(cachedVersion = aVersion) ifTrue: [  ^cachedPackageMap ].
-	cachedPackageMap := Dictionary new.
-	aVersion groups do: [:eachGroup |
-		[ (aVersion packagesForSpecNamed: eachGroup name) do: [:eachPackage |
-			cachedPackageMap at: eachPackage ifAbsentPut: [OrderedCollection new].
-			(cachedPackageMap at: eachPackage) add: eachGroup name ] ]
-		on: Exception do: [ "we eat exceptions for now" ] ].
-	cachedVersion := aVersion.
-	^ cachedPackageMap
 ]
 
 { #category : #accessing }
@@ -375,7 +362,7 @@ GTMetaceller >> shortNameOf: config [
 
 { #category : #display }
 GTMetaceller >> tagsOf: aPackageSpec in: aVersion [
-	^ (self packagesAndGroupsOf: aVersion) at: aPackageSpec ifAbsent: [OrderedCollection new]
+	^aVersion tagsOf: aPackageSpec
 ]
 
 { #category : #private }
@@ -394,9 +381,8 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		title: 'Versions';
 		display: [ :config | GTMetacellerVersion versionsForConfig: config ];
 		updateOn: GTConfigChanged from: self announcer;
+		dynamicActionsOnSelection: [ :list | list selection actions ];
 		selectionAct: [ :list | list selection inspect ] entitled: 'Inspect version';
-		selectionAct: [ :list | self fetchVersion: list selection ] entitled: 'Fetch version';
-		selectionAct: [ :list | self loadVersion: list selection ] entitled: 'Load version';
 		format: [ :version | version textLabel ].
 	aBrowser roassal
 		title: 'Imports';
@@ -435,7 +421,6 @@ GTMetaceller >> viewDependenciesOf: version on: view [
 
 { #category : #roassal }
 GTMetaceller >> viewVersionMapOf: configClass on: view [
-
 	| nodes edges project |
 	project := configClass project.
 	nodes := Dictionary new.
