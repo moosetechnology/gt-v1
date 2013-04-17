@@ -1,3 +1,6 @@
+"
+self open
+"
 Class {
 	#name : #GTMetaceller,
 	#superclass : #GLMGlobalBrowserTemplate,
@@ -12,6 +15,12 @@ Class {
 { #category : #actions }
 GTMetaceller >> acceptCode: aText method: aMethod [
 	aMethod methodClass compile: aText asString classified: aMethod category.
+	self announce: GTConfigChanged
+]
+
+{ #category : #actions }
+GTMetaceller >> acceptCode: aText version: aVersion [ 
+	aVersion methodClass compile: aText asString classified: aVersion methodCategory.
 	self announce: GTConfigChanged
 ]
 
