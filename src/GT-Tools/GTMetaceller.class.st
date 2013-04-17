@@ -13,12 +13,6 @@ Class {
 }
 
 { #category : #actions }
-GTMetaceller >> acceptCode: aText method: aMethod [
-	aMethod methodClass compile: aText asString classified: aMethod category.
-	self announce: GTConfigChanged
-]
-
-{ #category : #actions }
 GTMetaceller >> acceptCode: aText version: aVersion [ 
 	aVersion methodClass compile: aText asString classified: aVersion methodCategory.
 	self announce: GTConfigChanged
@@ -37,7 +31,7 @@ GTMetaceller >> actionsForItem: anItem [
 			title: 'Inspect'
 			yourself).
 	(self isProject: anItem) ifTrue: [ retVal add: ((GLMGenericAction new) 
-						action: [:list | self fetchProject: list selected ];
+						action: [ :list | self fetchProject: list selection ];
 						title: 'Load configuration'
 						yourself) ].
 	^retVal
