@@ -14,8 +14,10 @@ Class {
 
 { #category : #conveniance }
 GTMetacellerVersion class >> allMethodsForConfig: aConfiguration [
+	| project |
+	project := (GTMetacellerProject on: aConfiguration).
 	^aConfiguration methods collect: [ :each |
-		self on: aConfiguration method: each ]
+		self on: aConfiguration method: each project: project ]
 ]
 
 { #category : #testing }
@@ -233,25 +235,20 @@ GTMetacellerVersion >> spec [
 	^nil
 ]
 
-{ #category : #accessing }
+{ #category : #display }
 GTMetacellerVersion >> tagsOf: aPackageSpec [ 
 	^self packagesAndGroup at: aPackageSpec ifAbsent: [OrderedCollection new]
 ]
 
-{ #category : #accessing }
-GTMetacellerVersion >> tagsOf: aMetacelloPackageSpec in: aGTMetacellerVersion [ 
-	self shouldBeImplemented.
-]
-
-{ #category : #accessing }
+{ #category : #display }
 GTMetacellerVersion >> textLabel [
 	attributes ifNil: [
 		attributes := OrderedCollection new.
 		self version ifNil: [ attributes add: TextColor red ].
 		self isBleedingEdge ifTrue: [ attributes add: TextColor blue ].
-		self isStable ifTrue: [ attributes add: TextEmphasis underlined ].
+		self isCurrent ifTrue: [ attributes add: TextEmphasis underlined ].
 		self isDevelopment ifTrue: [ attributes add: TextEmphasis italic ].
-		self isCurrent ifTrue: [ attributes add: TextEmphasis bold ] ].
+		self isStable ifTrue: [ attributes add: TextEmphasis bold ] ].
 	^Text string: self name attributes: attributes
 ]
 
