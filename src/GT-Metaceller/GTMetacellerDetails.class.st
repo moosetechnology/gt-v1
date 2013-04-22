@@ -8,6 +8,26 @@ Class {
 }
 
 { #category : #building }
+GTMetacellerDetails >> buildBrowser [
+	| innerBrowser |
+	browser := GLMAccumulator new.
+	browser title: 'Glamorous Metaceller'.
+
+	innerBrowser := GLMTabulator new.
+	innerBrowser column: #versions; column: #packages span: 2.
+	innerBrowser transmit to: #versions; andShow: [ :a |
+		self versionsIn: a ].
+	innerBrowser transmit to: #packages; from: #versions; andShow: [ :a | 
+		self packagesIn: a ].
+
+	browser show: [ :a |
+		a title: 	[:config | self shortNameOf: config ].
+		a custom: innerBrowser ].
+	browser transmit toOutsidePort: #entity; fromOutsidePort: #strongSelection.
+
+]
+
+{ #category : #building }
 GTMetacellerDetails >> compose [
 	"self accumulator 
 		title: 'Glamorous Metaceller';
@@ -40,6 +60,56 @@ GTMetacellerDetails >> goferForVersion: version [
 ]
 
 { #category : #private }
+GTMetacellerDetails >> labelOfItemSpec: packageSpec [
+
+	| label text |
+	label := packageSpec name.
+	(packageSpec isKindOf: MetacelloPackageSpec) ifTrue: [label := packageSpec file].
+	(packageSpec isKindOf: MetacelloProjectReferenceSpec) ifTrue: [label := packageSpec name, ' ', packageSpec versionString].
+	
+	text := ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+		self packageSpecNeedsSaving: packageSpec])
+			ifTrue: [Text string: label attribute: TextColor blue] 
+			ifFalse: [ 
+				Text fromString: label
+				"Text 
+					string: label
+					attribute: ((self master useCacheDuring: [ packageSpec isLoaded ]) 
+					ifTrue: [TextColor black] 
+					ifFalse: [TextColor gray])"].
+	(packageSpec isKindOf: MetacelloGroupSpec) ifTrue: [ 
+		text addAttribute: TextEmphasis italic from: 1 to: text size ].
+	^ text
+]
+
+{ #category : #accessing }
+GTMetacellerDetails >> master [
+	^ master
+]
+
+{ #category : #accessing }
+GTMetacellerDetails >> master: anObject [
+	master := anObject
+]
+
+{ #category : #private }
+GTMetacellerDetails >> packageSpec: packageSpec hasNewerVersionsFrom: version [
+	| g |
+	g := Gofer new.
+	version spec repositories list do: [:each | g url: each name ].
+	g package: packageSpec name.
+	^ g resolved first name ~= packageSpec currentVersionInfo name
+]
+
+{ #category : #private }
+GTMetacellerDetails >> packageSpecNeedsSaving: aPackageSpec [
+	| copy |
+	copy := aPackageSpec workingCopy.
+	copy isNil ifTrue: [^ false ].
+	^ copy needsSaving
+]
+
+{ #category : #private }
 GTMetacellerDetails >> packagesAndGroupsOf: version [
 	| packageMap |
 	packageMap := Dictionary new.
@@ -56,9 +126,12 @@ GTMetacellerDetails >> packagesIn: a [
 	(a tree)
 		title: 'Items';
 		display: [ :version | version spec packages packageSpecsInLoadOrder ];
-		format: [ :packageSpec | packageSpec labelAsText ];
-		children: [ :spec | spec children ];
-		tags: [ :packageSpec :version | self tagsOf: packageSpec in: version ];
+		format: [ :packageSpec | self labelOfItemSpec: packageSpec ];
+		children: [ :spec | 
+					(spec isKindOf: MetacelloProjectReferenceSpec)
+						ifTrue: [ spec projectReference version spec packages packageSpecsInLoadOrder ]
+						ifFalse: [ #() ] ];
+		tags: [ :spec :version | self tagsOf: spec in: version ];
 		act: [ :list | list selection inspect ] entitled: 'Inspect';
 		act: [ :list :version | version load: list selection name ] entitled: 'Load'.
 	(a mondrian)
@@ -85,7 +158,7 @@ GTMetacellerDetails >> packagesIn: a [
 
 { #category : #private }
 GTMetacellerDetails >> shortNameOf: config [
-	"self new shortNameOf: 'ConfigurationOfAlien'"
+	"self new shortNameOf: ConfigurationOfAlien"
 	^ ((config name beginsWith: 'ConfigurationOf') 
 		ifTrue: [config name copyFrom: 'ConfigurationOf' size + 1 to: config name size ] 
 		ifFalse: [config name]) asString
