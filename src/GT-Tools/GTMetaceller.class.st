@@ -203,7 +203,6 @@ The Versions tab lists all the versions defined in the configuration. The color 
 - blue = the current bleeding edge
 - bold = the stable version
 - italic = the development version
-- underlined = the current version
 
 The Imports tab shows how versions import from one another.
 
@@ -216,7 +215,6 @@ The color coding shows:
 - bold = newer package in version
 - underlined = package / project loaded in image
 - italic = groups
-- (*) = newer package in image
 .'
 ]
 

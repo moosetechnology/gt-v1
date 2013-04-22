@@ -123,7 +123,8 @@ GTMetacellerVersion >> isBleedingEdge [
 GTMetacellerVersion >> isCurrent [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self project currentVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+"	[ ^(self project currentVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ]."
+	^false
 ]
 
 { #category : #testing }
