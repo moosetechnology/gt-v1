@@ -100,14 +100,14 @@ GTMetaceller >> childrenForConfig: aConfigClass [
 ]
 
 { #category : #accessing }
-GTMetaceller >> childrenForGroup: aGroupSpec version: aVersion [
-	^aVersion packagesForSpecNamed: aGroupSpec name
+GTMetaceller >> childrenForGroup: aGroup [ 
+	^aGroup children
 ]
 
 { #category : #accessing }
-GTMetaceller >> childrenForItem: aSpec version: aVersion [
+GTMetaceller >> childrenForItem: aSpec [
 	(self isProject: aSpec) ifTrue: [  ^self childrenForProject: aSpec ].
-	(self isGroup: aSpec) ifTrue: [ ^self childrenForGroup: aSpec version: aVersion ].
+	(self isGroup: aSpec) ifTrue: [ ^self childrenForGroup: aSpec ].
 	^#()
 
 ]
@@ -121,11 +121,15 @@ GTMetaceller >> childrenForProject: aProjectReference [
 ]
 
 { #category : #accessing }
-GTMetaceller >> configForProject: aReferenceSpec [ 
-	aReferenceSpec ifNil: [  ^nil ].
-	aReferenceSpec projectReference ifNil: [  ^nil ].
-	aReferenceSpec projectReference className ifNil: [  ^nil ].
-	^Smalltalk at: (aReferenceSpec projectReference className asSymbol) ifAbsent: [ ]
+GTMetaceller >> configForProject: aSpec [
+	| projectReference |
+	aSpec ifNil: [  ^nil ].
+	(aSpec isKindOf: MetacelloProjectReferenceSpec)
+		ifTrue: [ projectReference := aSpec projectReference ]
+		ifFalse: [ projectReference := aSpec ].
+	projectReference ifNil: [  ^nil ].
+	projectReference className ifNil: [  ^nil ].
+	^Smalltalk at: (projectReference className asSymbol) ifAbsent: [ nil ]
 ]
 
 { #category : #building }
@@ -190,7 +194,7 @@ GTMetaceller >> fetchVersion: aVersion [
 GTMetaceller >> groupsForVersion: aVersion [
 	aVersion ifNil: [ ^#() ].
 	(aVersion isKindOf: Association) ifTrue: [  ^#() ].
-	^aVersion spec packages packageSpecsInLoadOrder select: [  :each | self isGroup: each ]
+	^aVersion groups
 ]
 
 { #category : #private }
@@ -220,7 +224,7 @@ The color coding shows:
 
 { #category : #testing }
 GTMetaceller >> isGroup: aSpec [ 
-	^aSpec isKindOf: MetacelloGroupSpec
+	^(aSpec isKindOf: MetacelloGroupSpec) or: [ aSpec isKindOf: GTMetacellerGroup ]
 ]
 
 { #category : #opening }
@@ -253,13 +257,13 @@ GTMetaceller >> isPackageOlder: aPackageSpec [
 
 { #category : #testing }
 GTMetaceller >> isProject: aSpec [ 
-	^aSpec isKindOf: MetacelloProjectReferenceSpec
+	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
 ]
 
 { #category : #testing }
-GTMetaceller >> isProjectLoaded: aProjectSpec [ 
-	(aProjectSpec isKindOf: MetacelloProjectReferenceSpec) ifFalse: [ ^aProjectSpec isPackageLoaded ]. 
-	^(self configForProject: aProjectSpec) notNil
+GTMetaceller >> isProjectLoaded: aSpec [ 
+	(self isProject: aSpec) ifFalse: [ ^aSpec isPackageLoaded ]. 
+	^(self configForProject: aSpec) notNil
 ]
 
 { #category : #accessing }
@@ -327,7 +331,7 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 		updateOn: GTConfigChanged from: self announcer.
 	aBrowser tree
 		title: 'Groups';
-		children: [ :item :version | self childrenForItem: item version: version ];
+		children: [ :item | self childrenForItem: item ];
 		display: [ :version | self groupsForVersion: version ];
 		updateOn: GTConfigChanged from: self announcer;
 		format: [ :item | self nameForItem: item ].

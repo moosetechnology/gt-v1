@@ -97,7 +97,7 @@ GTMetacellerVersion >> fetch [
 
 { #category : #accessing }
 GTMetacellerVersion >> groups [
-	self version ifNotNil: [ ^self version groups ].
+	self version ifNotNil: [ ^self version groups collect: [ :each | GTMetacellerGroup on: self version group: each ] ].
 	^#()
 ]
 
@@ -190,7 +190,7 @@ GTMetacellerVersion >> packages [
 ]
 
 { #category : #caching }
-GTMetacellerVersion >> packagesAndGroup [
+GTMetacellerVersion >> packagesAndGroups [
 	cachedPackageMap ifNil: [
 		cachedPackageMap := Dictionary new.
 		self version ifNotNil: [
@@ -238,7 +238,7 @@ GTMetacellerVersion >> spec [
 
 { #category : #display }
 GTMetacellerVersion >> tagsOf: aPackageSpec [ 
-	^self packagesAndGroup at: aPackageSpec ifAbsent: [OrderedCollection new]
+	^self packagesAndGroups at: aPackageSpec ifAbsent: [OrderedCollection new]
 ]
 
 { #category : #display }
