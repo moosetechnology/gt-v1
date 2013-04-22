@@ -39,8 +39,7 @@ GTMetacellerGroup >> buildChildren [
 
 { #category : #accessing }
 GTMetacellerGroup >> children [
-	^children := self buildChildren
-"	^children ifNil: [ children := self buildChildren ]"
+	^children ifNil: [ children := self buildChildren ]
 ]
 
 { #category : #accessing }
