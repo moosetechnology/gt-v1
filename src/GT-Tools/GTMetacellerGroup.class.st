@@ -17,6 +17,11 @@ GTMetacellerGroup class >> on: aVersion group: aGroup [
 ]
 
 { #category : #accessing }
+GTMetacellerGroup >> asString [
+	^self group asString 
+]
+
+{ #category : #accessing }
 GTMetacellerGroup >> buildChildren [
 	| black gray |
 	gray := (self version packagesForSpecNamed: self group name) asSet.
