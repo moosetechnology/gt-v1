@@ -74,8 +74,13 @@ GTMetacellerVersion >> actions [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> blessing [
+	^self version spec blessing value
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> buildGroups [
-	self version ifNotNil: [ ^self version groups collect: [ :each | GTMetacellerGroup on: self version group: each ] ].
+	self version ifNotNil: [ ^self version groups collect: [ :each | GTMetacellerGroup on: self version spec: each ] ].
 	^#()
 ]
 
@@ -129,20 +134,29 @@ GTMetacellerVersion >> isBleedingEdge [
 GTMetacellerVersion >> isCurrent [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-"	[ ^(self project currentVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ]."
-	^false
+	^self project currentVersion = self version
 ]
 
 { #category : #testing }
 GTMetacellerVersion >> isDevelopment [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self project development = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+	^self blessing = #development
 ]
 
 { #category : #testing }
 GTMetacellerVersion >> isGroup: aSpec [ 
 	^aSpec isKindOf: MetacelloGroupSpec
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> isPackage: aSpec [ 
+	^aSpec isKindOf: MetacelloPackageSpec
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> isProject: aSpec [ 
+	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
 ]
 
 { #category : #testing }
@@ -190,6 +204,12 @@ GTMetacellerVersion >> name [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> packageNamed: aString ifAbsent: aBlock [ 
+	self version ifNil: [ ^nil ].
+	^self version packageNamed: aString ifAbsent: aBlock
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> packages [
 	self version ifNil: [ ^#() ].
 	^self version packages
@@ -210,7 +230,8 @@ GTMetacellerVersion >> packagesAndGroups [
 { #category : #accessing }
 GTMetacellerVersion >> packagesAndProjects [
 	self version ifNil: [ ^#() ].
-	^(self version spec packages packageSpecsInLoadOrder) select: [  :each | (self isGroup: each) not ]
+	^(self version spec packages packageSpecsInLoadOrder)
+		collect: [ :each | self wrapperFor: each ]
 ]
 
 { #category : #accessing }
@@ -242,7 +263,14 @@ GTMetacellerVersion >> spec [
 ]
 
 { #category : #display }
-GTMetacellerVersion >> tagsOf: aSpec [ 
+GTMetacellerVersion >> tags [
+	self version ifNil: [  ^#() ].
+	^Array with: self blessing
+]
+
+{ #category : #display }
+GTMetacellerVersion >> tagsOf: aSpec [
+	(aSpec isKindOf: GTMetacellerItem) ifTrue: [ ^self tagsOf: aSpec referenceSpec ].
 	(aSpec isKindOf: MetacelloProjectReferenceSpec) ifTrue: [  ^self tagsOf: aSpec projectReference ].
 	^self packagesAndGroups at: aSpec ifAbsent: [OrderedCollection new]
 ]
@@ -253,7 +281,6 @@ GTMetacellerVersion >> textLabel [
 		attributes := OrderedCollection new.
 		self version ifNil: [ attributes add: TextColor red ].
 		self isBleedingEdge ifTrue: [ attributes add: TextColor blue ].
-		self isCurrent ifTrue: [ attributes add: TextEmphasis underlined ].
 		self isDevelopment ifTrue: [ attributes add: TextEmphasis italic ].
 		self isStable ifTrue: [ attributes add: TextEmphasis bold ] ].
 	^Text string: self name attributes: attributes
@@ -273,4 +300,12 @@ GTMetacellerVersion >> version [
 { #category : #accessing }
 GTMetacellerVersion >> version: anObject [
 	version := anObject
+]
+
+{ #category : #tool }
+GTMetacellerVersion >> wrapperFor: aSpec [
+	(self isProject: aSpec) ifTrue: [  ^GTMetacellerProjectReference on: self spec: aSpec ].
+	(self isGroup: aSpec) ifTrue: [  ^GTMetacellerGroup on: self spec: aSpec ].
+	^aSpec
+	
 ]

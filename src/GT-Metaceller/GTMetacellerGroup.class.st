@@ -1,25 +1,11 @@
 Class {
 	#name : #GTMetacellerGroup,
-	#superclass : #Object,
+	#superclass : #GTMetacellerItem,
 	#instVars : [
-		'version',
-		'group',
 		'children'
 	],
 	#category : #'GT-Metaceller'
 }
-
-{ #category : #'instance creation' }
-GTMetacellerGroup class >> on: aVersion group: aGroup [
-	^self basicNew
-		initialize: aVersion group: aGroup;
-		yourself
-]
-
-{ #category : #accessing }
-GTMetacellerGroup >> asString [
-	^self group asString 
-]
 
 { #category : #accessing }
 GTMetacellerGroup >> buildChildren [
@@ -54,22 +40,10 @@ GTMetacellerGroup >> file [
 
 { #category : #accessing }
 GTMetacellerGroup >> group [
-	^ group
+	^self referenceSpec
 ]
 
-{ #category : #initialization }
-GTMetacellerGroup >> initialize: aVersion group: aGroup [
-	self initialize.
-	version := aVersion.
-	group := aGroup
-]
-
-{ #category : #accessing }
-GTMetacellerGroup >> isPackage: aSpec [ 
-	^aSpec isKindOf: MetacelloPackageSpec
-]
-
-{ #category : #accessing }
+{ #category : #testing }
 GTMetacellerGroup >> isPackageLoaded [
 	^self group isPackageLoaded
 ]
@@ -79,12 +53,7 @@ GTMetacellerGroup >> label [
 	^self group label
 ]
 
-{ #category : #accessing }
-GTMetacellerGroup >> name [
-	^self group name
-]
-
-{ #category : #accessing }
-GTMetacellerGroup >> version [
-	^ version
+{ #category : #display }
+GTMetacellerGroup >> labelAsText [
+	^Text string: self label attribute: TextEmphasis italic
 ]

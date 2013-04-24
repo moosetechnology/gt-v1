@@ -45,16 +45,6 @@ GTMetaceller >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
-{ #category : #display }
-GTMetaceller >> attributesForPackageSpec: aPackage [
-	| retVal |
-	retVal := OrderedCollection new.
-	(self isPackageLoaded: aPackage) ifTrue: [ 
-		retVal add: TextEmphasis underlined.
-		(self isPackageNewer: aPackage) ifTrue: [ retVal add: TextEmphasis bold ] ].
-	^retVal
-]
-
 { #category : #building }
 GTMetaceller >> buildBrowser [
 	browser := GLMTabulator new.
@@ -70,7 +60,7 @@ GTMetaceller >> buildBrowser [
 		row: [  :r | r
 				column: #configs;
 				column: #versions;
-				column: #packages span: 3 ];
+				column: #packages span: 2 ];
 		row: #details.
 	browser transmit
 		to: #configs;
@@ -100,24 +90,8 @@ GTMetaceller >> childrenForConfig: aConfigClass [
 ]
 
 { #category : #accessing }
-GTMetaceller >> childrenForGroup: aGroup [ 
-	^aGroup children
-]
-
-{ #category : #accessing }
-GTMetaceller >> childrenForItem: aSpec [
-	(self isProject: aSpec) ifTrue: [  ^self childrenForProject: aSpec ].
-	(self isGroup: aSpec) ifTrue: [ ^self childrenForGroup: aSpec ].
-	^#()
-
-]
-
-{ #category : #accessing }
-GTMetaceller >> childrenForProject: aProjectReference [
-	(self isProject: aProjectReference) ifFalse: [ ^#() ].
-	(self isProjectLoaded: aProjectReference)
-		ifTrue: [ ^aProjectReference version spec packages packageSpecsInLoadOrder ]
-		ifFalse: [ ^#() ]
+GTMetaceller >> childrenForItem: anItem [
+	^anItem children
 ]
 
 { #category : #accessing }
@@ -240,30 +214,8 @@ GTMetaceller >> isPackage: aSpec [
 ]
 
 { #category : #testing }
-GTMetaceller >> isPackageLoaded: aPackageSpec [ 
-	^aPackageSpec isPackageLoaded
-]
-
-{ #category : #testing }
-GTMetaceller >> isPackageNewer: aPackageSpec [ 
-	^false
-]
-
-{ #category : #testing }
-GTMetaceller >> isPackageOlder: aPackageSpec [ 
-	aPackageSpec isPackageLoaded ifFalse: [ ^false ].
-	^aPackageSpec needsSaving
-]
-
-{ #category : #testing }
 GTMetaceller >> isProject: aSpec [ 
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
-]
-
-{ #category : #testing }
-GTMetaceller >> isProjectLoaded: aSpec [ 
-	(self isProject: aSpec) ifFalse: [ ^aSpec isPackageLoaded ]. 
-	^(self configForProject: aSpec) notNil
 ]
 
 { #category : #accessing }
@@ -286,37 +238,8 @@ GTMetaceller >> loadVersion: aVersion [
 ]
 
 { #category : #display }
-GTMetaceller >> nameForGroup: aGroup [
-	^Text string: aGroup label attribute: TextEmphasis italic
-]
-
-{ #category : #display }
 GTMetaceller >> nameForItem: anItem [
-	(self isProject: anItem) ifTrue: [  ^self nameForProject: anItem ].
-	(self isGroup: anItem) ifTrue: [  ^self nameForGroup: anItem ].
-	^self nameForPackageSpec: anItem
-]
-
-{ #category : #display }
-GTMetaceller >> nameForPackageSpec: aPackage [
-"	(self isPackageLoaded: aPackage) ifFalse: [ ^aPackage label  ].
-	(self isPackageOlder: aPackage) ifTrue: [ ^
-		Text string: aPackage label attributes: (Array with: TextEmphasis underlined with: TextEmphasis bold) ].
-	^aPackage label
-"
-	^Text string: aPackage file attributes: (self attributesForPackageSpec: aPackage)
-]
-
-{ #category : #display }
-GTMetaceller >> nameForProject: aProjectReference [
-	| attributes |
-	attributes := OrderedCollection new.
-	(self isProjectLoaded: aProjectReference) ifTrue: [ attributes add: TextEmphasis underlined ].
-	attributes add: TextColor blue.
-	aProjectReference versionString 
-		ifNil: [ ^(Text string: aProjectReference label attributes: attributes), (Text string: ' No version' attribute: TextColor red) ]
-		ifNotNil: [ ^(Text string: aProjectReference label attributes: attributes), (Text string: (' ', aProjectReference versionString) attribute: TextColor blue) ].
-	
+	^anItem labelAsText
 ]
 
 { #category : #building }
@@ -324,9 +247,9 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 	aBrowser tree
 		title: 'Packages';
 		display: [ :version | self itemsForVersion: version ];
-		children: [ :item | self childrenForProject: item ];	"note: asking children of a group in a subproject is buggy, so we do not expand groups here."
+		children: [ :item | self childrenForItem: item ];
 		format: [ :item | self nameForItem: item ];
-		tags: [ :spec :version | self tagsOf: spec in: version ];
+		tags: [ :spec :version | self tagsOfSpec: spec in: version ];
 		dynamicActionsOnSelection: [ :list | self actionsForItem: list selection ];
 		updateOn: GTConfigChanged from: self announcer.
 	aBrowser tree
@@ -338,13 +261,6 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 	aBrowser roassal
 		title: 'Dependencies';
 		painting: [ :view :version | self viewDependenciesOf: version on: view ]
-]
-
-{ #category : #accessing }
-GTMetaceller >> packagesForVersion: aVersion [
-	aVersion ifNil: [ ^#() ].
-	(aVersion isKindOf: Association) ifTrue: [  ^#() ].
-	^aVersion spec packages packageSpecsInLoadOrder select: [  :each | self isPackage: each ]
 ]
 
 { #category : #accessing }
@@ -363,8 +279,13 @@ GTMetaceller >> shortNameOf: config [
 ]
 
 { #category : #display }
-GTMetaceller >> tagsOf: aSpec in: aVersion [
+GTMetaceller >> tagsOfSpec: aSpec in: aVersion [
 	^aVersion tagsOf: aSpec
+]
+
+{ #category : #display }
+GTMetaceller >> tagsOfVersion: aVersion [
+	^aVersion tags
 ]
 
 { #category : #private }
@@ -384,7 +305,9 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		display: [ :config | GTMetacellerVersion versionsForConfig: config ];
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
-		selectionAct: [ :list | list selection inspect ] entitled: 'Inspect version';
+		tags: [ :version | self tagsOfVersion: version ];
+		selectionAct: [ :list | list selection inspect ] entitled: 'Inspect';
+		selectionAct: [ :list | list selection method browse ] entitled: 'Browse method';
 		format: [ :version | version textLabel ].
 	aBrowser roassal
 		title: 'Imports';
@@ -393,6 +316,8 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		title: 'Methods';
 		display: [ :config | GTMetacellerVersion allMethodsForConfig: config ];
 		updateOn: GTConfigChanged from: self announcer;
+		dynamicActionsOnSelection: [ :list | list selection actions ];
+		selectionAct: [ :list | list selection inspect ] entitled: 'Inspect';
 		selectionAct: [ :list | list selection method browse ] entitled: 'Browse method';
 		format: [ :method | method selector ].
 ]
