@@ -20,6 +20,11 @@ GTMetacellerItem >> asString [
 	^self referenceSpec asString 
 ]
 
+{ #category : #accessing }
+GTMetacellerItem >> children [
+	^#()
+]
+
 { #category : #initialization }
 GTMetacellerItem >> initialize: aVersion [
 	self initialize.
@@ -49,11 +54,16 @@ GTMetacellerItem >> isProject: aSpec [
 ]
 
 { #category : #accessing }
+GTMetacellerItem >> labelAsText [
+	^self referenceSpec label
+]
+
+{ #category : #accessing }
 GTMetacellerItem >> name [
 	^self referenceSpec name
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 GTMetacellerItem >> referenceSpec [
 	^referenceSpec
 ]
@@ -67,5 +77,6 @@ GTMetacellerItem >> version [
 GTMetacellerItem >> wrapperFor: aSpec version: aVersion [
 	(self isProject: aSpec) ifTrue: [  ^GTMetacellerProjectReference on: aVersion spec: aSpec ].
 	(self isGroup: aSpec) ifTrue: [  ^GTMetacellerGroup on: aVersion spec: aSpec ].
+	(self isPackage: aSpec) ifTrue: [ ^GTMetacellerPackage on: aVersion spec: aSpec ].
 	^aSpec
 ]

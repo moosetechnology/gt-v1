@@ -171,6 +171,11 @@ GTMetacellerVersion >> load [
 	self version ifNotNil: [ self version load ]
 ]
 
+{ #category : #actions }
+GTMetacellerVersion >> load: aString [ 
+	self version ifNotNil: [ self version load: aString ]
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> method [
 	^ method
@@ -306,6 +311,7 @@ GTMetacellerVersion >> version: anObject [
 GTMetacellerVersion >> wrapperFor: aSpec [
 	(self isProject: aSpec) ifTrue: [  ^GTMetacellerProjectReference on: self spec: aSpec ].
 	(self isGroup: aSpec) ifTrue: [  ^GTMetacellerGroup on: self spec: aSpec ].
+	(self isPackage: aSpec) ifTrue: [ ^GTMetacellerPackage on: self spec: aSpec ].
 	^aSpec
 	
 ]

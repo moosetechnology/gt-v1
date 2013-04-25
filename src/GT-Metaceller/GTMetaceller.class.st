@@ -215,7 +215,7 @@ GTMetaceller >> isPackage: aSpec [
 
 { #category : #testing }
 GTMetaceller >> isProject: aSpec [ 
-	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
+	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ (aSpec isKindOf: MetacelloProjectSpec) ]
 ]
 
 { #category : #accessing }
