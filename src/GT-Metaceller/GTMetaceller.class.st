@@ -306,8 +306,6 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
 		tags: [ :version | self tagsOfVersion: version ];
-		selectionAct: [ :list | list selection inspect ] entitled: 'Inspect';
-		selectionAct: [ :list | list selection method browse ] entitled: 'Browse method';
 		format: [ :version | version textLabel ].
 	aBrowser roassal
 		title: 'Imports';
@@ -317,8 +315,6 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		display: [ :config | GTMetacellerVersion allMethodsForConfig: config ];
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
-		selectionAct: [ :list | list selection inspect ] entitled: 'Inspect';
-		selectionAct: [ :list | list selection method browse ] entitled: 'Browse method';
 		format: [ :method | method selector ].
 ]
 

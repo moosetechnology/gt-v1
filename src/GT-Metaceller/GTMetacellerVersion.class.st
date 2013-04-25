@@ -6,7 +6,6 @@ Class {
 		'version',
 		'configuration',
 		'cachedPackageMap',
-		'attributes',
 		'project',
 		'groups'
 	],
@@ -57,7 +56,15 @@ GTMetacellerVersion class >> versionsForConfig: aConfiguration project: project 
 GTMetacellerVersion >> actions [
 	| retVal |
 	retVal := OrderedCollection new.
- 	retVal add: ((GLMGenericAction new) 
+	retVal add: ((GLMGenericAction new) 
+			action: [ :list  | list selection inspect ];
+			title: 'Inspect'
+			yourself).
+	retVal add: ((GLMGenericAction new) 
+			action: [ :list  | list selection method browse ];
+			title: 'Browse method'
+			yourself).
+	retVal add: ((GLMGenericAction new) 
 			action: [ :list  | list selection load ];
 			title: 'Load'
 			yourself).
@@ -65,7 +72,13 @@ GTMetacellerVersion >> actions [
 			action: [ :list  | list selection fetch ];
 			title: 'Fetch'
 			yourself).
-	self isDevelopment ifTrue: [ 
+"
+	This checks the current version, but it needs to update the ui without recreating the versions
+ 	retVal add: ((GLMGenericAction new) 
+			action: [ :list  | list selection checkCurrentVersion ];
+			title: 'Check current version'
+			yourself).
+"	self isDevelopment ifTrue: [ 
 	 	retVal add: ((GLMGenericAction new) 
 			action: [ :list  | list selection update ];
 			title: 'Update'
@@ -82,6 +95,11 @@ GTMetacellerVersion >> blessing [
 GTMetacellerVersion >> buildGroups [
 	self version ifNotNil: [ ^self version groups collect: [ :each | GTMetacellerGroup on: self version spec: each ] ].
 	^#()
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> checkCurrentVersion [
+	self project checkCurrentVersion
 ]
 
 { #category : #accessing }
@@ -282,12 +300,13 @@ GTMetacellerVersion >> tagsOf: aSpec [
 
 { #category : #display }
 GTMetacellerVersion >> textLabel [
-	attributes ifNil: [
-		attributes := OrderedCollection new.
-		self version ifNil: [ attributes add: TextColor red ].
-		self isBleedingEdge ifTrue: [ attributes add: TextColor blue ].
-		self isDevelopment ifTrue: [ attributes add: TextEmphasis italic ].
-		self isStable ifTrue: [ attributes add: TextEmphasis bold ] ].
+	| attributes |
+	attributes := OrderedCollection new.
+	self version ifNil: [ attributes add: TextColor red ].
+	self isBleedingEdge ifTrue: [ attributes add: TextColor blue ].
+	self isDevelopment ifTrue: [ attributes add: TextEmphasis italic ].
+	self isCurrent ifTrue: [ attributes add: TextEmphasis underlined ].
+	self isStable ifTrue: [ attributes add: TextEmphasis bold ].
 	^Text string: self name attributes: attributes
 ]
 

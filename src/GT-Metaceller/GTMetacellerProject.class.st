@@ -25,13 +25,18 @@ GTMetacellerProject >> bleedingEdge [
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> checkCurrentVersion [
+	currentVersion ifNil: [ currentVersion := self project currentVersion ]
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> configuration [
 	^ configuration
 ]
 
 { #category : #accessing }
 GTMetacellerProject >> currentVersion [
-	^ currentVersion ifNil: [ currentVersion := self project currentVersion ]
+	^ currentVersion
 ]
 
 { #category : #accessing }
