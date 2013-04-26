@@ -21,7 +21,9 @@ GTMetacellerProject class >> on: aConfiguration [
 
 { #category : #accessing }
 GTMetacellerProject >> bleedingEdge [
-	^ bleedingEdge ifNil: [ bleedingEdge := self project bleedingEdge ]
+	bleedingEdge ifNil: [
+		[ bleedingEdge := self project bleedingEdge ] on: MetacelloVersionDoesNotExistError ].
+	^bleedingEdge
 ]
 
 { #category : #accessing }
@@ -41,7 +43,9 @@ GTMetacellerProject >> currentVersion [
 
 { #category : #accessing }
 GTMetacellerProject >> development [
-	^ development ifNil: [ development := self project development ]
+	development ifNil: [ 
+		[ development := self project development ] on: MetacelloVersionDoesNotExistError do: [ ] ].
+	^development
 ]
 
 { #category : #initialization }
@@ -57,7 +61,9 @@ GTMetacellerProject >> project [
 
 { #category : #accessing }
 GTMetacellerProject >> stableVersion [
-	^ stableVersion ifNil: [ stableVersion := self project stableVersion ]
+	stableVersion ifNil: [ 
+		[ stableVersion := self project stableVersion ] on: MetacelloVersionDoesNotExistError do: [ ] ].
+	^stableVersion
 ]
 
 { #category : #accessing }
