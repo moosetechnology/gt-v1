@@ -127,9 +127,14 @@ GTMetaceller >> configurationsIn: a [
 
 { #category : #building }
 GTMetaceller >> detailsForConfiguration: aBrowser [
-	aBrowser roassal
-		title: 'Imports';
-		painting: [:view :config | self viewVersionMapOf: config on: view]
+	(aBrowser respondsTo: #roassal) ifTrue: [ 
+		aBrowser roassal
+			title: 'Imports';
+			painting: [:view :config | self viewVersionMapOf: config on: view] ]
+		ifFalse: [ 
+			aBrowser text
+				title: 'Imports';
+				display: 'Please install roassal to see the imports' ]
 ]
 
 { #category : #building }
@@ -154,9 +159,14 @@ GTMetaceller >> detailsForVersion: aBrowser [
 		smalltalkClass: [ :version | version methodClass ];
 		display: [ :version | version methodString ];
 		populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [ :pane :version | self acceptCode: pane text version: version ].
-	aBrowser roassal
-		title: 'Dependencies';
-		painting: [ :view :version | self viewDependenciesOf: version on: view ]
+	(aBrowser respondsTo: #roassal) ifTrue: [ 
+		aBrowser roassal
+			title: 'Dependencies';
+			painting: [ :view :version | self viewDependenciesOf: version on: view ] ]
+		ifFalse: [ 
+			aBrowser text
+				title: 'Dependencies';
+				text: 'Please install roassal to view dependencies' ]
 ]
 
 { #category : #opening }
