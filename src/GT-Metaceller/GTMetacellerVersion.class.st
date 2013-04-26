@@ -157,9 +157,14 @@ GTMetacellerVersion >> isCurrent [
 
 { #category : #testing }
 GTMetacellerVersion >> isDevelopment [
+	^self blessing = #development
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> isDevelopmentVersion [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	^self blessing = #development
+	^self project development = self version
 ]
 
 { #category : #testing }
@@ -303,8 +308,8 @@ GTMetacellerVersion >> textLabel [
 	| attributes |
 	attributes := OrderedCollection new.
 	self version ifNil: [ attributes add: TextColor red ].
-	self isBleedingEdge ifTrue: [ attributes add: TextColor blue ].
-	self isDevelopment ifTrue: [ attributes add: TextEmphasis italic ].
+	self isBleedingEdge ifTrue: [ attributes add: TextColor red  ].
+	self isDevelopmentVersion ifTrue: [ attributes add: TextColor blue ].
 	self isCurrent ifTrue: [ attributes add: TextEmphasis underlined ].
 	self isStable ifTrue: [ attributes add: TextEmphasis bold ].
 	^Text string: self name attributes: attributes

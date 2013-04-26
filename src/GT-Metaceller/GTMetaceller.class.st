@@ -48,7 +48,7 @@ GTMetaceller >> announcer [
 { #category : #building }
 GTMetaceller >> buildBrowser [
 	browser := GLMTabulator new.
-	browser title: 'Metacello Browser'.
+	browser title: 'Metaceller'.
 	browser
 		act: [ :b | 
 			Workspace new
@@ -173,14 +173,15 @@ GTMetaceller >> groupsForVersion: aVersion [
 
 { #category : #private }
 GTMetaceller >> helpText [
-	^'Metaceller is a tool for browsing the Metacello configurations present in the image.
+	^'Metaceller is a tool for browsing and editing the Metacello configurations present in the image.
 
 The Configurations tab lists all the projects from the ConfigurationOfXXX present in the image. Double clicking on an item spawns the configuration details.
 
 The Versions tab lists all the versions defined in the configuration. The color coding shows:
-- blue = the current bleeding edge
 - bold = the stable version
-- italic = the development version
+- blue = the development version
+- red  = the current bleeding edge
+The tag shows the blessing of the configuration.
 
 The Imports tab shows how versions import from one another.
 
@@ -190,9 +191,10 @@ The Items tab shows the packages, groups and projects from the version. Each pro
 
 The color coding shows:
 - blue = project
-- bold = newer package in version
+- bold = newer package in version than loaded in image
 - underlined = package / project loaded in image
 - italic = groups
+- gray = older package in version than loaded in image
 .'
 ]
 
