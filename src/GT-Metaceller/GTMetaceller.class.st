@@ -70,6 +70,10 @@ GTMetaceller >> buildBrowser [
 		to: #versions;
 		andShow: [ :a | self versionBrowserOn: a ].
 	browser transmit
+		from: #configs;
+		to: #details;
+		andShow: [ :a | self detailsForConfiguration: a ].
+	browser transmit
 		from: #versions;
 		to: #details;
 		andShow: [ :a | self detailsForVersion: a ].
@@ -122,6 +126,13 @@ GTMetaceller >> configurationsIn: a [
 ]
 
 { #category : #building }
+GTMetaceller >> detailsForConfiguration: aBrowser [
+	aBrowser roassal
+		title: 'Imports';
+		painting: [:view :config | self viewVersionMapOf: config on: view]
+]
+
+{ #category : #building }
 GTMetaceller >> detailsForMethod: aBrowser [
 	aBrowser smalltalkCode
 		smalltalkClass: [ :method | method methodClass ];
@@ -132,15 +143,20 @@ GTMetaceller >> detailsForMethod: aBrowser [
 { #category : #building }
 GTMetaceller >> detailsForPackage: aBrowser [
 	aBrowser text
+		title: 'Package spec';
 		display: [ :package | package asString ]
 ]
 
 { #category : #building }
 GTMetaceller >> detailsForVersion: aBrowser [
 	aBrowser smalltalkCode
+		title: 'Method';
 		smalltalkClass: [ :version | version methodClass ];
 		display: [ :version | version methodString ];
-		populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [ :pane :version | self acceptCode: pane text version: version ]
+		populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [ :pane :version | self acceptCode: pane text version: version ].
+	aBrowser roassal
+		title: 'Dependencies';
+		painting: [ :view :version | self viewDependenciesOf: version on: view ]
 ]
 
 { #category : #opening }
@@ -259,10 +275,7 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 		children: [ :item | self childrenForItem: item ];
 		display: [ :version | self groupsForVersion: version ];
 		updateOn: GTConfigChanged from: self announcer;
-		format: [ :item | self nameForItem: item ].
-	aBrowser roassal
-		title: 'Dependencies';
-		painting: [ :view :version | self viewDependenciesOf: version on: view ]
+		format: [ :item | self nameForItem: item ]
 ]
 
 { #category : #accessing }
@@ -309,9 +322,6 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		dynamicActionsOnSelection: [ :list | list selection actions ];
 		tags: [ :version | self tagsOfVersion: version ];
 		format: [ :version | version textLabel ].
-	aBrowser roassal
-		title: 'Imports';
-		painting: [:view :config | self viewVersionMapOf: config on: view].
 	aBrowser list 
 		title: 'Methods';
 		display: [ :config | GTMetacellerVersion allMethodsForConfig: config ];
