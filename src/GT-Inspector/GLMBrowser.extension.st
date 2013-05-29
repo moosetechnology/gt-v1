@@ -3,8 +3,9 @@ Extension { #name : #GLMBrowser }
 { #category : #'*gt-inspector' }
 GLMBrowser >> gtInspectorOpenTreeIn: composite [
 	<gtInspectorPresentationOrder: 30>  
-	 composite mondrian 
+	 composite roassal 
 		title: 'Tree';
 		painting: [:view :b | 
-			b viewTreeOn: view ]
+			b viewTreeOn: view.
+			view populateBasicNavigationMenu. ]
 ]
