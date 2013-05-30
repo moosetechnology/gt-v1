@@ -64,18 +64,19 @@ GTInspector >> compose [
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	self finder with: [:browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
-		browser show: [ :a | 
+		browser show: [ :a :each | 
 			a title: [ :anObject | self printObjectAsAnItem: anObject ].
 			a 
 				morphicAct: [:composite | composite entity browse]
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
 				entitled: 'Browse'.
 			a dynamic 
-				display: [:each | 
+				display: [ 
 					| dynamic |
 					dynamic := GLMCompositePresentation new.
 					each gtInspectorPresentationsIn: dynamic.
-					dynamic ] ] ]
+					dynamic ] ].
+		"browser transmit fromOutsidePort: #selection; toWatcher; andShow: [ :a | a text ] "]
 ]
 
 { #category : #opening }
