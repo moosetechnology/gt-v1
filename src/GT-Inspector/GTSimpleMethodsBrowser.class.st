@@ -12,7 +12,7 @@ GTSimpleMethodsBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Methods'.
 	browser
-		row: #classes size: 25;
+		row: #classes size: 35;
 		row: #methods;
 		row: #source.
 	browser transmit
