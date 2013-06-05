@@ -335,7 +335,7 @@ GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
-		format: #sourceText;
+		format: #source;
 		smalltalkClass: [ :contextModel | contextModel selectedClass ];
 		with: [ :code | self installCodeActionsFor: code ]
 ]
