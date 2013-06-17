@@ -90,6 +90,21 @@ GTDebugger >> actOnBrowserClosing: ann [
 ]
 
 { #category : #'building actions' }
+GTDebugger >> actionsForPragmas: aSymbolsCollection [
+	
+	^ aSymbolsCollection 
+		inject: OrderedCollection new
+		into: [ :currentActions :aSymbol | 
+			currentActions 
+				addAll: (self session class gtDebuggerActionsForPragma: aSymbol);
+				yourself ].
+
+
+	
+
+]
+
+{ #category : #'building actions' }
 GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
 	
 	(self debuggersForContext: self selectedContext)
@@ -103,7 +118,7 @@ GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
 						yourself) ]
 ]
 
-{ #category : #'building actions' }
+{ #category : #'to delete' }
 GTDebugger >> addCreateMessageActionFor: aPresentation to: aCollection [
 
 	(self session isInterruptedContextDoesNotUnderstand and: [self session context = self selectedContext]) ifTrue: [ 
@@ -121,6 +136,12 @@ GTDebugger >> addCreateMessageActionFor: aPresentation to: aCollection [
 { #category : #accessing }
 GTDebugger >> browser [ 
 	^ self presentations first
+]
+
+{ #category : #actions }
+GTDebugger >> close [
+
+	self browser close
 ]
 
 { #category : #building }
@@ -149,6 +170,10 @@ GTDebugger >> compose [
 			from: #stack port: #selection;
 			to: #stack port: #pc;
 			transformed: #pc.
+		browser transmit
+			from: #stack port: #selection;
+			to: #stack port: #fakePort;
+			transformed: [ :value | self halt].
 		browser transmit
 			from: #stack port: #context;
 			fromOutsidePort: #entity;
@@ -220,22 +245,43 @@ GTDebugger >> inspectorForContextAndSelfIn: composite [
 
 { #category : #'building actions' }
 GTDebugger >> installCodeActionsFor: aPresentation [
-	self installWhereIsActionFor: aPresentation.
+"	self installWhereIsActionFor: aPresentation.
 	self installRunToHereActionFor: aPresentation.
-	self installSaveActionFor: aPresentation.
+	self installSaveActionFor: aPresentation."
 ]
 
 { #category : #'building actions' }
 GTDebugger >> installDebuggingActionsFor: aPresentation [
-	self installRestartActionFor: aPresentation.
+
+	self installDebuggingActionsForStack: aPresentation.
+	self installDynamicDebuggingActionsForStack: aPresentation.
+
+
+	"self installRestartActionFor: aPresentation.
 	self installStepIntoActionFor: aPresentation.
 	self installStepOverActionFor: aPresentation.
 	self installStepThroughActionFor: aPresentation.
 	self installResumeActionFor: aPresentation.
-	self installDynamicActionsFor: aPresentation.
+	self installDynamicActionsFor: aPresentation."
 ]
 
 { #category : #'building actions' }
+GTDebugger >> installDebuggingActionsForStack: aPresentation [
+	| stackActions |
+	
+	stackActions := self actionsForPragmas: { #gtProcessDebugAction. #gtStackDebugAction}.
+
+	stackActions do: [ :anAction |
+		anAction debugger: self ]. "should be removed"
+
+	(stackActions select: [ :anAction | 
+		anAction appliesToContextCurrentContext ]) do: [ :anAction | 
+			aPresentation 
+				addAction: anAction asGlamourAction ].
+
+]
+
+{ #category : #'to delete' }
 GTDebugger >> installDynamicActionsFor: aPresentation [
 	
 	aPresentation dynamicActionsOnSelection: [ :presentation || newActions |
@@ -246,6 +292,24 @@ GTDebugger >> installDynamicActionsFor: aPresentation [
 ]
 
 { #category : #'building actions' }
+GTDebugger >> installDynamicDebuggingActionsForStack: aPresentation [
+	
+	aPresentation dynamicActionsOnSelection: [ :presentation || newActions dynamicActions |
+		newActions := OrderedCollection new.
+		dynamicActions := self actionsForPragmas: { #gtDynamicProcessDebugAction. #gtDynamicStackDebugAction}.
+	
+		dynamicActions do: [ :anAction |
+			anAction debugger: self ]. "should be removed"
+		
+		(dynamicActions select: [ :anAction | 
+			anAction appliesToContextCurrentContext ]) do: [ :anAction | 
+				newActions add: anAction asGlamourAction ].
+			
+		newActions ]
+
+]
+
+{ #category : #'to delete' }
 GTDebugger >> installRestartActionFor: aPresentation [ 
 	aPresentation 
 		act: [ :presentation :session |
@@ -255,7 +319,7 @@ GTDebugger >> installRestartActionFor: aPresentation [
 		entitled: 'Restart'
 ]
 
-{ #category : #'building actions' }
+{ #category : #'to delete' }
 GTDebugger >> installResumeActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :session |
@@ -290,7 +354,7 @@ GTDebugger >> installSaveActionFor: aPresentation [
 		entitled: 'Accept'
 ]
 
-{ #category : #'building actions' }
+{ #category : #'to delete' }
 GTDebugger >> installStepIntoActionFor: aPresentation [ 
 	aPresentation 
 		act: [ :presentation :session |
@@ -300,7 +364,7 @@ GTDebugger >> installStepIntoActionFor: aPresentation [
 		entitled: 'Step into' 
 ]
 
-{ #category : #'building actions' }
+{ #category : #'to delete' }
 GTDebugger >> installStepOverActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :session |
@@ -310,7 +374,7 @@ GTDebugger >> installStepOverActionFor: aPresentation [
 		entitled: 'Step over' 
 ]
 
-{ #category : #'building actions' }
+{ #category : #'to delete' }
 GTDebugger >> installStepThroughActionFor: aPresentation [
 	aPresentation 
 		act: [ :presentation :session |
