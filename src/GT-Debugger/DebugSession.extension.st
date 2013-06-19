@@ -1,31 +1,46 @@
 Extension { #name : #DebugSession }
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtCodeDebugAction [
-	<gtCodeDebugAction>
+DebugSession class >> gtChangeDebuggerActionsFor: aDebugger [
+	<gtContextDebuggingAction>
 	
-	^ {  }
+	^ (aDebugger debuggersForContext: aDebugger selectedContext) collect: [ :aDebuggerClass | 
+		ChangeDebuggerAction new
+			debuggerClass: aDebuggerClass
+		]
+		
 ]
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtDebuggerActionsForPragma: aSymbol [
+DebugSession class >> gtCodeDebugActionFor: aDebugger [
+	<gtCodeDebuggingActions>
+	
+	^ {  
+		WhereIsDebugAction new order: 5.
+		RunToHereDebugAction new order: 10.
+		SaveDebugAction new order: 15.
+	}
+]
+
+{ #category : #'*GT-Debugger' }
+DebugSession class >> gtDebuggerActionsForPragma: aSymbol for: aDebugger [
 	| pragmas actions |
 	pragmas := Pragma 
 				allNamed: aSymbol
 				from: self  class
-				to: Object class.
+				to: DebugSession class.
 	
 	actions := OrderedCollection new.
 	pragmas do: [ :eachPragma |
 		actions addAll: 
-			(self perform: eachPragma selector) ].
+			(self perform: eachPragma selector with: aDebugger) ].
 		
 	^ actions sort: [ :action1 :action2 | action1 order < action2 order ]
 ]
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtDynamicStackDebugAction [
-	<gtDynamicStackDebugAction>
+DebugSession class >> gtDynamicStackDebugActionFor: aDebugger [
+	<gtContextDebuggingAction>
 	
 	^ { 
 		CreateMessageDebugAction new
@@ -34,18 +49,18 @@ DebugSession class >> gtDynamicStackDebugAction [
 ]
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtProcessDebugAction [
-	<gtProcessDebugAction>
+DebugSession class >> gtProcessDebugActionFor: aDebugger [
+	<gtDebuggingActions>
 
 	^ { 
 		ResumeDebugAction new order: 5.
-		RestartDebugAction  new order: 10.
+		RestartDebugAction new order: 10.
 	 }
 ]
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtStackDebugAction [
-	<gtStackDebugAction>
+DebugSession class >> gtStackDebugActionFor: aDebugger [
+	<gtDebuggingActions>
 	
 	^ { 
 		StackDebugAction new

@@ -91,13 +91,17 @@ GTDebugger >> actOnBrowserClosing: ann [
 
 { #category : #'building actions' }
 GTDebugger >> actionsForPragmas: aSymbolsCollection [
+	| allActions |
+
+	allActions := self allActionsForPragmas: aSymbolsCollection.
 	
-	^ aSymbolsCollection 
-		inject: OrderedCollection new
-		into: [ :currentActions :aSymbol | 
-			currentActions 
-				addAll: (self session class gtDebuggerActionsForPragma: aSymbol);
-				yourself ].
+	allActions do: [ :aDebugAction |
+		aDebugAction debugger: self ]. "should be removed"
+
+	^ (allActions select: [ :aDebugAction | 
+			aDebugAction appliesToContextCurrentContext ]) 
+				collect: [ :aDebugAction | aDebugAction asGlamourAction  ]
+
 
 
 	
@@ -105,32 +109,18 @@ GTDebugger >> actionsForPragmas: aSymbolsCollection [
 ]
 
 { #category : #'building actions' }
-GTDebugger >> addChangeDebuggerActionFor: aPresentation to: aCollection [
+GTDebugger >> allActionsForPragmas: aSymbolsCollection [
 	
-	(self debuggersForContext: self selectedContext)
-		do: [ :aDebuggerClass | 
-			aCollection
-				add:
-					(GLMGenericAction new
-						action: [ self debug: self selectedContext using: aDebuggerClass ];
-						title: aDebuggerClass defaultTitle;
-						category: 'Available Debuggers';
-						yourself) ]
-]
+	^ aSymbolsCollection 
+		inject: OrderedCollection new
+		into: [ :currentActions :aSymbol | 
+			currentActions 
+				addAll: (self session class gtDebuggerActionsForPragma: aSymbol for: self);
+				yourself ].
 
-{ #category : #'to delete' }
-GTDebugger >> addCreateMessageActionFor: aPresentation to: aCollection [
 
-	(self session isInterruptedContextDoesNotUnderstand and: [self session context = self selectedContext]) ifTrue: [ 
-		aCollection add:
-			((GLMGenericAction new) 
-				action: [ :presentation :session |
-					session createMethodInContext: self selectedContext.
-					self selectTopOfStack: session context.
-					self updateCodePane ]; 
-				icon: GLMUIThemeExtraIcons glamorousAdd;
-				title: 'Create method';
-				yourself) ]
+	
+
 ]
 
 { #category : #accessing }
@@ -173,7 +163,7 @@ GTDebugger >> compose [
 		browser transmit
 			from: #stack port: #selection;
 			to: #stack port: #fakePort;
-			transformed: [ :value | self halt].
+			transformed: [ :value | ].
 		browser transmit
 			from: #stack port: #context;
 			fromOutsidePort: #entity;
@@ -245,153 +235,19 @@ GTDebugger >> inspectorForContextAndSelfIn: composite [
 
 { #category : #'building actions' }
 GTDebugger >> installCodeActionsFor: aPresentation [
-"	self installWhereIsActionFor: aPresentation.
-	self installRunToHereActionFor: aPresentation.
-	self installSaveActionFor: aPresentation."
+
+	aPresentation dynamicActions: [ :presentation |
+		self actionsForPragmas: {#gtCodeDebuggingActions}  ]
 ]
 
 { #category : #'building actions' }
 GTDebugger >> installDebuggingActionsFor: aPresentation [
 
-	self installDebuggingActionsForStack: aPresentation.
-	self installDynamicDebuggingActionsForStack: aPresentation.
-
-
-	"self installRestartActionFor: aPresentation.
-	self installStepIntoActionFor: aPresentation.
-	self installStepOverActionFor: aPresentation.
-	self installStepThroughActionFor: aPresentation.
-	self installResumeActionFor: aPresentation.
-	self installDynamicActionsFor: aPresentation."
-]
-
-{ #category : #'building actions' }
-GTDebugger >> installDebuggingActionsForStack: aPresentation [
-	| stackActions |
+	aPresentation dynamicActions: [ :presentation |
+		self actionsForPragmas: {#gtDebuggingActions}  ].
 	
-	stackActions := self actionsForPragmas: { #gtProcessDebugAction. #gtStackDebugAction}.
-
-	stackActions do: [ :anAction |
-		anAction debugger: self ]. "should be removed"
-
-	(stackActions select: [ :anAction | 
-		anAction appliesToContextCurrentContext ]) do: [ :anAction | 
-			aPresentation 
-				addAction: anAction asGlamourAction ].
-
-]
-
-{ #category : #'to delete' }
-GTDebugger >> installDynamicActionsFor: aPresentation [
-	
-	aPresentation dynamicActionsOnSelection: [ :presentation || newActions |
-		newActions := OrderedCollection new.
-		self addCreateMessageActionFor: aPresentation to: newActions.
-		self addChangeDebuggerActionFor: aPresentation to: newActions.
-		newActions ]
-]
-
-{ #category : #'building actions' }
-GTDebugger >> installDynamicDebuggingActionsForStack: aPresentation [
-	
-	aPresentation dynamicActionsOnSelection: [ :presentation || newActions dynamicActions |
-		newActions := OrderedCollection new.
-		dynamicActions := self actionsForPragmas: { #gtDynamicProcessDebugAction. #gtDynamicStackDebugAction}.
-	
-		dynamicActions do: [ :anAction |
-			anAction debugger: self ]. "should be removed"
-		
-		(dynamicActions select: [ :anAction | 
-			anAction appliesToContextCurrentContext ]) do: [ :anAction | 
-				newActions add: anAction asGlamourAction ].
-			
-		newActions ]
-
-]
-
-{ #category : #'to delete' }
-GTDebugger >> installRestartActionFor: aPresentation [ 
-	aPresentation 
-		act: [ :presentation :session |
-			session restart: self selectedContext.
-			self selectTopOfStack: session context  ]
-		icon: GLMUIThemeExtraIcons glamorousRestart
-		entitled: 'Restart'
-]
-
-{ #category : #'to delete' }
-GTDebugger >> installResumeActionFor: aPresentation [
-	aPresentation 
-		act: [ :presentation :session |
-			session resume.
-			session clear.
-			self browser close. ]
-		icon: GLMUIThemeExtraIcons glamorousPlay
-		entitled: 'Resume' 
-]
-
-{ #category : #'building actions' }
-GTDebugger >> installRunToHereActionFor: aPresentation [
-	aPresentation 
-		act: [ :text :contextModel | 
-			self selectionInterval ifNotNil: [:selectionInterval | 
-				self session runToSelection: selectionInterval inContext: self selectedContext.
-				self selectTopOfStack: self session context 	] ]
-		icon: GLMUIThemeExtraIcons glamorousPlay
-		entitled: 'Run to Here' 
-]
-
-{ #category : #'building actions' }
-GTDebugger >> installSaveActionFor: aPresentation [ 
-	aPresentation 
-		act: [ :text :contextModel | 			
-			 (self session recompileMethodTo: text text inContext: self selectedContext)
-				 ifNotNil: [ 
-					self selectTopOfStack: self session context.
-					self updateCodePane ] ] 
-		icon: GLMUIThemeExtraIcons glamorousAccept 
-		on: $s
-		entitled: 'Accept'
-]
-
-{ #category : #'to delete' }
-GTDebugger >> installStepIntoActionFor: aPresentation [ 
-	aPresentation 
-		act: [ :presentation :session |
-			session stepInto: self selectedContext.
-			self selectTopOfStack: session context ]
-		icon: GLMUIThemeExtraIcons glamorousInto
-		entitled: 'Step into' 
-]
-
-{ #category : #'to delete' }
-GTDebugger >> installStepOverActionFor: aPresentation [
-	aPresentation 
-		act: [ :presentation :session |
-			session stepOver: self selectedContext.
-			self selectTopOfStack: session context ]
-		icon: GLMUIThemeExtraIcons glamorousOver
-		entitled: 'Step over' 
-]
-
-{ #category : #'to delete' }
-GTDebugger >> installStepThroughActionFor: aPresentation [
-	aPresentation 
-		act: [ :presentation :session |
-			session stepThrough: self selectedContext.
-			self selectTopOfStack: session context ]
-		icon: GLMUIThemeExtraIcons glamorousThrough
-		entitled: 'Step through' 
-]
-
-{ #category : #'building actions' }
-GTDebugger >> installWhereIsActionFor: aPresentation [ 
-	aPresentation 
-		act: [ :text :contextModel | 
-			self updateSelectionInterval ]
-		icon: GLMUIThemeExtraIcons glamorousSearch 
-		on: $w
-		entitled: 'Where is?'
+	aPresentation dynamicActionsOnSelection: [ :presentation |
+		self actionsForPragmas: {#gtContextDebuggingAction} ]
 ]
 
 { #category : #building }
