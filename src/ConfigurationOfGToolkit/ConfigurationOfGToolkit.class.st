@@ -312,7 +312,7 @@ ConfigurationOfGToolkit >> baseline05: spec [
 				spec
 					className: 'ConfigurationOfNewDebugger';
 					file: 'ConfigurationOfNewDebugger';
-					version: '0.1';
+					version: '#stable';
 					repository: 'http://www.smalltalkhub.com/mc/Pharo/Debugger/main' ].
 		spec project: 'AnnouncerCentricDebugger' with: [
 				spec
