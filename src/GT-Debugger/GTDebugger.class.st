@@ -137,47 +137,8 @@ GTDebugger >> close [
 GTDebugger >> compose [
 	self title: self debuggerTitle.
 	self tabulator with: [:browser | 
-		browser
-			row: [ :row | 
-						row
-							column: #stack;
-							column: #code ];
-			row: #inspector.
-		browser transmit
-			to: #stack;
-			andShow: [ :composite | self stackIn: composite ].
-		browser transmit
-			fromOutsidePort: #entity;
-			to: #stack port: #selection;
-			transformed: [:session | session context].
-		browser transmit
-			from: #stack port: #selection;
-			fromOutsidePort: #entity;
-			to: #stack port: #context;
-			transformed: [ :context :session | session createModelForContext: context ].
-		browser transmit
-			from: #stack port: #selection;
-			to: #stack port: #pc;
-			transformed: #pc.
-		browser transmit
-			from: #stack port: #selection;
-			to: #stack port: #fakePort;
-			transformed: [ :value | "self updateStackToolbar"].
-		browser transmit
-			from: #stack port: #context;
-			fromOutsidePort: #entity;
-			to: #code;
-			andShow: [ :composite | self methodCodeIn: composite ].
-		browser transmit
-			from: #stack;
-			fromOutsidePort: #entity;
-			from: #stack port: #pc;
-			to: #code port: #selectionInterval;
-			transformed: [ :context :session :pc | session selectedCodeRangeForContext: context ].
-		browser transmit
-			from: #stack port: #context;
-			to: #inspector;
-			andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] ].
+		self debuggerStructureIn: browser.
+		self debuggerTransmissionsIn: browser ].
 	self registerActions.
 
 ]
@@ -193,10 +154,63 @@ GTDebugger >> debug: aContext using: aDebuggerClass [
 	aDebuggerClass debugBasedOnSession: currentSession
 ]
 
+{ #category : #building }
+GTDebugger >> debuggerStructureIn: browser [
+	
+	browser
+		row: [ :row | 
+					row
+						column: #stack;
+						column: #code ];
+		row: #inspector.
+		
+]
+
 { #category : #accessing }
 GTDebugger >> debuggerTitle [
 	
 	^ self class defaultTitle 
+]
+
+{ #category : #building }
+GTDebugger >> debuggerTransmissionsIn: browser [
+
+	browser transmit
+		to: #stack;
+		andShow: [ :composite | self stackIn: composite ].
+	browser transmit
+		fromOutsidePort: #entity;
+		to: #stack port: #selection;
+		transformed: [:session | session context].
+	browser transmit
+		from: #stack port: #selection;
+		fromOutsidePort: #entity;
+		to: #stack port: #context;
+		transformed: [ :context :session | session createModelForContext: context ].
+	browser transmit
+		from: #stack port: #selection;
+		to: #stack port: #pc;
+		transformed: #pc.
+	browser transmit
+		from: #stack port: #selection;
+		to: #stack port: #fakePort;
+		transformed: [ :value | "self updateStackToolbar"].
+	browser transmit
+		from: #stack port: #context;
+		fromOutsidePort: #entity;
+		to: #code;
+		andShow: [ :composite | self methodCodeIn: composite ].
+	browser transmit
+		from: #stack;
+		fromOutsidePort: #entity;
+		from: #stack port: #pc;
+		to: #code port: #selectionInterval;
+		transformed: [ :context :session :pc | session selectedCodeRangeForContext: context ].
+	browser transmit
+		from: #stack port: #context;
+		to: #inspector;
+		andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] 
+
 ]
 
 { #category : #accessing }
@@ -295,8 +309,6 @@ GTDebugger >> registerActions [
 
 	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
 	self on: DebugActionExecuted send: #updateStackPane to: self.
-	"self on: DebugActionExecuted send: #updateCodePane to: self."
-	"self on: DebugActionExecuted send: #updateInspectorPane to: self."
 
 ]
 
