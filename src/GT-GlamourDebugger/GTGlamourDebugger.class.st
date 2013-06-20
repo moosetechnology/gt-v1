@@ -36,15 +36,6 @@ GTGlamourDebugger >> browserStructureFor: aBrowser in: aComposite [
 ]
 
 { #category : #'as yet unclassified' }
-GTGlamourDebugger >> browserStructureIn: composite [
-	
-	composite roassal 
-		title: 'Browser structure';
-		painting: [:view :b | 
-			b viewTreeOn: view ]
-]
-
-{ #category : #'as yet unclassified' }
 GTGlamourDebugger >> browserTransmissionsFor: browser [
 	
 	browser transmit
@@ -61,8 +52,8 @@ GTGlamourDebugger >> compose [
 	self tabulator with: [:browser | 
 		self layoutFor: browser.
 		self transmissionsFor: browser.
-		self browserTransmissionsFor: browser  ].
-	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
+		self browserTransmissionsFor: browser.
+		self registerActions ].
 ]
 
 { #category : #building }
@@ -75,6 +66,14 @@ GTGlamourDebugger >> layoutFor: browser [
 							column: #code ];
 			row: #browser;
 			row: #inspector.
+]
+
+{ #category : #building }
+GTGlamourDebugger >> registerActions [
+
+	super registerActions.
+	
+	"self on: DebugActionExecuted send: #updateBrowserPane to: self."
 ]
 
 { #category : #'as yet unclassified' }
@@ -106,7 +105,7 @@ GTGlamourDebugger >> transmissionsFor: browser. [
 		browser transmit
 			from: #stack port: #selection;
 			to: #stack port: #fakePort;
-			transformed: [ :value | self updateStackPane].
+			transformed: [ :value | ].
 		browser transmit
 			from: #stack port: #context;
 			fromOutsidePort: #entity;
@@ -122,4 +121,12 @@ GTGlamourDebugger >> transmissionsFor: browser. [
 			from: #stack port: #context;
 			to: #inspector;
 			andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] 
+]
+
+{ #category : #building }
+GTGlamourDebugger >> updateBrowserPane [
+	| browserPane |
+	
+	browserPane := self browser paneNamed: #browser.
+	browserPane update.
 ]
