@@ -218,7 +218,7 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 	browser transmit
 		from: #stack port: #context;
 		to: #inspector;
-		andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] 
+		andShow: [ :composite :entity | self inspectorFor: entity in: composite ] 
 
 ]
 
@@ -245,15 +245,14 @@ GTDebugger >> errorWasInUIProcess: aBoolean [
 ]
 
 { #category : #building }
-GTDebugger >> inspectorForContextAndSelfIn: composite [
-	composite dynamic
-		display: [ :each | 
-			"We use the first actual finder because need to send showFirst: to it"
-			GTInspector new first
+GTDebugger >> inspectorFor: anObject in: composite [
+	composite custom:
+			(GTInspector new first "We use the first actual finder because need to send showFirst: to it"
 				noTitle;
 				noActions;
-				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new startOn: each) ];
-				startOn: each ]
+				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new startOn: anObject) ];
+				startOn: anObject)
+	
 ]
 
 { #category : #'building actions' }
