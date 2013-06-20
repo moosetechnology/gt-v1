@@ -124,6 +124,7 @@ GTDebugger >> allActionsForPragmas: aSymbolsCollection [
 
 { #category : #accessing }
 GTDebugger >> browser [ 
+
 	^ self presentations first
 ]
 
@@ -141,6 +142,14 @@ GTDebugger >> compose [
 		self debuggerTransmissionsIn: browser ].
 	self registerActions.
 
+]
+
+{ #category : #accessing }
+GTDebugger >> currentContext [
+
+	^self selectedContext 
+		ifNil: [ self interruptedContext ] 
+		ifNotNil:  [ self selectedContext  ]
 ]
 
 { #category : #actions }
@@ -187,25 +196,25 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 		fromOutsidePort: #entity;
 		to: #stack port: #context;
 		transformed: [ :context :session | session createModelForContext: context ].
-	browser transmit
+	"browser transmit
 		from: #stack port: #selection;
 		to: #stack port: #pc;
-		transformed: #pc.
-	browser transmit
+		transformed: #pc."
+	"browser transmit
 		from: #stack port: #selection;
 		to: #stack port: #fakePort;
-		transformed: [ :value | "self updateStackToolbar"].
+		transformed: [ :value | ]."
 	browser transmit
 		from: #stack port: #context;
 		fromOutsidePort: #entity;
 		to: #code;
 		andShow: [ :composite | self methodCodeIn: composite ].
-	browser transmit
+"	browser transmit
 		from: #stack;
 		fromOutsidePort: #entity;
 		from: #stack port: #pc;
 		to: #code port: #selectionInterval;
-		transformed: [ :context :session :pc | session selectedCodeRangeForContext: context ].
+		transformed: [ :context :session :pc | session selectedCodeRangeForContext: context ]."
 	browser transmit
 		from: #stack port: #context;
 		to: #inspector;
@@ -276,6 +285,7 @@ GTDebugger >> methodCodeIn: composite [
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #source;
+		selectionIntervalBlock: [self session selectedCodeRangeForContext: self currentContext];
 		smalltalkClass: [ :contextModel | contextModel selectedClass ];
 		with: [ :code | self installCodeActionsFor: code ]
 ]
@@ -323,6 +333,7 @@ GTDebugger >> selectTopOfStack: aContext [
 
 { #category : #accessing }
 GTDebugger >> selectedContext [
+
 	^ ((self browser paneNamed: #stack) port: #selection) value
 ]
 
@@ -338,6 +349,7 @@ GTDebugger >> selectionInterval: anInterval [
 
 { #category : #accessing }
 GTDebugger >> session [
+
 	^ (self browser pane port: #entity) value
 ]
 
