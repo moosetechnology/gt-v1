@@ -47,7 +47,7 @@ GTDebugger class >> defaultTitle [
 	^ 'Glamorous Debugger'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTDebugger class >> handlesContext: aContext [
 
 	^ true
@@ -55,7 +55,6 @@ GTDebugger class >> handlesContext: aContext [
 
 { #category : #'class initialization' }
 GTDebugger class >> initialize [ 
-	super initialize.
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
 	Smalltalk tools registerDebugger: self withRank: 3.
@@ -163,7 +162,7 @@ GTDebugger >> compose [
 		browser transmit
 			from: #stack port: #selection;
 			to: #stack port: #fakePort;
-			transformed: [ :value | ].
+			transformed: [ :value | "self updateStackToolbar"].
 		browser transmit
 			from: #stack port: #context;
 			fromOutsidePort: #entity;
@@ -179,7 +178,8 @@ GTDebugger >> compose [
 			from: #stack port: #context;
 			to: #inspector;
 			andShow: [ :composite | self inspectorForContextAndSelfIn: composite ] ].
-	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
+	self registerActions.
+
 ]
 
 { #category : #actions }
@@ -250,6 +250,12 @@ GTDebugger >> installDebuggingActionsFor: aPresentation [
 		self actionsForPragmas: {#gtContextDebuggingAction} ]
 ]
 
+{ #category : #accessing }
+GTDebugger >> interruptedContext [
+
+	^ self session context
+]
+
 { #category : #building }
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
@@ -284,13 +290,23 @@ GTDebugger >> process: aProcess controller: aController context: aContext [
 	self session: (self class spanNewSessionForContext: aContext fromProcess: aProcess)
 ]
 
+{ #category : #building }
+GTDebugger >> registerActions [
+
+	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
+	self on: DebugActionExecuted send: #updateStackPane to: self.
+	"self on: DebugActionExecuted send: #updateCodePane to: self."
+	"self on: DebugActionExecuted send: #updateInspectorPane to: self."
+
+]
+
 { #category : #private }
 GTDebugger >> selectTopOfStack: aContext [
-	| stackPane |
+"	| stackPane |
 	stackPane := self browser paneNamed: #stack.
 	(stackPane port: #selection) value: aContext.
 	(stackPane port: #pc) value: aContext pc.
-	stackPane update.
+	stackPane update."
 ]
 
 { #category : #accessing }
@@ -322,8 +338,9 @@ GTDebugger >> session: anObject [
 { #category : #building }
 GTDebugger >> stackIn: composite [
 	composite list	
+		"updateOn: DebugActionExecuted from: [ self announcer ];"
 		title: 'Stack';
-		showOnly: 10;
+		"showOnly: 10;"
 		display: #stack;
 		format: [ :each | String streamContents: [:stream | each printDebugOn: stream ] ];
 		with: [ :list | self installDebuggingActionsFor: list ]
@@ -339,9 +356,24 @@ GTDebugger >> updateCodePane [
 ]
 
 { #category : #private }
+GTDebugger >> updateInspectorPane [
+
+]
+
+{ #category : #private }
 GTDebugger >> updateSelectionInterval [
 
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
+]
+
+{ #category : #private }
+GTDebugger >> updateStackPane [
+	| stackPane |
+	
+	stackPane := self browser paneNamed: #stack.
+	(stackPane port: #selection) silentValue: nil.
+	(stackPane port: #selection) value: self interruptedContext.
+	stackPane update.
 ]
 
 { #category : #events }
