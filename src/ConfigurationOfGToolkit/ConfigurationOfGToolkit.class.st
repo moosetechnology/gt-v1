@@ -300,7 +300,7 @@ ConfigurationOfGToolkit >> baseline05: spec [
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
 					version: #development;
-					loads: #('Core' 'Core Tests' 'Morphic' 'Rossal');
+					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
 		spec project: 'Bifrost' with: [
 			spec
