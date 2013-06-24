@@ -51,7 +51,7 @@ GTCoder >> classesIn: a [
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
 				ifFalse: [each name asString] ];
 		selectionAct: [:list | list selection inspect] on: $/ entitled: 'Inspect';
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance
 ]
 
 { #category : #private }
@@ -101,7 +101,7 @@ GTCoder >> implementorsIn: a [
 			on: $f
 			entitled: 'Jump there'
 			with: [ :list | list selection ];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer 
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance 
 ]
 
 { #category : #private }
@@ -120,7 +120,8 @@ GTCoder >> methodsIn: a [
 	expander
 		show: [ :another | 
 			another title: [ :method | method selector ].
-			self methodSourceIn: another ].
+			self methodSourceIn: another.
+			self implementorsIn: another ].
 	a custom: expander
 ]
 
