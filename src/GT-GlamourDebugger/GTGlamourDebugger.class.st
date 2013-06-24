@@ -55,10 +55,12 @@ GTGlamourDebugger >> debuggerStructureIn: browser [
 	browser
 			row: [ :row | 
 						row
-							column: #stack;
-							column: #code ];
-			row: #browser;
-			row: #inspector.
+							column: [ :c |
+								c
+									row: #stack;
+									row: #code ];
+							column: #browser ] span: 4;
+			row: #inspector span: 3.
 ]
 
 { #category : #building }
