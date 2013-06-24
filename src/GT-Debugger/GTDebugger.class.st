@@ -196,25 +196,11 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 		fromOutsidePort: #entity;
 		to: #stack port: #context;
 		transformed: [ :context :session | session createModelForContext: context ].
-	"browser transmit
-		from: #stack port: #selection;
-		to: #stack port: #pc;
-		transformed: #pc."
-	"browser transmit
-		from: #stack port: #selection;
-		to: #stack port: #fakePort;
-		transformed: [ :value | ]."
 	browser transmit
 		from: #stack port: #context;
 		fromOutsidePort: #entity;
 		to: #code;
 		andShow: [ :composite | self methodCodeIn: composite ].
-"	browser transmit
-		from: #stack;
-		fromOutsidePort: #entity;
-		from: #stack port: #pc;
-		to: #code port: #selectionInterval;
-		transformed: [ :context :session :pc | session selectedCodeRangeForContext: context ]."
 	browser transmit
 		from: #stack port: #context;
 		to: #inspector;
@@ -284,8 +270,8 @@ GTDebugger >> methodCodeIn: composite [
 		doItReceiver: [:contextModel | contextModel receiver ];
 		title: 'Source';
 		format: #source;
-		selectionIntervalBlock: [self session selectedCodeRangeForContext: self currentContext];
 		smalltalkClass: [ :contextModel | contextModel selectedClass ];
+		initialize: [ :code | code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
 		with: [ :code | self installCodeActionsFor: code ]
 ]
 
