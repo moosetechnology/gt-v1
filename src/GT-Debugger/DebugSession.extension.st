@@ -82,3 +82,8 @@ DebugSession class >> gtStackDebugActionFor: aDebugger [
 			order: 30.
 	 }
 ]
+
+{ #category : #'*gt-debugger' }
+DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
+	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
+]
