@@ -274,7 +274,8 @@ ConfigurationOfGToolkit >> baseline05: spec [
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Metaceller' with: [ spec requires: #('GT-Inspector')];
-			package: 'GT-Debugger' with: [ spec requires: #('GlamourCore' 'DebuggerExtensions' 'NewDebugger' 'GT-Inspector')];
+			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerActions' 'DebuggerExtensions' 'NewDebugger')];
+			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
 			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
@@ -286,6 +287,7 @@ ConfigurationOfGToolkit >> baseline05: spec [
 			'GT-Inspector'
 			'GT-Metaceller'
 			'GT-Debugger'
+			'GT-GlamourDebugger'
 			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
@@ -321,6 +323,7 @@ ConfigurationOfGToolkit >> baseline05: spec [
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ].
 		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
+		spec package: 'DebuggerActions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ]
 	]
 ]
