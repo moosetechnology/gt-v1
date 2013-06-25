@@ -188,14 +188,14 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 		to: #stack;
 		andShow: [ :composite | self stackIn: composite ].
 	browser transmit
-		fromOutsidePort: #entity;
+		from: #stack port: #entity;
 		to: #stack port: #selection;
 		transformed: [:session | session context].
 	browser transmit
+		from: #stack port: #entity;
 		from: #stack port: #selection;
-		fromOutsidePort: #entity;
 		to: #stack port: #context;
-		transformed: [ :context :session | session createModelForContext: context ].
+		transformed: [ :session :context | session createModelForContext: context ].
 	browser transmit
 		from: #stack port: #context;
 		fromOutsidePort: #entity;
