@@ -2,7 +2,7 @@ Class {
 	#name : #GTGlamourDebugger,
 	#superclass : #GTDebugger,
 	#instVars : [
-		'glamourBrowser'
+		'rootBrowserContext'
 	],
 	#category : #'GT-GlamourDebugger'
 }
@@ -26,9 +26,16 @@ GTGlamourDebugger class >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+GTGlamourDebugger class >> locateBrowserContextFor: aContext [
+	
+	^ (aContext findContextSuchThat:  [ :ctx | 
+		ctx receiver isGlamourBrowser and: [ ctx selector = #startOn: ] ]) 
+]
+
+{ #category : #'as yet unclassified' }
 GTGlamourDebugger class >> locateBrowserFor: aContext [
 
-	^ (aContext findContextSuchThat:  [ :ctx | ctx receiver isGlamourBrowser ]) receiver
+	^ (self locateBrowserContextFor: aContext) receiver
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,7 +53,7 @@ GTGlamourDebugger >> browserTransmissionsIn: browser [
 	browser transmit
 		from: #stack port: #context;
 		to: #browser;
-		andShow: [ :composite | self browserStructureFor: glamourBrowser in: composite ]
+		andShow: [ :composite | self browserStructureFor: self rootBrowser in: composite ]
 ]
 
 { #category : #building }
@@ -71,8 +78,20 @@ GTGlamourDebugger >> debuggerTransmissionsIn: browser. [
 ]
 
 { #category : #'as yet unclassified' }
+GTGlamourDebugger >> rootBrowser [
+
+	^ rootBrowserContext receiver
+]
+
+{ #category : #'as yet unclassified' }
+GTGlamourDebugger >> rootBrowserContext [
+
+	^ rootBrowserContext
+]
+
+{ #category : #'as yet unclassified' }
 GTGlamourDebugger >> startOn: aSession [
 
-	glamourBrowser := self class locateBrowserFor: aSession context.
+	rootBrowserContext := self class locateBrowserContextFor: aSession context.
 	super startOn: aSession
 ]
