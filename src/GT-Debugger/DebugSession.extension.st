@@ -1,86 +1,35 @@
 Extension { #name : #DebugSession }
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtChangeDebuggerActionsFor: aDebugger [
-	<gtContextDebuggingAction>
-	
-	^ (aDebugger debuggersForContext: aDebugger selectedContext) collect: [ :aDebuggerClass | 
-		ChangeDebuggerAction new
-			debuggerClass: aDebuggerClass
-		]
-		
+DebugSession class >> gtDebuggingActionsForPragma: aSymbol for: aDebugger [
+
+	^ (DebugAction allSubclasses 
+		select: [ :each | each hasAbstractMethods not ]) 
+			inject: OrderedCollection new 
+			into: [ :currentActions :aClass |  
+				currentActions addAll: (
+					self 
+						gtDebuggingActionsFromClass: aClass 
+						forPragma: aSymbol 
+						forDebugger: aDebugger); yourself  ]
 ]
 
 { #category : #'*GT-Debugger' }
-DebugSession class >> gtCodeDebugActionFor: aDebugger [
-	<gtCodeDebuggingActions>
-	
-	^ {  
-		WhereIsDebugAction new order: 5.
-		RunToHereDebugAction new order: 10.
-		SaveDebugAction new order: 15.
-	}
-]
-
-{ #category : #'*GT-Debugger' }
-DebugSession class >> gtDebuggerActionsForPragma: aSymbol for: aDebugger [
+DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol forDebugger: aDebugger [
 	| pragmas actions |
 	pragmas := Pragma 
 				allNamed: aSymbol
-				from: self  class
-				to: DebugSession class.
+				from: aClass class
+				to: aClass class.
 	
 	actions := OrderedCollection new.
-	pragmas do: [ :eachPragma |
+	pragmas do: [ :aPragma |
 		actions addAll: 
-			(self perform: eachPragma selector with: aDebugger) ].
+			((aPragma methodClass soleInstance
+				perform: aPragma selector withEnoughArguments: aDebugger) asOrderedCollection 
+					collect: [ :each | each forDebugger: aDebugger ])  ].
 		
 	^ actions sort: [ :action1 :action2 | action1 order < action2 order ]
-]
-
-{ #category : #'*GT-Debugger' }
-DebugSession class >> gtDynamicStackDebugActionFor: aDebugger [
-	<gtContextDebuggingAction>
-	
-	^ { 
-		CreateMessageDebugAction new
-			order: 50.
-	 }
-]
-
-{ #category : #'*GT-Debugger' }
-DebugSession class >> gtProcessDebugActionFor: aDebugger [
-	<gtDebuggingActions>
-
-	^ { 
-		ResumeDebugAction new order: 5.
-		RestartDebugAction new order: 10.
-	 }
-]
-
-{ #category : #'*GT-Debugger' }
-DebugSession class >> gtStackDebugActionFor: aDebugger [
-	<gtDebuggingActions>
-	
-	^ { 
-		StackDebugAction new
-			label: 'Step Into';
-			action: #stepInto:;
-			icon: GLMUIThemeExtraIcons glamorousInto;
-			order: 20.
-			
-		StackDebugAction new
-			label: 'Step Over';
-			action: #stepOver:;
-			icon: GLMUIThemeExtraIcons glamorousOver;
-			order: 25.
-			
-		StackDebugAction new
-			label: 'Step Through';
-			action: #stepThrough:;
-			icon: GLMUIThemeExtraIcons glamorousThrough;
-			order: 30.
-	 }
 ]
 
 { #category : #'*gt-debugger' }

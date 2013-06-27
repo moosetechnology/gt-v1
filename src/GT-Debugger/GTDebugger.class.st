@@ -90,16 +90,10 @@ GTDebugger >> actOnBrowserClosing: ann [
 
 { #category : #'building actions' }
 GTDebugger >> actionsForPragmas: aSymbolsCollection [
-	| allActions |
 
-	allActions := self allActionsForPragmas: aSymbolsCollection.
-	
-	allActions do: [ :aDebugAction |
-		aDebugAction debugger: self ]. "should be removed"
-
-	^ (allActions select: [ :aDebugAction | 
+	^ ((self allActionsForPragmas: aSymbolsCollection) select: [ :aDebugAction | 
 			aDebugAction appliesToContextCurrentContext ]) 
-				collect: [ :aDebugAction | aDebugAction asGlamourAction  ]
+				collect: [ :aDebugAction | aDebugAction asGlamourAction ]
 
 
 
@@ -114,7 +108,7 @@ GTDebugger >> allActionsForPragmas: aSymbolsCollection [
 		inject: OrderedCollection new
 		into: [ :currentActions :aSymbol | 
 			currentActions 
-				addAll: (self session class gtDebuggerActionsForPragma: aSymbol for: self);
+				addAll: (self session class gtDebuggingActionsForPragma: aSymbol for: self);
 				yourself ].
 
 
@@ -243,16 +237,16 @@ GTDebugger >> inspectorFor: anObject in: composite [
 
 { #category : #'building actions' }
 GTDebugger >> installCodeActionsFor: aPresentation [
-
+	
 	aPresentation dynamicActions: [ :presentation |
-		self actionsForPragmas: {#gtCodeDebuggingActions}  ]
+		self actionsForPragmas: {#gtCodeDebuggingAction}  ]
 ]
 
 { #category : #'building actions' }
 GTDebugger >> installDebuggingActionsFor: aPresentation [
 
 	aPresentation dynamicActions: [ :presentation |
-		self actionsForPragmas: {#gtDebuggingActions}  ].
+		self actionsForPragmas: {#gtDebuggingAction}  ].
 	
 	aPresentation dynamicActionsOnSelection: [ :presentation |
 		self actionsForPragmas: {#gtContextDebuggingAction} ]
