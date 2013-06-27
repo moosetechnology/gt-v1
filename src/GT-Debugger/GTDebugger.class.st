@@ -128,6 +128,12 @@ GTDebugger >> close [
 	self browser close
 ]
 
+{ #category : #'building actions' }
+GTDebugger >> codeActionsPragmas [
+
+	^ { #codeDebuggingAction }
+]
+
 { #category : #building }
 GTDebugger >> compose [
 	self title: self debuggerTitle.
@@ -212,6 +218,12 @@ GTDebugger >> debuggersForContext: aContext [
 	
 ]
 
+{ #category : #'building actions' }
+GTDebugger >> debuggingActionsPragmas [
+
+	^ { #debuggingAction }
+]
+
 { #category : #actions }
 GTDebugger >> detachSession [
 
@@ -236,20 +248,25 @@ GTDebugger >> inspectorFor: anObject in: composite [
 ]
 
 { #category : #'building actions' }
+GTDebugger >> installActionsForRootPragmas: aSymbolsCollection in: aPresentation [
+
+	aPresentation dynamicActions: [ :presentation |
+		self actionsForPragmas: (aSymbolsCollection collect: [ :aSymbol | #gt, aSymbol capitalized ]) ] .
+	
+	aPresentation dynamicActionsOnSelection: [ :presentation |
+		self actionsForPragmas: (aSymbolsCollection collect: [ :aSymbol | #gtContext, aSymbol capitalized ]) ] .
+]
+
+{ #category : #'building actions' }
 GTDebugger >> installCodeActionsFor: aPresentation [
 	
-	aPresentation dynamicActions: [ :presentation |
-		self actionsForPragmas: {#gtCodeDebuggingAction}  ]
+	self installActionsForRootPragmas: self codeActionsPragmas in: aPresentation
 ]
 
 { #category : #'building actions' }
 GTDebugger >> installDebuggingActionsFor: aPresentation [
 
-	aPresentation dynamicActions: [ :presentation |
-		self actionsForPragmas: {#gtDebuggingAction}  ].
-	
-	aPresentation dynamicActionsOnSelection: [ :presentation |
-		self actionsForPragmas: {#gtContextDebuggingAction} ]
+	self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation
 ]
 
 { #category : #accessing }
