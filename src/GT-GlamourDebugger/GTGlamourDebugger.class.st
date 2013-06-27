@@ -15,7 +15,7 @@ GTGlamourDebugger class >> defaultTitle [
 { #category : #testing }
 GTGlamourDebugger class >> handlesContext: aContext [
 
-	^ aContext receiver isGlamourBrowser
+	^ (self locateBrowserContextFor: aContext ) notNil 
 ]
 
 { #category : #'class initialization' }
