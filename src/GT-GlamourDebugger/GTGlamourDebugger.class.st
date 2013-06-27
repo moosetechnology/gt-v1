@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGlamourDebugger class >> defaultTitle [
 	^ 'Glamour Debugger'
 ]
@@ -15,7 +15,7 @@ GTGlamourDebugger class >> defaultTitle [
 { #category : #testing }
 GTGlamourDebugger class >> handlesContext: aContext [
 
-	^ (self locateBrowserContextFor: aContext ) notNil 
+	^ (self locateBrowserContextFor: aContext) notNil 
 ]
 
 { #category : #'class initialization' }
@@ -25,20 +25,19 @@ GTGlamourDebugger class >> initialize [
 	Smalltalk tools registerDebugger: self withRank: 50.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGlamourDebugger class >> locateBrowserContextFor: aContext [
-	
-	^ (aContext findContextSuchThat:  [ :ctx | 
-		ctx receiver isGlamourBrowser and: [ ctx selector = #startOn: ] ]) 
+
+	^ self stackFilter locateBrowserContextFor: aContext
 ]
 
-{ #category : #'as yet unclassified' }
-GTGlamourDebugger class >> locateBrowserFor: aContext [
+{ #category : #accessing }
+GTGlamourDebugger class >> stackFilter [
 
-	^ (self locateBrowserContextFor: aContext) receiver
+	^ GTGlamourStackFilter 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTGlamourDebugger >> browserStructureFor: aGlmBrowser in: aComposite [
 	
 	aComposite roassal 
@@ -47,7 +46,7 @@ GTGlamourDebugger >> browserStructureFor: aGlmBrowser in: aComposite [
 			aGlmBrowser viewTreeOn: view ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTGlamourDebugger >> browserTransmissionsIn: browser [
 	
 	browser transmit
@@ -77,19 +76,25 @@ GTGlamourDebugger >> debuggerTransmissionsIn: browser. [
 	self browserTransmissionsIn: browser.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'building actions' }
+GTGlamourDebugger >> debuggingActionsPragmas [
+
+	^ super debuggingActionsPragmas, { #glamourDebuggingAction }
+]
+
+{ #category : #accessing }
 GTGlamourDebugger >> rootBrowser [
 
 	^ rootBrowserContext receiver
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGlamourDebugger >> rootBrowserContext [
 
 	^ rootBrowserContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'scripting opening' }
 GTGlamourDebugger >> startOn: aSession [
 
 	rootBrowserContext := self class locateBrowserContextFor: aSession context.

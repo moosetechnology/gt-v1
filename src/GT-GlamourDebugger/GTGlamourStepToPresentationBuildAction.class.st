@@ -4,6 +4,17 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
+{ #category : #'as yet unclassified' }
+GTGlamourStepToPresentationBuildAction class >> gtActionType [
+	<gtContextGlamourDebuggingAction>
+]
+
+{ #category : #'as yet unclassified' }
+GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
+
+	^ (GTGlamourStackFilter locateBrowserContextFor: aContext) notNil
+]
+
 { #category : #actions }
 GTGlamourStepToPresentationBuildAction >> executeAction [
 	| presentationCreation presentationCode |
@@ -32,7 +43,7 @@ GTGlamourStepToPresentationBuildAction >> executeAction [
 GTGlamourStepToPresentationBuildAction >> initialize [
 
 	self label: 'Next presentation build'.
-	self icon: GLMUIThemeExtraIcons play.
+	self icon: GLMUIThemeExtraIcons glamorousPlay.
 ]
 
 { #category : #predicates }
