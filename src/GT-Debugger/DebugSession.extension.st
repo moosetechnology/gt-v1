@@ -26,7 +26,7 @@ DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol for
 	pragmas do: [ :aPragma |
 		actions addAll: 
 			((aPragma methodClass soleInstance
-				perform: aPragma selector withEnoughArguments: aDebugger) asOrderedCollection 
+				perform: aPragma selector withEnoughArguments: {aDebugger}) asOrderedCollection 
 					collect: [ :each | each forDebugger: aDebugger ])  ].
 		
 	^ actions sort: [ :action1 :action2 | action1 order < action2 order ]

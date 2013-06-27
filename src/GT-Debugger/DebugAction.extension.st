@@ -7,5 +7,6 @@ DebugAction >> asGlamourAction [
 			action: [ self execute ]; 
 			icon: self icon;
 			title: self label;
+			category: self category;
 			yourself)
 ]
