@@ -8,5 +8,5 @@ Class {
 GTGlamourStackFilter class >> locateBrowserContextFor: aContext [
 	
 	^ (aContext findContextSuchThat:  [ :ctx | 
-		ctx receiver isGlamourBrowser and: [ ctx selector = #startOn: ] ]) 
+		(ctx receiver class inheritsFrom: GLMPresentation)  and: [ ctx selector = #startOn: ] ]) 
 ]
