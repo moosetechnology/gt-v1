@@ -9,7 +9,7 @@ GTGlamourStepToPresentationBuildAction class >> gtActionType [
 	<gtContextGlamourDebuggingAction>
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 
 	^ (GTGlamourStackFilter locateBrowserContextFor: aContext) notNil
@@ -20,21 +20,12 @@ GTGlamourStepToPresentationBuildAction >> executeAction [
 	| presentationCreation presentationCode |
 	presentationCreation := self presentationCreationPredicate.
 	presentationCode := self presentationCodePredicate.
-	self flag: 'This should go in the session'.
 
-	self session process stepUntil: presentationCreation.
-	self session 
-		updateWithContext: self session process suspendedContext 
-		fromProcess: self session process.
-	
+	self session stepUntil: presentationCreation.
 	presentationCreation hasMatched ifTrue: [ 
-		
-		self session process stepUntil: presentationCode.
-		self session 
-			updateWithContext: self session process suspendedContext 
-			fromProcess: self session process ].
-	
-	presentationCode hasMatched ifTrue: [ self session stepInto. ]
+		self session stepUntil: presentationCode ].
+	presentationCode hasMatched ifTrue: [ 
+		self session stepInto. ]
 		
 	
 ]
@@ -66,7 +57,6 @@ GTGlamourStepToPresentationBuildAction >> presentationCreationPredicate [
 			action: [ :aContext |
 				aContext methodClass = GLMPresentStrategy and: [ 
 					aContext selector = #presentations and: [ 
-						self flag: 'Ugly hack based on bytecode'.
 						aContext pc = aContext method initialPC ] ] ]
 
 
