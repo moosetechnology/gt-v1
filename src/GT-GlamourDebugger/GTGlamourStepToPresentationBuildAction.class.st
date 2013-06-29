@@ -15,6 +15,14 @@ GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 	^ (GTGlamourStackFilter locateBrowserContextFor: aContext) notNil
 ]
 
+{ #category : #predicates }
+GTGlamourStepToPresentationBuildAction >> createPredicatForBlock: aBlock [ 
+
+	^ ContextPredicate new 
+			baseContext: self debugger rootBrowserContext;
+			action: aBlock
+]
+
 { #category : #actions }
 GTGlamourStepToPresentationBuildAction >> executeAction [
 	| presentationCreation presentationCode |
@@ -40,24 +48,20 @@ GTGlamourStepToPresentationBuildAction >> initialize [
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> presentationCodePredicate [
 	
-	^ ContextPredicate new 
-			baseContext: self debugger rootBrowserContext;
-			action: [ :aContext |
-				aContext selector = #glamourValueWithArgs: and: [ 
-					aContext peekInstruction arguments size > 0 and: [ 
-					 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
+	^ self createPredicatForBlock: [ :aContext |
+			aContext selector = #glamourValueWithArgs: and: [ 
+				aContext peekInstruction arguments size > 0 and: [ 
+				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
 
 ]
 
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> presentationCreationPredicate [
 
-	^ ContextPredicate new 
-			baseContext: self debugger rootBrowserContext;
-			action: [ :aContext |
-				aContext methodClass = GLMPresentStrategy and: [ 
-					aContext selector = #presentations and: [ 
-						aContext pc = aContext method initialPC ] ] ]
+	^ self createPredicatForBlock: [ :aContext |
+			aContext methodClass = GLMPresentStrategy and: [ 
+				aContext selector = #presentations and: [ 
+					aContext isInitialnstruction ] ] ]
 
 
 ]
