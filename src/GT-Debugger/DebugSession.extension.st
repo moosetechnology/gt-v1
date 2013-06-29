@@ -36,3 +36,12 @@ DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol for
 DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
 	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
 ]
+
+{ #category : #'*gt-debugger' }
+DebugSession >> stepUntil: aPredicate [
+
+	self process stepUntil: aPredicate.
+	self  
+		updateWithContext: self process suspendedContext 
+		fromProcess: self process.
+]
