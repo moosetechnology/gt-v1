@@ -95,10 +95,6 @@ GTDebugger >> actionsForPragmas: aSymbolsCollection [
 			aDebugAction appliesToContextCurrentContext ]) 
 				collect: [ :aDebugAction | aDebugAction asGlamourAction ]
 
-
-
-	
-
 ]
 
 { #category : #'building actions' }
@@ -206,16 +202,6 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 		to: #inspector;
 		andShow: [ :composite :entity | self inspectorFor: entity in: composite ] 
 
-]
-
-{ #category : #accessing }
-GTDebugger >> debuggersForContext: aContext [
-	"Ungly check to make sure the debugger will work until everything is in the image"
-	(Smalltalk tools respondsTo: #debuggersForContext:excluding:) 
-		ifTrue: [ ^ (Smalltalk tools debuggersForContext: aContext excluding: self class)]
-		ifFalse: [ ^ OrderedCollection new ]
-
-	
 ]
 
 { #category : #'building actions' }

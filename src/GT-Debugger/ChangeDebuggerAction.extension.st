@@ -4,7 +4,7 @@ Extension { #name : #ChangeDebuggerAction }
 ChangeDebuggerAction classSide >> gtChangeDebuggerActionsFor: aDebugger [
 	<gtContextDebuggingAction>
 	
-	^ (aDebugger debuggersForContext: aDebugger selectedContext) collect: [ :aDebuggerClass | 
-		self new
-			debuggerClass: aDebuggerClass ]
+	^ self 
+		changeDebuggerActionsForContext: aDebugger currentContext 
+		excluding: aDebugger
 ]
