@@ -83,7 +83,7 @@ GTDebugger class >> spanNewSessionForProcess: aProcess [
 	^ self spanNewSessionForContext: aProcess suspendedContext fromProcess: aProcess
 ]
 
-{ #category : #actions }
+{ #category : #callbacks }
 GTDebugger >> actOnBrowserClosing: ann [
 	self session ifNotNil: [ :aSession | aSession terminate ]
 ]
@@ -140,7 +140,7 @@ GTDebugger >> compose [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing context' }
 GTDebugger >> currentContext [
 
 	^self selectedContext 
@@ -256,7 +256,7 @@ GTDebugger >> installDebuggingActionsFor: aPresentation [
 	self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing context' }
 GTDebugger >> interruptedContext [
 
 	^ self session context
@@ -296,19 +296,19 @@ GTDebugger >> registerActions [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing context' }
 GTDebugger >> selectedContext [
 
 	^ ((self browser paneNamed: #stack) port: #selection) value
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTDebugger >> selectionInterval [
 
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTDebugger >> selectionInterval: anInterval [
 
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value: anInterval
@@ -316,7 +316,7 @@ GTDebugger >> selectionInterval: anInterval [
 
 { #category : #accessing }
 GTDebugger >> session [
-
+ 
 	^ (self browser pane port: #entity) value
 ]
 
@@ -336,7 +336,7 @@ GTDebugger >> stackIn: composite [
 		with: [ :list | self installDebuggingActionsFor: list ]
 ]
 
-{ #category : #private }
+{ #category : #updating }
 GTDebugger >> updateBrowser [
 	| browserPane session |
 	
@@ -347,13 +347,13 @@ GTDebugger >> updateBrowser [
 	browserPane update.
 ]
 
-{ #category : #private }
+{ #category : #updating }
 GTDebugger >> updateSelectionInterval [
 
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
 ]
 
-{ #category : #events }
+{ #category : #callbacks }
 GTDebugger >> windowIsClosing [ 
 	self announce: GLMBrowserClosing new
 ]
