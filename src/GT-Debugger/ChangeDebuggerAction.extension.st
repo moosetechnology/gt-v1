@@ -6,6 +6,5 @@ ChangeDebuggerAction classSide >> gtChangeDebuggerActionsFor: aDebugger [
 	
 	^ (aDebugger debuggersForContext: aDebugger selectedContext) collect: [ :aDebuggerClass | 
 		self new
-			debuggerClass: aDebuggerClass
-		]
+			debuggerClass: aDebuggerClass ]
 ]

@@ -365,11 +365,6 @@ GTDebugger >> updateCodePane [
 ]
 
 { #category : #private }
-GTDebugger >> updateInspectorPane [
-
-]
-
-{ #category : #private }
 GTDebugger >> updateSelectionInterval [
 
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
