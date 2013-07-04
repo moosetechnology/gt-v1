@@ -186,15 +186,16 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 	browser transmit
 		from: #stack port: #entity;
 		to: #stack port: #selection;
+		when: [ :session | session notNil ];
 		transformed: [:session | session context].
 	browser transmit
 		from: #stack port: #entity;
 		from: #stack port: #selection;
 		to: #stack port: #context;
+		when: [ :session :context | session notNil ];
 		transformed: [ :session :context | session createModelForContext: context ].
 	browser transmit
 		from: #stack port: #context;
-		fromOutsidePort: #entity;
 		to: #code;
 		andShow: [ :composite | self methodCodeIn: composite ].
 	browser transmit
@@ -222,7 +223,7 @@ GTDebugger >> errorWasInUIProcess: aBoolean [
 	self session errorWasInUIProcess: aBoolean
 ]
 
-{ #category : #building }
+{ #category : #'building presentations' }
 GTDebugger >> inspectorFor: anObject in: composite [
 	composite custom:
 			(GTInspector new first "We use the first actual finder because need to send showFirst: to it"
@@ -261,7 +262,7 @@ GTDebugger >> interruptedContext [
 	^ self session context
 ]
 
-{ #category : #building }
+{ #category : #'building presentations' }
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
 		doItReceiver: [:contextModel | contextModel receiver ];
@@ -289,17 +290,8 @@ GTDebugger >> process: aProcess controller: aController context: aContext [
 GTDebugger >> registerActions [
 
 	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
-	self on: DebugActionExecuted send: #updateStackPane to: self.
+	self on: DebugActionExecuted send: #updateBrowser to: self.
 
-]
-
-{ #category : #private }
-GTDebugger >> selectTopOfStack: aContext [
-"	| stackPane |
-	stackPane := self browser paneNamed: #stack.
-	(stackPane port: #selection) value: aContext.
-	(stackPane port: #pc) value: aContext pc.
-	stackPane update."
 ]
 
 { #category : #accessing }
@@ -310,11 +302,13 @@ GTDebugger >> selectedContext [
 
 { #category : #private }
 GTDebugger >> selectionInterval [
+
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value
 ]
 
 { #category : #private }
 GTDebugger >> selectionInterval: anInterval [
+
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value: anInterval
 ]
 
@@ -330,10 +324,9 @@ GTDebugger >> session: anObject [
 	^ (self browser pane port: #entity) value: anObject
 ]
 
-{ #category : #building }
+{ #category : #'building presentations' }
 GTDebugger >> stackIn: composite [
 	composite list	
-		"updateOn: DebugActionExecuted from: [ self announcer ];"
 		title: 'Stack';
 		"showOnly: 10;"
 		display: #stack;
@@ -342,28 +335,20 @@ GTDebugger >> stackIn: composite [
 ]
 
 { #category : #private }
-GTDebugger >> updateCodePane [ 
-	| codePane |
+GTDebugger >> updateBrowser [
+	| browserPane session |
 	
-	codePane := self browser paneNamed: #code.
-	codePane update.
-	self updateSelectionInterval.
+	session := self session.
+	browserPane := self browser pane.
+	(browserPane port: #entity) silentValue: nil.
+	(browserPane port: #entity) value: session.
+	browserPane update.
 ]
 
 { #category : #private }
 GTDebugger >> updateSelectionInterval [
 
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
-]
-
-{ #category : #private }
-GTDebugger >> updateStackPane [
-	| stackPane |
-	
-	stackPane := self browser paneNamed: #stack.
-	(stackPane port: #selection) silentValue: nil.
-	(stackPane port: #selection) value: self interruptedContext.
-	stackPane update.
 ]
 
 { #category : #events }
