@@ -213,7 +213,7 @@ GTDebugger >> debuggingActionsPragmas [
 
 { #category : #actions }
 GTDebugger >> detachSession [
-
+	self flag: 'why silent value?'.
 	(self browser pane port: #entity) silentValue: nil
 ]
 
@@ -278,6 +278,8 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 	"TODO: do not ignore the title"
 	
 	self open.
+	"TODO: why is this necessy here? I took it from the current debugger"
+	"errorWasInUIProcess := UIManager default spawnNewProcessIfThisIsUI: interruptedProcess"
 ]
 
 { #category : #intialization }
