@@ -39,9 +39,16 @@ DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: an
 
 { #category : #'*gt-debugger' }
 DebugSession >> stepUntil: aPredicate [
+	
+	self stepUntil: aPredicate from: self process suspendedContext
+]
 
-	self process stepUntil: aPredicate.
+{ #category : #'*gt-debugger' }
+DebugSession >> stepUntil: aPredicate from: aContext [ 
+	| ctxt |
+	
+	ctxt := self process stepUntil: aPredicate  from: aContext.
 	self  
-		updateWithContext: self process suspendedContext 
+		updateWithContext: ctxt 
 		fromProcess: self process.
 ]
