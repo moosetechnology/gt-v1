@@ -18,7 +18,7 @@ GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> createPredicatForBlock: aBlock [ 
 
-	^ ContextPredicate new 
+	^ StepContextPredicate new 
 			baseContext: self debugger rootBrowserContext;
 			predicate: aBlock
 ]
