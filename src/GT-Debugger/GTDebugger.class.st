@@ -306,13 +306,19 @@ GTDebugger >> selectedContext [
 { #category : #accessing }
 GTDebugger >> selectionInterval [
 
-	^ ((self browser paneNamed: #code) port: #selectionInterval) value
+	^ self selectionIntervalForPane: #code
 ]
 
 { #category : #accessing }
 GTDebugger >> selectionInterval: anInterval [
 
 	^ ((self browser paneNamed: #code) port: #selectionInterval) value: anInterval
+]
+
+{ #category : #accessing }
+GTDebugger >> selectionIntervalForPane: aSymbol [
+
+	^ ((self browser paneNamed: aSymbol) port: #selectionInterval) value ifNil: [ ^ 1 to: 0 ]
 ]
 
 { #category : #accessing }
