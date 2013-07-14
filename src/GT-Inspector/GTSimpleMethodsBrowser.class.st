@@ -102,13 +102,13 @@ GTSimpleMethodsBrowser >> sourceIn: a [
 			with: [ :text :method :entity | Compiler evaluate: text selectedText for: entity logged: false ];
 		act: [:text :method :entity | 
 				| newMethod |
-				newMethod := entity class compile: text text notifying: nil. 
+				newMethod := method methodClass compile: text text notifying: nil. 
 				self flag: 'This is a hack because it accesses the state of another browser directly.
 				It should be solved through transmissions'.
-				text pane browser pane browser update.
-"				text pane browser update.
+"				text pane browser pane browser update.
 "				((text pane browser paneNamed: #methods) port: #selection) 
-					value: (entity class methodNamed: newMethod ) ] 
+					value: (method methodClass methodNamed: newMethod).
+				 ] 
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept'
