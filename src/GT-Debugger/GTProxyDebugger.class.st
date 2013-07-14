@@ -9,13 +9,6 @@ Class {
 	#category : #'GT-Debugger'
 }
 
-{ #category : #'class initialization' }
-GTProxyDebugger class >> initialize [
-
-	"Add ourselves to registry. See [Smalltalk tools]" 
-	Smalltalk tools register: self as: #debugger
-]
-
 { #category : #accessing }
 GTProxyDebugger >> debuggerClass [
 	^ GTDebugger 
