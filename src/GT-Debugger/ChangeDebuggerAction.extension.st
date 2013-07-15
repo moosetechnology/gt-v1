@@ -2,9 +2,9 @@ Extension { #name : #ChangeDebuggerAction }
 
 { #category : #'*GT-Debugger' }
 ChangeDebuggerAction classSide >> gtChangeDebuggerActionsFor: aDebugger [
-	<gtContextDebuggingAction>
+	<gtDebuggingAction>
 	
 	^ self 
-		changeDebuggerActionsForContext: aDebugger currentContext 
+		changeDebuggerActionsForContext: aDebugger interruptedContext 
 		excluding: aDebugger
 ]
