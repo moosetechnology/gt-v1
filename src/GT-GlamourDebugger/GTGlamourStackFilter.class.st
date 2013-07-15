@@ -1,6 +1,6 @@
 Class {
 	#name : #GTGlamourStackFilter,
-	#superclass : #GTDebugger,
+	#superclass : #Object,
 	#category : #'GT-GlamourDebugger'
 }
 
