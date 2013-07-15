@@ -18,17 +18,17 @@ GTGlamourDebugger class >> handlesContext: aContext [
 	^ (self locateBrowserContextFor: aContext) notNil 
 ]
 
-{ #category : #'class initialization' }
-GTGlamourDebugger class >> initialize [ 
-
-	"Add ourselves to registry. See [Smalltalk tools]" 
-	Smalltalk tools registerDebugger: self withRank: 50.
-]
-
 { #category : #accessing }
 GTGlamourDebugger class >> locateBrowserContextFor: aContext [
 
 	^ self stackFilter locateBrowserContextFor: aContext
+]
+
+{ #category : #'tools registry' }
+GTGlamourDebugger class >> registerToolsOn: registry [
+
+	"Add ourselves to registry. See [Smalltalk tools]" 
+	registry registerDebugger: self withRank: 50.
 ]
 
 { #category : #accessing }
