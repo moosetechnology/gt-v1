@@ -53,16 +53,16 @@ GTDebugger class >> handlesContext: aContext [
 	^ true
 ]
 
-{ #category : #'class initialization' }
-GTDebugger class >> initialize [ 
-
-	"Add ourselves to registry. See [Smalltalk tools]" 
-	Smalltalk tools registerDebugger: self withRank: 3.
-]
-
 { #category : #'instance creation' }
 GTDebugger class >> openOn: anObject [ 
 	^ self new openOn: anObject
+]
+
+{ #category : #'tools registry' }
+GTDebugger class >> registerToolsOn: registry [
+
+	"Add ourselves to registry. See [Smalltalk tools]" 
+	registry registerDebugger: self withRank: 3.
 ]
 
 { #category : #private }
