@@ -1,7 +1,7 @@
-Extension { #name : #ZnResponse }
+Extension { #name : #ZnMessage }
 
 { #category : #'*gt-inspector' }
-ZnResponse >> gtInspectorHeadersIn: composite [ 
+ZnMessage >> gtInspectorHeadersIn: composite [ 
 	<gtInspectorPresentationOrder: 30>
 	^ (self headers headers gtInspectorItemsIn: composite) 
 		display: [:anObject | self headers headers associations ];
