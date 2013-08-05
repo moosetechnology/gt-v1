@@ -1,6 +1,6 @@
 Class {
 	#name : #GTPPStepToNextParserAction,
-	#superclass : #DebugAction,
+	#superclass : #GTPPDebugAction,
 	#category : #'GT-PetitParserDebugger'
 }
 
@@ -9,20 +9,22 @@ GTPPStepToNextParserAction class >> gtActionType [
 	<gtPPDebuggingAction>
 ]
 
-{ #category : #'as yet unclassified' }
-GTPPStepToNextParserAction >> appliesToContext: aContext [
-
-	^ (GTPPContextLocator new locateRootParserContextFor: aContext) notNil
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToNextParserAction >> defaultLabel [ 
 
-	^ 'Next parser'
+	^ 'Next parser invocation (any parser)'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GTPPStepToNextParserAction >> defaultOrder [
+
+	^ 25
+]
+
+{ #category : #actions }
 GTPPStepToNextParserAction >> executeAction [
 	
-	self debugger stepToNextParser
+	self session 
+		stepOverInitialInstructionForContext: self startContext;
+		stepToNextParserFromContext: self startContext
 ]

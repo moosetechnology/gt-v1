@@ -1,6 +1,6 @@
 Class {
 	#name : #GTPPStepToNextNonDelegateParseMethodAction,
-	#superclass : #DebugAction,
+	#superclass : #GTPPDebugAction,
 	#category : #'GT-PetitParserDebugger'
 }
 
@@ -9,20 +9,23 @@ GTPPStepToNextNonDelegateParseMethodAction class >> gtActionType [
 	<gtPPDebuggingAction>
 ]
 
-{ #category : #'as yet unclassified' }
-GTPPStepToNextNonDelegateParseMethodAction >> appliesToContext: aContext [
-
-	^ (GTPPContextLocator new locateRootParserContextFor: aContext) notNil
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToNextNonDelegateParseMethodAction >> defaultLabel [ 
 	
-	^ 'Next non-delegate parser'.
+	^ 'Next parser invocation (non-delegate parser)'.
 ]
 
-{ #category : #'as yet unclassified' }
-GTPPStepToNextNonDelegateParseMethodAction >> executeAction [
+{ #category : #accessing }
+GTPPStepToNextNonDelegateParseMethodAction >> defaultOrder [
 
-	[ self debugger stepToNextParser ] doWhileTrue: [ self interruptedContext receiver class == PPDelegateParser ]
+	^ 26
+]
+
+{ #category : #actions }
+GTPPStepToNextNonDelegateParseMethodAction >> executeAction [	
+
+	self session 
+		stepOverInitialInstructionForContext: self startContext;
+		stepToNextNonDelegateParserFromContext: self startContext
+
 ]

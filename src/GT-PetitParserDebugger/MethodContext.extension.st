@@ -1,15 +1,11 @@
-Class {
-	#name : #GTPPContextLocator,
-	#superclass : #Object,
-	#category : #'GT-PetitParserDebugger'
-}
+Extension { #name : #MethodContext }
 
-{ #category : #'as yet unclassified' }
-GTPPContextLocator >> locateRootParserContextFor: aContext [
+{ #category : #'*GT-PetitParserDebugger' }
+MethodContext >> locateRootPPParser [
 	| parserContext currentContext |
 
 	parserContext := nil.
-	currentContext := aContext.
+	currentContext := self.
 	[ 
 		(currentContext := (currentContext findContextSuchThat:  [ :ctx | 
 			(ctx receiver class inheritsFrom: PPParser) and: [ ctx selector = #parseOn: ] ]) ) notNil
@@ -18,6 +14,4 @@ GTPPContextLocator >> locateRootParserContextFor: aContext [
 		currentContext := currentContext sender ].
 
 	^ parserContext
-	
-	
 ]
