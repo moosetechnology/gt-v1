@@ -33,6 +33,16 @@ DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol for
 ]
 
 { #category : #'*gt-debugger' }
+DebugSession >> newStepUntil: aPredicate from: aContext [ 
+	| ctxt |
+	
+	ctxt := self process newStepUntil: aPredicate  from: aContext.
+	self  
+		updateWithContext: ctxt 
+		fromProcess: self process.
+]
+
+{ #category : #'*gt-debugger' }
 DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
 	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
 ]
