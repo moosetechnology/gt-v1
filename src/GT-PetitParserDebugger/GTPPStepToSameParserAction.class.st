@@ -7,20 +7,13 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #'as yet unclassified' }
-GTPPStepToSameParserAction class >> gtContextActionFor: aDebugger [
+{ #category : #registration }
+GTPPStepToSameParserAction class >> gtActionFor: aDebugger [
+	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 	
 	^ self new
-		parser: aDebugger selectedContext receiver
-]
-
-{ #category : #'as yet unclassified' }
-GTPPStepToSameParserAction class >> gtToolbarActionFor: aDebugger [
-	<gtPPDebuggingAction>
-	
-	^ self new
-		parser: aDebugger interruptedContext receiver
+		parser: aDebugger currentContext receiver
 ]
 
 { #category : #testing }
@@ -66,7 +59,7 @@ GTPPStepToSameParserAction >> parser: anObject [
 GTPPStepToSameParserAction >> sameParserObjectPredicate [
 
 	^ self session createPredicateForBlock: [ :aContext |
-		aContext receiver ~= self parser ]
+		aContext receiver == self parser ]
 ]
 
 { #category : #predicates }

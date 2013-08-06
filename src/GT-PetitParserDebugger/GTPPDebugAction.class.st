@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTPPDebugAction >> appliesToContext: aContext [
 
 	^ self session isActive and: [
@@ -17,7 +17,7 @@ GTPPDebugAction >> appliesToContext: aContext [
 { #category : #accessing }
 GTPPDebugAction >> startContext [
 
-	^ startContext ifNil: [ self interruptedContext ]
+	^ startContext ifNil: [ self currentContext ]
 ]
 
 { #category : #accessing }

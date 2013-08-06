@@ -10,7 +10,7 @@ Class {
 { #category : #'predicates creation' }
 GTPPDebugSession >> createPredicateForBlock: aBlock [ 
 
-	^ (NewBlockContextPredicate for: aBlock)
+	^ NewBlockContextPredicate for: aBlock
 ]
 
 { #category : #'predicates creation' }
