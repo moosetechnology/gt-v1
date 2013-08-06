@@ -11,7 +11,7 @@ Class {
 GTPPDebugAction >> appliesToContext: aContext [
 
 	^ self session isActive and: [
-		aContext locateRootPPParser notNil ]
+		aContext locateTopPPParser notNil ]
 ]
 
 { #category : #accessing }

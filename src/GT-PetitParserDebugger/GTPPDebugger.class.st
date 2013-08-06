@@ -13,7 +13,7 @@ GTPPDebugger class >> defaultTitle [
 { #category : #testing }
 GTPPDebugger class >> handlesContext: aContext [
 
-	^ aContext locateRootPPParser notNil 
+	^ aContext locateTopPPParser notNil 
 ]
 
 { #category : #'tools registry' }

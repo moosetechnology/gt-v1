@@ -7,11 +7,20 @@ MethodContext >> locateRootPPParser [
 	parserContext := nil.
 	currentContext := self.
 	[ 
-		(currentContext := (currentContext findContextSuchThat:  [ :ctx | 
-			(ctx receiver class inheritsFrom: PPParser) and: [ ctx selector = #parseOn: ] ]) ) notNil
+		(currentContext := currentContext locateTopPPParser) notNil
 	 ] whileTrue: [ 
 		parserContext := currentContext.
 		currentContext := currentContext sender ].
 
 	^ parserContext
+]
+
+{ #category : #'*GT-PetitParserDebugger' }
+MethodContext >> locateTopPPParser [
+	
+	^ (self findContextSuchThat:  [ :ctx | 
+			(ctx receiver class inheritsFrom: PPParser) and: [ ctx selector = #parseOn: ] ])
+	
+	
+
 ]
