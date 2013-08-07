@@ -35,11 +35,14 @@ GTPPDebugger >> debuggerStructureIn: browser [
 	browser
 		row: [ :row | 
 					row
-						column: #stack;
+						column: #stack span: 2;
 						column: [ :column |
 							column 
-								row: #code;
-								row: #stream ] ];
+								row: [ :row2 | 
+									row2
+										column: #code;
+										column: #stream ];
+								row: #workspace ] span: 3 ];
 		row: #inspector.
 ]
 
@@ -52,15 +55,13 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		from: #stack port: #entity;
 		to: #stream;
 		when: [ :aSession | aSession notNil ];
-		transformed: [ :aSession | aSession stream ];
-		andShow: [ :composite | self streamIn: composite ].
+		andShow: [ :aComposite | self streamIn: aComposite ].
 		
-	"browser transmit
+	browser transmit
 		from: #stack port: #entity;
-		from: #stack port: #selection;
-		to: #stream port: #selectionInterval;
-		when: [ :aSession :aContext | (aContext notNil & aSession notNil) and: [aSession parseMethodPredicate matches: aContext ] ];
-		transformed: [ :aSession :aContext | 1 to: (aSession streamFromContext: aContext) position ]"
+		to: #workspace;
+		when: [ :aSession | aSession notNil ];
+		andShow: [ :composite | self workspaceIn: composite ].
 	
 ]
 
@@ -71,11 +72,53 @@ GTPPDebugger >> debuggingActionsPragmas [
 ]
 
 { #category : #'as yet unclassified' }
+GTPPDebugger >> mapIn: composite [
+
+	self class environment at: #GLMRoassalPresentation ifPresent: [ :cls |
+		composite roassal
+			title: 'Map';
+			useExplicitNotNil;
+			painting: [ :view |
+				(self production: #start from: self session rootParser class)
+					viewAllNamedParsersWithSelection: "(Array with: selector)  " (Array new)  
+					previewing: [:eachParser | self sourceCodeFrom: self session rootParser class selector: eachParser name ]
+					on: view ] ]	
+
+]
+
+{ #category : #'as yet unclassified' }
+GTPPDebugger >> production: selector from: class [
+	| parser |
+	
+	parser := class new.
+	^ selector isNil 
+		ifTrue: [ parser ]
+		ifFalse: [ parser productionAt: selector ]
+]
+
+{ #category : #'private utilities' }
+GTPPDebugger >> sourceCodeFrom: class selector: production [
+
+	^ class ultimateSourceCodeAt: (production ifNil: [ #start ]) ifAbsent: [ String new ]
+]
+
+{ #category : #'as yet unclassified' }
 GTPPDebugger >> streamIn: composite [
 	
 	composite text
 		title: 'Stream';
-		format: #collection;
+		format: [ :aSession | aSession stream collection ];
 		initialize: [ :aPresentation | aPresentation selectionInterval: (1 to: self session stream position) ]
 		"with: [ :code | self installCodeActionsFor: code ]"
+]
+
+{ #category : #'as yet unclassified' }
+GTPPDebugger >> workspaceIn: composite [
+	
+	"self sourceIn: composite."
+	"self graphIn: composite."
+	self mapIn: composite.
+	"self exampleIn: composite.
+	self firstIn: composite.
+	self followIn: composite."
 ]

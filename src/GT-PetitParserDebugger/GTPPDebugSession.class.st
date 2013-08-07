@@ -82,6 +82,12 @@ GTPPDebugSession >> process: aProcess context: aContext [
 		rootParserContext := aContext locateRootPPParser]
 ]
 
+{ #category : #accessing }
+GTPPDebugSession >> rootParser [
+
+	^ rootParserContext receiver
+]
+
 { #category : #'debugging actions' }
 GTPPDebugSession >> stepOverInitialInstructionForContext: aContext [
 	
