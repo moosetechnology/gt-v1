@@ -283,6 +283,12 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 	"errorWasInUIProcess := UIManager default spawnNewProcessIfThisIsUI: interruptedProcess"
 ]
 
+{ #category : #'building presentations' }
+GTDebugger >> printStackEntry: aContext [
+
+	^ String streamContents: [:stream | aContext printDebugOn: stream ] 
+]
+
 { #category : #intialization }
 GTDebugger >> process: aProcess controller: aController context: aContext [
 
@@ -339,7 +345,7 @@ GTDebugger >> stackIn: composite [
 		title: 'Stack';
 		"showOnly: 10;"
 		display: #stack;
-		format: [ :each | String streamContents: [:stream | each printDebugOn: stream ] ];
+		format: [ :each | self printStackEntry: each];
 		with: [ :list | self installDebuggingActionsFor: list ]
 ]
 
