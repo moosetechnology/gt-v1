@@ -1,29 +1,29 @@
 Class {
-	#name : #GTPPStepToNextNonDelegateParseMethodAction,
+	#name : #GTPPStepToNextNonDelegateParserAction,
 	#superclass : #GTPPDebugAction,
 	#category : #'GT-PetitParserDebugger'
 }
 
 { #category : #registration }
-GTPPStepToNextNonDelegateParseMethodAction class >> gtActionType [
+GTPPStepToNextNonDelegateParserAction class >> gtActionType [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 ]
 
 { #category : #accessing }
-GTPPStepToNextNonDelegateParseMethodAction >> defaultLabel [ 
+GTPPStepToNextNonDelegateParserAction >> defaultLabel [ 
 	
 	^ 'Next parser invocation (non-delegate parser)'.
 ]
 
 { #category : #accessing }
-GTPPStepToNextNonDelegateParseMethodAction >> defaultOrder [
+GTPPStepToNextNonDelegateParserAction >> defaultOrder [
 
 	^ 26
 ]
 
 { #category : #actions }
-GTPPStepToNextNonDelegateParseMethodAction >> executeAction [	
+GTPPStepToNextNonDelegateParserAction >> executeAction [	
 
 	self session 
 		stepOverInitialInstructionForContext: self startContext;

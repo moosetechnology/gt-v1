@@ -35,7 +35,7 @@ GTPPDebugSession >> isActive [
 		ifNotNil: [ 
 			rootParserContext isDead not and: [
 				
-				rootParserContext ~= self context or: [rootParserContext willReturn not ]
+				rootParserContext ~= self process suspendedContext or: [rootParserContext willReturn not ]
 				
 				 ]  ]
 ]
@@ -68,6 +68,14 @@ GTPPDebugSession >> namedParserPredicate [
 
 	^ self createPredicateForBlock: [ :aContext |
 		self isNamedPPParser: aContext receiver ]
+]
+
+{ #category : #predicates }
+GTPPDebugSession >> namedParserPredicate: anObject [
+
+	^ self createPredicateForBlock: [ :aContext |
+		(self isNamedPPParser: aContext receiver) and: [ 
+			aContext receiver name = anObject ] ]
 ]
 
 { #category : #'debugging actions' }
@@ -155,6 +163,14 @@ GTPPDebugSession >> stepToNextParserFromContext: aContext [
 
 	self 
 		newStepUntil: self parseMethodEntryPredicate
+		from: aContext
+]
+
+{ #category : #'debugging actions' }
+GTPPDebugSession >> stepToNextProduction: aProduction fromContext: aContext [
+	self halt.
+	self 
+		newStepUntil: (self parseMethodEntryPredicate and: (self namedParserPredicate: aProduction)) 
 		from: aContext
 ]
 

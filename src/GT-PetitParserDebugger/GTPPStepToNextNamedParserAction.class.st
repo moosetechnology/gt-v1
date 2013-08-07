@@ -10,19 +10,19 @@ GTPPStepToNextNamedParserAction class >> gtActionType [
 	<gtContextPPDebuggingAction>
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToNextNamedParserAction >> defaultLabel [ 
 
 	^ 'Next parser invocation (any named parser)'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToNextNamedParserAction >> defaultOrder [
 
 	^ 29
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTPPStepToNextNamedParserAction >> executeAction [
 	
 	self session 

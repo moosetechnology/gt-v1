@@ -188,6 +188,14 @@ GTPPDebugger >> production: selector from: class [
 ]
 
 { #category : #'private utilities' }
+GTPPDebugger >> productionSelectorsFrom: class [
+
+	^ (((class allInstVarNames copyWithoutAll: class ignoredNames)
+		collect: [ :each | each asSymbol ])
+			select: [ :each | class includesSelector: each ]) asSortedCollection add: #start; yourself
+]
+
+{ #category : #'private utilities' }
 GTPPDebugger >> sourceCodeFrom: class selector: production [
 
 	^ class ultimateSourceCodeAt: (production ifNil: [ #start ]) ifAbsent: [ String new ]
