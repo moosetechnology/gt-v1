@@ -8,7 +8,19 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTPPStepToNamedParserAction class >> gtActionFor: aDebugger [
+GTPPStepToNamedParserAction class >> gtToNextProductionActionFor: aDebugger [
+	<gtPPDebuggingAction>
+	<gtContextPPDebuggingAction>
+
+	^ self new 
+		production: nil;
+		label: 'any named parser';
+		category: 'Next parser invocation';
+		order: 29
+]
+
+{ #category : #'as yet unclassified' }
+GTPPStepToNamedParserAction class >> gtToProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 	| order |

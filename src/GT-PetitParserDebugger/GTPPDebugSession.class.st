@@ -72,10 +72,12 @@ GTPPDebugSession >> namedParserPredicate [
 
 { #category : #predicates }
 GTPPDebugSession >> namedParserPredicate: anObject [
-
+	""
+	
 	^ self createPredicateForBlock: [ :aContext |
 		(self isNamedPPParser: aContext receiver) and: [ 
-			aContext receiver name = anObject ] ]
+			anObject isNil or: [ 
+				aContext receiver name = anObject ] ] ]
 ]
 
 { #category : #'debugging actions' }
@@ -168,7 +170,7 @@ GTPPDebugSession >> stepToNextParserFromContext: aContext [
 
 { #category : #'debugging actions' }
 GTPPDebugSession >> stepToNextProduction: aProduction fromContext: aContext [
-	self halt.
+	
 	self 
 		newStepUntil: (self parseMethodEntryPredicate and: (self namedParserPredicate: aProduction)) 
 		from: aContext
