@@ -29,7 +29,7 @@ GTPPDebugger class >> sessionClass [
 	^ GTPPDebugSession 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTPPDebugger >> debuggerStructureIn: browser [
 	
 	browser
@@ -46,7 +46,7 @@ GTPPDebugger >> debuggerStructureIn: browser [
 		row: #inspector.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTPPDebugger >> debuggerTransmissionsIn: browser [
 
 	super debuggerTransmissionsIn: browser.
@@ -57,11 +57,18 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		when: [ :aSession | aSession notNil ];
 		andShow: [ :aComposite | self streamIn: aComposite ].
 		
-	browser transmit
+"	browser transmit
 		from: #stack port: #entity;
 		to: #workspace;
 		when: [ :aSession | aSession notNil ];
-		andShow: [ :composite | self workspaceIn: composite ].
+		andShow: [ :composite | self workspaceIn: composite ]."
+		
+	browser transmit
+		from: #stack port: #entity;
+		from: #stack port: #selection;
+		to: #workspace;
+		when: [ :aSession :aContext | aSession notNil & aContext notNil ];
+		andShow: [ :aComposite :aSession :aContext | self workspaceIn: aComposite forSession: aSession forContext: aContext ].
 	
 ]
 
@@ -71,22 +78,71 @@ GTPPDebugger >> debuggingActionsPragmas [
 	^ super debuggingActionsPragmas, { #PPDebuggingAction }
 ]
 
-{ #category : #'as yet unclassified' }
-GTPPDebugger >> mapIn: composite [
+{ #category : #'building presentations' }
+GTPPDebugger >> exampleIn: aComposite forSession: aSession forPoduction: aProduction [
+
+	aComposite text
+		title: 'Example';
+		useExplicitNotNil;
+		display: [ (self production: aProduction from: aSession rootParser class) example ];
+		act: [:text | text update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Generate another one'
+]
+
+{ #category : #'building presentations' }
+GTPPDebugger >> firstIn: aComposite forSession: aSession forPoduction: aProduction [
+
+	aComposite list
+		title: 'First';
+		useExplicitNotNil;
+		display: [ (self production: aProduction from: aSession rootParser class) firstSet ];
+		format: [ :parser | parser displayName ]
+]
+
+{ #category : #'building presentations' }
+GTPPDebugger >> followIn: aComposite forSession: aSession forPoduction: aProduction [
+	
+	aComposite list
+		title: 'Follow';
+		useExplicitNotNil;
+		format: [ :parser | parser displayName ];
+		display: [
+			| parser |
+			parser := aSession rootParser class new.
+			parser followSets
+				at: (parser productionAt: aProduction)
+				ifAbsent: [ Array with: nil asParser ] ]
+]
+
+{ #category : #'building presentations' }
+GTPPDebugger >> graphIn: aComposite forSession: aSession forPoduction: aProduction [
+	
+	aComposite morph
+		title: 'Graph';
+		useExplicitNotNil;
+		display: [ 
+			| morph |
+			morph := ScrollPane new.
+			morph color: Color white.
+			morph scroller addMorph: (self production: aProduction from: aSession rootParser class) morphicProduction.
+			morph ] 
+]
+
+{ #category : #'building presentations' }
+GTPPDebugger >> mapIn: aComposite forSession: aSession forPoduction: aProduction [
 
 	self class environment at: #GLMRoassalPresentation ifPresent: [ :cls |
-		composite roassal
+		aComposite roassal
 			title: 'Map';
 			useExplicitNotNil;
 			painting: [ :view |
-				(self production: #start from: self session rootParser class)
-					viewAllNamedParsersWithSelection: "(Array with: selector)  " (Array new)  
-					previewing: [:eachParser | self sourceCodeFrom: self session rootParser class selector: eachParser name ]
+				(self production: #start from: aSession rootParser class)
+					viewAllNamedParsersWithSelection: (Array with: aProduction)
+					previewing: [:eachParser | self sourceCodeFrom: aSession rootParser class selector: eachParser name ]
 					on: view ] ]	
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'building presentations' }
 GTPPDebugger >> printStackEntry: aContext [
 
 	^ (self session isPPParser: aContext receiver)
@@ -128,7 +184,17 @@ GTPPDebugger >> sourceCodeFrom: class selector: production [
 	^ class ultimateSourceCodeAt: (production ifNil: [ #start ]) ifAbsent: [ String new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'building presentations' }
+GTPPDebugger >> sourceIn: aComposite forSession: aSession forPoduction: aProduction [
+
+	aComposite smalltalkCode
+		title: 'Source';
+		useExplicitNotNil;
+		display: [ self sourceCodeFrom: aSession rootParser class selector: aProduction ];
+		smalltalkClass: [ aSession rootParser class ]
+]
+
+{ #category : #'building presentations' }
 GTPPDebugger >> streamIn: composite [
 	
 	composite text
@@ -138,13 +204,19 @@ GTPPDebugger >> streamIn: composite [
 		"with: [ :code | self installCodeActionsFor: code ]"
 ]
 
-{ #category : #'as yet unclassified' }
-GTPPDebugger >> workspaceIn: composite [
+{ #category : #'building presentations' }
+GTPPDebugger >> workspaceIn: aComposite forSession: aSession forContext: aContext [
+	| targetParser nameProperty |
 	
-	"self sourceIn: composite."
-	"self graphIn: composite."
-	self mapIn: composite.
-	"self exampleIn: composite.
-	self firstIn: composite.
-	self followIn: composite."
+	targetParser := (aContext locateTopNamedPPParser) 
+		ifNil: [ aSession rootParser ] 
+		ifNotNil: [ :parserContext | parserContext receiver ].
+	nameProperty := targetParser propertyAt: 'name' ifAbsent: [ nil ].
+	
+	self sourceIn: aComposite forSession: aSession forPoduction: nameProperty.
+	self graphIn: aComposite forSession: aSession forPoduction: nameProperty.
+	self mapIn: aComposite forSession: aSession forPoduction: nameProperty.
+	self exampleIn: aComposite forSession: aSession forPoduction: nameProperty.
+	self firstIn: aComposite forSession: aSession forPoduction: nameProperty.
+	self followIn: aComposite forSession: aSession forPoduction: nameProperty.
 ]

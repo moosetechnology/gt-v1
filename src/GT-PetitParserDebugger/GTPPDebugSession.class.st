@@ -55,6 +55,13 @@ GTPPDebugSession >> isPPParserClass: aClass [
 	
 ]
 
+{ #category : #testing }
+GTPPDebugSession >> isPPParserContext: aContext [ 
+
+	^ self isPPParser: aContext receiver
+	
+]
+
 { #category : #'debugging actions' }
 GTPPDebugSession >> newStepUntil: aPredicate from: aContext [ 
 

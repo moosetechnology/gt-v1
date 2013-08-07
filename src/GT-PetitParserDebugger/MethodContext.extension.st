@@ -18,6 +18,18 @@ MethodContext >> locateRootPPParser [
 ]
 
 { #category : #'*GT-PetitParserDebugger' }
+MethodContext >> locateTopNamedPPParser [
+	
+	^ (self findContextSuchThat:  [ :ctx | 
+			(ctx receiver class inheritsFrom: PPParser) and: [ 
+				ctx selector = #parseOn: and: [ 
+					ctx receiver name notNil ] ] ])
+	
+	
+
+]
+
+{ #category : #'*GT-PetitParserDebugger' }
 MethodContext >> locateTopPPParser [
 	"Find the first context, starting from the top the stack that was created by a PPParser. "
 	
