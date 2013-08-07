@@ -26,7 +26,7 @@ GTPPStepToSameParserTypeAction >> appliesToContext: aContext [
 { #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultLabel [ 
 
-	^ 'Next parser invocation (same type)'
+	^ 'Next parser invocation (same class type)'
 ]
 
 { #category : #accessing }

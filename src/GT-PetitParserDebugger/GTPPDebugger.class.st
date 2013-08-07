@@ -220,7 +220,7 @@ GTPPDebugger >> textAttributesForStackEntry: aContext [
 		ifTrue: [ ^ {TextEmphasis bold} ].
 		
 	(self session rootParserContext  == aContext )
-		ifTrue: [ ^ {TextEmphasis bold. TextEmphasis italic} ].
+		ifTrue: [ ^ {TextEmphasis italic} ].
 		
 	^ {TextColor black}
 ]
