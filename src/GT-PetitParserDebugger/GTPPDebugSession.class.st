@@ -64,6 +64,14 @@ GTPPDebugSession >> parseMethodEntryPredicate [
 					aContext isInitialnstruction ] ] ]
 ]
 
+{ #category : #predicates }
+GTPPDebugSession >> parseMethodPredicate [
+
+	^ self createPredicateForBlock: [ :aContext |
+			(aContext methodClass inheritsFrom: PPParser) and: [ 
+				aContext selector = #parseOn: ] ]
+]
+
 { #category : #initialization }
 GTPPDebugSession >> process: aProcess context: aContext [
 
@@ -97,4 +105,16 @@ GTPPDebugSession >> stepToNextParserFromContext: aContext [
 	self 
 		newStepUntil: self parseMethodEntryPredicate 
 		from: aContext
+]
+
+{ #category : #accessing }
+GTPPDebugSession >> stream [
+
+	^ self streamFromContext: rootParserContext
+]
+
+{ #category : #accessing }
+GTPPDebugSession >> streamFromContext: aContext [
+
+	^ aContext tempAt: 1
 ]
