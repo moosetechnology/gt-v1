@@ -40,6 +40,21 @@ GTPPDebugSession >> isActive [
 				 ]  ]
 ]
 
+{ #category : #testing }
+GTPPDebugSession >> isPPParser: anObject [ 
+
+	^ self isPPParserClass: anObject class
+	
+]
+
+{ #category : #testing }
+GTPPDebugSession >> isPPParserClass: aClass [
+
+	^ aClass inheritsFrom: PPParser 
+
+	
+]
+
 { #category : #'debugging actions' }
 GTPPDebugSession >> newStepUntil: aPredicate from: aContext [ 
 
@@ -59,7 +74,7 @@ GTPPDebugSession >> notDelegateParserClassPredicate [
 GTPPDebugSession >> parseMethodEntryPredicate [
 
 	^ self createPredicateForBlock: [ :aContext |
-			(aContext methodClass inheritsFrom: PPParser) and: [ 
+			(self isPPParserClass: aContext methodClass) and: [ 
 				aContext selector = #parseOn: and: [ 
 					aContext isInitialnstruction ] ] ]
 ]
@@ -68,7 +83,7 @@ GTPPDebugSession >> parseMethodEntryPredicate [
 GTPPDebugSession >> parseMethodPredicate [
 
 	^ self createPredicateForBlock: [ :aContext |
-			(aContext methodClass inheritsFrom: PPParser) and: [ 
+			(self isPPParserClass: aContext methodClass) and: [ 
 				aContext selector = #parseOn: ] ]
 ]
 
