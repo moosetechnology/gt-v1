@@ -82,7 +82,7 @@ GTPPDebugSession >> notDelegateParserClassPredicate [
 GTPPDebugSession >> parseMethodEntryPredicate [
 
 	^ self createPredicateForBlock: [ :aContext |
-			(self isPPParserClass: aContext methodClass) and: [ 
+			(self isPPParser: aContext receiver) and: [ 
 				aContext selector = #parseOn: and: [ 
 					aContext isInitialnstruction ] ] ]
 ]
@@ -91,7 +91,7 @@ GTPPDebugSession >> parseMethodEntryPredicate [
 GTPPDebugSession >> parseMethodPredicate [
 
 	^ self createPredicateForBlock: [ :aContext |
-			(self isPPParserClass: aContext methodClass) and: [ 
+			(self isPPParser: aContext receiver) and: [ 
 				aContext selector = #parseOn: ] ]
 ]
 

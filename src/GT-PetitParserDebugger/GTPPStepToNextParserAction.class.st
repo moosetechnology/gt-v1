@@ -7,6 +7,7 @@ Class {
 { #category : #registration }
 GTPPStepToNextParserAction class >> gtActionType [
 	<gtPPDebuggingAction>
+	<gtContextPPDebuggingAction>
 ]
 
 { #category : #accessing }
