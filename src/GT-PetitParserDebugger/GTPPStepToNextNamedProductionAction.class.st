@@ -1,5 +1,5 @@
 Class {
-	#name : #GTPPStepToNamedParserAction,
+	#name : #GTPPStepToNextNamedProductionAction,
 	#superclass : #GTPPDebugAction,
 	#instVars : [
 		'production'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTPPStepToNamedParserAction class >> gtToNextProductionActionFor: aDebugger [
+GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 
@@ -20,7 +20,7 @@ GTPPStepToNamedParserAction class >> gtToNextProductionActionFor: aDebugger [
 ]
 
 { #category : #'as yet unclassified' }
-GTPPStepToNamedParserAction class >> gtToProductionActionFor: aDebugger [
+GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 	| order |
@@ -35,7 +35,7 @@ GTPPStepToNamedParserAction class >> gtToProductionActionFor: aDebugger [
 ]
 
 { #category : #actions }
-GTPPStepToNamedParserAction >> executeAction [
+GTPPStepToNextNamedProductionAction >> executeAction [
 	
 	self session 
 		stepOverInitialInstructionForContext: self startContext;
@@ -43,13 +43,13 @@ GTPPStepToNamedParserAction >> executeAction [
 ]
 
 { #category : #accessing }
-GTPPStepToNamedParserAction >> production [
+GTPPStepToNextNamedProductionAction >> production [
 	
 	^ production
 ]
 
 { #category : #accessing }
-GTPPStepToNamedParserAction >> production: anObject [
+GTPPStepToNextNamedProductionAction >> production: anObject [
 	
 	production := anObject
 ]

@@ -64,14 +64,7 @@ GTPPDebugSession >> isPPParserClass: aClass [
 ]
 
 { #category : #predicates }
-GTPPDebugSession >> namedParserPredicate [
-
-	^ self createPredicateForBlock: [ :aContext |
-		self isNamedPPParser: aContext receiver ]
-]
-
-{ #category : #predicates }
-GTPPDebugSession >> namedParserPredicate: anObject [
+GTPPDebugSession >> namedProductionPredicate: anObject [
 	""
 	
 	^ self createPredicateForBlock: [ :aContext |
@@ -145,14 +138,6 @@ GTPPDebugSession >> stepOverInitialInstructionForContext: aContext [
 ]
 
 { #category : #'debugging actions' }
-GTPPDebugSession >> stepToNextNamedParserFromContext: aContext [
-
-	self 
-		newStepUntil: (self parseMethodEntryPredicate and: self namedParserPredicate) 
-		from: aContext
-]
-
-{ #category : #'debugging actions' }
 GTPPDebugSession >> stepToNextNonDelegateParserFromContext: aContext [
 
 	self 
@@ -172,7 +157,7 @@ GTPPDebugSession >> stepToNextParserFromContext: aContext [
 GTPPDebugSession >> stepToNextProduction: aProduction fromContext: aContext [
 	
 	self 
-		newStepUntil: (self parseMethodEntryPredicate and: (self namedParserPredicate: aProduction)) 
+		newStepUntil: (self parseMethodEntryPredicate and: (self namedProductionPredicate: aProduction)) 
 		from: aContext
 ]
 
