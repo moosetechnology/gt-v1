@@ -16,7 +16,7 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 		production: nil;
 		label: 'any named parser';
 		category: 'Next parser invocation';
-		order: 29
+		order: 26
 ]
 
 { #category : #'as yet unclassified' }

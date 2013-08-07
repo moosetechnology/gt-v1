@@ -11,9 +11,15 @@ GTPPStepToNextParserAction class >> gtActionType [
 ]
 
 { #category : #accessing }
+GTPPStepToNextParserAction >> defaultCategory [
+
+	^ 'Next parser invocation'
+]
+
+{ #category : #accessing }
 GTPPStepToNextParserAction >> defaultLabel [ 
 
-	^ 'Next parser invocation (any parser)'
+	^ 'any parser'
 ]
 
 { #category : #accessing }

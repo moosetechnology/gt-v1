@@ -11,15 +11,21 @@ GTPPStepToNextNonDelegateParserAction class >> gtActionType [
 ]
 
 { #category : #accessing }
+GTPPStepToNextNonDelegateParserAction >> defaultCategory [
+	
+	^ 'Next parser invocation'
+]
+
+{ #category : #accessing }
 GTPPStepToNextNonDelegateParserAction >> defaultLabel [ 
 	
-	^ 'Next parser invocation (non-delegate parser)'.
+	^ 'non-delegate parser'
 ]
 
 { #category : #accessing }
 GTPPStepToNextNonDelegateParserAction >> defaultOrder [
 
-	^ 26
+	^ 27
 ]
 
 { #category : #actions }

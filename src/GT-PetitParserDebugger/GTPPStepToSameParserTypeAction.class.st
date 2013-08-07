@@ -24,15 +24,21 @@ GTPPStepToSameParserTypeAction >> appliesToContext: aContext [
 ]
 
 { #category : #accessing }
+GTPPStepToSameParserTypeAction >> defaultCategory [
+
+	^ 'Next parser invocation'
+]
+
+{ #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultLabel [ 
 
-	^ 'Next parser invocation (same class type)'
+	^ 'same class type'
 ]
 
 { #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultOrder [
 
-	^ 28
+	^ 29
 ]
 
 { #category : #actions }
