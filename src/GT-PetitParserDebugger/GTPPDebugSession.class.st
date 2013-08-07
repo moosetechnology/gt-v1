@@ -41,6 +41,14 @@ GTPPDebugSession >> isActive [
 ]
 
 { #category : #testing }
+GTPPDebugSession >> isNamedPPParser: anObject [ 
+
+	^ (self isPPParser: anObject) and: [ 
+		anObject name notNil ]
+	
+]
+
+{ #category : #testing }
 GTPPDebugSession >> isPPParser: anObject [ 
 
 	^ self isPPParserClass: anObject class
@@ -52,13 +60,6 @@ GTPPDebugSession >> isPPParserClass: aClass [
 
 	^ aClass inheritsFrom: PPParser 
 
-	
-]
-
-{ #category : #testing }
-GTPPDebugSession >> isPPParserContext: aContext [ 
-
-	^ self isPPParser: aContext receiver
 	
 ]
 
@@ -108,6 +109,12 @@ GTPPDebugSession >> process: aProcess context: aContext [
 GTPPDebugSession >> rootParser [
 
 	^ rootParserContext receiver
+]
+
+{ #category : #accessing }
+GTPPDebugSession >> rootParserContext [
+
+	^ rootParserContext
 ]
 
 { #category : #'debugging actions' }

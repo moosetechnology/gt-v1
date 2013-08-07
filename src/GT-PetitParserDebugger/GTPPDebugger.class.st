@@ -145,6 +145,15 @@ GTPPDebugger >> mapIn: aComposite forSession: aSession forPoduction: aProduction
 { #category : #'building presentations' }
 GTPPDebugger >> printStackEntry: aContext [
 
+	^ Text 
+		string: (self printStackEntryStringFor: aContext )
+		attributes: (self textAttributesForStackEntry: aContext) 
+	
+]
+
+{ #category : #'private utilities' }
+GTPPDebugger >> printStackEntryStringFor: aContext [
+
 	^ (self session isPPParser: aContext receiver)
 		ifTrue: [ 
 			String streamContents: [:stream | 
@@ -202,6 +211,18 @@ GTPPDebugger >> streamIn: composite [
 		format: [ :aSession | aSession stream collection ];
 		initialize: [ :aPresentation | aPresentation selectionInterval: (1 to: self session stream position) ]
 		"with: [ :code | self installCodeActionsFor: code ]"
+]
+
+{ #category : #'private utilities' }
+GTPPDebugger >> textAttributesForStackEntry: aContext [
+
+	(self session isNamedPPParser: aContext receiver) 
+		ifTrue: [ ^ {TextEmphasis bold} ].
+		
+	(self session rootParserContext  == aContext )
+		ifTrue: [ ^ {TextEmphasis bold. TextEmphasis italic} ].
+		
+	^ {TextColor black}
 ]
 
 { #category : #'building presentations' }
