@@ -18,8 +18,8 @@ GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 { #category : #actions }
 GTGlamourStepToPresentationBuildAction >> executeAction [
 	| presentationCreation presentationCode |
-	presentationCreation := self session createStepPredicateForPredicate: self presentationCreationPredicate.
-	presentationCode := self session createStepPredicateForPredicate: self presentationCodePredicate.
+	presentationCreation := self presentationCreationPredicate.
+	presentationCode := self presentationCodePredicate.
 
 	self session newStepUntil: presentationCreation from: self currentContext.
 	self session newStepUntil: presentationCode from: self interruptedContext.
