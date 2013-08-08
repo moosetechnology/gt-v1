@@ -22,7 +22,7 @@ GTPPStepToParserTypeAction class >> gtActionFor: aDebugger [
 			order: (order := order + 1) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GTPPStepToParserTypeAction class >> parserTypes [
 
 	^ { 

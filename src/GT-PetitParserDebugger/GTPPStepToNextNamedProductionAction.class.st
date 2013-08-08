@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
@@ -19,7 +19,7 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 		order: 26
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>

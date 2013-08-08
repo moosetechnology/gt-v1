@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTPPStepToStreamPositionAction class >> gtNextStreamUpdateAction [
 	<gtPPStreamDebuggingAction>
 	<gtContextPPStreamDebuggingAction>
@@ -17,7 +17,7 @@ GTPPStepToStreamPositionAction class >> gtNextStreamUpdateAction [
 		icon: GLMUIThemeExtraIcons glamorousInto
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTPPStepToStreamPositionAction class >> gtSelectedStreamPositionActionFor: aDebugger [
 	<gtPPStreamDebuggingAction>
 	<gtContextPPStreamDebuggingAction>
@@ -27,7 +27,7 @@ GTPPStepToStreamPositionAction class >> gtSelectedStreamPositionActionFor: aDebu
 		label: 'Run to here'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTPPStepToStreamPositionAction >> executeAction [
 	| currentPosition targetPosition |
 
@@ -54,7 +54,7 @@ GTPPStepToStreamPositionAction >> position: anInteger [
 	position := anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #predicates }
 GTPPStepToStreamPositionAction >> streamToPosition: anInteger [
 
 	^ self session createPredicateForBlock: [

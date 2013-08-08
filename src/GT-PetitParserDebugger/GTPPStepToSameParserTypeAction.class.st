@@ -4,38 +4,38 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTPPStepToSameParserTypeAction class >> gtActionType [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTPPStepToSameParserTypeAction >> appliesToContext: aContext [
 
 	^ (super appliesToContext: aContext) and: [ 
 		aContext receiver class inheritsFrom: PPParser ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultCategory [
 
 	^ 'Next parser invocation'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultLabel [ 
 
 	^ 'same class'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultOrder [
 
 	^ 32
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultParserClass [
 
 	^ self currentContext receiver class

@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTPPWhereIsStreamAction class >> gtActionType [
 	<gtPPStreamDebuggingAction>
 ]
