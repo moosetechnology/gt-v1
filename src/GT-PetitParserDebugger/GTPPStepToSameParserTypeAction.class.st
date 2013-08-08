@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GTPPStepToSameParserTypeAction class >> gtActionType [
+	<gtPPDebuggingAction>
+	<gtContextPPDebuggingAction>
+]
+
+{ #category : #'as yet unclassified' }
 GTPPStepToSameParserTypeAction >> appliesToContext: aContext [
 
 	^ (super appliesToContext: aContext) and: [ 

@@ -57,12 +57,6 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		when: [ :aSession | aSession notNil ];
 		andShow: [ :aComposite | self streamIn: aComposite ].
 		
-"	browser transmit
-		from: #stack port: #entity;
-		to: #workspace;
-		when: [ :aSession | aSession notNil ];
-		andShow: [ :composite | self workspaceIn: composite ]."
-		
 	browser transmit
 		from: #stack port: #entity;
 		from: #stack port: #selection;
@@ -125,6 +119,12 @@ GTPPDebugger >> graphIn: aComposite forSession: aSession forPoduction: aProducti
 			morph color: Color white.
 			morph scroller addMorph: (self production: aProduction from: aSession rootParser class) morphicProduction.
 			morph ] 
+]
+
+{ #category : #'building actions' }
+GTPPDebugger >> installStreamActionsFor: aPresentation [
+
+	self installActionsForRootPragmas: { #PPStreamDebuggingAction } in: aPresentation
 ]
 
 { #category : #'building presentations' }
@@ -216,9 +216,23 @@ GTPPDebugger >> streamIn: composite [
 	
 	composite text
 		title: 'Stream';
+		when: [ :aSession | aSession stream notNil ];
 		format: [ :aSession | aSession stream collection ];
-		initialize: [ :aPresentation | aPresentation selectionInterval: (1 to: self session stream position) ]
-		"with: [ :code | self installCodeActionsFor: code ]"
+		initialize: [ :aPresentation | aPresentation 
+			selectionInterval: (1 to: (self session stream ifNil: [ 0 ] ifNotNil: [ :aStream | aStream position ])) ];
+		with: [ :aPresentation | self installStreamActionsFor: aPresentation ]
+]
+
+{ #category : #accessing }
+GTPPDebugger >> streamPane [
+
+	^ self browser paneNamed: #stream
+]
+
+{ #category : #accessing }
+GTPPDebugger >> streamSelectionInterval [
+
+	^ self selectionIntervalForPane: #stream
 ]
 
 { #category : #'private utilities' }
@@ -231,6 +245,12 @@ GTPPDebugger >> textAttributesForStackEntry: aContext [
 		ifTrue: [ ^ {TextEmphasis italic} ].
 		
 	^ {TextColor black}
+]
+
+{ #category : #updating }
+GTPPDebugger >> updateStreamSelectionInterval [
+
+	(self streamPane port: #selectionInterval) value: (1 to: self session stream position)
 ]
 
 { #category : #'building presentations' }
