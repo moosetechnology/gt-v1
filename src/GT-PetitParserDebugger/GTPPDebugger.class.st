@@ -171,7 +171,7 @@ GTPPDebugger >> printStackEntryStringFor: aContext [
 				stream nextPutAll: '>>'.
 				
 				str := super printStackEntry: aContext.
-				str := str allButFirst: (str indexOf: '>' ifAbsent: [ -1 ]) + 1.
+				str := str allButFirst: (str indexOf: $> ifAbsent: [ -1 ]) + 1.
 				stream nextPutAll: str ]  ]
 		ifFalse: [ super printStackEntry: aContext ]
 	
