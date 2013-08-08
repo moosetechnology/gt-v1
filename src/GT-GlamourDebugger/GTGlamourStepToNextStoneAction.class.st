@@ -38,7 +38,7 @@ GTGlamourStepToNextStoneAction >> defaultLabel [
 { #category : #actions }
 GTGlamourStepToNextStoneAction >> executeAction [
 	| debugingStone |
-	self halt.
+	
 	"The first time start searching for a debuging stone from the context selected by the user."
 	debugingStone := self stepToDebuggingStoneFrom: self currentContext.
 	 [ debugingStone notNil ] 
