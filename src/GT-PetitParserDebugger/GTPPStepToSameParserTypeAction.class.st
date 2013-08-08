@@ -1,73 +1,36 @@
 Class {
 	#name : #GTPPStepToSameParserTypeAction,
-	#superclass : #GTPPDebugAction,
-	#instVars : [
-		'parser'
-	],
+	#superclass : #GTPPStepToParserTypeAction,
 	#category : #'GT-PetitParserDebugger'
 }
 
-{ #category : #registration }
-GTPPStepToSameParserTypeAction class >> gtActionFor: aDebugger [
-	<gtPPDebuggingAction>
-	<gtContextPPDebuggingAction>
-	
-	^ self new
-		parser: aDebugger currentContext receiver
-]
-
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 GTPPStepToSameParserTypeAction >> appliesToContext: aContext [
 
 	^ (super appliesToContext: aContext) and: [ 
 		aContext receiver class inheritsFrom: PPParser ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToSameParserTypeAction >> defaultCategory [
 
 	^ 'Next parser invocation'
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToSameParserTypeAction >> defaultLabel [ 
 
-	^ 'same class type'
+	^ 'same class'
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToSameParserTypeAction >> defaultOrder [
 
-	^ 29
+	^ 32
 ]
 
-{ #category : #actions }
-GTPPStepToSameParserTypeAction >> executeAction [
+{ #category : #'as yet unclassified' }
+GTPPStepToSameParserTypeAction >> defaultParserClass [
 
-	self session
-		stepOverInitialInstructionForContext: self startContext;
-		newStepUntil: self sameParserTypePredicate from: self startContext.
-]
-
-{ #category : #accessing }
-GTPPStepToSameParserTypeAction >> parser [
-	^ parser
-]
-
-{ #category : #accessing }
-GTPPStepToSameParserTypeAction >> parser: anObject [
-	parser := anObject
-]
-
-{ #category : #predicates }
-GTPPStepToSameParserTypeAction >> sameParserClassPredicate [
-
-	^ self session createPredicateForBlock: [ :aContext |
-		aContext receiver class == self parser class ]
-]
-
-{ #category : #predicates }
-GTPPStepToSameParserTypeAction >> sameParserTypePredicate [
-
-	^ self session parseMethodEntryPredicate and: self sameParserClassPredicate
+	^ self currentContext receiver class
 ]

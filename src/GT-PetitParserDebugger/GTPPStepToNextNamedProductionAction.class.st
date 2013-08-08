@@ -14,7 +14,7 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 
 	^ self new 
 		production: nil;
-		label: 'any named parser';
+		label: 'named parser';
 		category: 'Next parser invocation';
 		order: 26
 ]
@@ -32,6 +32,12 @@ GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger 
 			label: aProduction asString;
 			category: 'Next production';
 			order: (order := order + 1) ]
+]
+
+{ #category : #accessing }
+GTPPStepToNextNamedProductionAction >> defaultProduction [
+
+	^ nil
 ]
 
 { #category : #actions }

@@ -38,7 +38,7 @@ GTPPStepToSameParserAction >> defaultLabel [
 { #category : #accessing }
 GTPPStepToSameParserAction >> defaultOrder [
 
-	^ 28
+	^ 30
 ]
 
 { #category : #actions }
