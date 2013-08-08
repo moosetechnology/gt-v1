@@ -12,7 +12,7 @@ GTGlamourStepToPresentationBuildAction class >> gtActionType [
 { #category : #testing }
 GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 
-	^ (GTGlamourStackFilter locateBrowserContextFor: aContext) notNil
+	^ aContext locateBrowserContext notNil
 ]
 
 { #category : #'predicates creation' }

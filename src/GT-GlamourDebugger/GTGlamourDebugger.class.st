@@ -9,19 +9,14 @@ Class {
 
 { #category : #accessing }
 GTGlamourDebugger class >> defaultTitle [
+
 	^ 'Glamour Debugger'
 ]
 
 { #category : #testing }
 GTGlamourDebugger class >> handlesContext: aContext [
 
-	^ (self locateBrowserContextFor: aContext) notNil 
-]
-
-{ #category : #accessing }
-GTGlamourDebugger class >> locateBrowserContextFor: aContext [
-
-	^ self stackFilter locateBrowserContextFor: aContext
+	^ aContext locateBrowserContext notNil 
 ]
 
 { #category : #'tools registry' }
@@ -29,12 +24,6 @@ GTGlamourDebugger class >> registerToolsOn: registry [
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
 	registry registerDebugger: self withRank: 50.
-]
-
-{ #category : #accessing }
-GTGlamourDebugger class >> stackFilter [
-
-	^ GTGlamourStackFilter 
 ]
 
 { #category : #building }
@@ -110,6 +99,6 @@ GTGlamourDebugger >> rootBrowserContext [
 { #category : #'scripting opening' }
 GTGlamourDebugger >> startOn: aSession [
 
-	rootBrowserContext := self class locateBrowserContextFor: aSession context.
+	rootBrowserContext := aSession context locateBrowserContext.
 	super startOn: aSession
 ]
