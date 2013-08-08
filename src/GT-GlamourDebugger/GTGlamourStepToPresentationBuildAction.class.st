@@ -15,25 +15,36 @@ GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 	^ (GTGlamourStackFilter locateBrowserContextFor: aContext) notNil
 ]
 
-{ #category : #predicates }
-GTGlamourStepToPresentationBuildAction >> createPredicatForBlock: aBlock [ 
+{ #category : #'predicates creation' }
+GTGlamourStepToPresentationBuildAction >> createPredicateForBlock: aBlock [ 
 
-	^ StepContextPredicate new 
-			baseContext: self debugger rootBrowserContext;
-			predicate: aBlock
+	^ NewBlockContextPredicate for: aBlock
+]
+
+{ #category : #'predicates creation' }
+GTGlamourStepToPresentationBuildAction >> createStepPredicateForBlock: aBlock [ 
+
+	^ self createStepPredicatForPredicate: (self createPredicatForBlock: aBlock)
+			
+]
+
+{ #category : #'predicates creation' }
+GTGlamourStepToPresentationBuildAction >> createStepPredicateForPredicate: aPredicate [ 
+
+	^ (self createPredicateForBlock: [ self debugger isActive not ]) or: aPredicate
+	
 ]
 
 { #category : #actions }
 GTGlamourStepToPresentationBuildAction >> executeAction [
 	| presentationCreation presentationCode |
-	presentationCreation := self presentationCreationPredicate.
-	presentationCode := self presentationCodePredicate.
+	presentationCreation := self createStepPredicateForPredicate: self presentationCreationPredicate.
+	presentationCode := self createStepPredicateForPredicate: self presentationCodePredicate.
 
-	self session stepUntil: presentationCreation.
-	presentationCreation hasMatched ifTrue: [ 
-		self session stepUntil: presentationCode ].
-	presentationCode hasMatched ifTrue: [ 
-		self session stepInto. ]
+	self session newStepUntil: presentationCreation from: self currentContext.
+	self session newStepUntil: presentationCode from: self interruptedContext.
+	self debugger isActive ifTrue: [ 
+		self session stepInto ]
 		
 	
 ]
@@ -48,7 +59,7 @@ GTGlamourStepToPresentationBuildAction >> initialize [
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> presentationCodePredicate [
 	
-	^ self createPredicatForBlock: [ :aContext |
+	^ self createPredicateForBlock: [ :aContext |
 			aContext selector = #glamourValueWithArgs: and: [ 
 				aContext peekInstruction arguments size > 0 and: [ 
 				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
@@ -58,7 +69,7 @@ GTGlamourStepToPresentationBuildAction >> presentationCodePredicate [
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> presentationCreationPredicate [
 
-	^ self createPredicatForBlock: [ :aContext |
+	^ self createPredicateForBlock: [ :aContext |
 			aContext methodClass = GLMPresentStrategy and: [ 
 				aContext selector = #presentations and: [ 
 					aContext isInitialnstruction ] ] ]

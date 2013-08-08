@@ -82,6 +82,19 @@ GTGlamourDebugger >> debuggingActionsPragmas [
 	^ super debuggingActionsPragmas, { #glamourDebuggingAction }
 ]
 
+{ #category : #testing }
+GTGlamourDebugger >> isActive [
+
+	^ rootBrowserContext  
+		ifNil: [ false ] 
+		ifNotNil: [ 
+			rootBrowserContext isDead not and: [
+				
+				rootBrowserContext ~= self session process suspendedContext or: [rootBrowserContext willReturn not ]
+				
+				 ]  ]
+]
+
 { #category : #accessing }
 GTGlamourDebugger >> rootBrowser [
 
