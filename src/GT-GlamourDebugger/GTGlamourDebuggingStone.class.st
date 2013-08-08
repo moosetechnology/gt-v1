@@ -17,22 +17,12 @@ GTGlamourDebuggingStone >> hasTransformation [
 ]
 
 { #category : #'as yet unclassified' }
-GTGlamourDebuggingStone >> presentationCodePredicate [
-	
+GTGlamourDebuggingStone >> presentationCreationPredicate [
+
 	^ self session createPredicateForBlock: [ :aContext |
 			aContext selector = #glamourValueWithArgs: and: [ 
 				aContext peekInstruction arguments size > 0 and: [ 
 				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
-
-]
-
-{ #category : #'as yet unclassified' }
-GTGlamourDebuggingStone >> presentationCreationPredicate [
-
-	^ self session createPredicateForBlock: [ :aContext |
-			aContext methodClass = GLMPresentStrategy and: [ 
-				aContext selector = #presentations and: [ 
-					aContext isInitialnstruction ] ] ]
 
 
 ]
@@ -48,9 +38,8 @@ GTGlamourDebuggingStone >> stepToPresentationCreation [
 { #category : #'as yet unclassified' }
 GTGlamourDebuggingStone >> stepToPresentationCreationFrom: aContext [
 
-	self session newStepUntil: self presentationCodePredicate from: aContext.
+	self session newStepUntil: self presentationCreationPredicate from: aContext.
 	self session isActive ifTrue: [ 
-		self session stepInto.
-		^ true ].
-	^ false
+		self session stepInto ].
+	^ true
 ]
