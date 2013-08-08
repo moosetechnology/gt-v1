@@ -15,35 +15,15 @@ GTGlamourStepToPresentationBuildAction >> appliesToContext: aContext [
 	^ aContext locateBrowserContext notNil
 ]
 
-{ #category : #'predicates creation' }
-GTGlamourStepToPresentationBuildAction >> createPredicateForBlock: aBlock [ 
-
-	^ NewBlockContextPredicate for: aBlock
-]
-
-{ #category : #'predicates creation' }
-GTGlamourStepToPresentationBuildAction >> createStepPredicateForBlock: aBlock [ 
-
-	^ self createStepPredicatForPredicate: (self createPredicatForBlock: aBlock)
-			
-]
-
-{ #category : #'predicates creation' }
-GTGlamourStepToPresentationBuildAction >> createStepPredicateForPredicate: aPredicate [ 
-
-	^ (self createPredicateForBlock: [ self debugger isActive not ]) or: aPredicate
-	
-]
-
 { #category : #actions }
 GTGlamourStepToPresentationBuildAction >> executeAction [
 	| presentationCreation presentationCode |
-	presentationCreation := self createStepPredicateForPredicate: self presentationCreationPredicate.
-	presentationCode := self createStepPredicateForPredicate: self presentationCodePredicate.
+	presentationCreation := self session createStepPredicateForPredicate: self presentationCreationPredicate.
+	presentationCode := self session createStepPredicateForPredicate: self presentationCodePredicate.
 
 	self session newStepUntil: presentationCreation from: self currentContext.
 	self session newStepUntil: presentationCode from: self interruptedContext.
-	self debugger isActive ifTrue: [ 
+	self session isActive ifTrue: [ 
 		self session stepInto ]
 		
 	
@@ -59,7 +39,7 @@ GTGlamourStepToPresentationBuildAction >> initialize [
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> presentationCodePredicate [
 	
-	^ self createPredicateForBlock: [ :aContext |
+	^ self session createPredicateForBlock: [ :aContext |
 			aContext selector = #glamourValueWithArgs: and: [ 
 				aContext peekInstruction arguments size > 0 and: [ 
 				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
@@ -69,7 +49,7 @@ GTGlamourStepToPresentationBuildAction >> presentationCodePredicate [
 { #category : #predicates }
 GTGlamourStepToPresentationBuildAction >> presentationCreationPredicate [
 
-	^ self createPredicateForBlock: [ :aContext |
+	^ self session createPredicateForBlock: [ :aContext |
 			aContext methodClass = GLMPresentStrategy and: [ 
 				aContext selector = #presentations and: [ 
 					aContext isInitialnstruction ] ] ]

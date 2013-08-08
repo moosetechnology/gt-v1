@@ -1,9 +1,6 @@
 Class {
 	#name : #GTGlamourDebugger,
 	#superclass : #GTDebugger,
-	#instVars : [
-		'rootBrowserContext'
-	],
 	#category : #'GT-GlamourDebugger'
 }
 
@@ -26,6 +23,12 @@ GTGlamourDebugger class >> registerToolsOn: registry [
 	registry registerDebugger: self withRank: 50.
 ]
 
+{ #category : #private }
+GTGlamourDebugger class >> sessionClass [
+
+	^ GTGlamourDebugSession
+]
+
 { #category : #building }
 GTGlamourDebugger >> browserStructureFor: aGlmBrowser in: aComposite [
 	
@@ -41,7 +44,7 @@ GTGlamourDebugger >> browserTransmissionsIn: browser [
 	browser transmit
 		from: #stack port: #context;
 		to: #browser;
-		andShow: [ :composite | self browserStructureFor: self rootBrowser in: composite ]
+		andShow: [ :composite | self browserStructureFor: self session rootBrowser in: composite ]
 ]
 
 { #category : #building }
@@ -69,36 +72,4 @@ GTGlamourDebugger >> debuggerTransmissionsIn: browser. [
 GTGlamourDebugger >> debuggingActionsPragmas [
 
 	^ super debuggingActionsPragmas, { #glamourDebuggingAction }
-]
-
-{ #category : #testing }
-GTGlamourDebugger >> isActive [
-
-	^ rootBrowserContext  
-		ifNil: [ false ] 
-		ifNotNil: [ 
-			rootBrowserContext isDead not and: [
-				
-				rootBrowserContext ~= self session process suspendedContext or: [rootBrowserContext willReturn not ]
-				
-				 ]  ]
-]
-
-{ #category : #accessing }
-GTGlamourDebugger >> rootBrowser [
-
-	^ rootBrowserContext receiver
-]
-
-{ #category : #accessing }
-GTGlamourDebugger >> rootBrowserContext [
-
-	^ rootBrowserContext
-]
-
-{ #category : #'scripting opening' }
-GTGlamourDebugger >> startOn: aSession [
-
-	rootBrowserContext := aSession context locateBrowserContext.
-	super startOn: aSession
 ]
