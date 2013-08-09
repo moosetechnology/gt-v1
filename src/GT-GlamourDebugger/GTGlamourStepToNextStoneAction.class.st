@@ -1,6 +1,9 @@
 Class {
 	#name : #GTGlamourStepToNextStoneAction,
 	#superclass : #DebugAction,
+	#instVars : [
+		'debugStoneType'
+	],
 	#category : #'GT-GlamourDebugger'
 }
 
@@ -20,8 +23,8 @@ GTGlamourStepToNextStoneAction >> appliesToContext: aContext [
 GTGlamourStepToNextStoneAction >> debuggingStone [
 
 	^ self session createPredicateForBlock: [ :aContext |
-			"aContext isInitialnstruction and: [ "
-				(aContext method pragmaAt: self debuggingStonePragma) notNil ]
+			aContext isInitialnstruction and: [
+				(aContext method pragmaAt: self debuggingStonePragma) notNil ] ]
 ]
 
 { #category : #predicates }

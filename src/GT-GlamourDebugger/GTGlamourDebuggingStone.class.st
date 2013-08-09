@@ -4,11 +4,23 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
+{ #category : #private }
+GTGlamourDebuggingStone >> glamourValueDeliveryPredicate [
+
+	^ self session createPredicateForBlock: [ :aContext |
+			aContext selector = #glamourValueWithArgs: and: [ 
+				aContext peekInstruction arguments size > 0 and: [
+				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
+
+
+]
+
 { #category : #'testing context' }
 GTGlamourDebuggingStone >> hasPresentationConditionReachedTarget [
 
-	^ self session context peekInstruction arguments size = 1 and: [
-		self session context peekInstruction argument = #condition ]
+	^ true
+	"^ self session context peekInstruction arguments size = 1 and: [
+		self session context peekInstruction argument = #condition ]"
 ]
 
 { #category : #'testing receiver' }
@@ -16,7 +28,7 @@ GTGlamourDebuggingStone >> isPresentationConditionValid [
 
 	^ (self session context receiver condition 
 		ifNil: [ false ]
-		ifNotNil: [ :aBlock | aBlock printString ~= [true] printString ])
+		ifNotNil: [ :aBlock |  aBlock printString ~= [true] printString ])
 ]
 
 { #category : #'testing receiver' }
@@ -29,30 +41,19 @@ GTGlamourDebuggingStone >> isPresentationCreationValid [
 { #category : #'testing receiver' }
 GTGlamourDebuggingStone >> isTransmissionConditionValid [
 
-	^ self session context receiver condition notNil
+	^ self session context receiver condition isBlock
 ]
 
 { #category : #'testing receiver' }
-GTGlamourDebuggingStone >> isTransmissionTranformationValid [
+GTGlamourDebuggingStone >> isTransmissionTransformationValid [
 
 	^ self session context receiver transformation notNil
 ]
 
-{ #category : #private }
-GTGlamourDebuggingStone >> presentationCreationPredicate [
-
-	^ self session createPredicateForBlock: [ :aContext |
-			aContext selector = #glamourValueWithArgs: and: [ 
-				aContext peekInstruction arguments size > 0 and: [
-				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
-
-
-]
-
 { #category : #actions }
-GTGlamourDebuggingStone >> stepToBlock [
+GTGlamourDebuggingStone >> stepToGlamourValueBlock [
 
-	self session newStepUntil: self presentationCreationPredicate from: self session context.
+	self session newStepUntil: self glamourValueDeliveryPredicate from: self session context.
 	self session isActive ifTrue: [ 
 		self session stepInto ].
 	^ true
@@ -60,24 +61,33 @@ GTGlamourDebuggingStone >> stepToBlock [
 
 { #category : #actions }
 GTGlamourDebuggingStone >> stepToPresentationCondition [
+	| ctxt |
 
-	^ self stepToBlock
+	ctxt := self session context.
+	self session 
+		newStepUntil: ((self session createPredicateForBlock: [ ctxt isDead ]) or:  self glamourValueDeliveryPredicate)
+		from: self session context.
+		
+	ctxt isDead not ifTrue: [ 
+		self session stepInto ].
+	
+	^ ctxt isDead not
 ]
 
 { #category : #actions }
 GTGlamourDebuggingStone >> stepToPresentationCreation [
-
-	^ self stepToBlock
+	
+	^ self stepToGlamourValueBlock
 ]
 
 { #category : #actions }
 GTGlamourDebuggingStone >> stepToTransmissionCondition [
 
-	^ self stepToBlock
+	^ self stepToGlamourValueBlock
 ]
 
 { #category : #actions }
 GTGlamourDebuggingStone >> stepToTransmissionTransformation [
 
-	^ self stepToBlock
+	^ self stepToGlamourValueBlock
 ]
