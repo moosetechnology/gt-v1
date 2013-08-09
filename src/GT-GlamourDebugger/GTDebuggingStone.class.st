@@ -52,7 +52,21 @@ GTDebuggingStone >> reachDestinationFromContext: aContext [
 ]
 
 { #category : #'as yet unclassified' }
+GTDebuggingStone >> reachedTarget [
+
+	^ (self class canUnderstand: self tagetSelector) 	
+		ifFalse: [ true ]
+		ifTrue: [ self perform: self tagetSelector ]
+]
+
+{ #category : #'as yet unclassified' }
 GTDebuggingStone >> session [
 
 	^ session
+]
+
+{ #category : #'as yet unclassified' }
+GTDebuggingStone >> tagetSelector [
+
+	^ 'has', (pragma argumentAt: 3) capitalized, 'ReachedTarget'
 ]

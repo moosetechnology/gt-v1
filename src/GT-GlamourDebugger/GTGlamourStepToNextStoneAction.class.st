@@ -26,7 +26,7 @@ GTGlamourStepToNextStoneAction >> debuggingStone [
 { #category : #predicates }
 GTGlamourStepToNextStoneAction >> debuggingStonePragma [
 
-	^ #debugStone:label:validateWith:nextAction:mustReach:
+	^ #debugStone:label:condition:action:
 ]
 
 { #category : #accessing }
@@ -41,7 +41,7 @@ GTGlamourStepToNextStoneAction >> executeAction [
 	
 	"The first time start searching for a debuging stone from the context selected by the user."
 	debugingStone := self stepToDebuggingStoneFrom: self currentContext.
-	 [ debugingStone notNil ] 
+	 [ debugingStone notNil and: [ debugingStone reachedTarget ] ] 
 		whileTrue: [ 
 			(debugingStone isActive and: [ 
 				debugingStone reachDestinationFromContext: self interruptedContext ]) 

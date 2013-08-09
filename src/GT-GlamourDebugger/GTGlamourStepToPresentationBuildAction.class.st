@@ -6,7 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GTGlamourStepToPresentationBuildAction class >> gtActionType [
-	<gtContextGlamourDebuggingAction>
+	"<gtContextGlamourDebuggingAction>"
 ]
 
 { #category : #testing }
