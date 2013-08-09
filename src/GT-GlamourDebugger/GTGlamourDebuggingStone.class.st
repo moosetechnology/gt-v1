@@ -4,13 +4,14 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'testing context' }
 GTGlamourDebuggingStone >> hasPresentationConditionReachedTarget [
 
-	^ self session context peekInstruction argument = #condition
+	^ self session context peekInstruction arguments size = 1 and: [
+		self session context peekInstruction argument = #condition ]
 ]
 
-{ #category : #testing }
+{ #category : #'testing receiver' }
 GTGlamourDebuggingStone >> isPresentationConditionValid [
 
 	^ (self session context receiver condition 
@@ -18,26 +19,26 @@ GTGlamourDebuggingStone >> isPresentationConditionValid [
 		ifNotNil: [ :aBlock | aBlock printString ~= [true] printString ])
 ]
 
-{ #category : #testing }
+{ #category : #'testing receiver' }
 GTGlamourDebuggingStone >> isPresentationCreationValid [
 
 	^ self session context receiver presentationsFactory notNil
 	
 ]
 
-{ #category : #testing }
+{ #category : #'testing receiver' }
 GTGlamourDebuggingStone >> isTransmissionConditionValid [
 
 	^ self session context receiver condition notNil
 ]
 
-{ #category : #testing }
+{ #category : #'testing receiver' }
 GTGlamourDebuggingStone >> isTransmissionTranformationValid [
 
 	^ self session context receiver transformation notNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GTGlamourDebuggingStone >> presentationCreationPredicate [
 
 	^ self session createPredicateForBlock: [ :aContext |

@@ -14,44 +14,40 @@ GTDebuggingStone class >> forPragma: aPragma forSession: aSession [
 	^ self new forPragma: aPragma forSession: aSession
 ]
 
-{ #category : #'as yet unclassified' }
-GTDebuggingStone >> activeSelector [
+{ #category : #selectors }
+GTDebuggingStone >> actionSelector [
 
-	^ pragma argumentAt: 3
+	^ ('stepTo', (pragma argumentAt: 1) capitalized) asSymbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectors }
+GTDebuggingStone >> activeSelector [
+
+	^ ('is', (pragma argumentAt: 1) capitalized, 'Valid') asSymbol
+]
+
+{ #category : #actions }
+GTDebuggingStone >> completeAction [
+
+	^ self perform: self actionSelector withEnoughArguments: (Array with: self session context)
+]
+
+{ #category : #initialization }
 GTDebuggingStone >> forPragma: aPragma forSession: aSession [
 	
 	pragma := aPragma.
 	session := aSession
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTDebuggingStone >> isActive [
 
-	^ self perform: self activeSelector
+	^ (self class canUnderstand: self activeSelector) 	
+		ifFalse: [ true ]
+		ifTrue: [ self perform: self activeSelector ]
 ]
 
-{ #category : #'as yet unclassified' }
-GTDebuggingStone >> nextActionSelector [
-
-	^ pragma argumentAt: 4
-]
-
-{ #category : #'as yet unclassified' }
-GTDebuggingStone >> pass [
-
-	^ true
-]
-
-{ #category : #'as yet unclassified' }
-GTDebuggingStone >> reachDestinationFromContext: aContext [
-
-	^ self perform: self nextActionSelector withEnoughArguments: (Array with: aContext)
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTDebuggingStone >> reachedTarget [
 
 	^ (self class canUnderstand: self tagetSelector) 	
@@ -59,14 +55,14 @@ GTDebuggingStone >> reachedTarget [
 		ifTrue: [ self perform: self tagetSelector ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebuggingStone >> session [
 
 	^ session
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selectors }
 GTDebuggingStone >> tagetSelector [
 
-	^ 'has', (pragma argumentAt: 3) capitalized, 'ReachedTarget'
+	^ ('has', (pragma argumentAt: 1) capitalized, 'ReachedTarget') asSymbol
 ]

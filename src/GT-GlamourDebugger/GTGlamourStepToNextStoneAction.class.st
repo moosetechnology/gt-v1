@@ -6,6 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GTGlamourStepToNextStoneAction class >> gtActionType [
+	<gtGlamourDebuggingAction>
 	<gtContextGlamourDebuggingAction>
 ]
 
@@ -19,14 +20,14 @@ GTGlamourStepToNextStoneAction >> appliesToContext: aContext [
 GTGlamourStepToNextStoneAction >> debuggingStone [
 
 	^ self session createPredicateForBlock: [ :aContext |
-			aContext isInitialnstruction and: [  
-				(aContext method pragmaAt: self debuggingStonePragma) notNil ] ]
+			"aContext isInitialnstruction and: [ "
+				(aContext method pragmaAt: self debuggingStonePragma) notNil ]
 ]
 
 { #category : #predicates }
 GTGlamourStepToNextStoneAction >> debuggingStonePragma [
 
-	^ #debugStone:label:condition:action:
+	^ #debugStone:label:
 ]
 
 { #category : #accessing }
@@ -41,24 +42,29 @@ GTGlamourStepToNextStoneAction >> executeAction [
 	
 	"The first time start searching for a debuging stone from the context selected by the user."
 	debugingStone := self stepToDebuggingStoneFrom: self currentContext.
-	 [ debugingStone notNil and: [ debugingStone reachedTarget ] ] 
+
+	[ debugingStone notNil ]
 		whileTrue: [ 
-			(debugingStone isActive and: [ 
-				debugingStone reachDestinationFromContext: self interruptedContext ]) 
-					"After the first time use the interruptedContext (start the search from where it was left of).
-					Here the interruptedContext it is the same as the suspended context of the process."
-					ifFalse: [ debugingStone := self stepToDebuggingStoneFrom: self interruptedContext ]
-					"If a debuging stone reached its destination stop the search."
-					ifTrue: [ ^ self ] ]
+			(debugingStone reachedTarget and: [ 
+				debugingStone isActive and: [ 
+					debugingStone completeAction ] ]) 
+						"After the first time use the interruptedContext (start the search from where it was left of).
+						Here the interruptedContext it is the same as the suspended context of the process."
+						ifFalse: [ debugingStone := self stepToDebuggingStoneFrom: self interruptedContext ]
+						"If a debuging stone reached its destination stop the search."
+						ifTrue: [ ^ self ] ]
 	
 ]
 
 { #category : #actions }
 GTGlamourStepToNextStoneAction >> stepToDebuggingStoneFrom: aContext [
 
+	"Make sure the execution advances, and does not check the same context."
+	self session stepInto: aContext.
+
 	self session 
 		newStepUntil: self debuggingStone
-		from: aContext.
+		from: self interruptedContext.
 		
 	^ self session isActive 
 		ifTrue: [ 
