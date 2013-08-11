@@ -8,9 +8,36 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTGlamourStepToNextStoneAction class >> gtActionType [
+GTGlamourStepToNextStoneAction class >> debuggingStonePragma [
+
+	^ #debuggingStone:label:
+]
+
+{ #category : #'as yet unclassified' }
+GTGlamourStepToNextStoneAction class >> gtAction [
 	<gtGlamourDebuggingAction>
 	<gtContextGlamourDebuggingAction>
+	
+
+	^ self new
+		label: 'Next debug stone'
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
+GTGlamourStepToNextStoneAction class >> gtGoToDebugingStoneActionsFor: aDebugger [
+	<gtGlamourDebuggingAction>
+	<gtContextGlamourDebuggingAction>
+	
+	^(PragmaCollector filter: [:prag | 
+		prag keyword = self debuggingStonePragma ]) reset collected collect: [ :aPragma |
+			self new
+				label: (aPragma argumentAt: 2);
+				category: 'Debugging Stone';
+				debugStoneType: (aPragma argumentAt: 1) ]
+
+	
 ]
 
 { #category : #testing }
@@ -19,24 +46,26 @@ GTGlamourStepToNextStoneAction >> appliesToContext: aContext [
 	^ aContext locateBrowserContext notNil
 ]
 
-{ #category : #predicates }
-GTGlamourStepToNextStoneAction >> debuggingStone [
-
-	^ self session createPredicateForBlock: [ :aContext |
-			aContext isInitialnstruction and: [
-				(aContext method pragmaAt: self debuggingStonePragma) notNil ] ]
-]
-
-{ #category : #predicates }
-GTGlamourStepToNextStoneAction >> debuggingStonePragma [
-
-	^ #debugStone:label:
+{ #category : #accessing }
+GTGlamourStepToNextStoneAction >> debugStoneType [
+	
+	^ debugStoneType
 ]
 
 { #category : #accessing }
-GTGlamourStepToNextStoneAction >> defaultLabel [
+GTGlamourStepToNextStoneAction >> debugStoneType: anObject [
+	
+	debugStoneType := anObject
+]
 
-	^ 'Next debug stone'
+{ #category : #predicates }
+GTGlamourStepToNextStoneAction >> debuggingStonePredicate [
+
+	^ self session createPredicateForBlock: [ :aContext |
+			aContext isInitialnstruction and: [ | pragma |
+				pragma := aContext method pragmaAt: self class debuggingStonePragma.
+				pragma notNil and: [ 
+					self debugStoneType isNil or: [ (pragma argumentAt: 1) = self debugStoneType ] ] ] ]
 ]
 
 { #category : #actions }
@@ -66,14 +95,14 @@ GTGlamourStepToNextStoneAction >> stepToDebuggingStoneFrom: aContext [
 	self session stepInto: aContext.
 
 	self session 
-		newStepUntil: self debuggingStone
+		newStepUntil: self debuggingStonePredicate
 		from: self interruptedContext.
 		
 	^ self session isActive 
 		ifTrue: [ 
 			GTGlamourDebuggingStone 
 				"Here interruptedContext is the same as the suspended context of the process."
-				forPragma: (self interruptedContext method pragmaAt: self debuggingStonePragma) 
+				forPragma: (self interruptedContext method pragmaAt: self class debuggingStonePragma) 
 				forSession: self session  ]
 		ifFalse: [ nil ]
 ]
