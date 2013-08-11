@@ -1,6 +1,6 @@
 "
 GTDebugger is a browser that provides Smalltalk debugging functionality.
-
+ 
 An example: 
 [ GTDebugger debugProcess: Processor activeProcess.
 	Processor activeProcess suspend.
