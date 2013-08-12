@@ -70,13 +70,7 @@ GTInspector >> compose [
 				morphicAct: [:composite | composite entity browse]
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
 				entitled: 'Browse'.
-			a dynamic 
-				display: [ 
-					| dynamic |
-					dynamic := GLMCompositePresentation new.
-					each gtInspectorPresentationsIn: dynamic.
-					dynamic ] ].
-		"browser transmit fromOutsidePort: #selection; toWatcher; andShow: [ :a | a text ] "]
+			each gtInspectorPresentationsIn: a ] ]
 ]
 
 { #category : #opening }
