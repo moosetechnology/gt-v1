@@ -23,7 +23,7 @@ GTPPDebugger class >> registerToolsOn: registry [
 	registry registerDebugger: self withRank: 55.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GTPPDebugger class >> sessionClass [
 
 	^ GTPPDebugSession 
@@ -61,7 +61,7 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		from: #stack port: #entity;
 		from: #stack port: #selection;
 		to: #workspace;
-		when: [ :aSession :aContext | aSession notNil & aContext notNil ];
+		when: [ :aSession :aContext | (aSession notNil & aContext notNil)and: [ aSession rootParser class inheritsFrom: PPCompositeParser ] ];
 		andShow: [ :aComposite :aSession :aContext | self workspaceIn: aComposite forSession: aSession forContext: aContext ].
 	
 ]
@@ -190,9 +190,7 @@ GTPPDebugger >> production: selector from: class [
 { #category : #'private utilities' }
 GTPPDebugger >> productionSelectorsFrom: class [
 
-	^ (((class allInstVarNames copyWithoutAll: class ignoredNames)
-		collect: [ :each | each asSymbol ])
-			select: [ :each | class includesSelector: each ]) asSortedCollection add: #start; yourself
+	^ class productionSelectors
 ]
 
 { #category : #'private utilities' }
