@@ -267,6 +267,7 @@ GTDebugger >> interruptedContext [
 GTDebugger >> methodCodeIn: composite [
 	composite smalltalkCode
 		doItReceiver: [:contextModel | contextModel receiver ];
+		doItContext: [:contextModel | contextModel context ];
 		title: 'Source';
 		format: #source;
 		smalltalkClass: [ :contextModel | contextModel selectedClass ];
