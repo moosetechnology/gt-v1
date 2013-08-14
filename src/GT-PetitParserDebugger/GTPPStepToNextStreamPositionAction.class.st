@@ -14,7 +14,7 @@ GTPPStepToNextStreamPositionAction class >> gtNextStreamUpdateAction [
 		icon: GLMUIThemeExtraIcons glamorousInto
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTPPStepToNextStreamPositionAction >> executeAction [
 	| currentPosition |
 
@@ -23,7 +23,7 @@ GTPPStepToNextStreamPositionAction >> executeAction [
 		newStepUntil: (self streamToDifferentPositionThan: currentPosition) from: self startContext.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #predicates }
 GTPPStepToNextStreamPositionAction >> streamToDifferentPositionThan: anInteger [
 
 	^ self session createPredicateForBlock: [
