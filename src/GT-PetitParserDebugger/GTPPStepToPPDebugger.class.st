@@ -18,7 +18,7 @@ GTPPStepToPPDebugger >> defaultCategory [
 { #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> defaultLabel [ 
 	
-	^ GTPPDebugAction name
+	^ GTPPDebugger defaultTitle
 ]
 
 { #category : #'as yet unclassified' }
