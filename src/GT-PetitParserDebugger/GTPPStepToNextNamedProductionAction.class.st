@@ -7,6 +7,16 @@ Class {
 	#category : #'GT-PetitParserDebugger'
 }
 
+{ #category : #private }
+GTPPStepToNextNamedProductionAction class >> allParserSuperclassesFor: aClass [
+	|  allSuperclasses  |
+
+	allSuperclasses := aClass withAllSuperclasses.
+	"Return 2 in the ifAbsent: block so that if PPCompositeParser is not a superclass only the current class is returned"
+	^ allSuperclasses copyFrom: 1 to: (allSuperclasses indexOf: PPCompositeParser ifAbsent: [ 2 ]) - 1
+		
+]
+
 { #category : #registration }
 GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
@@ -23,17 +33,15 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
-	| order allSuperclasses allParserSuperclasses showedProductions actions |
+	| order allParserSuperclasses showedProductions actions |
 
 	order := 40.
 	actions := OrderedCollection new.
 	showedProductions := OrderedCollection new.
-	allSuperclasses := aDebugger session rootParser class withAllSuperclasses.
-	"Return 2 in the ifAbsent: block so that if PPCompositeParser is not a superclass only the current class is returned"
-	(allParserSuperclasses := allSuperclasses copyFrom: 1 to: (allSuperclasses indexOf: PPCompositeParser ifAbsent: [ 2 ]) - 1) do: [ :each |
+
+	(allParserSuperclasses := self allParserSuperclassesFor: aDebugger session rootParser class) do: [ :each |
 		| productions |
-		productions := aDebugger productionSelectorsFrom: each.
-		productions := productions copyWithoutAll: showedProductions.
+		productions := (aDebugger productionSelectorsFrom: each) copyWithoutAll: showedProductions.
 		showedProductions addAll: productions.
 		
 		actions addAll: (productions collect: [ :aProduction |
