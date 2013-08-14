@@ -1,5 +1,25 @@
 Extension { #name : #DebugSession }
 
+{ #category : #'*gt-debugger' }
+DebugSession >> createPredicateForBlock: aBlock [ 
+
+	^ NewBlockContextPredicate for: aBlock
+]
+
+{ #category : #'*gt-debugger' }
+DebugSession >> createStepPredicateForBlock: aBlock [ 
+
+	^ self createStepPredicatForPredicate: (self createPredicatForBlock: aBlock)
+			
+]
+
+{ #category : #'*gt-debugger' }
+DebugSession >> createStepPredicateForPredicate: aPredicate fromContext: aContext [
+
+	^ (self createPredicateForBlock: [ (self isActive: aContext) not ]) or: aPredicate
+	
+]
+
 { #category : #'*GT-Debugger' }
 DebugSession class >> gtDebuggingActionsForPragma: aSymbol for: aDebugger [
 
@@ -30,6 +50,12 @@ DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol for
 					collect: [ :each | each forDebugger: aDebugger ])  ].
 		
 	^ actions sort: [ :action1 :action2 | action1 order < action2 order ]
+]
+
+{ #category : #'*gt-debugger' }
+DebugSession >> isActive: aContext [
+
+	^ true
 ]
 
 { #category : #'*gt-debugger' }
