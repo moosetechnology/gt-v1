@@ -1,6 +1,16 @@
 Extension { #name : #MethodContext }
 
 { #category : #'*GT-PetitParserDebugger' }
+MethodContext >> isPPParseMethodContext [
+	
+	^ (self receiver class inheritsFrom: PPParser) and: [ 
+		self selector = #parseOn: ] 
+	
+	
+
+]
+
+{ #category : #'*GT-PetitParserDebugger' }
 MethodContext >> locateRootPPParser [
 	"Find the last context starting from the top of the stack (or the first starting from the bottom of the stack)
 	that was created by a PPParser"
@@ -20,10 +30,9 @@ MethodContext >> locateRootPPParser [
 { #category : #'*GT-PetitParserDebugger' }
 MethodContext >> locateTopNamedPPParser [
 	
-	^ (self findContextSuchThat:  [ :ctx | 
-			(ctx receiver class inheritsFrom: PPParser) and: [ 
-				ctx selector = #parseOn: and: [ 
-					ctx receiver name notNil ] ] ])
+	^ self findContextSuchThat:  [ :ctx | 
+		ctx isPPParseMethodContext and: [ 
+					ctx receiver name notNil ] ]
 	
 	
 
@@ -33,8 +42,8 @@ MethodContext >> locateTopNamedPPParser [
 MethodContext >> locateTopPPParser [
 	"Find the first context, starting from the top the stack that was created by a PPParser. "
 	
-	^ (self findContextSuchThat:  [ :ctx | 
-			(ctx receiver class inheritsFrom: PPParser) and: [ ctx selector = #parseOn: ] ])
+	^ self findContextSuchThat:  [ :ctx | 
+		ctx isPPParseMethodContext ]
 	
 	
 

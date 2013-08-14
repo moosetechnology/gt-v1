@@ -8,36 +8,26 @@ Class {
 }
 
 { #category : #'predicates creation' }
-GTPPDebugSession >> createPredicateForBlock: aBlock [ 
-
-	^ NewBlockContextPredicate for: aBlock
-]
-
-{ #category : #'predicates creation' }
-GTPPDebugSession >> createStepPredicateForBlock: aBlock [ 
-
-	^ self createStepPredicatForPredicate: (self createPredicatForBlock: aBlock)
-			
-]
-
-{ #category : #'predicates creation' }
 GTPPDebugSession >> createStepPredicateForPredicate: aPredicate [ 
 
-	^ (self createPredicateForBlock: [ self isActive not ]) or: aPredicate
+	^ self createStepPredicateForPredicate: aPredicate fromContext: rootParserContext
 	
 ]
 
 { #category : #testing }
 GTPPDebugSession >> isActive [
 
-	^ rootParserContext 
+	^ self isActive: rootParserContext
+]
+
+{ #category : #testing }
+GTPPDebugSession >> isActive: aContext [
+
+	^ aContext 
 		ifNil: [ false ] 
 		ifNotNil: [ 
-			rootParserContext isDead not and: [
-				
-				rootParserContext ~= self process suspendedContext or: [rootParserContext willReturn not ]
-				
-				 ]  ]
+			aContext isDead not and: [
+				aContext ~= self process suspendedContext or: [aContext willReturn not ] ] ]
 ]
 
 { #category : #testing }
