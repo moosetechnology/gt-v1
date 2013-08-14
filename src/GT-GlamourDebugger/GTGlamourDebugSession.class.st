@@ -8,19 +8,6 @@ Class {
 }
 
 { #category : #'predicates creation' }
-GTGlamourDebugSession >> createPredicateForBlock: aBlock [ 
-
-	^ NewBlockContextPredicate for: aBlock
-]
-
-{ #category : #'predicates creation' }
-GTGlamourDebugSession >> createStepPredicateForBlock: aBlock [ 
-
-	^ self createStepPredicatForPredicate: (self createPredicatForBlock: aBlock)
-			
-]
-
-{ #category : #'predicates creation' }
 GTGlamourDebugSession >> createStepPredicateForPredicate: aPredicate [ 
 
 	^ (self createPredicateForBlock: [ self isActive not ]) or: aPredicate
