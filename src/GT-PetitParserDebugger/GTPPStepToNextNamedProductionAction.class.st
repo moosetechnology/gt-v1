@@ -23,15 +23,27 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
-	| order |
-	
+	| order allSuperclasses allParserSuperclasses showedProductions actions |
+
 	order := 40.
-	^ (aDebugger productionSelectorsFrom: aDebugger session rootParser class) collect: [ :aProduction |
-		self new 
-			production: aProduction;
-			label: aProduction asString;
-			category: 'Next production';
-			order: (order := order + 1) ]
+	actions := OrderedCollection new.
+	showedProductions := OrderedCollection new.
+	allSuperclasses := aDebugger session rootParser class withAllSuperclasses.
+	"Return 2 in the ifAbsent: block so that if PPCompositeParser is not a superclass only the current class is returned"
+	(allParserSuperclasses := allSuperclasses copyFrom: 1 to: (allSuperclasses indexOf: PPCompositeParser ifAbsent: [ 2 ]) - 1) do: [ :each |
+		| productions |
+		productions := aDebugger productionSelectorsFrom: each.
+		productions := productions copyWithoutAll: showedProductions.
+		showedProductions addAll: productions.
+		
+		actions addAll: (productions collect: [ :aProduction |
+			self new 
+				production: aProduction;
+				label: aProduction asString;
+				category: 'Next production', (allParserSuperclasses size = 1 ifTrue:[ '' ] ifFalse:[ ' [', each name, ']']);
+				order: (order := order + 1) ]) ].
+		
+	^ actions 
 ]
 
 { #category : #accessing }
