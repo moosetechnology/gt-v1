@@ -10,6 +10,19 @@ GTPPStepToPPDebugger class >> gtActionType [
 ]
 
 { #category : #'as yet unclassified' }
+GTPPStepToPPDebugger >> appliesToContext: aContext [
+	self flag: 'A better mechanism for determining if an action is active or not is needed.'.
+	
+	^ self debugger class ~= self debuggerClass
+]
+
+{ #category : #'as yet unclassified' }
+GTPPStepToPPDebugger >> debuggerClass [
+	
+	^ GTPPDebugger
+]
+
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> defaultCategory [
 	
 	^ 'Step to debugger'
@@ -18,7 +31,7 @@ GTPPStepToPPDebugger >> defaultCategory [
 { #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> defaultLabel [ 
 	
-	^ GTPPDebugger defaultTitle
+	^ self debuggerClass defaultTitle
 ]
 
 { #category : #'as yet unclassified' }
@@ -31,14 +44,13 @@ GTPPStepToPPDebugger >> execute [
 		from: self currentContext.
 		
 	(self isPPDebuggerActivePredicate matches: self interruptedContext) ifTrue: [ 
-		self debugger debug: self interruptedContext using: GTPPDebugger ]
+		self debugger debug: self interruptedContext using: self debuggerClass ]
 
 ]
 
 { #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> isPPDebuggerActivePredicate [
 
-	self flag: 'Push the methods for creating new predicates to the top session.'.
-	^ NewBlockContextPredicate for: [ :aContext |
+	^ self session createPredicateForBlock: [ :aContext |
 		aContext isPPParseMethodContext ]
 ]
