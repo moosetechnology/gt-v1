@@ -20,9 +20,11 @@ DebugSession >> createStepPredicateForPredicate: aPredicate [
 ]
 
 { #category : #'*gt-debugger' }
-DebugSession >> createStepPredicateForPredicate: aPredicate fromContext: aContext [
+DebugSession >> createStepPredicateForPredicate: aPredicate fromContext: targetContext [
 
-	^ (self createPredicateForBlock: [ (self isActive: aContext) not ]) or: aPredicate
+	^ (self createPredicateForBlock: [ :currentContext |
+		(self isActive: targetContext) not or: [ currentContext isHaltContext ] ]) 
+			or: aPredicate
 	
 ]
 
