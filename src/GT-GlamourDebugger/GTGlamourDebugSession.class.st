@@ -27,14 +27,6 @@ GTGlamourDebugSession >> isActive [
 				 ]  ]
 ]
 
-{ #category : #'debugging actions' }
-GTGlamourDebugSession >> newStepUntil: aPredicate from: aContext [ 
-
-	^ super 
-		newStepUntil: (self createStepPredicateForPredicate: aPredicate) 
-		from: aContext 
-]
-
 { #category : #initialization }
 GTGlamourDebugSession >> process: aProcess context: aContext [
 
