@@ -63,14 +63,6 @@ GTPPDebugSession >> namedProductionPredicate: anObject [
 				aContext receiver name = anObject ] ] ]
 ]
 
-{ #category : #'debugging actions' }
-GTPPDebugSession >> newStepUntil: aPredicate from: aContext [ 
-
-	^ super 
-		newStepUntil: (self createStepPredicateForPredicate: aPredicate) 
-		from: aContext 
-]
-
 { #category : #predicates }
 GTPPDebugSession >> notDelegateParserClassPredicate [
 
