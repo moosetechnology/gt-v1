@@ -14,6 +14,12 @@ DebugSession >> createStepPredicateForBlock: aBlock [
 ]
 
 { #category : #'*gt-debugger' }
+DebugSession >> createStepPredicateForPredicate: aPredicate [
+	" Subclasses should specialize this method if needed. "
+	^ aPredicate
+]
+
+{ #category : #'*gt-debugger' }
 DebugSession >> createStepPredicateForPredicate: aPredicate fromContext: aContext [
 
 	^ (self createPredicateForBlock: [ (self isActive: aContext) not ]) or: aPredicate
@@ -53,6 +59,12 @@ DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol for
 ]
 
 { #category : #'*gt-debugger' }
+DebugSession >> interruptedContext [ 
+
+	^ context
+]
+
+{ #category : #'*gt-debugger' }
 DebugSession >> isActive: aContext [
 
 	^ true
@@ -62,7 +74,7 @@ DebugSession >> isActive: aContext [
 DebugSession >> newStepUntil: aPredicate from: aContext [ 
 	| ctxt |
 	
-	ctxt := self process newStepUntil: aPredicate  from: aContext.
+	ctxt := self process newStepUntil: (self createStepPredicateForPredicate: aPredicate) from: aContext.
 	self  
 		updateWithContext: ctxt 
 		fromProcess: self process.
