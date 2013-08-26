@@ -12,7 +12,7 @@ GTPPStepToStreamPositionAction class >> gtSelectedStreamPositionActionFor: aDebu
 	<gtPPStreamDebuggingAction>
 	<gtContextPPStreamDebuggingAction>
 	
-	^ self new
+	^ (self forDebugger: aDebugger)
 		position: aDebugger streamSelectionInterval last;
 		label: 'Run to here'
 ]

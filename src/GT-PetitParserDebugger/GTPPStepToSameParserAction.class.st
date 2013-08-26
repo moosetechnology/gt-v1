@@ -12,7 +12,7 @@ GTPPStepToSameParserAction class >> gtActionFor: aDebugger [
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 	
-	^ self new
+	^ (self forDebugger: aDebugger)
 		parser: aDebugger currentContext receiver
 ]
 

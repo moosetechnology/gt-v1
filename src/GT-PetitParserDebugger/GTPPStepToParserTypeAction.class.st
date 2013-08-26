@@ -15,7 +15,7 @@ GTPPStepToParserTypeAction class >> gtActionFor: aDebugger [
 	
 	order := 50.
 	^ self parserTypes collect: [ :each |
-		self new
+		(self forDebugger: aDebugger)
 			parserClass: each;
 			label: each name;
 			category: 'Next type';

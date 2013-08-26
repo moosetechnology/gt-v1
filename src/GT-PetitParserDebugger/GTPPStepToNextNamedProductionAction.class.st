@@ -22,7 +22,7 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
 
-	^ self new 
+	^ (self forDebugger: aDebugger)
 		production: nil;
 		label: 'named parser';
 		category: 'Next parser invocation';
@@ -45,7 +45,7 @@ GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger 
 		showedProductions addAll: productions.
 		
 		actions addAll: (productions collect: [ :aProduction |
-			self new 
+			(self forDebugger: aDebugger)
 				production: aProduction;
 				label: aProduction asString;
 				category: 'Next production', (allParserSuperclasses size = 1 ifTrue:[ '' ] ifFalse:[ ' [', each name, ']']);

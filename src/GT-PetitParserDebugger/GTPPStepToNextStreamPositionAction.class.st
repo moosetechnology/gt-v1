@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : #registration }
-GTPPStepToNextStreamPositionAction class >> gtNextStreamUpdateAction [
+GTPPStepToNextStreamPositionAction class >> gtNextStreamUpdateActionFor: aDebugger [
 	<gtPPStreamDebuggingAction>
 	<gtContextPPStreamDebuggingAction>
 	
-	^ self new
+	^ (self forDebugger: aDebugger)
 		label: 'Run to next update';
 		icon: GLMUIThemeExtraIcons glamorousInto
 ]
