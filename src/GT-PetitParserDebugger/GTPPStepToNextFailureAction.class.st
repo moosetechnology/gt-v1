@@ -20,7 +20,7 @@ GTPPStepToNextFailureAction >> defaultLabel [
 GTPPStepToNextFailureAction >> executeAction [
 
 	self session
-		newStepUntil: (self isPPFailureFollowingPredicate) from: self startContext.
+		stepUntil: (self isPPFailureFollowingPredicate) from: self startContext.
 	(self session isActive and: [ 
 		self isPPFailureFollowingPredicate matches: self session context ]) ifTrue: [ 
 			self session 

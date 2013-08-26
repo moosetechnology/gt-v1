@@ -20,7 +20,7 @@ GTPPStepToNextStreamPositionAction >> executeAction [
 
 	currentPosition := self session stream position.
 	self session
-		newStepUntil: (self streamToDifferentPositionThan: currentPosition) from: self startContext.
+		stepUntil: (self streamToDifferentPositionThan: currentPosition) from: self startContext.
 ]
 
 { #category : #predicates }

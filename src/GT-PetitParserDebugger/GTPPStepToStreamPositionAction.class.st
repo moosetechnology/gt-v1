@@ -27,7 +27,7 @@ GTPPStepToStreamPositionAction >> executeAction [
 		ifNotNil: [ :anInteger | anInteger ].
 		
 	self session
-		newStepUntil: (self streamToPosition: targetPosition) from: self startContext.
+		stepUntil: (self streamToPosition: targetPosition) from: self startContext.
 ]
 
 { #category : #accessing }

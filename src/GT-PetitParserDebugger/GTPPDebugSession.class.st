@@ -123,7 +123,7 @@ GTPPDebugSession >> stepOverInitialInstructionForContext: aContext [
 GTPPDebugSession >> stepToNextNonDelegateParserFromContext: aContext [
 
 	self 
-		newStepUntil: (self parseMethodEntryPredicate and: self notDelegateParserClassPredicate)
+		stepUntil: (self parseMethodEntryPredicate and: self notDelegateParserClassPredicate)
 		from: aContext
 ]
 
@@ -131,7 +131,7 @@ GTPPDebugSession >> stepToNextNonDelegateParserFromContext: aContext [
 GTPPDebugSession >> stepToNextParserFromContext: aContext [
 
 	self 
-		newStepUntil: self parseMethodEntryPredicate
+		stepUntil: self parseMethodEntryPredicate
 		from: aContext
 ]
 
@@ -139,7 +139,7 @@ GTPPDebugSession >> stepToNextParserFromContext: aContext [
 GTPPDebugSession >> stepToNextProduction: aProduction fromContext: aContext [
 	
 	self 
-		newStepUntil: (self parseMethodEntryPredicate and: (self namedProductionPredicate: aProduction)) 
+		stepUntil: (self parseMethodEntryPredicate and: (self namedProductionPredicate: aProduction)) 
 		from: aContext
 ]
 

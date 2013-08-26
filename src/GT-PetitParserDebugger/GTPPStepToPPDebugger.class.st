@@ -38,7 +38,7 @@ GTPPStepToPPDebugger >> defaultLabel [
 GTPPStepToPPDebugger >> execute [
 
 	self session
-		newStepUntil: (self session 
+		stepUntil: (self session 
 			createStepPredicateForPredicate: self isPPDebuggerActivePredicate 
 			fromContext: self currentContext ) 
 		from: self currentContext.

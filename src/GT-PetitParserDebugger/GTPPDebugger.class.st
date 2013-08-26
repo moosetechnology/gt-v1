@@ -61,7 +61,7 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		from: #stack port: #entity;
 		from: #stack port: #selection;
 		to: #workspace;
-		when: [ :aSession :aContext | (aSession notNil & aContext notNil)and: [ aSession rootParser class inheritsFrom: PPCompositeParser ] ];
+		when: [ :aSession :aContext | (aSession notNil & aContext notNil) and: [ aSession rootParser class inheritsFrom: PPCompositeParser ] ];
 		andShow: [ :aComposite :aSession :aContext | self workspaceIn: aComposite forSession: aSession forContext: aContext ].
 	
 ]

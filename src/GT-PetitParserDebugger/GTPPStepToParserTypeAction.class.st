@@ -63,7 +63,7 @@ GTPPStepToParserTypeAction >> executeAction [
 
 	self session
 		stepOverInitialInstructionForContext: self startContext;
-		newStepUntil: self sameParserTypePredicate from: self startContext.
+		stepUntil: self sameParserTypePredicate from: self startContext.
 ]
 
 { #category : #accessing }
