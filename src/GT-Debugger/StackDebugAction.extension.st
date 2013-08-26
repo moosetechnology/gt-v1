@@ -1,23 +1,23 @@
 Extension { #name : #StackDebugAction }
 
 { #category : #'*GT-Debugger' }
-StackDebugAction classSide >> gtStackActions [
+StackDebugAction classSide >> gtStackActionsFor: aDebugger [
 	<gtDebuggingAction>
 	
 	^ { 
-		self new
+		(self forDebugger: aDebugger)
 			label: 'Step Into';
 			action: #stepInto:;
 			icon: GLMUIThemeExtraIcons glamorousInto;
 			order: 20.
 			
-		self new
+		(self forDebugger: aDebugger)
 			label: 'Step Over';
 			action: #stepOver:;
 			icon: GLMUIThemeExtraIcons glamorousOver;
 			order: 25.
 			
-		self new
+		(self forDebugger: aDebugger)
 			label: 'Step Through';
 			action: #stepThrough:;
 			icon: GLMUIThemeExtraIcons glamorousThrough;

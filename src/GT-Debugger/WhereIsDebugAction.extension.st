@@ -4,6 +4,6 @@ Extension { #name : #WhereIsDebugAction }
 WhereIsDebugAction class >> gtActionFor: aDebugger [
 	<gtCodeDebuggingAction>
 	
-	^ self new
+	^ (self forDebugger: aDebugger)
 		action: #updateSelectionInterval
 ]

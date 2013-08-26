@@ -1,9 +1,9 @@
 Extension { #name : #RunToHereDebugAction }
 
 { #category : #'*GT-Debugger' }
-RunToHereDebugAction classSide >> gtActionType [
+RunToHereDebugAction classSide >> gtActionFor: aDebugger [
 	<gtCodeDebuggingAction>
 	
-	^ self new
+	^ (self forDebugger: aDebugger)
 		arguments: [ :action | { action debugger selectionInterval. action currentContext } ].
 ]
