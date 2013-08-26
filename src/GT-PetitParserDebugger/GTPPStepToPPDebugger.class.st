@@ -35,7 +35,7 @@ GTPPStepToPPDebugger >> defaultLabel [
 ]
 
 { #category : #'as yet unclassified' }
-GTPPStepToPPDebugger >> execute [
+GTPPStepToPPDebugger >> executeAction [
 
 	self session
 		stepUntil: (self session 
