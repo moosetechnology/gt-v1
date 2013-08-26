@@ -3,7 +3,7 @@ Extension { #name : #DebugSession }
 { #category : #'*gt-debugger' }
 DebugSession >> createPredicateForBlock: aBlock [ 
 
-	^ NewBlockContextPredicate for: aBlock
+	^ BlockContextPredicate for: aBlock
 ]
 
 { #category : #'*gt-debugger' }
