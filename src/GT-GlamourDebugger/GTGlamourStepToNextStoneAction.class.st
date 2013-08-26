@@ -95,7 +95,7 @@ GTGlamourStepToNextStoneAction >> stepToDebuggingStoneFrom: aContext [
 	self session stepInto: aContext.
 
 	self session 
-		newStepUntil: self debuggingStonePredicate
+		stepUntil: self debuggingStonePredicate
 		from: self interruptedContext.
 		
 	^ self session isActive 

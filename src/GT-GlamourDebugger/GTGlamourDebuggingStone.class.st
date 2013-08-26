@@ -53,7 +53,7 @@ GTGlamourDebuggingStone >> isTransmissionTransformationValid [
 { #category : #actions }
 GTGlamourDebuggingStone >> stepToGlamourValueBlock [
 
-	self session newStepUntil: self glamourValueDeliveryPredicate from: self session context.
+	self session stepUntil: self glamourValueDeliveryPredicate from: self session context.
 	self session isActive ifTrue: [ 
 		self session stepInto ].
 	^ true
@@ -65,7 +65,7 @@ GTGlamourDebuggingStone >> stepToPresentationCondition [
 
 	ctxt := self session context.
 	self session 
-		newStepUntil: ((self session createPredicateForBlock: [ ctxt isDead ]) or:  self glamourValueDeliveryPredicate)
+		stepUntil: ((self session createPredicateForBlock: [ ctxt isDead ]) or:  self glamourValueDeliveryPredicate)
 		from: self session context.
 		
 	ctxt isDead not ifTrue: [ 
