@@ -73,16 +73,16 @@ DebugSession >> isActive: aContext [
 ]
 
 { #category : #'*gt-debugger' }
-DebugSession >> newStepUntil: aPredicate from: aContext [ 
-	| ctxt |
-	
-	ctxt := self process newStepUntil: (self createStepPredicateForPredicate: aPredicate) from: aContext.
-	self  
-		updateWithContext: ctxt 
-		fromProcess: self process.
+DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
+	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
 ]
 
 { #category : #'*gt-debugger' }
-DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
-	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
+DebugSession >> stepUntil: aPredicate from: aContext [ 
+	| ctxt |
+	
+	ctxt := self process stepUntil: (self createStepPredicateForPredicate: aPredicate) from: aContext.
+	self  
+		updateWithContext: ctxt 
+		fromProcess: self process.
 ]
