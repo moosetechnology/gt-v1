@@ -86,19 +86,3 @@ DebugSession >> newStepUntil: aPredicate from: aContext [
 DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
 	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
 ]
-
-{ #category : #'*gt-debugger' }
-DebugSession >> stepUntil: aPredicate [
-	
-	self stepUntil: aPredicate from: self process suspendedContext
-]
-
-{ #category : #'*gt-debugger' }
-DebugSession >> stepUntil: aPredicate from: aContext [ 
-	| ctxt |
-	
-	ctxt := self process stepUntil: aPredicate  from: aContext.
-	self  
-		updateWithContext: ctxt 
-		fromProcess: self process.
-]
