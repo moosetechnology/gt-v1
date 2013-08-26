@@ -41,7 +41,7 @@ GTDebuggerVariablesBrowser >> evaluatorIn: composite [
 GTDebuggerVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
-		display: [ :contextModel | contextModel gtDebuggerRetrieveVariableValuePairs ];
+		display: [ :context | context gtDebuggerRetrieveVariableValuePairs ];
 		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key];
 		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]

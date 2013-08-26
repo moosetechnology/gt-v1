@@ -189,17 +189,11 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 		when: [ :session | session notNil ];
 		transformed: [:session | session context].
 	browser transmit
-		from: #stack port: #entity;
 		from: #stack port: #selection;
-		to: #stack port: #context;
-		when: [ :session :context | session notNil ];
-		transformed: [ :session :context | session createModelForContext: context ].
-	browser transmit
-		from: #stack port: #context;
 		to: #code;
 		andShow: [ :composite | self methodCodeIn: composite ].
 	browser transmit
-		from: #stack port: #context;
+		from: #stack port: #selection;
 		to: #inspector;
 		andShow: [ :composite | self inspectorIn: composite ] 
 
@@ -265,12 +259,13 @@ GTDebugger >> interruptedContext [
 
 { #category : #'building presentations' }
 GTDebugger >> methodCodeIn: composite [
+
 	composite smalltalkCode
-		doItReceiver: [:contextModel | contextModel receiver ];
-		doItContext: [:contextModel | contextModel context ];
 		title: 'Source';
-		format: #source;
-		smalltalkClass: [ :contextModel | contextModel selectedClass ];
+		format: #sourceCode;
+		smalltalkClass: [ :context | context methodClass ];
+		doItReceiver: [ :context | context receiver ];
+		doItContext: [ :context | context ];
 		initialize: [ :code | code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
 		with: [ :code | self installCodeActionsFor: code ]
 ]
@@ -342,9 +337,10 @@ GTDebugger >> session: anObject [
 
 { #category : #'building presentations' }
 GTDebugger >> stackIn: composite [
+
 	composite list	
 		title: 'Stack';
-		"showOnly: 10;"
+		showOnly: 50;
 		display: #stack;
 		format: [ :each | self printStackEntry: each];
 		with: [ :list | self installDebuggingActionsFor: list ]
