@@ -14,12 +14,12 @@ GTGlamourStepToNextStoneAction class >> debuggingStonePragma [
 ]
 
 { #category : #'as yet unclassified' }
-GTGlamourStepToNextStoneAction class >> gtAction [
+GTGlamourStepToNextStoneAction class >> gtActionFor: aDebugger [
 	<gtGlamourDebuggingAction>
 	<gtContextGlamourDebuggingAction>
 	
 
-	^ self new
+	^ (self forDebugger: aDebugger)
 		label: 'Next debug stone'
 	
 	
@@ -32,7 +32,7 @@ GTGlamourStepToNextStoneAction class >> gtGoToDebugingStoneActionsFor: aDebugger
 	
 	^(PragmaCollector filter: [:prag | 
 		prag keyword = self debuggingStonePragma ]) reset collected collect: [ :aPragma |
-			self new
+			(self forDebugger: aDebugger)
 				label: (aPragma argumentAt: 2);
 				category: 'Debugging Stone';
 				debugStoneType: (aPragma argumentAt: 1) ]
