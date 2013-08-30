@@ -261,14 +261,20 @@ GTDebugger >> interruptedContext [
 { #category : #'building presentations' }
 GTDebugger >> methodCodeIn: composite [
 
-	composite smalltalkCode
+	(self methodCodeWidgetIn: composite)
+		initialize: [ :code | code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
+		with: [ :code | self installCodeActionsFor: code ]
+]
+
+{ #category : #'building presentations' }
+GTDebugger >> methodCodeWidgetIn: composite [
+
+	^ composite smalltalkCode
 		title: 'Source';
 		format: #sourceCode;
 		smalltalkClass: [ :context | context methodClass ];
 		doItReceiver: [ :context | context receiver ];
-		doItContext: [ :context | context ];
-		initialize: [ :code | code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
-		with: [ :code | self installCodeActionsFor: code ]
+		doItContext: [ :context | context ]
 ]
 
 { #category : #opening }
