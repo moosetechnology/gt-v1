@@ -181,6 +181,7 @@ GTDebugger >> debuggerTitle [
 GTDebugger >> debuggerTransmissionsIn: browser [
 
 	browser transmit
+		fromOutsideEntityPort;
 		to: #stack;
 		andShow: [ :composite | self stackIn: composite ].
 	browser transmit
@@ -338,12 +339,18 @@ GTDebugger >> session: anObject [
 { #category : #'building presentations' }
 GTDebugger >> stackIn: composite [
 
-	composite list	
+	(self stackWidgetIn: composite)
+		with: [ :stackWidget | self installDebuggingActionsFor: stackWidget ]
+]
+
+{ #category : #'building presentations' }
+GTDebugger >> stackWidgetIn: composite [
+
+	^ composite list	
 		title: 'Stack';
 		showOnly: 50;
 		display: #stack;
-		format: [ :each | self printStackEntry: each];
-		with: [ :list | self installDebuggingActionsFor: list ]
+		format: [ :each | self printStackEntry: each]
 ]
 
 { #category : #updating }
