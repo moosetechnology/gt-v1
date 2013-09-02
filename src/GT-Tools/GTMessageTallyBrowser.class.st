@@ -41,7 +41,7 @@ GTMessageTallyBrowser >> messagesIn: a [
 
 { #category : #building }
 GTMessageTallyBrowser >> openOn: aBlock [
-	^ super openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself) inspect
+	^ super openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself)
 ]
 
 { #category : #building }
