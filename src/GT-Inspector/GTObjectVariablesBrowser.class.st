@@ -30,7 +30,7 @@ GTObjectVariablesBrowser >> buildBrowser [
 GTObjectVariablesBrowser >> evaluatorIn: composite [
 	(composite smalltalkCode)
 		doItReceiver: #yourself;
-		display: [ :entity | [entity printString asSmalltalkComment, String cr, 'self'] on: Error do: ['"Error printing. Try self printString to debug"'] ];
+		display: [ :entity | [(entity printString contractTo: 200) asSmalltalkComment, String cr, 'self'] on: Error do: ['"Error printing. Try self printString to debug"'] ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Do it and open (o)'
