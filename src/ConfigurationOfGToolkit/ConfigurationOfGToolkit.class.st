@@ -362,6 +362,13 @@ ConfigurationOfGToolkit >> baseline06: spec [
 			'Tests'
 			'AnnouncerCentricDebugger'
 		).
+		spec group: 'debugger' with: #(
+			'GT-Inspector'
+			'GT-Debugger'
+			'GT-GlamourDebugger'
+			'GT-PetitParserDebugger'
+			'AnnouncerCentricDebugger'
+		).
 		spec group: 'Tests' with: #('GT-Tests-Inspector').
 		spec group: 'ObjectCentricDebugger' with: #(
 			'GT-ObjectCentricDebugger').
