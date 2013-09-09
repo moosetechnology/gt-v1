@@ -42,7 +42,7 @@ GTGlamourDebugger >> browserStructureFor: aGlmBrowser in: aComposite [
 GTGlamourDebugger >> browserTransmissionsIn: browser [
 	
 	browser transmit
-		from: #stack port: #context;
+		from: #stack port: #selection;
 		to: #browser;
 		andShow: [ :composite | self browserStructureFor: self session rootBrowser in: composite ]
 ]
