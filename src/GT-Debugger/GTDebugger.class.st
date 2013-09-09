@@ -192,7 +192,7 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 	browser transmit
 		from: #stack port: #selection;
 		to: #code;
-		andShow: [ :composite | self methodCodeIn: composite ].
+		andShow: [ :composite :aContext | self methodCodeIn: composite forContext: aContext ].
 	browser transmit
 		from: #stack port: #selection;
 		to: #inspector;
@@ -259,7 +259,7 @@ GTDebugger >> interruptedContext [
 ]
 
 { #category : #'building presentations' }
-GTDebugger >> methodCodeIn: composite [
+GTDebugger >> methodCodeIn: composite forContext: aContext [
 
 	(self methodCodeWidgetIn: composite)
 		initialize: [ :code | code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
@@ -275,6 +275,17 @@ GTDebugger >> methodCodeWidgetIn: composite [
 		smalltalkClass: [ :context | context methodClass ];
 		doItReceiver: [ :context | context receiver ];
 		doItContext: [ :context | context ]
+]
+
+{ #category : #'building presentations' }
+GTDebugger >> methodCodeWidgetIn: composite forContext: aContext [
+
+	^ composite smalltalkCode
+		title: 'Source';
+		format: [ aContext sourceCode ];
+		smalltalkClass: [  aContext methodClass ];
+		doItReceiver: [ aContext receiver ];
+		doItContext: [  aContext ]
 ]
 
 { #category : #opening }
