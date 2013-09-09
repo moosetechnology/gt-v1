@@ -20,7 +20,7 @@ GTGlamourStepToNextStoneAction class >> gtActionFor: aDebugger [
 	
 
 	^ (self forDebugger: aDebugger)
-		label: 'Next debug stone'
+		label: 'Any action'
 	
 	
 ]
@@ -34,7 +34,7 @@ GTGlamourStepToNextStoneAction class >> gtGoToDebugingStoneActionsFor: aDebugger
 		prag keyword = self debuggingStonePragma ]) reset collected collect: [ :aPragma |
 			(self forDebugger: aDebugger)
 				label: (aPragma argumentAt: 2);
-				category: 'Debugging Stone';
+				"category: 'Debugging Stone';"
 				debugStoneType: (aPragma argumentAt: 1) ]
 
 	
