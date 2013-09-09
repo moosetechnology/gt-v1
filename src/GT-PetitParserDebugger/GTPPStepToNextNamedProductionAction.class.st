@@ -71,7 +71,7 @@ GTPPStepToNextNamedProductionAction >> executeAction [
 { #category : #accessing }
 GTPPStepToNextNamedProductionAction >> production [
 	
-	^ production
+	^ production ifNil: [ self defaultProduction ]
 ]
 
 { #category : #accessing }

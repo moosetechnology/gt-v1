@@ -242,7 +242,7 @@ GTPPDebugger >> textAttributesForStackEntry: aContext [
 	(self session rootParserContext  == aContext )
 		ifTrue: [ ^ {TextEmphasis italic} ].
 		
-	^ {TextColor black}
+	^ {TextColor gray}
 ]
 
 { #category : #updating }
