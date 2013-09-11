@@ -95,6 +95,7 @@ GTMetaceller >> childrenForConfig: aConfigClass [
 
 { #category : #accessing }
 GTMetaceller >> childrenForItem: anItem [
+	anItem isString ifTrue: [ ^#() ].
 	^anItem children
 ]
 
