@@ -24,6 +24,13 @@ GTMetacellerGroup >> buildChildren [
 				package 
 					ifNil: [ (self version packagesForSpecNamed: reqString) do: [ :each |
 						(black includes: each) ifFalse: [ gray add: each ] ] ]
+					ifNotNil: [ (black includes: package) ifFalse: [ gray add: package ] ] ].
+			spec includes do: [ :inclString |
+				| package |
+				package := self version packageNamed: inclString ifAbsent: [ nil ].
+				package 
+					ifNil: [ (self version packagesForSpecNamed: inclString) do: [ :each |
+						(black includes: each) ifFalse: [ gray add: each ] ] ]
 					ifNotNil: [ (black includes: package) ifFalse: [ gray add: package ] ] ] ] ].
 	^black
 ]
