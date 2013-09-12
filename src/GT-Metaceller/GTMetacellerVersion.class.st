@@ -138,7 +138,9 @@ GTMetacellerVersion >> groups [
 
 { #category : #accessing }
 GTMetacellerVersion >> groupsAndLoosePackages [
-	^self packagesWithoutGroups copyWithAll: self groups
+	^(OrderedCollection withAll: self packagesWithoutGroups)
+		addAll: self groups;
+		yourself
 ]
 
 { #category : #initialization }
