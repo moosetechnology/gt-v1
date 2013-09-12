@@ -271,11 +271,16 @@ GTMetaceller >> nameForItem: anItem [
 	^anItem labelAsText
 ]
 
+{ #category : #testing }
+GTMetaceller >> orderFor: anItemA and: anItemB [ 
+	^anItemA label asLowercase < anItemB label asLowercase
+]
+
 { #category : #building }
 GTMetaceller >> packageBrowserOn: aBrowser [
 	aBrowser tree
-		title: 'Packages';
-		display: [ :version | self itemsForVersion: version ];
+		title: 'Packages (load order)';
+		display: [ :version | (self itemsForVersion: version) select: [ :each | each isGroup not ] ];
 		children: [ :item | self childrenForItem: item ];
 		format: [ :item | self nameForItem: item ];
 		tags: [ :spec :version | self tagsOfSpec: spec in: version ];
@@ -286,7 +291,16 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 		children: [ :item | self childrenForItem: item ];
 		display: [ :version | self groupsForVersion: version ];
 		updateOn: GTConfigChanged from: self announcer;
-		format: [ :item | self nameForItem: item ]
+		format: [ :item | self nameForItem: item ].
+	aBrowser tree
+		title: 'Packages (alfabetical)';
+		display: [ :version | (self itemsForVersion: version) asSortedCollection: [ :a :b | self orderFor: a and: b ] ];
+		children: [ :item | (self childrenForItem: item) asSortedCollection: [ :a :b | self orderFor: a and: b ] ];
+		format: [ :item | self nameForItem: item ];
+		tags: [ :spec :version | self tagsOfSpec: spec in: version ];
+		dynamicActionsOnSelection: [ :list | self actionsForItem: list selection ];
+		updateOn: GTConfigChanged from: self announcer.
+
 ]
 
 { #category : #accessing }

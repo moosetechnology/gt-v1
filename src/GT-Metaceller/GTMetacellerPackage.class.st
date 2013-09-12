@@ -1,8 +1,30 @@
 Class {
 	#name : #GTMetacellerPackage,
 	#superclass : #GTMetacellerItem,
+	#instVars : [
+		'isNewer',
+		'isOlder'
+	],
 	#category : #'GT-Metaceller'
 }
+
+{ #category : #testing }
+GTMetacellerPackage >> calculateIsNewer [
+	(self file = self referenceSpec name) ifTrue: [  ^false ].
+	(self referenceSpec currentVersionInfo name = self file) ifTrue: [ ^false ].
+	self referenceSpec currentVersionInfo allAncestorsDo: [ :each |
+		(each name = self file) ifTrue: [ ^false ] ].
+	^true
+]
+
+{ #category : #testing }
+GTMetacellerPackage >> calculateIsOlder [
+	(self file = self referenceSpec name) ifTrue: [  ^false ].	" no version specified "
+	(self referenceSpec currentVersionInfo name = self file) ifTrue: [ ^false ].
+	self referenceSpec currentVersionInfo allAncestorsDo: [ :each |
+		(each name = self file) ifTrue: [ ^true ] ].
+	^false
+]
 
 { #category : #accessing }
 GTMetacellerPackage >> file [
@@ -16,25 +38,22 @@ GTMetacellerPackage >> isLoaded [
 
 { #category : #testing }
 GTMetacellerPackage >> isNewer [
-	(self file = self referenceSpec name) ifTrue: [  ^false ].
-	(self referenceSpec currentVersionInfo name = self file) ifTrue: [ ^false ].
-	self referenceSpec currentVersionInfo allAncestorsDo: [ :each |
-		(each name = self file) ifTrue: [ ^false ] ].
-	^true
+	^isNewer ifNil: [ isNewer := self calculateIsNewer ]
 ]
 
 { #category : #testing }
 GTMetacellerPackage >> isOlder [
-	(self file = self referenceSpec name) ifTrue: [  ^false ].	" no version specified "
-	(self referenceSpec currentVersionInfo name = self file) ifTrue: [ ^false ].
-	self referenceSpec currentVersionInfo allAncestorsDo: [ :each |
-		(each name = self file) ifTrue: [ ^true ] ].
-	^false
+	^isOlder ifNil: [ isOlder := self calculateIsOlder ]
 ]
 
 { #category : #testing }
 GTMetacellerPackage >> isPackage [
 	^true
+]
+
+{ #category : #accessing }
+GTMetacellerPackage >> label [
+	^self file
 ]
 
 { #category : #display }
