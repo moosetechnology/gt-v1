@@ -39,13 +39,28 @@ GTMetacellerItem >> initialize: aVersion spec: aSpec [
 ]
 
 { #category : #testing }
+GTMetacellerItem >> isGroup [
+	^false
+]
+
+{ #category : #testing }
 GTMetacellerItem >> isGroup: aSpec [ 
 	^aSpec isKindOf: MetacelloGroupSpec
 ]
 
 { #category : #testing }
+GTMetacellerItem >> isPackage [
+	^false
+]
+
+{ #category : #testing }
 GTMetacellerItem >> isPackage: aSpec [ 
 	^aSpec isKindOf: MetacelloPackageSpec
+]
+
+{ #category : #testing }
+GTMetacellerItem >> isProject [
+	^false
 ]
 
 { #category : #testing }

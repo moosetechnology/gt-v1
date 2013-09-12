@@ -37,6 +37,11 @@ GTMetacellerProjectReference >> isLoaded [
 	^self configForProject notNil
 ]
 
+{ #category : #testing }
+GTMetacellerProjectReference >> isProject [
+	^true
+]
+
 { #category : #accessing }
 GTMetacellerProjectReference >> label [
 	^self project label

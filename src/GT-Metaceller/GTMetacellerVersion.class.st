@@ -87,13 +87,19 @@ GTMetacellerVersion >> actions [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> belongsToGroup: aSpec [
+	^(self tagsOf: aSpec) notEmpty
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> blessing [
 	^self version spec blessing value
 ]
 
 { #category : #accessing }
 GTMetacellerVersion >> buildGroups [
-	self version ifNotNil: [ ^self version groups collect: [ :each | GTMetacellerGroup on: self version spec: each ] ].
+	self version ifNotNil: [ 
+		^self version groups collect: [ :each | GTMetacellerGroup on: self version spec: each ] ].
 	^#()
 ]
 
@@ -128,6 +134,11 @@ GTMetacellerVersion >> fetch [
 { #category : #accessing }
 GTMetacellerVersion >> groups [
 	^groups ifNil: [ groups := self buildGroups ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> groupsAndLoosePackages [
+	^self packagesWithoutGroups copyWithAll: self groups
 ]
 
 { #category : #initialization }
@@ -266,6 +277,13 @@ GTMetacellerVersion >> packagesAndProjects [
 GTMetacellerVersion >> packagesForSpecNamed: aVersionString [ 
 	self version ifNotNil: [ ^self version packagesForSpecNamed: aVersionString ].
 	^#()
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> packagesWithoutGroups [
+	" make sure the groups are built first "
+	self groups.
+	^self packagesAndProjects select: [ :each | (each isPackage or: [ each isProject ]) and: [ (self belongsToGroup: each) not ] ]
 ]
 
 { #category : #accessing }

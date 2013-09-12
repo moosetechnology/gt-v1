@@ -32,6 +32,11 @@ GTMetacellerPackage >> isOlder [
 	^false
 ]
 
+{ #category : #testing }
+GTMetacellerPackage >> isPackage [
+	^true
+]
+
 { #category : #display }
 GTMetacellerPackage >> labelAsText [
 	| prefix |

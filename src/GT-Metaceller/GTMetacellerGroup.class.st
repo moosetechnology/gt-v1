@@ -51,6 +51,11 @@ GTMetacellerGroup >> group [
 ]
 
 { #category : #testing }
+GTMetacellerGroup >> isGroup [
+	^true
+]
+
+{ #category : #testing }
 GTMetacellerGroup >> isPackageLoaded [
 	^self group isPackageLoaded
 ]

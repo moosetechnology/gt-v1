@@ -195,7 +195,7 @@ GTMetaceller >> fetchVersion: aVersion [
 GTMetaceller >> groupsForVersion: aVersion [
 	aVersion ifNil: [ ^#() ].
 	(aVersion isKindOf: Association) ifTrue: [  ^#() ].
-	^aVersion groups
+	^aVersion groupsAndLoosePackages
 ]
 
 { #category : #private }
