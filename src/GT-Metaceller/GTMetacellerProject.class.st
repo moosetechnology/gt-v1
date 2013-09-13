@@ -166,5 +166,5 @@ GTMetacellerProject >> version: aStringOrSymbol [
 
 { #category : #accessing }
 GTMetacellerProject >> versions [
-	^GTMetacellerVersion versionsForConfig: self configuration
+	^GTMetacellerVersion versionsForConfig: self configuration project: self
 ]
