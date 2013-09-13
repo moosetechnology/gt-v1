@@ -126,6 +126,11 @@ GTMetacellerVersion >> determineVersion [
 	^nil
 ]
 
+{ #category : #accessing }
+GTMetacellerVersion >> displayString [
+	^self textLabel
+]
+
 { #category : #actions }
 GTMetacellerVersion >> fetch [
 	self version ifNotNil: [ self version fetch ]
@@ -349,6 +354,11 @@ GTMetacellerVersion >> version [
 { #category : #accessing }
 GTMetacellerVersion >> version: anObject [
 	version := anObject
+]
+
+{ #category : #dummy }
+GTMetacellerVersion >> versions [
+	^#()
 ]
 
 { #category : #tool }

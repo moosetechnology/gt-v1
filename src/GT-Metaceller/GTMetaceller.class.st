@@ -89,41 +89,21 @@ GTMetaceller >> buildBrowser [
 ]
 
 { #category : #accessing }
-GTMetaceller >> childrenForConfig: aConfigClass [
-	[ ^(self projectsForVersion: aConfigClass project stableVersion) collect: [ :each | self configForProject: each ] thenSelect: [ :each | each notNil ] ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^#() ]
-]
-
-{ #category : #accessing }
 GTMetaceller >> childrenForItem: anItem [
 	anItem isString ifTrue: [ ^#() ].
 	^anItem children
-]
-
-{ #category : #accessing }
-GTMetaceller >> configForProject: aSpec [
-	| projectReference |
-	aSpec ifNil: [  ^nil ].
-	(aSpec isKindOf: MetacelloProjectReferenceSpec)
-		ifTrue: [ projectReference := aSpec projectReference ]
-		ifFalse: [ projectReference := aSpec ].
-	projectReference ifNil: [  ^nil ].
-	projectReference className ifNil: [  ^nil ].
-	^Smalltalk at: (projectReference className asSymbol) ifAbsent: [ nil ]
 ]
 
 { #category : #building }
 GTMetaceller >> configurationsIn: a [
 	^ a tree
 		title: 'Configurations';
-		format: [ :configClass | 
-					| text label version |
-					label := self shortNameOf: configClass ];
-		children: [ :configClass |
-			 self childrenForConfig: configClass ];
+		format: [ :configuration | configuration shortName ];
+		children: [ :configuration | configuration children ];
 		updateOn: GTConfigLoaded from: self announcer;
 		populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousRefresh on: $r entitled: 'Refresh' with: [ :pane | self announce: GTConfigLoaded ];
 		selectionAct: [ :list | list selection browse ] entitled: 'Browse implementation';
-		selectionAct: [ :list | list selection project inspect ] entitled: 'Inspect'
+		selectionAct: [ :list | list selection mainProject inspect ] entitled: 'Inspect'
 ]
 
 { #category : #building }
@@ -131,7 +111,7 @@ GTMetaceller >> detailsForConfiguration: aBrowser [
 	(aBrowser respondsTo: #roassal) ifTrue: [ 
 		aBrowser roassal
 			title: 'Imports';
-			painting: [:view :config | self viewVersionMapOf: config on: view] ]
+			painting: [:view :config | config viewVersionMapOn: view] ]
 		ifFalse: [ 
 			aBrowser text
 				title: 'Imports';
@@ -172,7 +152,8 @@ GTMetaceller >> detailsForVersion: aBrowser [
 
 { #category : #opening }
 GTMetaceller >> entity [ 
-	^ (Object subclasses select: [:each | self isMetacelloConfig: each]) sort: [:a :b | a name < b name]
+	^ ((Object subclasses select: [:each | self isMetacelloConfig: each]) sort: [:a :b | a name < b name])
+		collect: [ :each | GTMetacellerConfiguration on: each ]
 ]
 
 { #category : #actions }
@@ -303,21 +284,6 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 
 ]
 
-{ #category : #accessing }
-GTMetaceller >> projectsForVersion: aVersion [
-	aVersion ifNil: [ ^#() ].
-	(aVersion isKindOf: Association) ifTrue: [ ^#() ].
-	^aVersion spec packages packageSpecsInLoadOrder select: [  :each | self isProject: each ]
-]
-
-{ #category : #display }
-GTMetaceller >> shortNameOf: config [
-	"self new shortNameOf: ConfigurationOfAlien"
-	^ ((config name beginsWith: 'ConfigurationOf') 
-		ifTrue: [config name copyFrom: 'ConfigurationOf' size + 1 to: config name size ] 
-		ifFalse: [config name]) asString
-]
-
 { #category : #display }
 GTMetaceller >> tagsOfSpec: aSpec in: aVersion [
 	^aVersion tagsOf: aSpec
@@ -342,17 +308,24 @@ GTMetaceller >> validCurrentVersion: version [
 GTMetaceller >> versionBrowserOn: aBrowser [
 	aBrowser list
 		title: 'Versions';
-		display: [ :config | GTMetacellerVersion versionsForConfig: config ];
+		display: [ :config | config mainVersions ];
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
 		tags: [ :version | self tagsOfVersion: version ];
 		format: [ :version | version textLabel ].
 	aBrowser list 
 		title: 'Methods';
-		display: [ :config | GTMetacellerVersion allMethodsForConfig: config ];
+		display: [ :config | config mainMethods ];
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
 		format: [ :method | method selector ].
+	aBrowser tree 
+		title: 'Platforms';
+		display: [ :config | config projects ];
+		children: [ :project | project versions ];
+		updateOn: GTConfigChanged from: self announcer;
+		dynamicActionsOnSelection: [ :list | list selection actions ];
+		format: [ :item | item displayString ].
 ]
 
 { #category : #display }
@@ -377,24 +350,4 @@ GTMetaceller >> viewDependenciesOf: version on: view [
 			collect: [:each | all at: each ifAbsent: [ nil ] ] 
 			thenSelect: [ :each | each notNil ] ].
 	view horizontalDominanceTreeLayout layered
-]
-
-{ #category : #roassal }
-GTMetaceller >> viewVersionMapOf: configClass on: view [
-	| nodes edges project |
-	project := configClass project.
-	nodes := Dictionary new.
-	edges := OrderedCollection new.
-	(Pragma allNamed: #version: in: configClass) do: [:prag | 
-		nodes at: (prag argumentAt: 1) put: (project version: (prag argumentAt: 1)) ].
-	(Pragma allNamed: #version:imports: in: configClass) do: [:prag | 
-		| version imported |
-		version := nodes at: (prag argumentAt: 1) put: (project version: (prag argumentAt: 1)).
-		(prag argumentAt: 2) do: [:eachImportPrag |
-			imported := nodes at: eachImportPrag ifAbsentPut: [ project version: eachImportPrag ].
-			edges add: version -> imported ] ].
-	view shape label text: [ :each | each versionNumber printString ].
-	view nodes: nodes values.
-	view edges: edges from: #key to: #value.
-	view horizontalDominanceTreeLayout
 ]
