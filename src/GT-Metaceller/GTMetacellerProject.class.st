@@ -29,7 +29,7 @@ GTMetacellerProject class >> on: aConfiguration platform: aPlatform [
 
 { #category : #accessing }
 GTMetacellerProject >> allMethods [
-	^GTMetacellerVersion allMethodsForConfig: self configuration
+	^GTMetacellerVersion allMethodsForProject: self
 ]
 
 { #category : #accessing }
@@ -166,5 +166,24 @@ GTMetacellerProject >> version: aStringOrSymbol [
 
 { #category : #accessing }
 GTMetacellerProject >> versions [
-	^GTMetacellerVersion versionsForConfig: self configuration project: self
+	^GTMetacellerVersion versionsForProject: self
+]
+
+{ #category : #roassal }
+GTMetacellerProject >> viewVersionMapOn: view [
+	| nodes edges |
+	nodes := Dictionary new.
+	edges := OrderedCollection new.
+	(Pragma allNamed: #version: in: self configuration) do: [:prag | 
+		nodes at: (prag argumentAt: 1) put: (project version: (prag argumentAt: 1)) ].
+	(Pragma allNamed: #version:imports: in: self configuration) do: [:prag | 
+		| version imported |
+		version := nodes at: (prag argumentAt: 1) put: (project version: (prag argumentAt: 1)).
+		(prag argumentAt: 2) do: [:eachImportPrag |
+			imported := nodes at: eachImportPrag ifAbsentPut: [ project version: eachImportPrag ].
+			edges add: version -> imported ] ].
+	view shape label text: [ :each | each versionNumber printString ].
+	view nodes: nodes values.
+	view edges: edges from: #key to: #value.
+	view horizontalDominanceTreeLayout
 ]

@@ -13,11 +13,9 @@ Class {
 }
 
 { #category : #conveniance }
-GTMetacellerVersion class >> allMethodsForConfig: aConfiguration [
-	| project |
-	project := (GTMetacellerProject on: aConfiguration).
-	^aConfiguration methods collect: [ :each |
-		self on: aConfiguration method: each project: project ]
+GTMetacellerVersion class >> allMethodsForProject:aProject [
+	^aProject configuration methods collect: [ :each |
+		self on: aProject configuration method: each project: aProject ]
 ]
 
 { #category : #testing }
@@ -40,15 +38,10 @@ GTMetacellerVersion class >> on: aConfiguration method: aMethod project: aProjec
 ]
 
 { #category : #conveniance }
-GTMetacellerVersion class >> versionsForConfig: aConfiguration [
-	^self versionsForConfig: aConfiguration project: (GTMetacellerProject on: aConfiguration) 
-]
-
-{ #category : #conveniance }
-GTMetacellerVersion class >> versionsForConfig: aConfiguration project: project [
-	^(aConfiguration methods
+GTMetacellerVersion class >> versionsForProject: aProject [
+	^(aProject configuration methods
 		select: [ :each | self isValidVersion: each ]
-		thenCollect: [ :each | self on: aConfiguration method: each project: project ]) 
+		thenCollect: [ :each | self on: aProject configuration method: each project: aProject ]) 
 			asSortedCollection: [ :a :b | a name > b name ]
 ]
 

@@ -70,30 +70,7 @@ GTMetacellerConfiguration >> shortName [
 		ifFalse: [self configuration name]) asString
 ]
 
-{ #category : #display }
-GTMetacellerConfiguration >> shortNameOf: config [
-	"self new shortNameOf: ConfigurationOfAlien"
-	^ ((config name beginsWith: 'ConfigurationOf') 
-		ifTrue: [config name copyFrom: 'ConfigurationOf' size + 1 to: config name size ] 
-		ifFalse: [config name]) asString
-]
-
 { #category : #roassal }
 GTMetacellerConfiguration >> viewVersionMapOn: view [
-	| nodes edges project |
-	project := self mainProject project.
-	nodes := Dictionary new.
-	edges := OrderedCollection new.
-	(Pragma allNamed: #version: in: self configuration) do: [:prag | 
-		nodes at: (prag argumentAt: 1) put: (project version: (prag argumentAt: 1)) ].
-	(Pragma allNamed: #version:imports: in: self configuration) do: [:prag | 
-		| version imported |
-		version := nodes at: (prag argumentAt: 1) put: (project version: (prag argumentAt: 1)).
-		(prag argumentAt: 2) do: [:eachImportPrag |
-			imported := nodes at: eachImportPrag ifAbsentPut: [ project version: eachImportPrag ].
-			edges add: version -> imported ] ].
-	view shape label text: [ :each | each versionNumber printString ].
-	view nodes: nodes values.
-	view edges: edges from: #key to: #value.
-	view horizontalDominanceTreeLayout
+	self mainProject viewVersionMapOn: view
 ]

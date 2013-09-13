@@ -1,11 +1,11 @@
 Class {
-	#name : #GTMetacelloProjectTest,
+	#name : #GTMetacellerProjectTest,
 	#superclass : #TestCase,
 	#category : #'GT-Metaceller-Tests'
 }
 
 { #category : #tests }
-GTMetacelloProjectTest >> testGemstone [
+GTMetacellerProjectTest >> testGemstone [
 	| project version |
 	project := GTMetacellerProject on: ConfigurationOfGTMetaceller platform: #gemstone.
 	version := project version: '0.1-baseline'.
