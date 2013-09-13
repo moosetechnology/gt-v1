@@ -33,10 +33,9 @@ GTMetacelloProject class >> template [
 ]
 
 { #category : #private }
-GTMetacelloProject >> attributes [
-	^(OrderedCollection with: #common)
-		addAll: (self perform: self platformSelector);
-		yourself
+GTMetacelloProject >> defaultPlatformAttributes [
+	self platformSelector ifNil: [ ^super defaultPlatformAttributes ].
+	^self perform: self platformSelector
 ]
 
 { #category : #private }
@@ -66,7 +65,7 @@ GTMetacelloProject >> pharo30Attributes [
 
 { #category : #private }
 GTMetacelloProject >> platformSelector [
-	^platformSelector ifNil: [ #platformAttributes ]
+	^platformSelector
 ]
 
 { #category : #private }

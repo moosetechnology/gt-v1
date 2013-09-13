@@ -53,7 +53,7 @@ GTMetacellerPackage >> isPackage [
 
 { #category : #accessing }
 GTMetacellerPackage >> label [
-	^self file
+	^self file ifEmpty: [ self packageSpec name ]
 ]
 
 { #category : #display }
@@ -61,7 +61,7 @@ GTMetacellerPackage >> labelAsText [
 	| prefix |
 	prefix := ''.
 	self needsSaving ifTrue: [ prefix := '* ' ].
-	^(Text fromString: prefix), (Text string: self file attributes: self textAttributes)
+	^(Text fromString: prefix), (Text string: self label attributes: self textAttributes)
 ]
 
 { #category : #testing }
