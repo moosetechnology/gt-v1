@@ -159,6 +159,16 @@ GTMetacellerProject >> stableVersion [
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> tags [
+	^#()
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> textLabel [
+	^self displayString
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> version: aStringOrSymbol [
 	self project ifNil: [ ^nil ].
 	^self project version: aStringOrSymbol

@@ -81,22 +81,22 @@ GTMetacelloPlatform >> originalPlatform [
 
 { #category : #private }
 GTMetacelloPlatform >> pharo13Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo1.x' #'pharo1.3' )
+	^#( #'squeakcommon' #'pharo' #'pharo1.x' #'pharo1.3.x' )
 ]
 
 { #category : #private }
 GTMetacelloPlatform >> pharo14Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo1.x' #'pharo1.4' )
+	^#( #'squeakcommon' #'pharo' #'pharo1.x' #'pharo1.4.x' )
 ]
 
 { #category : #private }
 GTMetacelloPlatform >> pharo20Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo2.x' #'pharo2.0' )
+	^#( #'squeakcommon' #'pharo' #'pharo2.x' #'pharo2.0.x' )
 ]
 
 { #category : #private }
 GTMetacelloPlatform >> pharo30Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo3.x' #'pharo3.0' )
+	^#( #'squeakcommon' #'pharo' #'pharo3.x' #'pharo3.0.x' )
 ]
 
 { #category : #private }

@@ -311,7 +311,7 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		display: [ :config | config mainVersions ];
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
-		tags: [ :version | self tagsOfVersion: version ];
+		tags: [ :version | version tags ];
 		format: [ :version | version textLabel ].
 	aBrowser list 
 		title: 'Methods';
@@ -325,7 +325,8 @@ GTMetaceller >> versionBrowserOn: aBrowser [
 		children: [ :project | project versions ];
 		updateOn: GTConfigChanged from: self announcer;
 		dynamicActionsOnSelection: [ :list | list selection actions ];
-		format: [ :item | item displayString ].
+		tags: [ :version | version tags ];
+		format: [ :version | version textLabel ].
 ]
 
 { #category : #display }
