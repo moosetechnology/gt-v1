@@ -18,7 +18,7 @@ GTMetacellerConfiguration class >> on: aConfiguration [
 
 { #category : #initialization }
 GTMetacellerConfiguration >> buildProjects [
-	^GTMetacelloProject platforms collect: [ :each |
+	^GTMetacelloPlatform platforms collect: [ :each |
 		GTMetacellerProject on: self configuration platform: each ]
 ]
 

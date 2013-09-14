@@ -135,8 +135,8 @@ GTMetacellerProject >> platformSelector [
 { #category : #accessing }
 GTMetacellerProject >> project [
 	^project ifNil: [ 
-		GTMetacelloProject defaultPlatformSelector: self platformSelector.
-		[ project := configuration project ] ensure: [ GTMetacelloProject defaultPlatformSelector: nil ] ]
+		GTMetacelloPlatform defaultPlatformSelector: self platformSelector.
+		[ project := configuration project ] ensure: [ GTMetacelloPlatform defaultPlatformSelector: nil ] ]
 ]
 
 { #category : #dummy }

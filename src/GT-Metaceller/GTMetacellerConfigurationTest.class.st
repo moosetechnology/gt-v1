@@ -22,7 +22,7 @@ GTMetacellerConfigurationTest >> testMainProject [
 GTMetacellerConfigurationTest >> testProjects [
 	| configuration |
 	configuration := GTMetacellerConfiguration on: ConfigurationOfGTMetaceller.
-	self assert: configuration projects size equals: GTMetacelloProject platforms size
+	self assert: configuration projects size equals: GTMetacelloPlatform platforms size
 ]
 
 { #category : #tests }
