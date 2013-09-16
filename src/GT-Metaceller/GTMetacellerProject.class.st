@@ -7,8 +7,7 @@ Class {
 		'stableVersion',
 		'bleedingEdge',
 		'development',
-		'currentVersion',
-		'platform'
+		'currentVersion'
 	],
 	#category : #'GT-Metaceller'
 }
@@ -17,13 +16,6 @@ Class {
 GTMetacellerProject class >> on: aConfiguration [
 	^self basicNew
 		initialize: aConfiguration;
-		yourself
-]
-
-{ #category : #'instance creation' }
-GTMetacellerProject class >> on: aConfiguration platform: aPlatform [
-	^self basicNew
-		initialize: aConfiguration platform: aPlatform;
 		yourself
 ]
 
@@ -80,20 +72,18 @@ GTMetacellerProject >> development [
 
 { #category : #accessing }
 GTMetacellerProject >> displayString [
-	self platform ifNil: [ ^'current' ].
-	^self platform
+	^self platformDescription symbol asString
+]
+
+{ #category : #testing }
+GTMetacellerProject >> hasAttributes [
+	^false
 ]
 
 { #category : #initialization }
 GTMetacellerProject >> initialize: aConfiguration [
 	self initialize.
 	configuration := aConfiguration
-]
-
-{ #category : #initialization }
-GTMetacellerProject >> initialize: aConfiguration platform: aPlatform [
-	self initialize: aConfiguration.
-	platform := aPlatform
 ]
 
 { #category : #testing }
@@ -122,21 +112,13 @@ GTMetacellerProject >> packagesAndProjects [
 ]
 
 { #category : #accessing }
-GTMetacellerProject >> platform [
-	^ platform
-]
-
-{ #category : #accessing }
-GTMetacellerProject >> platformSelector [
-	self platform ifNil: [ ^nil ].
-	^(self platform asString, 'Attributes') asSymbol
-]
-
-{ #category : #accessing }
 GTMetacellerProject >> project [
-	^project ifNil: [ 
-		GTMetacelloPlatform defaultPlatformSelector: self platformSelector.
-		[ project := configuration project ] ensure: [ GTMetacelloPlatform defaultPlatformSelector: nil ] ]
+	^project ifNil: [ project := configuration project ]
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> projectAttributes [
+	^self project projectAttributes
 ]
 
 { #category : #dummy }

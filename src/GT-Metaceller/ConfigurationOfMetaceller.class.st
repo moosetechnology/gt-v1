@@ -4,7 +4,7 @@ A ConfigurationOfGTMetaceller is a mock configuration as GTMetaceller is part of
 It has all kinds of strange constructs, to allow for testing.
 "
 Class {
-	#name : #ConfigurationOfGTMetaceller,
+	#name : #ConfigurationOfMetaceller,
 	#superclass : #Object,
 	#instVars : [
 		'project'
@@ -16,7 +16,7 @@ Class {
 }
 
 { #category : #'development support' }
-ConfigurationOfGTMetaceller class >> DevelopmentSupport [
+ConfigurationOfMetaceller class >> DevelopmentSupport [
 
 "See the methods in the 'development support' category on the class-side of MetacelloBaseConfiguration. Decide what development support methods you would like to use and copy them the the class-side of your configuration."
 	<apiDocumentation>
@@ -24,7 +24,7 @@ ConfigurationOfGTMetaceller class >> DevelopmentSupport [
 ]
 
 { #category : #private }
-ConfigurationOfGTMetaceller class >> baseConfigurationClassIfAbsent: aBlock [
+ConfigurationOfMetaceller class >> baseConfigurationClassIfAbsent: aBlock [
 
 	^Smalltalk
 		at: #MetacelloBaseConfiguration
@@ -35,13 +35,13 @@ ConfigurationOfGTMetaceller class >> baseConfigurationClassIfAbsent: aBlock [
 ]
 
 { #category : #private }
-ConfigurationOfGTMetaceller class >> ensureMetacello [
+ConfigurationOfMetaceller class >> ensureMetacello [
 
 	(self baseConfigurationClassIfAbsent: []) ensureMetacello
 ]
 
 { #category : #private }
-ConfigurationOfGTMetaceller class >> ensureMetacelloBaseConfiguration [
+ConfigurationOfMetaceller class >> ensureMetacelloBaseConfiguration [
 
 	Smalltalk
 		at: #MetacelloBaseConfiguration
@@ -57,14 +57,14 @@ ConfigurationOfGTMetaceller class >> ensureMetacelloBaseConfiguration [
 ]
 
 { #category : #'metacello tool support' }
-ConfigurationOfGTMetaceller class >> isMetacelloConfig [
+ConfigurationOfMetaceller class >> isMetacelloConfig [
 	"Answer true and the Metacello tools will operate on you"
 	
 	^true
 ]
 
 { #category : #loading }
-ConfigurationOfGTMetaceller class >> load [
+ConfigurationOfMetaceller class >> load [
 	"Load the #stable version defined for this platform. The #stable version is the version that is recommended to be used on this platform."
 
 	"self load"
@@ -74,7 +74,7 @@ ConfigurationOfGTMetaceller class >> load [
 ]
 
 { #category : #loading }
-ConfigurationOfGTMetaceller class >> loadBleedingEdge [
+ConfigurationOfMetaceller class >> loadBleedingEdge [
 	"Load the latest versions of the mcz files defined for this project. It is not likely that the #bleedingEdge has been tested."
 
 	"self loadBleedingEdge"
@@ -84,7 +84,7 @@ ConfigurationOfGTMetaceller class >> loadBleedingEdge [
 ]
 
 { #category : #loading }
-ConfigurationOfGTMetaceller class >> loadDevelopment [
+ConfigurationOfMetaceller class >> loadDevelopment [
 	"Load the #development version defined for this platform. The #development version will change over time and is not expected to be stable."
 
 	"self loadDevelopment"
@@ -94,13 +94,13 @@ ConfigurationOfGTMetaceller class >> loadDevelopment [
 ]
 
 { #category : #accessing }
-ConfigurationOfGTMetaceller class >> project [
+ConfigurationOfMetaceller class >> project [
 
 	^self new project
 ]
 
 { #category : #'development support' }
-ConfigurationOfGTMetaceller class >> validate [
+ConfigurationOfMetaceller class >> validate [
 	"Check the configuration for Errors, Critical Warnings, and Warnings (see class comment for MetacelloMCVersionValidator for more information). 
 	Errors identify specification issues that will result in unexpected behaviour when you load the configuration. 
 	Critical Warnings identify specification issues that may result in unexpected behavior when you load the configuration.
@@ -114,9 +114,10 @@ ConfigurationOfGTMetaceller class >> validate [
 ]
 
 { #category : #baselines }
-ConfigurationOfGTMetaceller >> baseline01: aSpec [
+ConfigurationOfMetaceller >> baseline01: aSpec [
 	<version: '0.1-baseline'>
 	aSpec for: #common do: [ 
+		aSpec blessing: #'baseline'.
 		aSpec package: 'GT-Metaceller' ].
 	
 	aSpec for: #gemstone do: [ 
@@ -128,11 +129,22 @@ ConfigurationOfGTMetaceller >> baseline01: aSpec [
 					loads: #('Core');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
 		aSpec package: 'GT-Metaceller' with: [ 
-			aSpec requires: #( 'GlamourCore' ) ] ]
+			aSpec requires: #( 'GlamourCore' ) ] ].
+
+	aSpec for: #pharo do: [ 
+		aSpec project: 'Glamour' with: [
+				aSpec
+					className: 'ConfigurationOfGlamour';
+					file: 'ConfigurationOfGlamour';
+					version: #development;
+					loads: #('Extras' 'Morphic');
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		aSpec package: 'GT-Metaceller' with: [ 
+			aSpec requires: #( 'Glamour' ) ] ]
 ]
 
 { #category : #accessing }
-ConfigurationOfGTMetaceller >> customProjectAttributes [
+ConfigurationOfMetaceller >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
 	For more information see: http://code.google.com/p/metacello/wiki/CustomProjectAttrributes"
 
@@ -140,7 +152,7 @@ ConfigurationOfGTMetaceller >> customProjectAttributes [
 ]
 
 { #category : #accessing }
-ConfigurationOfGTMetaceller >> project [
+ConfigurationOfMetaceller >> project [
 
 	^ project ifNil: [ | constructor |
 		"Bootstrap Metacello if it is not already loaded"
@@ -150,4 +162,11 @@ ConfigurationOfGTMetaceller >> project [
 		constructor := (Smalltalk at: #MetacelloVersionConstructor) on: self project: project.
 		project loadType: #linear. "change to #atomic if desired"
 		project ]
+]
+
+{ #category : #versions }
+ConfigurationOfMetaceller >> version01: aSpec [
+	<version: '0.1' imports: #( '0.1-baseline')>
+	aSpec for: #'common' do: [ 
+		aSpec blessing: #'development' ]
 ]

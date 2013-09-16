@@ -3,21 +3,21 @@ Class {
 	#superclass : #MetacelloPlatform,
 	#instVars : [
 		'originalPlatform',
-		'platformSelector'
+		'platformDescription'
 	],
 	#category : #'GT-Metaceller'
 }
 
-{ #category : #'instance creation' }
-GTMetacelloPlatform class >> defaultPlatformSelector [
+{ #category : #private }
+GTMetacelloPlatform class >> defaultPlatformDescription [
 	(self current isKindOf: self) ifFalse: [ self initialize ].
-	^self current platformSelector
+	^self current platformDescription
 ]
 
-{ #category : #'instance creation' }
-GTMetacelloPlatform class >> defaultPlatformSelector: aSymbol [
+{ #category : #private }
+GTMetacelloPlatform class >> defaultPlatformDescription: aGTPlatformDescription [ 
 	(self current isKindOf: self) ifFalse: [ self initialize ].
-	self current platformSelector: aSymbol
+	^self current platformDescription: aGTPlatformDescription 
 ]
 
 { #category : #initialization }
@@ -41,31 +41,94 @@ GTMetacelloPlatform class >> on: aPlatform [
 		yourself
 ]
 
-{ #category : #private }
-GTMetacelloPlatform class >> platforms [
-	(self current isKindOf: self) ifFalse: [ self initialize ].
-	^self current platforms
+{ #category : #utilities }
+GTMetacelloPlatform >> authorName [
+	^self originalPlatform authorName
+]
+
+{ #category : #utilities }
+GTMetacelloPlatform >> authorName: aValue [
+	^self originalPlatform authorName: aValue
+]
+
+{ #category : #accessing }
+GTMetacelloPlatform >> bypassGoferLoadUpdateCategories [
+	^self originalPlatform bypassGoferLoadUpdateCategories
+]
+
+{ #category : #accessing }
+GTMetacelloPlatform >> bypassGoferLoadUpdateCategories: anObject [
+	^self originalPlatform bypassGoferLoadUpdateCategories: anObject
+]
+
+{ #category : #accessing }
+GTMetacelloPlatform >> bypassProgressBars [
+	^self originalPlatform bypassProgressBars
+]
+
+{ #category : #accessing }
+GTMetacelloPlatform >> bypassProgressBars: anObject [
+	^self originalPlatform bypassProgressBars: anObject
+]
+
+{ #category : #caching }
+GTMetacelloPlatform >> clearCurrentVersionCache [
+	^self originalPlatform clearCurrentVersionCache
+]
+
+{ #category : #notification }
+GTMetacelloPlatform >> collection: aCollection do: aBlock displaying: aString [
+	^self originalPlatform collection: aCollection do: aBlock displaying: aString
+]
+
+{ #category : #'user interaction' }
+GTMetacelloPlatform >> confirm: aString [
+	^self originalPlatform confirm: aString
+]
+
+{ #category : #reflection }
+GTMetacelloPlatform >> copyClass: oldClass as: newName inCategory: newCategoryName [
+	^self originalPlatform copyClass: oldClass as: newName inCategory: newCategoryName
+]
+
+{ #category : #'repository creation' }
+GTMetacelloPlatform >> createRepository: aRepositorySpec [
+	^self originalPlatform createRepository: aRepositorySpec
 ]
 
 { #category : #accessing }
 GTMetacelloPlatform >> defaultPlatformAttributes [
-	self platformSelector ifNil: [ ^self originalPlatform defaultPlatformAttributes ].
-	^self perform: self platformSelector
+	self platformDescription ifNil: [ ^self originalPlatform defaultPlatformAttributes ].
+	^self platformDescription attributes
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> gemstone24Attributes [
-	^#( #gemstone #'gs2.4.x' )
+{ #category : #tests }
+GTMetacelloPlatform >> defaultTimeout [
+	^self originalPlatform defaultTimeout
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> gemstone30Attributes [
-	^#( #gemstone #'gs3.x' #'gs3.0.x' )
+{ #category : #notification }
+GTMetacelloPlatform >> do: aBlock displaying: aString [
+	^self originalPlatform do: aBlock displaying: aString
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> gemstone31Attributes [
-	^#( #gemstone #'gs3.x' #'gs3.1.x' )
+{ #category : #'repository creation' }
+GTMetacelloPlatform >> extractTypeFromDescription: description [
+
+	^self originalPlatform extractTypeFromDescription: description
+
+]
+
+{ #category : #reflection }
+GTMetacelloPlatform >> globalNamed: globalName [
+
+	^self originalPlatform globalNamed: globalName
+]
+
+{ #category : #reflection }
+GTMetacelloPlatform >> globalNamed: globalName ifAbsent: absentBlock [
+
+	^self originalPlatform globalNamed: globalName ifAbsent: absentBlock
 ]
 
 { #category : #initialization }
@@ -79,42 +142,51 @@ GTMetacelloPlatform >> originalPlatform [
 	^originalPlatform
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> pharo13Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo1.x' #'pharo1.3.x' )
+{ #category : #accessing }
+GTMetacelloPlatform >> platformDescription [
+	^platformDescription
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> pharo14Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo1.x' #'pharo1.4.x' )
+{ #category : #accessing }
+GTMetacelloPlatform >> platformDescription: aGTPlatformDescription [ 
+	platformDescription := aGTPlatformDescription
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> pharo20Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo2.x' #'pharo2.0.x' )
+{ #category : #caching }
+GTMetacelloPlatform >> primeStackCacheFor: cacheName doing: noArgBlock defaultDictionary: aDictionary [
+	^self originalPlatform primeStackCacheFor: cacheName doing: noArgBlock defaultDictionary: aDictionary
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> pharo30Attributes [
-	^#( #'squeakcommon' #'pharo' #'pharo3.x' #'pharo3.0.x' )
+{ #category : #caching }
+GTMetacelloPlatform >> primeStackCacheWith: aDictionary doing: noArgBlock [
+	^self originalPlatform primeStackCacheWith: aDictionary doing: noArgBlock
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> platformSelector [
-	^platformSelector
+{ #category : #caching }
+GTMetacelloPlatform >> stackCacheFor: cacheName at: key doing: aBlock [
+	^self originalPlatform stackCacheFor: cacheName at: key doing: aBlock
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> platformSelector: aSymbol [ 
-	platformSelector := aSymbol
+{ #category : #caching }
+GTMetacelloPlatform >> stackCacheFor: cacheName cacheClass: cacheClass at: key doing: aBlock [
+
+	^self originalPlatform stackCacheFor: cacheName cacheClass: cacheClass at: key doing: aBlock
+
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> platforms [
-	^#( #gemstone24 #gemstone30 #gemstone31 #squeak #pharo13 #pharo14 #pharo20 #pharo30 )
+{ #category : #utilities }
+GTMetacelloPlatform >> timestamp [
+
+	^self originalPlatform timestamp
 ]
 
-{ #category : #private }
-GTMetacelloPlatform >> squeakAttributes [
-	^#( #'squeakcommon' #'squeak' )
+{ #category : #transactions }
+GTMetacelloPlatform >> transact: aBlock [
+
+	^self originalPlatform transact: aBlock
+]
+
+{ #category : #caching }
+GTMetacelloPlatform >> useStackCacheDuring: aBlock defaultDictionary: defaultDictionary [
+	^self originalPlatform useStackCacheDuring: aBlock defaultDictionary: defaultDictionary
 ]

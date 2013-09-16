@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'configuration',
 		'mainProject',
-		'projects'
+		'projects',
+		'platformSymbols'
 	],
 	#category : #'GT-Metaceller'
 }
@@ -17,9 +18,16 @@ GTMetacellerConfiguration class >> on: aConfiguration [
 ]
 
 { #category : #initialization }
+GTMetacellerConfiguration >> addPlatformSymbolsTo: aSet versionSpec: aSpec pragma: aPragma in: aConstructor [
+	aConstructor evaluatePragma: aPragma.
+	aSet addAll: aConstructor attributeMap keys
+
+]
+
+{ #category : #initialization }
 GTMetacellerConfiguration >> buildProjects [
-	^GTMetacelloPlatform platforms collect: [ :each |
-		GTMetacellerProject on: self configuration platform: each ]
+	^self platformSymbols collect: [ :each |
+		GTMetacellerAtributedProject on: self configuration platform: (GTPlatformDescription onSymbol: each) ]
 ]
 
 { #category : #accessing }
@@ -30,6 +38,26 @@ GTMetacellerConfiguration >> children [
 { #category : #accessor }
 GTMetacellerConfiguration >> configuration [
 	^configuration
+]
+
+{ #category : #initialization }
+GTMetacellerConfiguration >> createPlatformSymbols [
+	| retVal constructor versionMap symbolicVersionMap executionBlock |
+	retVal := Set new.
+	constructor := MetacelloVersionConstructor new
+		configuration: self configuration new;
+		yourself.
+	versionMap := Dictionary new.
+	symbolicVersionMap := Dictionary new.
+	executionBlock := [ :versionSpec :pragma | self addPlatformSymbolsTo: retVal versionSpec: versionSpec pragma: pragma in: constructor ].
+	constructor collectAllVersionsFromVersionPragmasInto: versionMap using: executionBlock.
+	constructor
+		collectAllVersionsFromVersionImportPragmasInto: versionMap
+		using: executionBlock
+		satisfiedPragmas: (constructor versionImportPragmasVerifiedDefinedIn: versionMap).
+	constructor collectAllSymbolicVersionsFromVersionPragmasInto: symbolicVersionMap using: executionBlock.
+	^retVal
+
 ]
 
 { #category : #accessor }
@@ -56,6 +84,11 @@ GTMetacellerConfiguration >> mainProject [
 { #category : #accessing }
 GTMetacellerConfiguration >> mainVersions [
 	^self mainProject versions
+]
+
+{ #category : #accessing }
+GTMetacellerConfiguration >> platformSymbols [
+	self shouldBeImplemented.createPlatformSymbols
 ]
 
 { #category : #accessor }
