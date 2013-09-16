@@ -31,13 +31,3 @@ GTMetacellerConfigurationTest >> testShortName [
 	configuration := GTMetacellerConfiguration on: ConfigurationOfMetaceller.
 	self assert: configuration shortName equals: 'Metaceller'
 ]
-
-{ #category : #tests }
-GTMetacellerConfigurationTest >> testSymbols [
-	| configuration |
-	configuration := GTMetacellerConfiguration on: ConfigurationOfMetaceller.
-	self assert: configuration platformSymbols size equals: 3.
-	self assert: (configuration platformSymbols includes: #'common').
-	self assert: (configuration platformSymbols includes: #'gemstone').
-	self assert: (configuration platformSymbols includes: #'pharo').
-]

@@ -17,19 +17,6 @@ GTMetacellerConfiguration class >> on: aConfiguration [
 		yourself
 ]
 
-{ #category : #initialization }
-GTMetacellerConfiguration >> addPlatformSymbolsTo: aSet versionSpec: aSpec pragma: aPragma in: aConstructor [
-	aConstructor evaluatePragma: aPragma.
-	aSet addAll: aConstructor attributeMap keys
-
-]
-
-{ #category : #initialization }
-GTMetacellerConfiguration >> buildProjects [
-	^self platformSymbols collect: [ :each |
-		GTMetacellerAtributedProject on: self configuration platform: (GTPlatformDescription onSymbol: each) ]
-]
-
 { #category : #accessing }
 GTMetacellerConfiguration >> children [
 	^self mainProject childConfigurations collect: [ :each | GTMetacellerConfiguration on: each ]
@@ -38,26 +25,6 @@ GTMetacellerConfiguration >> children [
 { #category : #accessor }
 GTMetacellerConfiguration >> configuration [
 	^configuration
-]
-
-{ #category : #initialization }
-GTMetacellerConfiguration >> createPlatformSymbols [
-	| retVal constructor versionMap symbolicVersionMap executionBlock |
-	retVal := Set new.
-	constructor := MetacelloVersionConstructor new
-		configuration: self configuration new;
-		yourself.
-	versionMap := Dictionary new.
-	symbolicVersionMap := Dictionary new.
-	executionBlock := [ :versionSpec :pragma | self addPlatformSymbolsTo: retVal versionSpec: versionSpec pragma: pragma in: constructor ].
-	constructor collectAllVersionsFromVersionPragmasInto: versionMap using: executionBlock.
-	constructor
-		collectAllVersionsFromVersionImportPragmasInto: versionMap
-		using: executionBlock
-		satisfiedPragmas: (constructor versionImportPragmasVerifiedDefinedIn: versionMap).
-	constructor collectAllSymbolicVersionsFromVersionPragmasInto: symbolicVersionMap using: executionBlock.
-	^retVal
-
 ]
 
 { #category : #accessor }
@@ -78,7 +45,7 @@ GTMetacellerConfiguration >> mainMethods [
 
 { #category : #accessor }
 GTMetacellerConfiguration >> mainProject [
-	^mainProject ifNil: [ mainProject := GTMetacellerProject on: self configuration ]
+	^mainProject ifNil: [ mainProject := GTMetacellerMainProject on: self configuration ]
 ]
 
 { #category : #accessing }
@@ -87,13 +54,8 @@ GTMetacellerConfiguration >> mainVersions [
 ]
 
 { #category : #accessing }
-GTMetacellerConfiguration >> platformSymbols [
-	self shouldBeImplemented.createPlatformSymbols
-]
-
-{ #category : #accessor }
 GTMetacellerConfiguration >> projects [
-	^projects ifNil: [ projects := self buildProjects ]
+	^self mainProject projects
 ]
 
 { #category : #display }

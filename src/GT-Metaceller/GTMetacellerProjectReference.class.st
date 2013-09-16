@@ -59,6 +59,11 @@ GTMetacellerProjectReference >> labelAsText [
 	
 ]
 
+{ #category : #printing }
+GTMetacellerProjectReference >> printVersionOn: aStream [ 
+	aStream nextPutAll: 'project: '''; nextPutAll: self name; nextPutAll: ''' with: #''stable'''
+]
+
 { #category : #accessing }
 GTMetacellerProjectReference >> project [
 	^self referenceSpec

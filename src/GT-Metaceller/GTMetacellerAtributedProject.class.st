@@ -14,6 +14,11 @@ GTMetacellerAtributedProject class >> on: aConfigurationClass platform: aPlatfor
 		yourself
 ]
 
+{ #category : #accessing }
+GTMetacellerAtributedProject >> displayString [
+	^self platformDescription symbol asString
+]
+
 { #category : #testing }
 GTMetacellerAtributedProject >> hasAttributes [
 	^true

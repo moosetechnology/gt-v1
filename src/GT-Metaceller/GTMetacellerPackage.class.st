@@ -64,6 +64,11 @@ GTMetacellerPackage >> labelAsText [
 	^(Text fromString: prefix), (Text string: self label attributes: self textAttributes)
 ]
 
+{ #category : #accessing }
+GTMetacellerPackage >> loadedVersionName [
+	^self referenceSpec workingCopy ancestry ancestorString
+]
+
 { #category : #testing }
 GTMetacellerPackage >> needsSaving [
 	self packageSpec workingCopy ifNotNilDo: [ :copy | ^copy needsSaving ].
@@ -73,6 +78,11 @@ GTMetacellerPackage >> needsSaving [
 { #category : #accessing }
 GTMetacellerPackage >> packageSpec [
 	^self referenceSpec
+]
+
+{ #category : #printing }
+GTMetacellerPackage >> printVersionOn: aStream [ 
+	aStream nextPutAll: 'package: '''; nextPutAll: self name; nextPutAll: ''' with: '''; nextPutAll: self loadedVersionName; nextPutAll: ''''
 ]
 
 { #category : #display }

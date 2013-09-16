@@ -7,7 +7,8 @@ Class {
 		'configuration',
 		'cachedPackageMap',
 		'project',
-		'groups'
+		'groups',
+		'items'
 	],
 	#category : #'GT-Metaceller'
 }
@@ -96,6 +97,11 @@ GTMetacellerVersion >> buildGroups [
 	^#()
 ]
 
+{ #category : #initialization }
+GTMetacellerVersion >> buildItems [
+	^self packagesAndProjects collect: [ :each | self wrapperFor: each ] 
+]
+
 { #category : #actions }
 GTMetacellerVersion >> checkCurrentVersion [
 	self project checkCurrentVersion
@@ -115,7 +121,7 @@ GTMetacellerVersion >> configuration: anObject [
 GTMetacellerVersion >> determineVersion [
 	self project ifNil: [  ^nil ].
 	self method pragmas do: [ :each |
-		(each key beginsWith: 'version') ifTrue: [ ^self project version: (each arguments first) ] ].
+		(each key beginsWith: 'version') ifTrue: [ ^self project metacelloVersion: (each arguments first) ] ].
 	^nil
 ]
 
@@ -139,6 +145,16 @@ GTMetacellerVersion >> groupsAndLoosePackages [
 	^(OrderedCollection withAll: self packagesWithoutGroups)
 		addAll: self groups;
 		yourself
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> hasItem: aMetacellerItem [
+	^self items contains: [ :each | each name = aMetacellerItem name ]
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> hasName: aString [ 
+	^self name = aString
 ]
 
 { #category : #initialization }
@@ -200,6 +216,11 @@ GTMetacellerVersion >> isStable [
 	[ ^(self project stableVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
 ]
 
+{ #category : #accessing }
+GTMetacellerVersion >> items [
+	self shouldBeImplemented.buildItems
+]
+
 { #category : #actions }
 GTMetacellerVersion >> load [
 	self version ifNotNil: [ self version load ]
@@ -240,6 +261,12 @@ GTMetacellerVersion >> name [
 	method pragmas do: [  :each |
 		(each key beginsWith: 'version') ifTrue: [ ^each arguments first ] ].
 	^method selector
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> package: aString [
+	^self items detect: [ :each | each hasName: aString ] ifNone: [ nil ]
+	
 ]
 
 { #category : #accessing }
@@ -284,6 +311,11 @@ GTMetacellerVersion >> packagesWithoutGroups [
 	" make sure the groups are built first "
 	self groups.
 	^self packagesAndProjects select: [ :each | (each isPackage or: [ each isProject ]) and: [ (self belongsToGroup: each) not ] ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> platformsFor: aMetacellerItem [
+	^self project platformsFor: aMetacellerItem version: self name
 ]
 
 { #category : #accessing }

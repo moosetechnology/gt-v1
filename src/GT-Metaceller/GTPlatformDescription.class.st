@@ -69,6 +69,11 @@ GTPlatformDescription >> attributesWith: aCollection [
 		yourself
 ]
 
+{ #category : #testing }
+GTPlatformDescription >> hasSymbol: aSymbol [
+	^symbol = aSymbol asLowercase asSymbol
+]
+
 { #category : #initialization }
 GTPlatformDescription >> initialize: aParent symbol: aSymbol [
 	self initialize.
@@ -76,9 +81,21 @@ GTPlatformDescription >> initialize: aParent symbol: aSymbol [
 	symbol := aSymbol
 ]
 
+{ #category : #testing }
+GTPlatformDescription >> isParent: aPlatformDescription [ 
+	aPlatformDescription ifNil: [ ^false ].
+	aPlatformDescription parent = self ifTrue: [ ^true ].
+	^self isParent: aPlatformDescription parent
+]
+
 { #category : #accessing }
 GTPlatformDescription >> parent [
 	^ parent
+]
+
+{ #category : #accessing }
+GTPlatformDescription >> printOn: aStream [
+	self symbol printOn: aStream
 ]
 
 { #category : #accessing }

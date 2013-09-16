@@ -25,6 +25,16 @@ GTMetacellerItem >> children [
 	^#()
 ]
 
+{ #category : #testing }
+GTMetacellerItem >> hasName: aString [ 
+	^self name = aString
+]
+
+{ #category : #testing }
+GTMetacellerItem >> hasPlatform: aSymbol [ 
+	^self platforms contains: [ :each | each hasSymbol: aSymbol ]
+]
+
 { #category : #initialization }
 GTMetacellerItem >> initialize: aVersion [
 	self initialize.
@@ -76,6 +86,11 @@ GTMetacellerItem >> labelAsText [
 { #category : #accessing }
 GTMetacellerItem >> name [
 	^self referenceSpec name
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> platforms [
+	^self version platformsFor: self
 ]
 
 { #category : #accessing }

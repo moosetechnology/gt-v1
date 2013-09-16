@@ -70,14 +70,14 @@ GTMetacellerProject >> development [
 	^development
 ]
 
-{ #category : #accessing }
-GTMetacellerProject >> displayString [
-	^self platformDescription symbol asString
-]
-
 { #category : #testing }
 GTMetacellerProject >> hasAttributes [
 	^false
+]
+
+{ #category : #testing }
+GTMetacellerProject >> hasItem: aMetacellerItem inVersion: aVersion [
+	^((self version: aVersion) ifNil: [ ^false ]) hasItem: aMetacellerItem
 ]
 
 { #category : #initialization }
@@ -89,6 +89,12 @@ GTMetacellerProject >> initialize: aConfiguration [
 { #category : #testing }
 GTMetacellerProject >> isProject: aSpec [ 
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ (aSpec isKindOf: MetacelloProjectSpec) ]
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> metacelloVersion: aStringOrSymbol [
+	self project ifNil: [ ^nil ].
+	^self project version: aStringOrSymbol
 ]
 
 { #category : #dummy }
@@ -114,16 +120,6 @@ GTMetacellerProject >> packagesAndProjects [
 { #category : #accessing }
 GTMetacellerProject >> project [
 	^project ifNil: [ project := configuration project ]
-]
-
-{ #category : #accessing }
-GTMetacellerProject >> projectAttributes [
-	^self project projectAttributes
-]
-
-{ #category : #dummy }
-GTMetacellerProject >> projects [
-	^#()
 ]
 
 { #category : #accessing }
@@ -153,7 +149,7 @@ GTMetacellerProject >> textLabel [
 { #category : #accessing }
 GTMetacellerProject >> version: aStringOrSymbol [
 	self project ifNil: [ ^nil ].
-	^self project version: aStringOrSymbol
+	^self versions detect: [ :each | each hasName: aStringOrSymbol ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
