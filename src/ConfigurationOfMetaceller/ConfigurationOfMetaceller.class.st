@@ -163,6 +163,12 @@ ConfigurationOfMetaceller >> customProjectAttributes [
 	^ #().
 ]
 
+{ #category : #'symbolic versions' }
+ConfigurationOfMetaceller >> development: aSpec [
+	<symbolicVersion: #'development'>
+	aSpec for: #'common' version: '0.1-baseline'.
+]
+
 { #category : #accessing }
 ConfigurationOfMetaceller >> project [
 
@@ -176,9 +182,17 @@ ConfigurationOfMetaceller >> project [
 		project ]
 ]
 
+{ #category : #'symbolic versions' }
+ConfigurationOfMetaceller >> stable: aSpec [
+	<symbolicVersion: #'stable'>
+	aSpec for: #'common' version: '0.1'.
+]
+
 { #category : #versions }
 ConfigurationOfMetaceller >> version01: aSpec [
 	<version: '0.1' imports: #( '0.1-baseline')>
 	aSpec for: #'common' do: [ 
-		aSpec blessing: #'development' ]
+		aSpec blessing: #'development'.
+		aSpec description: 'Just the development branch, so no version specified for now.'.
+		aSpec author: 'Diego Lont' ]
 ]
