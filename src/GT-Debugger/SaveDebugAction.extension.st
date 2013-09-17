@@ -10,6 +10,9 @@ SaveDebugAction >> asGlamourAction [
 ]
 
 { #category : #'*GT-Debugger' }
-SaveDebugAction classSide >> gtActionType [
+SaveDebugAction classSide >> gtActionFor: aDebugger [
 	<gtCodeDebuggingAction>
+	
+	^ (self forDebugger: aDebugger)
+		icon: GLMUIThemeExtraIcons glamorousAccept
 ]
