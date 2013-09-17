@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 GTMetacellerPackageTest >> testPlatformCommon [
 	| package |
-	package := ((GTMetacellerConfiguration on: ConfigurationOfMetaceller) mainProject version: '0.1') package: 'GT-Metaceller'.
+	package := ((GTMetacellerConfiguration on: ConfigurationOfMetaceller) mainProject version: '0.1') package: 'GT-Metaceller-Model'.
 	self assert: package platforms size equals: 1.
 	self assert: (package platforms contains: [ :each | each hasSymbol:#'common' ])
 ]
@@ -22,7 +22,7 @@ GTMetacellerPackageTest >> testPlatformGemstone [
 { #category : #tests }
 GTMetacellerPackageTest >> testPlatformPharo [
 	| package |
-	package := ((GTMetacellerConfiguration on: ConfigurationOfMetaceller) mainProject version: '0.1') package: 'Glamour'.
+	package := ((GTMetacellerConfiguration on: ConfigurationOfMetaceller) mainProject version: '0.1') package: 'GlamourAll'.
 	self assert: package platforms size equals: 1.
 	self assert: (package platforms includes: (GTPlatformDescription onSymbol: #'pharo'))
 ]
