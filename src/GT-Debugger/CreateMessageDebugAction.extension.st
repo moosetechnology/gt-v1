@@ -1,9 +1,12 @@
 Extension { #name : #CreateMessageDebugAction }
 
 { #category : #'*GT-Debugger' }
-CreateMessageDebugAction classSide >> gtActionFor: aDebugger [
+CreateMessageDebugAction classSide >> defaultIcon [
+
+	^ GLMUIThemeExtraIcons glamorousAdd
+]
+
+{ #category : #'*GT-Debugger' }
+CreateMessageDebugAction classSide >> gtActionType [
 	<gtContextDebuggingAction>
-	
-	^ (self forDebugger: aDebugger)
-		icon: GLMUIThemeExtraIcons glamorousAdd
 ]

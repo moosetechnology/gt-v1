@@ -1,9 +1,12 @@
 Extension { #name : #ResumeDebugAction }
 
 { #category : #'*GT-Debugger' }
-ResumeDebugAction class >> gtActionFor: aDebugger [
-	<gtDebuggingAction>
+ResumeDebugAction class >> defaultIcon [ 
 	
-	^ (self forDebugger: aDebugger)
-		icon: GLMUIThemeExtraIcons glamorousPlay
+	^ GLMUIThemeExtraIcons glamorousPlay
+]
+
+{ #category : #'*GT-Debugger' }
+ResumeDebugAction class >> gtActionType [
+	<gtDebuggingAction>
 ]
