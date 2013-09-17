@@ -18,7 +18,7 @@ GTMetacellerMainProject >> addPlatformSymbolsTo: aSet versionSpec: aSpec pragma:
 { #category : #initialization }
 GTMetacellerMainProject >> buildProjects [
 	^self platformSymbols collect: [ :each |
-		GTMetacellerAtributedProject on: self configuration platform: (GTPlatformDescription onSymbol: each) ]
+		GTMetacellerAtributedProject on: self configuration main: self platform: (GTPlatformDescription onSymbol: each) ]
 ]
 
 { #category : #initialization }
@@ -50,6 +50,20 @@ GTMetacellerMainProject >> createSnapshotVersion: aString basedOn: aBaseline [
 		classified: 'snapshot-versions'
 ]
 
+{ #category : #testing }
+GTMetacellerMainProject >> hasPlatform: aPlatform [
+	(#common compare: aPlatform caseSensitive: false) = 2 ifTrue: [ ^true ].
+	^MetacelloPlatform current defaultPlatformAttributes contains: [ :each |
+		(each compare: aPlatform caseSensitive: false) = 2 ]
+]
+
+{ #category : #accessing }
+GTMetacellerMainProject >> itemsFor: aPlatform in: aVersion [ 
+	(self hasPlatform: aPlatform)
+		ifTrue: [ ^(aVersion items select: [ :each | each hasPlatform: aPlatform ]) ].
+	^(self projectFor: aPlatform) itemsFor: aPlatform in: aVersion 
+]
+
 { #category : #accessing }
 GTMetacellerMainProject >> normalizePlatforms: aSet [
 	| retVal |
@@ -75,31 +89,40 @@ GTMetacellerMainProject >> platformsFor: aMetacellerItem version: aVersionName [
 	^self normalizePlatforms: platforms
 ]
 
+{ #category : #printing }
+GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aStream [
+	| first |
+	aStream tab; nextPutAll: 'aSpec for: #'; nextPutAll: aPlatform; nextPutAll: ' do: ['; cr.
+	first := true.
+	(self itemsFor: aPlatform in: aVersion) do: [ :each |
+		first 
+			ifTrue: [ aStream tab; tab; nextPutAll: 'aSpec '.
+				first := true ]
+			ifFalse: [ aStream nextPut: $;; lf; tab; tab; tab ].
+		each printVersionOn: aStream ].
+	aStream nextPutAll: '].'; cr
+]
+
+{ #category : #accessing }
+GTMetacellerMainProject >> projectFor: aPlatform [
+	^self projects detect: [ :each | each hasPlatform: aPlatform ]
+]
+
 { #category : #dummy }
 GTMetacellerMainProject >> projects [
 	^projects ifNil: [ projects := self buildProjects ]
 ]
 
-{ #category : #actions }
+{ #category : #printing }
 GTMetacellerMainProject >> snapshotVersion: aString baseline: aBaseline [
 	| version |
 	" this method needs a baseline "
 	version := self version: aBaseline.
 	version ifNil: [ ^nil ].
 	^String streamContents: [ :s |
-		s nextPutAll: (('version', aString) asIdentifier: false); nextPutAll: ': aSpec'; lf;
-			tab; nextPutAll: '<version:'''; nextPutAll: aString; nextPutAll: ''' imports: #( ''';nextPutAll: aBaseline; nextPutAll: ''' )>'; lf;
-			lf.
+		s nextPutAll: (('version', aString) asIdentifier: false); nextPutAll: ': aSpec'; cr;
+			tab; nextPutAll: '<version:'''; nextPutAll: aString; nextPutAll: ''' imports: #( ''';nextPutAll: aBaseline; nextPutAll: ''' )>'; cr;
+			cr.
 		self platformSymbols do: [ :platform |
-			s tab; nextPutAll: 'aSpec for: #'; nextPutAll: platform; nextPutAll: ' do: ['; lf.
-			version items do: [ :each |
-				| first |
-				first := true.
-				(each hasPlatform: platform) ifTrue: [
-					first 
-						ifTrue: [ s tab; tab; nextPutAll: 'aSpec '.
-							first := true ]
-						ifFalse: [ s nextPut: $;; lf; tab; tab; tab ].
-					each printVersionOn: s ] ].
-			s nextPutAll: '].'; lf ] ]
+			self printVersionsFor: platform version: version on: s ] ]
 ]

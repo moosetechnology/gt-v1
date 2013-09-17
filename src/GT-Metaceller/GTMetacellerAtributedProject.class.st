@@ -2,15 +2,16 @@ Class {
 	#name : #GTMetacellerAtributedProject,
 	#superclass : #GTMetacellerProject,
 	#instVars : [
-		'platformDescription'
+		'platformDescription',
+		'mainProject'
 	],
 	#category : #'GT-Metaceller'
 }
 
 { #category : #'instance creation' }
-GTMetacellerAtributedProject class >> on: aConfigurationClass platform: aPlatformDescription [
+GTMetacellerAtributedProject class >> on: aConfigurationClass main: aMainProject platform: aPlatformDescription [
 	^self basicNew
-		initialize: aConfigurationClass platform: aPlatformDescription;
+		initialize: aConfigurationClass main: aMainProject platform: aPlatformDescription;
 		yourself
 ]
 
@@ -24,15 +25,36 @@ GTMetacellerAtributedProject >> hasAttributes [
 	^true
 ]
 
+{ #category : #testing }
+GTMetacellerAtributedProject >> hasPlatform: aPlatform [
+	^self platformDescription hasSymbol: aPlatform
+]
+
 { #category : #initialization }
-GTMetacellerAtributedProject >> initialize: aConfigurationClass platform: aPlatformDescription [
+GTMetacellerAtributedProject >> initialize: aConfigurationClass main: aMainProject platform: aPlatformDescription [
 	self initialize: aConfigurationClass.
+	mainProject := aMainProject.
 	platformDescription := aPlatformDescription
+]
+
+{ #category : #accessing }
+GTMetacellerAtributedProject >> itemsFor: aPlatform in: aVersion [ 
+	^(self version: aVersion name) items select: [ :each | each hasPlatform: aPlatform ]
+]
+
+{ #category : #accessing }
+GTMetacellerAtributedProject >> mainProject [
+	^mainProject
 ]
 
 { #category : #accessing }
 GTMetacellerAtributedProject >> platformDescription [
 	^ platformDescription
+]
+
+{ #category : #accessing }
+GTMetacellerAtributedProject >> platformsFor: anItem version: aVersion [ 
+	^self mainProject platformsFor: anItem version: aVersion
 ]
 
 { #category : #accessing }

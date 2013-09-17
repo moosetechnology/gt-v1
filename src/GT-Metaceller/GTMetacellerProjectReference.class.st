@@ -60,8 +60,15 @@ GTMetacellerProjectReference >> labelAsText [
 ]
 
 { #category : #printing }
-GTMetacellerProjectReference >> printVersionOn: aStream [ 
-	aStream nextPutAll: 'project: '''; nextPutAll: self name; nextPutAll: ''' with: #''stable'''
+GTMetacellerProjectReference >> printVersionOn: aStream [
+	| configClass |
+	configClass := Smalltalk at: self referenceSpec projectReference className asSymbol ifAbsent: [ nil ].
+	aStream nextPutAll: 'project: '''; nextPutAll: self name; nextPutAll: ''' with: '.
+	configClass
+		ifNil: [ aStream nextPutAll: self referenceSpec projectReference versionString ]
+		ifNotNil: [ aStream nextPut: $';
+			nextPutAll: (configClass project version: self referenceSpec projectReference versionString) versionNumber asString;
+			nextPut: $' ]
 ]
 
 { #category : #accessing }

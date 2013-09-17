@@ -12,18 +12,18 @@ GTMetacellerProjectTest >> testCreateVersion [
 	<version:''0.2'' imports: #( ''0.1-baseline'' )>
 
 	aSpec for: #gemstone do: [
-].
+		aSpec project: ''GlamourCore'' with: ''2.5-baseline''].
 	aSpec for: #common do: [
-		aSpec package: ''GT-Metaceller'' with: ''GT-Metaceller-DiegoLont.24''].
+		aSpec package: ''GT-Metaceller'' with: ''GT-Metaceller-DiegoLont.25''].
 	aSpec for: #pharo do: [
-		aSpec project: ''Glamour'' with: #''stable''].
+		aSpec project: ''Glamour'' with: ''2.5-baseline''].
 '
 ]
 
 { #category : #tests }
 GTMetacellerProjectTest >> testGemstone [
 	| project version |
-	project := GTMetacellerAtributedProject on: ConfigurationOfMetaceller platform: (GTPlatformDescription onSymbol: #gemstone).
+	project := GTMetacellerAtributedProject on: ConfigurationOfMetaceller main: nil platform: (GTPlatformDescription onSymbol: #gemstone).
 	version := project version: '0.1-baseline'.
 	self assert: version packages size equals: 1.
 	self assert: version projects size equals: 1

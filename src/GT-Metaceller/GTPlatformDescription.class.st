@@ -71,7 +71,7 @@ GTPlatformDescription >> attributesWith: aCollection [
 
 { #category : #testing }
 GTPlatformDescription >> hasSymbol: aSymbol [
-	^symbol = aSymbol asLowercase asSymbol
+	^(symbol compare: aSymbol caseSensitive: false) = 2
 ]
 
 { #category : #initialization }
