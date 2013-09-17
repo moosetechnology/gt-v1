@@ -218,7 +218,7 @@ GTMetacellerVersion >> isStable [
 
 { #category : #accessing }
 GTMetacellerVersion >> items [
-	self shouldBeImplemented.buildItems
+	^items ifNil: [ items := self buildItems ]
 ]
 
 { #category : #actions }

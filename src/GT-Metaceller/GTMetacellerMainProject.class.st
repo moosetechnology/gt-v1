@@ -42,11 +42,11 @@ GTMetacellerMainProject >> createPlatformSymbols [
 ]
 
 { #category : #actions }
-GTMetacellerMainProject >> createSnapshotVersion: aString basedOn: aBaseline [
+GTMetacellerMainProject >> createSnapshotVersion: aString baseline: aBaseline [
 	(self version: aString) ifNotNil: [ 
 		" do not create a version that exists already, perhalps an error is more appropriate "
 		^self ].
-	self configuration compile: (self snapshotVersion: aString basedOn: aBaseline)
+	self configuration compile: (self snapshotVersion: aString baseline: aBaseline)
 		classified: 'snapshot-versions'
 ]
 
@@ -60,7 +60,8 @@ GTMetacellerMainProject >> hasPlatform: aPlatform [
 { #category : #accessing }
 GTMetacellerMainProject >> itemsFor: aPlatform in: aVersion [ 
 	(self hasPlatform: aPlatform)
-		ifTrue: [ ^(aVersion items select: [ :each | each hasPlatform: aPlatform ]) ].
+		ifTrue: [ ^(aVersion items
+			select: [ :each | (each hasPlatform: aPlatform) and: [ each isGroup not ] ]) ].
 	^(self projectFor: aPlatform) itemsFor: aPlatform in: aVersion 
 ]
 
@@ -91,16 +92,21 @@ GTMetacellerMainProject >> platformsFor: aMetacellerItem version: aVersionName [
 
 { #category : #printing }
 GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aStream [
-	| first |
-	aStream tab; nextPutAll: 'aSpec for: #'; nextPutAll: aPlatform; nextPutAll: ' do: ['; cr.
-	first := true.
-	(self itemsFor: aPlatform in: aVersion) do: [ :each |
-		first 
-			ifTrue: [ aStream tab; tab; nextPutAll: 'aSpec '.
-				first := true ]
-			ifFalse: [ aStream nextPut: $;; lf; tab; tab; tab ].
-		each printVersionOn: aStream ].
-	aStream nextPutAll: '].'; cr
+	| items |
+	items := (self itemsFor: aPlatform in: aVersion).
+	items ifNotEmpty: [ 
+		| first |
+		aStream tab; nextPutAll: 'aSpec for: '.
+		aPlatform printOn: aStream.
+		aStream nextPutAll: ' do: ['; cr.
+		first := true.
+		items do: [ :each |
+			first 
+				ifTrue: [ aStream tab; tab; nextPutAll: 'aSpec '.
+					first := false ]
+				ifFalse: [ aStream nextPut: $;; lf; tab; tab; tab ].
+			each printVersionOn: aStream ].
+		aStream nextPutAll: '].'; cr ]
 ]
 
 { #category : #accessing }

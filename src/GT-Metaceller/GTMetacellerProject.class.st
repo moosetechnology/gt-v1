@@ -7,7 +7,8 @@ Class {
 		'stableVersion',
 		'bleedingEdge',
 		'development',
-		'currentVersion'
+		'currentVersion',
+		'versions'
 	],
 	#category : #'GT-Metaceller'
 }
@@ -29,6 +30,11 @@ GTMetacellerProject >> bleedingEdge [
 	bleedingEdge ifNil: [
 		[ bleedingEdge := self project bleedingEdge ] on: MetacelloVersionDoesNotExistError ].
 	^bleedingEdge
+]
+
+{ #category : #initialization }
+GTMetacellerProject >> buildVersions [
+	^GTMetacellerVersion versionsForProject: self
 ]
 
 { #category : #accessing }
@@ -154,7 +160,7 @@ GTMetacellerProject >> version: aStringOrSymbol [
 
 { #category : #accessing }
 GTMetacellerProject >> versions [
-	^GTMetacellerVersion versionsForProject: self
+	^versions ifNil: [ versions := GTMetacellerVersion versionsForProject: self ]
 ]
 
 { #category : #roassal }

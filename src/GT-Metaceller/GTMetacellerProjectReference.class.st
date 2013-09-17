@@ -65,9 +65,9 @@ GTMetacellerProjectReference >> printVersionOn: aStream [
 	configClass := Smalltalk at: self referenceSpec projectReference className asSymbol ifAbsent: [ nil ].
 	aStream nextPutAll: 'project: '''; nextPutAll: self name; nextPutAll: ''' with: '.
 	configClass
-		ifNil: [ aStream nextPutAll: self referenceSpec projectReference versionString ]
+		ifNil: [ aStream nextPutAll: self referenceSpec projectReference versionString printString ]
 		ifNotNil: [ aStream nextPut: $';
-			nextPutAll: (configClass project version: self referenceSpec projectReference versionString) versionNumber asString;
+			nextPutAll: (configClass project version: self referenceSpec projectReference versionString) versionNumber printString;
 			nextPut: $' ]
 ]
 

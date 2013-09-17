@@ -11,11 +11,11 @@ GTMetacellerProjectTest >> testCreateVersion [
 	self assert: (mainProject snapshotVersion: '0.2' baseline: '0.1-baseline') equals: 'version02: aSpec
 	<version:''0.2'' imports: #( ''0.1-baseline'' )>
 
-	aSpec for: #gemstone do: [
+	aSpec for: #''gemstone'' do: [
 		aSpec project: ''GlamourCore'' with: ''2.5-baseline''].
-	aSpec for: #common do: [
+	aSpec for: #''common'' do: [
 		aSpec package: ''GT-Metaceller'' with: ''GT-Metaceller-DiegoLont.25''].
-	aSpec for: #pharo do: [
+	aSpec for: #''pharo'' do: [
 		aSpec project: ''Glamour'' with: ''2.5-baseline''].
 '
 ]

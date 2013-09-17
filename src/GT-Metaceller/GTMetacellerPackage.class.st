@@ -66,7 +66,9 @@ GTMetacellerPackage >> labelAsText [
 
 { #category : #accessing }
 GTMetacellerPackage >> loadedVersionName [
-	^self referenceSpec workingCopy ancestry ancestorString
+	self referenceSpec workingCopy ifNotNil: [
+		^self referenceSpec workingCopy ancestry ancestorString ].
+	^self referenceSpec file
 ]
 
 { #category : #testing }
