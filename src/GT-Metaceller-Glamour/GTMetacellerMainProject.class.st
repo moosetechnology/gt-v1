@@ -5,7 +5,7 @@ Class {
 		'platformSymbols',
 		'projects'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #initialization }

@@ -10,7 +10,7 @@ Class {
 		'currentVersion',
 		'versions'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #'instance creation' }

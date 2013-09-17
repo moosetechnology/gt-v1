@@ -5,7 +5,7 @@ Class {
 		'originalPlatform',
 		'platformDescription'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #private }

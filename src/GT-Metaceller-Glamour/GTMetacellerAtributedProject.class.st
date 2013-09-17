@@ -5,7 +5,7 @@ Class {
 		'platformDescription',
 		'mainProject'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #'instance creation' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'children'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #accessing }

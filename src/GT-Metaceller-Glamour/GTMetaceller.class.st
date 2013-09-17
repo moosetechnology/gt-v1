@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'announcer'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Glamour'
 }
 
 { #category : #actions }

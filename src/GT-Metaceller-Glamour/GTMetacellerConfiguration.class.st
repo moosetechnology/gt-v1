@@ -7,7 +7,7 @@ Class {
 		'projects',
 		'platformSymbols'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #'instance creation' }

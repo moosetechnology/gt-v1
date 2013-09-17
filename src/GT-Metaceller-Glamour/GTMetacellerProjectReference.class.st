@@ -1,7 +1,7 @@
 Class {
 	#name : #GTMetacellerProjectReference,
 	#superclass : #GTMetacellerItem,
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #accessing }

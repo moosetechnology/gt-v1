@@ -5,7 +5,7 @@ Class {
 		'version',
 		'referenceSpec'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #'instance creation' }

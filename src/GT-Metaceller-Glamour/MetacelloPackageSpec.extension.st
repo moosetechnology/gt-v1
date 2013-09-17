@@ -1,6 +1,6 @@
 Extension { #name : #MetacelloPackageSpec }
 
-{ #category : #'*gt-metaceller' }
+{ #category : #'*gt-metaceller-model' }
 MetacelloPackageSpec >> hasNewerVersionsFrom: version [
 	| g |
 	g := Gofer new.
@@ -9,14 +9,14 @@ MetacelloPackageSpec >> hasNewerVersionsFrom: version [
 	^ g resolved first name ~= self currentVersionInfo name
 ]
 
-{ #category : #'*gt-metaceller' }
+{ #category : #'*gt-metaceller-glamour' }
 MetacelloPackageSpec >> labelAsText [	
 	^ self needsSaving
 			ifTrue: [ Text string: self file attribute: TextColor blue] 
 			ifFalse: [ Text fromString: self file ]
 ]
 
-{ #category : #'*gt-metaceller' }
+{ #category : #'*gt-metaceller-model' }
 MetacelloPackageSpec >> needsSaving [
 	| copy |
 	copy := self workingCopy.

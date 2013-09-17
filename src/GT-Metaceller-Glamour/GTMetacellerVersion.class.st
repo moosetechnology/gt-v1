@@ -10,7 +10,7 @@ Class {
 		'groups',
 		'items'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #conveniance }

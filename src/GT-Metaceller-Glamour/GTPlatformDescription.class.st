@@ -8,7 +8,7 @@ Class {
 	#classInstVars : [
 		'cached'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #'instance creation' }

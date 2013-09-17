@@ -1,5 +1,5 @@
 Class {
 	#name : #GTConfigChanged,
 	#superclass : #Announcement,
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Glamour'
 }

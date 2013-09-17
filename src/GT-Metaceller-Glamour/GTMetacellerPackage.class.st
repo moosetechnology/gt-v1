@@ -5,7 +5,7 @@ Class {
 		'isNewer',
 		'isOlder'
 	],
-	#category : #'GT-Metaceller'
+	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #testing }
