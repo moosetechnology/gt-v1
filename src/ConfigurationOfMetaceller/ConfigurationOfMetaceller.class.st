@@ -119,6 +119,7 @@ ConfigurationOfMetaceller >> baseline01: aSpec [
 	aSpec for: #common do: [ 
 		aSpec blessing: #'baseline'.
 		aSpec description: 'The group "gemstone" is just for testing. It should load fine in pharo. It also loads as part of the GT-Tools'.
+		aSpec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main'.
 
 		aSpec package: 'GT-Metaceller-Model';
 			package: 'GT-Metaceller-Glamour' with: [ 
