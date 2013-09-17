@@ -104,7 +104,7 @@ GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aSt
 			first 
 				ifTrue: [ aStream tab; tab; nextPutAll: 'aSpec '.
 					first := false ]
-				ifFalse: [ aStream nextPut: $;; lf; tab; tab; tab ].
+				ifFalse: [ aStream nextPut: $;; cr; tab; tab; tab ].
 			each printVersionOn: aStream ].
 		aStream nextPutAll: '].'; cr ]
 ]
