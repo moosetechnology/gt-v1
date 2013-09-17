@@ -39,7 +39,7 @@ GTMetacellerAtributedProject >> initialize: aConfigurationClass main: aMainProje
 
 { #category : #accessing }
 GTMetacellerAtributedProject >> itemsFor: aPlatform in: aVersion [ 
-	^(self version: aVersion name) items select: [ :each | (each hasPlatform: aPlatform) and: [ each isGroup not ] ]
+	^(self version: aVersion) items select: [ :each | (each hasPlatform: aPlatform) and: [ each isGroup not ] ]
 ]
 
 { #category : #accessing }

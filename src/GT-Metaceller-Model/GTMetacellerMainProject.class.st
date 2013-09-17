@@ -47,7 +47,7 @@ GTMetacellerMainProject >> createSnapshotVersion: aString baseline: aBaseline [
 		" do not create a version that exists already, perhalps an error is more appropriate "
 		^self ].
 	self configuration compile: (self snapshotVersion: aString baseline: aBaseline)
-		classified: 'snapshot-versions'
+		classified: 'versions'
 ]
 
 { #category : #testing }
@@ -60,7 +60,7 @@ GTMetacellerMainProject >> hasPlatform: aPlatform [
 { #category : #accessing }
 GTMetacellerMainProject >> itemsFor: aPlatform in: aVersion [ 
 	(self hasPlatform: aPlatform)
-		ifTrue: [ ^(aVersion items
+		ifTrue: [ ^((self version: aVersion) items
 			select: [ :each | (each hasPlatform: aPlatform) and: [ each isGroup not ] ]) ].
 	^(self projectFor: aPlatform) itemsFor: aPlatform in: aVersion 
 ]
@@ -93,7 +93,7 @@ GTMetacellerMainProject >> platformsFor: aMetacellerItem version: aVersionName [
 { #category : #printing }
 GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aStream [
 	| items |
-	items := (self itemsFor: aPlatform in: aVersion).
+	items := (self itemsFor: aPlatform in: aVersion name).
 	items ifNotEmpty: [ 
 		| first |
 		aStream tab; nextPutAll: 'aSpec for: '.

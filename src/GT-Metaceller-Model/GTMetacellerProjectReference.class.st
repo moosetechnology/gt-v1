@@ -62,7 +62,9 @@ GTMetacellerProjectReference >> labelAsText [
 { #category : #printing }
 GTMetacellerProjectReference >> printVersionOn: aStream [
 	| configClass |
-	configClass := Smalltalk at: self referenceSpec projectReference className asSymbol ifAbsent: [ nil ].
+	self referenceSpec projectReference className
+		ifNil: [ configClass := nil. ]
+		ifNotNil: [ configClass := Smalltalk at: self referenceSpec projectReference className asSymbol ifAbsent: [ nil ] ].
 	aStream nextPutAll: 'project: '''; nextPutAll: self name; nextPutAll: ''' with: '.
 	configClass
 		ifNil: [ aStream nextPutAll: self referenceSpec projectReference versionString printString ]
