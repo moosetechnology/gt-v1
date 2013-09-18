@@ -7,9 +7,6 @@ RunToHereDebugAction classSide >> defaultIcon [
 ]
 
 { #category : #'*GT-Debugger' }
-RunToHereDebugAction classSide >> gtActionFor: aDebugger [
+RunToHereDebugAction classSide >> gtActionType [
 	<gtCodeDebuggingAction>
-	
-	^ (self forDebugger: aDebugger)
-		arguments: [ :action | { action debugger selectionInterval. action currentContext } ].
 ]

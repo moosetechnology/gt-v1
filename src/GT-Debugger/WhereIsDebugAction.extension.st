@@ -11,5 +11,5 @@ WhereIsDebugAction class >> gtActionFor: aDebugger [
 	<gtCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
-		action: #updateSelectionInterval
+		selector: #updateSelectionInterval
 ]
