@@ -144,15 +144,15 @@ ConfigurationOfMetaceller >> baseline01: aSpec [
 			aSpec requires: #( 'GlamourCore' ) ] ].
 
 	aSpec for: #pharo do: [ 
-		aSpec project: 'GlamourAll' with: [
+		aSpec project: 'GlamourTools' with: [
 				aSpec
-					className: 'ConfigurationOfGlamour';
-					file: 'ConfigurationOfGlamour';
+					className: 'ConfigurationOfGToolkit';
+					file: 'ConfigurationOfGToolkit';
 					version: #development;
-					loads: #('Extras' 'Morphic');
+					loads: #( 'GT-Inspector' );
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
 		aSpec package: 'GT-Metaceller-Glamour' with: [ 
-			aSpec requires: #( 'GlamourAll' ) ] ]
+			aSpec requires: #( 'GlamourTools' ) ] ]
 ]
 
 { #category : #accessing }
