@@ -339,7 +339,9 @@ ConfigurationOfGToolkit >> baseline06: spec [
 			package: 'GT-Model';
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore')];
-			package: 'GT-Metaceller' with: [ spec requires: #('GT-Inspector' 'Snapshotcello')];
+			package: 'GT-Metaceller-Model';
+			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
+			package: 'GT-Metaceller-Glamour' with: [ spec requires: #( 'GT-Inspector'  'GT-Metaceller-Model' )];
 			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerActions' 'DebuggerExtensions' 'NewDebugger')];
 			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
@@ -352,7 +354,7 @@ ConfigurationOfGToolkit >> baseline06: spec [
 			'GT-Model'
 			'GT-Tools'
 			'GT-Inspector'
-			'GT-Metaceller'
+			'GT-Metaceller-Glamour'
 			'GT-Debugger'
 			'GT-GlamourDebugger'
 			'GT-PetitParserDebugger'
@@ -362,6 +364,9 @@ ConfigurationOfGToolkit >> baseline06: spec [
 			'Tests'
 			'AnnouncerCentricDebugger'
 		).
+		spec group: 'metaceller' with: #(
+			'GT-Metaceller-Model'
+			'GT-Metaceller-Tests' ).
 		spec group: 'debugger' with: #(
 			'GT-Inspector'
 			'GT-Debugger'
@@ -369,7 +374,7 @@ ConfigurationOfGToolkit >> baseline06: spec [
 			'GT-PetitParserDebugger'
 			'AnnouncerCentricDebugger'
 		).
-		spec group: 'Tests' with: #('GT-Tests-Inspector').
+		spec group: 'Tests' with: #('GT-Tests-Inspector' 'GT-Metaceller-Tests').
 		spec group: 'ObjectCentricDebugger' with: #(
 			'GT-ObjectCentricDebugger').
 		spec project: 'GlamourCore' with: [
@@ -379,12 +384,6 @@ ConfigurationOfGToolkit >> baseline06: spec [
 					version: #development;
 					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
-		spec project: 'Snapshotcello' with: [ 
-			spec
-				className: 'ConfigurationOfSnapshotcello';
-				version: #development;
-				loads: #( 'Core' );
-				repository: 'http://smalltalkhub.com/mc/girba/Snapshotcello/main' ].
 		spec project: 'Bifrost' with: [
 			spec
 				className: 'ConfigurationOfBifrost';
