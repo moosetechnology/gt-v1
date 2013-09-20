@@ -339,7 +339,7 @@ ConfigurationOfGToolkit >> baseline06: spec [
 			package: 'GT-Model';
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore')];
-			package: 'GT-Metaceller' with: [ spec requires: #('GT-Inspector')];
+			package: 'GT-Metaceller' with: [ spec requires: #('GT-Inspector' 'Snapshotcello')];
 			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerActions' 'DebuggerExtensions' 'NewDebugger')];
 			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
@@ -379,6 +379,12 @@ ConfigurationOfGToolkit >> baseline06: spec [
 					version: #development;
 					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		spec project: 'Snapshotcello' with: [ 
+			spec
+				className: 'ConfigurationOfSnapshotcello';
+				version: #development;
+				loads: #( 'Core' );
+				repository: 'http://smalltalkhub.com/mc/girba/Snapshotcello/main' ].
 		spec project: 'Bifrost' with: [
 			spec
 				className: 'ConfigurationOfBifrost';
