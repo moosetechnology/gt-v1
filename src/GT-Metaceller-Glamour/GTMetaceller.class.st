@@ -274,7 +274,7 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 		updateOn: GTConfigChanged from: self announcer;
 		format: [ :item | self nameForItem: item ].
 	aBrowser tree
-		title: 'Packages (alfabetical)';
+		title: 'Packages (alphabetical)';
 		display: [ :version | (self itemsForVersion: version) asSortedCollection: [ :a :b | self orderFor: a and: b ] ];
 		children: [ :item | (self childrenForItem: item) asSortedCollection: [ :a :b | self orderFor: a and: b ] ];
 		format: [ :item | self nameForItem: item ];
