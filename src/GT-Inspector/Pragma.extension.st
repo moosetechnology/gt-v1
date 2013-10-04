@@ -3,7 +3,7 @@ Extension { #name : #Pragma }
 { #category : #'*gt-inspector' }
 Pragma class >> gtInspectorAnnotatedMethodsIn: composite [
 	<gtInspectorPresentationOrder: 30> 
-	composite list 
+	composite table 
 		title: 'All';
 		showOnly: 50;
 		withSmalltalkSearch;
@@ -13,6 +13,10 @@ Pragma class >> gtInspectorAnnotatedMethodsIn: composite [
 			Object withAllSubclassesDo: [:each |
 				Pragma withPragmasIn: each do: [:p |
 					pragmas add: p]].
-			pragmas
-		]
+			(pragmas groupedBy: #keyword) associations sorted: [ :a :b | 
+				a key < b key ]
+		];
+		column: 'Keyword' evaluated: [ :each | each key ];
+		column: 'Instances' evaluated: [ :each | each value size asString ];
+		send: #value
 ]
