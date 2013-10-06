@@ -20,3 +20,9 @@ Pragma class >> gtInspectorAnnotatedMethodsIn: composite [
 		column: 'Instances' evaluated: [ :each | each value size asString ];
 		send: #value
 ]
+
+{ #category : #'*gt-inspector' }
+Pragma >> gtInspectorSourceIn: composite [
+	<gtInspectorPresentationOrder: 30> 
+	self method gtInspectorSourceIn: composite
+]

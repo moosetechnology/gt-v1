@@ -53,6 +53,6 @@ CompiledMethod >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 	composite smalltalkCode 
 		title: 'Source';
-		smalltalkClass: [ :anObject | anObject methodClass ];
-		display: [:anObject | anObject getSource ]
+		smalltalkClass: [ self methodClass ];
+		display: [ self getSource ]
 ]
