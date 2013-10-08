@@ -1,11 +1,14 @@
 Class {
 	#name : #GTMetacellerProjectReference,
 	#superclass : #GTMetacellerItem,
+	#instVars : [
+		'children'
+	],
 	#category : #'GT-Metaceller-Model'
 }
 
 { #category : #accessing }
-GTMetacellerProjectReference >> children [
+GTMetacellerProjectReference >> buildChildren [
 	" here we return the 'labels' referenced by this project "
 	| projectVersion |
 	self isLoaded ifFalse: [ ^#() ].
@@ -13,9 +16,26 @@ GTMetacellerProjectReference >> children [
 	projectVersion ifNil: [  ^#() ].
 	(self projectReference loads) ifNil: [ ^projectVersion spec packages packageSpecsInLoadOrder
 		collect: [ :each | self wrapperFor: each version: projectVersion ] ].
-	^self projectReference loads collect: [ :each | 
-			self wrapperFor: (projectVersion packageNamed: each ifAbsent: [ each ]) version: projectVersion ]
+	" here we need to resolve what loads means ... since metacello does not have an easy way to determin this. "
+	^self calculateProjectReferences
 	
+]
+
+{ #category : #accessing }
+GTMetacellerProjectReference >> calculateProjectReferences [
+	" calculate all packages and such from the referred project "
+	| projectVersion retVal |
+	projectVersion := self projectReference versionOrNil.
+	retVal := OrderedCollection new.
+	self projectReference loads do: [ :each |
+		self addAll: each to: retVal version: projectVersion ].
+	^retVal collect: [ :each | self wrapperFor: each version: projectVersion ]
+]
+
+{ #category : #accessing }
+GTMetacellerProjectReference >> children [
+	" here we return the 'labels' referenced by this project "
+	^children ifNil: [ children := self buildChildren ]
 ]
 
 { #category : #accessing }

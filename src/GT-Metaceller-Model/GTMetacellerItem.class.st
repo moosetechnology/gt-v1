@@ -15,6 +15,16 @@ GTMetacellerItem class >> on: aVersion spec: aSpec [
 		yourself
 ]
 
+{ #category : #building }
+GTMetacellerItem >> addAll: aString to: aCollection version: aVersion [
+	| spec |
+	spec := aVersion packageNamed: aString ifAbsent: [ nil ].
+	(aCollection includes: spec) ifTrue: [ ^self ].
+	(self isProject: spec) ifFalse: [ spec requires do: [ :each | self addAll: each to: aCollection version: aVersion ] ].
+	(self isGroup: spec) ifFalse: [ aCollection add: spec ].
+	(self isProject: spec) ifFalse: [ spec includes do: [ :each | self addAll: each to: aCollection version: aVersion ] ]
+]
+
 { #category : #accessing }
 GTMetacellerItem >> asString [
 	^self referenceSpec asString 

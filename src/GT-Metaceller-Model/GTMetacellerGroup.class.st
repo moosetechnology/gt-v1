@@ -9,30 +9,11 @@ Class {
 
 { #category : #accessing }
 GTMetacellerGroup >> buildChildren [
-	| black gray |
-	gray := (self version packagesForSpecNamed: self group name) asSet.
-	black := OrderedCollection new.
-	[ gray notEmpty ] whileTrue: [ 
-		| spec |
-		spec := gray anyOne.
-		gray remove: spec.
-		black add: spec.
-		(self isPackage: spec) ifTrue: [ 
-			spec requires do: [ :reqString |
-				| package |
-				package := self version packageNamed: reqString ifAbsent: [ nil ].
-				package 
-					ifNil: [ (self version packagesForSpecNamed: reqString) do: [ :each |
-						(black includes: each) ifFalse: [ gray add: each ] ] ]
-					ifNotNil: [ (black includes: package) ifFalse: [ gray add: package ] ] ].
-			spec includes do: [ :inclString |
-				| package |
-				package := self version packageNamed: inclString ifAbsent: [ nil ].
-				package 
-					ifNil: [ (self version packagesForSpecNamed: inclString) do: [ :each |
-						(black includes: each) ifFalse: [ gray add: each ] ] ]
-					ifNotNil: [ (black includes: package) ifFalse: [ gray add: package ] ] ] ] ].
-	^black
+	| retVal |
+	retVal := OrderedCollection new.
+	self addAll: self group name to: retVal version: self version.
+	^retVal collect: [ :each | self wrapperFor: each version: self version ]
+
 ]
 
 { #category : #accessing }
