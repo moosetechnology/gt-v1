@@ -288,7 +288,7 @@ GTMetacellerVersion >> packagesAndGroups [
 		self version ifNotNil: [
 			self groups do: [:eachGroup |
 				eachGroup children do: [ :eachPackage |
-					(cachedPackageMap at: eachPackage ifAbsentPut: [OrderedCollection new])
+					(cachedPackageMap at: eachPackage referenceSpec ifAbsentPut: [OrderedCollection new])
 						add: eachGroup name ] ] ] ].
 	^ cachedPackageMap
 ]
