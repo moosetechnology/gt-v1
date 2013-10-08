@@ -58,6 +58,13 @@ GTMetacellerConfiguration >> projects [
 	^self mainProject projects
 ]
 
+{ #category : #private }
+GTMetacellerConfiguration >> reset [
+	mainProject := nil.
+	projects := nil.
+	platformSymbols := nil
+]
+
 { #category : #display }
 GTMetacellerConfiguration >> shortName [
 	^ ((self configuration name beginsWith: 'ConfigurationOf') 
