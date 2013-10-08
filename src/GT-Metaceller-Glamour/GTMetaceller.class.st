@@ -153,7 +153,7 @@ GTMetaceller >> detailsForVersion: aBrowser [
 { #category : #opening }
 GTMetaceller >> entity [ 
 	^ ((Object subclasses select: [:each | self isMetacelloConfig: each]) sort: [:a :b | a name < b name])
-		collect: [ :each | GTMetacellerConfiguration on: each ]
+		collect: [ :each | GTRefreshableMetacellerConfiguration on: each announcer: self announcer ]
 ]
 
 { #category : #actions }
