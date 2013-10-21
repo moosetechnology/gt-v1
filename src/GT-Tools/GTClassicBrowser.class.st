@@ -65,7 +65,7 @@ GTClassicBrowser >> classCategoriesIn: a [
 
 { #category : #building }
 GTClassicBrowser >> classesHierarchyIn: a [
-	a mondrian
+	a roassal
 		painting: [ :view :package | 
 					view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [ :name | Smalltalk classNamed: name ]).
 					view edgesFrom: #superclass.
