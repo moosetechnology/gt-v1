@@ -6,5 +6,5 @@ Class {
 
 { #category : #tests }
 GTInspectorBitmapTest >> objectToTest [ 
-	^ ThemeIcons pharoIcon bits
+	^ ThemeIcons current pharoIcon bits
 ]
