@@ -429,10 +429,10 @@ ConfigurationOfGToolkit >> baseline07: spec [
 			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
 			package: 'GT-Metaceller-Glamour' with: [ spec requires: #( 'GT-Inspector'  'GT-Metaceller-Model' )];
 			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerActions' 'DebuggerExtensions')];
-			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
+"			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
 			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
-			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
+"			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')].
@@ -442,13 +442,13 @@ ConfigurationOfGToolkit >> baseline07: spec [
 			'GT-Inspector'
 			'GT-Metaceller-Glamour'
 			'GT-Debugger'
-			'GT-GlamourDebugger'
-			'GT-PetitParserDebugger'
+"			'GT-GlamourDebugger'
+			'GT-PetitParserDebugger'"
 			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
 			'Tests'
-			'AnnouncerCentricDebugger'
+"			'AnnouncerCentricDebugger'"
 		).
 		spec group: 'metaceller' with: #(
 			'GT-Metaceller-Model'
@@ -476,20 +476,20 @@ ConfigurationOfGToolkit >> baseline07: spec [
 				version: 'default';
 				file: 'ConfigurationOfBifrost';
 				repository: 'http://www.squeaksource.com/bifrost' ].
-		spec project: 'AnnouncerCentricDebugger' with: [
+"		spec project: 'AnnouncerCentricDebugger' with: [
 				spec
 					className: 'ConfigurationOfAnnouncerCentricDebugger';
 					file: 'ConfigurationOfAnnouncerCentricDebugger';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ].
+					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ]."
 		spec project: 'PetitParser' with: [
 				spec
 					className: 'ConfigurationOfPetitParser';
 					file: 'ConfigurationOfPetitParser';
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/Moose/PetitParser/main' ].
-		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
-		spec package: 'DebuggerActions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
+"		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
+		spec package: 'DebuggerActions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main']."
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ]
 	]
 ]
