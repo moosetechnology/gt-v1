@@ -18,9 +18,21 @@ Class {
 	#category : #'GT-Inspector'
 }
 
+{ #category : #openning }
+GTInspector class >> explore: anObject [ 
+	self openOn: anObject.
+	^ anObject
+]
+
 { #category : #'class initialization' }
 GTInspector class >> initialize [ 
 	self numberOfInspectorPanes: 2
+]
+
+{ #category : #openning }
+GTInspector class >> inspect: anObject [ 
+	self openOn: anObject.
+	^ anObject
 ]
 
 { #category : #settings }
