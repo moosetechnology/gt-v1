@@ -428,7 +428,7 @@ ConfigurationOfGToolkit >> baseline07: spec [
 			package: 'GT-Metaceller-Model';
 			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
 			package: 'GT-Metaceller-Glamour' with: [ spec requires: #( 'GT-Inspector'  'GT-Metaceller-Model' )];
-			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerActions' 'DebuggerExtensions' 'NewDebugger')];
+			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerActions' 'DebuggerExtensions')];
 			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
 			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
