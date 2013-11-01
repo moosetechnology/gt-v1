@@ -53,7 +53,7 @@ GTInspector class >> openOn: anObject [
 { #category : #'tools registry' }
 GTInspector class >> registerToolsOn: registry [
 	"self registerToolsOn: Smalltalk tools " 
-	registry register: self as: #objectExplorer
+	registry register: self as: #inspector
 
 ]
 
