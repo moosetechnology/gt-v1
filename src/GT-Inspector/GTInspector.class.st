@@ -35,6 +35,12 @@ GTInspector class >> inspect: anObject [
 	^ anObject
 ]
 
+{ #category : #openning }
+GTInspector class >> inspector: anObject [
+
+	^ self inspect: anObject
+]
+
 { #category : #settings }
 GTInspector class >> numberOfInspectorPanes [
 	^ GTNumberOfInspectorPanes 
