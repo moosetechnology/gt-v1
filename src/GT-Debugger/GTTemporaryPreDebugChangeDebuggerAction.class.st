@@ -7,6 +7,11 @@ Class {
 	#category : #'GT-Debugger'
 }
 
+{ #category : #registration }
+GTTemporaryPreDebugChangeDebuggerAction class >> actionType [
+	<preDebuggingAction>
+]
+
 { #category : #'as yet unclassified' }
 GTTemporaryPreDebugChangeDebuggerAction >> defaultLabel [
 
