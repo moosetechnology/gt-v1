@@ -91,8 +91,7 @@ GTDebugger >> actOnBrowserClosing: ann [
 { #category : #'building actions' }
 GTDebugger >> actionsForPragmas: aSymbolsCollection [
 
-	^ ((self allActionsForPragmas: aSymbolsCollection) select: [ :aDebugAction | 
-			aDebugAction appliesToContextCurrentContext ]) 
+	^ (self allActionsForPragmas: aSymbolsCollection)
 				collect: [ :aDebugAction | aDebugAction asGlamourAction ]
 
 ]

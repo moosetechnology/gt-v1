@@ -8,3 +8,11 @@ SaveDebugAction >> asGlamourAction [
 				self sourceCode: textPresentation text.
 				self execute ]
 ]
+
+{ #category : #'*GT-Debugger' }
+SaveDebugAction classSide >> gtActionFor: aDebugger [
+	<gtCodeDebuggingAction>
+	
+	^ (self forDebugger: aDebugger)
+			icon: GLMUIThemeExtraIcons glamorousAccept
+]
