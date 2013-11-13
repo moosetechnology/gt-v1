@@ -101,7 +101,7 @@ GTDebugger >> actionsForPragmas: aSymbolsCollection [
 GTDebugger >> allActionsForPragmas: aSymbolsCollection [
 	
 	^ (self session class 
-		debuggingActionsForPragmas: aSymbolsCollection for: self debugger)
+		debuggingActionsForPragmas: aSymbolsCollection for: self)
 
 	
 
