@@ -100,13 +100,8 @@ GTDebugger >> actionsForPragmas: aSymbolsCollection [
 { #category : #'building actions' }
 GTDebugger >> allActionsForPragmas: aSymbolsCollection [
 	
-	^ aSymbolsCollection 
-		inject: OrderedCollection new
-		into: [ :currentActions :aSymbol | 
-			currentActions 
-				addAll: (self session class gtDebuggingActionsForPragma: aSymbol for: self);
-				yourself ].
-
+	^ (self session class 
+		debuggingActionsForPragmas: aSymbolsCollection for: self debugger)
 
 	
 
