@@ -61,20 +61,9 @@ DebugSession class >> gtDebuggingActionsFromClass: aClass forPragma: aSymbol for
 ]
 
 { #category : #'*gt-debugger' }
-DebugSession >> interruptedContext [ 
-
-	^ context
-]
-
-{ #category : #'*gt-debugger' }
 DebugSession >> isActive: aContext [
 
 	^ true
-]
-
-{ #category : #'*gt-debugger' }
-DebugSession >> recompileMethodTo: aText inContext: aMethodContext notifying: anUndefinedObject [ 
-	^ (self recompileMethodTo: aText inContext: aMethodContext) isNil not
 ]
 
 { #category : #'*gt-debugger' }
