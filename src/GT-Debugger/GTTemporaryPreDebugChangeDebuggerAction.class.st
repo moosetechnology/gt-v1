@@ -12,19 +12,19 @@ GTTemporaryPreDebugChangeDebuggerAction class >> actionType [
 	<preDebuggingAction>
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTTemporaryPreDebugChangeDebuggerAction >> defaultLabel [
 
 	^ 'Debug Glamorously'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTTemporaryPreDebugChangeDebuggerAction >> defaultOrder [
 
 	^ 200
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTTemporaryPreDebugChangeDebuggerAction >> executeAction [
 	| currentDebugger currentSession |
 	
@@ -39,19 +39,19 @@ GTTemporaryPreDebugChangeDebuggerAction >> executeAction [
 	GTDebugger debugSession: currentDebugger session
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTTemporaryPreDebugChangeDebuggerAction >> id [
 
 	^ #gtChangeDebuggerPreDebug
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTTemporaryPreDebugChangeDebuggerAction >> preDebugWindow [
 	
 	^ preDebugWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTTemporaryPreDebugChangeDebuggerAction >> preDebugWindow: anObject [
 	
 	preDebugWindow := anObject
