@@ -293,7 +293,7 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 	"TODO: do not ignore the title"
 	
 	self open.
-	"TODO: why is this necessy here? I took it from the current debugger"
+	self flag: 'why is this necessy here? I took it from the current debugger' 
 	"errorWasInUIProcess := UIManager default spawnNewProcessIfThisIsUI: interruptedProcess"
 ]
 
