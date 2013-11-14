@@ -88,7 +88,9 @@ GTInspector >> compose [
 				morphicAct: [:composite | composite entity browse]
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
 				entitled: 'Browse'.
-			each gtInspectorPresentationsIn: a ] ]
+
+			a dynamic display: [ :x | 
+				GLMCompositePresentation new with: [:d | each gtInspectorPresentationsIn: d ] ] ] ]
 ]
 
 { #category : #opening }
