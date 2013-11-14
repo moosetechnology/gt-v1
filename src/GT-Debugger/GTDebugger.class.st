@@ -10,8 +10,45 @@ An example:
 Class {
 	#name : #GTDebugger,
 	#superclass : #GLMCompositePresentation,
+	#classVars : [
+		'AlwaysOpenFullDebugger',
+		'ErrorRecursion',
+		'FilterCommonMessageSends',
+		'LogDebuggerStackToFile',
+		'LogFileName'
+	],
 	#category : #'GT-Debugger'
 }
+
+{ #category : #'settings api' }
+GTDebugger class >> alwaysOpenFullDebugger [
+	^ AlwaysOpenFullDebugger ifNil: [AlwaysOpenFullDebugger := false]
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> alwaysOpenFullDebugger: aBoolean [
+	AlwaysOpenFullDebugger := aBoolean.
+]
+
+{ #category : #'utilities api' }
+GTDebugger class >> closeAllDebuggers [
+	"SpecDebugger closeAllDebuggers"
+	(SystemWindow allSubInstances select: [:w | 
+		(w model isKindOf: WindowModel) and: [ 
+			w model model isKindOf: self ]  ])
+			do: [:w | w delete ]
+]
+
+{ #category : #'instance creation api' }
+GTDebugger class >> context: aContext [
+	"Answer an instance of me for debugging the active process starting with the given context."
+
+	^ self new
+		process: Processor activeProcess
+		controller: nil
+		context: aContext
+		
+]
 
 { #category : #'instance creation' }
 GTDebugger class >> debugBasedOnSession: aSession [
@@ -26,10 +63,16 @@ GTDebugger class >> debugContext: aContext fromProcess: aProcess [
 	^ self debugSession: (self spanNewSessionForContext: aContext fromProcess: aProcess)
 ]
 
-{ #category : #'instance creation' }
-GTDebugger class >> debugProcess: aProcess [
+{ #category : #'instance creation api' }
+GTDebugger class >> debugError: anError [
+	"Handle an otherwise unhandled error"
 
-	^ self debugContext: aProcess suspendedContext fromProcess: aProcess
+	self
+		openOn: Processor activeProcess
+		context: anError signalerContext
+		label: anError description
+		contents: nil
+		fullView: false
 ]
 
 { #category : #'instance creation' }
@@ -42,9 +85,24 @@ GTDebugger class >> debugSession: aSession [
 	"]"
 ]
 
+{ #category : #'settings api' }
+GTDebugger class >> defaultLogFileName [
+	^ 'PharoDebug.log'
+]
+
 { #category : #accessing }
 GTDebugger class >> defaultTitle [
 	^ 'Glamorous Debugger'
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> filterCommonMessageSends [
+	^ FilterCommonMessageSends ifNil: [FilterCommonMessageSends := false]
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> filterCommonMessageSends: aBoolean [
+	FilterCommonMessageSends := aBoolean
 ]
 
 { #category : #testing }
@@ -53,9 +111,125 @@ GTDebugger class >> handlesContext: aContext [
 	^ true
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'instance creation api' }
+GTDebugger class >> informExistingDebugger: aContext label: aString [
+	"Walking the context chain, we try to find out if we're in a debugger stepping situation.
+	If we find the relevant contexts, we must rearrange them so they look just like they would
+	if the methods were excuted outside of the debugger."
+	| ctx quickStepMethod oldSender baseContext |
+	ctx := thisContext.
+	quickStepMethod := ContextPart compiledMethodAt: #quickSend:to:with:super:.
+	[ctx sender == nil or: [ctx sender method == quickStepMethod]] whileFalse: [ctx := ctx sender].
+	ctx sender == nil ifTrue: [^self].
+	baseContext := ctx.
+	"baseContext is now the context created by the #quickSend... method."
+	oldSender := ctx := ctx sender home sender.
+	"oldSender is the context which originally sent the #quickSend... method"
+	[ctx isNil or: [ctx receiver isKindOf: self]] whileFalse: [ctx := ctx sender].
+	ctx ifNil: [^self].
+	"ctx is the context of the Debugger method #doStep" self flag: 'this is not true any more'.
+	ctx receiver label: aString.
+	baseContext swapSender: baseContext sender sender sender.	"remove intervening contexts"
+	thisContext swapSender: oldSender.	"make myself return to debugger"
+	ErrorRecursion := false.
+	^aContext
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> logDebuggerStackToFile [
+	^ LogDebuggerStackToFile ifNil: [LogDebuggerStackToFile := true]
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> logDebuggerStackToFile: aBoolean [
+	 LogDebuggerStackToFile := aBoolean
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> logFileName [
+	^ LogFileName ifNil: [ self defaultLogFileName ] 
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> logFileName: newName [
+	LogFileName := newName
+]
+
+{ #category : #'opening api' }
+GTDebugger class >> openContext: aContext label: aString contents: contentsStringOrNil [
+	"Open a notifier in response to an error, halt, or notify. A notifier view just shows a short view of the sender stack and provides a menu that lets the user open a full debugger."
+	
+	<primitive: 19> "Simulation guard"
+	ErrorRecursion not & self logDebuggerStackToFile ifTrue:
+		[Smalltalk logError: aString inContext: aContext].
+	  ErrorRecursion ifTrue:[
+               ErrorRecursion := false.
+               self primitiveError: aString].
+	ErrorRecursion := true.
+	
+	self informExistingDebugger: aContext label: aString.
+	(self context: aContext)
+		openNotifierContents: contentsStringOrNil
+		label: aString.
+	ErrorRecursion := false. 
+	Processor activeProcess suspend.
+
+]
+
+{ #category : #'opening api' }
+GTDebugger class >> openInterrupt: aString onProcess: interruptedProcess [ 
+	"Open a notifier in response to an interrupt. An interrupt occurs when
+	the user types the interrupt key (cmd-. on Macs, ctrl-c or alt-. on other
+	systems) or when the low-space watcher detects that memory is low."
+	| debugger |
+	<primitive: 19>
+	"Simulation guard"
+	debugger := self new.
+	debugger
+		process: interruptedProcess
+		controller: nil
+		context: interruptedProcess suspendedContext.
+	self logDebuggerStackToFile
+		ifTrue: [(aString includesSubstring: 'Space')
+					& (aString includesSubstring: 'low')
+				ifTrue: [Smalltalk
+						logError: aString
+						inContext: debugger interruptedContext ]].
+	^ debugger openNotifierContents: nil label: aString
+]
+
+{ #category : #opening }
 GTDebugger class >> openOn: anObject [ 
 	^ self new openOn: anObject
+]
+
+{ #category : #'opening api' }
+GTDebugger class >> openOn: process context: context label: title contents: contentsStringOrNil fullView: bool [ 
+	"Open a notifier in response to an error, halt, or notify. A notifier view
+	just shows a short view of the sender stack and provides a menu that
+	lets the user open a full debugger."
+	| fullView |
+	fullView := (bool or: [self alwaysOpenFullDebugger]).
+	
+	Smalltalk tools userManager canDebug ifFalse: [ 
+		UIManager default spawnNewProcessIfThisIsUI: process.
+		process suspend.
+		^ self ].
+	
+	^ UIManager default 
+		openDebuggerOn: process 
+		context: context 
+		label: title 
+		contents: contentsStringOrNil 
+		fullView: fullView
+]
+
+{ #category : #'window color api' }
+GTDebugger class >> patchworkUIThemeColor [
+	"Answer a default color for UI themes that make use of different colors for Browser, MessageList etc..."
+
+	^ Color lightRed
+
 ]
 
 { #category : #'tools registry' }
@@ -65,22 +239,16 @@ GTDebugger class >> registerToolsOn: registry [
 	registry registerDebugger: self withRank: 3.
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTDebugger class >> sessionClass [
 
 	^ DebugSession 
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTDebugger class >> spanNewSessionForContext: aContext fromProcess: aProcess [
 
 	^ self sessionClass process: aProcess context: aContext 
-]
-
-{ #category : #accessing }
-GTDebugger class >> spanNewSessionForProcess: aProcess [
-
-	^ self spanNewSessionForContext: aProcess suspendedContext fromProcess: aProcess
 ]
 
 { #category : #callbacks }
@@ -206,7 +374,7 @@ GTDebugger >> detachSession [
 	(self browser pane port: #entity) silentValue: nil
 ]
 
-{ #category : #intialization }
+{ #category : #'old api' }
 GTDebugger >> errorWasInUIProcess: aBoolean [
 
 	self session errorWasInUIProcess: aBoolean
@@ -291,10 +459,27 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 	"errorWasInUIProcess := UIManager default spawnNewProcessIfThisIsUI: interruptedProcess"
 ]
 
+{ #category : #opening }
+GTDebugger >> openNotifierContents: msgString label: label [
+
+	self openFullNoSuspendLabel: label
+]
+
 { #category : #'building presentations' }
 GTDebugger >> printStackEntry: aContext [
 
 	^ String streamContents: [:stream | aContext printDebugOn: stream ] 
+]
+
+{ #category : #'old api' }
+GTDebugger >> proceed: aTopView [ 
+	
+	self session 
+		resume;
+		clear.
+	self debugger close.
+	self updateBrowser
+
 ]
 
 { #category : #intialization }
@@ -333,6 +518,14 @@ GTDebugger >> selectionInterval: anInterval [
 GTDebugger >> selectionIntervalForPane: aSymbol [
 
 	^ ((self browser paneNamed: aSymbol) port: #selectionInterval) value ifNil: [ ^ 1 to: 0 ]
+]
+
+{ #category : #'old api' }
+GTDebugger >> send [
+	
+	self session stepInto: self currentContext.
+	self updateBrowser.
+
 ]
 
 { #category : #accessing }
