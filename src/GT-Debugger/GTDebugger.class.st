@@ -97,7 +97,8 @@ GTDebugger class >> defaultTitle [
 
 { #category : #'settings api' }
 GTDebugger class >> filterCommonMessageSends [
-	^ FilterCommonMessageSends ifNil: [FilterCommonMessageSends := false]
+	self flag: 'horrible hack not to break the setting browser'.
+	^ false
 ]
 
 { #category : #'settings api' }
@@ -249,6 +250,12 @@ GTDebugger class >> sessionClass [
 GTDebugger class >> spanNewSessionForContext: aContext fromProcess: aProcess [
 
 	^ self sessionClass process: aProcess context: aContext 
+]
+
+{ #category : #'settings api' }
+GTDebugger class >> stackWidgetClass [
+	self flag: 'horrible hack not to break the setting browser'.
+	^ self
 ]
 
 { #category : #callbacks }
