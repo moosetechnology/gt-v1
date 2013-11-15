@@ -234,10 +234,22 @@ GTDebugger class >> patchworkUIThemeColor [
 ]
 
 { #category : #'tools registry' }
-GTDebugger class >> registerToolsOn: registry [
+GTDebugger class >> register [
 
-	"Add ourselves to registry. See [Smalltalk tools]" 
+	self registerToolsOn: Smalltalk tools.
+
+]
+
+{ #category : #'tools registry' }
+GTDebugger class >> registerExtraToolsOn: registry [
+	"This adds self in the list of tools that appears in the small debugger"
 	registry registerDebugger: self withRank: 3.
+]
+
+{ #category : #'tools registry' }
+GTDebugger class >> registerToolsOn: registry [
+	registry register: self as: #debugger.
+
 ]
 
 { #category : #accessing }
