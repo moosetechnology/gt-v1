@@ -406,7 +406,7 @@ GTDebugger >> inspectorIn: composite [
 			(GTInspector new first "We use the first actual finder because need to send showFirst: to it"
 				noTitle;
 				noActions;
-				showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new) ];
+				showFirst: [ :a | a custom: GTDebuggerVariablesBrowser new ];
 				yourself)
 	
 ]

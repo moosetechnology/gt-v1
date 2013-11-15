@@ -12,11 +12,10 @@ Class {
 { #category : #building }
 GTDebuggerVariablesBrowser >> compose [  
 	self title: [:each | GTInspector new printObjectAsAnItem: each receiver ].
-	self tabulator with: [:browser | 
-		browser 
-			morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
+	self morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
 				entitled: 'Browse'.
+	self tabulator with: [:browser | 
 		browser row: #variables; row: #evaluator.
 		browser transmit to: #variables; andShow: [:a | 
 			self variablesIn: a ].
