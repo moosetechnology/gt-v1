@@ -16,13 +16,12 @@ GTDebuggerVariablesBrowser >> compose [
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
 				entitled: 'Browse'.
 	self tabulator with: [:browser | 
-		browser row: #variables; row: #evaluator.
+		browser row: #variables.
 		browser transmit to: #variables; andShow: [:a | 
 			self variablesIn: a ].
-		browser transmit to: #evaluator; andShow: [:a | 
-			self evaluatorIn: a ].
 		browser transmit from: #variables; toOutsidePort: #selection.
-		browser transmit from: #evaluator; toOutsidePort: #selection ]
+		"browser transmit from: #variables; toWatcher; andShow: [ :a :object | 
+			a custom: (GTInspector new startOn: object) ]" ]
 ]
 
 { #category : #'private building' }
