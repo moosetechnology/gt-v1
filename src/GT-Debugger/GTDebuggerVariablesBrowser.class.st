@@ -28,12 +28,17 @@ GTDebuggerVariablesBrowser >> compose [
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> evaluatorIn: composite [
 	(composite smalltalkCode)
-		doItReceiver: #yourself;
-		display: [ :model | [model receiver printString asSmalltalkComment, String cr, 'self'] on: Error do: ['"Error printing. Try self printString to debug"'] ];
+		doItReceiver: [ :methodContext | methodContext receiver ] ;
+		display: [ :methodContext | methodContext receiver ];
+		format: [ :receiver | 
+			[receiver printString asSmalltalkComment, String cr, 'self'] 
+				on: Error 
+				do: ['"Error printing. Try self printString to debug"'] ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :model | Compiler evaluate: text selectedText for: model receiver logged: false ]
+			with: [ :text | 
+				Compiler evaluate: text selectedText for: text displayValue logged: false ]
 ]
 
 { #category : #'private building' }

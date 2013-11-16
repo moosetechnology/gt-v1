@@ -308,7 +308,7 @@ GTDebugger >> close [
 { #category : #'building actions' }
 GTDebugger >> codeActionsPragmas [
 
-	^ { #codeDebuggingAction }
+	^ #( codeDebuggingAction )
 ]
 
 { #category : #building }
@@ -384,7 +384,7 @@ GTDebugger >> debuggerTransmissionsIn: browser [
 { #category : #'building actions' }
 GTDebugger >> debuggingActionsPragmas [
 
-	^ { #debuggingAction }
+	^ #( debuggingAction )
 ]
 
 { #category : #actions }
@@ -442,20 +442,10 @@ GTDebugger >> interruptedContext [
 { #category : #'building presentations' }
 GTDebugger >> methodCodeIn: composite forContext: aContext [
 
-	(self methodCodeWidgetIn: composite)
-		initialize: [ :code | code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
+	(self methodCodeWidgetIn: composite forContext: aContext)
+		initialize: [ :code | 
+			code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
 		with: [ :code | self installCodeActionsFor: code ]
-]
-
-{ #category : #'building presentations' }
-GTDebugger >> methodCodeWidgetIn: composite [
-
-	^ composite smalltalkCode
-		title: 'Source';
-		format: #sourceCode;
-		smalltalkClass: [ :context | context methodClass ];
-		doItReceiver: [ :context | context receiver ];
-		doItContext: [ :context | context ]
 ]
 
 { #category : #'building presentations' }
