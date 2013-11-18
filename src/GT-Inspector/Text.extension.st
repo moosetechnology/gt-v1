@@ -4,7 +4,8 @@ Extension { #name : #Text }
 Text >> gtInspectorITextIn: composite [
 	<gtInspectorPresentationOrder: 30>  
 	 composite text
-		title: 'Text'
+		title: 'Text';
+		format: self
 ]
 
 { #category : #'*gt-inspector' }
