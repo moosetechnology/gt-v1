@@ -71,7 +71,7 @@ GTClassicCoderCategoriesMethods >> methodsIn: a [
 		title: 'Methods';
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 		display: [ :package :class :category | 
-			(class methodDict values select: [:each | each category = category]) asSortedCollection: [:x :y | x selector < y selector ] ];
+			(class methods select: [:each | each category = category]) asSortedCollection: [:x :y | x selector < y selector ] ];
 		format: [:each :package :class |
 			((each isDefinedInPackage: package) or: [each isExtensionInPackage: package])
 				ifTrue: [each selector asString]
@@ -82,7 +82,7 @@ GTClassicCoderCategoriesMethods >> methodsIn: a [
 		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
 		when: [ :package :class :category | class notNil and: [ category isNil ] ];
 		display: [ :package :class :category | 
-			class methodDict values asSortedCollection: [:x :y | x selector < y selector ] ];
+			class methods asSortedCollection: [:x :y | x selector < y selector ] ];
 		selectionAct: [:list :package :class | 
 			(Array with: package with: class with: list selection) inspect  ] on: $i entitled: 'Inspect';
 		format: [:each :package :class |
