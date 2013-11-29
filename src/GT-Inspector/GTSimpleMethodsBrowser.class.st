@@ -1,5 +1,7 @@
 "
 This browser is used to browse the class structure of every object in the inspector.
+
+self openOn: World
 "
 Class {
 	#name : #GTSimpleMethodsBrowser,
@@ -8,17 +10,23 @@ Class {
 }
 
 { #category : #building }
+GTSimpleMethodsBrowser >> accumulatedSourceOf: m for: object in: composite [
+	composite accumulator with: [ :acc | 
+		acc show: [ :a |
+			a title: [ :method | method selector ].
+			self sourceOf: m for: object in: a ] ]
+]
+
+{ #category : #building }
 GTSimpleMethodsBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Methods'.
 	browser
-		row: #classes size: 35;
-		row: #methods;
+		row: [ :r | r column: #classes; column: #methods span: 3 ];
 		row: #source.
 	browser transmit
 		to: #classes;
-		andShow: [ :a | 
-			self classesIn: a ].
+		andShow: [ :a | self classesIn: a ].
 	browser transmit
 		to: #classes port: #selection;
 		transformed: [:each | each class ].
@@ -31,7 +39,8 @@ GTSimpleMethodsBrowser >> buildBrowser [
 		from: #methods;
 		fromOutsidePort: #entity;
 		to: #source;
-		andShow: [ :a | self sourceIn: a ].
+		when: [ :method | method notNil ];
+		andShowIfNone: [ :a :method :object | self accumulatedSourceOf: method for: object in: a ].
 	browser transmit
 		toOutsidePort: #selection;
 		from: #methods port: #evaluatedObject.
@@ -43,13 +52,13 @@ GTSimpleMethodsBrowser >> buildBrowser [
 
 { #category : #building }
 GTSimpleMethodsBrowser >> classesIn: a [
-	^ a dropDownList
+	^ a list
 		display: [ :object | 
 			| all |
 			all := OrderedCollection new.
 			object class withAllSuperclassesDo: [:each | all add: each ].
 			all ];
-		selectedIndex: 1;
+"		selectedIndex: 1;"
 		format: [ :class | class name ];
 		morphicSelectionAct: [ :list :object | Smalltalk tools browser fullOnClass: object class selector: list selection selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
@@ -80,9 +89,13 @@ GTSimpleMethodsBrowser >> methodActionsFor: aMethod [
 GTSimpleMethodsBrowser >> methodsIn: a [
 	^ a list
 		display: [ :object :class | class methods ];
+		tags: [ :method | method category ];
 		sorted: [ :method1 :method2 | method1 selector < method2 selector ];
 		format: [ :method | method selector ];
-		morphicSelectionAct: [ :list :object :class | Smalltalk tools browser fullOnClass: class selector: list selection selector ]
+		morphicSelectionAct: [ :list :object :class | 
+			Smalltalk tools browser 
+				fullOnClass: class 
+				selector: list selection selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse';
@@ -90,22 +103,21 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 ]
 
 { #category : #building }
-GTSimpleMethodsBrowser >> sourceIn: a [
-	^ a smalltalkCode
-		title: [:method | method selector ];
-		display: [ :method | method getSource ];
-		smalltalkClass: [ :method | method methodClass ];
-		doItReceiver: [ :method :entity | entity ];
+GTSimpleMethodsBrowser >> sourceOf: method for: object in: composite [
+	^ composite smalltalkCode
+		display: [ :m | m getSource ];
+		smalltalkClass: [ :m | m methodClass ];
+		doItReceiver: [ object ];
 		selectionPopulate: #evaluatedObject
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :method :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		act: [:text :method :entity | 
+			with: [ :text | Compiler evaluate: text selectedText for: object logged: false ];
+		act: [:text :m | 
 				| newMethod |
 				newMethod := method methodClass compile: text text notifying: nil. 
+				text pane browser pane update.
 				self flag: 'This is a hack because it accesses the state of another browser directly.
 				It should be solved through transmissions'.
-				text pane browser pane update.
 				((text pane browser paneNamed: #methods) port: #selection) 
 					value: (method methodClass methodNamed: newMethod).
 				 ] 
