@@ -89,6 +89,7 @@ GTSimpleMethodsBrowser >> methodActionsFor: aMethod [
 GTSimpleMethodsBrowser >> methodsIn: a [
 	^ a list
 		display: [ :object :class | class methods ];
+		filterOn: [ :text :each | (text , '*') match: each selector ];
 		tags: [ :method | method category ];
 		sorted: [ :method1 :method2 | method1 selector < method2 selector ];
 		format: [ :method | method selector ];
