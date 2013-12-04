@@ -538,6 +538,7 @@ ConfigurationOfGToolkit >> baseline08: spec [
 		spec group: 'debugger' with: #(
 			'GT-Inspector'
 			'GT-Debugger'
+			'GT-SUnitDebugger'
 			'GT-GlamourDebugger'
 			'GT-PetitParserDebugger'
 			'AnnouncerCentricDebugger'
