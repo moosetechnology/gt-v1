@@ -1,0 +1,78 @@
+Class {
+	#name : #GTSUnitDebugger,
+	#superclass : #GTDebugger,
+	#category : #'GT-SUnitDebugger'
+}
+
+{ #category : #accessing }
+GTSUnitDebugger class >> defaultTitle [
+
+	^ 'SUnit Debugger'
+]
+
+{ #category : #testing }
+GTSUnitDebugger class >> handlesContext: aContext [
+	self flag: 'this should go to the superclass'.
+	^ (aContext findContextMatchingPredicate: self sessionClass activationPredicate) notNil
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger class >> registerToolsOn: registry [
+
+	"Add ourselves to registry. See [Smalltalk tools]" 
+	registry registerDebugger: self withRank: 70.
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger class >> sessionClass [
+
+	^ GTSUnitDebugSession
+]
+
+{ #category : #building }
+GTSUnitDebugger >> debuggerStructureIn: browser [
+	
+	browser
+		row: [ :row | 
+					row
+						column: #stack;
+						column: #code ];
+		row: #diff.
+]
+
+{ #category : #building }
+GTSUnitDebugger >> debuggerTransmissionsIn: browser [
+
+	browser transmit
+		fromOutsideEntityPort;
+		to: #stack;
+		andShow: [ :composite | self stackIn: composite ].
+	browser transmit
+		from: #stack port: #entity;
+		to: #stack port: #selection;
+		when: [ :session | session notNil ];
+		transformed: [:session | session context].
+	browser transmit
+		fromOutsideEntityPort;
+		to: #stack port: #selection;
+		when: [ :session | session notNil ];
+		transformed: [:session | session testContext].
+	browser transmit
+		from: #stack port: #selection;
+		to: #code;
+		andShow: [ :composite :aContext | self methodCodeIn: composite forContext: aContext ].
+	browser transmit
+		from: #stack port: #selection;
+		to: #diff;
+		andShow: [ :composite | self diffIn: composite ] 
+
+]
+
+{ #category : #'building presentations' }
+GTSUnitDebugger >> diffIn: composite [
+
+	composite diff
+			display: [ { 
+				self session actualResult printString. 
+				self session expectedResult printString }]
+]
