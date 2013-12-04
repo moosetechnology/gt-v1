@@ -73,6 +73,16 @@ GTSUnitDebugger >> diffIn: composite [
 
 	composite diff
 			display: [ { 
-				self session actualResult printString. 
-				self session expectedResult printString }]
+				self printCollection: self session actualResult asOrderedCollection. 
+				self printCollection: self session expectedResult asOrderedCollection }]
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger >> printCollection: aCollection [
+
+	 ^ String streamContents: [ :out | 
+			aCollection do: [ :each | 
+				out 
+					nextPutAll: each printString;
+					nextPut: Character cr ]]
 ]

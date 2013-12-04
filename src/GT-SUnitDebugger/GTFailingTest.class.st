@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GTFailingTest >> testCompleteSentence [
+	
+	self
+		assert:
+			(MalCamelcaseScanner scan: 'TheNextBIGThing isKindOf: Hype, VeryBIG BIG')
+		equals:
+			#('the' 'next' 'gIG' 'thing' 'is' 'kind' 'of' 'hype' 'very' 'bIG' 'bIG') asBag.
+]
+
+{ #category : #'as yet unclassified' }
 GTFailingTest >> testFail [
 
 	self assert: 'I like pie  
@@ -25,4 +35,20 @@ GTFailingTest >> testFailingDate [
 	
 	aDateAndTime :=  DateAndTime localTimeZone: TimeZone default; dosEpoch.
 	self assert: (aDateAndTime offset: '0:12:00:00')  equals: '1980-01-01T13:00:00+12:00' asDateAndTime
+]
+
+{ #category : #'as yet unclassified' }
+GTFailingTest >> testMultiValuedStreaming [
+	| headers keysAndValues |
+	headers := ZnHeaders new.
+	headers at: 'Set-Cookie' put: 'foo=1'.
+	headers at: 'Set-Cookie' add: 'bar=1'.
+	headers at: 'Content-TYPE' put: 'text/plain'.
+	headers at: 'Content-Length' put: '128'.
+	keysAndValues := OrderedCollection streamContents: [ : stream |
+		headers headersDo: [ :key :value |
+			stream nextPut: key; nextPut: value ] ].
+	self assert: keysAndValues equals: #('Set-Cookie' 'foo=1' 'Set-Cookie' 'bar=1' 'Content-Length' '128' 'Content-TYPE' 'text/plain') asOrderedCollection 
+	
+	
 ]
