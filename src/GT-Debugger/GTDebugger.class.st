@@ -463,13 +463,14 @@ GTDebugger >> methodCodeWidgetIn: composite forContext: aContext [
 GTDebugger >> openFullNoSuspendLabel: aString [
 	"TODO: do not ignore the title"
 	
-	(self title: aString) open.
+	self open.
 	self flag: 'why is this necessy here? I took it from the current debugger' 
 	"errorWasInUIProcess := UIManager default spawnNewProcessIfThisIsUI: interruptedProcess"
 ]
 
 { #category : #opening }
 GTDebugger >> openNotifierContents: msgString label: label [
+
 	self openFullNoSuspendLabel: label
 ]
 
