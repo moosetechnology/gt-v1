@@ -36,7 +36,8 @@ GTSUnitDebugger >> debuggerStructureIn: browser [
 		row: [ :row | 
 					row
 						column: #stack;
-						column: #code ];
+						column: #code span: 2 ]
+			span: 2;
 		row: #diff.
 ]
 
