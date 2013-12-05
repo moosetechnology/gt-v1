@@ -30,11 +30,23 @@ GTObjectVariablesBrowser >> buildBrowser [
 GTObjectVariablesBrowser >> evaluatorIn: composite [
 	(composite smalltalkCode)
 		doItReceiver: #yourself;
-		display: [ :entity | [(entity printString contractTo: 200) asSmalltalkComment, String cr, 'self'] on: Error do: ['"Error printing. Try self printString to debug"'] ];
+		display: [ :object | 
+			String streamContents: [ :stream | 
+				stream 
+					nextPutAll: (self printStringOf: object);
+					cr;
+					nextPutAll: (GTSnippets snippetAt: object)] ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
+			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ] 
+]
+
+{ #category : #'private building' }
+GTObjectVariablesBrowser >> printStringOf: anObject [
+	^ [(anObject printString contractTo: 200) asSmalltalkComment] 
+			on: Error 
+			do: ['"Error printing. Try self printString to debug"']
 ]
 
 { #category : #'private building' }
