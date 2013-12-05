@@ -4,7 +4,8 @@ Extension { #name : #SaveDebugAction }
 SaveDebugAction >> asGlamourAction [
 
 	^ super asGlamourAction
-			action: [ :textPresentation | 
+			shortcut: $s;
+			action: [ :textPresentation |
 				self sourceCode: textPresentation text.
 				self execute ]
 ]
