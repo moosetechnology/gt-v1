@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GTFailingTest >> expectedFailures [
+
+	^ #(testCompleteSentence testFail testFailingDate testMultiValuedStreaming)
+]
+
+{ #category : #'as yet unclassified' }
 GTFailingTest >> testCompleteSentence [
 	
 	self
