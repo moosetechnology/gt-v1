@@ -494,7 +494,7 @@ ConfigurationOfGToolkit >> baseline07: spec [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #baselines }
 ConfigurationOfGToolkit >> baseline08: spec [ 
 	<version: '0.8-baseline'>
 	
@@ -576,7 +576,7 @@ ConfigurationOfGToolkit >> baseline08: spec [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #baselines }
 ConfigurationOfGToolkit >> baseline09: spec [ 
 	<version: '0.9-baseline'>
 	
@@ -658,7 +658,7 @@ ConfigurationOfGToolkit >> baseline09: spec [
 	]
 ]
 
-{ #category : #baselines }
+{ #category : #'symbolic versions' }
 ConfigurationOfGToolkit >> development: spec [
 	<symbolicVersion: #'development'>
 
