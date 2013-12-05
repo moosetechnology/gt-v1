@@ -612,7 +612,7 @@ ConfigurationOfGToolkit >> baseline09: spec [
 			'GT-Coder'
 			'GT-Playground'
 			'Tests'
-"			'AnnouncerCentricDebugger'"
+			'AnnouncerCentricDebugger'
 		).
 		spec group: 'metaceller' with: #(
 			'GT-Metaceller-Model'
@@ -641,12 +641,12 @@ ConfigurationOfGToolkit >> baseline09: spec [
 				version: 'default';
 				file: 'ConfigurationOfBifrost';
 				repository: 'http://www.squeaksource.com/bifrost' ].
-"		spec project: 'AnnouncerCentricDebugger' with: [
+		spec project: 'AnnouncerCentricDebugger' with: [
 				spec
 					className: 'ConfigurationOfAnnouncerCentricDebugger';
 					file: 'ConfigurationOfAnnouncerCentricDebugger';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ]."
+					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ].
 		spec project: 'PetitParser' with: [
 				spec
 					className: 'ConfigurationOfPetitParser';
