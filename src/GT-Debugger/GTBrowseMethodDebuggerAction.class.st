@@ -36,3 +36,8 @@ GTBrowseMethodDebuggerAction >> id [
 
 	^ #gtBrowseMethodDebuggerAction
 ]
+
+{ #category : #actions }
+GTBrowseMethodDebuggerAction >> initialize [
+	self needsUpdate: false
+]
