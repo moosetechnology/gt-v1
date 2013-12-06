@@ -61,5 +61,9 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 		morphicSelectionAct: [:each | each value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
-			entitled: 'Browse'
+			entitled: 'Browse';
+		morphicSelectionAct: [:list | list selection value inspect ] 
+			icon: GLMUIThemeExtraIcons glamorousInspect 
+			on: $i 
+			entitled: 'Inspect'
 ]
