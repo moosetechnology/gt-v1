@@ -337,8 +337,8 @@ GTMetaceller >> versionSourceFor: aVersion [
 { #category : #roassal }
 GTMetaceller >> viewDependenciesOf: version on: view [
 	"| view |
-	view := MOViewRenderer new.
-	self new viewDependenciesOf: (ConfigurationOfMoose project version: 'default') on: view.
+	view := ROMondrianViewBuilder new.
+	self new viewDependenciesOf: (ConfigurationOfMoose project version: #development) on: view.
 	view open"
 	| all | 
 	all := Dictionary new.
