@@ -25,7 +25,7 @@ GTPPStepToNextParserAction >> defaultLabel [
 { #category : #accessing }
 GTPPStepToNextParserAction >> defaultOrder [
 
-	^ 25
+	^ 200
 ]
 
 { #category : #actions }

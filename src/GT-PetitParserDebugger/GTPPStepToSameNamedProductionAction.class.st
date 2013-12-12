@@ -34,7 +34,7 @@ GTPPStepToSameNamedProductionAction >> defaultLabel [
 { #category : #accessing }
 GTPPStepToSameNamedProductionAction >> defaultOrder [
 
-	^ 31
+	^ 204
 ]
 
 { #category : #accessing }

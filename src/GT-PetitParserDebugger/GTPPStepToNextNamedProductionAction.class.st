@@ -24,9 +24,9 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 
 	^ (self forDebugger: aDebugger)
 		production: nil;
-		label: 'named parser';
+		label: 'any production';
 		category: 'Next parser invocation';
-		order: 26
+		order: 202
 ]
 
 { #category : #registration }
@@ -35,7 +35,7 @@ GTPPStepToNextNamedProductionAction class >> gtToProductionActionFor: aDebugger 
 	<gtContextPPDebuggingAction>
 	| order allParserSuperclasses showedProductions actions |
 
-	order := 40.
+	order := 500.
 	actions := OrderedCollection new.
 	showedProductions := OrderedCollection new.
 

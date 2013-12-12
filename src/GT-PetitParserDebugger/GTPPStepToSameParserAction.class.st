@@ -9,9 +9,9 @@ Class {
 
 { #category : #registration }
 GTPPStepToSameParserAction class >> gtActionFor: aDebugger [
-	<gtPPDebuggingAction>
+"	<gtPPDebuggingAction>
 	<gtContextPPDebuggingAction>
-	
+	"
 	^ (self forDebugger: aDebugger)
 		parser: aDebugger currentContext receiver
 ]

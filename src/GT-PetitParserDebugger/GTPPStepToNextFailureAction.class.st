@@ -13,7 +13,12 @@ GTPPStepToNextFailureAction class >> gtActionType [
 { #category : #accessing }
 GTPPStepToNextFailureAction >> defaultLabel [ 
 	
-	^ 'Next failure'
+	^ 'Next parser failure'
+]
+
+{ #category : #accessing }
+GTPPStepToNextFailureAction >> defaultOrder [
+	^ 200
 ]
 
 { #category : #actions }

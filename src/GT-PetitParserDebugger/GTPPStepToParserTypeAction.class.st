@@ -13,12 +13,12 @@ GTPPStepToParserTypeAction class >> gtActionFor: aDebugger [
 	<gtContextPPDebuggingAction>
 	|order|
 	
-	order := 50.
+	order := 300.
 	^ self parserTypes collect: [ :each |
 		(self forDebugger: aDebugger)
 			parserClass: each;
 			label: each name;
-			category: 'Next type';
+			category: 'Next parser type';
 			order: (order := order + 1) ]
 ]
 

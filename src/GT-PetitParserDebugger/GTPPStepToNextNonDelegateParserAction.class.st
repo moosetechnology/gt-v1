@@ -19,13 +19,13 @@ GTPPStepToNextNonDelegateParserAction >> defaultCategory [
 { #category : #accessing }
 GTPPStepToNextNonDelegateParserAction >> defaultLabel [ 
 	
-	^ 'non-delegate parser'
+	^ 'any primitive parser'
 ]
 
 { #category : #accessing }
 GTPPStepToNextNonDelegateParserAction >> defaultOrder [
 
-	^ 27
+	^ 201
 ]
 
 { #category : #actions }

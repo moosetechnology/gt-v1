@@ -26,13 +26,13 @@ GTPPStepToSameParserTypeAction >> defaultCategory [
 { #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultLabel [ 
 
-	^ 'same class'
+	^ 'same parser type'
 ]
 
 { #category : #accessing }
 GTPPStepToSameParserTypeAction >> defaultOrder [
 
-	^ 32
+	^ 205
 ]
 
 { #category : #accessing }
