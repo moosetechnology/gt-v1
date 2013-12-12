@@ -136,6 +136,12 @@ GTDebugger class >> informExistingDebugger: aContext label: aString [
 	^aContext
 ]
 
+{ #category : #'as yet unclassified' }
+GTDebugger class >> initialize [ 
+	
+	ErrorRecursion := false.
+]
+
 { #category : #'settings api' }
 GTDebugger class >> logDebuggerStackToFile [
 	^ LogDebuggerStackToFile ifNil: [LogDebuggerStackToFile := true]
@@ -465,8 +471,8 @@ GTDebugger >> openFullNoSuspendLabel: aString [
 	"TODO: do not ignore the title"
 	
 	(self title: aString) open.
-	self flag: 'why is this necessy here? I took it from the current debugger' 
-	"errorWasInUIProcess := UIManager default spawnNewProcessIfThisIsUI: interruptedProcess"
+	self flag: 'why is this necessy here? I took it from the current debugger'. 
+	self errorWasInUIProcess: (UIManager default spawnNewProcessIfThisIsUI: self session interruptedProcess)
 ]
 
 { #category : #opening }
