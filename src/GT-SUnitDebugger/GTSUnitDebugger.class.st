@@ -65,14 +65,16 @@ GTSUnitDebugger >> debuggerTransmissionsIn: browser [
 	browser transmit
 		from: #stack port: #selection;
 		to: #diff;
-		andShow: [ :composite | self diffIn: composite ] 
+		andShow: [ :composite | 
+			(self diffIn: composite) title: 'Actual vs. expected'.
+			(self inspectorIn: composite) title: 'Inspector' ] 
 
 ]
 
 { #category : #'building presentations' }
 GTSUnitDebugger >> diffIn: composite [
 
-	composite diff
+	^ composite diff
 			display: [ { 
 				self printCollection: self session actualResult asOrderedCollection. 
 				self printCollection: self session expectedResult asOrderedCollection }]
