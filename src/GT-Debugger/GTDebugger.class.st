@@ -409,7 +409,7 @@ GTDebugger >> errorWasInUIProcess: aBoolean [
 { #category : #'building presentations' }
 GTDebugger >> inspectorIn: composite [
 
-	composite custom:
+	^ composite custom:
 			(GTInspector new first "We use the first actual finder because need to send showFirst: to it"
 				noTitle;
 				noActions;
