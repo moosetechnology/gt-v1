@@ -32,10 +32,9 @@ GTDebugger class >> alwaysOpenFullDebugger: aBoolean [
 
 { #category : #'utilities api' }
 GTDebugger class >> closeAllDebuggers [
-	"SpecDebugger closeAllDebuggers"
+	"GTDebugger closeAllDebuggers"
 	(SystemWindow allSubInstances select: [:w | 
-		(w model isKindOf: WindowModel) and: [ 
-			w model model isKindOf: self ]  ])
+		 w model isKindOf: GTDebugger])
 			do: [:w | w delete ]
 ]
 
