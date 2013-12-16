@@ -665,7 +665,7 @@ ConfigurationOfGToolkit >> baseline10: spec [
 			package: 'GT-Metaceller-Model';
 			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
 			package: 'GT-Metaceller-Glamour' with: [ spec requires: #( 'GT-Inspector'  'GT-Metaceller-Model' )];
-			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'NewDebugger' 'DebuggerExtensions')];
+			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'NewDebugger')];
 			package: 'GT-SUnitDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
 			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
@@ -726,8 +726,8 @@ ConfigurationOfGToolkit >> baseline10: spec [
 					className: 'ConfigurationOfNewDebugger';
 					file: 'ConfigurationOfNewDebugger';
 					version: #development;
+					loads: #('Core' 'DebuggerExtensions');
 					repository: 'http://www.smalltalkhub.com/mc/Pharo/Debugger/main' ].
-		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
 		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ]
 	]
 ]
