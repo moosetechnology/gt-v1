@@ -593,9 +593,8 @@ ConfigurationOfGToolkit >> baseline09: spec [
 			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'DebuggerExtensions')];
 			package: 'GT-SUnitDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
-			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];"
-			package: 'GT-ObjectCentricDebugger' with: [ spec requires: #('GT-Debugger' 'Bifrost')];
-"			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
+			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')].
@@ -635,12 +634,6 @@ ConfigurationOfGToolkit >> baseline09: spec [
 					version: #development;
 					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
-		spec project: 'Bifrost' with: [
-			spec
-				className: 'ConfigurationOfBifrost';
-				version: 'default';
-				file: 'ConfigurationOfBifrost';
-				repository: 'http://www.squeaksource.com/bifrost' ].
 		spec project: 'AnnouncerCentricDebugger' with: [
 				spec
 					className: 'ConfigurationOfAnnouncerCentricDebugger';
