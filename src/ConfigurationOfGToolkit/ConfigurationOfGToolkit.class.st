@@ -651,12 +651,93 @@ ConfigurationOfGToolkit >> baseline09: spec [
 	]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGToolkit >> baseline10: spec [ 
+	<version: '0.10-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
+		spec 
+			package: 'GT-Model';
+			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
+			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Metaceller-Model';
+			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
+			package: 'GT-Metaceller-Glamour' with: [ spec requires: #( 'GT-Inspector'  'GT-Metaceller-Model' )];
+			package: 'GT-Debugger' with: [ spec requires: #('GT-Inspector' 'NewDebugger' 'DebuggerExtensions')];
+			package: 'GT-SUnitDebugger' with: [ spec requires: #('GT-Debugger')];
+			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
+			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
+			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')].
+		spec group: 'default' with: #(
+			'GT-Model'
+			'GT-Tools'
+			'GT-Inspector'
+			'GT-Metaceller-Glamour'
+			'GT-Debugger'
+			'GT-SUnitDebugger'
+			'GT-PetitParserDebugger'
+			'GT-GlamourDebugger'
+			'GT-ClassicCoder'
+			'GT-Coder'
+			'GT-Playground'
+			'Tests'
+			'AnnouncerCentricDebugger'
+		).
+		spec group: 'metaceller' with: #(
+			'GT-Metaceller-Model'
+			'GT-Metaceller-Tests' ).
+		spec group: 'debugger' with: #(
+			'GT-Inspector'
+			'GT-Debugger'
+			'GT-SUnitDebugger'
+			'GT-PetitParserDebugger'
+			'GT-GlamourDebugger'
+			'AnnouncerCentricDebugger'
+		).
+		spec group: 'Tests' with: #('GT-Tests-Inspector' 'GT-Metaceller-Tests').
+		spec group: 'ObjectCentricDebugger' with: #(
+			'GT-ObjectCentricDebugger').
+		spec project: 'GlamourCore' with: [
+				spec
+					className: 'ConfigurationOfGlamour';
+					file: 'ConfigurationOfGlamour';
+					version: #development;
+					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		spec project: 'AnnouncerCentricDebugger' with: [
+				spec
+					className: 'ConfigurationOfAnnouncerCentricDebugger';
+					file: 'ConfigurationOfAnnouncerCentricDebugger';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ].
+		spec project: 'PetitParser' with: [
+				spec
+					className: 'ConfigurationOfPetitParser';
+					file: 'ConfigurationOfPetitParser';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/PetitParser/main' ].
+		spec project: 'NewDebugger' with: [
+				spec
+					className: 'ConfigurationOfNewDebugger';
+					file: 'ConfigurationOfNewDebugger';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Pharo/Debugger/main' ].
+		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main'].
+		spec package: 'Glamour-Morphic-Theme' with: [ spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ]
+	]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGToolkit >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.6-baseline'.
-	spec for: #'pharo3.x' version: '0.9-baseline'
+	spec for: #'pharo3.x' version: '0.10-baseline'
 ]
 
 { #category : #snapshots }
