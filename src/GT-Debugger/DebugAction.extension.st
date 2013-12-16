@@ -7,6 +7,7 @@ DebugAction >> asGlamourAction [
 			action: [ self execute ]; 
 			icon: self icon;
 			title: self label;
+			shortcut: (self keyText ifNotNil: [:aString | aString at: 1]);
 			category: self category;
 			yourself)
 ]
