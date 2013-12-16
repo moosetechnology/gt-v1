@@ -554,6 +554,12 @@ GTDebugger >> session: anObject [
 	^ (self browser pane port: #entity) value: anObject
 ]
 
+{ #category : #accessing }
+GTDebugger >> sourceCode: aString [
+
+	^ ((self browser paneNamed: #code) port: #text) value: aString
+]
+
 { #category : #'building presentations' }
 GTDebugger >> stackIn: composite [
 
