@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 GTGenericStackDebuggerSmokeTest >> debuggerToTest [
 
-	^ GTDebugger
+	^ GTGenericStackDebugger
 ]
 
 { #category : #'as yet unclassified' }

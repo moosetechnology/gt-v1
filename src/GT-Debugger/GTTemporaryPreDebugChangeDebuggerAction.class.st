@@ -36,7 +36,7 @@ GTTemporaryPreDebugChangeDebuggerAction >> executeAction [
 	currentDebugger session: nil.
 	currentDebugger clear. "clear not close, as at this point there is no open window to close"
 	
-	GTDebugger debugSession: currentSession
+	GTGenericStackDebugger debugSession: currentSession
 ]
 
 { #category : #accessing }
