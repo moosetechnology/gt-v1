@@ -54,5 +54,6 @@ CompiledMethod >> gtInspectorSourceIn: composite [
 	composite smalltalkCode 
 		title: 'Source';
 		smalltalkClass: [ self methodClass ];
-		display: [ self getSource ]
+		display: [ self getSource ];
+		act: [ self browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
 ]
