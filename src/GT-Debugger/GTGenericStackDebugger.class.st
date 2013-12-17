@@ -1,3 +1,7 @@
+"
+GTGenericStackDebugger is a browser that provides Smalltalk debugging functionality.
+ 
+"
 Class {
 	#name : #GTGenericStackDebugger,
 	#superclass : #GTMoldableDebugger,
