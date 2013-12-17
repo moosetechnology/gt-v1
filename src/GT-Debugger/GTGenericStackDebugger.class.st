@@ -327,7 +327,7 @@ GTGenericStackDebugger >> openFullNoSuspendLabel: aString [
 	"TODO: do not ignore the title"
 	
 	(self title: aString) open.
-	self flag: 'why is this necessy here? I took it from the current debugger'. 
+	"If the debugger is opened as a result of a notification directly from the UI, span another process."
 	self errorWasInUIProcess: (UIManager default spawnNewProcessIfThisIsUI: self session interruptedProcess)
 ]
 
