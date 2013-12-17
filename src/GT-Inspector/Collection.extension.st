@@ -8,7 +8,7 @@ Collection >> gtInspectorItemsIn: composite [
 		display: [ :aCollection | self ];
 		title: [ :anObject | anObject size asString, ' items' ];
 		searchOn: [:text :each | 
-			Compiler evaluate: ' | entity each | each := self. entity := each.', text for: each logged: false];		
+			Compiler evaluate: '| entity each | each := self. entity := each.', text for: each logged: false];		
 		format: [ :each |
 			[ Text fromString: ((each asString contractTo: 50) replaceAll: String cr with: String space) ] 
 							on: Error 

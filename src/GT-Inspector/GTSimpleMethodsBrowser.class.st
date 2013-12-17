@@ -114,15 +114,24 @@ GTSimpleMethodsBrowser >> sourceOf: method for: object in: composite [
 			entitled: 'Do it and open (o)'
 			with: [ :text | Compiler evaluate: text selectedText for: object logged: false ];
 		act: [:text :m | 
-				| newMethod |
+				| newMethod outerPane |
 				newMethod := method methodClass compile: text text notifying: nil.
-				text pane browser pane update.
-				self flag: 'This is a hack because it accesses the state of the browser directly.
-				It should be solved through transmissions'.
-				((text pane browser paneNamed: #classes) port: #selection) value: method methodClass.
-				((text pane browser paneNamed: #methods) port: #selection) 
-					value: ((text pane browser paneNamed: #methods) presentations first displayedValue 
-						detect: [ :each | each selector = newMethod ]).
+				outerPane := text pane browser pane.
+				outerPane update.
+				self flag: 'This is a huge hack because of so many reasons:
+				- the presentation accesses the state of the outer browser directly
+				- the presentation depends on the implementation of the browser 
+				It should be solved through transmissions.
+				
+				But, it works for now and the browser is reasonably updated'.
+				outerPane withAllPanesAndPresentationsDo: [ :child | 
+					(child isKindOf: self class) ifTrue: [ 
+						((child first paneNamed: #classes) port: #selection) value: method methodClass.
+						((child first paneNamed: #methods) port: #selection) 
+							value: ((child first paneNamed: #methods) presentations first displayedValue 
+								detect: [ :each | each selector = newMethod ]).
+						
+						 ] ].
 				 ] 
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
