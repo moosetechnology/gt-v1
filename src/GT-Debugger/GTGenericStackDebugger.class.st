@@ -63,7 +63,7 @@ GTGenericStackDebugger class >> defaultLogFileName [
 
 { #category : #accessing }
 GTGenericStackDebugger class >> defaultTitle [
-	^ 'split Debugger'
+	^ 'Glamorous Debugger'
 ]
 
 { #category : #'settings api' }
@@ -282,6 +282,15 @@ GTGenericStackDebugger >> errorWasInUIProcess: aBoolean [
 	self session errorWasInUIProcess: aBoolean
 ]
 
+{ #category : #'printing/formatting' }
+GTGenericStackDebugger >> formatStackEntry: aContext [
+
+	^ Text 
+		string: (self printStackEntry: aContext )
+		attributes: (self textAttributesForStackEntry: aContext) 
+	 
+]
+
 { #category : #'building presentations' }
 GTGenericStackDebugger >> inspectorIn: composite [
 
@@ -340,7 +349,7 @@ GTGenericStackDebugger >> openNotifierContents: msgString label: label [
 	self openFullNoSuspendLabel: label
 ]
 
-{ #category : #'building presentations' }
+{ #category : #'printing/formatting' }
 GTGenericStackDebugger >> printStackEntry: aContext [
 
 	^ String streamContents: [:stream | aContext printDebugOn: stream ] 
@@ -409,7 +418,13 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 		title: 'Stack';
 		showOnly: 50;
 		display: #stack;
-		format: [ :each | self printStackEntry: each]
+		format: [ :each | self formatStackEntry: each]
+]
+
+{ #category : #'printing/formatting' }
+GTGenericStackDebugger >> textAttributesForStackEntry: aContext [
+
+	^ { TextColor black }
 ]
 
 { #category : #updating }
