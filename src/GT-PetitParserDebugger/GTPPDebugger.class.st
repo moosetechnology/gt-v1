@@ -1,6 +1,6 @@
 Class {
 	#name : #GTPPDebugger,
-	#superclass : #GTDebugger,
+	#superclass : #GTGenericStackDebugger,
 	#category : #'GT-PetitParserDebugger'
 }
 
