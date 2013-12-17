@@ -9,6 +9,11 @@ Class {
 	#category : #'GT-Debugger-Tests'
 }
 
+{ #category : #testing }
+GTDebuggerSmokeTest class >> isAbstract [
+	^ self name = #GTDebuggerSmokeTest
+]
+
 { #category : #'as yet unclassified' }
 GTDebuggerSmokeTest >> debuggerToTest [
 	self subclassResponsability
