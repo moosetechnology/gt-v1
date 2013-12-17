@@ -6,5 +6,5 @@ GLMBrowser >> gtInspectorOpenTreeIn: composite [
 	 composite roassal 
 		title: 'Tree';
 		painting: [:view :b | 
-			b viewTreeOn: view ]
+			self viewTreeOn: view ]
 ]
