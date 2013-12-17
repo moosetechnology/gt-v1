@@ -2,7 +2,9 @@ Class {
 	#name : #GTSUnitDebugSession,
 	#superclass : #DebugSession,
 	#instVars : [
-		'assertionContext'
+		'assertionContext',
+		'expectedResult',
+		'actualResult'
 	],
 	#category : #'GT-SUnitDebugger'
 }
@@ -16,13 +18,29 @@ GTSUnitDebugSession class >> activationPredicate [
 { #category : #accessing }
 GTSUnitDebugSession >> actualResult [
 	
-	^ assertionContext tempAt: 1
+	^ actualResult
 ]
 
 { #category : #accessing }
 GTSUnitDebugSession >> expectedResult [
 	
-	^ assertionContext tempAt: 2
+	^ expectedResult
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugSession >> isActive [
+
+	^ self isActive: self testContext
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugSession >> isActive: aContext [
+
+	^ aContext 
+		ifNil: [ false ] 
+		ifNotNil: [ 
+			aContext isDead not and: [
+				aContext ~= self process suspendedContext or: [aContext willReturn not ] ] ]
 ]
 
 { #category : #initialization }
@@ -31,7 +49,9 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 	super process: aProcess context: aContext.
 	
 	assertionContext ifNil: [
-		assertionContext := aContext findContextMatchingPredicate: self class activationPredicate]
+		assertionContext := aContext findContextMatchingPredicate: self class activationPredicate.
+		actualResult := assertionContext tempAt: 1.
+		expectedResult := assertionContext tempAt: 2]
 ]
 
 { #category : #accessing }

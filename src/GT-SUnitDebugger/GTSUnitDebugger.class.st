@@ -48,15 +48,10 @@ GTSUnitDebugger >> debuggerTransmissionsIn: browser [
 		to: #stack;
 		andShow: [ :composite | self stackIn: composite ].
 	browser transmit
-		from: #stack port: #entity;
-		to: #stack port: #selection;
-		when: [ :session | session notNil ];
-		transformed: [:session | session context].
-	browser transmit
 		fromOutsideEntityPort;
 		to: #stack port: #selection;
 		when: [ :session | session notNil ];
-		transformed: [:session | session testContext].
+		transformed: [:session | session testContext ].
 	browser transmit
 		from: #stack port: #selection;
 		to: #code;
@@ -66,14 +61,15 @@ GTSUnitDebugger >> debuggerTransmissionsIn: browser [
 		to: #diff;
 		andShow: [ :composite | 
 			(self diffIn: composite) title: 'Actual vs. expected'.
-			(self inspectorIn: composite) title: 'Inspector' ] 
-
+			(self inspectorIn: composite) title: 'Inspector' ]
+	
 ]
 
 { #category : #'building presentations' }
 GTSUnitDebugger >> diffIn: composite [
 
 	^ composite diff
+			when: [ self session isActive ];
 			display: [ { 
 				self printCollection: self session actualResult asOrderedCollection. 
 				self printCollection: self session expectedResult asOrderedCollection }]
@@ -87,4 +83,13 @@ GTSUnitDebugger >> printCollection: aCollection [
 				out 
 					nextPutAll: each printString;
 					nextPut: Character cr ]]
+]
+
+{ #category : #updating }
+GTSUnitDebugger >> updateBrowser [
+
+	super updateBrowser.
+	"The transmission will select the context of the test case. 
+	This should only happen the first time."
+	((self browser paneNamed: #stack) port: #selection) value: self session interruptedContext
 ]
