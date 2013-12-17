@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSUnitDebugger,
-	#superclass : #GTDebugger,
+	#superclass : #GTGenericStackDebugger,
 	#category : #'GT-SUnitDebugger'
 }
 
@@ -16,14 +16,14 @@ GTSUnitDebugger class >> handlesContext: aContext [
 	^ (aContext findContextMatchingPredicate: self sessionClass activationPredicate) notNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'tools registry' }
 GTSUnitDebugger class >> registerToolsOn: registry [
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
 	registry registerDebugger: self withRank: 70.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSUnitDebugger class >> sessionClass [
 
 	^ GTSUnitDebugSession
@@ -79,7 +79,7 @@ GTSUnitDebugger >> diffIn: composite [
 				self printCollection: self session expectedResult asOrderedCollection }]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 GTSUnitDebugger >> printCollection: aCollection [
 
 	 ^ String streamContents: [ :out | 

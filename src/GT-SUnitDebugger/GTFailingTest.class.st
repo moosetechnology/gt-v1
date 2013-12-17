@@ -4,13 +4,13 @@ Class {
 	#category : #'GT-SUnitDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTFailingTest >> expectedFailures [
 
 	^ #(testCompleteSentence testFail testFailingDate testMultiValuedStreaming)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTFailingTest >> testCompleteSentence [
 	
 	self
@@ -20,7 +20,7 @@ GTFailingTest >> testCompleteSentence [
 			#('the' 'next' 'gIG' 'thing' 'is' 'kind' 'of' 'hype' 'very' 'bIG' 'bIG') asBag.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTFailingTest >> testFail [
 
 	self assert: 'I like pie  
@@ -35,7 +35,7 @@ rad squared pi
 and other PIes'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTFailingTest >> testFailingDate [
 	|aDateAndTime|
 	
@@ -43,7 +43,7 @@ GTFailingTest >> testFailingDate [
 	self assert: (aDateAndTime offset: '0:12:00:00')  equals: '1980-01-01T13:00:00+12:00' asDateAndTime
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTFailingTest >> testMultiValuedStreaming [
 	| headers keysAndValues |
 	headers := ZnHeaders new.

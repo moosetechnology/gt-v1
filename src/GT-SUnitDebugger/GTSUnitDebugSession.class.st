@@ -7,25 +7,25 @@ Class {
 	#category : #'GT-SUnitDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSUnitDebugSession class >> activationPredicate [
 
 	^  GTSUnitActivationPredicate new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSUnitDebugSession >> actualResult [
 	
 	^ assertionContext tempAt: 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSUnitDebugSession >> expectedResult [
 	
 	^ assertionContext tempAt: 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTSUnitDebugSession >> process: aProcess context: aContext [
 
 	super process: aProcess context: aContext.
@@ -34,7 +34,7 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 		assertionContext := aContext findContextMatchingPredicate: self class activationPredicate]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSUnitDebugSession >> testContext [
 
 	^ assertionContext sender

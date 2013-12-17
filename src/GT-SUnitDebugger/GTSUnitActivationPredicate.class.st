@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-SUnitDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSUnitActivationPredicate >> matchContext: aContext [
 	
 	^ aContext selector == #assert:equals:
