@@ -4,13 +4,13 @@ Class {
 	#category : #'GT-Debugger-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGenericStackDebuggerSmokeTest >> debuggerToTest [
 
 	^ GTGenericStackDebugger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGenericStackDebuggerSmokeTest >> instantiateSession [
 	| context process |
 	context := [ 20 factorial ] asContext.
