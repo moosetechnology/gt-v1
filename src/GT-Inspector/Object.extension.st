@@ -3,7 +3,7 @@ Extension { #name : #Object }
 { #category : #'*gt-inspector' }
 Object >> gtInspectorMethodsIn: composite [
 	<gtInspectorPresentationOrder: 1000>
-	composite custom: (GTSimpleMethodsBrowser new browser startOn: self) 
+	composite custom: (GTSimpleMethodsBrowser new startOn: self) 
 ]
 
 { #category : #'*gt-inspector' }
