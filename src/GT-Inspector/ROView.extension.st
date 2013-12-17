@@ -8,3 +8,11 @@ ROView >> gtInspectorElementsHierarchyIn: composite [
 		display: [ :each | {each} ];
 		children: #elements
 ]
+
+{ #category : #'*gt-inspector' }
+ROView >> gtInspectorViewIn: composite [
+	<gtInspectorPresentationOrder: 30>
+	composite roassal 
+		title: 'View';
+		initializeView: [self]
+]
