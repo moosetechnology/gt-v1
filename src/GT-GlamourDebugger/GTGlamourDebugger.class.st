@@ -1,6 +1,6 @@
 Class {
 	#name : #GTGlamourDebugger,
-	#superclass : #GTDebugger,
+	#superclass : #GTGenericStackDebugger,
 	#category : #'GT-GlamourDebugger'
 }
 
@@ -39,15 +39,6 @@ GTGlamourDebugger >> browserStructureFor: aGlmBrowser in: aComposite [
 ]
 
 { #category : #building }
-GTGlamourDebugger >> browserTransmissionsIn: browser [
-	
-	browser transmit
-		from: #stack port: #selection;
-		to: #browser;
-		andShow: [ :composite | self browserStructureFor: self session rootBrowser in: composite ]
-]
-
-{ #category : #building }
 GTGlamourDebugger >> debuggerStructureIn: browser [
 
 	browser
@@ -65,7 +56,11 @@ GTGlamourDebugger >> debuggerStructureIn: browser [
 GTGlamourDebugger >> debuggerTransmissionsIn: browser. [
 		
 	super debuggerTransmissionsIn: browser.
-	self browserTransmissionsIn: browser.
+	
+	browser transmit
+		from: #stack port: #selection;
+		to: #browser;
+		andShow: [ :composite | self browserStructureFor: self session rootBrowser in: composite ]
 ]
 
 { #category : #'building actions' }
