@@ -104,7 +104,6 @@ GTMoldableDebugger >> close [
 
 { #category : #building }
 GTMoldableDebugger >> compose [
-	self title: self debuggerTitle.
 	self tabulator with: [:browser | 
 		self debuggerStructureIn: browser.
 		self debuggerTransmissionsIn: browser ].
@@ -135,12 +134,6 @@ GTMoldableDebugger >> debug: aContext using: aDebuggerClass [
 GTMoldableDebugger >> debuggerStructureIn: browser [
 	self subclassResponsability
 		
-]
-
-{ #category : #accessing }
-GTMoldableDebugger >> debuggerTitle [
-	
-	^ self class defaultTitle 
 ]
 
 { #category : #building }
@@ -204,7 +197,9 @@ GTMoldableDebugger >> session: anObject [
 { #category : #accessing }
 GTMoldableDebugger >> title [
 	
-	^ self class defaultTitle 
+	^ super title 
+		ifNil: [ self class defaultTitle ] 
+		ifNotNil: [ :aString | aString ] 
 ]
 
 { #category : #updating }
