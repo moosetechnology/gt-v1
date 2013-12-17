@@ -142,17 +142,8 @@ GTPPDebugger >> mapIn: aComposite forSession: aSession forPoduction: aProduction
 
 ]
 
-{ #category : #'building presentations' }
+{ #category : #'printing/formatting' }
 GTPPDebugger >> printStackEntry: aContext [
-
-	^ Text 
-		string: (self printStackEntryStringFor: aContext )
-		attributes: (self textAttributesForStackEntry: aContext) 
-	
-]
-
-{ #category : #'private utilities' }
-GTPPDebugger >> printStackEntryStringFor: aContext [
 
 	^ (self session isPPParser: aContext receiver)
 		ifTrue: [ 
@@ -233,7 +224,7 @@ GTPPDebugger >> streamSelectionInterval [
 	^ self selectionIntervalForPane: #stream
 ]
 
-{ #category : #'private utilities' }
+{ #category : #'printing/formatting' }
 GTPPDebugger >> textAttributesForStackEntry: aContext [
 
 	(self session isNamedPPParser: aContext receiver) 
