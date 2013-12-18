@@ -259,6 +259,10 @@ GTGenericStackDebugger >> debuggerTransmissionsIn: browser [
 		to: #stack port: #selection;
 		when: [ :session | session notNil ];
 		transformed: [:session | session context].
+	browser transmit "need a method call when the selection is changed"
+		from: #stack port: #selection;
+		to: #stack port: #action;
+		transformed: [ :context | self selectionChanged: context ].
 	browser transmit
 		from: #stack port: #selection;
 		to: #code;
@@ -370,6 +374,10 @@ GTGenericStackDebugger >> proceed: aTopView [
 GTGenericStackDebugger >> selectedContext [
 
 	^ ((self browser paneNamed: #stack) port: #selection) value
+]
+
+{ #category : #updating }
+GTGenericStackDebugger >> selectionChanged: aContext [
 ]
 
 { #category : #accessing }
