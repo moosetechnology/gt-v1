@@ -7,6 +7,7 @@ Class {
 	#superclass : #GTMoldableDebugger,
 	#classVars : [
 		'AlwaysOpenFullDebugger',
+		'EnableStackColoring',
 		'ErrorRecursion',
 		'FilterCommonMessageSends',
 		'LogDebuggerStackToFile',
@@ -64,6 +65,16 @@ GTGenericStackDebugger class >> defaultLogFileName [
 { #category : #accessing }
 GTGenericStackDebugger class >> defaultTitle [
 	^ 'Glamorous Debugger'
+]
+
+{ #category : #'settings api' }
+GTGenericStackDebugger class >> enableStackColoring [
+	^ EnableStackColoring ifNil: [EnableStackColoring := false]
+]
+
+{ #category : #'settings api' }
+GTGenericStackDebugger class >> enableStackColoring: aBoolean [
+	EnableStackColoring := aBoolean.
 ]
 
 { #category : #'settings api' }
@@ -262,7 +273,8 @@ GTGenericStackDebugger >> debuggerTransmissionsIn: browser [
 	browser transmit "need a method call when the selection is changed"
 		from: #stack port: #selection;
 		to: #stack port: #action;
-		transformed: [ :context | self selectionChanged: context ].
+		transformed: [ :context | 
+			self selectionChanged: context ].
 	browser transmit
 		from: #stack port: #selection;
 		to: #code;
@@ -378,6 +390,11 @@ GTGenericStackDebugger >> selectedContext [
 
 { #category : #updating }
 GTGenericStackDebugger >> selectionChanged: aContext [
+	
+	self class enableStackColoring ifTrue: [  
+		UIManager default defer: [
+			(self browser paneNamed: #stack) presentations  presentations ifNotEmpty: [ :p | 
+				p first update ] ] ]
 ]
 
 { #category : #accessing }
@@ -432,7 +449,16 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 { #category : #'printing/formatting' }
 GTGenericStackDebugger >> textAttributesForStackEntry: aContext [
 
-	^ { TextColor black }
+	(self selectedContext isNil or: self class enableStackColoring not) ifTrue: [ ^ {TextColor black} ].
+
+	(self selectedContext == aContext) ifTrue: [ ^ {TextColor black}  ].
+
+	(aContext receiver class = self selectedContext receiver class)
+		ifTrue: [ ^ { TextColor blue } ].
+	(aContext receiver class package = self selectedContext receiver class package)
+		ifTrue: [ ^ { TextColor black } ]. 
+
+	^ {TextColor gray}
 ]
 
 { #category : #updating }
