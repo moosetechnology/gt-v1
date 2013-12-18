@@ -8,5 +8,11 @@ Announcer >> gtInspectorSubscriptionsIn: composite [
 		display: [ self subscriptions glmSubscriptions ];
 		column: 'Subscriber' evaluated: [ :each | each subscriber asString ];
 		column: 'Announcement' evaluated: [ :each | each announcementClass name ];
-		column: 'Kind' evaluated: [ :each | each class name ]
+		column: 'Kind' evaluated: [ :each | each class name ];
+		act: [ :table | 
+			self subscriptions reset.
+			table reset ] icon: GLMUIThemeExtraIcons glamorousCancel entitled: 'Reset';
+		selectionAct: [ :table | 
+			self subscriptions remove: table selection.
+			table update ] entitled: 'Remove subscription'
 ]
