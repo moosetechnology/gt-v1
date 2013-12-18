@@ -13,6 +13,9 @@ Collection >> gtInspectorItemsIn: composite [
 			[ Text fromString: ((each asString contractTo: 50) replaceAll: String cr with: String space) ] 
 							on: Error 
 							do: [ Text string: 'error printing' attribute: TextColor red ] ];
+		send: [ :result | (result notNil and: [result size = 1]) 
+				ifTrue: [result anyOne] 
+				ifFalse: [result]];
 "		icon: [ :each |  
 			| iconName |
 			iconName := each class theNonMetaClass browserIcon ifNil: [#blank].

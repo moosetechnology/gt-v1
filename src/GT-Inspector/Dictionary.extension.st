@@ -16,7 +16,9 @@ Dictionary >> gtInspectorItemsIn: composite [
 		title: [ :anObject | self size asString, ' items' ];
 		searchOn: [:text :each |
 			Compiler evaluate: ' | entity each | each := self. entity := each.', text for: each logged: false];		
-		send: [ :selection | selection value ];
+		send: [ :selection | (selection notNil and: [selection size = 1]) 
+				ifTrue: [selection anyOne value] 
+				ifFalse: [selection collect: #value] ];
 		showOnly: 50;
 		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'
 ]
