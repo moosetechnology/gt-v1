@@ -6,7 +6,8 @@ Symbol >> gtInspectorImplementorsIn: composite [
 	composite list 
 		title: 'Implementors';
 		display: [ self systemNavigation allImplementorsOf: self ];
-		showOnly: 50
+		when: [ (self systemNavigation allImplementorsOf: self) notEmpty ];
+		showOnly: 30
 ]
 
 { #category : #'*gt-inspector' }
@@ -15,5 +16,6 @@ Symbol >> gtInspectorSendersIn: composite [
 	composite list 
 		title: 'Senders';
 		display: [ self systemNavigation allSendersOf: self ];
-		showOnly: 50
+		when: [ (self systemNavigation allSendersOf: self) notEmpty ];
+		showOnly: 30
 ]
