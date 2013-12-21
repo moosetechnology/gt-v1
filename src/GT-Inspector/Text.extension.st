@@ -10,6 +10,5 @@ Text >> gtInspectorITextIn: composite [
 
 { #category : #'*gt-inspector' }
 Text >> gtInspectorItemsIn: composite [
-	"We offer the list of characters for a text"
-	^ self string gtInspectorItemsIn: composite
+	"No items presentation for a Text"
 ]

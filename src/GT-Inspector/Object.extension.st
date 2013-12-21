@@ -35,5 +35,5 @@ Object >> gtInspectorRetrieveVariableValuePairs [
 { #category : #'*gt-inspector' }
 Object >> gtInspectorStateIn: composite [
 	<gtInspectorPresentationOrder: 10>
-	composite custom: (GTObjectVariablesBrowser new browser startOn: self)
+	composite custom: (GTObjectVariablesBrowser new startOn: self)
 ]

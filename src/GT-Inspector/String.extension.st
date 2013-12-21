@@ -9,5 +9,5 @@ String >> gtInspectorITextIn: composite [
 
 { #category : #'*gt-inspector' }
 String >> gtInspectorItemsIn: composite [
-	"We do not offer a list presentation for a string"
+	"No items presentation for a String"
 ]

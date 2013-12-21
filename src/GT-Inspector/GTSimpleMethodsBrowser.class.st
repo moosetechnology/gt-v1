@@ -25,9 +25,9 @@ GTSimpleMethodsBrowser >> classesIn: a [
 			all := OrderedCollection new.
 			object class withAllSuperclassesDo: [:each | all add: each ].
 			all ];
-"		selectedIndex: 1;"
+"		initialize: [ :list | list selection: list entity class ];"
 		format: [ :class | class name ];
-		morphicSelectionAct: [ :list :object | Smalltalk tools browser fullOnClass: object class selector: list selection selector ]
+		morphicSelectionAct: [ :list | Smalltalk tools browser fullOnClass: list selection ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse'
