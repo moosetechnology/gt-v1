@@ -20,7 +20,13 @@ Object >> gtInspectorPresentationsIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
-Object >> gtInspectorRetrieveVariableValuePairs [
+Object >> gtInspectorStateIn: composite [
+	<gtInspectorPresentationOrder: 10>
+	composite custom: (GTObjectVariablesBrowser new startOn: self)
+]
+
+{ #category : #'*gt-inspector' }
+Object >> gtInspectorVariableValuePairs [
 	"This is a helper method that returns a collection of variable names -> value for the current object.
 	Subclasses can override it to specialize what appears in the variables presentation"
 	| bindings |
@@ -30,10 +36,4 @@ Object >> gtInspectorRetrieveVariableValuePairs [
 		add: '_self' -> self;
 		addAll: bindings;
 		yourself
-]
-
-{ #category : #'*gt-inspector' }
-Object >> gtInspectorStateIn: composite [
-	<gtInspectorPresentationOrder: 10>
-	composite custom: (GTObjectVariablesBrowser new startOn: self)
 ]

@@ -46,7 +46,17 @@ CompiledMethod >> gtInspectorPragmasIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
-CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
+CompiledMethod >> gtInspectorSourceIn: composite [
+	<gtInspectorPresentationOrder: 30> 
+	composite smalltalkCode 
+		title: 'Source';
+		smalltalkClass: [ self methodClass ];
+		display: [ self getSource ];
+		act: [ self browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
+]
+
+{ #category : #'*gt-inspector' }
+CompiledMethod >> gtInspectorVariableValuePairs [
 	| literalIndex |
 	literalIndex := 0.
 	^ OrderedCollection new 
@@ -56,14 +66,4 @@ CompiledMethod >> gtInspectorRetrieveVariableValuePairs [
 		add: ( 'all bytecodes' -> self symbolic );
 		yourself
 
-]
-
-{ #category : #'*gt-inspector' }
-CompiledMethod >> gtInspectorSourceIn: composite [
-	<gtInspectorPresentationOrder: 30> 
-	composite smalltalkCode 
-		title: 'Source';
-		smalltalkClass: [ self methodClass ];
-		display: [ self getSource ];
-		act: [ self browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
 ]

@@ -66,7 +66,7 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 GTObjectVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
-		display: [ :anObject | anObject gtInspectorRetrieveVariableValuePairs ];
+		display: [ :anObject | anObject gtInspectorVariableValuePairs ];
 		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
 		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]

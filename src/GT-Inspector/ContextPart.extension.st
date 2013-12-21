@@ -1,11 +1,11 @@
 Extension { #name : #ContextPart }
 
 { #category : #'*gt-inspector' }
-ContextPart >> gtInspectorRetrieveVariableValuePairs [
+ContextPart >> gtInspectorVariableValuePairs [
 	"We override the variables with context specific ones"
 	| tempIndex |
 	tempIndex := 0.
-	^ super gtInspectorRetrieveVariableValuePairs
+	^ super gtInspectorVariableValuePairs
 		addAll:
 				(self tempNames
 						collect: [ :tempName | 
