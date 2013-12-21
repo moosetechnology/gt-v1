@@ -7,7 +7,7 @@ SequenceableCollection >> gtInspectorItemsIn: composite [
 		display: [ :aCollection | (1 to: self size) collect: [ :index | index -> (self at: index) ] ];
 		beMultiple;
 		withSmalltalkSearch;
-		column: 'Item' evaluated: [ :assoc | GTObjectPrinter asSimpleTextFrom: assoc value ];
+		column: 'Item' evaluated: [ :assoc | GTObjectPrinter asTruncatedTextFrom: assoc value ];
 		column: 'Index' evaluated: [ :assoc | assoc key asString ];
 		send: [ :result | (result notNil and: [result size = 1]) 
 				ifTrue: [result anyOne] 

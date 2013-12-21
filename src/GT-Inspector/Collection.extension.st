@@ -8,7 +8,7 @@ Collection >> gtInspectorItemsIn: composite [
 		display: [ :aCollection | self ];
 		beMultiple;
 		withSmalltalkSearch;		
-		format: [ :each | GTObjectPrinter new asSimpleTextFrom: each ];
+		format: [ :each | GTObjectPrinter new asTruncatedTextFrom: each ];
 		send: [ :result | (result notNil and: [result size = 1]) 
 				ifTrue: [result anyOne] 
 				ifFalse: [self species withAll: result]];

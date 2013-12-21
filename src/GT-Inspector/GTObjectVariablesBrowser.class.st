@@ -52,17 +52,8 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 		showOnly: 50;
 		display: [ :anObject | anObject gtInspectorVariableValuePairs ];
 		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
-		column: 'Variable' evaluated: [:assoc | 
-			[ Text fromString: assoc key asString ]
-						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ] ];
-		column: 'Value' evaluated: [:assoc | 
-			[ Text fromString: (assoc value printString contractTo: 50) ]
-						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ] ];
-"		icon: [ :each |
-			each value class theNonMetaClass browserIcon
-				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];"
+		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asFullTextFrom: assoc key ];
+		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
