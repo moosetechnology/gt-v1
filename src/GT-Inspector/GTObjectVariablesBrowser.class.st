@@ -54,7 +54,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 			anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
 				addFirst: 'self' -> anObject; yourself ];
 		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asFullTextFrom: assoc key ];
-		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
+		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value printString ];
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
