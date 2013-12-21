@@ -50,8 +50,9 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 GTObjectVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
-		display: [ :anObject | anObject gtInspectorVariableValuePairs ];
-		sorted: [:assoc1 :assoc2 | assoc1 key < assoc2 key];
+		display: [ :anObject | 
+			anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
+				addFirst: 'self' -> self; yourself ];
 		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asFullTextFrom: assoc key ];
 		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		send: #value;

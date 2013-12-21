@@ -32,7 +32,7 @@ Object >> gtInspectorVariableValuePairs [
 	| bindings |
 	bindings := self class allInstVarNames 
 					collect: [ :iv | iv -> (self instVarNamed: iv) ].
-	^ OrderedCollection new
+	^ Set new
 		addAll: bindings;
 		yourself
 ]

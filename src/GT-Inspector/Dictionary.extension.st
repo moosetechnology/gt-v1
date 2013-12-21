@@ -18,7 +18,7 @@ Dictionary >> gtInspectorItemsIn: composite [
 
 { #category : #'*gt-inspector' }
 Dictionary >> gtInspectorVariableValuePairs [  
-	^ OrderedCollection new 
+	^ Set new 
 		add: ( 'tally' -> self size );
 		add: ( 'array' -> self array );
 		yourself
