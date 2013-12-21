@@ -52,7 +52,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 		showOnly: 50;
 		display: [ :anObject | 
 			anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
-				addFirst: 'self' -> self; yourself ];
+				addFirst: 'self' -> anObject; yourself ];
 		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asFullTextFrom: assoc key ];
 		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		send: #value;
