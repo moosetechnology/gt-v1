@@ -2,35 +2,34 @@
 This is a simple browser that displays the rb tree and previews each node on the source code.
 
 Example:
-self openOn: (self>>#buildBrowser) parseTree
+self openOn: (self>>#compose) parseTree
 "
 Class {
 	#name : #GTSimpleParseTreeBrowser,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMCompositePresentation,
 	#category : #'GT-Inspector'
 }
 
 { #category : #building }
-GTSimpleParseTreeBrowser >> buildBrowser [
-	browser := GLMTabulator new.
-	browser title: 'Tree'.
-	browser
-		row: #tree;
-		row: #source.
-	browser transmit
-		to: #tree;
-		andShow: [ :a | self treeIn: a ].
-	browser transmit
-		to: #source;
-		andShow: [ :a | self sourceIn: a ].
-	browser transmit
-		from: #tree;
-		to: #source port: #selectionInterval;
-		transformed: [ :rbNode | rbNode sourceInterval ].
-	browser transmit
-		toOutsidePort: #selection;
-		from: #tree port: #selectedNode.
-	^ browser
+GTSimpleParseTreeBrowser >> compose [
+	self title: 'Tree'.
+	self tabulator with: [ :browser |
+		browser
+			row: #tree;
+			row: #source.
+		browser transmit
+			to: #tree;
+			andShow: [ :a | self treeIn: a ].
+		browser transmit
+			to: #source;
+			andShow: [ :a | self sourceIn: a ].
+		browser transmit
+			from: #tree;
+			to: #source port: #selectionInterval;
+			transformed: [ :rbNode | rbNode sourceInterval ].
+		browser transmit
+			toOutsidePort: #selection;
+			from: #tree port: #selectedNode ]
 ]
 
 { #category : #building }
