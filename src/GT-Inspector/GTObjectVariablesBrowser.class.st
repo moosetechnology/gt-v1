@@ -11,22 +11,6 @@ Class {
 }
 
 { #category : #building }
-GTObjectVariablesBrowser >> buildBrowser [ 
-	browser := GLMTabulator new.
-	browser title: 'State'.
-	browser row: #variables; row: #evaluator.
-	browser transmit to: #variables; andShow: [:a | 
-		self variablesIn: a ].
-	browser transmit to: #evaluator; andShow: [:a | 
-		self evaluatorIn: a ].
-	browser transmit from: #variables; toOutsidePort: #selection.
-	browser transmit from: #evaluator; toOutsidePort: #selection.
-	browser transmit from: #variables port: #strongSelection; toOutsidePort: #strongSelection.
-	browser transmit from: #evaluator port: #strongSelection; toOutsidePort: #strongSelection.
-	^ browser 
-]
-
-{ #category : #building }
 GTObjectVariablesBrowser >> compose [
 	self title: 'State'.
 	self tabulator with: [ :browser |
