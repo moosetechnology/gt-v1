@@ -1,13 +1,13 @@
 Extension { #name : #String }
 
 { #category : #'*gt-inspector' }
-String >> gtInspectorITextIn: composite [
-	<gtInspectorPresentationOrder: 30>  
-	 composite text
-		title: 'String'
+String >> gtInspectorItemsIn: composite [
+	"No items presentation for a String"
 ]
 
 { #category : #'*gt-inspector' }
-String >> gtInspectorItemsIn: composite [
-	"No items presentation for a String"
+String >> gtInspectorTextIn: composite [
+	<gtInspectorPresentationOrder: 30>  
+	 composite text
+		title: 'String'
 ]
