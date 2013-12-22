@@ -661,7 +661,7 @@ ConfigurationOfGToolkit >> baseline10: spec [
 		spec 
 			package: 'GT-Model';
 			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
-			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore')];
+			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore' 'DeepTraverser')];
 			package: 'GT-Metaceller-Model';
 			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
 			package: 'GT-Metaceller-Glamour' with: [ spec requires: #( 'GT-Inspector'  'GT-Metaceller-Model' )];
@@ -709,6 +709,12 @@ ConfigurationOfGToolkit >> baseline10: spec [
 					version: #development;
 					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		spec project: 'DeepTraverser' with: [
+				spec
+					className: 'ConfigurationOfDeepTraverser';
+					file: 'ConfigurationOfDeepTraverser';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/DeepTraverser/main' ].
 		spec project: 'AnnouncerCentricDebugger' with: [
 				spec
 					className: 'ConfigurationOfAnnouncerCentricDebugger';
