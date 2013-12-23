@@ -9,7 +9,7 @@ Class {
 
 { #category : #printing }
 GTObjectPrinter >> asNonTruncatedTextFrom: anObject [
-	^ [ Text fromString: (anObject gtDisplayString replaceAll: String cr with: String space) ] 
+	^ [ Text fromString: (anObject asString replaceAll: String cr with: String space) ] 
 			on: Error 
 			do: [ Text string: 'error printing' attribute: TextColor red ]
 ]
