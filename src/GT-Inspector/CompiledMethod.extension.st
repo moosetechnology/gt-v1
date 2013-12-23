@@ -1,6 +1,11 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*gt-inspector' }
+CompiledMethod >> gtDisplayOn: stream [
+	^ self printOn: stream
+]
+
+{ #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorBytecodeIn: composite [
 	<gtInspectorPresentationOrder: 40> 
 	composite text 

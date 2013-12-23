@@ -1,6 +1,19 @@
 Extension { #name : #Object }
 
 { #category : #'*gt-inspector' }
+Object >> gtDisplayOn: stream [
+	"This offers a means to customize how the object is shown in the inspector"
+	^ self printOn: stream
+]
+
+{ #category : #'*gt-inspector' }
+Object >> gtDisplayString [
+	"This offers a means to customize how the object is shown in the inspector.
+	Do not override this method. Override gtDisplayOn: instead"
+	^ String streamContents: [:stream | self gtDisplayOn: stream] 
+]
+
+{ #category : #'*gt-inspector' }
 Object >> gtInspectorMethodsIn: composite [
 	<gtInspectorPresentationOrder: 1000>
 	composite custom: (GTSimpleMethodsBrowser new startOn: self) 

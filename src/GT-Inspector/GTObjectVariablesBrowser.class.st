@@ -53,7 +53,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 		display: [ :anObject | 
 			anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
 				addFirst: 'self' -> anObject; yourself ];
-		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asFullTextFrom: assoc key ];
+		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
 		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value printString ];
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 

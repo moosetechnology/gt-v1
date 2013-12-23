@@ -8,20 +8,15 @@ Class {
 }
 
 { #category : #printing }
-GTObjectPrinter >> asFullTextFrom: anObject [
-	^ [ Text fromString: (anObject asString replaceAll: String cr with: String space) ] 
+GTObjectPrinter >> asNonTruncatedTextFrom: anObject [
+	^ [ Text fromString: (anObject gtDisplayString replaceAll: String cr with: String space) ] 
 			on: Error 
 			do: [ Text string: 'error printing' attribute: TextColor red ]
 ]
 
 { #category : #printing }
 GTObjectPrinter >> asTruncatedTextFrom: anObject [
-	^ self asTruncatedTextTo: 50 from: anObject
-]
-
-{ #category : #printing }
-GTObjectPrinter >> asTruncatedTextTo: anInteger from: anObject [
-	^ [ Text fromString: ((anObject asString contractTo: anInteger) replaceAll: String cr with: String space) ] 
-			on: Error 
-			do: [ Text string: 'error printing' attribute: TextColor red ]
+	^ [ Text fromString: ((anObject gtDisplayString contractTo: 50) replaceAll: String cr with: String space) ]
+		on: Error
+		do: [ Text string: 'error printing' attribute: TextColor red ]
 ]
