@@ -1,3 +1,6 @@
+"
+GTSnippets instance
+"
 Class {
 	#name : #GTSnippets,
 	#superclass : #Object,

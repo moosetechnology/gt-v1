@@ -5,8 +5,8 @@ Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
 		title: [ :anObject | self size asString, ' items' ];
 		display: [ self associations];
-		column: 'Key' evaluated: [:each | GTObjectPrinter asTruncatedTextFrom: each ];
-		column: 'Value' evaluated: [:each | GTObjectPrinter asTruncatedTextFrom: each ];
+		column: 'Key' evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
+		column: 'Value' evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
 		beMultiple;
 		withSmalltalkSearch;
 		send: [ :selection | (selection notNil and: [selection size = 1]) 

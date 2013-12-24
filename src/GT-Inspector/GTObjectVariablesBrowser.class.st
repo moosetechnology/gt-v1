@@ -36,7 +36,9 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ] 
+			with: [ :text :entity | 
+				"GTSnippets snippetAt: entity put: text text."
+				Compiler evaluate: text selectedText for: entity logged: false ] 
 ]
 
 { #category : #'private building' }
@@ -54,7 +56,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 			anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
 				addFirst: 'self' -> anObject; yourself ];
 		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
-		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value printString ];
+		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
