@@ -49,12 +49,17 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 ]
 
 { #category : #'private building' }
+GTObjectVariablesBrowser >> variableValuePairsFor: anObject [
+	^ anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
+		addFirst: 'self' -> anObject; 
+		yourself
+]
+
+{ #category : #'private building' }
 GTObjectVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
-		display: [ :anObject | 
-			anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
-				addFirst: 'self' -> anObject; yourself ];
+		display: [ :anObject | self variableValuePairsFor: anObject ];
 		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
 		column: 'Value' evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		send: #value;

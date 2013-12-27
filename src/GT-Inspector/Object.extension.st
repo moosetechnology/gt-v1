@@ -20,6 +20,17 @@ Object >> gtInspectorMethodsIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
+Object >> gtInspectorPointersIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	composite list
+		title: 'Pointers';
+		display: [ (self pointersToExcept: { self })
+							reject: [ :each | each pointsOnlyWeaklyTo: self ] ];
+		format: [ :each | GTObjectPrinter new asTruncatedTextFrom: each ];
+		showOnly: 50
+]
+
+{ #category : #'*gt-inspector' }
 Object >> gtInspectorPresentationsIn: composite [
 	| pragmas |
 	pragmas := Pragma 
