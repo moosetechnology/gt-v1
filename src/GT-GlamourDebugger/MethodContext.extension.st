@@ -4,5 +4,5 @@ Extension { #name : #MethodContext }
 MethodContext >> locateBrowserContext [
 
 	^ (self findContextSuchThat:  [ :ctx | 
-		(ctx receiver class inheritsFrom: GLMPresentation)  and: [ ctx selector = #startOn: ] ]) 
+		(ctx receiver class inheritsFrom: GLMPresentation) " and: [ ctx selector = #startOn: ]" ]) 
 ]
