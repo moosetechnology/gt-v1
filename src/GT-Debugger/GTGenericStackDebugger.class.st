@@ -64,7 +64,7 @@ GTGenericStackDebugger class >> defaultLogFileName [
 
 { #category : #accessing }
 GTGenericStackDebugger class >> defaultTitle [
-	^ 'Glamorous Debugger'
+	^ 'Default Debugger'
 ]
 
 { #category : #'settings api' }
