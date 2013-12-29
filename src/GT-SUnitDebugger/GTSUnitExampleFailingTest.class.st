@@ -9,24 +9,16 @@ GTSUnitExampleFailingTest class >> isUnitTest [
 	^ false
 ]
 
-{ #category : #testing }
-GTSUnitExampleFailingTest >> expectedFailures [
-	^ #()
-	"^ #(testCompleteSentence testFail testFailingDate testMultiValuedStreaming)"
-]
-
 { #category : #tests }
-GTSUnitExampleFailingTest >> testCompleteSentence [
+GTSUnitExampleFailingTest >> testFailingDate [
+	|aDateAndTime|
 	
-	self
-		assert:
-			(MalCamelcaseScanner scan: 'TheNextBIGThing isKindOf: Hype, VeryBIG BIG')
-		equals:
-			#('the' 'next' 'gIG' 'thing' 'is' 'kind' 'of' 'hype' 'very' 'bIG' 'bIG') asBag.
+	aDateAndTime :=  DateAndTime localTimeZone: TimeZone default; dosEpoch.
+	self assert: (aDateAndTime offset: '0:12:00:00')  equals: '1980-01-01T13:00:00+12:00' asDateAndTime
 ]
 
 { #category : #tests }
-GTSUnitExampleFailingTest >> testFail [
+GTSUnitExampleFailingTest >> testFailingText [
 
 	self assert: 'I like pie  
 pizza pie 
@@ -38,14 +30,6 @@ pizza pie
 potato pie 
 rad squared pi 
 and other PIes'
-]
-
-{ #category : #tests }
-GTSUnitExampleFailingTest >> testFailingDate [
-	|aDateAndTime|
-	
-	aDateAndTime :=  DateAndTime localTimeZone: TimeZone default; dosEpoch.
-	self assert: (aDateAndTime offset: '0:12:00:00')  equals: '1980-01-01T13:00:00+12:00' asDateAndTime
 ]
 
 { #category : #tests }
