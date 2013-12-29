@@ -311,9 +311,9 @@ GTGenericStackDebugger >> formatStackEntry: aContext [
 GTGenericStackDebugger >> inspectorIn: composite [
 
 	^ composite custom:
-			(GTInspector new first "We use the first actual finder because need to send showFirst: to it"
-				noTitle;
-				noActions;
+			(GTDebuggerInspector new first "We use the first actual finder because need to send showFirst: to it"
+				"noTitle;
+				noActions;"
 				showFirst: [ :a | a custom: GTDebuggerVariablesBrowser new ];
 				yourself)
 	
