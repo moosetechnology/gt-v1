@@ -35,6 +35,12 @@ GTPPStepToPPDebugger >> defaultLabel [
 ]
 
 { #category : #'as yet unclassified' }
+GTPPStepToPPDebugger >> defaultOrder [
+
+	^ 150
+]
+
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> executeAction [
 
 	self session
