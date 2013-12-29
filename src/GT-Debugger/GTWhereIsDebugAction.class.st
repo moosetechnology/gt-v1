@@ -1,7 +1,7 @@
 Class {
 	#name : #GTWhereIsDebugAction,
 	#superclass : #WhereIsDebugAction,
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-Actions'
 }
 
 { #category : #registration }

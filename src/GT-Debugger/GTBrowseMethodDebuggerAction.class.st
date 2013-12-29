@@ -1,7 +1,7 @@
 Class {
 	#name : #GTBrowseMethodDebuggerAction,
 	#superclass : #DebugAction,
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-Actions'
 }
 
 { #category : #registration }

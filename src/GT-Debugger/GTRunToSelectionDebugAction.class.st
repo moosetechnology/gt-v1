@@ -1,7 +1,7 @@
 Class {
 	#name : #GTRunToSelectionDebugAction,
 	#superclass : #RunToSelectionDebugAction,
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-Actions'
 }
 
 { #category : #registration }
