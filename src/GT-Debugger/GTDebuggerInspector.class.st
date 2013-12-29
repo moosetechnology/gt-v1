@@ -12,3 +12,9 @@ GTDebuggerInspector >> compose [
 			a dynamic display: [ :x | 
 				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d ] ] ] ]
 ]
+
+{ #category : #'as yet unclassified' }
+GTDebuggerInspector >> showFirst: aBlock [
+
+	self first showFirst: aBlock
+]
