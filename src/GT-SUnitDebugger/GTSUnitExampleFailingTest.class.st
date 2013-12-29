@@ -1,17 +1,22 @@
 Class {
-	#name : #GTFailingTest,
+	#name : #GTSUnitExampleFailingTest,
 	#superclass : #TestCase,
 	#category : #'GT-SUnitDebugger'
 }
 
-{ #category : #testing }
-GTFailingTest >> expectedFailures [
+{ #category : #'as yet unclassified' }
+GTSUnitExampleFailingTest class >> isUnitTest [
+	^ false
+]
 
-	^ #(testCompleteSentence testFail testFailingDate testMultiValuedStreaming)
+{ #category : #testing }
+GTSUnitExampleFailingTest >> expectedFailures [
+	^ #()
+	"^ #(testCompleteSentence testFail testFailingDate testMultiValuedStreaming)"
 ]
 
 { #category : #tests }
-GTFailingTest >> testCompleteSentence [
+GTSUnitExampleFailingTest >> testCompleteSentence [
 	
 	self
 		assert:
@@ -21,7 +26,7 @@ GTFailingTest >> testCompleteSentence [
 ]
 
 { #category : #tests }
-GTFailingTest >> testFail [
+GTSUnitExampleFailingTest >> testFail [
 
 	self assert: 'I like pie  
 pizza pie 
@@ -36,7 +41,7 @@ and other PIes'
 ]
 
 { #category : #tests }
-GTFailingTest >> testFailingDate [
+GTSUnitExampleFailingTest >> testFailingDate [
 	|aDateAndTime|
 	
 	aDateAndTime :=  DateAndTime localTimeZone: TimeZone default; dosEpoch.
@@ -44,7 +49,7 @@ GTFailingTest >> testFailingDate [
 ]
 
 { #category : #tests }
-GTFailingTest >> testMultiValuedStreaming [
+GTSUnitExampleFailingTest >> testMultiValuedStreaming [
 	| headers keysAndValues |
 	headers := ZnHeaders new.
 	headers at: 'Set-Cookie' put: 'foo=1'.
