@@ -11,33 +11,15 @@ Class {
 
 { #category : #building }
 GTDebuggerVariablesBrowser >> compose [  
-	self title: [:each | GTInspector new printObjectAsAnItem: each receiver ].
-	self morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
+	"self title: [:each | GTInspector new printObjectAsAnItem: each receiver ]."
+	"self morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
-				entitled: 'Browse'.
+				entitled: 'Browse'."
 	self tabulator with: [:browser | 
 		browser row: #variables.
 		browser transmit to: #variables; andShow: [:a | 
 			self variablesIn: a ].
-		browser transmit from: #variables; toOutsidePort: #selection.
-		"browser transmit from: #variables; toWatcher; andShow: [ :a :object | 
-			a custom: (GTInspector new startOn: object) ]" ]
-]
-
-{ #category : #'private building' }
-GTDebuggerVariablesBrowser >> evaluatorIn: composite [
-	(composite smalltalkCode)
-		doItReceiver: [ :methodContext | methodContext receiver ] ;
-		display: [ :methodContext | methodContext receiver ];
-		format: [ :receiver | 
-			[receiver printString asSmalltalkComment, String cr, 'self'] 
-				on: Error 
-				do: ['"Error printing. Try self printString to debug"'] ];
-		selectionPopulate: #selection
-			on: $o
-			entitled: 'Do it and open (o)'
-			with: [ :text | 
-				Compiler evaluate: text selectedText for: text displayValue logged: false ]
+		browser transmit from: #variables; toOutsidePort: #selection ]
 ]
 
 { #category : #'private building' }
