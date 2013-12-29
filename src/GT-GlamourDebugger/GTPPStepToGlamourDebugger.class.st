@@ -33,6 +33,12 @@ GTPPStepToGlamourDebugger >> defaultLabel [
 	^ self debuggerClass defaultTitle
 ]
 
+{ #category : #accessing }
+GTPPStepToGlamourDebugger >> defaultOrder [
+
+	^ 150
+]
+
 { #category : #actions }
 GTPPStepToGlamourDebugger >> executeAction [
 
