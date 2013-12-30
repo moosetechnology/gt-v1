@@ -53,7 +53,7 @@ CompiledMethod >> gtInspectorPragmasIn: composite [
 { #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 30> 
-	composite smalltalkCode 
+	^ composite smalltalkCode 
 		title: 'Source';
 		smalltalkClass: [ self methodClass ];
 		display: [ self getSource ];
