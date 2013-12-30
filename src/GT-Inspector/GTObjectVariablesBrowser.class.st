@@ -25,7 +25,7 @@ GTObjectVariablesBrowser >> compose [
 
 { #category : #'private building' }
 GTObjectVariablesBrowser >> evaluatorIn: composite [
-	^ (composite smalltalkCode)
+	(composite smalltalkCode)
 		doItReceiver: #yourself;
 		display: [ :object | 
 			String streamContents: [ :stream | 
@@ -57,7 +57,7 @@ GTObjectVariablesBrowser >> variableValuePairsFor: anObject [
 
 { #category : #'private building' }
 GTObjectVariablesBrowser >> variablesIn: composite [
-	^ composite table
+	composite table
 		showOnly: 50;
 		display: [ :anObject | self variableValuePairsFor: anObject ];
 		column: 'Variable' evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
