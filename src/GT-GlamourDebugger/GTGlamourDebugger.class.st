@@ -17,6 +17,12 @@ GTGlamourDebugger class >> handlesContext: aContext [
 ]
 
 { #category : #'tools registry' }
+GTGlamourDebugger class >> register [
+
+	self registerToolsOn: Smalltalk tools.
+]
+
+{ #category : #'tools registry' }
 GTGlamourDebugger class >> registerToolsOn: registry [
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
