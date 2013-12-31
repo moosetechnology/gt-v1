@@ -17,6 +17,12 @@ GTSUnitDebugger class >> handlesContext: aContext [
 ]
 
 { #category : #'tools registry' }
+GTSUnitDebugger class >> register [
+
+	self registerToolsOn: Smalltalk tools.
+]
+
+{ #category : #'tools registry' }
 GTSUnitDebugger class >> registerToolsOn: registry [
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
