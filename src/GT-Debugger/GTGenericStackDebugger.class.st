@@ -212,6 +212,7 @@ GTGenericStackDebugger class >> openOn: process context: context label: title co
 GTGenericStackDebugger class >> register [
 
 	self registerToolsOn: Smalltalk tools.
+	self registerExtraToolsOn: Smalltalk tools.
 
 ]
 
