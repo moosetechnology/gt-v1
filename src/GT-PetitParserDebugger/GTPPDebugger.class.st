@@ -17,6 +17,12 @@ GTPPDebugger class >> handlesContext: aContext [
 ]
 
 { #category : #'tools registry' }
+GTPPDebugger class >> register [
+
+	self registerToolsOn: Smalltalk tools.
+]
+
+{ #category : #'tools registry' }
 GTPPDebugger class >> registerToolsOn: registry [
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
