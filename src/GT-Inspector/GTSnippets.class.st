@@ -32,14 +32,14 @@ GTSnippets class >> snippetAt: anObject put: aString [
 { #category : #'as yet unclassified' }
 GTSnippets >> snippetAt: anObject [
 	^ self snippets 
-		at: anObject class 
+		at: anObject 
 		ifAbsent: [ 'self' ]
 ]
 
 { #category : #'as yet unclassified' }
 GTSnippets >> snippetAt: anObject put: aString [
 	^ self snippets 
-		at: anObject class 
+		at: anObject 
 		put: aString
 ]
 

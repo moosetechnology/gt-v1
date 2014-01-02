@@ -32,13 +32,13 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 				stream 
 					nextPutAll: (self printStringOf: object);
 					cr;
-					nextPutAll: (GTSnippets snippetAt: object)] ];
+					nextPutAll: (GTSnippets snippetAt: object class)] ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text :entity | 
-				"GTSnippets snippetAt: entity put: text text."
-				Compiler evaluate: text selectedText for: entity logged: false ] 
+			with: [ :text :object | 
+				GTSnippets snippetAt: object class put: text text.
+				Compiler evaluate: text selectedText for: object logged: false ] 
 ]
 
 { #category : #'private building' }
