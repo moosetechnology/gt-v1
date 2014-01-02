@@ -145,7 +145,7 @@ GTClassicCoder >> classReferencesIn: a [
 			on: $j
 			entitled: 'Jump there'
 			with: [ :list | list selection compiledMethod ];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance
 ]
 
 { #category : #reusable }
@@ -172,7 +172,7 @@ GTClassicCoder >> classesIn: a [
 				ifTrue: [Text string: each name asString attribute: TextColor gray]
 				ifFalse: [each name asString] ];
 		selectionAct: [:list | list selection inspect] on: $i entitled: 'Inspect';
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance
 ]
 
 { #category : #reusable }
@@ -203,7 +203,7 @@ GTClassicCoder >> implementorsIn: a [
 			on: $j
 			entitled: 'Jump there'
 			with: [ :list | list selection compiledMethod ];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance
 ]
 
 { #category : #reusable }
@@ -230,7 +230,7 @@ GTClassicCoder >> packagesIn: a [
 		display: [ :organizer | organizer packages ];
 		sorted: [:x :y | x name < y name ];
 		format: [:each | each name];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance
 ]
 
 { #category : #reusable }
@@ -242,5 +242,5 @@ GTClassicCoder >> sendersIn: a [
 			on: $j
 			entitled: 'Jump there'
 			with: [ :list | list selection compiledMethod ];
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance
 ]

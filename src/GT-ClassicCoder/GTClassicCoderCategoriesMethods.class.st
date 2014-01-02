@@ -49,7 +49,7 @@ GTClassicCoderCategoriesMethods >> categoriesIn: a [
 	a list
 		title: 'Categories';
 		allowsDeselection;
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance;
 		display: [ :package :class | class organization categories ];
  		format: [:each :package :class |
 			(self isCategory: each of: class definedIn: package)
@@ -69,7 +69,7 @@ GTClassicCoderCategoriesMethods >> isCategory: aString of: aClass definedIn: aPa
 GTClassicCoderCategoriesMethods >> methodsIn: a [ 
 	a list
 		title: 'Methods';
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance;
 		display: [ :package :class :category | 
 			(class methods select: [:each | each category = category]) asSortedCollection: [:x :y | x selector < y selector ] ];
 		format: [:each :package :class |
@@ -79,7 +79,7 @@ GTClassicCoderCategoriesMethods >> methodsIn: a [
 	a list
 		title: 'Methods';
 		useExplicitNotNil;
-		updateOn: SystemAnnouncement from: SystemAnnouncer announcer;
+		updateOn: SystemAnnouncement from: SystemAnnouncer uniqueInstance;
 		when: [ :package :class :category | class notNil and: [ category isNil ] ];
 		display: [ :package :class :category | 
 			class methods asSortedCollection: [:x :y | x selector < y selector ] ];
