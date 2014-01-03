@@ -88,6 +88,21 @@ GTGenericStackDebugger class >> filterCommonMessageSends: aBoolean [
 	FilterCommonMessageSends := aBoolean
 ]
 
+{ #category : #'settings api' }
+GTGenericStackDebugger class >> filterDoItSelectors [
+	^ false
+]
+
+{ #category : #'settings api' }
+GTGenericStackDebugger class >> filterKernelClasses [
+	^ false
+]
+
+{ #category : #'settings api' }
+GTGenericStackDebugger class >> filterNilSelectors [
+	^ false
+]
+
 { #category : #testing }
 GTGenericStackDebugger class >> handlesContext: aContext [
 
