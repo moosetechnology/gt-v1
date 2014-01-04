@@ -6,6 +6,7 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 	^ (composite tree)
 		title: 'Message tree';
 		children: [ :each | each sonsOver: -1 ];
+		rootsExpanded;
 		morphicSelectionAct: [ :list | GTUtils browseMethod: list selection method ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
@@ -18,10 +19,12 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	^ composite eyesee
 		title: 'Chart';
+		send: [ :esObject | esObject ifNotNil: [esObject model value] ];
 		diagram: [ :renderer |
 			| all diag diag2 grouped |
 			all:= self deepCollect: [ :each | each sonsOver: 1 ].
 			grouped := (all groupedBy: [ :each | each method gtDisplayString ]) associations sorted: [:a :b | (a value sumNumbers: #tally) > (b value sumNumbers: #tally) ].
+			grouped := grouped first: (20 min: grouped size).
 			diag := (ESVerticalBarDiagram new)
 				identifier: [:each | each key ];
 				y: [:each | each value size];
@@ -46,7 +49,8 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				add: diag;
 				add: diag2;
 				height: 600;
-				width: 600 ] 
+				width: 600.
+			renderer interaction] 
 ]
 
 { #category : #'*gt-inspector' }
