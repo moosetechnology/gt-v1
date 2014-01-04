@@ -45,7 +45,7 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 			(renderer compositeDiagram)
 				add: diag;
 				add: diag2;
-				height: 400;
+				height: 600;
 				width: 600 ] 
 ]
 
