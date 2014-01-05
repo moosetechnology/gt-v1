@@ -56,5 +56,6 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 { #category : #'*gt-inspector' }
 MessageTally >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 50>
-	^ self method gtInspectorSourceIn: composite
+	^ self method ifNotNil: [
+		self method gtInspectorSourceIn: composite]
 ]
