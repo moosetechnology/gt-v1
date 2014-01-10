@@ -6,6 +6,7 @@ KMRepository >> gtInspectorMappingsIn: composite [
 	composite tree 
 		title: 'Mappings';
 		display: #categories;
+		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
 		children: [ :item :treePresentation :level |
 			level > 1 
 				ifTrue: [ #() ]
