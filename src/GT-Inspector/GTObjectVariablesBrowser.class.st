@@ -70,5 +70,10 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 		morphicSelectionAct: [:list | list selection value inspect ] 
 			icon: GLMUIThemeExtraIcons glamorousInspect 
 			on: $i 
-			entitled: 'Inspect'
+			entitled: 'Inspect';
+		selectionAct: [:list | 
+			((list selection pointersToExcept: { list selection })
+									reject: [ :each | each pointsOnlyWeaklyTo: list selection ]) inspect ] 
+			on: $t
+			entitled: 'Open pointers to'
 ]
