@@ -17,40 +17,36 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 { #category : #'*gt-inspector' }
 MessageTally >> gtInspectorPerformanceChartIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	^ composite eyesee
+	^ composite graphET
 		title: 'Chart';
 		send: [ :esObject | esObject ifNotNil: [esObject model value] ];
 		diagram: [ :renderer |
 			| all diag diag2 grouped |
-			all:= self deepCollect: [ :each | each sonsOver: 1 ].
+			all := self deepCollect: [ :each | each sonsOver: 1 ].
 			grouped := (all groupedBy: [ :each | each method gtDisplayString ]) associations sorted: [:a :b | (a value sumNumbers: #tally) > (b value sumNumbers: #tally) ].
 			grouped := grouped first: (20 min: grouped size).
-			diag := (ESVerticalBarDiagram new)
-				identifier: [:each | each key ];
-				y: [:each | each value size];
-				yAxisLabel: 'Activations';
+			diag := (GETHorizontalBarDiagram new)
+				xAxisLabel: 'Activations';
+				modelLabels: [:each | each key ];
+				x: [:each | each value size];
 				valueAxis;
-				rightYAxis;
-				defaultColor: Color veryLightGray;
+				xAxisOnTop;
+				color: Color veryLightGray;
 				axisColor: Color veryLightGray;
 				models: grouped;
-				rotatedLabels: true;
 				yourself.
-			diag2 := (ESVerticalBarDiagram new)
-				y: [:each | each value sum: #tally];
+			diag2 := (GETHorizontalBarDiagram new)
+				xAxisLabel: 'Duration (ms)';
+				x: [:each | each value sumNumbers: #tally];
 				regularAxis;
-				yAxisLabel: 'Local duration (ms)';
-				gapFraction: 2 / 3;
-				defaultColor: (Color fromString: '365d86');
-				axisColor: (Color fromString: '365d86');
+				gapFraction: 1 / 2;
+				color: (Color red);
+				axisColor: (Color red);
 				models: grouped;
 				yourself.
-			(renderer compositeDiagram)
+			(renderer unionDiagram)
 				add: diag;
-				add: diag2;
-				height: 600;
-				width: 600.
-			renderer interaction] 
+				add: diag2 ] 
 ]
 
 { #category : #'*gt-inspector' }
