@@ -30,20 +30,18 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				modelLabels: [:each | each key ];
 				x: [:each | each value size];
 				valueAxis;
-				xAxisOnTop;
 				color: Color veryLightGray;
 				axisColor: Color veryLightGray;
-				models: grouped;
-				yourself.
+				models: grouped.
 			diag2 := (GETHorizontalBarDiagram new)
 				xAxisLabel: 'Duration (ms)';
 				x: [:each | each value sumNumbers: #tally];
 				regularAxis;
+				xAxisOnTop;
 				gapFraction: 1 / 2;
 				color: (Color red);
 				axisColor: (Color red);
-				models: grouped;
-				yourself.
+				models: grouped.
 			(renderer unionDiagram)
 				add: diag;
 				add: diag2 ] 
