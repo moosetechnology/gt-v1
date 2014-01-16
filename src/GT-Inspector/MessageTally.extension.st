@@ -41,6 +41,8 @@ MessageTally >> gtInspectorNestingMapIn: composite [
 { #category : #'*gt-inspector' }
 MessageTally >> gtInspectorPerformanceChartIn: composite [
 	<gtInspectorPresentationOrder: 40>
+	| metric |
+	metric := #localTally.
 	^ composite graphET
 		title: 'Chart';
 		send: [ :esObject | esObject ifNotNil: [esObject model value] ];
@@ -49,9 +51,9 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 			all := self deepCollect: [ :each | each sonsOver: 1 ].
 			grouped := (all groupedBy: [ :each | each method gtDisplayString ]) 
 								associations sorted: [:a :b | 
-											(a value sumNumbers: #localTally) > 
-											(b value sumNumbers: #localTally) ].
-			grouped := (grouped first: (20 min: grouped size)) select: [:each | (each value sumNumbers: #localTally) > 0].
+											(a value sumNumbers: metric) > 
+											(b value sumNumbers: metric) ].
+			grouped := (grouped first: (20 min: grouped size)) select: [:each | (each value sumNumbers: metric) > 0].
 			diag := (GETHorizontalBarDiagram new)
 				xAxisLabel: 'Activations';
 				modelLabels: [:each | each key ];
@@ -61,8 +63,8 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				axisColor: Color veryLightGray;
 				models: grouped.
 			diag2 := (GETHorizontalBarDiagram new)
-				xAxisLabel: 'Local duration (ms)';
-				x: [:each | each value sumNumbers: #localTally];
+				xAxisLabel: 'Tallies';
+				x: [:each | each value sumNumbers: metric];
 				regularAxis;
 				xAxisOnTop;
 				gapFraction: 1 / 2;
@@ -73,6 +75,15 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				add: diag;
 				add: diag2 ] ;
 		when: [ (self sonsOver: -1) notEmpty ]
+]
+
+{ #category : #'*gt-inspector' }
+MessageTally >> gtInspectorReportIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	^ composite text
+		title: 'Report';
+		display: [ 
+			String streamContents: [:s | self report: s ] ]
 ]
 
 { #category : #'*gt-inspector' }
