@@ -11,7 +11,31 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse (b)';
-		format: [ :each | Text fromString: (each method gtDisplayString) , ' (' , each tally printString , ')']
+		format: [ :each | Text fromString: (each method gtDisplayString) , ' (' , each tally printString , ')'];
+		when: [ (self sonsOver: -1) notEmpty ]
+]
+
+{ #category : #'*gt-inspector' }
+MessageTally >> gtInspectorNestingMapIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	^ composite roassal
+		title: 'Nesting';
+		painting: [ :view |
+			| builder methods methodNestings |
+			builder := ROTreeMapBuilder new.
+			builder weightBlock: [ :el | el tally ].
+			methods := OrderedCollection new.
+			methodNestings := OrderedCollection new.
+			self 
+				deep: [ :each | each sonsOver: 1 ]
+				do: [ :each | methods add: each ]
+				relationDo: [ :from :to | methodNestings add: from->to ].
+			builder nodes: methods.
+			builder nestingFromAssociations: methodNestings.
+			builder fillNodes: [:x | true] withColor: (RONColorLinearNormalizer inContext: methods withCommand: [:m | (m isKindOf: ROElement) ifTrue: [ m model tally ] ifFalse: [m tally] ]  lowColor: Color white highColor: Color red ).
+			builder withShadedFrames.
+			builder drawOn: view raw ];
+		when: [ (self sonsOver: -1) notEmpty ]
 ]
 
 { #category : #'*gt-inspector' }
@@ -44,7 +68,8 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				models: grouped.
 			(renderer unionDiagram)
 				add: diag;
-				add: diag2 ] 
+				add: diag2 ] ;
+		when: [ (self sonsOver: -1) notEmpty ]
 ]
 
 { #category : #'*gt-inspector' }
