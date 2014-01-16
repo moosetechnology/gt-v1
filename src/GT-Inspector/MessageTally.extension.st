@@ -47,8 +47,11 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 		diagram: [ :renderer |
 			| all diag diag2 grouped |
 			all := self deepCollect: [ :each | each sonsOver: 1 ].
-			grouped := (all groupedBy: [ :each | each method gtDisplayString ]) associations sorted: [:a :b | (a value sumNumbers: #tally) > (b value sumNumbers: #tally) ].
-			grouped := grouped first: (20 min: grouped size).
+			grouped := (all groupedBy: [ :each | each method gtDisplayString ]) 
+								associations sorted: [:a :b | 
+											(a value sumNumbers: #localTally) > 
+											(b value sumNumbers: #localTally) ].
+			grouped := (grouped first: (20 min: grouped size)) select: [:each | (each value sumNumbers: #localTally) > 0].
 			diag := (GETHorizontalBarDiagram new)
 				xAxisLabel: 'Activations';
 				modelLabels: [:each | each key ];
@@ -58,8 +61,8 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				axisColor: Color veryLightGray;
 				models: grouped.
 			diag2 := (GETHorizontalBarDiagram new)
-				xAxisLabel: 'Duration (ms)';
-				x: [:each | each value sumNumbers: #tally];
+				xAxisLabel: 'Local duration (ms)';
+				x: [:each | each value sumNumbers: #localTally];
 				regularAxis;
 				xAxisOnTop;
 				gapFraction: 1 / 2;
@@ -77,4 +80,18 @@ MessageTally >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 50>
 	^ self method ifNotNil: [
 		self method gtInspectorSourceIn: composite]
+]
+
+{ #category : #'*gt-inspector' }
+MessageTally >> localTally [
+	^ (receivers ifNil: [#()]) 
+		inject: self tally
+		into: [ :diff :each | diff - each tally ]
+]
+
+{ #category : #'*gt-inspector' }
+MessageTally >> localTime [
+	^ (receivers ifNil: [#()]) 
+		inject: self time 
+		into: [ :diff :each | diff - each time ]
 ]
