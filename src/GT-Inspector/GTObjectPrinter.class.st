@@ -1,5 +1,5 @@
 "
-This is a utility class for printing objects to Text or String
+This is a utility class for printing objects to Text or String.
 "
 Class {
 	#name : #GTObjectPrinter,

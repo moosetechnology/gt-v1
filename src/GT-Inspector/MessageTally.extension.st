@@ -6,8 +6,18 @@ MessageTally >> children [
 ]
 
 { #category : #'*gt-inspector' }
+MessageTally >> gtDisplayIdentifierOn: aStream [
+	class gtDisplayOn: aStream.
+	self method methodClass ~~ class 
+		ifTrue: [ aStream nextPut: $(; print: self method methodClass; nextPut: $) ].
+	aStream 
+		nextPutAll: '>>';
+		store: self method selector
+]
+
+{ #category : #'*gt-inspector' }
 MessageTally >> gtDisplayOn: aStream [
-	self method gtDisplayOn: aStream.
+	self gtDisplayIdentifierOn: aStream.
 	aStream 
 		nextPutAll: ' (';
 		nextPutAll: self tally printString;
@@ -46,7 +56,7 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 	| metric |
 	metric := #localTally.
 	^ composite graphET
-		title: 'Chart';
+		title: 'Top tallies';
 		diagram: [ :renderer :presentation |
 			GTInspectorMessageTallyCharter new 
 				performanceOf: self 
