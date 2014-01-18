@@ -57,7 +57,7 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 
 { #category : #'*gt-inspector' }
 MessageTally >> gtInspectorReportIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 60>
 	^ composite text
 		title: 'Report';
 		display: [ String streamContents: [:s | self report: s ] ]

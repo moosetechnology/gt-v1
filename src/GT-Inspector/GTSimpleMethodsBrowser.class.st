@@ -116,7 +116,17 @@ GTSimpleMethodsBrowser >> sourceOf: method for: object in: composite [
 		act: [ :text :m | self updateOuterPaneFrom: text for: method ]
 			icon: GLMUIThemeExtraIcons glamorousAccept
 			on: $s
-			entitled: 'Accept'
+			entitled: 'Accept';
+		act: [ :text :m | 
+			Smalltalk tools browser 
+				fullOnClass: m methodClass 
+				selector: m selector ]
+			icon: GLMUIThemeExtraIcons glamorousBrowse
+			entitled: 'Browse';
+		act: [ :text :m | 
+			(text pane port: #evaluatedObject) value: m ]
+			icon: GLMUIThemeExtraIcons glamorousInspect
+			entitled: 'Inspect'
 ]
 
 { #category : #private }
