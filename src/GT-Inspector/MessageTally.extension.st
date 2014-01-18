@@ -3,27 +3,40 @@ Extension { #name : #MessageTally }
 { #category : #'*gt-inspector' }
 MessageTally >> gtInspectorMessageTreeIn: composite [
 	<gtInspectorPresentationOrder: 40>
+	| methods normalizer |
+	methods := OrderedCollection new.
+	self 
+		withDeep: [ :each | each sonsOver: 1 ]
+		do: [ :each | methods add: each ].
+	normalizer := RONColorLinearNormalizer 
+						inContext: methods 
+						withCommand: #tally 
+						lowColor: Color gray 
+						highColor: Color red.
 	^ (composite tree)
 		title: 'Message tree';
 		children: [ :each | each sonsOver: -1 ];
 		rootsExpanded;
+		format: [ :each | 
+			Text 
+				string: (each method gtDisplayString) , ' (' , each tally printString , ')'
+				attributes: { TextColor color: (normalizer roValue: each)}];
+		when: [ (self sonsOver: -1) notEmpty ];
 		morphicSelectionAct: [ :list | GTUtils browseMethod: list selection method ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
-			entitled: 'Browse (b)';
-		format: [ :each | Text fromString: (each method gtDisplayString) , ' (' , each tally printString , ')'];
-		when: [ (self sonsOver: -1) notEmpty ]
+			entitled: 'Browse (b)'
+		
 ]
 
 { #category : #'*gt-inspector' }
 MessageTally >> gtInspectorNestingMapIn: composite [
-	<gtInspectorPresentationOrder: 40>
 	^ composite roassal
 		title: 'Nesting';
 		painting: [ :view |
 			| builder methods methodNestings |
 			builder := ROTreeMapBuilder new.
-			builder weightBlock: [ :el | el tally ].
+			builder weightBlock: [ :el | ((el sonsOver: -1) size) max: 1 ].
 			methods := OrderedCollection new.
 			methodNestings := OrderedCollection new.
 			self 
@@ -32,7 +45,7 @@ MessageTally >> gtInspectorNestingMapIn: composite [
 				relationDo: [ :from :to | methodNestings add: from->to ].
 			builder nodes: methods.
 			builder nestingFromAssociations: methodNestings.
-			builder fillNodes: [:x | true] withColor: (RONColorLinearNormalizer inContext: methods withCommand: [:m | (m isKindOf: ROElement) ifTrue: [ m model tally ] ifFalse: [m tally] ]  lowColor: Color white highColor: Color red ).
+			builder fillNodes: [:x | true] withColor: (RONColorLinearNormalizer inContext: methods withCommand: [:m | (m isKindOf: ROElement) ifTrue: [ m model localTally ] ifFalse: [m localTally] ]  lowColor: Color white highColor: Color red ).
 			builder withShadedFrames.
 			builder drawOn: view raw ];
 		when: [ (self sonsOver: -1) notEmpty ]
