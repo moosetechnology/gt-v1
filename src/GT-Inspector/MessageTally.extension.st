@@ -1,6 +1,15 @@
 Extension { #name : #MessageTally }
 
 { #category : #'*gt-inspector' }
+MessageTally >> gtDisplayOn: aStream [
+	self method gtDisplayOn: aStream.
+	aStream 
+		nextPutAll: ' (';
+		nextPutAll: self tally printString;
+		nextPutAll: ')'
+]
+
+{ #category : #'*gt-inspector' }
 MessageTally >> gtInspectorMessageTreeIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	| methods normalizer |
@@ -19,7 +28,7 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 		rootsExpanded;
 		format: [ :each | 
 			Text 
-				string: (each method gtDisplayString) , ' (' , each tally printString , ')'
+				string: each gtDisplayString
 				attributes: { TextColor color: (normalizer roValue: each)}];
 		when: [ (self sonsOver: -1) notEmpty ];
 		morphicSelectionAct: [ :list | GTUtils browseMethod: list selection method ]
@@ -58,8 +67,7 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 	metric := #localTally.
 	^ composite graphET
 		title: 'Chart';
-		send: [ :esObject | esObject ifNotNil: [esObject model value] ];
-		diagram: [ :renderer |
+		diagram: [ :renderer :presentation |
 			| all diag diag2 grouped |
 			all := self deepCollect: [ :each | each sonsOver: 1 ].
 			grouped := (all groupedBy: [ :each | each method gtDisplayString ]) 
@@ -68,12 +76,13 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 											(b value sumNumbers: metric) ].
 			grouped := (grouped first: (20 min: grouped size)) select: [:each | (each value sumNumbers: metric) > 0].
 			diag := (GETHorizontalBarDiagram new)
-				xAxisLabel: 'Activations';
+				xAxisLabel: 'Locations';
 				modelLabels: [:each | each key ];
 				x: [:each | each value size];
 				valueAxis;
 				color: Color veryLightGray;
 				axisColor: Color veryLightGray;
+				on: ROMouseClick do: [:event | presentation selection: event model value ];
 				models: grouped.
 			diag2 := (GETHorizontalBarDiagram new)
 				xAxisLabel: 'Tallies';
@@ -83,10 +92,11 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 				gapFraction: 1 / 2;
 				color: (Color red);
 				axisColor: (Color red);
+				on: ROMouseClick do: [:event | presentation selection: event model value ];
 				models: grouped.
 			(renderer unionDiagram)
 				add: diag;
-				add: diag2 ] ;
+				add: diag2 ];
 		when: [ (self sonsOver: -1) notEmpty ]
 ]
 
