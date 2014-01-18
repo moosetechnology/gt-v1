@@ -5,13 +5,13 @@ Example:
 self openOn: (self>>#compose) parseTree
 "
 Class {
-	#name : #GTSimpleParseTreeBrowser,
+	#name : #GTSimpleRBTreeBrowser,
 	#superclass : #GLMCompositePresentation,
 	#category : #'GT-Inspector'
 }
 
 { #category : #building }
-GTSimpleParseTreeBrowser >> compose [
+GTSimpleRBTreeBrowser >> compose [
 	self title: 'Tree'.
 	self tabulator with: [ :browser |
 		browser
@@ -33,14 +33,14 @@ GTSimpleParseTreeBrowser >> compose [
 ]
 
 { #category : #building }
-GTSimpleParseTreeBrowser >> sourceIn: a [
+GTSimpleRBTreeBrowser >> sourceIn: a [
 	^ a smalltalkCode 
 		smalltalkClass: [ :each | each parents first methodClass ]; 
 		display: [ :each | each source ]
 ]
 
 { #category : #building }
-GTSimpleParseTreeBrowser >> treeIn: a [
+GTSimpleRBTreeBrowser >> treeIn: a [
 	^ a tree
 		rootsExpanded;
 		display: [ :anObject | {anObject} ];
