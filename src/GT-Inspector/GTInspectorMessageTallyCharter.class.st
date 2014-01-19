@@ -8,11 +8,6 @@ Class {
 }
 
 { #category : #visualization }
-GTInspectorMessageTallyCharter >> identifierFor: aMessageTally [
-	^ aMessageTally 
-]
-
-{ #category : #visualization }
 GTInspectorMessageTallyCharter >> nestingMapOf: aMessageTally on: view [
 	"This is provides a treemap visualization of a message tally"
 		

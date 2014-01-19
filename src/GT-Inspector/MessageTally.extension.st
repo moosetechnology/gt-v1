@@ -37,12 +37,13 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 	^ (composite tree)
 		title: 'Tree';
 		children: [ :each | each children ];
-		rootsExpanded;
+		"rootsExpanded;"
 		format: [ :each | 
 			Text 
 				string: each gtDisplayString
 				attributes: { TextColor color: (normalizer roValue: each)}];
 		when: [ self children notEmpty ];
+		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
 		morphicSelectionAct: [ :list | GTUtils browseMethod: list selection method ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
