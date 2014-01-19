@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GTSUnitExampleFailingTest class >> isAbstract [
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 GTSUnitExampleFailingTest class >> isUnitTest [
 	^ false
 ]
