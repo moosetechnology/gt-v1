@@ -23,7 +23,7 @@ GTMetacellerMainProject >> buildProjects [
 
 { #category : #initialization }
 GTMetacellerMainProject >> createPlatformSymbols [
-	| retVal constructor versionMap symbolicVersionMap executionBlock pragmaDict |
+	| retVal constructor versionMap symbolicVersionMap executionBlock |
 	retVal := Set new.
 	constructor := MetacelloVersionConstructor new
 		configuration: self configuration new;
@@ -32,12 +32,10 @@ GTMetacellerMainProject >> createPlatformSymbols [
 	symbolicVersionMap := Dictionary new.
 	executionBlock := [ :versionSpec :pragma | self addPlatformSymbolsTo: retVal versionSpec: versionSpec pragma: pragma in: constructor ].
 	constructor collectAllVersionsFromVersionPragmasInto: versionMap using: executionBlock.
-	pragmaDict := constructor extractVersionImportPragmas.
-	constructor verifyVersionImportPragmas: pragmaDict definedIn: versionMap.
 	constructor
 		collectAllVersionsFromVersionImportPragmasInto: versionMap
 		using: executionBlock
-		satisfiedPragmas: pragmaDict.
+		satisfiedPragmas: (constructor versionImportPragmasVerifiedDefinedIn: versionMap).
 	constructor collectAllSymbolicVersionsFromVersionPragmasInto: symbolicVersionMap using: executionBlock.
 	^retVal
 
