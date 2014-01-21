@@ -170,6 +170,12 @@ GTMoldableDebugger >> interruptedContext [
 	^ self session context
 ]
 
+{ #category : #accessing }
+GTMoldableDebugger >> interruptedProcess [
+
+	^ self session interruptedProcess
+]
+
 { #category : #intialization }
 GTMoldableDebugger >> process: aProcess controller: aController context: aContext [
 
