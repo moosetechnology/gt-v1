@@ -24,6 +24,22 @@ GTInspector class >> explore: anObject [
 	^ anObject
 ]
 
+{ #category : #inspecting }
+GTInspector class >> gtInspectorExtensionsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite list 
+		title: 'Extensions';
+		display: [ 
+			(Object withAllSubclasses flatCollect: [ :each |
+					(Pragma
+						allNamed: #gtInspectorPresentationOrder:
+						in: each) 
+							collect: [:p | p method asRingDefinition] ]) sorted ];
+		format: [ :each | each gtDisplayString ];
+		filterOn: [ :text :each | 
+			each gtDisplayString includesSubstring: text caseSensitive: false ]
+]
+
 { #category : #'class initialization' }
 GTInspector class >> initialize [ 
 	self numberOfInspectorPanes: 2
