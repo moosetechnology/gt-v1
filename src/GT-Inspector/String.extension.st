@@ -1,6 +1,12 @@
 Extension { #name : #String }
 
 { #category : #'*gt-inspector' }
+String class >> gtInspectorFourtyTwo [
+	<gtExample>
+	^ '42'
+]
+
+{ #category : #'*gt-inspector' }
 String >> gtInspectorItemsIn: composite [
 	"No items presentation for a String"
 ]
