@@ -8,3 +8,18 @@ FileReference >> gtInspectorContentsIn: composite [
 			display: [ :each | each readStreamDo: [ :stream | stream contents ] ];
 			when: [ :each | each isFile ]
 ]
+
+{ #category : #'*gt-inspector' }
+FileReference >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite list 
+		title: 'Items';
+		when: [ self isDirectory and: [
+					self children notEmpty] ];
+		display: [ self children ];
+		format: #basename;
+		icon: [ :each | 
+			each isDirectory 
+				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
+				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ]
+]
