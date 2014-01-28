@@ -20,12 +20,16 @@ Object >> gtDisplayString [
 
 { #category : #'*gt-inspector' }
 Object >> gtInspectorMethodsIn: composite [
+	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>
 	composite custom: (GTSimpleMethodsBrowser new startOn: self) 
 ]
 
 { #category : #'*gt-inspector' }
 Object >> gtInspectorPresentationsIn: composite [
+	"This is a utility method that collects all presentations for the current object.
+	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
+	Subclasses might want to override it for more special behavior."
 	| pragmas |
 	pragmas := Pragma 
 				allNamed: #gtInspectorPresentationOrder: 
@@ -39,13 +43,16 @@ Object >> gtInspectorPresentationsIn: composite [
 
 { #category : #'*gt-inspector' }
 Object >> gtInspectorStateIn: composite [
+	"This is the most basic presentation showing the state of the object"
 	<gtInspectorPresentationOrder: 10>
 	composite custom: (GTObjectVariablesBrowser new startOn: self)
 ]
 
 { #category : #'*gt-inspector' }
 Object >> gtInspectorVariableValuePairs [
-	"This is a helper method that returns a collection of variable names -> value for the current object.
+	"This is a helper method that returns a collection of 
+		variable_name -> value
+	for the current object.
 	Subclasses can override it to specialize what appears in the variables presentation"
 	| bindings |
 	bindings := self class allInstVarNames 

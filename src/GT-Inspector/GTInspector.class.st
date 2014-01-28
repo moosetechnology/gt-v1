@@ -117,20 +117,16 @@ GTInspector >> openExplorerFor: anObject [
 
 { #category : #private }
 GTInspector >> printObjectAsAnItem: anObject [ 
-	| title stream previewString |
+	|  stream  |
 	stream := String new writeStream.
-	title := anObject class name.
 	stream
-		nextPutAll: (title first isVowel 
+		nextPutAll: (anObject class name first isVowel 
 				ifTrue: [ 'an ' ]
 				ifFalse: [ 'a ' ]);
-		nextPutAll: title.
-	previewString := [ Text fromString: (anObject printString contractTo: 10) ]
-						on: Error
-						do: [ 'error printing' ].
+		nextPutAll: anObject class name.
 	stream 
 		nextPutAll: ' (';
-		nextPutAll: previewString;
+		nextPutAll: (GTObjectPrinter new asTruncatedTextFrom: anObject) asString;
 		nextPut: $).
 	^ stream contents
 ]
