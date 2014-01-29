@@ -6,6 +6,12 @@ CompiledMethod >> gtDisplayOn: stream [
 ]
 
 { #category : #'*gt-inspector' }
+CompiledMethod class >> gtExampleSimple [
+	<gtExample>
+	^ self class>>#gtExampleSimple
+]
+
+{ #category : #'*gt-inspector' }
 CompiledMethod >> gtInspectorBytecodeIn: composite [
 	<gtInspectorPresentationOrder: 40> 
 	composite text 
