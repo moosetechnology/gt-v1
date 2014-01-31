@@ -21,7 +21,7 @@ FileReference >> gtInspectorItemsIn: composite [
 				ifTrue: [ children ]
 				ifFalse: [ 
 					(OrderedCollection 
-						with: (self path withParents reverse second asFileReference)) 			
+						with: self parent)
 						addAll: children;
 						yourself
 					 ] ];
