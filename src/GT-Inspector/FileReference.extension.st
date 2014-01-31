@@ -23,7 +23,9 @@ FileReference >> gtInspectorItemsIn: composite [
 						addAll: self children;
 						yourself
 					 ] ];
-		format: #basename;
+		format: [:each | (self isChildOf: each) 
+								ifTrue: [ '..' ] 
+								ifFalse: [ each basename ]];
 		icon: [ :each | 
 			each isDirectory 
 				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
