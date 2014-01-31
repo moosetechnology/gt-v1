@@ -14,7 +14,15 @@ FileReference >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite list 
 		title: 'Items';
-		display: [ self children ];
+		display: [ 
+			self isRoot 
+				ifTrue: [ self children ]
+				ifFalse: [ 
+					(OrderedCollection 
+						with: (self path withParents reverse second asFileReference)) 			
+						addAll: self children;
+						yourself
+					 ] ];
 		format: #basename;
 		icon: [ :each | 
 			each isDirectory 
