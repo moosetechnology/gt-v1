@@ -15,12 +15,14 @@ FileReference >> gtInspectorItemsIn: composite [
 	composite list 
 		title: 'Items';
 		display: [ 
+			| children |
+			children := self directories, self files.
 			self isRoot 
-				ifTrue: [ self children ]
+				ifTrue: [ children ]
 				ifFalse: [ 
 					(OrderedCollection 
 						with: (self path withParents reverse second asFileReference)) 			
-						addAll: self children;
+						addAll: children;
 						yourself
 					 ] ];
 		format: [:each | (self isChildOf: each) 
