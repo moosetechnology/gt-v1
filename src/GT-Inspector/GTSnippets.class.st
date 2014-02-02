@@ -34,21 +34,21 @@ GTSnippets class >> snippetAt: anObject put: aString [
 	^ self instance snippetAt: anObject put: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSnippets >> snippetAt: anObject [
 	^ self snippets 
 		at: anObject 
 		ifAbsent: [ 'self' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSnippets >> snippetAt: anObject put: aString [
 	^ self snippets 
 		at: anObject 
 		put: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSnippets >> snippets [ 
 	^ snippets ifNil: [ snippets := IdentityDictionary new ]
 ]
