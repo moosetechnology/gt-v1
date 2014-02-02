@@ -37,7 +37,7 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 			on: $o
 			entitled: 'Do it and open (o)'
 			with: [ :text :object | 
-				GTSnippets snippetAt: object class put: text text.
+				GTSnippets snippetAt: object class put: (self stringWithoutInitialCommentFrom: text text asString).
 				Compiler evaluate: text selectedText for: object logged: false ] 
 ]
 
@@ -46,6 +46,16 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 	^ [(anObject printString contractTo: 200) asSmalltalkComment] 
 			on: Error 
 			do: ['"Error printing. Try self printString to debug"']
+]
+
+{ #category : #'private building' }
+GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
+	^ aString first = $" 
+		ifFalse: [ aString ]
+		ifTrue: [ 
+			aString
+				copyFrom: (aString findAnySubStr: '"' startingAt: 2) + 1 
+				to: aString size ]
 ]
 
 { #category : #'private building' }

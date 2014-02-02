@@ -20,6 +20,11 @@ GTSnippets class >> instance [
 ]
 
 { #category : #accessing }
+GTSnippets class >> reset [
+	instance := nil
+]
+
+{ #category : #accessing }
 GTSnippets class >> snippetAt: anObject [
 	^ self instance snippetAt: anObject
 ]
