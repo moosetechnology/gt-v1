@@ -20,11 +20,9 @@ FileReference >> gtInspectorItemsIn: composite [
 			self isRoot 
 				ifTrue: [ children ]
 				ifFalse: [ 
-					(OrderedCollection 
-						with: self parent)
-						addAll: children;
-						yourself
-					 ] ];
+					children asOrderedCollection 
+						addFirst: self parent;
+						yourself ] ];
 		format: [:each | (self isChildOf: each) 
 								ifTrue: [ '..' ] 
 								ifFalse: [ each basename ]];
@@ -32,6 +30,5 @@ FileReference >> gtInspectorItemsIn: composite [
 			each isDirectory 
 				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
-		when: [ self isDirectory and: [
-					self children notEmpty] ]
+		when: #hasChildren
 ]

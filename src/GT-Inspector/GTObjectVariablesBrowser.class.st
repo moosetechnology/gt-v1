@@ -51,11 +51,11 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 { #category : #'private building' }
 GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 	^ aString first = $" 
-		ifFalse: [ aString ]
+		ifFalse: [ aString trimBoth ]
 		ifTrue: [ 
-			aString
+			(aString
 				copyFrom: (aString findAnySubStr: '"' startingAt: 2) + 1 
-				to: aString size ]
+				to: aString size) trimBoth ]
 ]
 
 { #category : #'private building' }
