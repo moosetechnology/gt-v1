@@ -3,10 +3,18 @@ Extension { #name : #FileReference }
 { #category : #'*gt-inspector' }
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 10>
-	composite text
+	composite rubricText
 			title: 'Contents';
-			display: [ :each | each readStreamDo: [ :stream | stream contents ] ];
-			when: [ :each | each isFile ]
+			display: [ 
+				self readStreamDo: [ :stream | 
+					| result |
+					result := [(stream next: 5000) asString]
+						on: Error 
+						do: [ (stream binary next: 5000) asString ].
+					stream size > 5000
+						ifTrue: [ result, '  ... truncated ...' ]
+						ifFalse: [ result ] ] ];
+			when: [ self isFile ]
 ]
 
 { #category : #'*gt-inspector' }
@@ -30,5 +38,5 @@ FileReference >> gtInspectorItemsIn: composite [
 			each isDirectory 
 				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
-		when: #hasChildren
+		when: [self isDirectory and: [self hasChildren]]
 ]
