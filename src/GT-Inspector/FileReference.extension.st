@@ -15,7 +15,7 @@ FileReference class >> gtExampleDirectory [
 
 { #category : #'*GT-Inspector' }
 FileReference class >> gtExampleGif [
-	"<gtExample>"
+	<gtExample>
 	^ FileSystem memory workingDirectory / 'pharoicon.gif' 
 		writeStreamDo: [ :stream |
 			GIFReadWriter 
@@ -25,19 +25,8 @@ FileReference class >> gtExampleGif [
 ]
 
 { #category : #'*GT-Inspector' }
-FileReference class >> gtExampleJpeg [
-	"<gtExample>"
-	^ FileSystem memory workingDirectory / 'pharoicon.jpeg' 
-		writeStreamDo: [ :stream |
-			JPEGReadWriter 
-				putForm: ThemeIcons current pharoIcon 
-				onStream: stream ];
-		yourself
-]
-
-{ #category : #'*GT-Inspector' }
 FileReference class >> gtExamplePng [
-	"<gtExample>"
+	<gtExample>
 	^ FileSystem memory workingDirectory / 'pharoicon.png' 
 		writeStreamDo: [ :stream |
 			PNGReadWriter 
@@ -77,7 +66,7 @@ FileReference >> gtInspectorGifIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
 			title: 'Morph';
-			display: [ self readStreamDo: [ :stream | GIFReadWriter formFromStream: stream binary ] ];
+			display: [ self binaryReadStreamDo: [ :stream | GIFReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageGif ] ]
 ]
 
@@ -110,7 +99,7 @@ FileReference >> gtInspectorJpegIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
 			title: 'Morph';
-			display: [ self readStreamDo: [ :stream | JPEGReadWriter formFromStream: stream binary ] ];
+			display: [ self binaryReadStreamDo: [ :stream | JPEGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageJpeg ] ]
 ]
 
@@ -119,6 +108,6 @@ FileReference >> gtInspectorPngIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
 			title: 'Morph';
-			display: [ self readStreamDo: [ :stream | PNGReadWriter formFromStream: stream binary ] ];
+			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ]
 ]
