@@ -58,6 +58,7 @@ FileReference >> gtInspectorContentsIn: composite [
 					stream size > 5000
 						ifTrue: [ result, '  ... truncated ...' ]
 						ifFalse: [ result ] ] ];
+			withLineNumbers: true;
 			when: [ self isFile ]
 ]
 
