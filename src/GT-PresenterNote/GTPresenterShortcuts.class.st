@@ -14,7 +14,7 @@ GTPresenterShortcuts class >> isGlobalCategory [
 GTPresenterShortcuts >> keymapToggle [
 	<shortcut>
 	^ KMKeymap
-			shortcut: Character tab shift
+			shortcut: $/ command
 			action: [ 
 				GTPresenterNoteEditingArea new
 					beWrapped;
