@@ -27,17 +27,11 @@ GTInspector class >> explore: anObject [
 { #category : #inspecting }
 GTInspector class >> gtInspectorExtensionsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite list 
+	composite list
 		title: 'Extensions';
-		display: [ 
-			(Object withAllSubclasses flatCollect: [ :each |
-					(Pragma
-						allNamed: #gtInspectorPresentationOrder:
-						in: each) 
-							collect: [:p | p method asRingDefinition] ]) sorted ];
+		display: [ self inspectorExtendingMethods ];
 		format: [ :each | each gtDisplayString ];
-		filterOn: [ :text :each | 
-			each gtDisplayString includesSubstring: text caseSensitive: false ]
+		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ]
 ]
 
 { #category : #'class initialization' }
@@ -55,6 +49,15 @@ GTInspector class >> inspect: anObject [
 GTInspector class >> inspector: anObject [
 
 	^ self inspect: anObject
+]
+
+{ #category : #inspecting }
+GTInspector class >> inspectorExtendingMethods [
+	^ (Object withAllSubclasses
+		flatCollect: [ :each | 
+			(Pragma allNamed: #gtInspectorPresentationOrder: in: each) 
+				collect: [ :p | p method asRingDefinition ] ])
+		sorted
 ]
 
 { #category : #settings }
