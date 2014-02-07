@@ -1,12 +1,6 @@
 Extension { #name : #Morph }
 
-{ #category : #'*GT-Inspector' }
-Morph >> gtInspectorMappingsIn: composite [
-	<gtInspectorPresentationOrder: 95>
-	self kmDispatcher gtInspectorMappingsIn: composite
-]
-
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 Morph >> gtInspectorMorphIn: composite [
 	<gtInspectorPresentationOrder: 90>  
 	composite morph 
@@ -15,7 +9,7 @@ Morph >> gtInspectorMorphIn: composite [
 		act: [ :pres | self exportAsPNG ] entitled: 'Export as PNG'
 ]
 
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 Morph >> gtInspectorSubmorphsIn: composite [
 	<gtInspectorPresentationOrder: 80>  
 	composite tree 

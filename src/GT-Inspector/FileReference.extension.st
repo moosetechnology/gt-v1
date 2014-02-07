@@ -74,7 +74,7 @@ FileReference >> gtInspectorGifIn: composite [
 { #category : #'*gt-inspector' }
 FileReference >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite list 
+	^ composite list 
 		title: 'Items';
 		display: [ 
 			| children |
