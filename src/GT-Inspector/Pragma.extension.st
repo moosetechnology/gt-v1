@@ -21,7 +21,7 @@ Pragma class >> gtInspectorAnnotatedMethodsIn: composite [
 		send: #value
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Pragma >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 	self method gtInspectorSourceIn: composite

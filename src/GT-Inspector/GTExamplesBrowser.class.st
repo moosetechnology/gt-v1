@@ -10,9 +10,20 @@ Class {
 { #category : #building }
 GTExamplesBrowser >> compose [
 	self title: 'E.g.'.
-	self when: [ :each | (self examplesFor: each) notEmpty ].
+	self when: [ :class | (self examplesFor: class) notEmpty ].
 	self list
-		display: [ :each | self examplesFor: each ]
+		display: [ :class | self examplesFor: class ];
+		format: [ :pragmaExamplePair | pragmaExamplePair value gtDisplayString ];
+		send: [ :pragmaExamplePair | pragmaExamplePair value ];
+		morphicSelectionAct: [ :list | 
+			list rawSelection key method browse ] 
+			icon: GLMUIThemeExtraIcons glamorousBrowse 
+			on: $b 
+			entitled: 'Browse source';
+		selectionPopulate: #selection 
+			on: $o 
+			entitled: 'Open source' 
+			with: [ :list | list rawSelection key method asRingDefinition ]
 ]
 
 { #category : #private }
@@ -21,6 +32,6 @@ GTExamplesBrowser >> examplesFor: anObject [
 	pragmas := Pragma 
 				allNamed: #gtExample 
 				in: anObject class.
-	^ pragmas collect: [ :eachPragma | anObject perform: eachPragma selector ]
+	^ pragmas collect: [ :eachPragma | eachPragma -> (anObject perform: eachPragma selector) ]
 
 ]
