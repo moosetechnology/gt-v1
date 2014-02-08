@@ -10,7 +10,7 @@ KMRepository class >> gtExampleDefault [
 KMRepository >> gtInspectorGlobalsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite tree 
-		title: 'Globals';
+		title: 'Global keys';
 		display: #globalCategories;
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
 		children: [ :item :treePresentation :level |
@@ -24,7 +24,7 @@ KMRepository >> gtInspectorGlobalsIn: composite [
 KMRepository >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite tree 
-		title: 'Mappings';
+		title: 'Keys';
 		display: #categories;
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
 		children: [ :item :treePresentation :level |

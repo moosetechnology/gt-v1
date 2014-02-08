@@ -9,7 +9,7 @@ KMCategory >> gtDisplayOn: stream [
 KMCategory >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite list
-		title: 'Mappings';
+		title: 'Keys';
 		display: [ self allEntries keymaps ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
 		format: #gtDisplayString
