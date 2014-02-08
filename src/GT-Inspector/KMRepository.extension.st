@@ -1,5 +1,11 @@
 Extension { #name : #KMRepository }
 
+{ #category : #'*GT-Inspector' }
+KMRepository class >> gtExampleDefault [
+	<gtExample>
+	^ self default
+]
+
 { #category : #'*gt-inspector' }
 KMRepository >> gtInspectorGlobalsIn: composite [
 	<gtInspectorPresentationOrder: 40>
