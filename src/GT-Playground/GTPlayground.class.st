@@ -1,5 +1,5 @@
 "
-self open.
+self openOn: GTPlayground new.
 
 
 Playground is the correspondent of a classic Smalltalk Workspace. The problem with the name Workspace is that it implies that work should be carried out in this space, while this is not a best practice. Playground describes better the intention of providing a place in which we can quickly play with some code.
@@ -8,23 +8,30 @@ Playground is the correspondent of a classic Smalltalk Workspace. The problem wi
 "
 Class {
 	#name : #GTPlayground,
-	#superclass : #GLMGlobalBrowserTemplate,
+	#superclass : #GLMCompositePresentation,
 	#category : #'GT-Playground'
 }
 
 { #category : #building }
-GTPlayground >> buildBrowser [
-	browser := GLMAccumulator new.
-	browser title: 'Playground'.
-	browser 
-		act: [:b | b entity: (GTPlaygroundPage new title: 'Page ', (b panes size + 1) asString)] 
-		icon: GLMUIThemeExtraIcons glamorousAdd 
-		entitled: 'Add'.
-	browser show: [:a | 
-		a title: [:page | page title].
-		a smalltalkCode
-			display: [:page | page content ] ].
-	^ browser
+GTPlayground >> compose [
+	self custom:
+		(GTInspector new first
+			noActions;
+			showFirst: [ :a | a custom:
+				(GLMWrapper new 
+					title: 'Playground';
+					show: [:some | 
+					some smalltalkCode 
+						format: [''];
+						selectionPopulate: #selection 
+						on: $o 
+						entitled: 'Open' 
+						with: [ :text | 
+							Compiler 
+								evaluate: text selectedText 
+								for: nil 
+								logged: false ] ] ) ];
+					yourself) 
 ]
 
 { #category : #building }
