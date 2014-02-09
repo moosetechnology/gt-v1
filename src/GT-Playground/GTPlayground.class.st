@@ -1,5 +1,5 @@
 "
-self openOn: GTPlayground new.
+self open.
 
 
 Playground is the correspondent of a classic Smalltalk Workspace. The problem with the name Workspace is that it implies that work should be carried out in this space, while this is not a best practice. Playground describes better the intention of providing a place in which we can quickly play with some code.
@@ -9,32 +9,55 @@ Playground is the correspondent of a classic Smalltalk Workspace. The problem wi
 Class {
 	#name : #GTPlayground,
 	#superclass : #GLMCompositePresentation,
+	#classInstVars : [
+		'repository'
+	],
 	#category : #'GT-Playground'
 }
 
-{ #category : #building }
-GTPlayground >> compose [
-	self custom:
-		(GTInspector new first
-			noActions;
-			showFirst: [ :a | a custom:
-				(GLMWrapper new 
-					title: 'Playground';
-					show: [:some | 
-					some smalltalkCode 
-						format: [''];
-						selectionPopulate: #selection 
-						on: $o 
-						entitled: 'Open' 
-						with: [ :text | 
-							Compiler 
-								evaluate: text selectedText 
-								for: nil 
-								logged: false ] ] ) ];
-					yourself) 
+{ #category : #'instance creation' }
+GTPlayground class >> open [
+	"self open"
+	| page |
+	page := GTPlaygroundPage new.
+	self repository add: page.
+	^ self new openOn: page
+]
+
+{ #category : #accessing }
+GTPlayground class >> repository [
+	^ repository ifNil: [ repository := OrderedCollection new ]
 ]
 
 { #category : #building }
-GTPlayground >> entity [ 
-	^ GTPlaygroundPage new content: ''; title: 'Page1'
+GTPlayground >> codeIn: a [
+	^ a smalltalkCode
+			format: [ :page | page content ];
+			selectionPopulate: #selection
+				on: $o
+				entitled: 'Open'
+				with: [ :text :page | 
+					page content: text text.
+					Compiler 
+						evaluate: text selectedText 
+						for: nil 
+						logged: false ];
+			title: [ :page | page title ];
+			dynamicActions: [ 
+					self class repository
+						collect: [ :each | 
+							GLMGenericAction new
+								title: (each content asString contractTo: 50);
+								action: [ :text | text text: each content asString ];
+								yourself ] ]
+]
+
+{ #category : #building }
+GTPlayground >> compose [
+	self
+		custom:
+			(GTInspector new first
+				noActions;
+				showFirst: [ :a | self codeIn: a ];
+				yourself)
 ]

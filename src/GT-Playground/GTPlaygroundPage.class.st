@@ -1,3 +1,6 @@
+"
+GTPlayground open
+"
 Class {
 	#name : #GTPlaygroundPage,
 	#superclass : #Object,
@@ -20,7 +23,8 @@ GTPlaygroundPage >> content: anObject [
 
 { #category : #accessing }
 GTPlaygroundPage >> initialize [
-	content := 'self'
+	content := ''.
+	title := 'Playground'
 ]
 
 { #category : #accessing }
