@@ -23,6 +23,14 @@ GTPlayground class >> open [
 	^ self new openOn: page
 ]
 
+{ #category : #'tools registry' }
+GTPlayground class >> registerToolsOn: registry [
+	"Add ourselves to registry. See [Smalltalk tools]"
+	"self registerToolsOn: Smalltalk tools" 
+	registry register: self as: #workspace
+
+]
+
 { #category : #accessing }
 GTPlayground class >> repository [
 	^ repository ifNil: [ repository := OrderedCollection new ]
@@ -59,6 +67,7 @@ GTPlayground >> codeIn: a [
 { #category : #building }
 GTPlayground >> compose [
 	self
+		title: 'Playground';
 		custom:
 			(GTInspector new first
 				noActions;
@@ -68,7 +77,8 @@ GTPlayground >> compose [
 			"This is a hack for the moment.
 			We need a better mechanism from Glamour to help 
 			us keep the model in sync"
-			self class repository add: 
-				(self entity
-					content: self first panes first presentations first text) ]
+			self entity
+					content: self first panes first presentations first text.
+			self entity content asString trimBoth isEmpty
+				ifFalse: [ self class repository add: self entity ] ]
 ]
