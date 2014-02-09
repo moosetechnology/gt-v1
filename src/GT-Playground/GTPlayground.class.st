@@ -1,6 +1,6 @@
 "
 self open.
-
+self reset.
 
 Playground is the correspondent of a classic Smalltalk Workspace. The problem with the name Workspace is that it implies that work should be carried out in this space, while this is not a best practice. Playground describes better the intention of providing a place in which we can quickly play with some code.
 
@@ -47,7 +47,10 @@ GTPlayground >> actionsForPreviousContents [
 		collect: [ :each | 
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);
-				action: [ :text | text text: each content asString ];
+				action: [ :text | 
+					self pushToRepositoryFrom: text.
+					text text: each content asString.
+					self class repository remove: each ];
 				yourself ]
 ]
 
@@ -82,4 +85,13 @@ GTPlayground >> compose [
 					content: self first panes first presentations first text.
 			self entity content asString trimBoth isEmpty
 				ifFalse: [ self class repository add: self entity ] ]
+]
+
+{ #category : #building }
+GTPlayground >> pushToRepositoryFrom: aTextPresentation [
+	| page |
+	page := GTPlaygroundPage new.
+	page content: aTextPresentation text.
+	page content asString trimBoth isEmpty
+		ifFalse: [ self class repository add: page ] 
 ]
