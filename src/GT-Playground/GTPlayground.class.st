@@ -42,26 +42,27 @@ GTPlayground class >> reset [
 ]
 
 { #category : #building }
+GTPlayground >> actionsForPreviousContents [
+	^ self class repository
+		collect: [ :each | 
+			GLMGenericAction new
+				title: (each content asString contractTo: 50);
+				action: [ :text | text text: each content asString ];
+				yourself ]
+]
+
+{ #category : #building }
 GTPlayground >> codeIn: a [
 	^ a smalltalkCode
+		title: [ :page | page title ];
 		format: [ :page | page content ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open'
 			with: [ :text :page | 
 				page content: text text.
-				Compiler 
-					evaluate: text selectedText 
-					for: nil 
-					logged: false ];
-		title: [ :page | page title ];
-		dynamicActions: [ 
-			self class repository
-				collect: [ :each | 
-					GLMGenericAction new
-						title: (each content asString contractTo: 50);
-						action: [ :text | text text: each content asString ];
-						yourself ] ]
+				Compiler evaluate: text selectedText for: nil logged: false ];
+		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
 { #category : #building }
