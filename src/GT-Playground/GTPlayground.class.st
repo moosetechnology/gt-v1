@@ -43,7 +43,7 @@ GTPlayground class >> reset [
 
 { #category : #building }
 GTPlayground >> actionsForPreviousContents [
-	^ self class repository
+	^ self class repository reverse
 		collect: [ :each | 
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);
