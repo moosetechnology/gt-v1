@@ -6,6 +6,7 @@ Announcer >> gtInspectorSubscriptionsIn: composite [
 	composite table
 		title: 'Subscriptions';
 		display: [ self subscriptions glmSubscriptions ];
+		when: [ self numberOfSubscriptions isZero not ];
 		column: 'Subscriber' evaluated: [ :each | each subscriber asString ];
 		column: 'Announcement' evaluated: [ :each | each announcementClass name ];
 		column: 'Kind' evaluated: [ :each | each class name ];
