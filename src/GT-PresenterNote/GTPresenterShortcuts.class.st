@@ -1,3 +1,9 @@
+"
+This holds the global keymapping for triggering the presenter note.
+
+To make it take effect execute:
+KMRepository reset.
+"
 Class {
 	#name : #GTPresenterShortcuts,
 	#superclass : #KMCategory,
