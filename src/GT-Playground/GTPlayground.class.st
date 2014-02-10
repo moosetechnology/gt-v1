@@ -49,8 +49,9 @@ GTPlayground >> actionsForPreviousContents [
 				title: (each content asString contractTo: 50);
 				action: [ :text | 
 					self pushToRepositoryFrom: text.
-					text text: each content asString.
-					self class repository remove: each ];
+					text entity: each.
+					self class repository remove: each.
+					text update ];
 				yourself ]
 ]
 
