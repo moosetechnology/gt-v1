@@ -8,6 +8,9 @@ Subclasses should override the following methods:
 Class {
 	#name : #GTMoldableDebugger,
 	#superclass : #GLMCompositePresentation,
+	#classVars : [
+		'EnableDebuggerWindowDistinctColor'
+	],
 	#category : #'GT-Debugger'
 }
 
@@ -37,6 +40,16 @@ GTMoldableDebugger class >> debugSession: aSession [
 { #category : #accessing }
 GTMoldableDebugger class >> defaultTitle [
 	self subclassResponsability
+]
+
+{ #category : #'settings api' }
+GTMoldableDebugger class >> enableDebuggerWindowDistinctColor [
+	^ EnableDebuggerWindowDistinctColor ifNil: [EnableDebuggerWindowDistinctColor := false]
+]
+
+{ #category : #'settings api' }
+GTMoldableDebugger class >> enableDebuggerWindowDistinctColor: aBoolean [
+	EnableDebuggerWindowDistinctColor := aBoolean.
 ]
 
 { #category : #testing }
@@ -112,12 +125,12 @@ GTMoldableDebugger >> close [
 { #category : #building }
 GTMoldableDebugger >> compose [
 	"give the window a dedicated reddish color to ensure it gets noticed"
-	self color: (Color r: 1.0 g: 0.3 b: 0.3).
+	self class enableDebuggerWindowDistinctColor ifTrue: [ 
+		self color: (Color r: 1.0 g: 0.3 b: 0.3) ].
 	self tabulator with: [:browser | 
 		self debuggerStructureIn: browser.
 		self debuggerTransmissionsIn: browser ].
-	self registerActions.
-
+	self registerActions
 ]
 
 { #category : #'accessing context' }
