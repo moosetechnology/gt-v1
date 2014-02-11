@@ -42,6 +42,13 @@ GTPlayground class >> reset [
 	repository := nil
 ]
 
+{ #category : #'tools registry' }
+GTPlayground class >> taskbarIcon [
+	"Answer the icon for the receiver in a task bar."
+
+	^ Smalltalk ui icons iconNamed: #workspaceIcon
+]
+
 { #category : #building }
 GTPlayground >> actionsForPreviousContents [
 	^ self class repository reverse
