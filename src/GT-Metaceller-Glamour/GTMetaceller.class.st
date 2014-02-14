@@ -261,7 +261,7 @@ GTMetaceller >> orderFor: anItemA and: anItemB [
 GTMetaceller >> packageBrowserOn: aBrowser [
 	aBrowser tree
 		title: 'Packages (load order)';
-		display: [ :version | (self itemsForVersion: version) select: [ :each | each isGroup not ] ];
+		display: [ :version | (self itemsForVersion: version) reject: [ :each | each isGroup ] ];
 		children: [ :item | self childrenForItem: item ];
 		format: [ :item | self nameForItem: item ];
 		tags: [ :spec :version | self tagsOfSpec: spec in: version ];
@@ -280,8 +280,7 @@ GTMetaceller >> packageBrowserOn: aBrowser [
 		format: [ :item | self nameForItem: item ];
 		tags: [ :spec :version | self tagsOfSpec: spec in: version ];
 		dynamicActionsOnSelection: [ :list | self actionsForItem: list selection ];
-		updateOn: GTConfigChanged from: self announcer.
-
+		updateOn: GTConfigChanged from: self announcer
 ]
 
 { #category : #display }
