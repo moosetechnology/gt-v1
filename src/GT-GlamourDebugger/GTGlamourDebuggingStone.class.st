@@ -6,13 +6,12 @@ Class {
 
 { #category : #private }
 GTGlamourDebuggingStone >> glamourValueDeliveryPredicate [
-
-	^ self session createPredicateForBlock: [ :aContext |
-			aContext selector = #glamourValueWithArgs: and: [ 
-				aContext peekInstruction arguments size > 0 and: [
-				 	#( #value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
-
-
+	^ self session
+		createPredicateForBlock: [ :aContext | 
+			aContext selector = #glamourValueWithArgs:
+				and: [ 
+					aContext peekInstruction arguments notEmpty
+						and: [ #(#value #valueWithArguments:) includes: aContext peekInstruction argument ] ] ]
 ]
 
 { #category : #'testing context' }
