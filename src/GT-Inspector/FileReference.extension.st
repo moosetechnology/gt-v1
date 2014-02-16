@@ -44,37 +44,37 @@ FileReference class >> gtExampleText [
 		yourself
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite rubricText
-			title: 'Contents';
+			title: 'Raw';
 			display: [ 
 				self readStreamDo: [ :stream | 
 					| result |
-					result := [(stream next: 5000) asString]
+					result := [(stream next: 10000) asString]
 						on: Error 
-						do: [ (stream binary next: 5000) asString ].
-					stream size > 5000
+						do: [ (stream binary next: 10000) asString ].
+					stream size > 10000
 						ifTrue: [ result, '  ... truncated ...' ]
 						ifFalse: [ result ] ] ];
 			withLineNumbers: true;
 			when: [ self isFile ]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorGifIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
-			title: 'Morph';
+			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | GIFReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageGif ] ]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	^ composite list 
+	^ composite table 
 		title: 'Items';
 		display: [ 
 			| children |
@@ -85,9 +85,15 @@ FileReference >> gtInspectorItemsIn: composite [
 					children asOrderedCollection 
 						addFirst: self parent;
 						yourself ] ];
-		format: [:each | (self isChildOf: each) 
+		column: 'Name' evaluated: [:each | (self isChildOf: each) 
 								ifTrue: [ '..' ] 
-								ifFalse: [ each basename ]];
+								ifFalse: [ each basename ]] width: 400;
+		column: 'Size' evaluated: [:each | each size asString] width: 100;
+		column: 'Creation' evaluated: [ :each | 
+			String streamContents: [:s | 
+				each creationTime printYMDOn: s.
+				s nextPut: Character space.
+				each creationTime printHMSOn: s ]];
 		icon: [ :each | 
 			each isDirectory 
 				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
@@ -95,20 +101,20 @@ FileReference >> gtInspectorItemsIn: composite [
 		when: [self isDirectory and: [self hasChildren]]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorJpegIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
-			title: 'Morph';
+			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | JPEGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageJpeg ] ]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorPngIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
-			title: 'Morph';
+			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ]
 ]
