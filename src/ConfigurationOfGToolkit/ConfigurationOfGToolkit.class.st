@@ -707,7 +707,7 @@ ConfigurationOfGToolkit >> baseline10: spec [
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
 					version: #development;
-					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal');
+					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal' 'Roassal2');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
 		spec project: 'DeepTraverser' with: [
 				spec
