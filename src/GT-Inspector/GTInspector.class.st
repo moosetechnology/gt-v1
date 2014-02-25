@@ -99,12 +99,12 @@ GTInspector class >> settingsOn: aBuilder [
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
-	self finder with: [:browser | 
+	self finder with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each | 
-			a title: [ :anObject | self printObjectAsAnItem: anObject ].
+			a title: [ self printObjectAsAnItem: each ].
 			a 
-				morphicAct: [:composite | composite entity browse]
+				morphicAct: [:composite | each browse]
 				icon: GLMUIThemeExtraIcons glamorousBrowse 
 				entitled: 'Browse'.
 
