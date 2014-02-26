@@ -76,6 +76,11 @@ GTMetacellerProject >> development [
 	^development
 ]
 
+{ #category : #accessing }
+GTMetacellerProject >> groupsAndLoosePackages [
+	^#()
+]
+
 { #category : #testing }
 GTMetacellerProject >> hasAttributes [
 	^false
