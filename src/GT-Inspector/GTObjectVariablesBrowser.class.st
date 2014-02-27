@@ -37,6 +37,7 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 			on: $o
 			entitled: 'Do it and open (o)'
 			with: [ :text :object | 
+				text selectLine.
 				GTSnippets snippetAt: object class put: (self stringWithoutInitialCommentFrom: text text asString).
 				Compiler evaluate: text selectedText for: object logged: false ] 
 ]
