@@ -108,7 +108,7 @@ GTPlayground >> evaluateSelectionFrom: aTextPresentation [
 	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
 	result := self evaluateText: aTextPresentation selectedText notifying: context.
 	context notifier: nil. 
-	aTextPresentation announce: (GLMVariableBindingsChanged new presentation: aTextPresentation).
+	aTextPresentation updateVariableBindings.
 	^ result
 ]
 
