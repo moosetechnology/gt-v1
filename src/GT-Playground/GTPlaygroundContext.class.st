@@ -19,8 +19,7 @@ Class {
 	#name : #GTPlaygroundContext,
 	#superclass : #Object,
 	#instVars : [
-		'variableBindings',
-		'mustDeclareVariables'
+		'variableBindings'
 	],
 	#category : #'GT-Playground'
 }
@@ -28,10 +27,7 @@ Class {
 { #category : #binding }
 GTPlaygroundContext >> bindingOf: aString [ 
 
-	mustDeclareVariables ifTrue: [^ nil].
-	"I want to have workspace that force the user to declare  
-	variables. Still subclasses may want to do something else"
-	variableBindings  ifNil: [self initializeBindings].
+	variableBindings ifNil: [self initializeBindings].
 	(variableBindings includesKey: aString)
 		ifFalse: [variableBindings at: aString put: nil].
 	^ variableBindings associationAt: aString
@@ -54,7 +50,6 @@ GTPlaygroundContext >> initialize [
 
 	super initialize.
 	self initializeBindings.
-	mustDeclareVariables := false.
 ]
 
 { #category : #initialization }
