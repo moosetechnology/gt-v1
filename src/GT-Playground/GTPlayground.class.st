@@ -10,6 +10,9 @@ self registerToolsOn: Smalltalk tools
 Class {
 	#name : #GTPlayground,
 	#superclass : #GLMCompositePresentation,
+	#instVars : [
+		'context'
+	],
 	#classInstVars : [
 		'repository'
 	],
@@ -73,7 +76,7 @@ GTPlayground >> codeIn: a [
 			entitled: 'Open'
 			with: [ :text :page | 
 				page content: text text.
-				Compiler evaluate: text selectedText for: nil logged: false ];
+				self evaluateText: text selectedText ];
 		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
@@ -94,6 +97,29 @@ GTPlayground >> compose [
 					content: self first panes first presentations first text.
 			self entity content asString trimBoth isEmpty
 				ifFalse: [ self class repository add: self entity ] ]
+]
+
+{ #category : #'do-its' }
+GTPlayground >> evaluateText: aText [
+	|result|
+	
+	"Must evaluate with context and receiver nil so that the missing bingings get created"
+	result := nil class compiler
+		source: aText;
+		context: nil;
+		receiver: nil;
+		requestor: context;
+		failBlock:  [ ^ nil];
+		evaluate.	
+	^ result
+
+]
+
+{ #category : #initializing }
+GTPlayground >> initialize [
+
+	super initialize.
+	context := GTPlaygroundContext new
 ]
 
 { #category : #building }
