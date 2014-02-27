@@ -19,7 +19,8 @@ Class {
 	#name : #GTPlaygroundContext,
 	#superclass : #Object,
 	#instVars : [
-		'variableBindings'
+		'variableBindings',
+		'notifier'
 	],
 	#category : #'GT-Playground'
 }
@@ -56,6 +57,17 @@ GTPlaygroundContext >> initialize [
 GTPlaygroundContext >> initializeBindings [
 	
 	variableBindings := Dictionary new.
+]
+
+{ #category : #'as yet unclassified' }
+GTPlaygroundContext >> notifier: anObject [ 
+	notifier := anObject
+]
+
+{ #category : #'interactive error protocol' }
+GTPlaygroundContext >> notify: aString at: anInteger in: aStream [
+
+	notifier notify: aString at: anInteger in: aStream
 ]
 
 { #category : #accessing }

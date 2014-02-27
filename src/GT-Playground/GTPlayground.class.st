@@ -75,12 +75,9 @@ GTPlayground >> codeIn: a [
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open'
-			with: [ :text :page | |result|
+			with: [ :text :page |
 				page content: text text.
-				text selectLine.
-				result := self evaluateText: text selectedText.
-				text announce: (GLMVariableBindingsChanged new presentation: text).
-				result ];
+				self evaluateSelectionFrom: text ];
 		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
@@ -103,8 +100,20 @@ GTPlayground >> compose [
 				ifFalse: [ self class repository add: self entity ] ]
 ]
 
+{ #category : #building }
+GTPlayground >> evaluateSelectionFrom: aTextPresentation [
+	| result |
+	
+	aTextPresentation selectLine.
+	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
+	result := self evaluateText: aTextPresentation selectedText notifying: context.
+	context notifier: nil. 
+	aTextPresentation announce: (GLMVariableBindingsChanged new presentation: aTextPresentation).
+	^ result
+]
+
 { #category : #'do-its' }
-GTPlayground >> evaluateText: aText [
+GTPlayground >> evaluateText: aText notifying: aRequestor [
 	|result|
 	
 	"Must evaluate with context and receiver nil so that the missing bingings get created"
@@ -112,7 +121,7 @@ GTPlayground >> evaluateText: aText [
 		source: aText;
 		context: nil;
 		receiver: nil;
-		requestor: context;
+		requestor: aRequestor;
 		failBlock:  [ ^ nil];
 		evaluate.	
 	^ result
