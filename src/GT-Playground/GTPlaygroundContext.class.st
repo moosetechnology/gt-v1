@@ -37,6 +37,12 @@ GTPlaygroundContext >> bindingOf: aString [
 	^ variableBindings associationAt: aString
 ]
 
+{ #category : #accessing }
+GTPlaygroundContext >> bingings [
+
+	^ variableBindings associations collect: [ :each| each key -> each value ]
+]
+
 { #category : #binding }
 GTPlaygroundContext >> browseBindings [
 
@@ -47,13 +53,14 @@ GTPlaygroundContext >> browseBindings [
 GTPlaygroundContext >> initialize [
 
 	super initialize.
+	self initializeBindings.
 	mustDeclareVariables := false.
 ]
 
 { #category : #initialization }
 GTPlaygroundContext >> initializeBindings [
 	
-	variableBindings := Dictionary new
+	variableBindings := Dictionary new.
 ]
 
 { #category : #accessing }

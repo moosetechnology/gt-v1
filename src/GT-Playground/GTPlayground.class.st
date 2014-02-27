@@ -71,12 +71,15 @@ GTPlayground >> codeIn: a [
 	^ a smalltalkCode
 		title: [ :page | page title ];
 		format: [ :page | page content ];
+		variableBindings: [ :page| context bingings ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open'
-			with: [ :text :page | 
+			with: [ :text :page | |result|
 				page content: text text.
-				self evaluateText: text selectedText ];
+				result := self evaluateText: text selectedText.
+				text announce: (GLMVariableBindingsChanged new presentation: text).
+				result ];
 		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
