@@ -77,6 +77,7 @@ GTPlayground >> codeIn: a [
 			entitled: 'Open'
 			with: [ :text :page | |result|
 				page content: text text.
+				text selectLine.
 				result := self evaluateText: text selectedText.
 				text announce: (GLMVariableBindingsChanged new presentation: text).
 				result ];
