@@ -76,6 +76,7 @@ GTPlayground >> codeIn: a [
 			on: $o
 			entitled: 'Open'
 			with: [ :text :page |
+				text selectLine.
 				page content: text text.
 				self evaluateSelectionFrom: text ];
 		dynamicActions: [ self actionsForPreviousContents ]
