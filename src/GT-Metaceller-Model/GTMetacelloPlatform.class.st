@@ -96,6 +96,11 @@ GTMetacelloPlatform >> createRepository: aRepositorySpec [
 	^self originalPlatform createRepository: aRepositorySpec
 ]
 
+{ #category : #'file system' }
+GTMetacelloPlatform >> defaultDirectory [
+	^self originalPlatform defaultDirectory
+]
+
 { #category : #accessing }
 GTMetacelloPlatform >> defaultPlatformAttributes [
 	self platformDescription ifNil: [ ^self originalPlatform defaultPlatformAttributes ].
@@ -107,9 +112,29 @@ GTMetacelloPlatform >> defaultTimeout [
 	^self originalPlatform defaultTimeout
 ]
 
+{ #category : #'file system' }
+GTMetacelloPlatform >> directoryFromPath: adirectoryPath relativeTo: anotherDirectoryPath [
+	^ self originalPlatform directoryFromPath: adirectoryPath relativeTo: anotherDirectoryPath
+]
+
 { #category : #notification }
 GTMetacelloPlatform >> do: aBlock displaying: aString [
 	^self originalPlatform do: aBlock displaying: aString
+]
+
+{ #category : #'github support' }
+GTMetacelloPlatform >> downloadFile: url to: outputFileName [
+	^ self originalPlatform downloadFile: url to: outputFileName
+]
+
+{ #category : #'file system' }
+GTMetacelloPlatform >> ensureDirectoryExists: aDirectoryHandle [
+	^self originalPlatform ensureDirectoryExists: aDirectoryHandle
+]
+
+{ #category : #'github support' }
+GTMetacelloPlatform >> extractRepositoryFrom: zipFile to: directory [
+	^self originalPlatform extractRepositoryFrom: zipFile to: directory
 ]
 
 { #category : #'repository creation' }
@@ -117,6 +142,16 @@ GTMetacelloPlatform >> extractTypeFromDescription: description [
 
 	^self originalPlatform extractTypeFromDescription: description
 
+]
+
+{ #category : #'github support' }
+GTMetacelloPlatform >> fileDirectoryClass [
+	^self originalPlatform fileDirectoryClass
+]
+
+{ #category : #'file system' }
+GTMetacelloPlatform >> fileHandleOn: aPath [
+	^self originalPlatform fileHandleOn: aPath
 ]
 
 { #category : #reflection }
@@ -142,6 +177,11 @@ GTMetacelloPlatform >> originalPlatform [
 	^originalPlatform
 ]
 
+{ #category : #'file system' }
+GTMetacelloPlatform >> parentDirectoryOf: aFileHandler [
+	^self originalPlatform parentDirectoryOf: aFileHandler
+]
+
 { #category : #accessing }
 GTMetacelloPlatform >> platformDescription [
 	^platformDescription
@@ -160,6 +200,16 @@ GTMetacelloPlatform >> primeStackCacheFor: cacheName doing: noArgBlock defaultDi
 { #category : #caching }
 GTMetacelloPlatform >> primeStackCacheWith: aDictionary doing: noArgBlock [
 	^self originalPlatform primeStackCacheWith: aDictionary doing: noArgBlock
+]
+
+{ #category : #'file system' }
+GTMetacelloPlatform >> readStreamOn: aFileHandle do: aBlock [
+	^self originalPlatform readStreamOn: aFileHandle do: aBlock
+]
+
+{ #category : #'file system' }
+GTMetacelloPlatform >> recursiveDelete: aDirectory [
+	^self originalPlatform recursiveDelete: aDirectory
 ]
 
 { #category : #caching }
