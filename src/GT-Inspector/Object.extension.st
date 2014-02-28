@@ -19,6 +19,36 @@ Object >> gtDisplayString [
 ]
 
 { #category : #'*gt-inspector' }
+Object >> gtInspectorActionBrowse [
+	<gtInspectorAction>
+	^ GLMGenericAction new
+		action: [ self browse ];
+		icon: GLMUIThemeExtraIcons glamorousBrowse;
+		title: 'Browse'
+]
+
+{ #category : #'*gt-inspector' }
+Object >> gtInspectorActions [
+	"This is a utility method that allows each object to define a set of actions 
+	specific for itself. These actions are used when the object appears in the inspector.
+
+	The actions are collected based on the #gtInspectorAction pragma that are defined in
+	unary methods corresponding to the body of the actions"
+	
+	| all |
+	all := (Pragma 
+				allNamed: #gtInspectorAction
+				from: self class 
+				to: Object) collect: [:eachPragma |
+					self perform: eachPragma selector ].
+	^ all asSortedCollection: [:a :b | 
+		| first second |
+		first := a isCategorized ifTrue: [a category, a title] ifFalse: [a title].
+		second := b isCategorized ifTrue: [b category, b title] ifFalse: [b title].
+		first < second]
+]
+
+{ #category : #'*gt-inspector' }
 Object >> gtInspectorMethodsIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>

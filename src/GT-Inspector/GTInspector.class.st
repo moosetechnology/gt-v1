@@ -101,12 +101,9 @@ GTInspector >> compose [
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	self finder with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
-		browser show: [ :a :each | 
+		browser show: [ :a :each |
 			a title: [ self printObjectAsAnItem: each ].
-			a 
-				morphicAct: [:composite | each browse]
-				icon: GLMUIThemeExtraIcons glamorousBrowse 
-				entitled: 'Browse'.
+			a dynamicActions: [ each gtInspectorActions ].
 
 			a dynamic display: [ :x | 
 				GLMCompositePresentation new with: [:d | each gtInspectorPresentationsIn: d ] ] ] ]

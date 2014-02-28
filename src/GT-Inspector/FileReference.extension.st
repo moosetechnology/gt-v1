@@ -45,6 +45,19 @@ FileReference class >> gtExampleText [
 ]
 
 { #category : #'*GT-Inspector' }
+FileReference >> gtInspectorActionMaterializeFuel [
+	<gtInspectorAction>
+	^ GLMGenericAction new
+		action: [ :composite | 
+			| result |
+			result := FLMaterializer materializeFromFileNamed: self fullName.
+			composite selection: result ];
+		icon: GLMUIThemeExtraIcons glamorousAdd;
+		condition: [ self extension = 'fuel' ];
+		title: 'Materialize'
+]
+
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite rubricText
@@ -117,4 +130,23 @@ FileReference >> gtInspectorPngIn: composite [
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ]
+]
+
+{ #category : #'*GT-Inspector' }
+FileReference >> gtInspectorStScriptIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite smalltalkCode
+			title: 'Script';
+			display: [ self readStreamDo: [ :s | s contents ] ];
+			selectionPopulate: #selection
+				on: $o
+				entitled: 'Do it and open (o)'
+				with: [ :text :object | 
+					Compiler evaluate: text selectedText for: object logged: false ];
+			act: [ :text |
+				self writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
+				icon: GLMUIThemeExtraIcons glamorousAccept
+				on: $s
+				entitled: 'Save';
+			when: [ self extension = 'st' ]
 ]
