@@ -76,6 +76,18 @@ FileReference >> gtInspectorContentsIn: composite [
 ]
 
 { #category : #'*GT-Inspector' }
+FileReference >> gtInspectorFuelIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite table
+			title: 'Fuel Header';
+			display: [
+				(FLMaterializer materializeHeaderFromFileNamed: self fullName) gtGetMetaData ];
+			column: 'Property' evaluated: [:assoc| assoc key ];
+			column: 'Value' evaluated: [:assoc| assoc value];
+			when: [ self extension = 'fuel' ]
+]
+
+{ #category : #'*GT-Inspector' }
 FileReference >> gtInspectorGifIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
