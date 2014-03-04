@@ -78,6 +78,15 @@ FileReference >> gtInspectorContentsIn: composite [
 { #category : #'*GT-Inspector' }
 FileReference >> gtInspectorFuelIn: composite [
 	<gtInspectorPresentationOrder: 40>
+	"(FileSystem disk workingDirectory / 'GTtest.fuel') writeStreamDo: [ :stream |
+	FLSerializer newDefault
+		at: #author putAdditionalObject: 'Author: Max Leske';
+		at: #date putAdditionalObject: DateAndTime now;
+		addPreMaterializationAction: [ Smalltalk inform: 'starting materialization' ];
+		addPostMaterializationAction: [ :materialization | materialization inspect ];
+		serialize: 'foo' on: stream binary ].
+	
+FLMaterializer materializeFromFileNamed: 'GTtest.fuel'"
 	composite table
 			title: 'Fuel Header';
 			display: [
