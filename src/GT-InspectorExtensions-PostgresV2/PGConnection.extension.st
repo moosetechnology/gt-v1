@@ -10,6 +10,9 @@ PGConnection >> gtInspectorSQLIn: composite [
 			on: $o 
 			entitled: 'Execute and open'
 			with: [ :text | 
-				(self execute: text selectedText asString) resultSets anyOne ] 
-		
+				| queryResults |
+				queryResults := (self execute: text selectedText asString) resultSets.
+				queryResults isEmpty 
+					ifTrue: [ queryResults ] 
+					ifFalse: [queryResults anyOne ]]
 ]
