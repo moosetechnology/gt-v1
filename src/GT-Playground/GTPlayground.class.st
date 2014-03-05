@@ -89,7 +89,9 @@ GTPlayground >> compose [
 		custom:
 			(GTInspector new first
 				noActions;
-				showFirst: [ :a | self codeIn: a ];
+				showFirst: [ :a ||code| 
+					code := self codeIn: a.
+					self installWorkspaceActionsIn: code ];
 				yourself);
 		on: GLMBrowserClosing do: [ 
 			"This is a hack for the moment.
@@ -102,19 +104,25 @@ GTPlayground >> compose [
 ]
 
 { #category : #building }
-GTPlayground >> evaluateSelectionFrom: aTextPresentation [
+GTPlayground >> evaluateSelectionFrom: aTextPresentation [ 
+	
+	^ self evaluateSelectionFrom: aTextPresentation andDo: [:result | result ]
+]
+
+{ #category : #building }
+GTPlayground >> evaluateSelectionFrom: aTextPresentation andDo: aBlock [
 	| result |
 	
 	aTextPresentation selectLine.
 	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
-	result := self evaluateText: aTextPresentation selectedText notifying: context.
+	result := self evaluateText: aTextPresentation selectedText andDo: aBlock notifying: context.
 	context notifier: nil. 
 	aTextPresentation updateVariableBindings.
 	^ result
 ]
 
 { #category : #'do-its' }
-GTPlayground >> evaluateText: aText notifying: aRequestor [
+GTPlayground >> evaluateText: aText andDo: aBlock notifying: aRequestor [
 	|result|
 	
 	"Must evaluate with context and receiver nil so that the missing bingings get created"
@@ -125,8 +133,8 @@ GTPlayground >> evaluateText: aText notifying: aRequestor [
 		requestor: aRequestor;
 		failBlock:  [ ^ nil];
 		evaluate.	
-	^ result
-
+			
+	^ aBlock value: result
 ]
 
 { #category : #initializing }
@@ -134,6 +142,24 @@ GTPlayground >> initialize [
 
 	super initialize.
 	context := GTPlaygroundContext new
+]
+
+{ #category : #building }
+GTPlayground >> installWorkspaceActionsIn: aPresentation [
+
+	^ aPresentation
+		act: [ :text :page |
+				self evaluateSelectionFrom: text ]
+			on: $d
+			entitled: 'Do it';
+		act: [ :text :page |
+				(self evaluateSelectionFrom: text andDo: [ :result | result inspect ]) ]
+			on: $i
+			entitled: 'Inspect it';
+		act: [ :text :page |
+				(self evaluateSelectionFrom: text andDo: [ :result | result explore ]) ]
+			on: $e
+			entitled: 'Explore it'
 ]
 
 { #category : #building }
