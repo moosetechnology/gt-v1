@@ -76,9 +76,15 @@ GTPlayground >> codeIn: a [
 			on: $o
 			entitled: 'Open'
 			with: [ :text :page |
-				text selectLine.
 				page content: text text.
-				self evaluateSelectionFrom: text ];
+				self evaluateAllFrom: text ];
+		populate: #selection
+			icon: GLMUIThemeExtraIcons glamorousPlay
+			on: $O
+			entitled: 'Execute all and open'
+			with: [ :text :page |
+				page content: text text.
+				self evaluateAllFrom: text ];
 		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
@@ -101,6 +107,17 @@ GTPlayground >> compose [
 					content: self first panes first presentations first text.
 			self entity content asString trimBoth isEmpty
 				ifFalse: [ self class repository add: self entity ] ]
+]
+
+{ #category : #building }
+GTPlayground >> evaluateAllFrom: aTextPresentation [
+	| result |
+	
+	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
+	result := self evaluateText: aTextPresentation text notifying: context.
+	context notifier: nil. 
+	aTextPresentation updateVariableBindings.
+	^ result
 ]
 
 { #category : #building }
