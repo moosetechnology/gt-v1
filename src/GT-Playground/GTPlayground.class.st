@@ -77,7 +77,7 @@ GTPlayground >> codeIn: a [
 			entitled: 'Open'
 			with: [ :text :page |
 				page content: text text.
-				self evaluateAllFrom: text ];
+				self evaluateSelectionFrom: text ];
 		populate: #selection
 			icon: GLMUIThemeExtraIcons glamorousPlay
 			on: $O
@@ -114,7 +114,7 @@ GTPlayground >> evaluateAllFrom: aTextPresentation [
 	| result |
 	
 	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
-	result := self evaluateText: aTextPresentation text notifying: context.
+	result := self evaluateText: aTextPresentation text andDo: [ :x | x ] notifying: context.
 	context notifier: nil. 
 	aTextPresentation updateVariableBindings.
 	^ result
