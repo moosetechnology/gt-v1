@@ -112,6 +112,13 @@ GTInspector >> compose [
 						inContext: self] ] ] ]
 ]
 
+{ #category : #accessing }
+GTInspector >> entities [
+	"returns the list of objects from the #entity port of each pane of the finder"
+	^ self first panes collect: [ :each | 
+		(each port: #entity) value ]
+]
+
 { #category : #opening }
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
