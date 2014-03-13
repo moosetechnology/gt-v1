@@ -105,9 +105,11 @@ GTInspector >> compose [
 		browser show: [ :a :each |
 			a title: [ self printObjectAsAnItem: each ].
 			a dynamicActions: [ each gtInspectorActions ].
-
 			a dynamic display: [ :x | 
-				GLMCompositePresentation new with: [:d | each gtInspectorPresentationsIn: d ] ] ] ]
+				GLMCompositePresentation new with: [:d | 
+					each 
+						gtInspectorPresentationsIn: d 
+						inContext: self] ] ] ]
 ]
 
 { #category : #opening }

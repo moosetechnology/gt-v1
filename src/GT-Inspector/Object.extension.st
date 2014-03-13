@@ -56,7 +56,7 @@ Object >> gtInspectorMetaIn: composite [
 ]
 
 { #category : #'*gt-inspector' }
-Object >> gtInspectorPresentationsIn: composite [
+Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 	"This is a utility method that collects all presentations for the current object.
 	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
 	Subclasses might want to override it for more special behavior."
@@ -64,11 +64,13 @@ Object >> gtInspectorPresentationsIn: composite [
 	pragmas := Pragma 
 				allNamed: #gtInspectorPresentationOrder: 
 				from: self class 
-				to: Object 
+				to: Object
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
 	pragmas do: [ :eachPragma | 
-		self perform: eachPragma selector with: composite ]
-
+		(eachPragma selector findTokens: $:) size = 1 
+			ifTrue: [ self perform: eachPragma selector with: composite ]. 
+		(eachPragma selector findTokens: $:) size = 2
+			ifTrue: [ self perform: eachPragma selector with: composite with: aGTInspector ] ]
 ]
 
 { #category : #'*gt-inspector' }
