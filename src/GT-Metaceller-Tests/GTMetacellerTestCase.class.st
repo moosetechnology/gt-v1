@@ -63,6 +63,11 @@ GTMetacellerTestCase >> createBaseline01 [
 ]
 
 { #category : #setUp }
+GTMetacellerTestCase >> createOnSetup [
+	^true
+]
+
+{ #category : #setUp }
 GTMetacellerTestCase >> createTestConfigurationClass [
 	testConfigurationClass := Object
 		subclass: #ConfigurationOfTestForMetaceller
@@ -95,11 +100,16 @@ GTMetacellerTestCase >> createTestConfigurationClass [
 
 { #category : #setUp }
 GTMetacellerTestCase >> setUp [
-	self createTestConfigurationClass.
-	self createBaseline01.
+	super setUp.
+	self createOnSetup ifTrue: [
+		self createTestConfigurationClass.
+		self createBaseline01 ]
 ]
 
 { #category : #setUp }
 GTMetacellerTestCase >> tearDown [
-	testConfigurationClass removeFromSystem
+	super tearDown.
+	testConfigurationClass ifNotNil: [ testConfigurationClass removeFromSystem ]
+	
+
 ]
