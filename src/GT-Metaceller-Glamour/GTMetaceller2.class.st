@@ -30,21 +30,37 @@ GTMetaceller2 >> buildBrowser [
 				contents: self helpText;
 				openLabel: 'Metaceller help' ]
 		icon: GLMUIThemeExtraIcons glamorousHelp
-		entitled: 'Help'.
+		entitled: 'Help';
+		initialExtent: self initialExtent.
 	browser
 		row: [  :r | r
 				column: #configs;
-				column: #versions;
-				column: #packages span: 2 ];
+				column: #info ] span: 3;
+		row: [ :r | r
+			column: #configButtons;
+			column: #infoButtons ] size: 30;
 		row: #details.
 	browser transmit
 		to: #configs;
 		andShow: [ :a | self configurationsIn: a ].
 	browser transmit
+		to: #configButtons;
+		andShow: [ :a | self configActionsIn: a ].
+	browser transmit
 		from: #configs;
-		to: #details;
-		andShow: [ :a | self detailsForConfiguration: a ].
+		to: #infoButtons;
+		andShow: [ :a | self infoActionsIn: a ].
+	browser transmit
+		from: #configs;
+		to: #info;
+		andShow: [ :a | self infoForConfiguration: a ].
 	^ browser
+]
+
+{ #category : #building }
+GTMetaceller2 >> configActionsIn: a [
+	^ a actionList
+			act: [:entity | self newConfiguration ] entitled: 'New...'
 ]
 
 { #category : #building }
@@ -102,4 +118,46 @@ The color coding shows:
 - italic = groups
 - gray = older package in version than loaded in image
 .'
+]
+
+{ #category : #building }
+GTMetaceller2 >> infoActionsIn: a [
+	^ a actionList
+			act: [:entity :config | self testConfiguration: config ] entitled: 'Test'
+]
+
+{ #category : #building }
+GTMetaceller2 >> infoForConfiguration: aBrowser [
+	aBrowser magritte
+		title: 'Details';
+		description: [ :config | config magritteDescription ];
+		updateOn: GTConfigChanged from: self announcer;
+		onAnswer: [ :config :presentation | self announce: (GTConfigChanged on: config) ] . 
+
+]
+
+{ #category : #building }
+GTMetaceller2 >> initialExtent [
+	| maxSize retVal |
+	maxSize := RealEstateAgent maximumUsableArea extent - (RealEstateAgent scrollBarSetback @ RealEstateAgent screenTopSetback).
+	retVal := RealEstateAgent standardWindowExtent.
+	(self prefHeight < maxSize y )
+		ifTrue: [ ^RealEstateAgent standardWindowExtent x@self prefHeight ]
+		ifFalse: [ ^RealEstateAgent standardWindowExtent x@maxSize y ]	
+]
+
+{ #category : #actions }
+GTMetaceller2 >> newConfiguration [
+	" todo: add a wizard to add a configuration "
+]
+
+{ #category : #building }
+GTMetaceller2 >> prefHeight [
+	^700
+]
+
+{ #category : #actions }
+GTMetaceller2 >> testConfiguration: config [
+	config testConfiguration.
+	self announce: (GTConfigChanged on: config)
 ]
