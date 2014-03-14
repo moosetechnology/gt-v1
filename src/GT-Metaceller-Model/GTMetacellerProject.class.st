@@ -70,10 +70,8 @@ GTMetacellerProject >> currentVersion [
 ]
 
 { #category : #accessing }
-GTMetacellerProject >> development [
-	development ifNil: [ 
-		[ development := self project development ] on: MetacelloVersionDoesNotExistError do: [ ] ].
-	^development
+GTMetacellerProject >> developmentVersion [
+	^self versions detect: [ :each | each isDevelopmentVersion ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
@@ -129,6 +127,20 @@ GTMetacellerProject >> packagesAndProjects [
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> privateDevelopment [
+	development ifNil: [ 
+		[ development := self project development ] on: MetacelloVersionDoesNotExistError do: [ ] ].
+	^development
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> privateStableVersion [
+	stableVersion ifNil: [ 
+		[ stableVersion := self project stableVersion ] on: MetacelloVersionDoesNotExistError do: [ ] ].
+	^stableVersion
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> project [
 	^project ifNil: [ project := configuration project ]
 ]
@@ -142,9 +154,7 @@ GTMetacellerProject >> projectsForVersion: aVersion [
 
 { #category : #accessing }
 GTMetacellerProject >> stableVersion [
-	stableVersion ifNil: [ 
-		[ stableVersion := self project stableVersion ] on: MetacelloVersionDoesNotExistError do: [ ] ].
-	^stableVersion
+	^self versions detect: [ :each | each isStable ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }

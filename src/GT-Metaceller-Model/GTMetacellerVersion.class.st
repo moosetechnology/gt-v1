@@ -191,7 +191,7 @@ GTMetacellerVersion >> isDevelopment [
 GTMetacellerVersion >> isDevelopmentVersion [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	^self project development = self version
+	^self project privateDevelopment = self version
 ]
 
 { #category : #testing }
@@ -213,7 +213,7 @@ GTMetacellerVersion >> isProject: aSpec [
 GTMetacellerVersion >> isStable [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	[ ^(self project stableVersion = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ].
+	^(self project privateStableVersion = self version)
 ]
 
 { #category : #accessing }
@@ -316,6 +316,11 @@ GTMetacellerVersion >> packagesWithoutGroups [
 { #category : #accessing }
 GTMetacellerVersion >> platformsFor: aMetacellerItem [
 	^self project platformsFor: aMetacellerItem version: self name
+]
+
+{ #category : #'as yet unclassified' }
+GTMetacellerVersion >> printOn: aStream [
+	aStream nextPutAll: self displayString
 ]
 
 { #category : #accessing }

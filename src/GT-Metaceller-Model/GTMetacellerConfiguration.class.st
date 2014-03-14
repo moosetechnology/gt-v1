@@ -5,7 +5,8 @@ Class {
 		'configuration',
 		'mainProject',
 		'projects',
-		'platformSymbols'
+		'platformSymbols',
+		'status'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -22,9 +23,68 @@ GTMetacellerConfiguration >> children [
 	^self mainProject childConfigurations collect: [ :each | GTMetacellerConfiguration on: each ]
 ]
 
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> configName [
+	^'config'
+]
+
 { #category : #accessor }
 GTMetacellerConfiguration >> configuration [
 	^configuration
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerConfiguration >> descriptionDevelopmentVersion [
+	<magritteDescription>
+	^MASingleOptionDescription new
+		label: 'Development';
+		accessor: #developmentVersion;
+		priority: 300;
+		options: self possibleSymbolicVersions;
+		yourself
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerConfiguration >> descriptionName [
+	<magritteDescription>
+	^MAStringDescription new
+		beReadonly;
+		label: 'Name';
+		accessor: #configName;
+		priority: 100;
+		yourself
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerConfiguration >> descriptionStableVersion [
+	<magritteDescription>
+	^MASingleOptionDescription new
+		label: 'Stable';
+		accessor: #stableVersion;
+		priority: 200;
+		options: self possibleSymbolicVersions;
+		yourself
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerConfiguration >> descriptionStatus [
+	<magritteDescription>
+	^MAMemoDescription new
+		beReadonly;
+		label: 'Status';
+		accessor: #status;
+		priority: 150;
+		yourself
+]
+
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> developmentVersion [
+	^self mainProject developmentVersion
+]
+
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> developmentVersion: aVersion [
+	" todo "
 ]
 
 { #category : #accessor }
@@ -53,6 +113,11 @@ GTMetacellerConfiguration >> mainVersions [
 	^self mainProject versions
 ]
 
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> possibleSymbolicVersions [
+	^self mainProject versions sort: [ :a :b | a asString < b asString ]
+]
+
 { #category : #accessing }
 GTMetacellerConfiguration >> projects [
 	^self mainProject projects
@@ -70,6 +135,26 @@ GTMetacellerConfiguration >> shortName [
 	^ ((self configuration name beginsWith: 'ConfigurationOf') 
 		ifTrue: [self configuration name copyFrom: 'ConfigurationOf' size + 1 to: self configuration name size ] 
 		ifFalse: [self configuration name]) asString
+]
+
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> stableVersion [
+	^self mainProject stableVersion
+]
+
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> stableVersion: aVersion [
+	" todo "
+]
+
+{ #category : #'accessing-magritte' }
+GTMetacellerConfiguration >> status [
+	^status ifNil: [ 'Not tested' ]
+]
+
+{ #category : #actions }
+GTMetacellerConfiguration >> testConfiguration [
+	status := #tested
 ]
 
 { #category : #roassal }

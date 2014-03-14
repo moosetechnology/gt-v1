@@ -49,7 +49,8 @@ GTMetacellerModel >> buildSortedCache [
 
 { #category : #events }
 GTMetacellerModel >> classRemoved: anAnnouncement [
-	(self isMetacelloConfig: anAnnouncement classRemoved) ifTrue: [ 
+	((configs includesKey: anAnnouncement classRemoved) 
+		or: [ self isMetacelloConfig: anAnnouncement classRemoved ]) ifTrue: [ 
 		| config |
 		config := configs at: anAnnouncement classRemoved ifAbsent: [ nil ].
 		configs removeKey: anAnnouncement classRemoved ifAbsent: [ ].
