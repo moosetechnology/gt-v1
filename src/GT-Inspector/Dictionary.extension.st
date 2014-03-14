@@ -7,6 +7,11 @@ Dictionary >> gtInspectorItemsIn: composite [
 		display: [ self associations];
 		column: 'Key' evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
 		column: 'Value' evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+		selectionAct: [ :table |
+			table rawSelection do: [ :assoc |
+				self removeKey: assoc key ].
+			table update ]
+			entitled: 'Remove item(s)';
 		beMultiple;
 		withSmalltalkSearch;
 		send: [ :selection | (selection notNil and: [selection size = 1]) 
