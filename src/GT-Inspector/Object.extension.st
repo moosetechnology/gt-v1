@@ -53,9 +53,9 @@ Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 900>
 	
 	| previousRawSelection |
-	(aGTInspector first panes size > 1) 
+	(aGTInspector panes size > 1) 
 		ifFalse: [ ^ self ].	
-	previousRawSelection := (aGTInspector first panes reversed second port: #rawSelection) value.
+	previousRawSelection := (aGTInspector panes reversed second port: #rawSelection) value.
 	(previousRawSelection isKindOf: GTExample)
 			ifTrue: [ 
 				(previousRawSelection methodReference gtInspectorSourceIn: composite) 

@@ -109,7 +109,7 @@ GTInspector >> compose [
 				GLMCompositePresentation new with: [:d | 
 					each 
 						gtInspectorPresentationsIn: d 
-						inContext: self] ] ] ]
+						inContext: self ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -123,6 +123,11 @@ GTInspector >> entities [
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
 	self openOn: anObject
+]
+
+{ #category : #accessing }
+GTInspector >> panes [
+	^ self first panes
 ]
 
 { #category : #private }
