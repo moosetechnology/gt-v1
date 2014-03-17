@@ -49,6 +49,14 @@ Object >> gtInspectorActions [
 ]
 
 { #category : #'*gt-inspector' }
+Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
+	<gtInspectorPresentationOrder: 10>
+	
+	composite
+		
+]
+
+{ #category : #'*gt-inspector' }
 Object >> gtInspectorMetaIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>
