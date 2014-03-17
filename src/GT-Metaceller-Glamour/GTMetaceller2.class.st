@@ -65,11 +65,10 @@ GTMetaceller2 >> configActionsIn: a [
 
 { #category : #building }
 GTMetaceller2 >> configurationsIn: a [
-	^ a tree
+	^ a list
 		title: 'Configurations';
 		display: #configurations;
 		format: [ :configuration | configuration shortName ];
-		children: [ :configuration | configuration children ];
 		updateOn: GTConfigLoaded from: self announcer;
 		populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousRefresh on: $r entitled: 'Refresh' with: [ :pane | self announce: GTConfigLoaded ];
 		selectionAct: [ :list | list selection browse ] entitled: 'Browse implementation';
@@ -95,7 +94,18 @@ GTMetaceller2 >> entity [
 GTMetaceller2 >> helpText [
 	^'Metaceller is a tool for browsing and editing the Metacello configurations present in the image.
 
-The Configurations tab lists all the projects from the ConfigurationOfXXX present in the image. Selecting a configuration causes it to analyse this configuration and display information about it.
+The Configurations tab lists all the projects from the ConfigurationOfXXX present in the image. Selecting a configuration causes it to display information about it. The color of the version give information about the blessing:
+- bold = a release version
+- blue = a development version
+- red  = a baseline
+
+For most configurations the stable version should be a release and a development version should be blessed with "development".
+
+Most common actions are listed with a version. Not that the default group is "default", the default version is "#stable".
+- Validate: performs a test of the version and configurations used that are loaded in image.
+- Test: performs a test of the version and configurations used. Note that this installs used configurations.
+- Install: Installs the selected version and group.
+- Open: Opens the configuration for more details and possibilities.
 
 .....
 
@@ -123,16 +133,19 @@ The color coding shows:
 { #category : #building }
 GTMetaceller2 >> infoActionsIn: a [
 	^ a actionList
-			act: [:entity :config | self testConfiguration: config ] entitled: 'Test'
+			act: [:entity :config | self validateConfiguration: config ] entitled: 'Validate';
+			act: [:entity :config | self testConfiguration: config ] entitled: 'Test';
+			act: [:entity :config | self installConfiguration: config ] entitled: 'Install';
+			yourself
 ]
 
 { #category : #building }
 GTMetaceller2 >> infoForConfiguration: aBrowser [
-	aBrowser magritte
+	aBrowser text
 		title: 'Details';
-		description: [ :config | config magritteDescription ];
 		updateOn: GTConfigChanged from: self announcer;
-		onAnswer: [ :config :presentation | self announce: (GTConfigChanged on: config) ] . 
+		format: [ :config | config infoText ]
+		yourself. 
 
 ]
 
@@ -153,7 +166,7 @@ GTMetaceller2 >> newConfiguration [
 
 { #category : #building }
 GTMetaceller2 >> prefHeight [
-	^700
+	^900
 ]
 
 { #category : #actions }
