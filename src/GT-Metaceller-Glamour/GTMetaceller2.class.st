@@ -33,34 +33,50 @@ GTMetaceller2 >> buildBrowser [
 		entitled: 'Help';
 		initialExtent: self initialExtent.
 	browser
-		row: [  :r | r
-				column: #configs;
-				column: #info ] span: 3;
-		row: [ :r | r
-			column: #configButtons;
-			column: #infoButtons ] size: 30;
-		row: #details.
+		column: [ :c | c
+			row: #configs;
+			row: #configButtons size: 30 ];
+		column: [ :c | c
+			row: #info;
+			row: [ :r | r
+				column: #versions;
+				column: #groups ] span: 2;
+			row: #infoButtons size: 30 ] span: 2.
 	browser transmit
 		to: #configs;
 		andShow: [ :a | self configurationsIn: a ].
 	browser transmit
 		to: #configButtons;
+		andShow: [ :a | self startConfigActionsIn: a ].
+	browser transmit
+		from: #configs;
+		to: #configButtons;
 		andShow: [ :a | self configActionsIn: a ].
 	browser transmit
 		from: #configs;
-		to: #infoButtons;
-		andShow: [ :a | self infoActionsIn: a ].
+		to: #versions;
+		andShow: [ :a | self versionsForConfiguration: a ].
 	browser transmit
 		from: #configs;
 		to: #info;
 		andShow: [ :a | self infoForConfiguration: a ].
+	browser transmit
+		from: #configs; from: #versions;
+		to: #groups;
+		andShow: [ :a | self groupsForVersion: a ].
+	browser transmit
+		from: #versions; from: #groups;
+		to: #infoButtons;
+		andShow: [ :a | self infoActions: a ].
 	^ browser
 ]
 
 { #category : #building }
 GTMetaceller2 >> configActionsIn: a [
 	^ a actionList
-			act: [:entity | self newConfiguration ] entitled: 'New...'
+			act: [ :entity | self newConfiguration ] entitled: 'New...';
+			act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Open';
+			yourself
 ]
 
 { #category : #building }
@@ -75,19 +91,24 @@ GTMetaceller2 >> configurationsIn: a [
 		selectionAct: [ :list | list selection mainProject inspect ] entitled: 'Inspect'
 ]
 
-{ #category : #building }
-GTMetaceller2 >> detailsForConfiguration: aBrowser [
-	aBrowser magritte
-		title: 'Details';
-		description: [ :config | config magritteDescription ];
-		updateOn: GTConfigChanged from: self announcer;
-		onAnswer: [ :config :presentation | self announce: (GTConfigChanged on: config) ] . 
-
-]
-
 { #category : #opening }
 GTMetaceller2 >> entity [ 
 	^ GTMetacellerModel default
+]
+
+{ #category : #building }
+GTMetaceller2 >> groupsForVersion: aBrowser [
+	aBrowser list
+		title: 'Groups';
+		updateOn: GTConfigChanged from: self announcer;
+		display: [ :config :version | version
+			ifNil: [ config groups ]
+			ifNotNil: [ version groups ] ];
+		format: #labelAsText;
+		allowNil;
+		allowDeselection;
+		yourself. 
+
 ]
 
 { #category : #accessing }
@@ -131,11 +152,22 @@ The color coding shows:
 ]
 
 { #category : #building }
+GTMetaceller2 >> infoActions: a [
+	^ a actionList
+			act: [:entity :version :group | self validateVersion: version group: group ] entitled: 'Validate';
+			act: [:entity :version :group | self testVersion: version group: group ] entitled: 'Test';
+			act: [:entity :version :group | self installVersion: version group: group ] entitled: 'Install';
+			yourself
+]
+
+{ #category : #building }
 GTMetaceller2 >> infoActionsIn: a [
 	^ a actionList
 			act: [:entity :config | self validateConfiguration: config ] entitled: 'Validate';
 			act: [:entity :config | self testConfiguration: config ] entitled: 'Test';
 			act: [:entity :config | self installConfiguration: config ] entitled: 'Install';
+			allowNil;
+			allowAllNil;
 			yourself
 ]
 
@@ -160,8 +192,19 @@ GTMetaceller2 >> initialExtent [
 ]
 
 { #category : #actions }
+GTMetaceller2 >> installVersion: aVersion group: aGroup [
+	aVersion install: aGroup.
+	self announce: (GTConfigChanged on: aVersion configuration)
+]
+
+{ #category : #actions }
 GTMetaceller2 >> newConfiguration [
 	" todo: add a wizard to add a configuration "
+]
+
+{ #category : #actions }
+GTMetaceller2 >> openConfiguration: aConfig [ 
+	aConfig openMetacellerDetails
 ]
 
 { #category : #building }
@@ -169,8 +212,33 @@ GTMetaceller2 >> prefHeight [
 	^900
 ]
 
+{ #category : #building }
+GTMetaceller2 >> startConfigActionsIn: a [
+	^ a actionList
+			act: [ :entity | self newConfiguration ] entitled: 'New...';
+			yourself
+]
+
 { #category : #actions }
-GTMetaceller2 >> testConfiguration: config [
-	config testConfiguration.
-	self announce: (GTConfigChanged on: config)
+GTMetaceller2 >> testVersion: aVersion group: aGroup [
+	aVersion test: aGroup.
+	self announce: (GTConfigChanged on: aVersion configuration)
+]
+
+{ #category : #actions }
+GTMetaceller2 >> validateVersion: aVersion group: aGroup [
+	aVersion validate: aGroup.
+	self announce: (GTConfigChanged on: aVersion configuration)
+]
+
+{ #category : #building }
+GTMetaceller2 >> versionsForConfiguration: aBrowser [
+	aBrowser list
+		title: 'Versions';
+		updateOn: GTConfigChanged from: self announcer;
+		display: [ :config | config basicVersions ];
+		format: #labelAsText;
+		allowDeselection;
+		yourself. 
+
 ]
