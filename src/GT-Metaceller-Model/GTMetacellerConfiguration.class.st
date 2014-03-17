@@ -19,6 +19,25 @@ GTMetacellerConfiguration class >> on: aConfiguration [
 ]
 
 { #category : #accessing }
+GTMetacellerConfiguration >> basicVersions [
+	| retVal |
+	retVal := OrderedCollection new.
+	self stableVersion ifNotNilDo: [ :ver | retVal add: ver ].
+	self developmentVersion ifNotNilDo: [ :ver | 
+		(retVal includes: ver) ifFalse: [ retVal add: ver ] ].
+	self bleedingEdgeVersion ifNotNilDo: [ :ver | 
+		(retVal includes: ver) ifFalse: [ retVal add: ver ] ].
+	self latestVersion ifNotNilDo: [ :ver | 
+		(retVal includes: ver) ifFalse: [ retVal add: ver ] ].
+	^retVal
+]
+
+{ #category : #accessing }
+GTMetacellerConfiguration >> bleedingEdgeVersion [
+	^self mainProject bleedingEdgeVersion
+]
+
+{ #category : #accessing }
 GTMetacellerConfiguration >> children [
 	^self mainProject childConfigurations collect: [ :each | GTMetacellerConfiguration on: each ]
 ]
@@ -92,10 +111,20 @@ GTMetacellerConfiguration >> displayString [
 	^self shortName
 ]
 
+{ #category : #accessing }
+GTMetacellerConfiguration >> groups [
+	^self mainProject groups
+]
+
 { #category : #initialization }
 GTMetacellerConfiguration >> initialize: aConfiguration [
 	self initialize.
 	configuration := aConfiguration
+]
+
+{ #category : #accessing }
+GTMetacellerConfiguration >> latestVersion [
+	^self mainProject latestVersion
 ]
 
 { #category : #accessing }

@@ -166,6 +166,11 @@ GTMetacellerVersion >> initialize: aConfiguration method: aMethod project: aProj
 ]
 
 { #category : #testing }
+GTMetacellerVersion >> isBaseline [
+	^self blessing = #baseline
+]
+
+{ #category : #testing }
 GTMetacellerVersion >> isBleedingEdge [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
@@ -200,6 +205,11 @@ GTMetacellerVersion >> isGroup: aSpec [
 ]
 
 { #category : #testing }
+GTMetacellerVersion >> isLatestVersion [
+	^self project latest = self version
+]
+
+{ #category : #testing }
 GTMetacellerVersion >> isPackage: aSpec [ 
 	^aSpec isKindOf: MetacelloPackageSpec
 ]
@@ -207,6 +217,11 @@ GTMetacellerVersion >> isPackage: aSpec [
 { #category : #testing }
 GTMetacellerVersion >> isProject: aSpec [ 
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> isRelease [
+	^self blessing = #release
 ]
 
 { #category : #testing }
@@ -219,6 +234,11 @@ GTMetacellerVersion >> isStable [
 { #category : #accessing }
 GTMetacellerVersion >> items [
 	^items ifNil: [ items := self buildItems ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> labelAsText [
+	^self textLabel
 ]
 
 { #category : #actions }
@@ -318,7 +338,7 @@ GTMetacellerVersion >> platformsFor: aMetacellerItem [
 	^self project platformsFor: aMetacellerItem version: self name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 GTMetacellerVersion >> printOn: aStream [
 	aStream nextPutAll: self displayString
 ]
@@ -384,6 +404,11 @@ GTMetacellerVersion >> version [
 { #category : #accessing }
 GTMetacellerVersion >> version: anObject [
 	version := anObject
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> versionNumber [
+	^self asString
 ]
 
 { #category : #dummy }

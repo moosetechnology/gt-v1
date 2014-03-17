@@ -4,11 +4,12 @@ Class {
 	#instVars : [
 		'configuration',
 		'project',
+		'versions',
 		'stableVersion',
 		'bleedingEdge',
 		'development',
 		'currentVersion',
-		'versions'
+		'latest'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -28,8 +29,13 @@ GTMetacellerProject >> allMethods [
 { #category : #accessing }
 GTMetacellerProject >> bleedingEdge [
 	bleedingEdge ifNil: [
-		[ bleedingEdge := self project bleedingEdge ] on: MetacelloVersionDoesNotExistError ].
+		[ bleedingEdge := self project bleedingEdge ] on: MetacelloVersionDoesNotExistError do: [] ].
 	^bleedingEdge
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> bleedingEdgeVersion [
+	^self versions detect: [ :each | each isBleedingEdge ] ifNone: [ nil ]
 ]
 
 { #category : #initialization }
@@ -98,6 +104,17 @@ GTMetacellerProject >> initialize: aConfiguration [
 { #category : #testing }
 GTMetacellerProject >> isProject: aSpec [ 
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ (aSpec isKindOf: MetacelloProjectSpec) ]
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> latest [
+	latest ifNil: [ ].
+	^latest
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> latestVersion [
+	^self versions detect: [ :each | each isLatestVersion ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
