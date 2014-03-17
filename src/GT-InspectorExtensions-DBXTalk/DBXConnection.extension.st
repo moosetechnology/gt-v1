@@ -11,3 +11,12 @@ DBXConnection >> gtInspectorSQLExecutorIn: composite [
 			on: $o entitled: 'Execute and open' 
 			with: [:text | self execute: (text selectedText asString ifEmpty: [text text asString ]) ] 
 ]
+
+{ #category : #'*GT-InspectorExtensions-DBXTalk' }
+DBXConnection >> gtInspectorSchemasExecutorIn: composite [
+	<gtInspectorPresentationOrder: 50>
+	composite list
+		title: 'Schemas';
+		display: [ self schemas ];
+		format: [ :each | each value name ]
+]
