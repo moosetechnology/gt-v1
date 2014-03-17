@@ -50,17 +50,23 @@ Object >> gtInspectorActions [
 
 { #category : #'*gt-inspector' }
 Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
-	<gtInspectorPresentationOrder: 10>
+	<gtInspectorPresentationOrder: 900>
 	
-	composite
-		
+	| previousRawSelection |
+	(aGTInspector first panes size > 1) 
+		ifFalse: [ ^ self ].	
+	previousRawSelection := (aGTInspector first panes reversed second port: #rawSelection) value.
+	(previousRawSelection isKindOf: GTExample)
+			ifTrue: [ 
+				(previousRawSelection methodReference gtInspectorSourceIn: composite) 
+					title: 'E.g. source' ]
 ]
 
 { #category : #'*gt-inspector' }
 Object >> gtInspectorMetaIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>
-	composite custom: (GTSimpleMethodsBrowser new startOn: self) 
+	^ composite custom: (GTSimpleMethodsBrowser new startOn: self) 
 ]
 
 { #category : #'*gt-inspector' }
@@ -85,7 +91,7 @@ Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 Object >> gtInspectorStateIn: composite [
 	"This is the most basic presentation showing the state of the object"
 	<gtInspectorPresentationOrder: 10>
-	composite custom: (GTObjectVariablesBrowser new startOn: self)
+	^ composite custom: (GTObjectVariablesBrowser new startOn: self)
 ]
 
 { #category : #'*gt-inspector' }
