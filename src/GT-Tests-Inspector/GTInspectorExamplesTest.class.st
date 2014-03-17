@@ -20,19 +20,21 @@ GTInspectorExamplesTest >> tearDown [
 { #category : #tests }
 GTInspectorExamplesTest >> testEachPresentation [
 
-	| pragmas window |
+	| pragmas window browser |
 
 	Object withAllSubclassesDo: [ :eachClass |
 		(GTExamplesBrowser new examplesFor: eachClass) do: [ :exampleToTest |
 			pragmas := Pragma 
 						allNamed: #gtInspectorPresentationOrder: 
 						from: exampleToTest class 
-						to: Object 
-						sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
+						to: Object.
 			pragmas do: [ :eachPragma | 
-				window := GLMWrapper new 
+				browser := GLMWrapper new 
 					show: [:composite | 
-						exampleToTest perform: eachPragma selector with: composite];
-					openOn: exampleToTest.
+						(eachPragma selector findTokens: $:) size = 1 
+							ifTrue: [ exampleToTest perform: eachPragma selector with: composite ]. 
+						(eachPragma selector findTokens: $:) size = 2
+							ifTrue: [ exampleToTest perform: eachPragma selector with: composite with: browser ]].
+				window := browser openOn: exampleToTest.
 				windows add: window ] ] ]
 ]

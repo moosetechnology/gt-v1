@@ -40,10 +40,12 @@ GTInspectorSmokeTest >> testEachPresentation [
 				to: Object 
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
 	pragmas do: [ :eachPragma | 
-		browser := GLMTabulator new.
-		browser column: #one.
-		browser transmit to: #one; andShow: [:composite | 
-			objectToTest perform: eachPragma selector with: composite].
+		browser := GLMWrapper new.
+		browser show: [:composite | 
+			(eachPragma selector findTokens: $:) size = 1 
+			ifTrue: [ objectToTest perform: eachPragma selector with: composite ]. 
+		(eachPragma selector findTokens: $:) size = 2
+			ifTrue: [ objectToTest perform: eachPragma selector with: composite with: browser ] ].
 		window := browser openOn: objectToTest.
 		windows add: window ]
 ]
