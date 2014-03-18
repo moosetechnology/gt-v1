@@ -1,23 +1,8 @@
 Class {
 	#name : #GTMetacellerInstaller,
-	#superclass : #GLMGlobalBrowserTemplate,
-	#instVars : [
-		'announcer',
-		'configuration'
-	],
+	#superclass : #GTMetacellerBrowserTemplate,
 	#category : #'GT-Metaceller-Glamour'
 }
-
-{ #category : #events }
-GTMetacellerInstaller >> announce: anAnnouncement [
-	self halt.
-	self announcer announce: anAnnouncement
-]
-
-{ #category : #events }
-GTMetacellerInstaller >> announcer [
-	^announcer ifNil: [ announcer := Announcer new ]
-]
 
 { #category : #building }
 GTMetacellerInstaller >> buildBrowser [
@@ -43,8 +28,16 @@ GTMetacellerInstaller >> buildBrowser [
 		to: #groups;
 		andShow: [ :a | self groupsIn: a ].
 	browser transmit
+		from: #versions;
 		to: #details;
-		andShow: [ :a | self detailsIn: a ].
+		andShow: [ :a | self details: a ].
+	browser transmit
+		from: #groups;
+		to: #details;
+		andShow: [ :a | self details: a ].
+	browser transmit
+		to: #details;
+		andShow: [ :a | self details: a ].
 	browser transmit
 		to: #buttons;
 		andShow: [ :a | self buttonsIn: a ].
@@ -74,69 +67,6 @@ GTMetacellerInstaller >> buttonsIn: aBrowser [
 		yourself	
 ]
 
-{ #category : #selection }
-GTMetacellerInstaller >> childrenForItem: anItem [
-	anItem isString ifTrue: [ ^#() ].
-	^anItem children
-]
-
-{ #category : #accessing }
-GTMetacellerInstaller >> configuration [
-	^configuration
-]
-
-{ #category : #building }
-GTMetacellerInstaller >> detailsIn: aBrowser [
-	aBrowser text
-		title: 'Details';
-		format: #infoText;
-		updateOn: GTConfigChanged from: self announcer;
-		yourself
-		
-]
-
-{ #category : #opening }
-GTMetacellerInstaller >> entity [
-	^self configuration
-]
-
-{ #category : #selection }
-GTMetacellerInstaller >> groupsFor: aConfigOrVersion [
-	aConfigOrVersion ifNil: [ ^self configuration groups ].
-	^aConfigOrVersion groups
-]
-
-{ #category : #building }
-GTMetacellerInstaller >> groupsIn: aBrowser [
-	aBrowser list
-		title: 'Groups';
-		display: [ :configOrVersion | self groupsFor: configOrVersion ];
-		format: #labelAsText;
-		updateOn: GTConfigChanged from: self announcer;
-		allowDeselection;
-		allowNil;
-		beMultiple;
-		yourself.
-	aBrowser tree
-		title: 'Packages';
-		display: [ :configOrVersion | self packagesAndGroupsFor: configOrVersion ];
-		children: [ :item | self childrenForItem: item ];
-		format: #labelAsText;
-		updateOn: GTConfigChanged from: self announcer;
-		allowDeselection;
-		allowNil;
-		beMultiple;
-		yourself
-
-		
-]
-
-{ #category : #initialization }
-GTMetacellerInstaller >> initialize [
-	super initialize.
-	self register
-]
-
 { #category : #actions }
 GTMetacellerInstaller >> install [
 	self install: nil
@@ -151,46 +81,4 @@ GTMetacellerInstaller >> install: aGroups [
 GTMetacellerInstaller >> installVersion: aVersion groups: aGroups [
 	aVersion ifNil: [ ^self install: aGroups ].
 	aVersion install: aGroups
-]
-
-{ #category : #building }
-GTMetacellerInstaller >> openOn: aConfiguration [
-	configuration := aConfiguration.
-	super openOn: aConfiguration
-]
-
-{ #category : #selection }
-GTMetacellerInstaller >> packagesAndGroupsFor: aConfigOrVersion [
-	aConfigOrVersion ifNil: [ ^self configuration groupsAndLoosePackages ].
-	^aConfigOrVersion groupsAndLoosePackages
-]
-
-{ #category : #events }
-GTMetacellerInstaller >> register [
-	GTMetacellerModel default announcer weak
-		on: GTConfigChanged send: #updateConfig: to: self
-]
-
-{ #category : #events }
-GTMetacellerInstaller >> updateConfig: anAnnouncement [
-	anAnnouncement configuration = self configuration ifTrue: [ self announce: anAnnouncement ]
-]
-
-{ #category : #building }
-GTMetacellerInstaller >> versionsIn: aBrowser [
-	aBrowser list
-		title: 'Versions';
-		display: [ :config | config basicVersions ];
-		format: #labelAsText;
-		updateOn: GTConfigChanged from: self announcer;
-		allowDeselection;
-		yourself.
-	aBrowser list
-		title: 'All versions';
-		display: [ :config | config mainVersions ];
-		format: #labelAsText;
-		updateOn: GTConfigChanged from: self announcer;
-		allowDeselection;
-		yourself.
-
 ]

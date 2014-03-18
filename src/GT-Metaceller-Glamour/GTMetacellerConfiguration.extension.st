@@ -27,3 +27,8 @@ GTMetacellerConfiguration >> infoText [
 GTMetacellerConfiguration >> installDialog [
 	^GTMetacellerInstaller openOn: self
 ]
+
+{ #category : #'*gt-metaceller-glamour' }
+GTMetacellerConfiguration >> openMetacellerDetails [
+	^GTMetacellerAnalyzer openOn: self
+]

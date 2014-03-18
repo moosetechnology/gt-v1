@@ -59,7 +59,7 @@ GTMetaceller2 >> childrenForItem: anItem [
 GTMetaceller2 >> configActionsIn: a [
 	^ a actionList
 			act: [ :entity | self newConfiguration ] entitled: 'New...';
-			act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Open';
+			act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Analyze';
 			act: [ :entity :selected | self installConfiguration: selected ] entitled: 'Install';
 			yourself
 ]
