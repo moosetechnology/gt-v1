@@ -165,6 +165,11 @@ GTMetacellerVersion >> initialize: aConfiguration method: aMethod project: aProj
 	project := aProject
 ]
 
+{ #category : #actsions }
+GTMetacellerVersion >> install: aCollection [ 
+	self load: (aCollection collect: [ :each | each itemName ])
+]
+
 { #category : #testing }
 GTMetacellerVersion >> isBaseline [
 	^self blessing = #baseline
@@ -174,10 +179,7 @@ GTMetacellerVersion >> isBaseline [
 GTMetacellerVersion >> isBleedingEdge [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
-	^false
-	"
-	This should be this code ... but this is a bit slow
-	[ ^(self project bleedingEdge = self version) ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^false ]."
+	^self version = self project bleedingEdge
 ]
 
 { #category : #testing }

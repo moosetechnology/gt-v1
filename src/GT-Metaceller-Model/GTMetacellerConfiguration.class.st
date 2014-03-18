@@ -27,8 +27,6 @@ GTMetacellerConfiguration >> basicVersions [
 		(retVal includes: ver) ifFalse: [ retVal add: ver ] ].
 	self bleedingEdgeVersion ifNotNilDo: [ :ver | 
 		(retVal includes: ver) ifFalse: [ retVal add: ver ] ].
-	self latestVersion ifNotNilDo: [ :ver | 
-		(retVal includes: ver) ifFalse: [ retVal add: ver ] ].
 	^retVal
 ]
 
@@ -116,10 +114,20 @@ GTMetacellerConfiguration >> groups [
 	^self mainProject groups
 ]
 
+{ #category : #accessing }
+GTMetacellerConfiguration >> groupsAndLoosePackages [
+	^self mainProject groupsAndLoosePackages
+]
+
 { #category : #initialization }
 GTMetacellerConfiguration >> initialize: aConfiguration [
 	self initialize.
 	configuration := aConfiguration
+]
+
+{ #category : #actions }
+GTMetacellerConfiguration >> install: aGroupList [ 
+	self mainProject install: aGroupList
 ]
 
 { #category : #accessing }

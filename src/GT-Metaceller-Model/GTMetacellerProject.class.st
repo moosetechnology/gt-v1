@@ -76,12 +76,27 @@ GTMetacellerProject >> currentVersion [
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> defaultVersion [
+	self stableVersion ifNotNil: [ ^self stableVersion ].
+	self developmentVersion ifNotNil: [ ^self developmentVersion ].
+	self bleedingEdgeVersion ifNotNil: [ ^self bleedingEdgeVersion ].
+	^#()
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> developmentVersion [
 	^self versions detect: [ :each | each isDevelopmentVersion ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> groups [
+	self defaultVersion ifNotNil: [ ^self defaultVersion groups ].
+	^#()
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> groupsAndLoosePackages [
+	self defaultVersion ifNotNil: [ ^self defaultVersion groupsAndLoosePackages ].
 	^#()
 ]
 
@@ -101,20 +116,16 @@ GTMetacellerProject >> initialize: aConfiguration [
 	configuration := aConfiguration
 ]
 
+{ #category : #actions }
+GTMetacellerProject >> install: aCollection [ 
+	self defaultVersion ifNotNil: [ ^self defaultVersion install: aCollection ].
+	" could not determine a version "
+	GTMetacellerNoVersion signal: 'Could not dermine a default version for ', self configuration configName
+]
+
 { #category : #testing }
 GTMetacellerProject >> isProject: aSpec [ 
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ (aSpec isKindOf: MetacelloProjectSpec) ]
-]
-
-{ #category : #accessing }
-GTMetacellerProject >> latest [
-	latest ifNil: [ ].
-	^latest
-]
-
-{ #category : #accessing }
-GTMetacellerProject >> latestVersion [
-	^self versions detect: [ :each | each isLatestVersion ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }

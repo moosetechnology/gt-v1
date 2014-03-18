@@ -52,15 +52,6 @@ GTMetacellerMainProject >> createSnapshotVersion: aString baseline: aBaseline [
 		classified: 'versions'
 ]
 
-{ #category : #accessing }
-GTMetacellerMainProject >> groups [
-	self stableVersion ifNotNil: [ ^self stableVersion groups ].
-	self developmentVersion ifNotNil: [ ^self developmentVersion groups ].
-	self latestVersion ifNotNil: [ ^self latestVersion groups ].
-	self bleedingEdgeVersion ifNotNil: [ ^self bleedingEdgeVersion groups ].
-	^#()
-]
-
 { #category : #testing }
 GTMetacellerMainProject >> hasPlatform: aPlatform [
 	(#common compare: aPlatform caseSensitive: false) = 2 ifTrue: [ ^true ].

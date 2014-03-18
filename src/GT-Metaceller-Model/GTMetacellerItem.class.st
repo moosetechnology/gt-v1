@@ -90,6 +90,11 @@ GTMetacellerItem >> isProject: aSpec [
 ]
 
 { #category : #accessing }
+GTMetacellerItem >> itemName [
+	^self referenceSpec name
+]
+
+{ #category : #accessing }
 GTMetacellerItem >> labelAsText [
 	^self referenceSpec label
 ]
