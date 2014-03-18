@@ -50,3 +50,13 @@ GTMetacellerGroup >> label [
 GTMetacellerGroup >> labelAsText [
 	^Text string: self label attribute: TextEmphasis italic
 ]
+
+{ #category : #actions }
+GTMetacellerGroup >> testValid [
+	self children do: [ :each | each testValid ]
+]
+
+{ #category : #actions }
+GTMetacellerGroup >> validate [
+	self children do: [ :each | each validate ]
+]

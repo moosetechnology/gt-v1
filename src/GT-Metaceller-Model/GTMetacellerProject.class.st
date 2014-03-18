@@ -80,7 +80,8 @@ GTMetacellerProject >> defaultVersion [
 	self stableVersion ifNotNil: [ ^self stableVersion ].
 	self developmentVersion ifNotNil: [ ^self developmentVersion ].
 	self bleedingEdgeVersion ifNotNil: [ ^self bleedingEdgeVersion ].
-	^#()
+	self addError: 'Could not determine a default version'.
+	^nil
 ]
 
 { #category : #accessing }
@@ -190,9 +191,19 @@ GTMetacellerProject >> tags [
 	^#()
 ]
 
+{ #category : #actions }
+GTMetacellerProject >> testItems: aCollection [ 
+	self defaultVersion ifNotNil: [ self defaultVersion testItems: aCollection ]
+]
+
 { #category : #accessing }
 GTMetacellerProject >> textLabel [
 	^self displayString
+]
+
+{ #category : #actions }
+GTMetacellerProject >> validateItems: aCollection [ 
+	self defaultVersion ifNotNil: [ ^self defaultVersion validateItems: aCollection ]
 ]
 
 { #category : #accessing }

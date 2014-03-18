@@ -194,6 +194,16 @@ GTMetacellerConfiguration >> testConfiguration [
 	status := #tested
 ]
 
+{ #category : #actions }
+GTMetacellerConfiguration >> testItems: aCollection [ 
+	self mainProject testItems: aCollection
+]
+
+{ #category : #actions }
+GTMetacellerConfiguration >> validateItems: aCollection [ 
+	self mainProject validateItems: aCollection
+]
+
 { #category : #roassal }
 GTMetacellerConfiguration >> viewVersionMapOn: view [
 	self mainProject viewVersionMapOn: view

@@ -93,7 +93,7 @@ GTMetacellerVersion >> blessing [
 { #category : #accessing }
 GTMetacellerVersion >> buildGroups [
 	self version ifNotNil: [ 
-		^self version groups collect: [ :each | GTMetacellerGroup on: self version spec: each ] ].
+		^self version groups collect: [ :each | GTMetacellerGroup on: self spec: each ] ].
 	^#()
 ]
 
@@ -165,8 +165,9 @@ GTMetacellerVersion >> initialize: aConfiguration method: aMethod project: aProj
 	project := aProject
 ]
 
-{ #category : #actsions }
-GTMetacellerVersion >> install: aCollection [ 
+{ #category : #actions }
+GTMetacellerVersion >> install: aCollection [
+	aCollection ifNil: [ ^self load ].
 	self load: (aCollection collect: [ :each | each itemName ])
 ]
 
@@ -357,6 +358,11 @@ GTMetacellerVersion >> projects [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> repositorySpecs [
+	^self version loader spec repositories
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> selector [
 	^self method selector
 ]
@@ -380,6 +386,17 @@ GTMetacellerVersion >> tagsOf: aSpec [
 	^self packagesAndGroups at: aSpec ifAbsent: [OrderedCollection new]
 ]
 
+{ #category : #actions }
+GTMetacellerVersion >> testItem: anItem [
+	anItem resetValidated.
+	anItem testValid
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> testItems: aCollection [ 
+	aCollection do: [ :each | self testItem: each ]
+]
+
 { #category : #display }
 GTMetacellerVersion >> textLabel [
 	| attributes |
@@ -396,6 +413,23 @@ GTMetacellerVersion >> textLabel [
 GTMetacellerVersion >> update [
 	self isDevelopment ifTrue: [
 		MetacelloToolBox updateToLatestPackageVersionsIn: self configuration description: 'Please describe this version.' ]
+]
+
+{ #category : #validating }
+GTMetacellerVersion >> validateDependencies: aGTMetacellerPackage [ 
+	" for now we leave this empty "
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> validateItem: anItem [
+	anItem resetValidated.
+	anItem validate
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> validateItems: aCollection [ 
+	aCollection do: [ :each |
+		self validateItem: each ]
 ]
 
 { #category : #accessing }

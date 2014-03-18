@@ -26,6 +26,21 @@ GTMetacellerPackage >> calculateIsOlder [
 	^false
 ]
 
+{ #category : #testing }
+GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
+	| references gofer |
+	gofer := MetacelloGofer new.
+	gofer disablePackageCache.
+	(self repositoriesFrom: aRepositorySpecs ignoreOverrides: true) 
+		do: [:repo | gofer repository: repo ].
+	references := self referenceSpec goferPackage resolveAllWith: gofer.
+	references ifEmpty: [ ^false ].
+	references size > 1 ifTrue: [
+		self addWarning: 'Assuming version ', references last name, ' is the correct version.' ].
+	^true
+
+]
+
 { #category : #accessing }
 GTMetacellerPackage >> file [
 	^self packageSpec file
@@ -49,6 +64,11 @@ GTMetacellerPackage >> isOlder [
 { #category : #testing }
 GTMetacellerPackage >> isPackage [
 	^true
+]
+
+{ #category : #testing }
+GTMetacellerPackage >> isValidated [
+	^isValidated ifNil: [ false ]
 ]
 
 { #category : #accessing }
@@ -87,6 +107,12 @@ GTMetacellerPackage >> printVersionOn: aStream [
 	aStream nextPutAll: 'package: '''; nextPutAll: self name; nextPutAll: ''' with: '''; nextPutAll: self loadedVersionName; nextPutAll: ''''
 ]
 
+{ #category : #accessing }
+GTMetacellerPackage >> repositorySpecs [
+	self referenceSpec hasRepository ifTrue: [ ^self referenceSpec repositorySpecs ].
+	^self version repositorySpecs
+]
+
 { #category : #display }
 GTMetacellerPackage >> textAttributes [
 	| retVal |
@@ -96,4 +122,15 @@ GTMetacellerPackage >> textAttributes [
 		self isNewer ifTrue: [ retVal add: TextEmphasis bold ].
 		self isOlder ifTrue: [  retVal add: TextColor gray ] ].
 	^retVal
+]
+
+{ #category : #actions }
+GTMetacellerPackage >> validate [
+	self isValidated ifTrue: [ ^self ].
+	isValidated := true.
+	" check if the repository is correct "
+	(self checkExistsIn: self repositorySpecs) ifFalse: [ self addError: 'No valid repository for self ', self itemName ].
+	" check the dependencies "
+	self version validateDependencies: self
+	
 ]

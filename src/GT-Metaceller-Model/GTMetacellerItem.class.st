@@ -3,7 +3,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'version',
-		'referenceSpec'
+		'referenceSpec',
+		'isValidated',
+		'errors',
+		'warnings'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -27,6 +30,18 @@ GTMetacellerItem >> addAll: aString to: aCollection version: aVersion [
 ]
 
 { #category : #accessing }
+GTMetacellerItem >> addError: aString [
+	(self errors includes: aString)
+		ifFalse: [ self errors add: aString ]
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> addWarning: aString [
+	(self warnings includes: aString)
+		ifFalse: [ self warnings add: aString ]
+]
+
+{ #category : #accessing }
 GTMetacellerItem >> asString [
 	^self referenceSpec asString 
 ]
@@ -34,6 +49,11 @@ GTMetacellerItem >> asString [
 { #category : #accessing }
 GTMetacellerItem >> children [
 	^#()
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> errors [
+	^errors ifNil: [ errors := OrderedCollection new ]
 ]
 
 { #category : #testing }
@@ -44,6 +64,19 @@ GTMetacellerItem >> hasName: aString [
 { #category : #testing }
 GTMetacellerItem >> hasPlatform: aSymbol [ 
 	^self platforms contains: [ :each | each hasSymbol: aSymbol ]
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> infoText [
+	| retVal |
+	retVal := Text fromString: self referenceSpec asString.
+	self errors do: [ :each | retVal
+		append: String cr;
+		append: (Text string: each attribute: TextColor red) ].
+	self warnings do: [ :each | retVal
+		append: String cr;
+		append: (Text string: each attribute: TextColor orange) ].
+	^retVal
 ]
 
 { #category : #initialization }
@@ -114,9 +147,45 @@ GTMetacellerItem >> referenceSpec [
 	^referenceSpec
 ]
 
+{ #category : #copy }
+GTMetacellerItem >> repositoriesFrom: aMetacelloMVRepositorySpecs ignoreOverrides: ignoreOverrides [
+
+	| repositories repos |
+	repositories := MCRepositoryGroup default repositories.
+	repos := OrderedCollection new.
+	aMetacelloMVRepositorySpecs do: [:aSpec | | description repo |
+		description := aSpec description.
+		(repo := repositories detect: [:rep | rep description = description ] ifNone: [ aSpec createRepository ]) ~~ nil
+			ifTrue: [ repos add: repo ]].
+	^repos
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> resetValidated [
+	warnings := nil.
+	errors := nil.
+	isValidated := false
+]
+
+{ #category : #actions }
+GTMetacellerItem >> testValid [
+	" by default we should only need to validate "
+	self validate
+]
+
+{ #category : #actions }
+GTMetacellerItem >> validate [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 GTMetacellerItem >> version [
 	^version
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> warnings [
+	^warnings ifNil: [ warnings := OrderedCollection new ]
 ]
 
 { #category : #tool }

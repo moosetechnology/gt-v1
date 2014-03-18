@@ -106,6 +106,17 @@ GTMetacellerProjectReference >> projectReference [
 		ifFalse: [ ^self project ]
 ]
 
+{ #category : #actions }
+GTMetacellerProjectReference >> testValid [
+	self fetchConfiguration.
+	^super testValid
+]
+
+{ #category : #actions }
+GTMetacellerProjectReference >> validate [
+	self halt.
+]
+
 { #category : #accessing }
 GTMetacellerProjectReference >> versionString [
 	^self project versionString
