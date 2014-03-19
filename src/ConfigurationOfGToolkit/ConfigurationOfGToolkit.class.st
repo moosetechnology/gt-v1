@@ -672,7 +672,8 @@ ConfigurationOfGToolkit >> baseline10: spec [
 			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
-			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')].
+			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore');
+			package: 'GT-Setup' ].
 		spec group: 'default' with: #(
 			'GT-Model'
 			'GT-Tools'
@@ -685,6 +686,7 @@ ConfigurationOfGToolkit >> baseline10: spec [
 			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
+			'GT-Setup'
 			'Tests'
 			'AnnouncerCentricDebugger'
 		).
