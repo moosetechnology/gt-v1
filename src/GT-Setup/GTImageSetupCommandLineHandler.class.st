@@ -38,14 +38,7 @@ GTImageSetupCommandLineHandler >> activate [
 
 { #category : #'moose utilities' }
 GTImageSetupCommandLineHandler >> cleanupWorld [
-	World backgroundMorph: nil.
-	World color: Color white.
-	World submorphs
-		do: [ :each | 
-			(each isKindOf: ImageMorph)
-				ifTrue: [ each delete ] ].
-	StandardWindow allSubInstancesDo: #delete.
-	SystemWindow allInstancesDo: #delete
+	World color: Color white
 ]
 
 { #category : #'moose utilities' }
