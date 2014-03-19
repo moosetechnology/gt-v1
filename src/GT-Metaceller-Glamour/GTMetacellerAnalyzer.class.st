@@ -70,34 +70,45 @@ GTMetacellerAnalyzer >> buttonsIn: aBrowser [
 		yourself
 ]
 
+{ #category : #accessing }
+GTMetacellerAnalyzer >> helpText [
+	^'Todo'
+]
+
 { #category : #actions }
 GTMetacellerAnalyzer >> testConfiguration [
-	self configuration test
+	self configuration test.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
 GTMetacellerAnalyzer >> testItems: aGroupList [
-	self configuration testItems: aGroupList
+	self configuration testItems: aGroupList.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
 GTMetacellerAnalyzer >> testVersion: aVersion groups: aGroupList [
 	aVersion ifNil: [ ^self testItems: aGroupList ].
-	aVersion test: aGroupList
+	aVersion test: aGroupList.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
 GTMetacellerAnalyzer >> validateConfiguration [
-	self configuration validate
+	self configuration validate.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
 GTMetacellerAnalyzer >> validateItems: aGroupList [
-	self configuration validateItems: aGroupList
+	self configuration validateItems: aGroupList.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
 GTMetacellerAnalyzer >> validateVersion: aVersion groups: aGroupList [
 	aVersion ifNil: [ ^self validateItems: aGroupList ].
-	aVersion validate: aGroupList
+	aVersion validate: aGroupList.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]

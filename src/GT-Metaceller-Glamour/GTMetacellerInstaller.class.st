@@ -67,6 +67,15 @@ GTMetacellerInstaller >> buttonsIn: aBrowser [
 		yourself	
 ]
 
+{ #category : #accessing }
+GTMetacellerInstaller >> helpText [
+	^'The metaceller installer is a graphical ui to install an existing configuration.
+You can select a version and from this version one or more groups.
+If no version is selected the following version ordering is used to determine a default version: stable, development, bleedingedge.
+If no group is selected the "default" group is used (see Metacello documentation).
+If installation fails, please use the Metaceller analyzer to determine the problem.'
+]
+
 { #category : #actions }
 GTMetacellerInstaller >> install [
 	self install: nil
