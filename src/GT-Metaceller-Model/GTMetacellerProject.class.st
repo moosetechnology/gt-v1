@@ -202,6 +202,11 @@ GTMetacellerProject >> textLabel [
 ]
 
 { #category : #actions }
+GTMetacellerProject >> validate [
+	self defaultVersion ifNotNil: [ self defaultVersion validate ]
+]
+
+{ #category : #actions }
 GTMetacellerProject >> validateItems: aCollection [ 
 	self defaultVersion ifNotNil: [ ^self defaultVersion validateItems: aCollection ]
 ]

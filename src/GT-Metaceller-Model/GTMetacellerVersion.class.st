@@ -8,7 +8,8 @@ Class {
 		'cachedPackageMap',
 		'project',
 		'groups',
-		'items'
+		'items',
+		'wrappers'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -117,6 +118,15 @@ GTMetacellerVersion >> configuration: anObject [
 	configuration := anObject
 ]
 
+{ #category : #tool }
+GTMetacellerVersion >> createWrapperFor: aSpec [
+	(self isProject: aSpec) ifTrue: [  ^GTMetacellerProjectReference on: self spec: aSpec ].
+	(self isGroup: aSpec) ifTrue: [  ^GTMetacellerGroup on: self spec: aSpec ].
+	(self isPackage: aSpec) ifTrue: [ ^GTMetacellerPackage on: self spec: aSpec ].
+	^aSpec
+	
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> determineVersion [
 	self project ifNil: [  ^nil ].
@@ -155,6 +165,30 @@ GTMetacellerVersion >> hasItem: aMetacellerItem [
 { #category : #testing }
 GTMetacellerVersion >> hasName: aString [ 
 	^self name = aString
+]
+
+{ #category : #display }
+GTMetacellerVersion >> infoText [
+	| retVal |
+	retVal := self asText.
+	retVal
+		append: String cr;
+		append: self version description;
+		append: String cr;
+		append: 'Author: ';
+		append: self version author asString;
+		append: String cr;
+		append: 'Status: ';
+		append: self version versionStatus asString;
+		append: String cr;
+		append: 'Imported versions: ';
+		append: self version importedVersions asString;
+		yourself.
+	self packagesAndProjects do: [ :each |
+		each hasWarnings ifTrue: [ 
+			retVal append: String cr; append: each warningText ] ].
+	^retVal
+		
 ]
 
 { #category : #initialization }
@@ -415,6 +449,25 @@ GTMetacellerVersion >> update [
 		MetacelloToolBox updateToLatestPackageVersionsIn: self configuration description: 'Please describe this version.' ]
 ]
 
+{ #category : #actions }
+GTMetacellerVersion >> validate [
+	self validate: nil
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> validate: aList [ 
+	| toCheck |
+	aList
+		ifNil: [ toCheck := self packagesAndProjects ]
+		ifNotNil: [ 
+			aList 
+				ifEmpty: [ toCheck := self packagesAndProjects ]
+				ifNotEmpty: [ toCheck := aList ] ].
+	toCheck do: [ :each |
+				each resetValidated; validate ]
+
+]
+
 { #category : #validating }
 GTMetacellerVersion >> validateDependencies: aGTMetacellerPackage [ 
 	" for now we leave this empty "
@@ -454,9 +507,10 @@ GTMetacellerVersion >> versions [
 
 { #category : #tool }
 GTMetacellerVersion >> wrapperFor: aSpec [
-	(self isProject: aSpec) ifTrue: [  ^GTMetacellerProjectReference on: self spec: aSpec ].
-	(self isGroup: aSpec) ifTrue: [  ^GTMetacellerGroup on: self spec: aSpec ].
-	(self isPackage: aSpec) ifTrue: [ ^GTMetacellerPackage on: self spec: aSpec ].
-	^aSpec
-	
+	^self wrappers at: aSpec ifAbsentPut: [ self createWrapperFor: aSpec ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> wrappers [
+	^wrappers ifNil: [ wrappers := Dictionary new ]
 ]

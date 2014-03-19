@@ -114,7 +114,7 @@ GTMetacellerProjectReference >> testValid [
 
 { #category : #actions }
 GTMetacellerProjectReference >> validate [
-	self halt.
+	" TODO "
 ]
 
 { #category : #accessing }

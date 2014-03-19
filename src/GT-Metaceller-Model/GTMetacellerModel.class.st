@@ -13,6 +13,11 @@ Class {
 	#category : #'GT-Metaceller-Model'
 }
 
+{ #category : #events }
+GTMetacellerModel class >> announce: anAnnouncement [
+	self default announce: anAnnouncement
+]
+
 { #category : #singleton }
 GTMetacellerModel class >> default [
 	^default ifNil: [ default := self new ]

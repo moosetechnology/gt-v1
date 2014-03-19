@@ -57,6 +57,11 @@ GTMetacellerItem >> errors [
 ]
 
 { #category : #testing }
+GTMetacellerItem >> hasErrors [
+	^self errors notEmpty
+]
+
+{ #category : #testing }
 GTMetacellerItem >> hasName: aString [ 
 	^self name = aString
 ]
@@ -64,6 +69,11 @@ GTMetacellerItem >> hasName: aString [
 { #category : #testing }
 GTMetacellerItem >> hasPlatform: aSymbol [ 
 	^self platforms contains: [ :each | each hasSymbol: aSymbol ]
+]
+
+{ #category : #testing }
+GTMetacellerItem >> hasWarnings [
+	^self warnings notEmpty or: [ self hasErrors ]
 ]
 
 { #category : #accessing }
@@ -181,6 +191,25 @@ GTMetacellerItem >> validate [
 { #category : #accessing }
 GTMetacellerItem >> version [
 	^version
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> warningText [
+	self hasErrors
+		ifTrue: [
+			| retVal |
+			retVal := Text string: self itemName attribute: TextColor red.
+			self errors do: [ :each |
+				retVal append: String cr; append: (Text string: each attribute: TextColor red) ].
+			^retVal ].
+	self hasWarnings ifTrue: [ 
+		| retVal |
+		retVal := Text string: self itemName attribute: TextColor orange.
+			self warnings do: [ :each |
+				retVal append: String cr; append: (Text string: each attribute: TextColor orange) ].
+		^retVal ].
+	^self itemName
+	
 ]
 
 { #category : #accessing }

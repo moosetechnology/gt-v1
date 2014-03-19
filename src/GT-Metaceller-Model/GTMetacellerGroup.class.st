@@ -32,6 +32,16 @@ GTMetacellerGroup >> group [
 ]
 
 { #category : #testing }
+GTMetacellerGroup >> hasErrors [
+	^super hasErrors or: [ self children contains: [ :each | each hasErrors ] ]
+]
+
+{ #category : #testing }
+GTMetacellerGroup >> hasWarnings [
+	^super hasWarnings or: [ self children contains: [ :each | each hasWarnings ] ]
+]
+
+{ #category : #testing }
 GTMetacellerGroup >> isGroup [
 	^true
 ]

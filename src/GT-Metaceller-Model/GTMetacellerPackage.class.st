@@ -129,7 +129,8 @@ GTMetacellerPackage >> validate [
 	self isValidated ifTrue: [ ^self ].
 	isValidated := true.
 	" check if the repository is correct "
-	(self checkExistsIn: self repositorySpecs) ifFalse: [ self addError: 'No valid repository for self ', self itemName ].
+	(self checkExistsIn: self repositorySpecs) 
+		ifFalse: [ self addError: 'No valid repository for self ', self itemName, '.', String cr, 'Expected this package in one of the following repostories: ', self repositorySpecs asString ].
 	" check the dependencies "
 	self version validateDependencies: self
 	

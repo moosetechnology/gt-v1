@@ -42,7 +42,7 @@ GTMetacellerConfiguration >> children [
 
 { #category : #'accessing-magritte' }
 GTMetacellerConfiguration >> configName [
-	^'config'
+	^self shortName
 ]
 
 { #category : #accessor }
@@ -197,6 +197,11 @@ GTMetacellerConfiguration >> testConfiguration [
 { #category : #actions }
 GTMetacellerConfiguration >> testItems: aCollection [ 
 	self mainProject testItems: aCollection
+]
+
+{ #category : #actions }
+GTMetacellerConfiguration >> validate [
+	self mainProject validate
 ]
 
 { #category : #actions }
