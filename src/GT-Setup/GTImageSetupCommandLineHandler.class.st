@@ -6,7 +6,7 @@ Example usage in a Jenkins:
 "
 Class {
 	#name : #GTImageSetupCommandLineHandler,
-	#superclass : #Object,
+	#superclass : #CommandLineHandler,
 	#category : #'GT-Setup'
 }
 
@@ -22,6 +22,7 @@ GTImageSetupCommandLineHandler class >> description [
 
 { #category : #activation }
 GTImageSetupCommandLineHandler >> activate [
+	"self new activate"
 	self cleanupWorld.
 	self installGLMWhitespaceTheme.
 	self installFonts.
