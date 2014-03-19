@@ -132,7 +132,8 @@ FileReference >> gtInspectorItemsIn: composite [
 			each isDirectory 
 				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
-		when: [self isDirectory and: [self hasChildren]]
+		when: [self isDirectory and: [self hasChildren]];
+		selectionAct: [:table | table selection delete. table update] entitled: 'Delete'
 ]
 
 { #category : #'*GT-Inspector' }
