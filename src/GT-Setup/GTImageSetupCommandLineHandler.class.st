@@ -38,10 +38,11 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings.
-	self disableBreakingCommandPlusOKeybindingsInPharo30
+	self disableBreakingCommandPlusOKeybindingsInPharo30.
+	self loadOlderAthensPackagesToCorrectTheFontCachingProblem.
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> cleanupWorld [
 	World color: Color white
 ]
@@ -52,17 +53,28 @@ GTImageSetupCommandLineHandler >> disableBreakingCommandPlusOKeybindingsInPharo3
 		select: [ :each | each shortcut beginsWith: $o command ]) do: #disable
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> flushMCCache [
 	MCFileBasedRepository flushAllCaches 
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> installAthens [
 	ROPlatform setCurrent: 'athens'
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
+GTImageSetupCommandLineHandler >> installDemoFonts [
+	self loadFonts.
+	StandardFonts 
+		setAllStandardFontsTo: (LogicalFont familyName: 'Source Sans Pro' pointSize: 12);
+		haloFont: (LogicalFont familyName: 'Source Sans Pro' pointSize: 12);
+		windowTitleFont: (LogicalFont familyName: 'Source Sans Pro' pointSize: 18);
+		balloonFont: (LogicalFont familyName: 'Source Sans Pro' pointSize: 12);
+		codeFont: (LogicalFont familyName: 'Source Code Pro' pointSize: 14)
+]
+
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> installFonts [
 	self loadFonts.
 	StandardFonts 
@@ -73,7 +85,7 @@ GTImageSetupCommandLineHandler >> installFonts [
 		codeFont: (LogicalFont familyName: 'Source Code Pro' pointSize: 10)
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> installGLMWhitespaceTheme [
 	GLMWhitespaceTheme 
 		defaultSettings: nil;
@@ -81,7 +93,7 @@ GTImageSetupCommandLineHandler >> installGLMWhitespaceTheme [
 		beCurrent
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> installGTDebuggers [
 	
 	GTGenericStackDebugger registerToolsOn: Smalltalk tools.
@@ -94,18 +106,18 @@ GTImageSetupCommandLineHandler >> installGTDebuggers [
 	GTMoldableDebugger enableDebuggerWindowDistinctColor: true
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> installGTInspector [
 	GTInspector registerToolsOn: Smalltalk tools 
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> installGTPlayground [
 	
 	GTPlayground registerToolsOn: Smalltalk tools
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> loadFonts [
 	#('SourceCodeProRegular' 'SourceCodeProBold' 'SourceSansProRegular' 'SourceSansProBold') do: [ :each | 
 		each asSymbol asClassIfAbsent: [
@@ -118,7 +130,23 @@ GTImageSetupCommandLineHandler >> loadFonts [
 	FreeTypeFontProvider current updateFromSystem
 ]
 
-{ #category : #'moose utilities' }
+{ #category : #patches }
+GTImageSetupCommandLineHandler >> loadOlderAthensPackagesToCorrectTheFontCachingProblem [
+	"
+	This is a workaround fir the bug described here:
+	https://pharo.fogbugz.com/f/cases/12777/Athens-font-cacheing-bug
+	"
+	Gofer new 
+		smalltalkhubUser: 'Pharo' project: 'Pharo30';
+		package: 'Athens-Cairo' constraint: [ :version |
+			version author = 'MarcusDenker' and: [ version versionNumber = 51 ] ];
+		package: 'Athens-Core' constraint: [ :version | 
+			version author = 'MarcusDenker' and: [ version versionNumber = 34 ] ];
+		load
+		
+]
+
+{ #category : #utilities }
 GTImageSetupCommandLineHandler >> setPreferredSettings [
 	NECPreferences popupShowAutomatic: false
 ]
