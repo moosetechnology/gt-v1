@@ -32,7 +32,8 @@ GTImageSetupCommandLineHandler >> activate [
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings.
-	
+	self disableBreakingCommandPlusOKeybindingsInPharo30.
+		
 	Smalltalk snapshot: true andQuit: true.
 
 ]
@@ -40,6 +41,12 @@ GTImageSetupCommandLineHandler >> activate [
 { #category : #'moose utilities' }
 GTImageSetupCommandLineHandler >> cleanupWorld [
 	World color: Color white
+]
+
+{ #category : #patches }
+GTImageSetupCommandLineHandler >> disableBreakingCommandPlusOKeybindingsInPharo30 [
+	((KMRepository default globalCategories flatCollect: [ :each | each allEntries keymaps ])
+		select: [ :each | each shortcut beginsWith: $o command ]) do: #disable
 ]
 
 { #category : #'moose utilities' }
