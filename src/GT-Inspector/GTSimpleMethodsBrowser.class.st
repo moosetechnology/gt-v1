@@ -36,7 +36,7 @@ GTSimpleMethodsBrowser >> classesIn: a [
 
 { #category : #building }
 GTSimpleMethodsBrowser >> compose [
-	self title: 'Meta'.
+	self title: 'Methods'.
 	self tabulator with: [ :browser |
 		browser
 			row: [ :r | r column: #classes; column: #methods span: 3 ];

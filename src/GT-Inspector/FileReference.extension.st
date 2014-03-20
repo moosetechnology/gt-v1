@@ -44,71 +44,37 @@ FileReference class >> gtExampleText [
 		yourself
 ]
 
-{ #category : #'*GT-Inspector' }
-FileReference >> gtInspectorActionMaterializeFuel [
-	<gtInspectorAction>
-	^ GLMGenericAction new
-		action: [ :composite | 
-			| result |
-			result := FLMaterializer materializeFromFileNamed: self fullName.
-			composite selection: result ];
-		icon: GLMUIThemeExtraIcons glamorousAdd;
-		condition: [ self extension = 'fuel' ];
-		title: 'Materialize'
-]
-
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite rubricText
-			title: 'Raw';
+			title: 'Contents';
 			display: [ 
 				self readStreamDo: [ :stream | 
 					| result |
-					result := [(stream next: 10000) asString]
+					result := [(stream next: 5000) asString]
 						on: Error 
-						do: [ (stream binary next: 10000) asString ].
-					stream size > 10000
+						do: [ (stream binary next: 5000) asString ].
+					stream size > 5000
 						ifTrue: [ result, '  ... truncated ...' ]
 						ifFalse: [ result ] ] ];
 			withLineNumbers: true;
 			when: [ self isFile ]
 ]
 
-{ #category : #'*GT-Inspector' }
-FileReference >> gtInspectorFuelIn: composite [
-	<gtInspectorPresentationOrder: 40>
-	"(FileSystem disk workingDirectory / 'GTtest.fuel') writeStreamDo: [ :stream |
-	FLSerializer newDefault
-		at: #author putAdditionalObject: 'Author: Max Leske';
-		at: #date putAdditionalObject: DateAndTime now;
-		addPreMaterializationAction: [ Smalltalk inform: 'starting materialization' ];
-		addPostMaterializationAction: [ :materialization | materialization inspect ];
-		serialize: 'foo' on: stream binary ].
-	
-FLMaterializer materializeFromFileNamed: 'GTtest.fuel'"
-	composite table
-			title: 'Fuel Header';
-			display: [
-				(FLMaterializer materializeHeaderFromFileNamed: self fullName) gtGetMetaData ];
-			column: 'Property' evaluated: [:assoc| assoc key ];
-			column: 'Value' evaluated: [:assoc| assoc value];
-			when: [ self extension = 'fuel' ]
-]
-
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 FileReference >> gtInspectorGifIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
-			title: 'Picture';
+			title: 'Morph';
 			display: [ self binaryReadStreamDo: [ :stream | GIFReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageGif ] ]
 ]
 
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 FileReference >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	^ composite table 
+	^ composite list 
 		title: 'Items';
 		display: [ 
 			| children |
@@ -119,56 +85,30 @@ FileReference >> gtInspectorItemsIn: composite [
 					children asOrderedCollection 
 						addFirst: self parent;
 						yourself ] ];
-		column: 'Name' evaluated: [:each | (self isChildOf: each) 
+		format: [:each | (self isChildOf: each) 
 								ifTrue: [ '..' ] 
-								ifFalse: [ each basename ]] width: 400;
-		column: 'Size' evaluated: [:each | each size asString] width: 100;
-		column: 'Creation' evaluated: [ :each | 
-			String streamContents: [:s | 
-				each creationTime printYMDOn: s.
-				s nextPut: Character space.
-				each creationTime printHMSOn: s ]];
+								ifFalse: [ each basename ]];
 		icon: [ :each | 
 			each isDirectory 
 				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
-		when: [self isDirectory and: [self hasChildren]];
-		selectionAct: [:table | table selection delete. table update] entitled: 'Delete'
+		when: [self isDirectory and: [self hasChildren]]
 ]
 
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 FileReference >> gtInspectorJpegIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
-			title: 'Picture';
+			title: 'Morph';
 			display: [ self binaryReadStreamDo: [ :stream | JPEGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageJpeg ] ]
 ]
 
-{ #category : #'*GT-Inspector' }
+{ #category : #'*gt-inspector' }
 FileReference >> gtInspectorPngIn: composite [
 	<gtInspectorPresentationOrder: 10>
 	composite morph
-			title: 'Picture';
+			title: 'Morph';
 			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
 			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ]
-]
-
-{ #category : #'*GT-Inspector' }
-FileReference >> gtInspectorStScriptIn: composite [
-	<gtInspectorPresentationOrder: 40>
-	composite smalltalkCode
-			title: 'Script';
-			display: [ self readStreamDo: [ :s | s contents ] ];
-			selectionPopulate: #selection
-				on: $o
-				entitled: 'Do it and open (o)'
-				with: [ :text :object | 
-					Compiler evaluate: text selectedText for: object logged: false ];
-			act: [ :text |
-				self writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
-				icon: GLMUIThemeExtraIcons glamorousAccept
-				on: $s
-				entitled: 'Save';
-			when: [ self extension = 'st' ]
 ]
