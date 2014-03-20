@@ -30,6 +30,7 @@ GTInspector class >> gtInspectorExtensionsIn: composite [
 	composite list
 		title: 'Extensions';
 		display: [ self inspectorExtendingMethods ];
+		showOnly: 50;
 		format: [ :each | each gtDisplayString ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ]
 ]
@@ -99,23 +100,34 @@ GTInspector class >> settingsOn: aBuilder [
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
-	self finder with: [:browser | 
+	self finder with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
-		browser show: [ :a :each | 
-			a title: [ :anObject | self printObjectAsAnItem: anObject ].
-			a 
-				morphicAct: [:composite | composite entity browse]
-				icon: GLMUIThemeExtraIcons glamorousBrowse 
-				entitled: 'Browse'.
-
+		browser show: [ :a :each |
+			a title: [ self printObjectAsAnItem: each ].
+			a dynamicActions: [ each gtInspectorActions ].
 			a dynamic display: [ :x | 
-				GLMCompositePresentation new with: [:d | each gtInspectorPresentationsIn: d ] ] ] ]
+				GLMCompositePresentation new with: [:d | 
+					each 
+						gtInspectorPresentationsIn: d 
+						inContext: self ] ] ] ]
+]
+
+{ #category : #accessing }
+GTInspector >> entities [
+	"returns the list of objects from the #entity port of each pane of the finder"
+	^ self first panes collect: [ :each | 
+		(each port: #entity) value ]
 ]
 
 { #category : #opening }
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
 	self openOn: anObject
+]
+
+{ #category : #accessing }
+GTInspector >> panes [
+	^ self first panes
 ]
 
 { #category : #private }
