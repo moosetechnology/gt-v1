@@ -23,6 +23,12 @@ GTImageSetupCommandLineHandler class >> description [
 { #category : #activation }
 GTImageSetupCommandLineHandler >> activate [
 	"self new activate"
+	self activateWithoutSaving.
+	Smalltalk snapshot: true andQuit: true
+]
+
+{ #category : #activation }
+GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self cleanupWorld.
 	self installGLMWhitespaceTheme.
 	self installFonts.
@@ -32,10 +38,7 @@ GTImageSetupCommandLineHandler >> activate [
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings.
-	self disableBreakingCommandPlusOKeybindingsInPharo30.
-		
-	Smalltalk snapshot: true andQuit: true.
-
+	self disableBreakingCommandPlusOKeybindingsInPharo30
 ]
 
 { #category : #'moose utilities' }
