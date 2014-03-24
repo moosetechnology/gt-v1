@@ -94,6 +94,11 @@ GTMetacellerMainProject >> parentVersionFor: aMethod [
 ]
 
 { #category : #accessing }
+GTMetacellerMainProject >> platformSymbol [
+	^nil
+]
+
+{ #category : #accessing }
 GTMetacellerMainProject >> platformSymbols [
 	^platformSymbols ifNil: [ platformSymbols := self createPlatformSymbols ]
 ]
@@ -129,7 +134,7 @@ GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aSt
 
 { #category : #accessing }
 GTMetacellerMainProject >> projectFor: aPlatform [
-	aPlatform ifNil: [ ^self ].
+	aPlatform ifNil: [ ^nil ].
 	^self projects detect: [ :each | each hasPlatform: aPlatform ]
 ]
 

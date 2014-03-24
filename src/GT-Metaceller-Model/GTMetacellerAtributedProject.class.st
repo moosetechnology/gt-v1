@@ -54,12 +54,19 @@ GTMetacellerAtributedProject >> parentProject [
 
 { #category : #accessing }
 GTMetacellerAtributedProject >> parentVersionFor: aMethod [ 
-	^self parentProject versionFor: aMethod
+	^self parentProject
+		ifNil: [ self mainProject parentVersionFor: aMethod ]
+		ifNotNilDo: [ :parentProject | parentProject versionFor: aMethod ]
 ]
 
 { #category : #accessing }
 GTMetacellerAtributedProject >> platformDescription [
 	^ platformDescription
+]
+
+{ #category : #accessing }
+GTMetacellerAtributedProject >> platformSymbol [
+	^self platformDescription symbol
 ]
 
 { #category : #accessing }

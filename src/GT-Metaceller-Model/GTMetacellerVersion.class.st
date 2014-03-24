@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'parent',
+		'children',
 		'version',
 		'configuration',
 		'cachedPackageMap',
@@ -82,6 +83,11 @@ GTMetacellerVersion >> actions [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> addChild: aVersion [
+	self children add: aVersion
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> allGroups [
 	^self packagesAndProjects select: [ :each | each isGroup ]
 ]
@@ -126,6 +132,11 @@ GTMetacellerVersion >> category [
 { #category : #actions }
 GTMetacellerVersion >> checkCurrentVersion [
 	self project checkCurrentVersion
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> children [
+	^children ifNil: [ children := OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -237,7 +248,9 @@ GTMetacellerVersion >> initialize: aConfiguration method: aMethod project: aProj
 	self initialize.
 	parent := aProject parentVersionFor: aMethod.
 	configuration := aConfiguration.
-	project := aProject
+	project := aProject.
+	parent addChild: self.
+
 ]
 
 { #category : #actions }
@@ -361,6 +374,11 @@ GTMetacellerVersion >> methodString [
 	^self method asString
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> methodWithVersionName: aString [ 
+	^self parent methodWithVersionName: aString
+]
+
 { #category : #testing }
 GTMetacellerVersion >> name [
 	self method pragmas do: [  :each |
@@ -429,6 +447,11 @@ GTMetacellerVersion >> parent [
 	^ parent
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> platformSymbol [
+	^self project platformSymbol
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> platformsFor: aMetacellerItem [
 	^self project platformsFor: aMetacellerItem version: self name
@@ -456,6 +479,11 @@ GTMetacellerVersion >> projectsToGenerate [
 	^#()
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> repositoriesToWrite [
+	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) removeAll: self parent repositoriesToWrite.
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> repositorySpecs [
 	^self version loader spec repositories
@@ -465,7 +493,7 @@ GTMetacellerVersion >> repositorySpecs [
 GTMetacellerVersion >> saveAs: aVersionName [
 	" check if this version does not exist yet "
 	(self project version: aVersionName) ifNotNil: [ GTMetacellerDuplicateVersion signal: 'Version with name ', aVersionName, ' already exists.' ].
-	self project compileMethod: (self streamVersionDefWithName: aVersionName) category: self category
+	self project compileMethod: (self methodWithVersionName: aVersionName) category: self category
 ]
 
 { #category : #accessing }
@@ -508,25 +536,35 @@ GTMetacellerVersion >> streamMainInfoOn: aStream [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamRepositoriesOn: aStream [
-	self repositorySpecs asCodeStringOn: aStream indent: 3
+	self repositoriesToWrite do: [ :each |
+		aStream cr; tab: 3; nextPutAll: 'Repository: '.
+		each asCodeStringOn: aStream ]
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamVersionDefWithName: aString [ 
-	^String streamContents: [ :s |
-		s nextPutAll: (self methodNameFor: aString); nextPutAll: ': aSpec'; cr;
-			tab; nextPutAll: '<version: '.
-		aString asCodeStringOn: s.
-		self version importedVersions ifNotEmpty: [ 
-			s nextPutAll: ' imports: '.
-			self version importedVersions asCodeStringOn: s ].
-		s nextPut: $>; cr;
-			tab; nextPutAll: 'aSpec for: #''common'' do: ['; cr;
-			tab: 2; nextPutAll: ' aSpec'.
-		self streamMainInfoOn: s.
-		self streamRepositoriesOn: s.
-		self streamItemSpecsOn: s.
-		s cr; tab: 3; nextPutAll: 'yourself ]' ]
+GTMetacellerVersion >> streamVersionHeaderWithName: aString on: aStream [
+	aStream nextPutAll: (self methodNameFor: aString); nextPutAll: ': aSpec'; cr;
+		tab; nextPutAll: '<version: '.
+	aString asCodeStringOn: aStream.
+	self version importedVersions ifNotEmpty: [ 
+		aStream nextPutAll: ' imports: '.
+		self version importedVersions asCodeStringOn: aStream ].
+	aStream nextPut: $>
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> streamVersionOn: aStream [
+	aStream
+		cr; tab; nextPutAll: 'aSpec for: '.
+	self platformSymbol asCodeStringOn: aStream.
+	aStream nextPutAll: ' do: ['; cr;
+		tab: 2; nextPutAll: ' aSpec'.
+	self streamMainInfoOn: aStream.
+	self streamRepositoriesOn: aStream.
+	self streamItemSpecsOn: aStream.
+	aStream cr; tab: 3; nextPutAll: 'yourself ].'.
+	self children do: [ :each |
+		each streamVersionOn: aStream ]
 ]
 
 { #category : #display }
