@@ -16,8 +16,7 @@ GTMetacellerVersionTest >> assertVersion: aVersion equals: aVersion2 [
 	aVersion packagesAndProjects do: [ :each |
 		self assertItem: each equals: (aVersion2 itemFor: each itemName) ].
 	self assert: aVersion category equals: aVersion2 category.
-	self assert: aVersion repositorySpecs list size equals: aVersion2 repositorySpecs list size.
-	self assert: aVersion repositorySpecs list first spec description equals: aVersion2 repositorySpecs list first spec description
+	self assert: aVersion repositoriesToWrite equals: aVersion2 repositoriesToWrite
 ]
 
 { #category : #tests }
