@@ -218,8 +218,13 @@ GTMetacellerProject >> version: aStringOrSymbol [
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> versionFor: aMethod [
+	^self versions detect: [ :each | each method = aMethod ]
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> versions [
-	^versions ifNil: [ versions := GTMetacellerVersion versionsForProject: self ]
+	^versions ifNil: [ versions := self buildVersions ]
 ]
 
 { #category : #roassal }

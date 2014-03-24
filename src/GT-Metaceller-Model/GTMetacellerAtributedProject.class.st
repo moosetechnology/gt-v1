@@ -48,6 +48,16 @@ GTMetacellerAtributedProject >> mainProject [
 ]
 
 { #category : #accessing }
+GTMetacellerAtributedProject >> parentProject [
+	^self mainProject parentProjectFor: self platformDescription
+]
+
+{ #category : #accessing }
+GTMetacellerAtributedProject >> parentVersionFor: aMethod [ 
+	^self parentProject versionFor: aMethod
+]
+
+{ #category : #accessing }
 GTMetacellerAtributedProject >> platformDescription [
 	^ platformDescription
 ]

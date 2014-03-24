@@ -61,6 +61,11 @@ GTMetacellerGroup >> labelAsText [
 	^Text string: self label attribute: TextEmphasis italic
 ]
 
+{ #category : #'code generation' }
+GTMetacellerGroup >> specKind [
+	^'group'
+]
+
 { #category : #actions }
 GTMetacellerGroup >> testValid [
 	self children do: [ :each | each testValid ]

@@ -2,7 +2,7 @@ Class {
 	#name : #GTMetacellerVersion,
 	#superclass : #Object,
 	#instVars : [
-		'method',
+		'parent',
 		'version',
 		'configuration',
 		'cachedPackageMap',
@@ -82,6 +82,21 @@ GTMetacellerVersion >> actions [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> allGroups [
+	^self packagesAndProjects select: [ :each | each isGroup ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> allPackages [
+	^self packagesAndProjects select: [ :each | each isPackage ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> allProjects [
+	^self packagesAndProjects select: [ :each | each isProject ]
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> belongsToGroup: aSpec [
 	^(self tagsOf: aSpec) notEmpty
 ]
@@ -101,6 +116,11 @@ GTMetacellerVersion >> buildGroups [
 { #category : #initialization }
 GTMetacellerVersion >> buildItems [
 	^self packagesAndProjects collect: [ :each | self wrapperFor: each ] 
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> category [
+	^self method category
 ]
 
 { #category : #actions }
@@ -157,6 +177,27 @@ GTMetacellerVersion >> groupsAndLoosePackages [
 		yourself
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> groupsToGenerate [
+	self version importedVersions ifEmpty: [ ^self allGroups ].
+	^#()
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> hasAuthor [
+	^self version author notNil
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> hasBlessing [
+	^self version blessing notNil
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> hasDescription [
+	^self version description notNil
+]
+
 { #category : #testing }
 GTMetacellerVersion >> hasItem: aMetacellerItem [
 	^self items contains: [ :each | each name = aMetacellerItem name ]
@@ -194,7 +235,7 @@ GTMetacellerVersion >> infoText [
 { #category : #initialization }
 GTMetacellerVersion >> initialize: aConfiguration method: aMethod project: aProject [
 	self initialize.
-	method := aMethod.
+	parent := aProject parentVersionFor: aMethod.
 	configuration := aConfiguration.
 	project := aProject
 ]
@@ -269,6 +310,11 @@ GTMetacellerVersion >> isStable [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> itemFor: aString [ 
+	^self packagesAndProjects detect: [ :each | each itemName = aString ] ifNone: [ nil ]
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> items [
 	^items ifNil: [ items := self buildItems ]
 ]
@@ -290,12 +336,7 @@ GTMetacellerVersion >> load: aString [
 
 { #category : #accessing }
 GTMetacellerVersion >> method [
-	^ method
-]
-
-{ #category : #accessing }
-GTMetacellerVersion >> method: anObject [
-	method := anObject
+	^self parent method
 ]
 
 { #category : #accessing }
@@ -308,6 +349,13 @@ GTMetacellerVersion >> methodClass [
 	^self configuration
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> methodNameFor: aString [
+	(aString endsWith: 'baseline') ifTrue: [ 
+		^(('baseline', (aString copyFrom: 1 to: (aString size-8))) asLegalSelector) greaseString ].
+	^('version', aString) asLegalSelector greaseString
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> methodString [
 	^self method asString
@@ -315,9 +363,9 @@ GTMetacellerVersion >> methodString [
 
 { #category : #testing }
 GTMetacellerVersion >> name [
-	method pragmas do: [  :each |
+	self method pragmas do: [  :each |
 		(each key beginsWith: 'version') ifTrue: [ ^each arguments first ] ].
-	^method selector
+	^self method selector
 ]
 
 { #category : #accessing }
@@ -363,11 +411,22 @@ GTMetacellerVersion >> packagesForSpecNamed: aVersionString [
 	^#()
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> packagesToGenerate [
+	self version importedVersions ifEmpty: [ ^self allPackages ].
+	^#()
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> packagesWithoutGroups [
 	" make sure the groups are built first "
 	self groups.
 	^self packagesAndProjects select: [ :each | (each isPackage or: [ each isProject ]) and: [ (self belongsToGroup: each) not ] ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> parent [
+	^ parent
 ]
 
 { #category : #accessing }
@@ -391,9 +450,22 @@ GTMetacellerVersion >> projects [
 	^self version projects
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> projectsToGenerate [
+	self version importedVersions ifEmpty: [ ^self allProjects ].
+	^#()
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> repositorySpecs [
 	^self version loader spec repositories
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> saveAs: aVersionName [
+	" check if this version does not exist yet "
+	(self project version: aVersionName) ifNotNil: [ GTMetacellerDuplicateVersion signal: 'Version with name ', aVersionName, ' already exists.' ].
+	self project compileMethod: (self streamVersionDefWithName: aVersionName) category: self category
 ]
 
 { #category : #accessing }
@@ -405,6 +477,56 @@ GTMetacellerVersion >> selector [
 GTMetacellerVersion >> spec [
 	self version ifNotNil: [ ^self version spec ].
 	^nil
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> streamItemSpecsOn: aStream [
+	#( projectsToGenerate groupsToGenerate packagesToGenerate ) do: [ :each |
+		| data |
+		data := self perform: each.
+		each ifNotEmpty: [ 
+			aStream cr; tab: 3; nextPutAll: 'yourself.'; cr; cr;
+				tab: 2; nextPutAll: 'aSpec'.
+			data do: [ :item |
+				item streamSpecOn: aStream specName: 'aSpec' ] ] ]		
+		
+			
+			
+			
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> streamMainInfoOn: aStream [
+	#( blessing author description ) do: [ :each |
+		| data |
+		data := self version perform: each.
+		data ifNotNil: [ 
+			aStream cr; tab: 3; nextPutAll: each asString; nextPutAll: ': '.
+			data asCodeStringOn: aStream.
+			aStream nextPut: $; ] ]
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> streamRepositoriesOn: aStream [
+	self repositorySpecs asCodeStringOn: aStream indent: 3
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> streamVersionDefWithName: aString [ 
+	^String streamContents: [ :s |
+		s nextPutAll: (self methodNameFor: aString); nextPutAll: ': aSpec'; cr;
+			tab; nextPutAll: '<version: '.
+		aString asCodeStringOn: s.
+		self version importedVersions ifNotEmpty: [ 
+			s nextPutAll: ' imports: '.
+			self version importedVersions asCodeStringOn: s ].
+		s nextPut: $>; cr;
+			tab; nextPutAll: 'aSpec for: #''common'' do: ['; cr;
+			tab: 2; nextPutAll: ' aSpec'.
+		self streamMainInfoOn: s.
+		self streamRepositoriesOn: s.
+		self streamItemSpecsOn: s.
+		s cr; tab: 3; nextPutAll: 'yourself ]' ]
 ]
 
 { #category : #display }

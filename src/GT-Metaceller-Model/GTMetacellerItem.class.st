@@ -152,6 +152,12 @@ GTMetacellerItem >> platforms [
 	^self version platformsFor: self
 ]
 
+{ #category : #printing }
+GTMetacellerItem >> printOn: aStream [
+	super printOn: aStream.
+	aStream nextPut: $(; nextPutAll: self itemName; nextPut: $)
+]
+
 { #category : #accessing }
 GTMetacellerItem >> referenceSpec [
 	^referenceSpec
@@ -175,6 +181,22 @@ GTMetacellerItem >> resetValidated [
 	warnings := nil.
 	errors := nil.
 	isValidated := false
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> specKind [
+	^self subclassResponsibilty
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> specName [
+	^self referenceSpec name
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> streamSpecOn: aStream specName: aSpec [
+	self referenceSpec asCodeStringOn: aStream indent: 3 specName: aSpec.
+
 ]
 
 { #category : #actions }

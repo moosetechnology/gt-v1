@@ -113,6 +113,11 @@ GTMetacellerPackage >> repositorySpecs [
 	^self version repositorySpecs
 ]
 
+{ #category : #'code generation' }
+GTMetacellerPackage >> specKind [
+	^'package'
+]
+
 { #category : #display }
 GTMetacellerPackage >> textAttributes [
 	| retVal |

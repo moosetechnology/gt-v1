@@ -3,7 +3,8 @@ Class {
 	#superclass : #GTMetacellerProject,
 	#instVars : [
 		'platformSymbols',
-		'projects'
+		'projects',
+		'rootVersions'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -19,6 +20,11 @@ GTMetacellerMainProject >> addPlatformSymbolsTo: aSet versionSpec: aSpec pragma:
 GTMetacellerMainProject >> buildProjects [
 	^self platformSymbols collect: [ :each |
 		GTMetacellerAtributedProject on: self configuration main: self platform: (GTPlatformDescription onSymbol: each) ]
+]
+
+{ #category : #actions }
+GTMetacellerMainProject >> compileMethod: aMethodDef category: aCategory [ 
+	self configuration compile: aMethodDef classified: aCategory asString
 ]
 
 { #category : #initialization }
@@ -78,6 +84,16 @@ GTMetacellerMainProject >> normalizePlatforms: aSet [
 ]
 
 { #category : #accessing }
+GTMetacellerMainProject >> parentProjectFor: aPlatformDescription [ 
+	^self projectFor: (aPlatformDescription parentSymbolIn: self platformSymbols)
+]
+
+{ #category : #accessing }
+GTMetacellerMainProject >> parentVersionFor: aMethod [ 
+	^self rootVersions at: aMethod ifAbsentPut: [ GTMetacellerRootVersion on: aMethod ]
+]
+
+{ #category : #accessing }
 GTMetacellerMainProject >> platformSymbols [
 	^platformSymbols ifNil: [ platformSymbols := self createPlatformSymbols ]
 ]
@@ -113,12 +129,18 @@ GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aSt
 
 { #category : #accessing }
 GTMetacellerMainProject >> projectFor: aPlatform [
+	aPlatform ifNil: [ ^self ].
 	^self projects detect: [ :each | each hasPlatform: aPlatform ]
 ]
 
 { #category : #dummy }
 GTMetacellerMainProject >> projects [
 	^projects ifNil: [ projects := self buildProjects ]
+]
+
+{ #category : #accessing }
+GTMetacellerMainProject >> rootVersions [
+	^rootVersions ifNil: [ rootVersions := Dictionary new ]
 ]
 
 { #category : #printing }

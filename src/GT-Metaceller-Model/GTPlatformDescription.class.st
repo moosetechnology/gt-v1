@@ -93,6 +93,19 @@ GTPlatformDescription >> parent [
 	^ parent
 ]
 
+{ #category : #private }
+GTPlatformDescription >> parentOrSelfIn: aCollection [ 
+	(aCollection includes: self symbol) ifTrue: [ ^self symbol ].
+	self parent ifNil: [ ^nil ].
+	^self parent parentOrSelfIn: aCollection
+]
+
+{ #category : #accessing }
+GTPlatformDescription >> parentSymbolIn: aCollection [ 
+	self parent ifNil: [ ^nil ].
+	^self parent parentOrSelfIn: aCollection
+]
+
 { #category : #accessing }
 GTPlatformDescription >> printOn: aStream [
 	self symbol printOn: aStream

@@ -106,6 +106,11 @@ GTMetacellerProjectReference >> projectReference [
 		ifFalse: [ ^self project ]
 ]
 
+{ #category : #'code generation' }
+GTMetacellerProjectReference >> specKind [
+	^'project'
+]
+
 { #category : #actions }
 GTMetacellerProjectReference >> testValid [
 	self fetchConfiguration.

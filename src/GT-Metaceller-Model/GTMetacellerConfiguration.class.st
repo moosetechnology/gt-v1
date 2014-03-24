@@ -156,6 +156,11 @@ GTMetacellerConfiguration >> possibleSymbolicVersions [
 ]
 
 { #category : #accessing }
+GTMetacellerConfiguration >> projectFor: aSymbol [ 
+	^self mainProject projectFor: aSymbol
+]
+
+{ #category : #accessing }
 GTMetacellerConfiguration >> projects [
 	^self mainProject projects
 ]
