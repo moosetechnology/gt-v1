@@ -659,8 +659,7 @@ ConfigurationOfGToolkit >> baseline10: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
 		spec 
-			package: 'GT-Model';
-			package: 'GT-Tools' with: [ spec requires: #('GT-Model' 'GlamourCore') ];
+			package: 'GT-Tools' with: [ spec requires: #('GlamourCore') ];
 			package: 'GT-Inspector' with: [ spec requires: #('GlamourCore' 'DeepTraverser')];
 			package: 'GT-Metaceller-Model';
 			package: 'GT-Metaceller-Tests' with: [ spec requires: #('GT-Metaceller-Model')];
@@ -669,13 +668,11 @@ ConfigurationOfGToolkit >> baseline10: spec [
 			package: 'GT-SUnitDebugger' with: [ spec requires: #('GT-Debugger')];
 			package: 'GT-PetitParserDebugger' with: [ spec requires: #('GT-Debugger' 'PetitParser')];
 			package: 'GT-GlamourDebugger' with: [ spec requires: #('GT-Debugger')];
-			package: 'GT-ClassicCoder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Coder' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Playground' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Tests-Inspector' with: [ spec requires: #('GlamourCore')];
 			package: 'GT-Setup' .
 		spec group: 'default' with: #(
-			'GT-Model'
 			'GT-Tools'
 			'GT-Inspector'
 			'GT-Metaceller-Glamour'
@@ -683,7 +680,6 @@ ConfigurationOfGToolkit >> baseline10: spec [
 			'GT-SUnitDebugger'
 			'GT-PetitParserDebugger'
 			'GT-GlamourDebugger'
-			'GT-ClassicCoder'
 			'GT-Coder'
 			'GT-Playground'
 			'GT-Setup'
