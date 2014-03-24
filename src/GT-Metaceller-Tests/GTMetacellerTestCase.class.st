@@ -74,7 +74,7 @@ GTMetacellerTestCase >> createTestConfigurationClass [
 		instanceVariableNames: 'project'
 		classVariableNames: ''
 		poolDictionaries: ''
-		category: 'Snapshotcello-Tests'.
+		category: 'GT-ConfigurationOfMetaceller-Tests'.
 	testConfigurationClass class
 		compile: 'project
 	^self new project' classified: 'metacello'.

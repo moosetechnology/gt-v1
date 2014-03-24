@@ -15,7 +15,7 @@ GTMetacellerProjectTest >> testCreateVersion [
 { #category : #tests }
 GTMetacellerProjectTest >> testGemstone [
 	| project version |
-	project := GTMetacellerAtributedProject on: testConfigurationClass main: nil platform: (GTPlatformDescription onSymbol: #gemstone).
+	project := (GTMetacellerConfiguration on: testConfigurationClass) projectFor: #gemstone.
 	version := project version: '0.1-baseline'.
 	self assert: version packages size equals: 3.
 	self assert: version projects size equals: 1
