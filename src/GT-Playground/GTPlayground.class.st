@@ -165,18 +165,21 @@ GTPlayground >> initialize [
 GTPlayground >> installWorkspaceActionsIn: aPresentation [
 
 	^ aPresentation
-		act: [ :text :page |
+		selectionAct: [ :text :page |
 				self evaluateSelectionFrom: text ]
 			on: $d
 			entitled: 'Do it';
-		act: [ :text :page |
+		selectionAct: [ :text :page |
 				(self evaluateSelectionFrom: text andDo: [ :result | result inspect ]) ]
 			on: $i
 			entitled: 'Inspect it';
-		act: [ :text :page |
-				(self evaluateSelectionFrom: text andDo: [ :result | result explore ]) ]
-			on: $e
-			entitled: 'Explore it'
+		selectionAct: [ :text :page |
+				text selectLine.
+				self systemNavigation 
+					browseMethodsWithString: text selectedText
+					matchCase: false ]
+			on: $E
+			entitled: 'Extended string search'
 ]
 
 { #category : #building }
