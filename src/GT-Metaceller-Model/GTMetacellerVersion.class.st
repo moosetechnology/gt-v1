@@ -102,6 +102,11 @@ GTMetacellerVersion >> allProjects [
 	^self packagesAndProjects select: [ :each | each isProject ]
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerVersion >> author [
+	^self version author
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> belongsToGroup: aSpec [
 	^(self tagsOf: aSpec) notEmpty
@@ -158,6 +163,11 @@ GTMetacellerVersion >> createWrapperFor: aSpec [
 	
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerVersion >> description [
+	^self version description
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> determineVersion [
 	self project ifNil: [  ^nil ].
@@ -188,7 +198,7 @@ GTMetacellerVersion >> groupsAndLoosePackages [
 		yourself
 ]
 
-{ #category : #'code generation' }
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> groupsToGenerate [
 	self version importedVersions ifEmpty: [ ^self allGroups ].
 	^#()
@@ -219,23 +229,31 @@ GTMetacellerVersion >> hasName: aString [
 	^self name = aString
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerVersion >> importedVersions [
+	^self version importedVersions
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> infoFor: aSymbol [
+	| data parentData |
+	data := self version perform: aSymbol.
+	parentData := self parent perform: aSymbol.
+	data = parentData ifTrue: [ ^nil ].
+	^data
+
+]
+
 { #category : #display }
 GTMetacellerVersion >> infoText [
 	| retVal |
 	retVal := self asText.
 	retVal
 		append: String cr;
-		append: self version description;
-		append: String cr;
-		append: 'Author: ';
-		append: self version author asString;
-		append: String cr;
-		append: 'Status: ';
-		append: self version versionStatus asString;
-		append: String cr;
-		append: 'Imported versions: ';
-		append: self version importedVersions asString;
-		yourself.
+		append: self description.
+	#( blessing author versionStatus importedVersions ) do: [ :symbol |
+		retVal append: String cr; append: symbol capitalized; append: ': '; append: (self perform: symbol) asString ].
+
 	self packagesAndProjects do: [ :each |
 		each hasWarnings ifTrue: [ 
 			retVal append: String cr; append: each warningText ] ].
@@ -327,6 +345,11 @@ GTMetacellerVersion >> itemFor: aString [
 	^self packagesAndProjects detect: [ :each | each itemName = aString ] ifNone: [ nil ]
 ]
 
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> itemSelectors [
+	^#( projectsToGenerate groupsToGenerate packagesToGenerate )
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> items [
 	^items ifNil: [ items := self buildItems ]
@@ -347,6 +370,11 @@ GTMetacellerVersion >> load: aString [
 	self version ifNotNil: [ self version load: aString ]
 ]
 
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> mainInfoSelectors [
+	^#( blessing author description )
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> method [
 	^self parent method
@@ -362,7 +390,7 @@ GTMetacellerVersion >> methodClass [
 	^self configuration
 ]
 
-{ #category : #'code generation' }
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> methodNameFor: aString [
 	(aString endsWith: 'baseline') ifTrue: [ 
 		^(('baseline', (aString copyFrom: 1 to: (aString size-8))) asLegalSelector) greaseString ].
@@ -384,6 +412,27 @@ GTMetacellerVersion >> name [
 	self method pragmas do: [  :each |
 		(each key beginsWith: 'version') ifTrue: [ ^each arguments first ] ].
 	^self method selector
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> needsGenerating [
+	self needsGeneratingMainInfo ifTrue: [ ^true ].
+	self needsGeneratingItems ifTrue: [ ^true ].
+	^false
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> needsGeneratingItems [
+	self itemSelectors do: [ :each |
+		(self perform: each) ifNotEmpty: [ ^true ] ].
+	^false
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> needsGeneratingMainInfo [
+	self mainInfoSelectors do: [ :each |
+		(self infoFor: each) ifNotNil: [ ^true ] ].
+	^false
 ]
 
 { #category : #accessing }
@@ -429,7 +478,7 @@ GTMetacellerVersion >> packagesForSpecNamed: aVersionString [
 	^#()
 ]
 
-{ #category : #'code generation' }
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> packagesToGenerate [
 	self version importedVersions ifEmpty: [ ^self allPackages ].
 	^#()
@@ -447,7 +496,7 @@ GTMetacellerVersion >> parent [
 	^ parent
 ]
 
-{ #category : #'code generation' }
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> platformSymbol [
 	^self project platformSymbol
 ]
@@ -473,13 +522,13 @@ GTMetacellerVersion >> projects [
 	^self version projects
 ]
 
-{ #category : #'code generation' }
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> projectsToGenerate [
 	self version importedVersions ifEmpty: [ ^self allProjects ].
 	^#()
 ]
 
-{ #category : #'code generation' }
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> repositoriesToWrite [
 	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) removeAll: self parent repositoriesToWrite.
 ]
@@ -512,7 +561,7 @@ GTMetacellerVersion >> streamItemSpecsOn: aStream [
 	#( projectsToGenerate groupsToGenerate packagesToGenerate ) do: [ :each |
 		| data |
 		data := self perform: each.
-		each ifNotEmpty: [ 
+		data ifNotEmpty: [ 
 			aStream cr; tab: 3; nextPutAll: 'yourself.'; cr; cr;
 				tab: 2; nextPutAll: 'aSpec'.
 			data do: [ :item |
@@ -525,13 +574,13 @@ GTMetacellerVersion >> streamItemSpecsOn: aStream [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamMainInfoOn: aStream [
-	#( blessing author description ) do: [ :each |
-		| data |
-		data := self version perform: each.
-		data ifNotNil: [ 
-			aStream cr; tab: 3; nextPutAll: each asString; nextPutAll: ': '.
-			data asCodeStringOn: aStream.
-			aStream nextPut: $; ] ]
+	self needsGeneratingMainInfo ifTrue: [
+		aStream cr; tab: 2; nextPutAll: ' aSpec'.
+		self mainInfoSelectors do: [ :each |
+			(self infoFor: each) ifNotNilDo: [ :data |
+				aStream cr; tab: 3; nextPutAll: each asString; nextPutAll: ': '.
+				data asCodeStringOn: aStream.
+				aStream nextPut: $; ] ] ]
 ]
 
 { #category : #'code generation' }
@@ -554,17 +603,17 @@ GTMetacellerVersion >> streamVersionHeaderWithName: aString on: aStream [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersionOn: aStream [
-	aStream
-		cr; tab; nextPutAll: 'aSpec for: '.
-	self platformSymbol asCodeStringOn: aStream.
-	aStream nextPutAll: ' do: ['; cr;
-		tab: 2; nextPutAll: ' aSpec'.
-	self streamMainInfoOn: aStream.
-	self streamRepositoriesOn: aStream.
-	self streamItemSpecsOn: aStream.
-	aStream cr; tab: 3; nextPutAll: 'yourself ].'.
-	self children do: [ :each |
-		each streamVersionOn: aStream ]
+	self needsGenerating ifTrue: [
+		aStream
+			cr; tab; nextPutAll: 'aSpec for: '.
+		self platformSymbol asCodeStringOn: aStream.
+		aStream nextPutAll: ' do: ['.
+		self streamMainInfoOn: aStream.
+		self streamRepositoriesOn: aStream.
+		self streamItemSpecsOn: aStream.
+		aStream cr; tab: 3; nextPutAll: 'yourself ].'.
+		self children do: [ :each |
+			each streamVersionOn: aStream ] ]
 ]
 
 { #category : #display }
@@ -658,6 +707,11 @@ GTMetacellerVersion >> version: anObject [
 { #category : #accessing }
 GTMetacellerVersion >> versionNumber [
 	^self asString
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> versionStatus [
+	^self version versionStatus
 ]
 
 { #category : #dummy }

@@ -23,6 +23,16 @@ GTMetacellerRootVersion >> addChild: aVersion [
 	GTMetacellerStateError signal: 'Unexpected child for root version, with platform ', aVersion platformSymbol asString
 ]
 
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> author [
+	^''
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> blessing [
+	^''
+]
+
 { #category : #accessing }
 GTMetacellerRootVersion >> commonVersion [
 	commonVersion ifNil: [ 
@@ -36,6 +46,11 @@ GTMetacellerRootVersion >> commonVersion [
 GTMetacellerRootVersion >> commonVersion: aVersion [
 	commonVersion ifNotNil: [ GTMetacellerStateError signal: 'There can only be one common version.' ].
 	commonVersion := aVersion
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> description [
+	^''
 ]
 
 { #category : #accessing }
