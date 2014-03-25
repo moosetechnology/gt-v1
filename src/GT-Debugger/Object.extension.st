@@ -9,7 +9,7 @@ Object >> gtDebuggerEvaluatorIn: composite [
 ]
 
 { #category : #'*gt-debugger' }
-Object >> gtDebuggerPresentationsIn: composite [
+Object >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 	| pragmas |
 	pragmas := (Pragma 
 				allNamed: #gtDebuggerPresentationOrder: 
@@ -21,10 +21,12 @@ Object >> gtDebuggerPresentationsIn: composite [
 				from: self class 
 				to: Object 
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)])
-					reject: [:pragma| (pragma method selector = #gtInspectorStateIn:)
-						or: [ pragma method numArgs > 1 ] ]).
+					reject: [:pragma| pragma method selector = #gtInspectorStateIn: ]).
 	pragmas do: [ :eachPragma | 
-		self perform: eachPragma selector with: composite ]
+		(eachPragma selector findTokens: $:) size = 1 
+			ifTrue: [ self perform: eachPragma selector with: composite ]. 
+		(eachPragma selector findTokens: $:) size = 2
+			ifTrue: [ self perform: eachPragma selector with: composite with: aGTInspector ] ]
 
 ]
 

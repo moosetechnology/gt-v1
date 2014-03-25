@@ -10,7 +10,7 @@ GTDebuggerInspector >> compose [
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each | 
 			a dynamic display: [ :x | 
-				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d ] ] ] ]
+				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d inContext: self ] ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
