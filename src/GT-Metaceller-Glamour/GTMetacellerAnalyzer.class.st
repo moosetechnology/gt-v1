@@ -1,63 +1,21 @@
 Class {
 	#name : #GTMetacellerAnalyzer,
-	#superclass : #GTMetacellerBrowserTemplate,
+	#superclass : #GTConfigurationBrowserTemplate,
 	#category : #'GT-Metaceller-Glamour'
 }
-
-{ #category : #building }
-GTMetacellerAnalyzer >> buildBrowser [
-	browser := GLMTabulator new.
-	browser title: 'Analyze ', self configuration configName.
-	browser
-		act: [ :b | 
-			Workspace new
-				contents: self helpText;
-				openLabel: 'Metaceller analyze help' ]
-		icon: GLMUIThemeExtraIcons glamorousHelp
-		entitled: 'Help'.
-	browser
-		row: [ :r | r
-			column: #versions;
-			column: #groups ];
-		row: #details;
-		row: #buttons size: 30.
-	browser transmit
-		to: #versions;
-		andShow: [ :a | self versionsIn: a ].
-	browser transmit
-		to: #groups;
-		andShow: [ :a | self groupsIn: a ].
-	browser transmit
-		to: #details;
-		andShow: [ :a | self details: a ].
-	browser transmit
-		from: #versions;
-		to: #details;
-		andShow: [ :a | self details: a ].
-	browser transmit
-		from: #groups;
-		to: #details;
-		andShow: [ :a | self details: a ].
-	browser transmit
-		to: #buttons;
-		andShow: [ :a | self buttonsIn: a ].
-	browser transmit
-		from: #versions; from: #groups;
-		to: #buttons;
-		andShow: [ :a | self buttonsForVersionsAndGroups: a ].
-	^ browser
-]
 
 { #category : #building }
 GTMetacellerAnalyzer >> buttonsForVersionsAndGroups: aBrowser [
 	aBrowser actionList
 		act: [ :entity :version :groups | self validateVersion: version groups: groups ] entitled: 'Validate';
 		act: [ :entity :version :groups | self testVersion: version groups: groups ] entitled: 'Test';
+		act: [ :entity :version :groups | self newVersion: version ] entitled: 'New version...';
 		allowNil;
 		yourself.
 	aBrowser actionList
 		act: [ :entity :version :groups | self validateVersion: version groups: groups ] entitled: 'Validate';
 		act: [ :entity :version :groups | self testVersion: version groups: groups ] entitled: 'Test';
+		act: [ :entity :version :groups | self newVersion: version ] entitled: 'New version...';
 		allowAllNil;
 		yourself	
 ]
@@ -67,12 +25,18 @@ GTMetacellerAnalyzer >> buttonsIn: aBrowser [
 	aBrowser actionList
 		act: [ :entity | self validateConfiguration ] entitled: 'Validate';
 		act: [ :entity | self testConfiguration ] entitled: 'Test';
+		act: [ :entity | self newVersion: nil ] entitled: 'New version...';
 		yourself
 ]
 
 { #category : #accessing }
 GTMetacellerAnalyzer >> helpText [
 	^'Todo'
+]
+
+{ #category : #actions }
+GTMetacellerAnalyzer >> save: aSpecString in: aVersion [
+	aVersion saveWithSpecString: aSpecString asString
 ]
 
 { #category : #actions }
@@ -94,6 +58,11 @@ GTMetacellerAnalyzer >> testVersion: aVersion groups: aGroupList [
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
+{ #category : #accessing }
+GTMetacellerAnalyzer >> title [
+	^self configuration title
+]
+
 { #category : #actions }
 GTMetacellerAnalyzer >> validateConfiguration [
 	self configuration validate.
@@ -111,4 +80,27 @@ GTMetacellerAnalyzer >> validateVersion: aVersion groups: aGroupList [
 	aVersion ifNil: [ ^self validateItems: aGroupList ].
 	aVersion validate: aGroupList.
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> versionActionsFor: aVersion [
+	aVersion ifNil: [ ^super versionActionsFor: aVersion ].
+	^(super versionActionsFor: aVersion)
+		add: (GLMGenericAction new title: 'Copy...'; action: [ self newVersion: aVersion ]);
+		yourself
+	
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> versionDetailsIn: aBrowser [
+	super versionDetailsIn: aBrowser.
+	self versionEditIn: aBrowser
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> versionEditIn: aBrowser [
+	aBrowser text
+		title: 'Edit';
+		format: #specString;
+		act: [ :b :version | self save: b text in: version ] icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'save'
 ]

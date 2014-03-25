@@ -12,7 +12,6 @@ Class {
 
 { #category : #announcements }
 GTMetaceller2 >> announce: anAnnouncement [
-	self halt.
 	self announcer announce: anAnnouncement
 ]
 
@@ -59,7 +58,7 @@ GTMetaceller2 >> childrenForItem: anItem [
 GTMetaceller2 >> configActionsIn: a [
 	^ a actionList
 			act: [ :entity | self newConfiguration ] entitled: 'New...';
-			act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Analyze';
+			act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Open';
 			act: [ :entity :selected | self installConfiguration: selected ] entitled: 'Install';
 			yourself
 ]

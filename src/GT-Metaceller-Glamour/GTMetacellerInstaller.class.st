@@ -1,52 +1,8 @@
 Class {
 	#name : #GTMetacellerInstaller,
-	#superclass : #GTMetacellerBrowserTemplate,
+	#superclass : #GTConfigurationBrowserTemplate,
 	#category : #'GT-Metaceller-Glamour'
 }
-
-{ #category : #building }
-GTMetacellerInstaller >> buildBrowser [
-	browser := GLMTabulator new.
-	browser title: 'Install ', self configuration configName.
-	browser
-		act: [ :b | 
-			Workspace new
-				contents: self helpText;
-				openLabel: 'Metaceller install help' ]
-		icon: GLMUIThemeExtraIcons glamorousHelp
-		entitled: 'Help'.
-	browser
-		row: [ :r | r
-			column: #versions;
-			column: #groups ];
-		row: #details;
-		row: #buttons size: 30.
-	browser transmit
-		to: #versions;
-		andShow: [ :a | self versionsIn: a ].
-	browser transmit
-		to: #groups;
-		andShow: [ :a | self groupsIn: a ].
-	browser transmit
-		from: #versions;
-		to: #details;
-		andShow: [ :a | self details: a ].
-	browser transmit
-		from: #groups;
-		to: #details;
-		andShow: [ :a | self details: a ].
-	browser transmit
-		to: #details;
-		andShow: [ :a | self details: a ].
-	browser transmit
-		to: #buttons;
-		andShow: [ :a | self buttonsIn: a ].
-	browser transmit
-		from: #versions; from: #groups;
-		to: #buttons;
-		andShow: [ :a | self buttonsForVersionsAndGroups: a ].
-	^ browser
-]
 
 { #category : #building }
 GTMetacellerInstaller >> buttonsForVersionsAndGroups: aBrowser [
@@ -90,4 +46,9 @@ GTMetacellerInstaller >> install: aGroups [
 GTMetacellerInstaller >> installVersion: aVersion groups: aGroups [
 	aVersion ifNil: [ ^self install: aGroups ].
 	aVersion install: aGroups
+]
+
+{ #category : #accessing }
+GTMetacellerInstaller >> title [
+	^'Install ', self configuration title
 ]
