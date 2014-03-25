@@ -21,7 +21,8 @@ Object >> gtDebuggerPresentationsIn: composite [
 				from: self class 
 				to: Object 
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)])
-					reject: [:pragma| pragma method selector = #gtInspectorStateIn: ]).
+					reject: [:pragma| (pragma method selector = #gtInspectorStateIn:)
+						or: [ pragma method numArgs > 1 ] ]).
 	pragmas do: [ :eachPragma | 
 		self perform: eachPragma selector with: composite ]
 
