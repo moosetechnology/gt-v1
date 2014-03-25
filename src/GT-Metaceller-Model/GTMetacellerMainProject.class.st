@@ -58,6 +58,14 @@ GTMetacellerMainProject >> createSnapshotVersion: aString baseline: aBaseline [
 		classified: 'versions'
 ]
 
+{ #category : #'code generation' }
+GTMetacellerMainProject >> createTempClass [
+	^AnonymousClassInstaller make: [ :builder |
+		builder
+			superclass: self configuration;
+			buildNewClass ]
+]
+
 { #category : #testing }
 GTMetacellerMainProject >> hasPlatform: aPlatform [
 	(#common compare: aPlatform caseSensitive: false) = 2 ifTrue: [ ^true ].
@@ -160,4 +168,11 @@ GTMetacellerMainProject >> snapshotVersion: aString baseline: aBaseline [
 			cr.
 		self platformSymbols do: [ :platform |
 			self printVersionsFor: platform version: version on: s ] ]
+]
+
+{ #category : #display }
+GTMetacellerMainProject >> title [
+	^ ((self configuration name beginsWith: 'ConfigurationOf') 
+		ifTrue: [self configuration name copyFrom: 'ConfigurationOf' size + 1 to: self configuration name size ] 
+		ifFalse: [self configuration name]) asString
 ]

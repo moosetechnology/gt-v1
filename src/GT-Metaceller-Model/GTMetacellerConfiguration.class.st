@@ -204,6 +204,11 @@ GTMetacellerConfiguration >> testItems: aCollection [
 	self mainProject testItems: aCollection
 ]
 
+{ #category : #display }
+GTMetacellerConfiguration >> title [
+	^self shortName
+]
+
 { #category : #actions }
 GTMetacellerConfiguration >> validate [
 	self mainProject validate

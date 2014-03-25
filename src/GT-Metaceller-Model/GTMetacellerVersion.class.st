@@ -10,7 +10,9 @@ Class {
 		'project',
 		'groups',
 		'items',
-		'wrappers'
+		'wrappers',
+		'isNew',
+		'properties'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -104,7 +106,12 @@ GTMetacellerVersion >> allProjects [
 
 { #category : #'accessing version' }
 GTMetacellerVersion >> author [
-	^self version author
+	^self propertyAt: #author ifAbsent: [ self version author ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> author: aString [ 
+	self propertyAt: #author put: aString
 ]
 
 { #category : #accessing }
@@ -112,9 +119,14 @@ GTMetacellerVersion >> belongsToGroup: aSpec [
 	^(self tagsOf: aSpec) notEmpty
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing version' }
 GTMetacellerVersion >> blessing [
-	^self version spec blessing value
+	^self propertyAt: #blessing ifAbsent: [ self version spec blessing value ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> blessing: aSymbol [ 
+	self propertyAt: #blessing put: aSymbol
 ]
 
 { #category : #accessing }
@@ -154,7 +166,19 @@ GTMetacellerVersion >> configuration: anObject [
 	configuration := anObject
 ]
 
-{ #category : #tool }
+{ #category : #'code generation' }
+GTMetacellerVersion >> createNewVersionWith: aClass selector: aString [ 
+	| newVersion |
+	newVersion := self copy.
+	aClass new perform: aString with: newVersion.
+	" eveluate the pragma "
+	(aClass methodDict at: aString) pragmas do: [ :pragma |
+		(pragma key beginsWith: #'version:') ifTrue: [ newVersion versionName: (pragma argumentAt: 1)  ].
+		(pragma key = #'version:imports:') ifTrue: [ newVersion importedVersions: (pragma argumentAt: 2) ] ].
+	newVersion saveVersion
+]
+
+{ #category : #private }
 GTMetacellerVersion >> createWrapperFor: aSpec [
 	(self isProject: aSpec) ifTrue: [  ^GTMetacellerProjectReference on: self spec: aSpec ].
 	(self isGroup: aSpec) ifTrue: [  ^GTMetacellerGroup on: self spec: aSpec ].
@@ -165,7 +189,54 @@ GTMetacellerVersion >> createWrapperFor: aSpec [
 
 { #category : #'accessing version' }
 GTMetacellerVersion >> description [
-	^self version description
+	^self propertyAt: #description ifAbsent: [ 	self version description ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> description: aString [ 
+	self propertyAt: #description put: aString
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerVersion >> descriptionAuthor [
+	<magritteDescription>
+	^MAStringDescription new
+		accessor: #author;
+		label: 'Author';
+		priority: 400;
+		yourself
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerVersion >> descriptionBlessing [
+	<magritteDescription>
+	^MASingleOptionDescription new
+		accessor: #blessing;
+		label: 'Blessing';
+		priority: 300;
+		options: self possibleBlessings;
+		yourself
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerVersion >> descriptionDescription [
+	<magritteDescription>
+	^MAMemoDescription new
+		accessor: #description;
+		label: 'Description';
+		priority: 200;
+		yourself
+]
+
+{ #category : #'magritte-description' }
+GTMetacellerVersion >> descriptionName [
+	<magritteDescription>
+	^MAStringDescription new
+		accessor: #versionName;
+		label: 'Name';
+		priority: 100;
+		readonly: self isExisting;
+		yourself
 ]
 
 { #category : #accessing }
@@ -176,7 +247,7 @@ GTMetacellerVersion >> determineVersion [
 	^nil
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 GTMetacellerVersion >> displayString [
 	^self textLabel
 ]
@@ -231,20 +302,25 @@ GTMetacellerVersion >> hasName: aString [
 
 { #category : #'accessing version' }
 GTMetacellerVersion >> importedVersions [
-	^self version importedVersions
+	^self propertyAt: #importedVersions ifAbsent: [ self version importedVersions ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> importedVersions: aCollection [ 
+	self propertyAt: #importedVersions put: aCollection
 ]
 
 { #category : #'accessing generation' }
 GTMetacellerVersion >> infoFor: aSymbol [
 	| data parentData |
-	data := self version perform: aSymbol.
+	data := self perform: aSymbol.
 	parentData := self parent perform: aSymbol.
 	data = parentData ifTrue: [ ^nil ].
 	^data
 
 ]
 
-{ #category : #display }
+{ #category : #printing }
 GTMetacellerVersion >> infoText [
 	| retVal |
 	retVal := self asText.
@@ -309,6 +385,11 @@ GTMetacellerVersion >> isDevelopmentVersion [
 ]
 
 { #category : #testing }
+GTMetacellerVersion >> isExisting [
+	^self isNew not
+]
+
+{ #category : #testing }
 GTMetacellerVersion >> isGroup: aSpec [ 
 	^aSpec isKindOf: MetacelloGroupSpec
 ]
@@ -316,6 +397,16 @@ GTMetacellerVersion >> isGroup: aSpec [
 { #category : #testing }
 GTMetacellerVersion >> isLatestVersion [
 	^self project latest = self version
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> isNew [
+	^isNew ifNil: [ false ]
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> isNew: aBoolean [
+	isNew := aBoolean
 ]
 
 { #category : #testing }
@@ -372,7 +463,7 @@ GTMetacellerVersion >> load: aString [
 
 { #category : #'accessing generation' }
 GTMetacellerVersion >> mainInfoSelectors [
-	^#( blessing author description )
+	^#( blessing description preLoadDoIt postLoadDoIt author timestamp )
 ]
 
 { #category : #accessing }
@@ -407,8 +498,9 @@ GTMetacellerVersion >> methodWithVersionName: aString [
 	^self parent methodWithVersionName: aString
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 GTMetacellerVersion >> name [
+	self halt.
 	self method pragmas do: [  :each |
 		(each key beginsWith: 'version') ifTrue: [ ^each arguments first ] ].
 	^self method selector
@@ -453,7 +545,7 @@ GTMetacellerVersion >> packages [
 	^self version packages
 ]
 
-{ #category : #caching }
+{ #category : #private }
 GTMetacellerVersion >> packagesAndGroups [
 	cachedPackageMap ifNil: [
 		cachedPackageMap := Dictionary new.
@@ -506,6 +598,31 @@ GTMetacellerVersion >> platformsFor: aMetacellerItem [
 	^self project platformsFor: aMetacellerItem version: self name
 ]
 
+{ #category : #'accessing magritte' }
+GTMetacellerVersion >> possibleBlessings [
+	^#( #baseline #bleedingEdge #development #stable #release )
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> postLoadDoIt [
+	^self propertyAt: #postLoadDoIt ifAbsent: [ self version basicSpec postLoadDoIt ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> postLoadDoIt: aString [
+	^self propertyAt: #postLoadDoIt put: aString
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> preLoadDoIt [
+	^self propertyAt: #preLoadDoIt ifAbsent: [ self version basicSpec preLoadDoIt ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> preLoadDoIt: aString [
+	^self propertyAt: #preLoadDoIt put: aString
+]
+
 { #category : #printing }
 GTMetacellerVersion >> printOn: aStream [
 	aStream nextPutAll: self displayString
@@ -528,6 +645,21 @@ GTMetacellerVersion >> projectsToGenerate [
 	^#()
 ]
 
+{ #category : #accessing }
+GTMetacellerVersion >> properties [
+	^properties ifNil: [ properties := Dictionary new ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> propertyAt: aSymbol ifAbsent: aBlock [
+	^self properties at: aSymbol ifAbsent: aBlock
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> propertyAt: aSymbol put: aValue [
+	self properties at: aSymbol put: aValue
+]
+
 { #category : #'accessing generation' }
 GTMetacellerVersion >> repositoriesToWrite [
 	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) removeAll: self parent repositoriesToWrite.
@@ -545,6 +677,22 @@ GTMetacellerVersion >> saveAs: aVersionName [
 	self project compileMethod: (self methodWithVersionName: aVersionName) category: self category
 ]
 
+{ #category : #actions }
+GTMetacellerVersion >> saveVersion [
+	self halt.
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> saveWithSpecString: aString [
+	| tempClass selector |
+	tempClass := self project createTempClass.
+	tempClass compile: aString classified: self category.
+	tempClass methodDict size = 1 ifFalse: [ GTMetacellerCompilationError signal: 'No valid spec.' ].
+	(self method selector = (tempClass methodDict keys anyOne))
+		ifTrue: [ self updateVersionWith: tempClass selector: self selector ]
+		ifFalse: [ self createNewVersionWith: tempClass selector: (tempClass methodDict keys anyOne) ]
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> selector [
 	^self method selector
@@ -554,6 +702,15 @@ GTMetacellerVersion >> selector [
 GTMetacellerVersion >> spec [
 	self version ifNotNil: [ ^self version spec ].
 	^nil
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> specString [
+	^String streamContents: [ :s |
+		self streamVersionHeaderWithName: self versionName on: s.
+		self streamMainInfoOn: s indent: 1.
+		self streamRepositoriesOn: s indent: 2.
+		s cr; tab: 2; nextPutAll: 'yourself' ].
 ]
 
 { #category : #'code generation' }
@@ -573,20 +730,22 @@ GTMetacellerVersion >> streamItemSpecsOn: aStream [
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamMainInfoOn: aStream [
+GTMetacellerVersion >> streamMainInfoOn: aStream indent: anIndent [
 	self needsGeneratingMainInfo ifTrue: [
-		aStream cr; tab: 2; nextPutAll: ' aSpec'.
+		anIndent = 0
+			ifTrue: [ aStream nextPutAll: 'aSpec' ]
+			ifFalse: [ aStream cr; tab: anIndent; nextPutAll: ' aSpec' ].
 		self mainInfoSelectors do: [ :each |
 			(self infoFor: each) ifNotNilDo: [ :data |
-				aStream cr; tab: 3; nextPutAll: each asString; nextPutAll: ': '.
+				aStream cr; tab: anIndent +1; nextPutAll: each asString; nextPutAll: ': '.
 				data asCodeStringOn: aStream.
 				aStream nextPut: $; ] ] ]
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamRepositoriesOn: aStream [
+GTMetacellerVersion >> streamRepositoriesOn: aStream indent: anIndent [ 
 	self repositoriesToWrite do: [ :each |
-		aStream cr; tab: 3; nextPutAll: 'Repository: '.
+		aStream cr; tab: anIndent; nextPutAll: 'Repository: '.
 		each asCodeStringOn: aStream ]
 ]
 
@@ -608,21 +767,21 @@ GTMetacellerVersion >> streamVersionOn: aStream [
 			cr; tab; nextPutAll: 'aSpec for: '.
 		self platformSymbol asCodeStringOn: aStream.
 		aStream nextPutAll: ' do: ['.
-		self streamMainInfoOn: aStream.
-		self streamRepositoriesOn: aStream.
+		self streamMainInfoOn: aStream indent: 2.
+		self streamRepositoriesOn: aStream indent: 3.
 		self streamItemSpecsOn: aStream.
 		aStream cr; tab: 3; nextPutAll: 'yourself ].'.
 		self children do: [ :each |
 			each streamVersionOn: aStream ] ]
 ]
 
-{ #category : #display }
+{ #category : #printing }
 GTMetacellerVersion >> tags [
 	self version ifNil: [  ^#() ].
 	^Array with: self blessing
 ]
 
-{ #category : #display }
+{ #category : #printing }
 GTMetacellerVersion >> tagsOf: aSpec [
 	(aSpec isKindOf: GTMetacellerItem) ifTrue: [ ^self tagsOf: aSpec referenceSpec ].
 	(aSpec isKindOf: MetacelloProjectReferenceSpec) ifTrue: [  ^self tagsOf: aSpec projectReference ].
@@ -640,7 +799,7 @@ GTMetacellerVersion >> testItems: aCollection [
 	aCollection do: [ :each | self testItem: each ]
 ]
 
-{ #category : #display }
+{ #category : #printing }
 GTMetacellerVersion >> textLabel [
 	| attributes |
 	attributes := OrderedCollection new.
@@ -649,7 +808,22 @@ GTMetacellerVersion >> textLabel [
 	self isDevelopmentVersion ifTrue: [ attributes add: TextColor blue ].
 	self isCurrent ifTrue: [ attributes add: TextEmphasis underlined ].
 	self isStable ifTrue: [ attributes add: TextEmphasis bold ].
-	^Text string: self name attributes: attributes
+	^Text string: self versionName attributes: attributes
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> timestamp [
+	^self propertyAt: #timestamp ifAbsent: [ self version timestamp ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> timestamp: aString [ 
+	self propertyAt: #timestamp put: aString
+]
+
+{ #category : #printing }
+GTMetacellerVersion >> title [
+	^self project title, ' ', self versionName
 ]
 
 { #category : #actions }
@@ -677,7 +851,7 @@ GTMetacellerVersion >> validate: aList [
 
 ]
 
-{ #category : #validating }
+{ #category : #testing }
 GTMetacellerVersion >> validateDependencies: aGTMetacellerPackage [ 
 	" for now we leave this empty "
 ]
@@ -704,6 +878,16 @@ GTMetacellerVersion >> version: anObject [
 	version := anObject
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerVersion >> versionName [
+	^self propertyAt: #versionName ifAbsent: [ self version name ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> versionName: aString [
+	^self propertyAt: #versionName put: aString
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> versionNumber [
 	^self asString
@@ -714,12 +898,12 @@ GTMetacellerVersion >> versionStatus [
 	^self version versionStatus
 ]
 
-{ #category : #dummy }
+{ #category : #'accessing version' }
 GTMetacellerVersion >> versions [
 	^#()
 ]
 
-{ #category : #tool }
+{ #category : #private }
 GTMetacellerVersion >> wrapperFor: aSpec [
 	^self wrappers at: aSpec ifAbsentPut: [ self createWrapperFor: aSpec ]
 ]

@@ -79,6 +79,16 @@ GTMetacellerRootVersion >> methodWithVersionName: aString [
 	^String streamContents: [ :s | self streamVersionWithName: aString on: s ]
 ]
 
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> postLoadDoIt [
+	^''
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> preLoadDoIt [
+	^''
+]
+
 { #category : #accessing }
 GTMetacellerRootVersion >> repositoriesToWrite [
 	^#()
@@ -91,4 +101,9 @@ GTMetacellerRootVersion >> streamVersionWithName: aString on: aStream [
 	" and the actual streaming "
 	self commonVersion streamVersionHeaderWithName: aString on: aStream.
 	self commonVersion streamVersionOn: aStream
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> timestamp [
+	^''
 ]
