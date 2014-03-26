@@ -646,6 +646,14 @@ GTMetacellerVersion >> possibleBlessings [
 	^#( #baseline #bleedingEdge #development #stable #release )
 ]
 
+{ #category : #'as yet unclassified' }
+GTMetacellerVersion >> postCopy [
+	" remove aliases of references we might change: "
+	super postCopy.
+	properties := self properties copy.
+	
+]
+
 { #category : #'accessing version' }
 GTMetacellerVersion >> postLoadDoIt [
 	^self propertyAt: #postLoadDoIt ifAbsent: [ self version basicSpec postLoadDoIt ]
@@ -726,7 +734,7 @@ GTMetacellerVersion >> saveVersion [
 	self project compileMethod: self methodSpec category: self category
 ]
 
-{ #category : #'code generation' }
+{ #category : #actions }
 GTMetacellerVersion >> saveWithSpecString: aString [
 	| tempClass selector |
 	tempClass := self project createTempClass.
@@ -780,6 +788,7 @@ GTMetacellerVersion >> streamItemSpecsOn: aStream indent: anIndent first: aFirst
 { #category : #'code generation' }
 GTMetacellerVersion >> streamMainInfoOn: aStream indent: anIndent [
 	self needsGeneratingMainInfo ifTrue: [
+		(self platformSymbol = #common) ifFalse: [ self halt ].
 		anIndent = 0
 			ifTrue: [ aStream nextPutAll: 'aSpec' ]
 			ifFalse: [ aStream cr; tab: anIndent; nextPutAll: ' aSpec' ].

@@ -49,7 +49,15 @@ GTMetacellerProjectReference >> configForProject [
 
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> file [
-	^self propertyAt: #file ifAbsent: [ self referenceSpec file ]
+	^self propertyAt: #file ifAbsent: [ self fileReference ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> fileReference [
+	| retVal |
+	retVal := self referenceSpec file.
+	(retVal = self referenceSpec className) ifTrue: [ ^nil ].
+	^retVal
 ]
 
 { #category : #testing }

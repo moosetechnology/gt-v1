@@ -43,7 +43,15 @@ GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
 
 { #category : #'accessing spec' }
 GTMetacellerPackage >> file [
-	^self propertyAt: #file ifAbsent: [ self referenceSpec file ]
+	^self propertyAt: #file ifAbsent: [ self fileReference ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerPackage >> fileReference [
+	| retVal |
+	retVal := self referenceSpec file.
+	(retVal = self referenceSpec name) ifTrue: [ ^nil ].
+	^retVal
 ]
 
 { #category : #testing }
