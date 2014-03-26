@@ -175,6 +175,15 @@ GTMetacellerItem >> labelAsText [
 	^self referenceSpec label
 ]
 
+{ #category : #'code generation' }
+GTMetacellerItem >> mergeWith: anItem [
+	| retVal |
+	(self class == anItem class) ifFalse: [ GTMetacellerStateError signal: 'Cannot merge two items of different class.' ].
+	retVal := self copy.
+	retVal referenceSpec: (self referenceSpec mergeSpec: anItem referenceSpec).
+	^retVal
+]
+
 { #category : #accessing }
 GTMetacellerItem >> name [
 	^self referenceSpec name
@@ -204,6 +213,11 @@ GTMetacellerItem >> propertyAt: aKey ifAbsent: aBlock [
 { #category : #accessing }
 GTMetacellerItem >> referenceSpec [
 	^referenceSpec
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> referenceSpec: aSpec [ 
+	referenceSpec := aSpec
 ]
 
 { #category : #'accessing spec' }

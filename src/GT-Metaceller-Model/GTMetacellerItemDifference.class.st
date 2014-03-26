@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'item',
-		'parents'
+		'parent'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -18,13 +18,15 @@ GTMetacellerItemDifference class >> on: anItem parent: aParent [
 
 { #category : #accessing }
 GTMetacellerItemDifference >> addParent: aParent [
-	^self parents add: aParent
+	self parent ifNil: [ self parent: aParent ].
+	self parent: (self parent mergeWith: aParent)
 ]
 
 { #category : #'code generation' }
 GTMetacellerItemDifference >> differenceWith: anItem [ 
 	(self item isDifferentFrom: anItem) ifFalse: [ ^nil ].
-	self parents add: anItem.
+	self addParent: anItem.
+	(self item isDifferentFrom: self parent) ifFalse: [ ^nil ].
 	^self
 ]
 
@@ -44,8 +46,13 @@ GTMetacellerItemDifference >> itemName [
 ]
 
 { #category : #accessing }
-GTMetacellerItemDifference >> parents [
-	^ parents ifNil: [ parents := OrderedCollection new ]
+GTMetacellerItemDifference >> parent [
+	^ parent
+]
+
+{ #category : #accessing }
+GTMetacellerItemDifference >> parent: anItem [
+	parent := anItem
 ]
 
 { #category : #'code generation' }
