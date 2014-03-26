@@ -29,9 +29,26 @@ GTMetacellerAnalyzer >> buttonsIn: aBrowser [
 		yourself
 ]
 
+{ #category : #building }
+GTMetacellerAnalyzer >> commonVersionEditIn: aBrowser [
+	aBrowser text
+		display: #commonVersion;
+		format: #specString;
+		act: [ :b :version | self save: b text in: version commonVersion ] icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'save'
+]
+
 { #category : #accessing }
 GTMetacellerAnalyzer >> helpText [
 	^'Todo'
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> platformsIn: aBrowser [
+	^aBrowser tree
+		display: #commonVersion;
+		children: #children;
+		format: #platform;
+		yourself
 ]
 
 { #category : #actions }
@@ -94,7 +111,29 @@ GTMetacellerAnalyzer >> versionActionsFor: aVersion [
 { #category : #building }
 GTMetacellerAnalyzer >> versionDetailsIn: aBrowser [
 	super versionDetailsIn: aBrowser.
-	self versionEditIn: aBrowser
+	aBrowser custom: self versionEditBrowser
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> versionEditBrowser [
+	| retVal |
+	retVal := GLMTabulator new.
+	retVal
+		title: 'Edit';
+		column: #platforms;
+		column: #editVersion;
+		yourself.
+	retVal transmit
+		to: #platforms;
+		andShow: [ :a | self platformsIn: a ].
+	retVal transmit
+		from: #platforms;
+		to: #editVersion;
+		andShow: [ :a | self versionEditIn: a ].
+	retVal transmit
+		to: #editVersion;
+		andShow: [ :a | self commonVersionEditIn: a ].
+	^retVal
 ]
 
 { #category : #building }
