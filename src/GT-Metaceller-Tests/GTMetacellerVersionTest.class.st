@@ -74,6 +74,28 @@ GTMetacellerVersionTest >> testVersionCopy [
 ]
 
 { #category : #tests }
+GTMetacellerVersionTest >> testVersionCopyUsingSpec [
+	| mainProject version1 version2 oldSize |
+	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
+	oldSize := mainProject versions size.
+	version1 := mainProject version: '1.0'.
+	version1 commonVersion saveWithSpecString: 'version101: aSpec
+	<version: ''1.0.1'' imports:#( ''1.0-baseline'' )>
+	aSpec
+		description: ''A changed description'';
+		yourself'.
+	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
+	self assert: mainProject versions size equals: oldSize +1.
+	self assert: (mainProject versions contains: [ :each | each versionName ='1.0.1' ]).
+	version2 := mainProject version: '1.0.1'.
+	self assertVersion: version2 equals: version1.
+	self deny: (version2 methodString includesSubstring: '#''pharo''').
+	self assert: (version2 methodString includesSubstring: '#''gemstone''').
+	self denyEmptySpecIn: version2 methodString
+
+]
+
+{ #category : #tests }
 GTMetacellerVersionTest >> testVersionCopyWithVersions [
 	| mainProject version1 version2 oldSize |
 	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
