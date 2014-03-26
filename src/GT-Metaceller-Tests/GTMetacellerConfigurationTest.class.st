@@ -8,7 +8,8 @@ Class {
 GTMetacellerConfigurationTest >> testChildren [
 	| configuration |
 	configuration := GTMetacellerConfiguration on: testConfigurationClass.
-	self assert: configuration children isEmpty
+	Smalltalk at: #ConfigurationOfGToolkit
+		ifAbsent: [ self assert: configuration children isEmpty ]
 ]
 
 { #category : #tests }

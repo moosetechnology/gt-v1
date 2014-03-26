@@ -8,15 +8,15 @@ Class {
 GTMetacellerProjectTest >> testCreateVersion [
 	| mainProject |
 	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
-	(mainProject createSnapshotVersion: '0.2' baseline: '0.1-baseline').
-	self assert: (testConfigurationClass includesSelector: #version02:)
+	(mainProject createSnapshotVersion: '1.2' baseline: '1.1-baseline').
+	self assert: (testConfigurationClass includesSelector: #version12:)
 ]
 
 { #category : #tests }
 GTMetacellerProjectTest >> testGemstone [
 	| project version |
 	project := (GTMetacellerConfiguration on: testConfigurationClass) projectFor: #gemstone.
-	version := project version: '0.1-baseline'.
+	version := project version: '1.1-baseline'.
 	self assert: version packages size equals: 3.
 	self assert: version projects size equals: 1
 ]
@@ -42,8 +42,8 @@ GTMetacellerProjectTest >> testSymbols [
 GTMetacellerProjectTest >> testVersions [
 	| mainProject |
 	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
-	self assert: mainProject versions size equals: 2.
-	self assert: (mainProject versions contains: [ :each | each name  ='0.1-baseline' ]).
-	self assert: (mainProject versions contains: [ :each | each name ='0.1' ])
+	self assert: mainProject versions size equals: 4.
+	self assert: (mainProject versions contains: [ :each | each versionName  ='1.1-baseline' ]).
+	self assert: (mainProject versions contains: [ :each | each versionName ='1.1' ])
 
 ]
