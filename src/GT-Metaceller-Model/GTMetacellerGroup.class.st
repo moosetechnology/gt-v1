@@ -51,6 +51,11 @@ GTMetacellerGroup >> isPackageLoaded [
 	^self group isPackageLoaded
 ]
 
+{ #category : #'code generation' }
+GTMetacellerGroup >> itemKindString [
+	^'group'
+]
+
 { #category : #accessing }
 GTMetacellerGroup >> label [
 	^self group label
@@ -59,11 +64,6 @@ GTMetacellerGroup >> label [
 { #category : #display }
 GTMetacellerGroup >> labelAsText [
 	^Text string: self label attribute: TextEmphasis italic
-]
-
-{ #category : #'code generation' }
-GTMetacellerGroup >> specKind [
-	^'group'
 ]
 
 { #category : #actions }

@@ -47,9 +47,9 @@ GTMetacellerProjectReference >> configForProject [
 	^Smalltalk at: (projectReference className asSymbol) ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> file [
-	^self project file
+	^self propertyAt: #file ifAbsent: [ self referenceSpec file ]
 ]
 
 { #category : #testing }
@@ -60,6 +60,11 @@ GTMetacellerProjectReference >> isLoaded [
 { #category : #testing }
 GTMetacellerProjectReference >> isProject [
 	^true
+]
+
+{ #category : #'code generation' }
+GTMetacellerProjectReference >> itemKindString [
+	^'project'
 ]
 
 { #category : #accessing }
@@ -77,6 +82,16 @@ GTMetacellerProjectReference >> labelAsText [
 		ifNil: [ ^(Text string: self  label attributes: attributes), (Text string: ' No version' attribute: TextColor red) ]
 		ifNotNil: [ ^(Text string: self label attributes: attributes), (Text string: (' ', self versionString) attribute: TextColor blue) ].
 	
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> postLoadDoIt [
+	^self propertyAt: #preLoadDoIt ifAbsent: [ self referenceSpec preLoadDoIt ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> preLoadDoIt [
+	^self propertyAt: #preLoadDoIt ifAbsent: [ self referenceSpec preLoadDoIt ]
 ]
 
 { #category : #printing }
@@ -107,8 +122,18 @@ GTMetacellerProjectReference >> projectReference [
 ]
 
 { #category : #'code generation' }
-GTMetacellerProjectReference >> specKind [
-	^'project'
+GTMetacellerProjectReference >> specAccessors [
+	^#( versionString file includes requires postLoadDoIt preLoadDoIt supplyingAnswers )
+]
+
+{ #category : #'code generation' }
+GTMetacellerProjectReference >> streamSpecOn: aStream indent: anIndent specName: aSpecName [
+	self referenceSpec asCodeStringOn: aStream indent: anIndent specName: aSpecName
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> supplyingAnswers [
+	^self propertyAt: #supplyingAnswers ifAbsent: [ self referenceSpec answers ]
 ]
 
 { #category : #actions }
@@ -122,7 +147,7 @@ GTMetacellerProjectReference >> validate [
 	" TODO "
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> versionString [
 	^self project versionString
 ]

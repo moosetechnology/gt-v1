@@ -15,6 +15,14 @@ GTMetacellerAtributedProject class >> on: aConfigurationClass main: aMainProject
 		yourself
 ]
 
+{ #category : #'code generation' }
+GTMetacellerAtributedProject >> createTempClass [
+	^AnonymousClassInstaller make: [ :builder |
+		builder
+			superclass: self configuration;
+			buildNewClass ]
+]
+
 { #category : #accessing }
 GTMetacellerAtributedProject >> displayString [
 	^self platformDescription symbol asString

@@ -24,6 +24,21 @@ GTMetacellerRootVersion >> addChild: aVersion [
 ]
 
 { #category : #'accessing dummy' }
+GTMetacellerRootVersion >> allGroups [
+	^#()
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> allPackages [
+	^#()
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> allProjects [
+	^#()
+]
+
+{ #category : #'accessing dummy' }
 GTMetacellerRootVersion >> author [
 	^''
 ]
@@ -53,6 +68,11 @@ GTMetacellerRootVersion >> description [
 	^''
 ]
 
+{ #category : #'code generation' }
+GTMetacellerRootVersion >> ensureProjectsCreated [
+	self mainVersion ensureProjectsCreated
+]
+
 { #category : #accessing }
 GTMetacellerRootVersion >> mainVersion [
 	^mainVersion
@@ -72,6 +92,21 @@ GTMetacellerRootVersion >> method [
 { #category : #accessing }
 GTMetacellerRootVersion >> method: aMethod [ 
 	method := aMethod
+]
+
+{ #category : #'code generation' }
+GTMetacellerRootVersion >> methodSpecForVersion: aVersion [
+	(aVersion = self mainVersion) ifTrue: [ GTMetacellerStateError signal: 'Cannot save a changed main version. Main version should be readonly.' ].
+	^String streamContents: [ :s |
+		self methodSpecForVersion: aVersion on: s ]
+]
+
+{ #category : #'code generation' }
+GTMetacellerRootVersion >> methodSpecForVersion: aVersion on: aStream [
+	self ensureProjectsCreated.
+	" and the actual streaming "
+	self commonVersion streamVersionHeader: aVersion on: aStream.
+	self commonVersion streamVersion: aVersion on: aStream
 ]
 
 { #category : #'code generation' }
@@ -95,9 +130,13 @@ GTMetacellerRootVersion >> repositoriesToWrite [
 ]
 
 { #category : #'code generation' }
+GTMetacellerRootVersion >> saveVersion: aGTMetacellerVersion [ 
+	self shouldBeImplemented.
+]
+
+{ #category : #'code generation' }
 GTMetacellerRootVersion >> streamVersionWithName: aString on: aStream [
-	" build project for all platforms "
-	self mainVersion project projects do: [ :each | each versions ].
+	self ensureProjectsCreated.
 	" and the actual streaming "
 	self commonVersion streamVersionHeaderWithName: aString on: aStream.
 	self commonVersion streamVersionOn: aStream

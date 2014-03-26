@@ -41,9 +41,9 @@ GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing spec' }
 GTMetacellerPackage >> file [
-	^self packageSpec file
+	^self propertyAt: #file ifAbsent: [ self referenceSpec file ]
 ]
 
 { #category : #testing }
@@ -69,6 +69,11 @@ GTMetacellerPackage >> isPackage [
 { #category : #testing }
 GTMetacellerPackage >> isValidated [
 	^isValidated ifNil: [ false ]
+]
+
+{ #category : #'code generation' }
+GTMetacellerPackage >> itemKindString [
+	^'package'
 ]
 
 { #category : #accessing }
@@ -102,6 +107,16 @@ GTMetacellerPackage >> packageSpec [
 	^self referenceSpec
 ]
 
+{ #category : #'accessing spec' }
+GTMetacellerPackage >> postLoadDoIt [
+	^self propertyAt: #postLoadDoIt ifAbsent: [ self referenceSpec postLoadDoIt ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerPackage >> preLoadDoIt [
+	^self propertyAt: #preLoadDoIt ifAbsent: [ self referenceSpec preLoadDoIt ]
+]
+
 { #category : #printing }
 GTMetacellerPackage >> printVersionOn: aStream [ 
 	aStream nextPutAll: 'package: '''; nextPutAll: self name; nextPutAll: ''' with: '''; nextPutAll: self loadedVersionName; nextPutAll: ''''
@@ -114,8 +129,13 @@ GTMetacellerPackage >> repositorySpecs [
 ]
 
 { #category : #'code generation' }
-GTMetacellerPackage >> specKind [
-	^'package'
+GTMetacellerPackage >> specAccessors [
+	^#( file includes requires postLoadDoIt preLoadDoIt supplyingAnswers )
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerPackage >> supplyingAnswers [
+	^self propertyAt: #supplyingAnswers ifAbsent: [ self referenceSpec answers ]
 ]
 
 { #category : #display }

@@ -22,11 +22,6 @@ GTMetacellerMainProject >> buildProjects [
 		GTMetacellerAtributedProject on: self configuration main: self platform: (GTPlatformDescription onSymbol: each) ]
 ]
 
-{ #category : #actions }
-GTMetacellerMainProject >> compileMethod: aMethodDef category: aCategory [ 
-	self configuration compile: aMethodDef classified: aCategory asString
-]
-
 { #category : #initialization }
 GTMetacellerMainProject >> createPlatformSymbols [
 	| retVal constructor versionMap symbolicVersionMap executionBlock pragmaDict |
@@ -58,12 +53,9 @@ GTMetacellerMainProject >> createSnapshotVersion: aString baseline: aBaseline [
 		classified: 'versions'
 ]
 
-{ #category : #'code generation' }
-GTMetacellerMainProject >> createTempClass [
-	^AnonymousClassInstaller make: [ :builder |
-		builder
-			superclass: self configuration;
-			buildNewClass ]
+{ #category : #cache }
+GTMetacellerMainProject >> ensureProjectsCreated [
+	self projects do: [ :each | each ensureVersionsCreated ]
 ]
 
 { #category : #testing }
@@ -124,7 +116,7 @@ GTMetacellerMainProject >> platformsFor: aMetacellerItem version: aVersionName [
 { #category : #printing }
 GTMetacellerMainProject >> printVersionsFor: aPlatform version: aVersion on: aStream [
 	| items |
-	items := (self itemsFor: aPlatform in: aVersion name).
+	items := (self itemsFor: aPlatform in: aVersion versionName).
 	items ifNotEmpty: [ 
 		| first |
 		aStream tab; nextPutAll: 'aSpec for: '.

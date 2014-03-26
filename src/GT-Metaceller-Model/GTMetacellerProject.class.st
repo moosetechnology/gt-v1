@@ -53,6 +53,11 @@ GTMetacellerProject >> childConfigurations [
 	[ ^(self projectsForVersion: self project stableVersion) collect: [ :each | self configForProject: each ] thenSelect: [ :each | each notNil ] ] on: MetacelloSymbolicVersionDoesNotExistError do: [ ^#() ]
 ]
 
+{ #category : #actions }
+GTMetacellerProject >> compileMethod: aMethodDef category: aCategory [ 
+	self configuration compile: aMethodDef classified: aCategory asString
+]
+
 { #category : #accessing }
 GTMetacellerProject >> configForProject: aSpec [
 	| projectReference |
@@ -87,6 +92,11 @@ GTMetacellerProject >> defaultVersion [
 { #category : #accessing }
 GTMetacellerProject >> developmentVersion [
 	^self versions detect: [ :each | each isDevelopmentVersion ] ifNone: [ nil ]
+]
+
+{ #category : #cache }
+GTMetacellerProject >> ensureVersionsCreated [
+	self versions
 ]
 
 { #category : #accessing }
