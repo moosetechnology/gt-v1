@@ -76,19 +76,8 @@ GTSUnitDebugger >> diffIn: composite [
 
 	^ composite diff
 			when: [ self session isActive ];
-			display: [ { 
-				self printCollection: self session actualResult asOrderedCollection. 
-				self printCollection: self session expectedResult asOrderedCollection }]
-]
-
-{ #category : #printing }
-GTSUnitDebugger >> printCollection: aCollection [
-
-	 ^ String streamContents: [ :out | 
-			aCollection do: [ :each | 
-				out 
-					nextPutAll: each printString;
-					nextPut: Character cr ]]
+			display: [ 
+				{ self session actualResult gtSUnitPrint. self session expectedResult gtSUnitPrint} ]
 ]
 
 { #category : #updating }
