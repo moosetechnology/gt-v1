@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #asserting }
+GTMetacellerVersionTest >> assertCleanVersion: aMethodString [
+	self assert: (aMethodString findString: 'file:') equals: 0.
+	self assert: (aMethodString findString: 'repository:') equals: 0
+]
+
+{ #category : #asserting }
 GTMetacellerVersionTest >> assertItem: anItem equals: anItem2 [
 	self assert: anItem class equals: anItem2 class.
 	self assert: anItem itemName equals: anItem2 itemName
@@ -91,8 +97,8 @@ GTMetacellerVersionTest >> testVersionCopyUsingSpec [
 	self assertVersion: version2 equals: version1.
 	self deny: (version2 methodString includesSubstring: '#''pharo''').
 	self assert: (version2 methodString includesSubstring: '#''gemstone''').
-	self denyEmptySpecIn: version2 methodString
-
+	self denyEmptySpecIn: version2 methodString.
+	self assertCleanVersion: version2 methodString
 ]
 
 { #category : #tests }

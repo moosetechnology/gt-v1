@@ -69,7 +69,6 @@ GTMetacellerTestCase >> createVersion10 [
 		aSpec project: ''GlamourCore'' with: [
 				aSpec
 					className: ''ConfigurationOfGlamour'';
-					file: ''ConfigurationOfGlamour'';
 					version: #development;
 					loads: #(''Core'');
 					repository: ''http://www.smalltalkhub.com/mc/Moose/Glamour/main'' ].
@@ -80,7 +79,6 @@ GTMetacellerTestCase >> createVersion10 [
 		aSpec project: ''GlamourTools'' with: [
 				aSpec
 					className: ''ConfigurationOfGToolkit'';
-					file: ''ConfigurationOfGToolkit'';
 					version: #development;
 					loads: #( ''GT-Inspector'' );
 					repository: ''http://www.smalltalkhub.com/mc/Moose/Glamour/main'' ].
@@ -134,7 +132,6 @@ GTMetacellerTestCase >> createVersion11 [
 		aSpec project: ''GlamourCore'' with: [
 				aSpec
 					className: ''ConfigurationOfGlamour'';
-					file: ''ConfigurationOfGlamour'';
 					version: #development;
 					loads: #(''Core'');
 					repository: ''http://www.smalltalkhub.com/mc/Moose/Glamour/main'' ].
@@ -145,7 +142,6 @@ GTMetacellerTestCase >> createVersion11 [
 		aSpec project: ''GlamourTools'' with: [
 				aSpec
 					className: ''ConfigurationOfGToolkit'';
-					file: ''ConfigurationOfGToolkit'';
 					version: #development;
 					loads: #( ''GT-Inspector'' );
 					repository: ''http://www.smalltalkhub.com/mc/Moose/Glamour/main'' ].
