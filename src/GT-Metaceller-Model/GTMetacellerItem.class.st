@@ -1,6 +1,6 @@
 Class {
 	#name : #GTMetacellerItem,
-	#superclass : #Object,
+	#superclass : #GTMetacellerSpec,
 	#instVars : [
 		'version',
 		'referenceSpec',
@@ -160,11 +160,6 @@ GTMetacellerItem >> isProject: aSpec [
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
 ]
 
-{ #category : #'code generation' }
-GTMetacellerItem >> itemKindString [
-	^self subclassResponsibility
-]
-
 { #category : #accessing }
 GTMetacellerItem >> itemName [
 	^self referenceSpec name
@@ -220,6 +215,12 @@ GTMetacellerItem >> referenceSpec: aSpec [
 	referenceSpec := aSpec
 ]
 
+{ #category : #accessing }
+GTMetacellerItem >> repositories [
+	self referenceSpec hasRepository ifFalse: [ ^#() ].
+	^self referenceSpec repositorySpecs
+]
+
 { #category : #'accessing spec' }
 GTMetacellerItem >> repositoriesFrom: aMetacelloMVRepositorySpecs ignoreOverrides: ignoreOverrides [
 
@@ -245,7 +246,7 @@ GTMetacellerItem >> resetValidated [
 	isValidated := false
 ]
 
-{ #category : #'accessing spec' }
+{ #category : #'code generation' }
 GTMetacellerItem >> specAccessors [
 	^#( includes requires )
 ]
@@ -253,31 +254,6 @@ GTMetacellerItem >> specAccessors [
 { #category : #accessing }
 GTMetacellerItem >> specName [
 	^self referenceSpec name
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> streamSpecOn: aStream indent: anIndent specName: aSpecName [
-	| needsWith needsWithBlock |
-	needsWithBlock := false.
-	self specAccessors allButFirstDo: [ :each | needsWithBlock := needsWithBlock or: [ 
-			(self dataFor: each) notNil ] ].
-	needsWith := needsWithBlock not and: [ (self dataFor: self specAccessors first) notNil ].
-	aStream cr; tab: anIndent; nextPutAll: self itemKindString; nextPutAll: ': '.
-	self itemName asCodeStringOn: aStream.
-	needsWith ifTrue: [
-		aStream nextPutAll: ' with: '. 
-		(self perform: self specAccessors first) asCodeStringOn: aStream ].
-	needsWithBlock
-		ifTrue: [
-			aStream nextPutAll: ' with: ['; cr.
-			aStream tab: anIndent +1; nextPutAll: aSpecName.
-			self specAccessors do: [ :each |
-				(self dataFor: each) ifNotNilDo: [ :data |
-					aStream cr; tab: anIndent +2; nextPutAll: each asString; nextPutAll: ': '.
-					data asCodeStringOn: aStream.
-					aStream nextPut: $; ] ].
-			aStream cr; tab: anIndent +2; nextPutAll: 'yourself ];' ]
-		ifFalse: [ aStream nextPut: $; ]
 ]
 
 { #category : #actions }

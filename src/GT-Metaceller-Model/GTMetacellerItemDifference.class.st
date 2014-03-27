@@ -1,6 +1,6 @@
 Class {
 	#name : #GTMetacellerItemDifference,
-	#superclass : #Object,
+	#superclass : #GTMetacellerSpec,
 	#instVars : [
 		'item',
 		'parent'
@@ -22,6 +22,22 @@ GTMetacellerItemDifference >> addParent: aParent [
 	self parent: (self parent mergeWith: aParent)
 ]
 
+{ #category : #accessing }
+GTMetacellerItemDifference >> dataFor: aString [ 
+	| retVal |
+	retVal := self item dataFor: aString.
+	(retVal isString not and: [ retVal isCollection ])
+		ifTrue: [
+			| parentData |
+			parentData := (self parent dataFor: aString).
+			parentData ifNil: [ ^retVal ].
+			retVal := retVal reject: [ :each | parentData includes: each ].
+			retVal ifEmpty: [ ^nil ] ]
+		ifFalse: [
+			(self parent dataFor: aString) = retVal ifTrue: [ ^nil ] ].
+	^retVal
+]
+
 { #category : #'code generation' }
 GTMetacellerItemDifference >> differenceWith: anItem [ 
 	(self item isDifferentFrom: anItem) ifFalse: [ ^nil ].
@@ -41,6 +57,11 @@ GTMetacellerItemDifference >> item: anObject [
 ]
 
 { #category : #accessing }
+GTMetacellerItemDifference >> itemKindString [
+	^self item itemKindString
+]
+
+{ #category : #accessing }
 GTMetacellerItemDifference >> itemName [
 	^self item itemName
 ]
@@ -55,7 +76,17 @@ GTMetacellerItemDifference >> parent: anItem [
 	parent := anItem
 ]
 
-{ #category : #'code generation' }
-GTMetacellerItemDifference >> streamSpecOn: aStream indent: anIndent specName: aString [ 
-	self item streamSpecOn: aStream indent: anIndent specName: aString
+{ #category : #accessing }
+GTMetacellerItemDifference >> repositories [
+	| retVal parentRepos |
+	retVal := self item repositories.
+	parentRepos := (self parent repositories).
+	retVal := retVal reject: [ :each |
+		parentRepos includes: each ].
+	^retVal
+]
+
+{ #category : #accessing }
+GTMetacellerItemDifference >> specAccessors [
+	^self item specAccessors
 ]

@@ -646,7 +646,7 @@ GTMetacellerVersion >> possibleBlessings [
 	^#( #baseline #bleedingEdge #development #stable #release )
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #copying }
 GTMetacellerVersion >> postCopy [
 	" remove aliases of references we might change: "
 	super postCopy.
@@ -773,8 +773,8 @@ GTMetacellerVersion >> streamItemSpecsOn: aStream indent: anIndent first: aFirst
 		data := self itemsForSymbol: each.
 		data ifNotEmpty: [ 
 			first ifFalse: [ 
-				aStream cr; tab: anIndent +1; nextPutAll: 'yourself.'; cr; cr ].
-			aStream tab: anIndent; nextPutAll: 'aSpec'.
+				aStream cr; tab: anIndent +1; nextPutAll: 'yourself.'; cr ].
+			aStream cr; tab: anIndent; nextPutAll: 'aSpec'.
 			data do: [ :item |
 				item streamSpecOn: aStream indent: anIndent +1 specName: 'aSpec' ].
 			first := false ] ].
@@ -791,7 +791,7 @@ GTMetacellerVersion >> streamMainInfoOn: aStream indent: anIndent [
 		(self platformSymbol = #common) ifFalse: [ self halt ].
 		anIndent = 0
 			ifTrue: [ aStream nextPutAll: 'aSpec' ]
-			ifFalse: [ aStream cr; tab: anIndent; nextPutAll: ' aSpec' ].
+			ifFalse: [ aStream cr; tab: anIndent; nextPutAll: 'aSpec' ].
 		self mainInfoSelectors do: [ :each |
 			(self infoFor: each) ifNotNilDo: [ :data |
 				aStream cr; tab: anIndent +1; nextPutAll: each asString; nextPutAll: ': '.

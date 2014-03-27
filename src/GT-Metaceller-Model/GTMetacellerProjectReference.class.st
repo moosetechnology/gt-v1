@@ -93,6 +93,11 @@ GTMetacellerProjectReference >> labelAsText [
 ]
 
 { #category : #'accessing spec' }
+GTMetacellerProjectReference >> loads [
+	^self propertyAt: #loads ifAbsent: [ ^self projectReference loads ]
+]
+
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> postLoadDoIt [
 	^self propertyAt: #preLoadDoIt ifAbsent: [ self referenceSpec preLoadDoIt ]
 ]
@@ -131,12 +136,7 @@ GTMetacellerProjectReference >> projectReference [
 
 { #category : #'code generation' }
 GTMetacellerProjectReference >> specAccessors [
-	^#( versionString file includes requires postLoadDoIt preLoadDoIt supplyingAnswers )
-]
-
-{ #category : #'code generation' }
-GTMetacellerProjectReference >> streamSpecOn: aStream indent: anIndent specName: aSpecName [
-	self referenceSpec asCodeStringOn: aStream indent: anIndent specName: aSpecName
+	^#( versionString className file postLoadDoIt preLoadDoIt loads )
 ]
 
 { #category : #'accessing spec' }
