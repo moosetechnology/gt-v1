@@ -102,9 +102,12 @@ GTMetacellerRootVersion >> method: aMethod [
 
 { #category : #'code generation' }
 GTMetacellerRootVersion >> methodSpecForVersion: aVersion [
-	(aVersion = self mainVersion) ifTrue: [ GTMetacellerStateError signal: 'Cannot save a changed main version. Main version should be readonly.' ].
+	| updatedVersion |
+	(aVersion = self mainVersion)
+		ifTrue: [ updatedVersion := nil]
+		ifFalse: [ updatedVersion := aVersion ].
 	^String streamContents: [ :s |
-		self methodSpecForVersion: aVersion on: s ]
+		self methodSpecForVersion: updatedVersion on: s ]
 ]
 
 { #category : #'code generation' }

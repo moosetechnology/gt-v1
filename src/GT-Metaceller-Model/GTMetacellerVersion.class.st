@@ -758,7 +758,6 @@ GTMetacellerVersion >> saveAs: aVersionName [
 
 { #category : #actions }
 GTMetacellerVersion >> saveVersion [
-	self canModify ifFalse: [ GTMetacellerStateError signal: 'Cannot save a changed main version. Main version should be readonly.' ].
 	self project compileMethod: self methodSpec category: self category
 ]
 
@@ -847,13 +846,13 @@ GTMetacellerVersion >> streamRepositoriesOn: aStream indent: anIndent [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersion: aVersion on: aStream [ 
-	(aVersion platformSymbol = self platformSymbol) ifTrue: [ ^aVersion streamVersionOn: aStream ].
+	(aVersion notNil and: [ aVersion platformSymbol = self platformSymbol]) ifTrue: [ ^aVersion streamVersionOn: aStream ].
 	^self streamVersionOn: aStream
 ]
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersionHeader: aVersion on: aStream [
-	(aVersion platformSymbol = self platformSymbol) ifTrue: [ ^aVersion streamVersionHeaderOn: aStream ].
+	(aVersion notNil and: [ aVersion platformSymbol = self platformSymbol]) ifTrue: [ ^aVersion streamVersionHeaderOn: aStream ].
 	^self streamVersionHeaderOn: aStream
 ]
 
@@ -959,6 +958,27 @@ GTMetacellerVersion >> updateItems: anItemsCollection with: aBaselineItems [
 		myItem ifNotNil: [ anItemsCollection remove: myItem.
 			myItem := myItem differenceWith: each.
 			myItem ifNotNil: [ anItemsCollection add: myItem ] ] ]
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> updateToCurrent [
+	" walk our version to update "
+	self allPackages do: [ :each | each updateToCurrent ]
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> updateToCurrentAndSave [
+	self project updateVersionToCurrent: self versionName.
+	self saveVersion
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> updateVersionWith: aClass selector: aString [ 
+	aClass new perform: aString with: self.
+	" eveluate the pragma "
+	(aClass methodDict at: aString) pragmas do: [ :pragma |
+		(pragma key = #'version:imports:') ifTrue: [ self importedVersions: (pragma argumentAt: 2) ] ].
+	self saveVersion
 ]
 
 { #category : #actions }

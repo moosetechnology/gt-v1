@@ -205,6 +205,11 @@ GTMetacellerItem >> propertyAt: aKey ifAbsent: aBlock [
 	^self properties at: aKey ifAbsent: aBlock
 ]
 
+{ #category : #'accessing spec' }
+GTMetacellerItem >> propertyAt: aKey put: aValue [ 
+	self properties at: aKey put: aValue
+]
+
 { #category : #accessing }
 GTMetacellerItem >> referenceSpec [
 	^referenceSpec

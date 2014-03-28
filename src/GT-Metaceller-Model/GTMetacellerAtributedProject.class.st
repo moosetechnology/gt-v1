@@ -88,3 +88,8 @@ GTMetacellerAtributedProject >> project [
 		GTMetacelloPlatform defaultPlatformDescription: self platformDescription.
 		[ project := configuration project ] ensure: [ GTMetacelloPlatform defaultPlatformDescription: nil ] ]
 ]
+
+{ #category : #actions }
+GTMetacellerAtributedProject >> updateVersionToCurrent: aString [ 
+	(self version: aString) updateToCurrent
+]

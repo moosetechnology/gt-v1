@@ -168,3 +168,9 @@ GTMetacellerMainProject >> title [
 		ifTrue: [self configuration name copyFrom: 'ConfigurationOf' size + 1 to: self configuration name size ] 
 		ifFalse: [self configuration name]) asString
 ]
+
+{ #category : #actions }
+GTMetacellerMainProject >> updateVersionToCurrent: aVersionName [
+	self projects do: [ :each |
+		each updateVersionToCurrent: aVersionName ]
+]

@@ -10,7 +10,7 @@ Class {
 
 { #category : #testing }
 GTMetacellerPackage >> calculateIsNewer [
-	(self file = self referenceSpec name) ifTrue: [  ^false ].
+	self file ifNil: [  ^false ].
 	(self referenceSpec currentVersionInfo name = self file) ifTrue: [ ^false ].
 	self referenceSpec currentVersionInfo allAncestorsDo: [ :each |
 		(each name = self file) ifTrue: [ ^false ] ].
@@ -44,6 +44,11 @@ GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
 { #category : #'accessing spec' }
 GTMetacellerPackage >> file [
 	^self propertyAt: #file ifAbsent: [ self fileReference ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerPackage >> file: aString [ 
+	self propertyAt: #file put: aString
 ]
 
 { #category : #'accessing spec' }
@@ -86,7 +91,7 @@ GTMetacellerPackage >> itemKindString [
 
 { #category : #accessing }
 GTMetacellerPackage >> label [
-	^self file ifEmpty: [ self packageSpec name ]
+	^self file ifNil: [ self packageSpec name ]
 ]
 
 { #category : #display }
@@ -155,6 +160,12 @@ GTMetacellerPackage >> textAttributes [
 		self isNewer ifTrue: [ retVal add: TextEmphasis bold ].
 		self isOlder ifTrue: [  retVal add: TextColor gray ] ].
 	^retVal
+]
+
+{ #category : #actions }
+GTMetacellerPackage >> updateToCurrent [
+	self isLoaded
+		ifTrue: [ self file: self referenceSpec currentVersionInfo name ]
 ]
 
 { #category : #actions }
