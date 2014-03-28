@@ -8,7 +8,7 @@ Class {
 GTMetacellerPackageTest >> testPlatformCommon [
 	| package |
 	package := ((GTMetacellerConfiguration on: testConfigurationClass) mainProject version: '1.1') package: 'GT-Metaceller-Model'.
-	self assert: package platforms size equals: 1.
+	self assert: package platforms size equals: 2. " we also have one for the platform pHaRo ... somehow "
 	self assert: (package platforms contains: [ :each | each hasSymbol:#'common' ])
 ]
 

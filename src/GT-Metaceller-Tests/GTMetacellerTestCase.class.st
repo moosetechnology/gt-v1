@@ -140,7 +140,7 @@ GTMetacellerTestCase >> createVersion11 [
 
 	" Make a typo in the symbol to check handling is case insensitive "
 	aSpec for: #pHaRo do: [ 
-		aSpec package: ''GT-Metaceller-Uppercase'' with: [ 
+		aSpec package: ''GT-Metaceller-Typo'' with: [ 
 			aSpec requires: ''GT-Metacelller-Glamour'' ] ].
 
 	aSpec for: #pharo do: [ 

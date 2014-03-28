@@ -23,7 +23,7 @@ GTMetacellerConfigurationTest >> testMainProject [
 GTMetacellerConfigurationTest >> testProjects [
 	| configuration |
 	configuration := GTMetacellerConfiguration on: testConfigurationClass.
-	self assert: configuration projects size equals: 3
+	self assert: configuration projects size equals: 4
 ]
 
 { #category : #tests }
