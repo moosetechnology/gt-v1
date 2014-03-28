@@ -79,7 +79,6 @@ GTPlatformDescription >> hasSymbol: aSymbol [
 GTPlatformDescription >> initialize: aParent symbol: aSymbol [
 	self initialize.
 	parent := aParent.
-	aSymbol = #squeakcommon ifTrue: [ self halt ].
 	symbol := aSymbol
 ]
 

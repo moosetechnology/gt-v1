@@ -163,6 +163,11 @@ GTMetacellerVersion >> children [
 	^children ifNil: [ children := OrderedCollection new ]
 ]
 
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> commentInfoSelectors [
+	^#( blessing author timestamp )
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> commonVersion [
 	^self parent commonVersion
@@ -183,6 +188,12 @@ GTMetacellerVersion >> createNewVersionWith: aClass selector: aString [
 	| newVersion |
 	newVersion := self copy.
 	newVersion methodName: aString.
+	" set the default values "
+	self blessing = #'baseline'
+		ifTrue: [ newVersion blessing: #'baseline' ]
+		ifFalse: [ newVersion blessing: #'development' ].
+	newVersion author: Author fullName.
+	newVersion timestamp: DateAndTime now asDate yyyymmdd.
 	aClass new perform: aString with: newVersion.
 	" eveluate the pragma "
 	(aClass methodDict at: aString) pragmas do: [ :pragma |
@@ -345,8 +356,8 @@ GTMetacellerVersion >> infoText [
 	retVal
 		append: String cr;
 		append: self description.
-	#( blessing author versionStatus importedVersions ) do: [ :symbol |
-		retVal append: String cr; append: symbol capitalized; append: ': '; append: (self perform: symbol) asString ].
+	#( blessing author timestamp versionStatus importedVersions ) do: [ :symbol |
+		retVal append: String cr; append: symbol capitalized; append: ': '; append: (self perform: symbol) asMetacellerLabel ].
 
 	self rootVersion errorVersions do: [ :each |
 		retVal append: String cr;
@@ -498,6 +509,12 @@ GTMetacellerVersion >> load: aString [
 { #category : #'accessing generation' }
 GTMetacellerVersion >> mainInfoSelectors [
 	^#( blessing description preLoadDoIt postLoadDoIt author timestamp )
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> mainInfoSelectorsForDisplay: aBoolean [
+	aBoolean ifFalse: [ ^self mainInfoSelectors ].
+	^self mainInfoSelectors reject: [ :each | self commentInfoSelectors includes: each ].
 ]
 
 { #category : #accessing }
@@ -772,7 +789,7 @@ GTMetacellerVersion >> specString [
 	^String streamContents: [ :s |
 		self streamVersionHeaderWithName: self versionName on: s.
 		self needsGeneratingMainInfo ifTrue: [
-			self streamMainInfoOn: s indent: 1.
+			self streamMainInfoOn: s indent: 1 forDisplay: true.
 			s cr; tab: 2; nextPutAll: 'yourself' ] ].
 ]
 
@@ -798,18 +815,25 @@ GTMetacellerVersion >> streamItemSpecsOn: aStream indent: anIndent first: aFirst
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamMainInfoOn: aStream indent: anIndent [
+GTMetacellerVersion >> streamMainInfoOn: aStream indent: anIndent forDisplay: aBoolean [
 	self needsGeneratingMainInfo ifTrue: [
-		(self platformSymbol = #common) ifFalse: [ self halt ].
 		anIndent = 0
 			ifTrue: [ aStream nextPutAll: 'aSpec' ]
 			ifFalse: [ aStream cr; tab: anIndent; nextPutAll: 'aSpec' ].
-		self mainInfoSelectors do: [ :each |
+		(self mainInfoSelectorsForDisplay: aBoolean) do: [ :each |
 			(self infoFor: each) ifNotNilDo: [ :data |
 				aStream cr; tab: anIndent +1; nextPutAll: each asString; nextPutAll: ': '.
 				data asCodeStringOn: aStream.
 				aStream nextPut: $; ] ].
 		self streamRepositoriesOn: aStream indent: anIndent +1.
+		aBoolean ifTrue: [
+			aStream cr; nextPutAll: '"Following lines will be automatically set by Metaceller if not overridden:'.
+			self commentInfoSelectors do: [ :each |
+				(self infoFor: each) ifNotNilDo: [ :data |
+					aStream cr; tab: anIndent +1; nextPutAll: each asString; nextPutAll: ': '.
+					data asCodeStringOn: aStream.
+					aStream nextPut: $; ] ].
+			aStream cr; nextPut:$" ].
 		^true ].
 	^false
 ]
@@ -863,7 +887,7 @@ GTMetacellerVersion >> streamVersionOn: aStream [
 			cr; tab; nextPutAll: 'aSpec for: '.
 		self platformSymbol asCodeStringOn: aStream.
 		aStream nextPutAll: ' do: ['.
-		first := (self streamMainInfoOn: aStream indent: 2) not.
+		first := (self streamMainInfoOn: aStream indent: 2 forDisplay: false) not.
 		self streamItemSpecsOn: aStream indent: 2 first: first.
 		aStream cr; tab: 3; nextPutAll: 'yourself ].'.
 		self children do: [ :each |
@@ -1000,7 +1024,7 @@ GTMetacellerVersion >> versionNumber [
 
 { #category : #'accessing version' }
 GTMetacellerVersion >> versionStatus [
-	^self version versionStatus
+	[ ^self version versionStatus ] on: Exception do: [ :ex | ^ex description ]
 ]
 
 { #category : #'accessing version' }
