@@ -5,6 +5,7 @@ Class {
 		'configuration',
 		'project',
 		'versions',
+		'releases',
 		'stableVersion',
 		'bleedingEdge',
 		'development',
@@ -36,6 +37,11 @@ GTMetacellerProject >> bleedingEdge [
 { #category : #accessing }
 GTMetacellerProject >> bleedingEdgeVersion [
 	^self versions detect: [ :each | each isBleedingEdge ] ifNone: [ nil ]
+]
+
+{ #category : #initialization }
+GTMetacellerProject >> buildReleases [
+	^GTMetacellerRelease releasesForProject: self
 ]
 
 { #category : #initialization }
@@ -73,6 +79,20 @@ GTMetacellerProject >> configForProject: aSpec [
 { #category : #accessing }
 GTMetacellerProject >> configuration [
 	^ configuration
+]
+
+{ #category : #actions }
+GTMetacellerProject >> createRelease: aReleaseName version: aVersionName [
+	" we should refactor this to use the 'symbolicVersions' properly "
+	| releaseSymbol |
+	self compileMethod: (String streamContents: [ :s |
+		releaseSymbol := ('release', aReleaseName) asSymbol.
+		s nextPutAll: releaseSymbol asLegalSelector; nextPutAll: ': aSpec'; cr;
+			tab; nextPutAll: '<symbolicVersion:'.
+		releaseSymbol asCodeStringOn: s.
+		s nextPut: $>; cr;
+			tab; nextPutAll: 'aSpec for: #''common'' version: '.
+		aVersionName asCodeStringOn: s ]) category: 'releases'
 ]
 
 { #category : #accessing }
@@ -192,6 +212,16 @@ GTMetacellerProject >> projectsForVersion: aVersion [
 ]
 
 { #category : #accessing }
+GTMetacellerProject >> release: aString [ 
+	^self releases detect: [ :each | each releaseName = aString ] ifNone: [ nil ]
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> releases [
+	^releases ifNil: [ releases := self buildReleases ]
+]
+
+{ #category : #accessing }
 GTMetacellerProject >> stableVersion [
 	^self versions detect: [ :each | each isStable ] ifNone: [ nil ]
 ]
@@ -209,6 +239,26 @@ GTMetacellerProject >> testItems: aCollection [
 { #category : #accessing }
 GTMetacellerProject >> textLabel [
 	^self displayString
+]
+
+{ #category : #actions }
+GTMetacellerProject >> updateRelease: aReleaseNumber version: aVersionString [ 
+	(self release: aReleaseNumber)
+		ifNil: [ self createRelease: aReleaseNumber version: aVersionString ]
+		ifNotNilDo: [ :release | release updateWith: aVersionString ]
+]
+
+{ #category : #actions }
+GTMetacellerProject >> updateReleasesFor: aString [ 
+	| versionList releaseNumber |
+	versionList := aString subStrings: '.'.
+	releaseNumber := nil.
+	1 to: versionList size-1 do: [ :index |
+		releaseNumber
+			ifNil: [ releaseNumber := versionList at: index ]
+			ifNotNil: [ releaseNumber := releaseNumber, '.', versionList at: index ].
+			self updateRelease: releaseNumber version: aString ]
+	
 ]
 
 { #category : #actions }

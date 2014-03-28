@@ -718,6 +718,13 @@ GTMetacellerVersion >> projectsForVersion: aString [
 	self shouldBeImplemented.
 ]
 
+{ #category : #actions }
+GTMetacellerVersion >> promoteToRelease [
+	self commonVersion blessing: #release.
+	self saveVersion.
+	self updateReleases
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> properties [
 	^properties ifNil: [ properties := Dictionary new ]
@@ -963,6 +970,11 @@ GTMetacellerVersion >> updateItems: anItemsCollection with: aBaselineItems [
 		myItem ifNotNil: [ anItemsCollection remove: myItem.
 			myItem := myItem differenceWith: each.
 			myItem ifNotNil: [ anItemsCollection add: myItem ] ] ]
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> updateReleases [
+	self project updateReleasesFor: self versionName
 ]
 
 { #category : #actions }
