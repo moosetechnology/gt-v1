@@ -98,7 +98,11 @@ GTMetacellerVersionTest >> testVersionCopyUsingSpec [
 	self deny: (version2 methodString includesSubstring: '#''pharo''').
 	self assert: (version2 methodString includesSubstring: '#''gemstone''').
 	self denyEmptySpecIn: version2 methodString.
-	self assertCleanVersion: version2 methodString
+	self assertCleanVersion: version2 methodString.
+	self assert: version2 description equals: 'A changed description'.
+	self assert: version2 blessing equals: #'development'.
+	self assert: version2 author equals: Author fullName.
+	self assert: version2 timestamp equals: Date now yyyymmdd
 ]
 
 { #category : #tests }
