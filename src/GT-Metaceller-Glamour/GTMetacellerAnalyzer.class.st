@@ -52,6 +52,16 @@ GTMetacellerAnalyzer >> platformsIn: aBrowser [
 ]
 
 { #category : #actions }
+GTMetacellerAnalyzer >> promoteToRelease [
+	self shouldBeImplemented.
+]
+
+{ #category : #actions }
+GTMetacellerAnalyzer >> promoteToRelease: aVersion [
+	aVersion promoteToRelease
+]
+
+{ #category : #actions }
 GTMetacellerAnalyzer >> save: aSpecString in: aVersion [
 	aVersion saveWithSpecString: aSpecString asString
 ]
@@ -155,7 +165,7 @@ GTMetacellerAnalyzer >> versionUpdateActionsIn: aBrowser [
 	aBrowser actionList
 			act: [ :entity :selected | self updateVersionToLatest: selected ] entitled: 'Set to latest';
 			act: [ :entity :selected | self updateVersionToCurrent: selected ] entitled: 'Set to current';
-			act: [ :entity :selected | self promoteToRelease selected ] entitled: 'Release';
+			act: [ :entity :selected | self promoteToRelease: selected ] entitled: 'Release';
 		yourself
 ]
 
