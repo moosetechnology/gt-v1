@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'method',
 		'commonVersion',
-		'mainVersion'
+		'mainVersion',
+		'errorVersions'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -20,7 +21,7 @@ GTMetacellerRootVersion class >> on: aMethod [
 GTMetacellerRootVersion >> addChild: aVersion [
 	aVersion platformSymbol ifNil: [ ^self mainVersion: aVersion ].
 	aVersion platformSymbol = #'common' ifTrue: [ ^self commonVersion: aVersion ].
-	GTMetacellerStateError signal: 'Unexpected child for root version, with platform ', aVersion platformSymbol asString
+	self errorVersions add: aVersion
 ]
 
 { #category : #'accessing dummy' }
@@ -71,6 +72,11 @@ GTMetacellerRootVersion >> description [
 { #category : #'code generation' }
 GTMetacellerRootVersion >> ensureProjectsCreated [
 	self mainVersion ensureProjectsCreated
+]
+
+{ #category : #accessing }
+GTMetacellerRootVersion >> errorVersions [
+	^errorVersions ifNil: [ errorVersions := OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -127,6 +133,11 @@ GTMetacellerRootVersion >> preLoadDoIt [
 { #category : #accessing }
 GTMetacellerRootVersion >> repositoriesToWrite [
 	^#()
+]
+
+{ #category : #accessing }
+GTMetacellerRootVersion >> rootVersion [
+	^self
 ]
 
 { #category : #'code generation' }

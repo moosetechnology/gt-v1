@@ -86,7 +86,9 @@ GTMetacellerVersion >> actions [
 
 { #category : #accessing }
 GTMetacellerVersion >> addChild: aVersion [
-	self children add: aVersion
+"	(self platformSymbol = #'common' and: [ #( pharo squeak ) includes: aVersion platformSymbol ]) 
+		ifTrue: [ self halt ].
+"	self children add: aVersion
 ]
 
 { #category : #accessing }
@@ -345,6 +347,10 @@ GTMetacellerVersion >> infoText [
 		append: self description.
 	#( blessing author versionStatus importedVersions ) do: [ :symbol |
 		retVal append: String cr; append: symbol capitalized; append: ': '; append: (self perform: symbol) asString ].
+
+	self rootVersion errorVersions do: [ :each |
+		retVal append: String cr;
+		append: (Text string: ('Unrecognized platform: ', each platformSymbol) attribute: TextColor red) ].
 
 	self packagesAndProjects do: [ :each |
 		each hasWarnings ifTrue: [ 
@@ -721,6 +727,11 @@ GTMetacellerVersion >> repositorySpecs [
 	^self version loader spec repositories
 ]
 
+{ #category : #accessing }
+GTMetacellerVersion >> rootVersion [
+	^self parent rootVersion
+]
+
 { #category : #actions }
 GTMetacellerVersion >> saveAs: aVersionName [
 	" check if this version does not exist yet "
@@ -760,8 +771,9 @@ GTMetacellerVersion >> spec [
 GTMetacellerVersion >> specString [
 	^String streamContents: [ :s |
 		self streamVersionHeaderWithName: self versionName on: s.
-		self streamMainInfoOn: s indent: 1.
-		s cr; tab: 2; nextPutAll: 'yourself' ].
+		self needsGeneratingMainInfo ifTrue: [
+			self streamMainInfoOn: s indent: 1.
+			s cr; tab: 2; nextPutAll: 'yourself' ] ].
 ]
 
 { #category : #'code generation' }

@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'configuration',
 		'mainProject',
-		'projects',
 		'platformSymbols',
 		'status'
 	],
@@ -102,6 +101,7 @@ GTMetacellerConfiguration >> developmentVersion [
 { #category : #'accessing-magritte' }
 GTMetacellerConfiguration >> developmentVersion: aVersion [
 	" todo "
+	self halt
 ]
 
 { #category : #accessor }
@@ -156,7 +156,7 @@ GTMetacellerConfiguration >> possibleSymbolicVersions [
 ]
 
 { #category : #accessing }
-GTMetacellerConfiguration >> projectFor: aSymbol [ 
+GTMetacellerConfiguration >> projectFor: aSymbol [
 	^self mainProject projectFor: aSymbol
 ]
 
@@ -168,8 +168,8 @@ GTMetacellerConfiguration >> projects [
 { #category : #private }
 GTMetacellerConfiguration >> reset [
 	mainProject := nil.
-	projects := nil.
-	platformSymbols := nil
+	platformSymbols := nil.
+	status := nil
 ]
 
 { #category : #display }
