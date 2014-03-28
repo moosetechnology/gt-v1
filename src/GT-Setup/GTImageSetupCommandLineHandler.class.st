@@ -38,8 +38,7 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings.
-	self disableBreakingCommandPlusOKeybindingsInPharo30.
-	self loadOlderAthensPackagesToCorrectTheFontCachingProblem.
+	self disableBreakingCommandPlusOKeybindingsInPharo30
 ]
 
 { #category : #utilities }
