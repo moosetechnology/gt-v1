@@ -42,6 +42,10 @@ GTConfigurationBrowserTemplate >> buildBrowser [
 		to: #groups;
 		andShow: [ :a | self groupsIn: a ].
 	browser transmit
+		to: #groups;
+		from: #versions;
+		andShow: [ :a | self groupsFromVersionIn: a ].
+	browser transmit
 		to: #details;
 		andShow: [ :a | self detailsIn: a ].
 	browser transmit
@@ -115,28 +119,48 @@ GTConfigurationBrowserTemplate >> groupsFor: aConfigOrVersion [
 ]
 
 { #category : #building }
+GTConfigurationBrowserTemplate >> groupsFromVersionIn: aBrowser [
+	self groupsIn: aBrowser
+]
+
+{ #category : #building }
 GTConfigurationBrowserTemplate >> groupsIn: aBrowser [
 	aBrowser list
 		title: 'Groups';
-		display: [ :configOrVersion | self groupsFor: configOrVersion ];
+		display: [ self groupsFor: self configuration ];
 		format: #labelAsText;
 		updateOn: GTConfigChanged from: self announcer;
 		allowDeselection;
-		allowNil;
+		allowAllNil;
 		beMultiple;
 		yourself.
 	aBrowser tree
 		title: 'Packages';
-		display: [ :configOrVersion | self packagesAndGroupsFor: configOrVersion ];
+		display: [ self packagesAndGroupsFor: self configuration ];
 		children: [ :item | self childrenForItem: item ];
 		format: #labelAsText;
 		updateOn: GTConfigChanged from: self announcer;
 		allowDeselection;
-		allowNil;
+		allowAllNil;
+		beMultiple;
+		yourself.
+	aBrowser list
+		title: 'Groups';
+		display: [ :version | self groupsFor: version ];
+		format: #labelAsText;
+		updateOn: GTConfigChanged from: self announcer;
+		allowDeselection;
+		beMultiple;
+		yourself.
+	aBrowser tree
+		title: 'Packages';
+		display: [ :version | self packagesAndGroupsFor: version ];
+		children: [ :item | self childrenForItem: item ];
+		format: #labelAsText;
+		updateOn: GTConfigChanged from: self announcer;
+		allowDeselection;
 		beMultiple;
 		yourself
-
-		
 ]
 
 { #category : #initialization }

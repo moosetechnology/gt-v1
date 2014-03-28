@@ -81,6 +81,11 @@ GTMetacellerAnalyzer >> title [
 ]
 
 { #category : #actions }
+GTMetacellerAnalyzer >> updateVersionToCurrent: aVersion [ 
+	aVersion updateToCurrentAndSave
+]
+
+{ #category : #actions }
 GTMetacellerAnalyzer >> validateConfiguration [
 	self configuration validate.
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
@@ -111,7 +116,8 @@ GTMetacellerAnalyzer >> versionActionsFor: aVersion [
 { #category : #building }
 GTMetacellerAnalyzer >> versionDetailsIn: aBrowser [
 	super versionDetailsIn: aBrowser.
-	aBrowser custom: self versionEditBrowser
+	aBrowser custom: self versionEditBrowser.
+	aBrowser custom: self versionUpdateBrowser
 ]
 
 { #category : #building }
@@ -142,4 +148,27 @@ GTMetacellerAnalyzer >> versionEditIn: aBrowser [
 		title: 'Edit';
 		format: #specString;
 		act: [ :b :version | self save: b text in: version ] icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'save'
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> versionUpdateActionsIn: aBrowser [
+	aBrowser actionList
+			act: [ :entity :selected | self updateVersionToLatest: selected ] entitled: 'Set to latest';
+			act: [ :entity :selected | self updateVersionToCurrent: selected ] entitled: 'Set to current';
+			act: [ :entity :selected | self promoteToRelease selected ] entitled: 'Release';
+		yourself
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> versionUpdateBrowser [
+	| retVal |
+	retVal := GLMTabulator new.
+	retVal
+		title: 'Update';
+		column: #actions;
+		yourself.
+	retVal transmit
+		to: #actions;
+		andShow: [ :a | self versionUpdateActionsIn: a ].
+	^retVal
 ]
