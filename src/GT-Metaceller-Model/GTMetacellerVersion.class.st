@@ -778,6 +778,11 @@ GTMetacellerVersion >> selector [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> sortedChildren [
+	^self children sort: [ :v1 :v2 | v1 platformSymbol > v2 platformSymbol ]
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> spec [
 	self version ifNotNil: [ ^self version spec ].
 	^nil
@@ -888,9 +893,9 @@ GTMetacellerVersion >> streamVersionOn: aStream [
 		aStream nextPutAll: ' do: ['.
 		first := (self streamMainInfoOn: aStream indent: 2 forDisplay: false) not.
 		self streamItemSpecsOn: aStream indent: 2 first: first.
-		aStream cr; tab: 3; nextPutAll: 'yourself ].'.
-		self children do: [ :each |
-			each streamVersionOn: aStream ] ]
+		aStream cr; tab: 3; nextPutAll: 'yourself ].' ].
+	self sortedChildren do: [ :each |
+		each streamVersionOn: aStream ]
 ]
 
 { #category : #printing }
