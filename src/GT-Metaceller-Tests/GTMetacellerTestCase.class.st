@@ -138,6 +138,11 @@ GTMetacellerTestCase >> createVersion11 [
 		aSpec package: ''GT-Metaceller-Glamour'' with: [ 
 			aSpec requires: #( ''GlamourCore'' ) ] ].
 
+	" Make a typo in the symbol to check handling is case insensitive "
+	aSpec for: #pHaRo do: [ 
+		aSpec package: ''GT-Metaceller-Uppercase'' with: [ 
+			aSpec requires: ''GT-Metacelller-Glamour'' ] ].
+
 	aSpec for: #pharo do: [ 
 		aSpec project: ''GlamourTools'' with: [
 				aSpec
