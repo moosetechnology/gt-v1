@@ -102,7 +102,7 @@ GTMetacellerVersionTest >> testVersionCopyUsingSpec [
 	self assert: version2 description equals: 'A changed description'.
 	self assert: version2 blessing equals: #'development'.
 	self assert: version2 author equals: Author fullName.
-	self assert: version2 timestamp equals: Date today yyyymmdd
+	self assert: version2 timestamp equals: DateAndTime now asDate yyyymmdd
 ]
 
 { #category : #tests }
