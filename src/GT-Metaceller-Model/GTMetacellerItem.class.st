@@ -57,7 +57,7 @@ GTMetacellerItem >> dataFor: aSymbol [
 	| retVal |
 	retVal := self perform: aSymbol.
 	retVal isCollection ifTrue: [ retVal ifEmpty: [ ^nil ] ].
-	^retVal
+	^retVal value
 ]
 
 { #category : #'code generation' }
@@ -69,6 +69,11 @@ GTMetacellerItem >> differenceWith: anItem [
 { #category : #accessing }
 GTMetacellerItem >> errors [
 	^errors ifNil: [ errors := OrderedCollection new ]
+]
+
+{ #category : #testing }
+GTMetacellerItem >> hasBaselineBlessing [
+	^#( baseline ) includes: self blessing
 ]
 
 { #category : #testing }
@@ -84,6 +89,11 @@ GTMetacellerItem >> hasName: aString [
 { #category : #testing }
 GTMetacellerItem >> hasPlatform: aSymbol [ 
 	^self platforms contains: [ :each | each hasSymbol: aSymbol ]
+]
+
+{ #category : #testing }
+GTMetacellerItem >> hasStableBlessing [
+	^#( stable release ) includes: self blessing
 ]
 
 { #category : #testing }
@@ -126,7 +136,7 @@ GTMetacellerItem >> initialize: aVersion spec: aSpec [
 GTMetacellerItem >> isDifferentFrom: anItem [
 	self itemName = anItem itemName ifFalse: [ ^true ].
 	self specAccessors do: [ :each |
-		(self perform: each) = (anItem perform: each) ifFalse: [ ^true ] ].
+		((self perform: each) value) = ((anItem perform: each) value) ifFalse: [ ^true ] ].
 	^false
 ]
 

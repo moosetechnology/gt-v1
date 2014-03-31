@@ -106,7 +106,7 @@ GTMetacellerRootVersion >> methodSpecForVersion: aVersion [
 	(aVersion = self mainVersion)
 		ifTrue: [ updatedVersion := nil]
 		ifFalse: [ updatedVersion := aVersion ].
-	^String streamContents: [ :s |
+	^String codeStreamContents: [ :s |
 		self methodSpecForVersion: updatedVersion on: s ]
 ]
 
@@ -120,7 +120,7 @@ GTMetacellerRootVersion >> methodSpecForVersion: aVersion on: aStream [
 
 { #category : #'code generation' }
 GTMetacellerRootVersion >> methodWithVersionName: aString [ 
-	^String streamContents: [ :s | self streamVersionWithName: aString on: s ]
+	^String codeStreamContents: [ :s | self streamVersionWithName: aString on: s ]
 ]
 
 { #category : #'accessing dummy' }

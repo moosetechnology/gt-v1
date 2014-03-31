@@ -83,13 +83,10 @@ GTMetacellerProject >> configuration [
 
 { #category : #actions }
 GTMetacellerProject >> createRelease: aReleaseName version: aVersionName [
-	" we should refactor this to use the 'symbolicVersions' properly "
-	| releaseSymbol |
 	self compileMethod: (String streamContents: [ :s |
-		releaseSymbol := ('release', aReleaseName) asSymbol.
-		s nextPutAll: releaseSymbol asLegalSelector; nextPutAll: ': aSpec'; cr;
+		s nextPutAll: aReleaseName asLegalSelector; nextPutAll: ': aSpec'; cr;
 			tab; nextPutAll: '<symbolicVersion:'.
-		releaseSymbol asCodeStringOn: s.
+		aReleaseName asSymbol asCodeStringOn: s.
 		s nextPut: $>; cr;
 			tab; nextPutAll: 'aSpec for: #''common'' version: '.
 		aVersionName asCodeStringOn: s ]) category: 'releases'
@@ -162,7 +159,7 @@ GTMetacellerProject >> isProject: aSpec [
 { #category : #accessing }
 GTMetacellerProject >> metacelloVersion: aStringOrSymbol [
 	self project ifNil: [ ^nil ].
-	^self project version: aStringOrSymbol
+	[ ^self project version: aStringOrSymbol ] on: Exception do: [ :ex | ^ex ]
 ]
 
 { #category : #dummy }
@@ -253,11 +250,12 @@ GTMetacellerProject >> updateReleasesFor: aString [
 	| versionList releaseNumber |
 	versionList := aString subStrings: '.'.
 	releaseNumber := nil.
-	1 to: versionList size-1 do: [ :index |
+	1 to: (versionList size -1) do: [ :index |
 		releaseNumber
-			ifNil: [ releaseNumber := versionList at: index ]
-			ifNotNil: [ releaseNumber := releaseNumber, '.', versionList at: index ].
-			self updateRelease: releaseNumber version: aString ]
+			ifNil: [ releaseNumber := ('release', (versionList at: index) asString) ]
+			ifNotNil: [ releaseNumber := releaseNumber, '.', (versionList at: index) ].
+			self updateRelease: releaseNumber asSymbol version: aString ].
+	self updateRelease: 'stable' version: aString
 	
 ]
 

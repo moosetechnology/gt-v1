@@ -12,7 +12,8 @@ Class {
 		'items',
 		'wrappers',
 		'isNew',
-		'properties'
+		'properties',
+		'isCopy'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -133,6 +134,7 @@ GTMetacellerVersion >> blessing: aSymbol [
 
 { #category : #accessing }
 GTMetacellerVersion >> buildGroups [
+	self hasError ifTrue: [ ^#() ].
 	self version ifNotNil: [ 
 		^self version groups collect: [ :each | GTMetacellerGroup on: self spec: each ] ].
 	^#()
@@ -145,7 +147,7 @@ GTMetacellerVersion >> buildItems [
 
 { #category : #testing }
 GTMetacellerVersion >> canModify [
-	^self project hasAttributes
+	^self project hasAttributes and: [ self isCopy ]
 ]
 
 { #category : #accessing }
@@ -281,6 +283,11 @@ GTMetacellerVersion >> ensureProjectsCreated [
 	self project ensureProjectsCreated
 ]
 
+{ #category : #'accessing error' }
+GTMetacellerVersion >> errorMessage [
+	^self version asString
+]
+
 { #category : #actions }
 GTMetacellerVersion >> fetch [
 	self version ifNotNil: [ self version fetch ]
@@ -317,6 +324,11 @@ GTMetacellerVersion >> hasBlessing [
 { #category : #testing }
 GTMetacellerVersion >> hasDescription [
 	^self version description notNil
+]
+
+{ #category : #testing }
+GTMetacellerVersion >> hasError [
+	^self version isKindOf: Error
 ]
 
 { #category : #testing }
@@ -396,6 +408,11 @@ GTMetacellerVersion >> isBleedingEdge [
 	self project ifNil: [  ^false ].
 	self version ifNil: [ ^false ].
 	^self version = self project bleedingEdge
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> isCopy [
+	^isCopy ifNil: [ false ]
 ]
 
 { #category : #testing }
@@ -542,13 +559,6 @@ GTMetacellerVersion >> methodName: aString [
 	self propertyAt: #methodName put: aString
 ]
 
-{ #category : #'accessing generation' }
-GTMetacellerVersion >> methodNameFor: aString [
-	(aString endsWith: 'baseline') ifTrue: [ 
-		^(('baseline', (aString copyFrom: 1 to: (aString size-8))) asLegalSelector) greaseString ].
-	^('version', aString) asLegalSelector greaseString
-]
-
 { #category : #'code generation' }
 GTMetacellerVersion >> methodSpec [
 	^self parent methodSpecForVersion: self
@@ -674,6 +684,7 @@ GTMetacellerVersion >> postCopy [
 	" remove aliases of references we might change: "
 	super postCopy.
 	properties := self properties copy.
+	isCopy := true
 	
 ]
 
@@ -720,8 +731,10 @@ GTMetacellerVersion >> projectsForVersion: aString [
 
 { #category : #actions }
 GTMetacellerVersion >> promoteToRelease [
-	self commonVersion blessing: #release.
-	self saveVersion.
+	| newVersion |
+	newVersion := self commonVersion copy.
+	newVersion blessing: #release.
+	newVersion saveVersion.
 	self updateReleases
 ]
 
@@ -737,7 +750,10 @@ GTMetacellerVersion >> propertyAt: aSymbol ifAbsent: aBlock [
 
 { #category : #'accessing version' }
 GTMetacellerVersion >> propertyAt: aSymbol put: aValue [
-	self canModify ifFalse: [ GTMetacellerStateError signal: 'Cannot change ', aSymbol asString, ' of the main version.' ].
+	self canModify ifFalse: [ 
+		self isCopy
+			ifTrue: [ GTMetacellerStateError signal: 'Cannot change ', aSymbol asString, ' of the main version.' ]
+			ifFalse: [ GTMetacellerStateError signal: 'Only copy of version should be modified.' ] ].
 	self properties at: aSymbol put: aValue
 ]
 
@@ -797,63 +813,49 @@ GTMetacellerVersion >> spec [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> specString [
-	^String streamContents: [ :s |
-		self streamVersionHeaderWithName: self versionName on: s.
-		self needsGeneratingMainInfo ifTrue: [
-			self streamMainInfoOn: s indent: 1 forDisplay: true.
-			s cr; tab: 2; nextPutAll: 'yourself' ] ].
+	self hasError ifTrue: [ ^self errorMessage ].
+	^String codeStreamContents: [ :s |
+		(self streamVersionHeaderWithName: self versionName on: s)
+			with: [
+				self needsGeneratingMainInfo ifTrue: [
+					self streamMainInfoOn: s forDisplay: true ] ] ]
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamItemSpecsOn: aStream indent: anIndent first: aFirst [
-	| first |
-	first := aFirst.
+GTMetacellerVersion >> streamItemSpecsOn: aStream [
 	self itemSelectors do: [ :each |
 		| data |
 		data := self itemsForSymbol: each.
 		data ifNotEmpty: [ 
-			first ifFalse: [ 
-				aStream cr; tab: anIndent +1; nextPutAll: 'yourself.'; cr ].
-			aStream cr; tab: anIndent; nextPutAll: 'aSpec'.
+			| cascade |
+			cascade := aStream startCascade: 'aSpec'.
 			data do: [ :item |
-				item streamSpecOn: aStream indent: anIndent +1 specName: 'aSpec' ].
-			first := false ] ].
-	^first
-		
-			
-			
-			
+				item streamSpecOn: aStream specName: 'aSpec' ].
+			cascade close ] ]
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamMainInfoOn: aStream indent: anIndent forDisplay: aBoolean [
+GTMetacellerVersion >> streamMainInfoOn: aStream forDisplay: aBoolean [
 	self needsGeneratingMainInfo ifTrue: [
-		anIndent = 0
-			ifTrue: [ aStream nextPutAll: 'aSpec' ]
-			ifFalse: [ aStream cr; tab: anIndent; nextPutAll: 'aSpec' ].
+		| cascade |
+		cascade := aStream startCascade: 'aSpec'.
 		(self mainInfoSelectorsForDisplay: aBoolean) do: [ :each |
 			(self infoFor: each) ifNotNilDo: [ :data |
-				aStream cr; tab: anIndent +1; nextPutAll: each asString; nextPutAll: ': '.
-				data asCodeStringOn: aStream.
-				aStream nextPut: $; ] ].
-		self streamRepositoriesOn: aStream indent: anIndent +1.
+				cascade assign: each value: data ] ].
+		self streamRepositoriesOn: cascade.
 		aBoolean ifTrue: [
-			aStream cr; nextPutAll: '"Following lines will be automatically set by Metaceller if not overridden:'.
+			| comment |
+			comment := aStream startComment: 'Following lines will be automatically set by Metaceller if not overridden:'.
 			self commentInfoSelectors do: [ :each |
 				(self infoFor: each) ifNotNilDo: [ :data |
-					aStream cr; tab: anIndent +1; nextPutAll: each asString; nextPutAll: ': '.
-					data asCodeStringOn: aStream.
-					aStream nextPut: $; ] ].
-			aStream cr; nextPut:$" ].
-		^true ].
-	^false
+					comment assign: each value: data ] ] ].
+		cascade close ]
 ]
 
 { #category : #'code generation' }
-GTMetacellerVersion >> streamRepositoriesOn: aStream indent: anIndent [ 
+GTMetacellerVersion >> streamRepositoriesOn: aCascade [
 	self repositoriesToWrite do: [ :each |
-		aStream cr; tab: anIndent; nextPutAll: 'Repository: '.
-		each asCodeStringOn: aStream ]
+		aCascade assign: 'repository' to: each ]
 ]
 
 { #category : #'code generation' }
@@ -870,37 +872,21 @@ GTMetacellerVersion >> streamVersionHeader: aVersion on: aStream [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersionHeaderOn: aStream [
-	aStream nextPutAll: self methodName; nextPutAll: ' aSpec'; cr;
-		tab; nextPutAll: '<version: '.
-	self versionName asCodeStringOn: aStream.
-	self importedVersions ifNotEmpty: [ 
-		aStream nextPutAll: ' imports: '.
-		self importedVersions asCodeStringOn: aStream ].
-	aStream nextPut: $>
+	^aStream method: self methodName versionName: self versionName importedVersions: self version importedVersions
 ]
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersionHeaderWithName: aString on: aStream [
-	aStream nextPutAll: (self methodNameFor: aString); nextPutAll: ': aSpec'; cr;
-		tab; nextPutAll: '<version: '.
-	aString asCodeStringOn: aStream.
-	self version importedVersions ifNotEmpty: [ 
-		aStream nextPutAll: ' imports: '.
-		self version importedVersions asCodeStringOn: aStream ].
-	aStream nextPut: $>
+	^aStream version: aString importedVersions: self version importedVersions
 ]
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersionOn: aStream [
 	self needsGenerating ifTrue: [
-		| first |
-		aStream
-			cr; tab; nextPutAll: 'aSpec for: '.
-		self platformSymbol asCodeStringOn: aStream.
-		aStream nextPutAll: ' do: ['.
-		first := (self streamMainInfoOn: aStream indent: 2 forDisplay: false) not.
-		self streamItemSpecsOn: aStream indent: 2 first: first.
-		aStream cr; tab: 3; nextPutAll: 'yourself ].' ].
+		(aStream openPlatform: self platformSymbol)
+			with: [
+				self streamMainInfoOn: aStream forDisplay: false.
+				self streamItemSpecsOn: aStream ] ].
 	self sortedChildren do: [ :each |
 		each streamVersionOn: aStream ]
 ]
@@ -916,6 +902,12 @@ GTMetacellerVersion >> tagsOf: aSpec [
 	(aSpec isKindOf: GTMetacellerItem) ifTrue: [ ^self tagsOf: aSpec referenceSpec ].
 	(aSpec isKindOf: MetacelloProjectReferenceSpec) ifTrue: [  ^self tagsOf: aSpec projectReference ].
 	^self packagesAndGroups at: aSpec ifAbsent: [OrderedCollection new]
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> test: aGrouplist [
+	aGrouplist ifNil: [ ^self testItems: self allGroups ].
+	self testItems: aGrouplist
 ]
 
 { #category : #actions }
@@ -991,11 +983,13 @@ GTMetacellerVersion >> updateToCurrentAndSave [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> updateVersionWith: aClass selector: aString [ 
-	aClass new perform: aString with: self.
+	| updatedVersion |
+	updatedVersion := self copy.
+	aClass new perform: aString with: updatedVersion.
 	" eveluate the pragma "
 	(aClass methodDict at: aString) pragmas do: [ :pragma |
-		(pragma key = #'version:imports:') ifTrue: [ self importedVersions: (pragma argumentAt: 2) ] ].
-	self saveVersion
+		(pragma key = #'version:imports:') ifTrue: [ updatedVersion importedVersions: (pragma argumentAt: 2) ] ].
+	updatedVersion saveVersion
 ]
 
 { #category : #actions }

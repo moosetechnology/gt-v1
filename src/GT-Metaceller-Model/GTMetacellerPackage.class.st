@@ -8,6 +8,11 @@ Class {
 	#category : #'GT-Metaceller-Model'
 }
 
+{ #category : #accessing }
+GTMetacellerPackage >> blessing [
+	^self version blessing
+]
+
 { #category : #testing }
 GTMetacellerPackage >> calculateIsNewer [
 	self file ifNil: [  ^false ].
@@ -36,7 +41,8 @@ GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
 	references := self referenceSpec goferPackage resolveAllWith: gofer.
 	references ifEmpty: [ ^false ].
 	references size > 1 ifTrue: [
-		self addWarning: 'Assuming version ', references last name, ' is the correct version.' ].
+		self hasStableBlessing ifTrue: [
+			self addWarning: 'Version not unique. Assuming version ', references last name, ' is the correct version.' ] ].
 	^true
 
 ]
@@ -175,6 +181,12 @@ GTMetacellerPackage >> validate [
 	" check if the repository is correct "
 	(self checkExistsIn: self repositorySpecs) 
 		ifFalse: [ self addError: 'No valid repository for self ', self itemName, '.', String cr, 'Expected this package in one of the following repostories: ', self repositorySpecs asString ].
+	self hasStableBlessing ifTrue: [ 
+		" explicit filename should be provided"
+		self file ifNil: [ self addWarning: 'No explicit filename in a stable version.' ] ].
+	self hasBaselineBlessing ifTrue: [ 
+		" explicit filename should not be provided"
+		self file ifNotNil: [ self addWarning: 'Explicit filename in a baseline version.' ] ].
 	" check the dependencies "
 	self version validateDependencies: self
 	

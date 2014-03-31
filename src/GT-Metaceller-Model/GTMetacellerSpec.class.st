@@ -15,31 +15,23 @@ GTMetacellerSpec >> itemKindString [
 ]
 
 { #category : #'code generation' }
-GTMetacellerSpec >> streamSpecOn: aStream indent: anIndent specName: aSpecName [
+GTMetacellerSpec >> streamSpecOn: aStream specName: aSpecName [
 	| needsWith needsWithBlock repositories |
 	repositories := self repositories.
 	needsWithBlock := repositories notEmpty.
 	self specAccessors allButFirstDo: [ :each | needsWithBlock := needsWithBlock or: [ 
 			(self dataFor: each) notNil ] ].
 	needsWith := needsWithBlock not and: [ (self dataFor: self specAccessors first) notNil ].
-	aStream cr; tab: anIndent; nextPutAll: self itemKindString; nextPutAll: ': '.
-	self itemName asCodeStringOn: aStream.
+	aStream openTag assign: self itemKindString value: self itemName.
 	needsWith ifTrue: [
-		aStream nextPutAll: ' with: '. 
-		(self dataFor: self specAccessors first) asCodeStringOn: aStream ].
-	needsWithBlock
-		ifTrue: [
-			aStream nextPutAll: ' with: ['; cr.
-			aStream tab: anIndent +1; nextPutAll: aSpecName.
+		aStream openTag withValue: (self dataFor: self specAccessors first) ].
+	needsWithBlock ifTrue: [
+		aStream openTag withBlock: [
+			| cascade |
+			cascade := aStream startCascade: aSpecName.
 			self specAccessors do: [ :each |
 				(self dataFor: each) ifNotNilDo: [ :data |
-					aStream cr; tab: anIndent +2; nextPutAll: each asString; nextPutAll: ': '.
-					data asCodeStringOn: aStream.
-					aStream nextPut: $; ] ].
+					cascade assign: each value: data ] ].
 			repositories do: [ :repo |
-				aStream cr; tab: anIndent +2; nextPutAll: 'repository: '.
-				repo asCodeStringOn: aStream.
-				aStream nextPut: $; ].
-			aStream cr; tab: anIndent +2; nextPutAll: 'yourself ];' ]
-		ifFalse: [ aStream nextPut: $; ]
+				cascade assign: 'repository' value: repo ] ] ]
 ]
