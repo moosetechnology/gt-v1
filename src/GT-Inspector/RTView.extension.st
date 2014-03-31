@@ -10,7 +10,7 @@ RTView >> gtInspectorElementsHierarchyIn: composite [
 
 { #category : #'*gt-inspector' }
 RTView >> gtInspectorViewIn: composite [
-	<gtInspectorPresentationOrder: 30>
+	<gtInspectorPresentationOrder: -10>
 	composite roassal2
 		title: 'View';
 		initializeView: [ self ]
