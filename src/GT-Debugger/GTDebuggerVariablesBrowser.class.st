@@ -40,7 +40,7 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 			each value class theNonMetaClass browserIcon
 				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];"
 		send: #value;
-		morphicSelectionAct: [:each | each value browse ] 
+		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
 			entitled: 'Browse';
