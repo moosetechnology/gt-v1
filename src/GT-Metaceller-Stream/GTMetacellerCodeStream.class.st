@@ -21,6 +21,12 @@ GTMetacellerCodeStream >> close [
 ]
 
 { #category : #accessing }
+GTMetacellerCodeStream >> currentOpenTag [
+	self currentTag ifNil: [ ^nil ].
+	^self currentTag currentOpenTag
+]
+
+{ #category : #accessing }
 GTMetacellerCodeStream >> currentTag [
 	^ currentTag
 ]
@@ -51,12 +57,6 @@ GTMetacellerCodeStream >> openComment [
 { #category : #generating }
 GTMetacellerCodeStream >> openMethod [
 	^self open: (GTMethodTag on: self)
-]
-
-{ #category : #accessing }
-GTMetacellerCodeStream >> openTag [
-	self currentTag ifNil: [ ^nil ].
-	^self currentTag currentOpenTag
 ]
 
 { #category : #generating }

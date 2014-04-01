@@ -59,7 +59,7 @@ GTCodeTag >> codeStream [
 { #category : #accessing }
 GTCodeTag >> codeStream: anObject [
 	codeStream := anObject.
-	parent := codeStream openTag
+	parent := codeStream currentOpenTag
 ]
 
 { #category : #accessing }

@@ -33,7 +33,7 @@ GTCascadeTag >> withBlock: aBlock [
 	blockTag := GTBlockTag on: self codeStream.
 	self open: blockTag.
 	aBlock value.
-	self close
+	blockTag close
 ]
 
 { #category : #generating }
