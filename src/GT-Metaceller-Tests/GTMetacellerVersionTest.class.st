@@ -27,12 +27,7 @@ GTMetacellerVersionTest >> assertVersion: aVersion equals: aVersion2 [
 
 { #category : #asserting }
 GTMetacellerVersionTest >> denyEmptySpecIn: aMethodString [
-	| index |
-	index := (aMethodString findString: 'aSpec') + 5.
-	[ index > 5 ] whileTrue: [
-		self assert: (aMethodString findString: ';' startingAt: index) > 0.
-		self assert: (aMethodString findString: 'yourself' startingAt: index) > (aMethodString findString: ';' startingAt: index).
-		index := (aMethodString findString: 'aSpec' startingAt: index) +5 ]
+	self assert: (aMethodString findString: 'yourself') equals: 0
 ]
 
 { #category : #tests }
