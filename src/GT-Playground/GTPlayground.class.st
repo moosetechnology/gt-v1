@@ -72,19 +72,19 @@ GTPlayground >> codeIn: a [
 		title: [ :page | page title ];
 		format: [ :page | page content ];
 		variableBindings: [ :page| context bingings ];
+		populate: #selection
+			icon: GLMUIThemeExtraIcons glamorousPlay
+"			on: $O"
+			entitled: 'Execute all and open'
+			with: [ :text :page |
+				page content: text text.
+				self evaluateAllFrom: text ];
 		selectionPopulate: #selection
 			on: $o
 			entitled: 'Open'
 			with: [ :text :page |
 				page content: text text.
 				self evaluateSelectionFrom: text ];
-		populate: #selection
-			icon: GLMUIThemeExtraIcons glamorousPlay
-			on: $O
-			entitled: 'Execute all and open'
-			with: [ :text :page |
-				page content: text text.
-				self evaluateAllFrom: text ];
 		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
