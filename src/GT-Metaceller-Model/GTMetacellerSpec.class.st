@@ -22,11 +22,11 @@ GTMetacellerSpec >> streamSpecOn: aStream specName: aSpecName [
 	self specAccessors allButFirstDo: [ :each | needsWithBlock := needsWithBlock or: [ 
 			(self dataFor: each) notNil ] ].
 	needsWith := needsWithBlock not and: [ (self dataFor: self specAccessors first) notNil ].
-	aStream openTag assign: self itemKindString value: self itemName.
+	aStream currentOpenTag assign: self itemKindString value: self itemName.
 	needsWith ifTrue: [
-		aStream openTag withValue: (self dataFor: self specAccessors first) ].
+		aStream currentOpenTag withValue: (self dataFor: self specAccessors first) ].
 	needsWithBlock ifTrue: [
-		aStream openTag withBlock: [
+		aStream currentOpenTag withBlock: [
 			| cascade |
 			cascade := aStream startCascade: aSpecName.
 			self specAccessors do: [ :each |

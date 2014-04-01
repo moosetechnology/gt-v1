@@ -488,7 +488,7 @@ GTMetacellerVersion >> itemFor: aString [
 
 { #category : #'accessing generation' }
 GTMetacellerVersion >> itemSelectors [
-	^#( allProjects allGroups allPackages )
+	^#( allProjects allPackages allGroups )
 ]
 
 { #category : #accessing }
