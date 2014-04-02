@@ -43,6 +43,21 @@ GTMetacellerItem >> addWarning: aString [
 		ifFalse: [ self warnings add: aString ]
 ]
 
+{ #category : #convenience }
+GTMetacellerItem >> arrayFrom: anOriginal with: aStringOrArray [ 
+	aStringOrArray ifNil: [ ^anOriginal ].
+	aStringOrArray isString ifTrue: [ 
+		anOriginal
+			ifNil: [ ^Array with: aStringOrArray ]
+			ifNotNil: [ anOriginal copyWith: aStringOrArray ] ].
+	anOriginal
+		ifNil: [ ^aStringOrArray ].
+	^OrderedCollection new
+		addAll: anOriginal;
+		addAll: aStringOrArray;
+		yourself
+]
+
 { #category : #accessing }
 GTMetacellerItem >> asString [
 	^self referenceSpec asString 
@@ -235,6 +250,13 @@ GTMetacellerItem >> package: aString [
 	self halt
 ]
 
+{ #category : #'code generation' }
+GTMetacellerItem >> package: aString with: aBlock [ 
+	" first evaluate the properties: "
+	aBlock value.
+	^self package: aString
+]
+
 { #category : #'accessing version' }
 GTMetacellerItem >> parent [
 	^(self version parent item: self itemName)
@@ -318,6 +340,11 @@ GTMetacellerItem >> repositoriesFrom: aMetacelloMVRepositorySpecs ignoreOverride
 { #category : #'accessing spec' }
 GTMetacellerItem >> requires [
 	^self propertyAt: #requires ifAbsent: [ self referenceSpec requires asSet ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerItem >> requires: aString [ 
+	self propertyAt: #requires put: (self arrayFrom: self requires with: aString)
 ]
 
 { #category : #accessing }

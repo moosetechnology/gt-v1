@@ -38,6 +38,11 @@ GTMetacellerProjectReference >> children [
 	^children ifNil: [ children := self buildChildren ]
 ]
 
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> className [
+	^self propertyAt: #className ifAbsent: [ self referenceSpec className ]
+]
+
 { #category : #accessing }
 GTMetacellerProjectReference >> configForProject [
 	| projectReference |
@@ -121,17 +126,17 @@ GTMetacellerProjectReference >> printVersionOn: aStream [
 			nextPut: $' ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> project [
 	^self referenceSpec
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> projectReference [
-	self project ifNil: [  ^nil ].
-	(self project isKindOf: MetacelloProjectReferenceSpec)
-		ifTrue: [ ^self project projectReference ]
-		ifFalse: [ ^self project ]
+	self referenceSpec ifNil: [  ^nil ].
+	(self referenceSpec isKindOf: MetacelloProjectReferenceSpec)
+		ifTrue: [ ^self referenceSpec projectReference ]
+		ifFalse: [ ^self referenceSpec ]
 ]
 
 { #category : #'code generation' }
@@ -157,5 +162,5 @@ GTMetacellerProjectReference >> validate [
 
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> versionString [
-	^self project versionString
+	^self propertyAt: #versionString ifAbsent: [ self referenceSpec versionString ]
 ]
