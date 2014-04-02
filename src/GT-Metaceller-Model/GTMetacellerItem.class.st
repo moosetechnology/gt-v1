@@ -48,6 +48,11 @@ GTMetacellerItem >> asString [
 ]
 
 { #category : #accessing }
+GTMetacellerItem >> childVersions [
+	^self version children collect: [ :each | each item: self itemName ] 
+]
+
+{ #category : #accessing }
 GTMetacellerItem >> children [
 	^#()
 ]

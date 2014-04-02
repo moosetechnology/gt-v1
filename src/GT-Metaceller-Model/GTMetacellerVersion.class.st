@@ -167,6 +167,11 @@ GTMetacellerVersion >> checkCurrentVersion [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> childVersions [
+	^self children
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> children [
 	^children ifNil: [ children := OrderedCollection new ]
 ]
@@ -489,7 +494,7 @@ GTMetacellerVersion >> isStable [
 
 { #category : #accessing }
 GTMetacellerVersion >> item: aName [ 
-	^self packagesAndProjects detect: [ :each | each itemName = aName ] ifNone: [ nil ]
+	^self allItems detect: [ :each | each itemName = aName ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
