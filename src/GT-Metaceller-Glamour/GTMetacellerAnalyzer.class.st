@@ -113,7 +113,7 @@ GTMetacellerAnalyzer >> itemUpdateBrowser [
 GTMetacellerAnalyzer >> platformsIn: aBrowser [
 	^aBrowser tree
 		display: #commonVersion;
-		children: #children;
+		children: #childVersions;
 		format: #platform;
 		yourself
 ]
