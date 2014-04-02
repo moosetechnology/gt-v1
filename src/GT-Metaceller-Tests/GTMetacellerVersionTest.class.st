@@ -68,6 +68,7 @@ GTMetacellerVersionTest >> testVersionCopy [
 	self assert: (mainProject versions contains: [ :each | each versionName ='1.2' ]).
 	version2 := mainProject version: '1.2'.
 	self assertVersion: version2 equals: version1.
+	self deny: (version2 methodString includesSubstring: '''repository''').
 	self deny: (version2 methodString includesSubstring: '#''pharo''').
 	self deny: (version2 methodString includesSubstring: '#''gemstone''').
 	self denyEmptySpecIn: version2 methodString
