@@ -201,6 +201,7 @@ GTMetacellerVersion >> createNewVersionWith: aClass selector: aString [
 		ifFalse: [ newVersion blessing: #'development' ].
 	newVersion author: Author fullName.
 	newVersion timestamp: DateAndTime now asDate yyyymmdd.
+	newVersion repositories: OrderedCollection new.
 	aClass new perform: aString with: newVersion.
 	" eveluate the pragma "
 	(aClass methodDict at: aString) pragmas do: [ :pragma |
@@ -687,7 +688,6 @@ GTMetacellerVersion >> postCopy [
 	items := items copy.
 	groups := groups copy.
 	isCopy := true
-	
 ]
 
 { #category : #'accessing version' }
@@ -766,9 +766,15 @@ GTMetacellerVersion >> replaceOrAddItem: anItem [
 	self items add: anItem
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing version' }
 GTMetacellerVersion >> repositories [
-	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) asSet
+	^self propertyAt: #repostories
+		ifAbsent: [ (self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) asSet ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerVersion >> repositories: aCollection [
+	self propertyAt: #repostories put: aCollection
 ]
 
 { #category : #'accessing generation' }
@@ -783,7 +789,12 @@ GTMetacellerVersion >> repositoriesToWrite [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing version' }
+GTMetacellerVersion >> repository: aString [ 
+	(self propertyAt: #repositories ifAbsent: [ GTMetacellerStateError signal: 'Repositories were not initialized properly in this copy' ]) add: aString
+]
+
+{ #category : #'accessing version' }
 GTMetacellerVersion >> repositorySpecs [
 	^self version loader spec repositories
 ]
