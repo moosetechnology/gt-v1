@@ -76,6 +76,11 @@ GTMetacellerItemDifference >> parent: anItem [
 	parent := anItem
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerItemDifference >> platform [
+	^self item platform
+]
+
 { #category : #accessing }
 GTMetacellerItemDifference >> repositories [
 	| retVal parentRepos |

@@ -7,7 +7,8 @@ Class {
 		'isValidated',
 		'errors',
 		'warnings',
-		'properties'
+		'properties',
+		'isCopy'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -66,7 +67,8 @@ GTMetacellerItem >> commonVersion [
 GTMetacellerItem >> dataFor: aSymbol [
 	| retVal |
 	retVal := self perform: aSymbol.
-	retVal isCollection ifTrue: [ retVal ifEmpty: [ ^nil ] ].
+	retVal isCollection ifTrue: [ 
+		retVal ifEmpty: [ ^nil ] ].
 	^retVal value
 ]
 
@@ -147,6 +149,11 @@ GTMetacellerItem >> initialize: aVersion spec: aSpec [
 	self initialize.
 	version := aVersion.
 	referenceSpec := aSpec
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> isCopy [
+	^isCopy ifNil: [ false ]
 ]
 
 { #category : #testing }
@@ -243,6 +250,13 @@ GTMetacellerItem >> platforms [
 	^self version platformsFor: self
 ]
 
+{ #category : #copying }
+GTMetacellerItem >> postCopy [
+	super postCopy.
+	properties := self properties copy.
+	isCopy := true
+]
+
 { #category : #printing }
 GTMetacellerItem >> printOn: aStream [
 	super printOn: aStream.
@@ -267,7 +281,8 @@ GTMetacellerItem >> propertyAt: aKey ifAbsent: aBlock [
 ]
 
 { #category : #'accessing spec' }
-GTMetacellerItem >> propertyAt: aKey put: aValue [ 
+GTMetacellerItem >> propertyAt: aKey put: aValue [
+	self isCopy ifFalse: [ GTMetacellerStateError signal: 'Only copyies can be modified' ].
 	self properties at: aKey put: aValue
 ]
 

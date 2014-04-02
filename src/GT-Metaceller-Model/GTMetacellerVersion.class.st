@@ -13,8 +13,7 @@ Class {
 		'wrappers',
 		'isNew',
 		'properties',
-		'isCopy',
-		'allItems'
+		'isCopy'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -95,22 +94,17 @@ GTMetacellerVersion >> addChild: aVersion [
 
 { #category : #accessing }
 GTMetacellerVersion >> allGroups [
-	^self allItems select: [ :each | each isGroup ]
-]
-
-{ #category : #accessing }
-GTMetacellerVersion >> allItems [
-	^allItems ifNil: [ allItems := self packagesAndProjects sort: [ :a :b | a itemName < b itemName ] ]
+	^self items select: [ :each | each isGroup ]
 ]
 
 { #category : #accessing }
 GTMetacellerVersion >> allPackages [
-	^self allItems select: [ :each | each isPackage ]
+	^self items select: [ :each | each isPackage ]
 ]
 
 { #category : #accessing }
 GTMetacellerVersion >> allProjects [
-	^self allItems select: [ :each | each isProject ]
+	^self items select: [ :each | each isProject ]
 ]
 
 { #category : #'accessing version' }
@@ -148,7 +142,7 @@ GTMetacellerVersion >> buildGroups [
 
 { #category : #initialization }
 GTMetacellerVersion >> buildItems [
-	^self packagesAndProjects collect: [ :each | self wrapperFor: each ] 
+	^self packagesAndProjects sort: [ :a :b | a itemName < b itemName ]
 ]
 
 { #category : #testing }
@@ -494,20 +488,20 @@ GTMetacellerVersion >> isStable [
 
 { #category : #accessing }
 GTMetacellerVersion >> item: aName [ 
-	^self allItems detect: [ :each | each itemName = aName ] ifNone: [ nil ]
+	^self items detect: [ :each | each itemName = aName ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }
 GTMetacellerVersion >> itemFor: aString [ 
-	^self packagesAndProjects detect: [ :each | each itemName = aString ] ifNone: [ nil ]
+	^self items detect: [ :each | each itemName = aString ] ifNone: [ nil ]
 ]
 
 { #category : #actions }
 GTMetacellerVersion >> itemListFrom: anItemOrList [
 	anItemOrList
-		ifNil: [ ^self allItems ].
+		ifNil: [ ^self items ].
 	anItemOrList isCollection ifFalse: [ ^Array with: anItemOrList ].
-	anItemOrList ifEmpty: [ ^self allItems ].
+	anItemOrList ifEmpty: [ ^self items ].
 	^anItemOrList
 ]
 
@@ -700,7 +694,9 @@ GTMetacellerVersion >> possibleBlessings [
 GTMetacellerVersion >> postCopy [
 	" remove aliases of references we might change: "
 	super postCopy.
-	properties := self properties copy.
+	properties := properties copy.
+	items := items copy.
+	groups := groups copy.
 	isCopy := true
 	
 ]
@@ -775,9 +771,10 @@ GTMetacellerVersion >> propertyAt: aSymbol put: aValue [
 ]
 
 { #category : #'accessing version' }
-GTMetacellerVersion >> replaceOrAddItem: anItem [ 
-	self allItems removeAllSuchThat: [ :each | each itemName = anItem itemName ].
-	self allItems add: anItem
+GTMetacellerVersion >> replaceOrAddItem: anItem [
+	self canModify ifFalse: [ GTMetacellerStateError signal: 'Can only change a copy of a version.' ].
+	self items removeAllSuchThat: [ :each | each itemName = anItem itemName ].
+	self items add: anItem
 ]
 
 { #category : #accessing }
@@ -793,7 +790,6 @@ GTMetacellerVersion >> repositoriesToWrite [
 		yourself.
 	self importedVersions do: [ :each |
 		retVal removeAllFoundIn: (self project version: each) repositories ].
-	((self blessing ~= #'baseline') and: [ retVal notEmpty ]) ifTrue: [ self halt ].
 	^retVal
 
 ]
