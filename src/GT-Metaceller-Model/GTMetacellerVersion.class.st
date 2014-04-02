@@ -491,11 +491,6 @@ GTMetacellerVersion >> item: aName [
 	^self items detect: [ :each | each itemName = aName ] ifNone: [ nil ]
 ]
 
-{ #category : #accessing }
-GTMetacellerVersion >> itemFor: aString [ 
-	^self items detect: [ :each | each itemName = aString ] ifNone: [ nil ]
-]
-
 { #category : #actions }
 GTMetacellerVersion >> itemListFrom: anItemOrList [
 	anItemOrList
@@ -613,12 +608,6 @@ GTMetacellerVersion >> needsGeneratingMainInfo [
 		(self infoFor: each) ifNotNil: [ ^true ] ].
 	self repositoriesToWrite ifNotEmpty: [ ^true ].
 	^false
-]
-
-{ #category : #accessing }
-GTMetacellerVersion >> package: aString [
-	^self items detect: [ :each | each hasName: aString ] ifNone: [ nil ]
-	
 ]
 
 { #category : #accessing }

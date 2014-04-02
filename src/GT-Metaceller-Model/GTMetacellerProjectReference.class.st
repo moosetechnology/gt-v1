@@ -40,7 +40,7 @@ GTMetacellerProjectReference >> children [
 
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> className [
-	^self propertyAt: #className ifAbsent: [ self referenceSpec className ]
+	^self propertyAt: #className ifAbsent: [ self projectReference className ]
 ]
 
 { #category : #accessing }

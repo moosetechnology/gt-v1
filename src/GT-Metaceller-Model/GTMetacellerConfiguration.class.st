@@ -224,6 +224,11 @@ GTMetacellerConfiguration >> validate: aCollection [
 	self mainProject validate: aCollection
 ]
 
+{ #category : #'accessing project' }
+GTMetacellerConfiguration >> version: aString [ 
+	^self mainProject version: aString
+]
+
 { #category : #roassal }
 GTMetacellerConfiguration >> viewVersionMapOn: view [
 	self mainProject viewVersionMapOn: view
