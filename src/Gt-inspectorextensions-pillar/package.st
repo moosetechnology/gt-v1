@@ -1,1 +1,1 @@
-Package { #name : #'Gt-inspectorextensions-pillar' }
+Package { #name : #'GT-InspectorExtensions-Pillar' }
