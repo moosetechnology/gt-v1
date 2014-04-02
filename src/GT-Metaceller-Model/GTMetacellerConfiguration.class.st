@@ -165,6 +165,11 @@ GTMetacellerConfiguration >> projects [
 	^self mainProject projects
 ]
 
+{ #category : #accessing }
+GTMetacellerConfiguration >> releases [
+	^self mainProject releases
+]
+
 { #category : #private }
 GTMetacellerConfiguration >> reset [
 	mainProject := nil.
@@ -195,13 +200,13 @@ GTMetacellerConfiguration >> status [
 ]
 
 { #category : #actions }
-GTMetacellerConfiguration >> testConfiguration [
-	status := #tested
+GTMetacellerConfiguration >> test: aCollection [ 
+	self mainProject test: aCollection
 ]
 
 { #category : #actions }
-GTMetacellerConfiguration >> testItems: aCollection [ 
-	self mainProject testItems: aCollection
+GTMetacellerConfiguration >> testConfiguration [
+	status := #tested
 ]
 
 { #category : #display }
@@ -215,8 +220,8 @@ GTMetacellerConfiguration >> validate [
 ]
 
 { #category : #actions }
-GTMetacellerConfiguration >> validateItems: aCollection [ 
-	self mainProject validateItems: aCollection
+GTMetacellerConfiguration >> validate: aCollection [ 
+	self mainProject validate: aCollection
 ]
 
 { #category : #roassal }

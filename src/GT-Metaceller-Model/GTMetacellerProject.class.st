@@ -229,8 +229,8 @@ GTMetacellerProject >> tags [
 ]
 
 { #category : #actions }
-GTMetacellerProject >> testItems: aCollection [ 
-	self defaultVersion ifNotNil: [ self defaultVersion testItems: aCollection ]
+GTMetacellerProject >> test: aCollection [ 
+	self defaultVersion ifNotNil: [ self defaultVersion test: aCollection ]
 ]
 
 { #category : #accessing }
@@ -265,8 +265,8 @@ GTMetacellerProject >> validate [
 ]
 
 { #category : #actions }
-GTMetacellerProject >> validateItems: aCollection [ 
-	self defaultVersion ifNotNil: [ ^self defaultVersion validateItems: aCollection ]
+GTMetacellerProject >> validate: aCollection [ 
+	self defaultVersion ifNotNil: [ ^self defaultVersion validate: aCollection ]
 ]
 
 { #category : #accessing }

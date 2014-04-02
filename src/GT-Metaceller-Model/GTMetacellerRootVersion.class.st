@@ -79,6 +79,11 @@ GTMetacellerRootVersion >> errorVersions [
 	^errorVersions ifNil: [ errorVersions := OrderedCollection new ]
 ]
 
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> item: aString [ 
+	^nil
+]
+
 { #category : #accessing }
 GTMetacellerRootVersion >> mainVersion [
 	^mainVersion
@@ -141,11 +146,6 @@ GTMetacellerRootVersion >> repositoriesToWrite [
 { #category : #accessing }
 GTMetacellerRootVersion >> rootVersion [
 	^self
-]
-
-{ #category : #'code generation' }
-GTMetacellerRootVersion >> saveVersion: aGTMetacellerVersion [ 
-	self shouldBeImplemented.
 ]
 
 { #category : #'code generation' }

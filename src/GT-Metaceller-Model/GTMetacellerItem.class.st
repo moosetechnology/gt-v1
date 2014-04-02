@@ -52,6 +52,11 @@ GTMetacellerItem >> children [
 	^#()
 ]
 
+{ #category : #accessing }
+GTMetacellerItem >> commonVersion [
+	^self version commonVersion item: self itemName
+]
+
 { #category : #'accessing spec' }
 GTMetacellerItem >> dataFor: aSymbol [
 	| retVal |
@@ -69,6 +74,13 @@ GTMetacellerItem >> differenceWith: anItem [
 { #category : #accessing }
 GTMetacellerItem >> errors [
 	^errors ifNil: [ errors := OrderedCollection new ]
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> group: aString [ 
+	(self isGroup and: [ self itemName = aString ]) ifTrue: [ ^self ].
+	" not found: create a new group! "
+	self halt
 ]
 
 { #category : #testing }
@@ -189,9 +201,36 @@ GTMetacellerItem >> mergeWith: anItem [
 	^retVal
 ]
 
+{ #category : #'code generation' }
+GTMetacellerItem >> method [
+	^GTMetacellerItem methodDictionary at: #method
+]
+
 { #category : #accessing }
 GTMetacellerItem >> name [
 	^self referenceSpec name
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> namedTempAt: anInteger [ 
+	^self
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> package: aString [ 
+	(self isPackage and: [ self itemName = aString ]) ifTrue: [ ^self ].
+	" not found: create a new package! "
+	self halt
+]
+
+{ #category : #'accessing version' }
+GTMetacellerItem >> parent [
+	^(self version parent item: self itemName)
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> platform [
+	^self version platform
 ]
 
 { #category : #accessing }
@@ -203,6 +242,13 @@ GTMetacellerItem >> platforms [
 GTMetacellerItem >> printOn: aStream [
 	super printOn: aStream.
 	aStream nextPut: $(; nextPutAll: self itemName; nextPut: $)
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> project: aString [ 
+	(self isProject and: [ self itemName = aString ]) ifTrue: [ ^self ].
+	" not found: create a new project! "
+	self halt
 ]
 
 { #category : #'accessing spec' }
@@ -261,6 +307,32 @@ GTMetacellerItem >> resetValidated [
 	isValidated := false
 ]
 
+{ #category : #actions }
+GTMetacellerItem >> saveVersion [
+	self version saveWithItem: self
+]
+
+{ #category : #actions }
+GTMetacellerItem >> saveWithSpecString: aString [ 
+	" create a copy "
+	| newSpec |
+	newSpec := self copy.
+	self parent
+		ifNil: [ 
+			self specAccessors do: [ :each | 
+				newSpec propertyAt: each put: nil ] ]
+		ifNotNilDo: [ :parent |
+			self specAccessors do: [ :each | 
+				newSpec propertyAt: each put: (parent dataFor: each) ] ].
+	" and perform the string "
+	(nil class compiler
+		source: aString;
+		context: newSpec;
+		receiver: self;
+		requestor: self;
+		evaluate) saveVersion
+]
+
 { #category : #'code generation' }
 GTMetacellerItem >> specAccessors [
 	^#( includes requires )
@@ -269,6 +341,18 @@ GTMetacellerItem >> specAccessors [
 { #category : #accessing }
 GTMetacellerItem >> specName [
 	^self referenceSpec name
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> specString [
+	^String codeStreamContents: [ :s |
+		s startCascade: 'aSpec'.
+		self streamSpecOn: s specName: 'aSpec' ]
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> tempNames [
+	^#( 'aSpec' )
 ]
 
 { #category : #actions }

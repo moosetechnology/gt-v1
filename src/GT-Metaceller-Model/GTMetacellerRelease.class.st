@@ -54,9 +54,45 @@ GTMetacellerRelease >> determineVersion [
 	^nil
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerRelease >> groups [
+	self version ifNil: [ ^#() ].
+	^self version groups
+]
+
+{ #category : #'accessing version' }
+GTMetacellerRelease >> groupsAndLoosePackages [
+	self version ifNil: [ ^#() ].
+	^self version groupsAndLoosePackages
+]
+
+{ #category : #printing }
+GTMetacellerRelease >> infoText [
+	| retVal |
+	retVal := self labelAsText.
+	retVal append: String cr.
+	self version
+		ifNil: [ 
+			(self metacelloVersion isKindOf: Exception)
+				ifTrue: [ retVal append: (Text string: self metacelloVersion name attribute: TextColor red) ]
+				ifFalse: [ retVal append: (Text string: ('Could not determine version', self versionName asString, '.') attribute: TextColor red) ] ]
+		ifNotNil: [ retVal append: self version infoText ].
+	^retVal
+]
+
 { #category : #accessing }
 GTMetacellerRelease >> isCopy [
 	^isCopy ifNil: [ false ]
+]
+
+{ #category : #printing }
+GTMetacellerRelease >> labelAsText [
+	| retVal | 
+	retVal := Text fromString: ('#', self releaseName).
+	self version 
+		ifNil: [ retVal append: (Text string: '(no version)' attribute: TextColor red) ]
+		ifNotNil: [ retVal append: (Text string: ('(', self versionName, ')') attribute: TextColor gray) ].
+	^retVal
 ]
 
 { #category : #accessing }
@@ -125,6 +161,12 @@ GTMetacellerRelease >> saveVersion [
 	self project createRelease: self releaseName version: self versionName
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerRelease >> test: aCollection [ 
+	self version ifNil: [ ^self ].
+	self version test: aCollection
+]
+
 { #category : #actions }
 GTMetacellerRelease >> updateWith: aString [ 
 	(aString asMetacellerVersion > self versionName asMetacellerVersion)
@@ -132,6 +174,12 @@ GTMetacellerRelease >> updateWith: aString [
 			newVersion := self copy.
 			newVersion versionName: aString.
 			newVersion saveVersion ]
+]
+
+{ #category : #'accessing version' }
+GTMetacellerRelease >> validate: aCollection [ 
+	self version ifNil: [ ^self ].
+	self version validate: aCollection
 ]
 
 { #category : #accessing }

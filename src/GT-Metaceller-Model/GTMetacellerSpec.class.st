@@ -15,6 +15,11 @@ GTMetacellerSpec >> itemKindString [
 ]
 
 { #category : #'code generation' }
+GTMetacellerSpec >> specAccessors [
+	^self subclassResponsibility
+]
+
+{ #category : #'code generation' }
 GTMetacellerSpec >> streamSpecOn: aStream specName: aSpecName [
 	| needsWith needsWithBlock repositories |
 	repositories := self repositories.

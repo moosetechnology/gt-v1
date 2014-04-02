@@ -13,7 +13,8 @@ Class {
 		'wrappers',
 		'isNew',
 		'properties',
-		'isCopy'
+		'isCopy',
+		'allItems'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -94,17 +95,22 @@ GTMetacellerVersion >> addChild: aVersion [
 
 { #category : #accessing }
 GTMetacellerVersion >> allGroups [
-	^self packagesAndProjects select: [ :each | each isGroup ]
+	^self allItems select: [ :each | each isGroup ]
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> allItems [
+	^allItems ifNil: [ allItems := self packagesAndProjects sort: [ :a :b | a itemName < b itemName ] ]
 ]
 
 { #category : #accessing }
 GTMetacellerVersion >> allPackages [
-	^self packagesAndProjects select: [ :each | each isPackage ]
+	^self allItems select: [ :each | each isPackage ]
 ]
 
 { #category : #accessing }
 GTMetacellerVersion >> allProjects [
-	^self packagesAndProjects select: [ :each | each isProject ]
+	^self allItems select: [ :each | each isProject ]
 ]
 
 { #category : #'accessing version' }
@@ -333,7 +339,7 @@ GTMetacellerVersion >> hasError [
 
 { #category : #testing }
 GTMetacellerVersion >> hasItem: aMetacellerItem [
-	^self items contains: [ :each | each name = aMetacellerItem name ]
+	^self items contains: [ :each | each itemName = aMetacellerItem name ]
 ]
 
 { #category : #testing }
@@ -482,8 +488,22 @@ GTMetacellerVersion >> isStable [
 ]
 
 { #category : #accessing }
+GTMetacellerVersion >> item: aName [ 
+	^self packagesAndProjects detect: [ :each | each itemName = aName ] ifNone: [ nil ]
+]
+
+{ #category : #accessing }
 GTMetacellerVersion >> itemFor: aString [ 
 	^self packagesAndProjects detect: [ :each | each itemName = aString ] ifNone: [ nil ]
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> itemListFrom: anItemOrList [
+	anItemOrList
+		ifNil: [ ^self allItems ].
+	anItemOrList isCollection ifFalse: [ ^Array with: anItemOrList ].
+	anItemOrList ifEmpty: [ ^self allItems ].
+	^anItemOrList
 ]
 
 { #category : #'accessing generation' }
@@ -574,14 +594,6 @@ GTMetacellerVersion >> methodWithVersionName: aString [
 	^self parent methodWithVersionName: aString
 ]
 
-{ #category : #accessing }
-GTMetacellerVersion >> name [
-	self halt.
-	self method pragmas do: [  :each |
-		(each key beginsWith: 'version') ifTrue: [ ^each arguments first ] ].
-	^self method selector
-]
-
 { #category : #'accessing generation' }
 GTMetacellerVersion >> needsGenerating [
 	self needsGeneratingMainInfo ifTrue: [ ^true ].
@@ -593,7 +605,6 @@ GTMetacellerVersion >> needsGenerating [
 GTMetacellerVersion >> needsGeneratingItems [
 	self itemSelectors do: [ :each |
 		(self itemsForSymbol: each) ifNotEmpty: [ ^true ] ].
-	self repositoriesToWrite ifNotEmpty: [ ^true ].
 	^false
 ]
 
@@ -601,6 +612,7 @@ GTMetacellerVersion >> needsGeneratingItems [
 GTMetacellerVersion >> needsGeneratingMainInfo [
 	self mainInfoSelectors do: [ :each |
 		(self infoFor: each) ifNotNil: [ ^true ] ].
+	self repositoriesToWrite ifNotEmpty: [ ^true ].
 	^false
 ]
 
@@ -757,9 +769,17 @@ GTMetacellerVersion >> propertyAt: aSymbol put: aValue [
 	self properties at: aSymbol put: aValue
 ]
 
+{ #category : #'accessing version' }
+GTMetacellerVersion >> replaceOrAddItem: anItem [ 
+	self allItems removeAllSuchThat: [ :each | each itemName = anItem itemName ].
+	self allItems add: anItem
+]
+
 { #category : #'accessing generation' }
 GTMetacellerVersion >> repositoriesToWrite [
-	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) removeAll: self parent repositoriesToWrite.
+	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ])
+		removeAll: self parent repositoriesToWrite;
+		yourself.
 ]
 
 { #category : #accessing }
@@ -782,6 +802,14 @@ GTMetacellerVersion >> saveAs: aVersionName [
 { #category : #actions }
 GTMetacellerVersion >> saveVersion [
 	self project compileMethod: self methodSpec category: self category
+]
+
+{ #category : #actions }
+GTMetacellerVersion >> saveWithItem: anItem [
+	| newVersion |
+	newVersion := self copy.
+	newVersion replaceOrAddItem: anItem.
+	newVersion saveVersion
 ]
 
 { #category : #actions }
@@ -860,8 +888,11 @@ GTMetacellerVersion >> streamRepositoriesOn: aCascade [
 
 { #category : #'code generation' }
 GTMetacellerVersion >> streamVersion: aVersion on: aStream [ 
-	(aVersion notNil and: [ aVersion platformSymbol = self platformSymbol]) ifTrue: [ ^aVersion streamVersionOn: aStream ].
-	^self streamVersionOn: aStream
+	(aVersion notNil and: [ aVersion platformSymbol = self platformSymbol])
+		ifTrue: [ aVersion streamVersionOn: aStream ]
+		ifFalse: [ self streamVersionOn: aStream ].
+	self sortedChildren do: [ :each |
+		each streamVersion: aVersion on: aStream ]
 ]
 
 { #category : #'code generation' }
@@ -886,9 +917,7 @@ GTMetacellerVersion >> streamVersionOn: aStream [
 		(aStream openPlatform: self platformSymbol)
 			with: [
 				self streamMainInfoOn: aStream forDisplay: false.
-				self streamItemSpecsOn: aStream ] ].
-	self sortedChildren do: [ :each |
-		each streamVersionOn: aStream ]
+				self streamItemSpecsOn: aStream ] ]
 ]
 
 { #category : #printing }
@@ -905,9 +934,9 @@ GTMetacellerVersion >> tagsOf: aSpec [
 ]
 
 { #category : #actions }
-GTMetacellerVersion >> test: aGrouplist [
-	aGrouplist ifNil: [ ^self testItems: self allGroups ].
-	self testItems: aGrouplist
+GTMetacellerVersion >> test: anItemOrList [ 
+	(self itemListFrom: anItemOrList) do: [ :each |
+		each resetValidated; test ]
 ]
 
 { #category : #actions }
@@ -998,17 +1027,9 @@ GTMetacellerVersion >> validate [
 ]
 
 { #category : #actions }
-GTMetacellerVersion >> validate: aList [ 
-	| toCheck |
-	aList
-		ifNil: [ toCheck := self packagesAndProjects ]
-		ifNotNil: [ 
-			aList 
-				ifEmpty: [ toCheck := self packagesAndProjects ]
-				ifNotEmpty: [ toCheck := aList ] ].
-	toCheck do: [ :each |
-				each resetValidated; validate ]
-
+GTMetacellerVersion >> validate: anItemOrList [ 
+	(self itemListFrom: anItemOrList) do: [ :each |
+		each resetValidated; validate ]
 ]
 
 { #category : #testing }
