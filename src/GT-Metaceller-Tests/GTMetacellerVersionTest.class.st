@@ -13,14 +13,17 @@ GTMetacellerVersionTest >> assertCleanVersion: aMethodString [
 { #category : #asserting }
 GTMetacellerVersionTest >> assertItem: anItem equals: anItem2 [
 	self assert: anItem class equals: anItem2 class.
-	self assert: anItem itemName equals: anItem2 itemName
+	self assert: anItem itemName equals: anItem2 itemName.
+	self assert: anItem requires equals: anItem2 requires.
+	anItem isProject ifTrue: [ 
+		self assert: anItem className = anItem2 className ]
 ]
 
 { #category : #asserting }
 GTMetacellerVersionTest >> assertVersion: aVersion equals: aVersion2 [
-	self assert: aVersion packagesAndProjects size equals: aVersion2 packagesAndProjects size.
-	aVersion packagesAndProjects do: [ :each |
-		self assertItem: each equals: (aVersion2 itemFor: each itemName) ].
+	self assert: aVersion items size equals: aVersion2 items size.
+	aVersion items do: [ :each |
+		self assertItem: each equals: (aVersion2 item: each itemName) ].
 	self assert: aVersion category equals: aVersion2 category.
 	self assert: aVersion repositoriesToWrite equals: aVersion2 repositoriesToWrite
 ]
