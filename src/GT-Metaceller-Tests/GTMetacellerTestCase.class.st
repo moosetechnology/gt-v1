@@ -55,6 +55,8 @@ GTMetacellerTestCase >> createVersion10 [
 		aSpec repository: ''http://smalltalkhub.com/mc/Moose/GToolkit/main''.
 
 		aSpec package: ''GT-Metaceller-Model'';
+			package: ''GT-Metaceller-Streams'' with: [ 
+				aSpec requires: #( ''GT-Metaceller-Model'' ) ];
 			package: ''GT-Metaceller-Glamour'' with: [ 
 				aSpec requires: #( ''GT-Metaceller-Model'' ) ];
 			package: ''GT-Metaceller-Tests'' with: [ 
@@ -101,8 +103,8 @@ GTMetacellerTestCase >> createVersion10 [
 		aSpec author: ''Diego Lont''.
 		
 		aSpec package: ''GT-Metaceller-Model'' with: ''GT-Metaceller-Model-DiegoLont.22''.
-		aSpec package: ''GT-Metaceller-Glamour'' with: ''GT-Metaceller-Glamour-DiegoLont.15''
-	].
+		aSpec package: ''GT-Metaceller-Glamour'' with: ''GT-Metaceller-Glamour-DiegoLont.15''.
+		aSpec package: ''GT-Metaceller-Streams'' with: ''GT-Metaceller-Streams-DiegoLont.2'' ].
 	aSpec for: #gemstone do: [ 
 		aSpec project: ''GlamourCore'' with: ''2.4'' ]' classified: 'versions'
 ]
