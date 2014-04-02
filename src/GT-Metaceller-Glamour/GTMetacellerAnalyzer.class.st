@@ -7,15 +7,15 @@ Class {
 { #category : #building }
 GTMetacellerAnalyzer >> buttonsForVersionsAndGroups: aBrowser [
 	aBrowser actionList
-		act: [ :entity :version :groups | self validateVersion: version groups: groups ] entitled: 'Validate';
-		act: [ :entity :version :groups | self testVersion: version groups: groups ] entitled: 'Test';
-		act: [ :entity :version :groups | self newVersion: version ] entitled: 'New version...';
+		act: [ :entity :version :item | self validateVersion: version item: item ] entitled: 'Validate';
+		act: [ :entity :version :item | self testVersion: version item: item ] entitled: 'Test';
+		act: [ :entity :version :item | self newVersion: version ] entitled: 'New version...';
 		allowNil;
 		yourself.
 	aBrowser actionList
-		act: [ :entity :version :groups | self validateVersion: version groups: groups ] entitled: 'Validate';
-		act: [ :entity :version :groups | self testVersion: version groups: groups ] entitled: 'Test';
-		act: [ :entity :version :groups | self newVersion: version ] entitled: 'New version...';
+		act: [ :entity :version :item | self validateVersion: version item: item ] entitled: 'Validate';
+		act: [ :entity :version :item | self testVersion: version item: item ] entitled: 'Test';
+		act: [ :entity :version :item | self newVersion: version ] entitled: 'New version...';
 		allowAllNil;
 		yourself	
 ]
@@ -30,6 +30,14 @@ GTMetacellerAnalyzer >> buttonsIn: aBrowser [
 ]
 
 { #category : #building }
+GTMetacellerAnalyzer >> commonItemEditIn: aBrowser [
+	aBrowser text
+		display: #commonVersion;
+		format: #specString;
+		act: [ :b :item | self save: b text in: item commonVersion ] icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'save'
+]
+
+{ #category : #building }
 GTMetacellerAnalyzer >> commonVersionEditIn: aBrowser [
 	aBrowser text
 		display: #commonVersion;
@@ -40,6 +48,65 @@ GTMetacellerAnalyzer >> commonVersionEditIn: aBrowser [
 { #category : #accessing }
 GTMetacellerAnalyzer >> helpText [
 	^'Todo'
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> itemDetailsIn: aBrowser [
+	super itemDetailsIn: aBrowser.
+	aBrowser custom: self itemEditBrowser.
+	aBrowser custom: self itemUpdateBrowser
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> itemEditBrowser [
+	| retVal |
+	retVal := GLMTabulator new.
+	retVal
+		title: 'Edit';
+		column: #platforms;
+		column: #editItem;
+		yourself.
+	retVal transmit
+		to: #platforms;
+		andShow: [ :a | self platformsIn: a ].
+	retVal transmit
+		from: #platforms;
+		to: #editItem;
+		andShow: [ :a | self itemEditIn: a ].
+	retVal transmit
+		to: #editItem;
+		andShow: [ :a | self commonItemEditIn: a ].
+	^retVal
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> itemEditIn: aBrowser [
+	aBrowser text
+		title: 'Edit';
+		format: #specString;
+		act: [ :b :item | self save: b text in: item ] icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'save'
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> itemUpdateActionsIn: aBrowser [
+	aBrowser actionList
+		act: [ :entity :selected | self updateItemToLatest: selected ] entitled: 'Set to latest';
+		act: [ :entity :selected | self updateItemToCurrent: selected ] entitled: 'Set to current';
+		yourself
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> itemUpdateBrowser [
+	| retVal |
+	retVal := GLMTabulator new.
+	retVal
+		title: 'Update';
+		column: #actions;
+		yourself.
+	retVal transmit
+		to: #actions;
+		andShow: [ :a | self itemUpdateActionsIn: a ].
+	^retVal
 ]
 
 { #category : #building }
@@ -67,21 +134,21 @@ GTMetacellerAnalyzer >> save: aSpecString in: aVersion [
 ]
 
 { #category : #actions }
+GTMetacellerAnalyzer >> test: anItemOrList [
+	self configuration test: anItemOrList.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
+]
+
+{ #category : #actions }
 GTMetacellerAnalyzer >> testConfiguration [
 	self configuration test.
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
-GTMetacellerAnalyzer >> testItems: aGroupList [
-	self configuration testItems: aGroupList.
-	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
-]
-
-{ #category : #actions }
-GTMetacellerAnalyzer >> testVersion: aVersion groups: aGroupList [
-	aVersion ifNil: [ ^self testItems: aGroupList ].
-	aVersion test: aGroupList.
+GTMetacellerAnalyzer >> testVersion: aVersion item: anItem [
+	aVersion ifNil: [ ^self test: anItem ].
+	aVersion test: anItem.
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
@@ -96,21 +163,21 @@ GTMetacellerAnalyzer >> updateVersionToCurrent: aVersion [
 ]
 
 { #category : #actions }
+GTMetacellerAnalyzer >> validate: aGroupList [
+	self configuration validate: aGroupList.
+	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
+]
+
+{ #category : #actions }
 GTMetacellerAnalyzer >> validateConfiguration [
 	self configuration validate.
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 
 { #category : #actions }
-GTMetacellerAnalyzer >> validateItems: aGroupList [
-	self configuration validateItems: aGroupList.
-	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
-]
-
-{ #category : #actions }
-GTMetacellerAnalyzer >> validateVersion: aVersion groups: aGroupList [
-	aVersion ifNil: [ ^self validateItems: aGroupList ].
-	aVersion validate: aGroupList.
+GTMetacellerAnalyzer >> validateVersion: aVersion item: anItem [
+	aVersion ifNil: [ ^self validate: anItem ].
+	aVersion validate: anItem.
 	GTMetacellerModel announce: (GTConfigChanged on: self configuration)
 ]
 

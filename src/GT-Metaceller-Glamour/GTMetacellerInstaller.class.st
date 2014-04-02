@@ -23,6 +23,28 @@ GTMetacellerInstaller >> buttonsIn: aBrowser [
 		yourself	
 ]
 
+{ #category : #building }
+GTMetacellerInstaller >> groupsFromConfigurationIn: aBrowser [
+	(self groupsIn: aBrowser)
+		beMultiple.
+	(self packagesIn: aBrowser)
+		beMultiple
+]
+
+{ #category : #building }
+GTMetacellerInstaller >> groupsFromVersionIn: aBrowser [
+	(self groupsIn: aBrowser)
+		beMultiple.
+	(self packagesIn: aBrowser)
+		beMultiple.
+	(self groupsIn: aBrowser)
+		allowAllNil;
+		beMultiple.
+	(self packagesIn: aBrowser)
+		allowAllNil;
+		beMultiple.
+]
+
 { #category : #accessing }
 GTMetacellerInstaller >> helpText [
 	^'The metaceller installer is a graphical ui to install an existing configuration.

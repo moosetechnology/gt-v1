@@ -56,11 +56,11 @@ GTMetaceller2 >> childrenForItem: anItem [
 
 { #category : #building }
 GTMetaceller2 >> configActionsIn: a [
-	^ a actionList
-			act: [ :entity | self newConfiguration ] entitled: 'New...';
-			act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Open';
-			act: [ :entity :selected | self installConfiguration: selected ] entitled: 'Install';
-			yourself
+	a actionList
+		act: [ :entity | self newConfiguration ] entitled: 'New...';
+		act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Open';
+		act: [ :entity :selected | self installConfiguration: selected ] entitled: 'Install';
+		yourself
 ]
 
 { #category : #building }
@@ -138,6 +138,7 @@ GTMetaceller2 >> installConfiguration: aConfig [
 { #category : #actions }
 GTMetaceller2 >> newConfiguration [
 	" todo: add a wizard to add a configuration "
+	self halt
 ]
 
 { #category : #actions }
