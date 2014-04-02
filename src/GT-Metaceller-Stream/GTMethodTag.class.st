@@ -18,8 +18,8 @@ GTMethodTag >> method: aMethodName version: aVersionName importedVersions: aColl
 { #category : #convenience }
 GTMethodTag >> methodNameFor: aString [
 	(aString endsWith: 'baseline') ifTrue: [ 
-		^(('baseline', (aString copyFrom: 1 to: (aString size-8))) asLegalSelector) greaseString, ':' ].
-	^('version', aString) asLegalSelector greaseString, ':'
+		^(('baseline', (aString copyFrom: 1 to: (aString size-8))) asLegalSelector), ':' ].
+	^('version', aString) asLegalSelector, ':'
 ]
 
 { #category : #generating }
