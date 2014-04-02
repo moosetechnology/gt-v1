@@ -138,6 +138,11 @@ GTMetacellerRootVersion >> preLoadDoIt [
 	^''
 ]
 
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> repositories [
+	^#()
+]
+
 { #category : #accessing }
 GTMetacellerRootVersion >> repositoriesToWrite [
 	^#()
@@ -153,7 +158,7 @@ GTMetacellerRootVersion >> streamVersionWithName: aString on: aStream [
 	self ensureProjectsCreated.
 	" and the actual streaming "
 	self commonVersion streamVersionHeaderWithName: aString on: aStream.
-	self commonVersion streamVersionOn: aStream
+	self commonVersion streamVersion: nil on: aStream
 ]
 
 { #category : #'accessing dummy' }

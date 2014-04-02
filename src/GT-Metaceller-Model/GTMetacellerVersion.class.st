@@ -775,11 +775,22 @@ GTMetacellerVersion >> replaceOrAddItem: anItem [
 	self allItems add: anItem
 ]
 
+{ #category : #accessing }
+GTMetacellerVersion >> repositories [
+	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) asSet
+]
+
 { #category : #'accessing generation' }
 GTMetacellerVersion >> repositoriesToWrite [
-	^(self repositorySpecs repositoryDescriptions collect: [ :each | each description ])
-		removeAll: self parent repositoriesToWrite;
+	| retVal |
+	retVal := self repositories
+		removeAllFoundIn: self parent repositories;
 		yourself.
+	self importedVersions do: [ :each |
+		retVal removeAllFoundIn: (self project version: each) repositories ].
+	((self blessing ~= #'baseline') and: [ retVal notEmpty ]) ifTrue: [ self halt ].
+	^retVal
+
 ]
 
 { #category : #accessing }
@@ -883,7 +894,7 @@ GTMetacellerVersion >> streamMainInfoOn: aStream forDisplay: aBoolean [
 { #category : #'code generation' }
 GTMetacellerVersion >> streamRepositoriesOn: aCascade [
 	self repositoriesToWrite do: [ :each |
-		aCascade assign: 'repository' to: each ]
+		aCascade assign: 'repository' value: each ]
 ]
 
 { #category : #'code generation' }
