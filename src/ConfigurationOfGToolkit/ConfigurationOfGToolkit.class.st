@@ -100,8 +100,8 @@ ConfigurationOfGToolkit >> baseline010: aSpec [
 					requires: #( 'GT-Inspector' 'GT-Metaceller-Model') ];
 			package: 'GT-Metaceller-Model' with: [
 				aSpec
-					requires: #( 'GT-Metaceller-Streams') ];
-			package: 'GT-Metaceller-Streams';
+					requires: #( 'GT-Metaceller-Stream') ];
+			package: 'GT-Metaceller-Stream';
 			package: 'GT-Metaceller-Tests' with: [
 				aSpec
 					requires: #( 'GT-Metaceller-Model') ];
