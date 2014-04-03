@@ -215,7 +215,7 @@ ConfigurationOfGToolkit >> baseline011: aSpec [
 			group: 'ObjectCentricDebugger' with: #( 'GT-ObjectCentricDebugger');
 			group: 'Tests' with: #( 'GT-Metaceller-Tests' 'GT-Tests-Inspector');
 			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger' 'GT-Inspector');
-			group: 'default' with: #( 'GT-Setup' 'GT-Playground' 'GT-Coder' 'GT-Tools' 'GT-GlamourDebugger' 'GT-SUnitDebugger' "'GT-Debugger'" "'AnnouncerCentricDebugger'" 'GT-PetitParserDebugger' 'GT-Inspector' 'GT-Metaceller-Glamour' 'Tests');
+			group: 'default' with: #( 'GT-Setup' 'GT-Playground' 'GT-Coder' 'GT-Tools' 'GT-GlamourDebugger' 'GT-SUnitDebugger' "'GT-Debugger'" 'AnnouncerCentricDebugger' 'GT-PetitParserDebugger' 'GT-Inspector' 'GT-Metaceller-Glamour' 'Tests');
 			group: 'metaceller' with: #( 'GT-Metaceller-Glamour' 'GT-Metaceller-Tests') ]
 ]
 
