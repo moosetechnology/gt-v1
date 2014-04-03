@@ -133,72 +133,90 @@ ConfigurationOfGToolkit >> baseline010: aSpec [
 ]
 
 { #category : #baselines }
-ConfigurationOfGToolkit >> baseline011: spec [
+ConfigurationOfGToolkit >> baseline011: aSpec [
 	<version: '0.11-baseline'>
-
-	spec for: #'common' do: [
-		spec blessing: #'baseline'.
-		spec repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
-		spec 
+	aSpec for: #'common' do: [
+		aSpec
+			blessing: #'baseline';
+			description: 'Baseline for Moose 5';
+			author: 'AndreiChis';
+			timestamp: '2014-04-03';
+			repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
+		aSpec
+			package: 'GT-Coder' with: [
+				aSpec
+					requires: #( 'GlamourCore') ];
+			"package: 'GT-Debugger' with: [
+				aSpec
+					requires: #( 'GT-Inspector' 'NewDebugger') ];"
+			package: 'GT-GlamourDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger') ];
+			package: 'GT-Inspector' with: [
+				aSpec
+					requires: #( 'GlamourCore' 'DeepTraverser') ];
+			package: 'GT-Metaceller-Glamour' with: [
+				aSpec
+					requires: #( 'GT-Inspector' 'GT-Metaceller-Model') ];
+			package: 'GT-Metaceller-Model' with: [
+				aSpec
+					requires: #( 'GT-Metaceller-Stream') ];
+			package: 'GT-Metaceller-Stream';
+			package: 'GT-Metaceller-Tests' with: [
+				aSpec
+					requires: #( 'GT-Metaceller-Model') ];
+			package: 'GT-PetitParserDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger' 'PetitParser') ];
+			package: 'GT-Playground' with: [
+				aSpec
+					requires: #( 'GlamourCore') ];
+			package: 'GT-SUnitDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger') ];
+			package: 'GT-Setup';
+			package: 'GT-Tests-Inspector' with: [
+				aSpec
+					requires: #( 'GlamourCore') ];
+			package: 'GT-Tools' with: [
+				aSpec
+					requires: #( 'GlamourCore') ];
+			package: 'Glamour-Morphic-Theme' with: [
+				aSpec
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		aSpec
 			project: 'AnnouncerCentricDebugger' with: [
-				spec
-					className: #ConfigurationOfAnnouncerCentricDebugger;
+				aSpec
 					versionString: #'development';
+					className: 'ConfigurationOfAnnouncerCentricDebugger';
 					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ];
 			project: 'DeepTraverser' with: [
-				spec
-					className: #ConfigurationOfDeepTraverser;
+				aSpec
 					versionString: #'development';
+					className: 'ConfigurationOfDeepTraverser';
 					repository: 'http://www.smalltalkhub.com/mc/Moose/DeepTraverser/main' ];
 			project: 'GlamourCore' with: [
-				spec
-					className: #ConfigurationOfGlamour;
+				aSpec
 					versionString: #'development';
-					loads: #('Core' 'Core Tests' 'Morphic' 'Roassal' 'Roassal2' );
+					className: 'ConfigurationOfGlamour';
+					loads: #( 'Core' 'Core Tests' 'Morphic' 'Roassal' 'Roassal2');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'PetitParser' with: [
-				spec
-					className: #ConfigurationOfPetitParser;
+				aSpec
 					versionString: #'development';
+					className: 'ConfigurationOfPetitParser';
 					repository: 'http://www.smalltalkhub.com/mc/Moose/PetitParser/main' ];
 			project: 'GTDebugger' with: [
-				spec
+				aSpec
 					className: #ConfigurationOfGTDebugger;
 					versionString: #'development';
 					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
-		spec 
-			package: 'GT-Metaceller-Stream';
-			package: 'GT-Metaceller-Model' with: [
-				spec requires: #('GT-Metaceller-Stream' ). ];
-			package: 'GT-Metaceller-Tests' with: [
-				spec requires: #('GT-Metaceller-Model' ). ];
-			package: 'GT-Setup';
-			package: 'Glamour-Morphic-Theme';
-			package: 'GT-Tools' with: [
-				spec requires: #('GlamourCore' ). ];
-			package: 'GT-Tests-Inspector' with: [
-				spec requires: #('GlamourCore' ). ];
-			package: 'GT-Playground' with: [
-				spec requires: #('GlamourCore' ). ];
-			package: 'GT-Inspector' with: [
-				spec requires: #('GlamourCore' 'DeepTraverser' ). ];
-			package: 'GT-Metaceller-Glamour' with: [
-				spec requires: #('GT-Inspector' 'GT-Metaceller-Model' ). ];
-			package: 'GT-Coder' with: [
-				spec requires: #('GlamourCore' ). ];
-			package: 'GT-SUnitDebugger' with: [
-				spec requires: #('GTDebugger' ). ];
-			package: 'GT-GlamourDebugger' with: [
-				spec requires: #('GTDebugger' ). ];
-			package: 'GT-PetitParserDebugger' with: [
-				spec requires: #('PetitParser' 'GTDebugger' ). ].
-		spec 
-			group: 'ObjectCentricDebugger' with: #('GT-ObjectCentricDebugger' );
-			group: 'Tests' with: #('GT-Metaceller-Tests' 'GT-Tests-Inspector' );
-			group: 'debugger' with: #('GT-SUnitDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' "'AnnouncerCentricDebugger'" );
-			group: 'default' with: #('GT-Setup' 'GT-Playground' 'GT-Coder' 'GT-Tools' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'GT-PetitParserDebugger' 'GT-Inspector' 'GT-Metaceller-Glamour' 'Tests' );
-			group: 'metaceller' with: #('GT-Metaceller-Glamour' 'GT-Metaceller-Tests' ). ].
-
+		aSpec
+			group: 'ObjectCentricDebugger' with: #( 'GT-ObjectCentricDebugger');
+			group: 'Tests' with: #( 'GT-Metaceller-Tests' 'GT-Tests-Inspector');
+			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger' 'GT-Inspector');
+			group: 'default' with: #( 'GT-Setup' 'GT-Playground' 'GT-Coder' 'GT-Tools' 'GT-GlamourDebugger' 'GT-SUnitDebugger' "'GT-Debugger'" "'AnnouncerCentricDebugger'" 'GT-PetitParserDebugger' 'GT-Inspector' 'GT-Metaceller-Glamour' 'Tests');
+			group: 'metaceller' with: #( 'GT-Metaceller-Glamour' 'GT-Metaceller-Tests') ]
 ]
 
 { #category : #baselines }
@@ -813,7 +831,7 @@ ConfigurationOfGToolkit >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.6-baseline'.
-	spec for: #'pharo3.x' version: '0.10-baseline'
+	spec for: #'pharo3.x' version: '0.11-baseline'
 ]
 
 { #category : #snapshots }
