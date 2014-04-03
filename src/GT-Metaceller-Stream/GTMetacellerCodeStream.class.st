@@ -60,6 +60,13 @@ GTMetacellerCodeStream >> openMethod [
 ]
 
 { #category : #generating }
+GTMetacellerCodeStream >> openPlatform: aString [ 
+	^(self open: (GTPlaformTag on: self))
+		platformName: aString;
+		yourself
+]
+
+{ #category : #generating }
 GTMetacellerCodeStream >> startCascade: aString [ 
 	^self openCascade
 		receiver: aString;
