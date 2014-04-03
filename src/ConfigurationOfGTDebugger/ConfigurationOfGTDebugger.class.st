@@ -115,7 +115,7 @@ ConfigurationOfGTDebugger >> baseline01: spec [
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
-		spec package: 'GT-Debugger' with: [ spec requires: #( 'GTInspector' 'DebuggerExtensions' )].
+		spec package: 'GT-Debugger' with: [ spec requires: #( 'GTInspector' 'NewDebugger' )].
 		spec group: 'default' with: #('GT-Debugger').
 		
 		spec project: 'GTInspector' with: [
@@ -126,7 +126,12 @@ ConfigurationOfGTDebugger >> baseline01: spec [
 					loads: #('GT-Inspector');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main' ].
 				
-		spec package: 'DebuggerExtensions' with: [ spec repository: 'http://www.smalltalkhub.com/mc/AndreiChis/Playground/main']. ].
+		spec project: 'NewDebugger' with: [
+				spec
+					versionString: #'development';
+					className: 'ConfigurationOfNewDebugger';
+					loads: #( 'Core' 'DebuggerExtensions');
+					repository: 'http://www.smalltalkhub.com/mc/Pharo/Debugger/main' ] ].
 
 ]
 
