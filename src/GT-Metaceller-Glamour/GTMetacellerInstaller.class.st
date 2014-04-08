@@ -24,25 +24,10 @@ GTMetacellerInstaller >> buttonsIn: aBrowser [
 ]
 
 { #category : #building }
-GTMetacellerInstaller >> groupsFromConfigurationIn: aBrowser [
-	(self groupsIn: aBrowser)
-		beMultiple.
-	(self packagesIn: aBrowser)
-		beMultiple
-]
-
-{ #category : #building }
-GTMetacellerInstaller >> groupsFromVersionIn: aBrowser [
-	(self groupsIn: aBrowser)
-		beMultiple.
-	(self packagesIn: aBrowser)
-		beMultiple.
-	(self groupsIn: aBrowser)
-		allowAllNil;
-		beMultiple.
-	(self packagesIn: aBrowser)
-		allowAllNil;
-		beMultiple.
+GTMetacellerInstaller >> groupsIn: aBrowser [
+	^(self groupsIn: aBrowser)
+		beMultiple;
+		yourself
 ]
 
 { #category : #accessing }
@@ -68,6 +53,13 @@ GTMetacellerInstaller >> install: aGroups [
 GTMetacellerInstaller >> installVersion: aVersion groups: aGroups [
 	aVersion ifNil: [ ^self install: aGroups ].
 	aVersion install: aGroups
+]
+
+{ #category : #building }
+GTMetacellerInstaller >> packagesIn: aBrowser [
+	(self packagesIn: aBrowser)
+		beMultiple;
+		yourself
 ]
 
 { #category : #accessing }

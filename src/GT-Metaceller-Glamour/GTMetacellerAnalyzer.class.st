@@ -45,9 +45,28 @@ GTMetacellerAnalyzer >> commonVersionEditIn: aBrowser [
 		act: [ :b :version | self save: b text in: version commonVersion ] icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'save'
 ]
 
+{ #category : #building }
+GTMetacellerAnalyzer >> groupsIn: aBrowser [
+	^(super groupsIn: aBrowser)
+		dynamicActionsOnSelection: [ :b | self itemActionsFor: b selection ];
+		yourself
+]
+
 { #category : #accessing }
 GTMetacellerAnalyzer >> helpText [
 	^'Todo'
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> itemActionsFor: aSelection [
+	| retVal |
+	retVal := OrderedCollection new.
+	aSelection ifNotNil: [ 
+		retVal
+"	This does not work yet!		add: (GLMGenericAction new title: 'Remove'; action: [ aSelection remove ]);
+"			add: (GLMGenericAction new title: 'Explore'; action: [ aSelection explore ]);
+			yourself ].
+	^retVal
 ]
 
 { #category : #building }
@@ -107,6 +126,13 @@ GTMetacellerAnalyzer >> itemUpdateBrowser [
 		to: #actions;
 		andShow: [ :a | self itemUpdateActionsIn: a ].
 	^retVal
+]
+
+{ #category : #building }
+GTMetacellerAnalyzer >> packagesIn: aBrowser [
+	^(super packagesIn: aBrowser)
+		dynamicActionsOnSelection: [ :b | self itemActionsFor: b selection ];
+		yourself
 ]
 
 { #category : #building }
