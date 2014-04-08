@@ -22,6 +22,20 @@ GTMetacellerProjectTest >> testGemstone [
 ]
 
 { #category : #tests }
+GTMetacellerProjectTest >> testProjectChangeUsingSpec [
+	| gemstoneProject item1 item2 |
+	gemstoneProject := (GTMetacellerConfiguration on: testConfigurationClass) projectFor: #'gemstone'.
+	item1 := (gemstoneProject version: '1.1') item: 'GlamourCore'.
+	self assert: item1 versionString equals: #'development'.
+	item1 saveWithSpecString: 'aSpec
+		project: ''GlamourCore'' with: #''release1.0'''.
+	gemstoneProject := (GTMetacellerConfiguration on: testConfigurationClass) projectFor: #'gemstone'.
+	item2 := (gemstoneProject version: '1.1') item: 'GlamourCore'.
+	self assert: item2 versionString equals: #'release1.0'.
+
+]
+
+{ #category : #tests }
 GTMetacellerProjectTest >> testProjects [
 	| mainProject |
 	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
