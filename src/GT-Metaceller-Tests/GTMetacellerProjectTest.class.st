@@ -36,6 +36,32 @@ GTMetacellerProjectTest >> testProjectChangeUsingSpec [
 ]
 
 { #category : #tests }
+GTMetacellerProjectTest >> testProjectSpecString [
+	| gemstoneProject baselineItem versionItem |
+	gemstoneProject := (GTMetacellerConfiguration on: testConfigurationClass) projectFor: #'gemstone'.
+	baselineItem := (gemstoneProject version: '1.1-baseline') item: 'GlamourCore'.
+	versionItem := (gemstoneProject version: '1.1') item: 'GlamourCore'.
+	self assert: baselineItem className equals: 'ConfigurationOfGlamour'.
+	self assert: baselineItem versionString equals: #'development'.
+	self assert: baselineItem loads equals: #( 'Core' ).
+	self assert: baselineItem repositories repositoryDescriptions equals: #( 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ).
+	self assert: baselineItem specString equals: 'aSpec
+	project: ''GlamourCore'' with: [
+		aSpec
+			versionString: #''development'';
+			className: ''ConfigurationOfGlamour'';
+			loads: #( ''Core'');
+			repository: ''http://www.smalltalkhub.com/mc/Moose/Glamour/main'' ]'.
+	self assert: versionItem className equals: 'ConfigurationOfGlamour'.
+	self assert: versionItem versionString equals: #'development'.
+	self assert: versionItem loads equals: #( 'Core' ).
+	self assert: versionItem repositories repositoryDescriptions equals: #( 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ).
+	self assert: versionItem specString equals: 'aSpec
+	project: ''GlamourCore'''.
+
+]
+
+{ #category : #tests }
 GTMetacellerProjectTest >> testProjects [
 	| mainProject |
 	mainProject := (GTMetacellerConfiguration on: testConfigurationClass) mainProject.
