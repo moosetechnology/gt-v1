@@ -14,6 +14,11 @@ GTMetacellerSpec >> itemKindString [
 	^self subclassResponsibility
 ]
 
+{ #category : #accessing }
+GTMetacellerSpec >> removed [
+	^false
+]
+
 { #category : #'code generation' }
 GTMetacellerSpec >> specAccessors [
 	^self subclassResponsibility
@@ -22,6 +27,7 @@ GTMetacellerSpec >> specAccessors [
 { #category : #'code generation' }
 GTMetacellerSpec >> streamSpecOn: aStream specName: aSpecName [
 	| needsWith needsWithBlock repositories |
+	self removed ifTrue: [ ^self ].
 	repositories := self repositories.
 	needsWithBlock := repositories notEmpty.
 	self specAccessors allButFirstDo: [ :each | needsWithBlock := needsWithBlock or: [ 

@@ -96,8 +96,3 @@ GTMetacellerItemDifference >> repositories [
 GTMetacellerItemDifference >> specAccessors [
 	^self item specAccessors
 ]
-
-{ #category : #'code generation' }
-GTMetacellerItemDifference >> streamSpecOn: aStream specName: aSpecName [
-	super streamSpecOn: aStream specName: aSpecName
-]

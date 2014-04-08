@@ -328,6 +328,23 @@ GTMetacellerItem >> referenceSpec: aSpec [
 	referenceSpec := aSpec
 ]
 
+{ #category : #actions }
+GTMetacellerItem >> remove [
+	self isCopy
+		ifTrue: [ self removed: true; saveVersion ]
+		ifFalse: [ self copy remove ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerItem >> removed [
+	^self propertyAt: #removed ifAbsent: [ false ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerItem >> removed: aBoolean [
+	self propertyAt: #removed put: aBoolean
+]
+
 { #category : #accessing }
 GTMetacellerItem >> repositories [
 	self referenceSpec hasRepository ifFalse: [ ^#() ].
@@ -410,7 +427,9 @@ GTMetacellerItem >> specName [
 GTMetacellerItem >> specString [
 	^String codeStreamContents: [ :s |
 		s startCascade: 'aSpec'.
-		self streamSpecOn: s specName: 'aSpec' ]
+		(self version generatedItemFor: self itemName)
+			ifNil: [ s currentOpenTag assign: self itemKindString value: self itemName ]
+			ifNotNilDo: [ :gen | gen streamSpecOn: s specName: 'aSpec' ] ]
 ]
 
 { #category : #actions }

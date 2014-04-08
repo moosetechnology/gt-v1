@@ -305,6 +305,18 @@ GTMetacellerVersion >> findItem: anItem in: aCollection [
 		each itemName = anItem itemName ] ifNone: [ nil ]
 ]
 
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> generatedItemFor: aString [
+	| retVal |
+	retVal := self item: aString.
+	self version importedVersions do: [ :importName |
+		| importedVersion |
+		importedVersion := self project version: importName.
+		retVal := self updateItem: retVal with: (importedVersion item: aString) ].
+	self updateItem: retVal with: (self parent item: aString).
+	^retVal
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> groups [
 	^groups ifNil: [ groups := self buildGroups ]
@@ -774,7 +786,7 @@ GTMetacellerVersion >> replaceOrAddItem: anItem [
 { #category : #'accessing version' }
 GTMetacellerVersion >> repositories [
 	^self propertyAt: #repostories
-		ifAbsent: [ (self repositorySpecs repositoryDescriptions collect: [ :each | each description ]) asSet ]
+		ifAbsent: [ (self repositorySpecs repositoryDescriptions) asSet ]
 ]
 
 { #category : #'accessing version' }
@@ -998,6 +1010,13 @@ GTMetacellerVersion >> title [
 GTMetacellerVersion >> update [
 	self isDevelopment ifTrue: [
 		MetacelloToolBox updateToLatestPackageVersionsIn: self configuration description: 'Please describe this version.' ]
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> updateItem: anItem with: aBaselineItem [
+	anItem ifNil: [ ^nil ].
+	aBaselineItem ifNil: [ ^anItem ].
+	^anItem differenceWith: aBaselineItem
 ]
 
 { #category : #'accessing generation' }
