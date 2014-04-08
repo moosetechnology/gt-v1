@@ -86,6 +86,7 @@ GTMetacellerRootVersion >> item: aString [
 
 { #category : #accessing }
 GTMetacellerRootVersion >> mainVersion [
+	mainVersion ifNil: [ commonVersion ifNotNil: [ commonVersion ensureProjectsCreated ] ].
 	^mainVersion
 ]
 

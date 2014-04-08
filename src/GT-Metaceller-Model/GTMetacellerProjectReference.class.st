@@ -43,6 +43,11 @@ GTMetacellerProjectReference >> className [
 	^self propertyAt: #className ifAbsent: [ self projectReference className ]
 ]
 
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> className: aString [
+	^self propertyAt: #className put: aString
+]
+
 { #category : #accessing }
 GTMetacellerProjectReference >> configForProject [
 	| projectReference |
@@ -52,9 +57,19 @@ GTMetacellerProjectReference >> configForProject [
 	^Smalltalk at: (projectReference className asSymbol) ifAbsent: [ nil ]
 ]
 
+{ #category : #'code generation' }
+GTMetacellerProjectReference >> defaultItemKindString [
+	^'project'
+]
+
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> file [
 	^self propertyAt: #file ifAbsent: [ self fileReference ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> file: aString [
+	^self propertyAt: #file put: aString
 ]
 
 { #category : #'accessing spec' }
@@ -73,11 +88,6 @@ GTMetacellerProjectReference >> isLoaded [
 { #category : #testing }
 GTMetacellerProjectReference >> isProject [
 	^true
-]
-
-{ #category : #'code generation' }
-GTMetacellerProjectReference >> itemKindString [
-	^'project'
 ]
 
 { #category : #accessing }
@@ -103,13 +113,28 @@ GTMetacellerProjectReference >> loads [
 ]
 
 { #category : #'accessing spec' }
+GTMetacellerProjectReference >> loads: aString [
+	^self propertyAt: #loads put: aString
+]
+
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> postLoadDoIt [
 	^self propertyAt: #preLoadDoIt ifAbsent: [ self referenceSpec preLoadDoIt ]
 ]
 
 { #category : #'accessing spec' }
+GTMetacellerProjectReference >> postLoadDoIt: aString [
+	^self propertyAt: #preLoadDoIt put: aString
+]
+
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> preLoadDoIt [
 	^self propertyAt: #preLoadDoIt ifAbsent: [ self referenceSpec preLoadDoIt ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> preLoadDoIt: aString [
+	^self propertyAt: #preLoadDoIt put: aString
 ]
 
 { #category : #printing }
@@ -149,6 +174,11 @@ GTMetacellerProjectReference >> supplyingAnswers [
 	^self propertyAt: #supplyingAnswers ifAbsent: [ self referenceSpec answers ]
 ]
 
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> supplyingAnswers: aString [
+	^self propertyAt: #supplyingAnswers put: aString
+]
+
 { #category : #actions }
 GTMetacellerProjectReference >> testValid [
 	self fetchConfiguration.
@@ -163,4 +193,9 @@ GTMetacellerProjectReference >> validate [
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> versionString [
 	^self propertyAt: #versionString ifAbsent: [ self referenceSpec versionString ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerProjectReference >> versionString: aString [
+	^self propertyAt: #versionString put: aString
 ]

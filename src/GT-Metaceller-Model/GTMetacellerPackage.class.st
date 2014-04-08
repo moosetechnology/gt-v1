@@ -47,6 +47,11 @@ GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
 
 ]
 
+{ #category : #'code generation' }
+GTMetacellerPackage >> defaultItemKindString [
+	^'package'
+]
+
 { #category : #'accessing spec' }
 GTMetacellerPackage >> file [
 	^self propertyAt: #file ifAbsent: [ self fileReference ]
@@ -88,11 +93,6 @@ GTMetacellerPackage >> isPackage [
 { #category : #testing }
 GTMetacellerPackage >> isValidated [
 	^isValidated ifNil: [ false ]
-]
-
-{ #category : #'code generation' }
-GTMetacellerPackage >> itemKindString [
-	^'package'
 ]
 
 { #category : #accessing }

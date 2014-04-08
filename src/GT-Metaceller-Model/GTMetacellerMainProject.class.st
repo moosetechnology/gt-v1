@@ -55,6 +55,7 @@ GTMetacellerMainProject >> createSnapshotVersion: aString baseline: aBaseline [
 
 { #category : #cache }
 GTMetacellerMainProject >> ensureProjectsCreated [
+	self ensureVersionsCreated.
 	self projects do: [ :each | each ensureVersionsCreated ]
 ]
 

@@ -21,6 +21,11 @@ GTMetacellerGroup >> children [
 	^children ifNil: [ children := self buildChildren ]
 ]
 
+{ #category : #'code generation' }
+GTMetacellerGroup >> defaultItemKindString [
+	^'group'
+]
+
 { #category : #accessing }
 GTMetacellerGroup >> file [
 	^self group file
@@ -49,11 +54,6 @@ GTMetacellerGroup >> isGroup [
 { #category : #testing }
 GTMetacellerGroup >> isPackageLoaded [
 	^self group isPackageLoaded
-]
-
-{ #category : #'code generation' }
-GTMetacellerGroup >> itemKindString [
-	^'group'
 ]
 
 { #category : #accessing }

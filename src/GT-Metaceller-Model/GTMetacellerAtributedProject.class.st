@@ -28,6 +28,11 @@ GTMetacellerAtributedProject >> displayString [
 	^self platformDescription symbol asString
 ]
 
+{ #category : #actions }
+GTMetacellerAtributedProject >> ensureProjectsCreated [
+	self mainProject ensureProjectsCreated
+]
+
 { #category : #testing }
 GTMetacellerAtributedProject >> hasAttributes [
 	^true

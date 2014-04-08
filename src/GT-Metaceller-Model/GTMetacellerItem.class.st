@@ -14,6 +14,13 @@ Class {
 }
 
 { #category : #'instance creation' }
+GTMetacellerItem class >> copyFrom: anItem withName: aString [ 
+	^self basicNew
+		copyFrom: anItem withName: aString;
+		yourself
+]
+
+{ #category : #'instance creation' }
 GTMetacellerItem class >> on: aVersion spec: aSpec [
 	^self basicNew
 		initialize: aVersion spec: aSpec;
@@ -78,6 +85,32 @@ GTMetacellerItem >> commonVersion [
 	^self version commonVersion item: self itemName
 ]
 
+{ #category : #initialization }
+GTMetacellerItem >> copyFrom: anItem withName: aString [ 
+	self initialize.
+	isCopy := true.
+	referenceSpec := anItem referenceSpec.
+	version := anItem version.
+	self resetProperties.
+	self itemName: aString
+
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> createGroupWithName: aString [ 
+	^GTMetacellerGroup copyFrom: self withName: aString
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> createPackageWithName: aString [ 
+	^GTMetacellerPackage copyFrom: self withName: aString
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> createProjectWithName: aString [ 
+	^GTMetacellerProject copyFrom: self withName: aString
+]
+
 { #category : #'accessing spec' }
 GTMetacellerItem >> dataFor: aSymbol [
 	| retVal |
@@ -85,6 +118,11 @@ GTMetacellerItem >> dataFor: aSymbol [
 	retVal isCollection ifTrue: [ 
 		retVal ifEmpty: [ ^nil ] ].
 	^retVal value
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> defaultItemKindString [
+	^self subclassResponsibility
 ]
 
 { #category : #'code generation' }
@@ -96,13 +134,6 @@ GTMetacellerItem >> differenceWith: anItem [
 { #category : #accessing }
 GTMetacellerItem >> errors [
 	^errors ifNil: [ errors := OrderedCollection new ]
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> group: aString [ 
-	(self isGroup and: [ self itemName = aString ]) ifTrue: [ ^self ].
-	" not found: create a new group! "
-	self halt
 ]
 
 { #category : #testing }
@@ -209,9 +240,19 @@ GTMetacellerItem >> isProject: aSpec [
 	^(aSpec isKindOf: MetacelloProjectReferenceSpec) or: [ aSpec isKindOf: MetacelloProjectSpec ]
 ]
 
-{ #category : #accessing }
+{ #category : #'code generation' }
+GTMetacellerItem >> itemKindString [
+	^self propertyAt: #itemKind ifAbsent: [ self defaultItemKindString ]
+]
+
+{ #category : #'accessing spec' }
 GTMetacellerItem >> itemName [
-	^self referenceSpec name
+	^self propertyAt: #itemName ifAbsent: [ self referenceSpec name ]
+]
+
+{ #category : #'accessing spec' }
+GTMetacellerItem >> itemName: aString [
+	self propertyAt: #itemName put: aString
 ]
 
 { #category : #accessing }
@@ -228,33 +269,9 @@ GTMetacellerItem >> mergeWith: anItem [
 	^retVal
 ]
 
-{ #category : #'code generation' }
-GTMetacellerItem >> method [
-	^GTMetacellerItem methodDictionary at: #method
-]
-
 { #category : #accessing }
 GTMetacellerItem >> name [
 	^self referenceSpec name
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> namedTempAt: anInteger [ 
-	^self
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> package: aString [ 
-	(self isPackage and: [ self itemName = aString ]) ifTrue: [ ^self ].
-	" not found: create a new package! "
-	self halt
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> package: aString with: aBlock [ 
-	" first evaluate the properties: "
-	aBlock value.
-	^self package: aString
 ]
 
 { #category : #'accessing version' }
@@ -283,13 +300,6 @@ GTMetacellerItem >> postCopy [
 GTMetacellerItem >> printOn: aStream [
 	super printOn: aStream.
 	aStream nextPut: $(; nextPutAll: self itemName; nextPut: $)
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> project: aString [ 
-	(self isProject and: [ self itemName = aString ]) ifTrue: [ ^self ].
-	" not found: create a new project! "
-	self halt
 ]
 
 { #category : #'accessing spec' }
@@ -347,6 +357,18 @@ GTMetacellerItem >> requires: aString [
 	self propertyAt: #requires put: (self arrayFrom: self requires with: aString)
 ]
 
+{ #category : #'accessing spec' }
+GTMetacellerItem >> resetProperties [
+	self parent
+		ifNil: [ 
+			self specAccessors do: [ :each | 
+				self propertyAt: each put: nil ] ]
+		ifNotNilDo: [ :parent |
+			self specAccessors do: [ :each | 
+				self propertyAt: each put: (parent dataFor: each) ] ].
+
+]
+
 { #category : #accessing }
 GTMetacellerItem >> resetValidated [
 	warnings := nil.
@@ -362,22 +384,16 @@ GTMetacellerItem >> saveVersion [
 { #category : #actions }
 GTMetacellerItem >> saveWithSpecString: aString [ 
 	" create a copy "
-	| newSpec |
-	newSpec := self copy.
-	self parent
-		ifNil: [ 
-			self specAccessors do: [ :each | 
-				newSpec propertyAt: each put: nil ] ]
-		ifNotNilDo: [ :parent |
-			self specAccessors do: [ :each | 
-				newSpec propertyAt: each put: (parent dataFor: each) ] ].
+	| specModifier |
+	specModifier := GTSpecModifier on: (self copy resetProperties; yourself).
 	" and perform the string "
 	(nil class compiler
 		source: aString;
-		context: newSpec;
-		receiver: self;
-		requestor: self;
-		evaluate) saveVersion
+		context: specModifier;
+		receiver: specModifier;
+		requestor: specModifier;
+		evaluate).
+	specModifier item saveVersion
 ]
 
 { #category : #'code generation' }
@@ -395,11 +411,6 @@ GTMetacellerItem >> specString [
 	^String codeStreamContents: [ :s |
 		s startCascade: 'aSpec'.
 		self streamSpecOn: s specName: 'aSpec' ]
-]
-
-{ #category : #'code generation' }
-GTMetacellerItem >> tempNames [
-	^#( 'aSpec' )
 ]
 
 { #category : #actions }

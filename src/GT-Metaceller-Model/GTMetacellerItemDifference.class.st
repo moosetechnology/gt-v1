@@ -34,7 +34,8 @@ GTMetacellerItemDifference >> dataFor: aString [
 			retVal := retVal reject: [ :each | parentData includes: each ].
 			retVal ifEmpty: [ ^nil ] ]
 		ifFalse: [
-			(self parent dataFor: aString) = retVal ifTrue: [ ^nil ] ].
+			(self parent dataFor: aString) = retVal
+				ifTrue: [ ^nil ] ].
 	^retVal
 ]
 
@@ -94,4 +95,9 @@ GTMetacellerItemDifference >> repositories [
 { #category : #accessing }
 GTMetacellerItemDifference >> specAccessors [
 	^self item specAccessors
+]
+
+{ #category : #'code generation' }
+GTMetacellerItemDifference >> streamSpecOn: aStream specName: aSpecName [
+	super streamSpecOn: aStream specName: aSpecName
 ]

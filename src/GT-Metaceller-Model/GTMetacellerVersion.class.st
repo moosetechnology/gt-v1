@@ -579,6 +579,11 @@ GTMetacellerVersion >> methodSpec [
 	^self parent methodSpecForVersion: self
 ]
 
+{ #category : #'code generation' }
+GTMetacellerVersion >> methodSpecForVersion: aVersion [ 
+	^self parent methodSpecForVersion: aVersion
+]
+
 { #category : #accessing }
 GTMetacellerVersion >> methodString [
 	^self method asString
