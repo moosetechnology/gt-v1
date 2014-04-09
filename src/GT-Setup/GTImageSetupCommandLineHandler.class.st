@@ -124,7 +124,8 @@ GTImageSetupCommandLineHandler >> loadFonts [
 				smalltalkhubUser: 'girba' project: 'FreeFonts';
 				package: each;
 				load ].
-		(Smalltalk at: each asSymbol) new install ].
+		"(Smalltalk at: each asSymbol) new install"
+		FreeTypeFontProvider registerFont: (Smalltalk at: each asSymbol) ].
 	FreeTypeSystemSettings loadFt2Library: true.
 	FreeTypeFontProvider current updateFromSystem
 ]
