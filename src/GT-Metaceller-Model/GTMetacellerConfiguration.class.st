@@ -34,6 +34,11 @@ GTMetacellerConfiguration >> bleedingEdgeVersion [
 	^self mainProject bleedingEdgeVersion
 ]
 
+{ #category : #'accessing project' }
+GTMetacellerConfiguration >> childPlatformsFor: aPlatform [
+	^self mainProject childPlatformsFor: aPlatform
+]
+
 { #category : #accessing }
 GTMetacellerConfiguration >> children [
 	^self mainProject childConfigurations collect: [ :each | GTMetacellerConfiguration on: each ]
@@ -44,9 +49,14 @@ GTMetacellerConfiguration >> configName [
 	^self shortName
 ]
 
-{ #category : #accessor }
+{ #category : #accessing }
 GTMetacellerConfiguration >> configuration [
 	^configuration
+]
+
+{ #category : #'accessing project' }
+GTMetacellerConfiguration >> defaultVersion [
+	^self mainProject defaultVersion
 ]
 
 { #category : #'magritte-description' }
@@ -104,7 +114,7 @@ GTMetacellerConfiguration >> developmentVersion: aVersion [
 	self halt
 ]
 
-{ #category : #accessor }
+{ #category : #accessing }
 GTMetacellerConfiguration >> displayString [
 	^self shortName
 ]
@@ -140,7 +150,7 @@ GTMetacellerConfiguration >> mainMethods [
 	^self mainProject allMethods 
 ]
 
-{ #category : #accessor }
+{ #category : #'accessing project' }
 GTMetacellerConfiguration >> mainProject [
 	^mainProject ifNil: [ mainProject := GTMetacellerMainProject on: self configuration ]
 ]

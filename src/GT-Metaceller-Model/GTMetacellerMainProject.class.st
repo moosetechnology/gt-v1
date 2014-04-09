@@ -22,6 +22,11 @@ GTMetacellerMainProject >> buildProjects [
 		GTMetacellerAtributedProject on: self configuration main: self platform: (GTPlatformDescription onSymbol: each) ]
 ]
 
+{ #category : #accessing }
+GTMetacellerMainProject >> childPlatformsFor: aPlatform [
+	^(self projectFor: aPlatform) childPlatforms
+]
+
 { #category : #initialization }
 GTMetacellerMainProject >> createPlatformSymbols [
 	| retVal constructor versionMap symbolicVersionMap executionBlock pragmaDict |

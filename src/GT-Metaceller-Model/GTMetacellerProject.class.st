@@ -270,9 +270,17 @@ GTMetacellerProject >> validate: aCollection [
 ]
 
 { #category : #accessing }
-GTMetacellerProject >> version: aStringOrSymbol [
-	self project ifNil: [ ^nil ].
-	^self versions detect: [ :each | each hasName: aStringOrSymbol ] ifNone: [ nil ]
+GTMetacellerProject >> version: aVersion [
+	^self version: aVersion ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTMetacellerProject >> version: aVersion ifAbsent: aBlock [
+	self project ifNil: [ ^aBlock value ].
+	aVersion ifNil: [ ^aBlock value ].
+	aVersion isString ifTrue: [ 
+		^self versions detect: [ :each | each hasName: aVersion ] ifNone: aBlock ].
+	^self version: aVersion versionName ifAbsent: aBlock
 ]
 
 { #category : #accessing }

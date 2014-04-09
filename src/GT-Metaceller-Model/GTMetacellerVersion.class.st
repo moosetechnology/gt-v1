@@ -468,6 +468,11 @@ GTMetacellerVersion >> isLatestVersion [
 ]
 
 { #category : #testing }
+GTMetacellerVersion >> isMetacellerRelease [
+	^false
+]
+
+{ #category : #testing }
 GTMetacellerVersion >> isNew [
 	^isNew ifNil: [ false ]
 ]
@@ -524,6 +529,11 @@ GTMetacellerVersion >> items [
 ]
 
 { #category : #'accessing generation' }
+GTMetacellerVersion >> itemsFilteredOn: aSymbol [
+	^self items select: [ :each | each perform: aSymbol ]
+]
+
+{ #category : #'accessing generation' }
 GTMetacellerVersion >> itemsForSymbol: aSymbol [
 	| retVal |
 	retVal := self perform: aSymbol.
@@ -532,6 +542,18 @@ GTMetacellerVersion >> itemsForSymbol: aSymbol [
 		importedVersion := self project version: importName.
 		self updateItems: retVal with: (importedVersion perform: aSymbol) ].
 	self updateItems: retVal with: (self parent perform: aSymbol).
+	^retVal
+]
+
+{ #category : #'accessing generation' }
+GTMetacellerVersion >> itemsFrom: aCollection filterOn: aSymbol [
+	| retVal |
+	retVal := aCollection select: [:each | each perform: aSymbol ].
+	self version importedVersions do: [ :importName |
+		| importedVersion |
+		importedVersion := self project version: importName.
+		self updateItems: retVal with: (importedVersion itemsFilteredOn: aSymbol) ].
+	self updateItems: retVal with: (self parent itemsFilteredOn: aSymbol).
 	^retVal
 ]
 
@@ -879,10 +901,34 @@ GTMetacellerVersion >> specString [
 ]
 
 { #category : #'code generation' }
+GTMetacellerVersion >> specStringFor: aCollection [ 
+	self hasError ifTrue: [ ^self errorMessage ].
+	^String codeStreamContents: [ :s |
+		(self streamVersionHeaderWithName: self versionName on: s)
+			with: [
+				self needsGeneratingMainInfo ifTrue: [
+					self streamMainInfoOn: s forDisplay: true ] ].
+		self streamItems: aCollection on: s ]
+]
+
+{ #category : #'code generation' }
 GTMetacellerVersion >> streamItemSpecsOn: aStream [
 	self itemSelectors do: [ :each |
 		| data |
 		data := self itemsForSymbol: each.
+		data ifNotEmpty: [ 
+			| cascade |
+			cascade := aStream startCascade: 'aSpec'.
+			data do: [ :item |
+				item streamSpecOn: aStream specName: 'aSpec' ].
+			cascade close ] ]
+]
+
+{ #category : #'code generation' }
+GTMetacellerVersion >> streamItems: aCollection on: aStream [
+	#( isProject isPackage isGroup ) do: [ :each |
+		| data |
+		data := self itemsFrom: aCollection filterOn: each.
 		data ifNotEmpty: [ 
 			| cascade |
 			cascade := aStream startCascade: 'aSpec'.
@@ -1093,6 +1139,11 @@ GTMetacellerVersion >> version [
 { #category : #accessing }
 GTMetacellerVersion >> version: anObject [
 	version := anObject
+]
+
+{ #category : #'accessing project' }
+GTMetacellerVersion >> versionFor: aString [ 
+	^(self project projectFor: aString) version: self versionName
 ]
 
 { #category : #'accessing version' }

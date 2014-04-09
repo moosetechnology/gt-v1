@@ -85,13 +85,23 @@ GTMetacellerRelease >> isCopy [
 	^isCopy ifNil: [ false ]
 ]
 
+{ #category : #testing }
+GTMetacellerRelease >> isMetacellerRelease [
+	^true
+]
+
+{ #category : #testing }
+GTMetacellerRelease >> isRelease [
+	^true
+]
+
 { #category : #printing }
 GTMetacellerRelease >> labelAsText [
 	| retVal | 
 	retVal := Text fromString: ('#', self releaseName).
 	self version 
-		ifNil: [ retVal append: (Text string: '(no version)' attribute: TextColor red) ]
-		ifNotNil: [ retVal append: (Text string: ('(', self versionName, ')') attribute: TextColor gray) ].
+		ifNil: [ retVal append: (Text string: ' (no version)' attribute: TextColor red) ]
+		ifNotNil: [ retVal append: (Text string: (' (', self versionName, ')') attribute: TextColor gray) ].
 	^retVal
 ]
 
@@ -190,6 +200,11 @@ GTMetacellerRelease >> version [
 { #category : #accessing }
 GTMetacellerRelease >> version: anObject [
 	version := anObject
+]
+
+{ #category : #'accessing version' }
+GTMetacellerRelease >> versionFor: aString [ 
+	^self version versionFor: aString
 ]
 
 { #category : #'accessing version' }

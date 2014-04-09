@@ -79,9 +79,19 @@ GTMetacellerRootVersion >> errorVersions [
 	^errorVersions ifNil: [ errorVersions := OrderedCollection new ]
 ]
 
+{ #category : #testing }
+GTMetacellerRootVersion >> isMetacellerRelease [
+	^false
+]
+
 { #category : #'accessing dummy' }
 GTMetacellerRootVersion >> item: aString [ 
 	^nil
+]
+
+{ #category : #'accessing dummy' }
+GTMetacellerRootVersion >> itemsFilteredOn: aString [ 
+	^#()
 ]
 
 { #category : #accessing }

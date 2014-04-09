@@ -15,6 +15,17 @@ GTMetacellerAtributedProject class >> on: aConfigurationClass main: aMainProject
 		yourself
 ]
 
+{ #category : #accessing }
+GTMetacellerAtributedProject >> childPlatforms [
+	^self children collect: [ :each | each platformSymbol ]
+]
+
+{ #category : #accessing }
+GTMetacellerAtributedProject >> children [
+	self ensureProjectsCreated.
+	^self defaultVersion children collect: [ :each | each project ]
+]
+
 { #category : #'code generation' }
 GTMetacellerAtributedProject >> createTempClass [
 	^AnonymousClassInstaller make: [ :builder |
