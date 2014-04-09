@@ -74,7 +74,8 @@ GTMetacellerCodeStream >> startCascade: aString [
 ]
 
 { #category : #generating }
-GTMetacellerCodeStream >> startComment: aString [ 
+GTMetacellerCodeStream >> startComment: aString [
+	self stream cr.
 	^self openComment
 		string: aString;
 		yourself
