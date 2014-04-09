@@ -59,6 +59,7 @@ GTMetaceller2 >> configActionsIn: a [
 	a actionList
 		act: [ :entity | self newConfiguration ] entitled: 'New...';
 		act: [ :entity :selected | self openConfiguration: selected ] entitled: 'Open';
+		act: [ :entity :selected | self editConfiguration: selected ] entitled: 'Edit';
 		act: [ :entity :selected | self installConfiguration: selected ] entitled: 'Install';
 		yourself
 ]
@@ -73,6 +74,11 @@ GTMetaceller2 >> configurationsIn: a [
 		populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousRefresh on: $r entitled: 'Refresh' with: [ :pane | self announce: GTConfigLoaded ];
 		selectionAct: [ :list | list selection browse ] entitled: 'Browse implementation';
 		selectionAct: [ :list | list selection mainProject inspect ] entitled: 'Inspect'
+]
+
+{ #category : #actions }
+GTMetaceller2 >> editConfiguration: aConfig [ 
+	aConfig openMetacellerEditor
 ]
 
 { #category : #opening }

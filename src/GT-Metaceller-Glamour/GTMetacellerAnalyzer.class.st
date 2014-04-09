@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #building }
-GTMetacellerAnalyzer >> buttonsForVersionsAndGroups: aBrowser [
+GTMetacellerAnalyzer >> buttonsForVersionsAndItems: aBrowser [
 	aBrowser actionList
 		act: [ :entity :version :item | self validateVersion: version item: item ] entitled: 'Validate';
 		act: [ :entity :version :item | self testVersion: version item: item ] entitled: 'Test';
@@ -48,6 +48,7 @@ GTMetacellerAnalyzer >> commonVersionEditIn: aBrowser [
 { #category : #building }
 GTMetacellerAnalyzer >> groupsIn: aBrowser [
 	^(super groupsIn: aBrowser)
+		beSingle;
 		dynamicActionsOnSelection: [ :b | self itemActionsFor: b selection ];
 		yourself
 ]
@@ -131,6 +132,7 @@ GTMetacellerAnalyzer >> itemUpdateBrowser [
 { #category : #building }
 GTMetacellerAnalyzer >> packagesIn: aBrowser [
 	^(super packagesIn: aBrowser)
+		beSingle;
 		dynamicActionsOnSelection: [ :b | self itemActionsFor: b selection ];
 		yourself
 ]

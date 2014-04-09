@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #building }
-GTMetacellerInstaller >> buttonsForVersionsAndGroups: aBrowser [
+GTMetacellerInstaller >> buttonsForVersionsAndItems: aBrowser [
 	aBrowser actionList
 		act: [ :entity :version :groups | self installVersion: version groups: groups ] entitled: 'Install';
 		allowNil;
@@ -21,13 +21,6 @@ GTMetacellerInstaller >> buttonsIn: aBrowser [
 	aBrowser actionList
 		act: [ :entity | self install ] entitled: 'Install';
 		yourself	
-]
-
-{ #category : #building }
-GTMetacellerInstaller >> groupsIn: aBrowser [
-	^(self groupsIn: aBrowser)
-		beMultiple;
-		yourself
 ]
 
 { #category : #accessing }
@@ -55,14 +48,20 @@ GTMetacellerInstaller >> installVersion: aVersion groups: aGroups [
 	aVersion install: aGroups
 ]
 
-{ #category : #building }
-GTMetacellerInstaller >> packagesIn: aBrowser [
-	(self packagesIn: aBrowser)
-		beMultiple;
-		yourself
-]
-
 { #category : #accessing }
 GTMetacellerInstaller >> title [
 	^'Install ', self configuration title
+]
+
+{ #category : #building }
+GTMetacellerInstaller >> versionsIn: aBrowser [
+	aBrowser list
+		title: 'Versions';
+		display: [ :config | config basicVersions ];
+		format: #labelAsText;
+		updateOn: GTConfigChanged from: self announcer;
+		dynamicActionsOnSelection: [ :b | self versionActionsFor: b selection ];
+		allowDeselection;
+		yourself.
+	super versionsIn: aBrowser
 ]

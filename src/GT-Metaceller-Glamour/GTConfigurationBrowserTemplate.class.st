@@ -32,19 +32,19 @@ GTConfigurationBrowserTemplate >> buildBrowser [
 	browser
 		row: [ :r | r
 			column: #versions;
-			column: #groups ];
+			column: #items ];
 		row: #details;
 		row: #buttons size: 30.
 	browser transmit
 		to: #versions;
 		andShow: [ :a | self versionsIn: a ].
 	browser transmit
-		to: #groups;
-		andShow: [ :a | self groupsFromConfigurationIn: a ].
+		to: #items;
+		andShow: [ :a | self itemsFromConfigurationIn: a ].
 	browser transmit
-		to: #groups;
+		to: #items;
 		from: #versions;
-		andShow: [ :a | self groupsFromVersionIn: a ].
+		andShow: [ :a | self itemsFromVersionIn: a ].
 	browser transmit
 		to: #details;
 		andShow: [ :a | self detailsIn: a ].
@@ -53,21 +53,21 @@ GTConfigurationBrowserTemplate >> buildBrowser [
 		to: #details;
 		andShow: [ :a | self versionDetailsIn: a ].
 	browser transmit
-		from: #groups;
+		from: #items;
 		to: #details;
 		andShow: [ :a | self itemDetailsIn: a ].
 	browser transmit
 		to: #buttons;
 		andShow: [ :a | self buttonsIn: a ].
 	browser transmit
-		from: #versions; from: #groups;
+		from: #versions; from: #items;
 		to: #buttons;
-		andShow: [ :a | self buttonsForVersionsAndGroups: a ].
+		andShow: [ :a | self buttonsForVersionsAndItems: a ].
 	^ browser
 ]
 
 { #category : #building }
-GTConfigurationBrowserTemplate >> buttonsForVersionsAndGroups: aBrowser [
+GTConfigurationBrowserTemplate >> buttonsForVersionsAndItems: aBrowser [
 	aBrowser actionList
 		act: [ :entity :version :groups | self installVersion: version groups: groups ] entitled: 'Install';
 		allowNil;
@@ -119,28 +119,13 @@ GTConfigurationBrowserTemplate >> groupsFor: aConfigOrVersion [
 ]
 
 { #category : #building }
-GTConfigurationBrowserTemplate >> groupsFromConfigurationIn: aBrowser [
-	self groupsIn: aBrowser.
-	self packagesIn: aBrowser
-]
-
-{ #category : #building }
-GTConfigurationBrowserTemplate >> groupsFromVersionIn: aBrowser [
-	self groupsIn: aBrowser.
-	self packagesIn: aBrowser.
-	(self groupsIn: aBrowser)
-		allowAllNil.
-	(self packagesIn: aBrowser)
-		allowAllNil
-]
-
-{ #category : #building }
 GTConfigurationBrowserTemplate >> groupsIn: aBrowser [
 	^aBrowser list
 		title: 'Groups';
 		display: [ self groupsFor: self configuration ];
 		format: #labelAsText;
 		updateOn: GTConfigChanged from: self announcer;
+		beMultiple;
 		allowDeselection;
 		yourself
 ]
@@ -172,6 +157,22 @@ GTConfigurationBrowserTemplate >> itemDetailsIn: aBrowser [
 	self detailsIn: aBrowser
 ]
 
+{ #category : #building }
+GTConfigurationBrowserTemplate >> itemsFromConfigurationIn: aBrowser [
+	self groupsIn: aBrowser.
+	self packagesIn: aBrowser
+]
+
+{ #category : #building }
+GTConfigurationBrowserTemplate >> itemsFromVersionIn: aBrowser [
+	self groupsIn: aBrowser.
+	self packagesIn: aBrowser.
+	(self groupsIn: aBrowser)
+		allowAllNil.
+	(self packagesIn: aBrowser)
+		allowAllNil
+]
+
 { #category : #actions }
 GTConfigurationBrowserTemplate >> newVersion: aVersion [ 
 	" create a dialog box for a version name and allow to select a base version "
@@ -194,10 +195,11 @@ GTConfigurationBrowserTemplate >> packagesAndGroupsFor: aConfigOrVersion [
 GTConfigurationBrowserTemplate >> packagesIn: aBrowser [
 	^aBrowser tree
 		title: 'Packages';
-		display: [ self packagesAndGroupsFor: self configuration ];
+		display: [ :version | self packagesAndGroupsFor: version ];
 		children: [ :item | self childrenForItem: item ];
 		format: #labelAsText;
 		updateOn: GTConfigChanged from: self announcer;
+		beMultiple;
 		allowDeselection;
 		yourself.
 
@@ -233,14 +235,6 @@ GTConfigurationBrowserTemplate >> versionDetailsIn: aBrowser [
 
 { #category : #building }
 GTConfigurationBrowserTemplate >> versionsIn: aBrowser [
-	aBrowser list
-		title: 'Versions';
-		display: [ :config | config basicVersions ];
-		format: #labelAsText;
-		updateOn: GTConfigChanged from: self announcer;
-		dynamicActionsOnSelection: [ :b | self versionActionsFor: b selection ];
-		allowDeselection;
-		yourself.
 	aBrowser list
 		title: 'Releases';
 		display: [ :config | config releases ];
