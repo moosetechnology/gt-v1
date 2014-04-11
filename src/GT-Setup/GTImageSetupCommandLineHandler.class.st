@@ -118,14 +118,13 @@ GTImageSetupCommandLineHandler >> installGTPlayground [
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> loadFonts [
-	#('SourceCodeProRegular' 'SourceCodeProBold' 'SourceSansProRegular' 'SourceSansProBold') do: [ :each | 
+	#('SourceCodeProBold' 'SourceSansProRegular' 'SourceSansProBold') do: [ :each | 
 		each asSymbol asClassIfAbsent: [
 			Gofer new 
 				smalltalkhubUser: 'girba' project: 'FreeFonts';
 				package: each;
 				load ].
-		"(Smalltalk at: each asSymbol) new install"
-		FreeTypeFontProvider registerFont: (Smalltalk at: each asSymbol) ].
+		(Smalltalk at: each asSymbol) new install ].
 	FreeTypeSystemSettings loadFt2Library: true.
 	FreeTypeFontProvider current updateFromSystem
 ]
