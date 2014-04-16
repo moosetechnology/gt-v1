@@ -8,6 +8,8 @@ Subclasses should override the following methods:
 Class {
 	#name : #GTMoldableDebugger,
 	#superclass : #GLMCompositePresentation,
+	#traits : 'GTBrowsingActions',
+	#classTraits : 'GTBrowsingActions classTrait',
 	#classVars : [
 		'EnableDebuggerWindowDistinctColor'
 	],
