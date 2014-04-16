@@ -47,6 +47,15 @@ GTInspector class >> inspect: anObject [
 ]
 
 { #category : #openning }
+GTInspector class >> inspect: anObject label: aString [
+	self new 
+		title: aString;
+		openOn: anObject.
+	^ anObject
+
+]
+
+{ #category : #openning }
 GTInspector class >> inspector: anObject [
 
 	^ self inspect: anObject
