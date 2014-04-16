@@ -177,6 +177,21 @@ GTMoldableDebugger >> detachSession [
 	(self browser pane port: #entity) silentValue: nil
 ]
 
+{ #category : #'as yet unclassified' }
+GTMoldableDebugger >> initialExtent [
+"This code was taken from the standard debugger to get the same behavior. Fell free to refactor"
+
+	RealEstateAgent standardWindowExtent y < 400 "a tiny screen" 
+		ifTrue: [^ 700@500].
+	
+	^ [ | w h |
+		w := Display width.
+		h := Display height.
+		(w - (w // 3)) @ (h - (h // 5)) ]
+		on: Error
+		do: [ 850@600 ]
+]
+
 { #category : #'building actions' }
 GTMoldableDebugger >> installActionsForRootPragmas: aSymbolsCollection in: aPresentation [
 
@@ -197,6 +212,13 @@ GTMoldableDebugger >> interruptedContext [
 GTMoldableDebugger >> interruptedProcess [
 
 	^ self session interruptedProcess
+]
+
+{ #category : #'as yet unclassified' }
+GTMoldableDebugger >> openOn: anObject [ 
+	^ (super openOn: anObject)
+		extent: self initialExtent;
+		yourself
 ]
 
 { #category : #intialization }
