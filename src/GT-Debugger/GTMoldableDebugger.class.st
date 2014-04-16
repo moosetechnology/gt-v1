@@ -88,6 +88,12 @@ GTMoldableDebugger class >> spanNewSessionForContext: aContext fromProcess: aPro
 	^ self sessionClass process: aProcess context: aContext 
 ]
 
+{ #category : #icons }
+GTMoldableDebugger class >> taskbarIcon [
+
+	^ Smalltalk ui icons smallDebugIcon
+]
+
 { #category : #callbacks }
 GTMoldableDebugger >> actOnBrowserClosing: ann [
 	self session ifNotNil: [ :aSession | aSession terminate ]
