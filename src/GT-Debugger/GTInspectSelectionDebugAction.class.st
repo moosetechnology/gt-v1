@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Debugger-Actions'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTInspectSelectionDebugAction class >> gtActionFor: aDebugger [
 	<gtContextCodeDebuggingAction>
 	
