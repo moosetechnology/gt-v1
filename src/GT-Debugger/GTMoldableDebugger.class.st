@@ -177,7 +177,23 @@ GTMoldableDebugger >> detachSession [
 	(self browser pane port: #entity) silentValue: nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
+GTMoldableDebugger >> evaluate: aText in: aContext notifying: aRequestor andDo: aBlock [
+	| result receiver |
+	
+	receiver := aContext ifNil: [ nil ] ifNotNil: [ aContext home receiver ].
+	result := receiver class compiler
+		source: aText;
+		context: aContext;
+		receiver: (aContext ifNotNil: [ aContext home receiver ] );
+		requestor: aRequestor;
+		failBlock:  [ ^ nil];
+		evaluate.	
+			
+	^ aBlock value: result
+]
+
+{ #category : #protocol }
 GTMoldableDebugger >> initialExtent [
 "This code was taken from the standard debugger to get the same behavior. Fell free to refactor"
 
@@ -214,7 +230,7 @@ GTMoldableDebugger >> interruptedProcess [
 	^ self session interruptedProcess
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'scripting opening' }
 GTMoldableDebugger >> openOn: anObject [ 
 	^ (super openOn: anObject)
 		extent: self initialExtent;

@@ -261,6 +261,18 @@ GTGenericStackDebugger >> codeActionsPragmas [
 	^ #( codeDebuggingAction )
 ]
 
+{ #category : #accessing }
+GTGenericStackDebugger >> codePane [
+
+	^ self browser paneNamed: #code
+]
+
+{ #category : #accessing }
+GTGenericStackDebugger >> codePresentation [
+	
+	^ self codePane presentations first
+]
+
 { #category : #building }
 GTGenericStackDebugger >> debuggerStructureIn: browser [
 	
@@ -399,6 +411,12 @@ GTGenericStackDebugger >> proceed: aTopView [
 GTGenericStackDebugger >> selectedContext [
 
 	^ ((self browser paneNamed: #stack) port: #selection) value
+]
+
+{ #category : #accessing }
+GTGenericStackDebugger >> selectedText [
+
+	^ (self codePane port: #selectedText) value
 ]
 
 { #category : #updating }

@@ -12,6 +12,12 @@ GTRunToSelectionDebugAction class >> gtActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousPlay
 ]
 
+{ #category : #accessing }
+GTRunToSelectionDebugAction >> defaultOrder [
+
+	^ 5
+]
+
 { #category : #actions }
 GTRunToSelectionDebugAction >> executeAction [
 
