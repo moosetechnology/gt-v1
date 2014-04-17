@@ -1,6 +1,9 @@
 Extension { #name : #FuelOutStackDebugAction }
 
 { #category : #'*GT-Debugger-Actions' }
-FuelOutStackDebugAction class >> gtActionType [
-	<gtContextDebuggingAction>
+FuelOutStackDebugAction class >> gtActionFor: aDebugger [
+	<gtDebuggingAction>
+	
+	^ (self forDebugger: aDebugger)
+			order: 30
 ]
