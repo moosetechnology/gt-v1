@@ -7,9 +7,9 @@ Class {
 { #category : #registration }
 GTClearEditorDebugAction class >> gtActionFor: aDebugger [
 	<gtCodeDebuggingAction>
-	<gtContextCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
+		icon: GLMUIThemeExtraIcons glamorousCancel
 ]
 
 { #category : #'as yet unclassified' }

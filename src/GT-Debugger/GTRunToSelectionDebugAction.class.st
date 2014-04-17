@@ -6,7 +6,6 @@ Class {
 
 { #category : #registration }
 GTRunToSelectionDebugAction class >> gtActionFor: aDebugger [
-	<gtCodeDebuggingAction>
 	<gtContextCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
