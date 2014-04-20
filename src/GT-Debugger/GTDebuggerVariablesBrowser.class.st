@@ -23,22 +23,36 @@ GTDebuggerVariablesBrowser >> compose [
 ]
 
 { #category : #'private building' }
+GTDebuggerVariablesBrowser >> tagsForVariable: aString from: aContext [
+	^ (aContext reservedNames includes: aString) 
+		ifTrue: [ #() ]
+		ifFalse: [  
+			(aContext receiver class hasInstVarNamed: aString)
+				ifTrue: [ 'attribute' ]
+				ifFalse: [ (aContext method argumentNames includes: aString)
+					ifTrue: [ 'parameter' ]
+					ifFalse: [ 'temp' ] ] ]
+			
+	
+]
+
+{ #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesIn: composite [
 	composite table
 		showOnly: 50;
 		display: [ :context | context gtDebuggerRetrieveVariableValuePairs ];
 		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key];
-		column: 'Variable' evaluated: [:assoc | 
-			[ Text fromString: assoc key asString ]
-						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ] ];
+		column: 'Variable' 
+			evaluated: [:assoc | 
+				[ Text fromString: assoc key asString ]
+					on: Error
+					do: [ Text string: 'error printing' attribute: TextColor red ] ]
+			tags: [ :assoc :context |
+				self tagsForVariable: assoc key from: context ];
 		column: 'Value' evaluated: [:assoc | 
 			[ Text fromString: (assoc value printString contractTo: 50) ]
 						on: Error
 						do: [ Text string: 'error printing' attribute: TextColor red ] ];
-"		icon: [ :each |
-			each value class theNonMetaClass browserIcon
-				ifNotNil: [ OBMorphicIcons iconNamed: each value class theNonMetaClass browserIcon ] ];"
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 

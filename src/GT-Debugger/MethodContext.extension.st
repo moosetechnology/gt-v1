@@ -25,3 +25,9 @@ MethodContext >> gtDebuggerRetrieveVariableValuePairs [
 	
 	^ fieldList
 ]
+
+{ #category : #'*GT-Debugger' }
+MethodContext >> reservedNames [
+
+	^ #( '_self' '_thisContext' '_stack top')
+]
