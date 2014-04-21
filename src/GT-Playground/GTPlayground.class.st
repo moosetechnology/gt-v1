@@ -27,6 +27,29 @@ GTPlayground class >> open [
 	^ self new openOn: page
 ]
 
+{ #category : #'instance creation' }
+GTPlayground class >> openContents: aString [
+	"Open a new playground with the given contents. aString has to be Smalltalk code. The style is applied"
+
+	| page |
+	page := GTPlaygroundPage new
+		content: aString;
+		yourself.
+	^ self new openOn: page
+]
+
+{ #category : #'instance creation' }
+GTPlayground class >> openContents: aString label: aLabel [
+	"Open a new playground with the given contents"
+
+	| page |
+	page := GTPlaygroundPage new
+		content: aString;
+		title: aLabel;
+		yourself.
+	^ self new openOn: page
+]
+
 { #category : #'tools registry' }
 GTPlayground class >> registerToolsOn: registry [
 	"Add ourselves to registry. See [Smalltalk tools]"
