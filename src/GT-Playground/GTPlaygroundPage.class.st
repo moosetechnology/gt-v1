@@ -21,6 +21,14 @@ GTPlaygroundPage >> content: anObject [
 	content := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+GTPlaygroundPage >> gtInspectorContentIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite pharoPlayground 
+		title: 'Content';
+		display: #content
+]
+
 { #category : #accessing }
 GTPlaygroundPage >> initialize [
 	content := ''.
