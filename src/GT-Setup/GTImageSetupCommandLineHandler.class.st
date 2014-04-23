@@ -89,7 +89,8 @@ GTImageSetupCommandLineHandler >> installGLMWhitespaceTheme [
 	GLMWhitespaceTheme 
 		defaultSettings: nil;
 		setPreferredWorldBackground;
-		beCurrent
+		beCurrent;
+		setPreferredShoutColors
 ]
 
 { #category : #utilities }
@@ -149,5 +150,5 @@ GTImageSetupCommandLineHandler >> loadOlderAthensPackagesToCorrectTheFontCaching
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> setPreferredSettings [
 	NECPreferences popupShowAutomatic: false.
-	GTGenericStackDebugger enableStackColoring: true.
+	GTGenericStackDebugger enableStackColoring: true 
 ]
