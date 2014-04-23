@@ -109,7 +109,7 @@ GTInspector class >> settingsOn: aBuilder [
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
-	self pager with: [ :browser | 
+	self finder with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each |
 			a title: [ self printObjectAsAnItem: each ].
