@@ -42,17 +42,19 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 		showOnly: 50;
 		display: [ :context | context gtDebuggerRetrieveVariableValuePairs ];
 		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key];
-		column: 'Variable' 
-			evaluated: [:assoc | 
-				[ Text fromString: assoc key asString ]
-					on: Error
-					do: [ Text string: 'error printing' attribute: TextColor red ] ]
+		column: 'Type'
+			evaluated: [ '' ]
+			width: 75
 			tags: [ :assoc :context |
 				self tagsForVariable: assoc key from: context ];
+		column: 'Variable' evaluated: [:assoc | 
+			[ Text fromString: assoc key asString ]
+					on: Error
+					do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		column: 'Value' evaluated: [:assoc | 
 			[ Text fromString: (assoc value printString contractTo: 50) ]
-						on: Error
-						do: [ Text string: 'error printing' attribute: TextColor red ] ];
+					on: Error
+					do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
