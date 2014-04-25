@@ -1,0 +1,32 @@
+Extension { #name : #Morph }
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Morph >> gtInspectorMappingsIn: composite [
+	<gtInspectorPresentationOrder: 95>
+	self kmDispatcher gtInspectorMappingsIn: composite
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Morph >> gtInspectorMorphIn: composite [
+	<gtInspectorPresentationOrder: 90>  
+	composite morph 
+		title: 'Morph';
+		display: [:each | self imageForm asMorph ];
+		act: [ :pres | self exportAsPNG ] entitled: 'Export as PNG'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Morph >> gtInspectorSubmorphsIn: composite [
+	<gtInspectorPresentationOrder: 80>  
+	composite tree 
+		title: 'Submorphs';
+		rootsExpanded;
+		display: [:each | {each} ];
+		icon: [:each | | morphForm |
+			morphForm := each imageForm.
+			(morphForm extent x > 0 and: [morphForm extent y > 0 ])
+				ifTrue: [(morphForm scaledToSize: 16@16) asMorph]
+				ifFalse: [Form extent: 16@16] ];
+		children: [:each | each submorphs];
+		when: [:each | each submorphs notEmpty ]
+]
