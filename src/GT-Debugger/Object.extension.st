@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*gt-debugger' }
+Object >> gtConstructDebuggerInspectorIn: composite [
+	
+	^ composite custom: (GTDebuggerInspector new startOn: self)
+]
+
+{ #category : #'*gt-debugger' }
 Object >> gtDebuggerEvaluatorIn: composite [
 	<gtDebuggerPresentationOrder: 15>
 	

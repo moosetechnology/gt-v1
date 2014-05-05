@@ -1,6 +1,15 @@
 Extension { #name : #MethodContext }
 
 { #category : #'*GT-Debugger' }
+MethodContext >> gtConstructDebuggerInspectorIn: composite [
+	
+	^composite custom: ((GTDebuggerInspector new  
+		showFirst: [ :a | a custom: GTDebuggerVariablesBrowser new ];
+		yourself) 
+			startOn: self)
+]
+
+{ #category : #'*GT-Debugger' }
 MethodContext >> gtDebuggerRetrieveVariableValuePairs [
 	|fieldList context|
 

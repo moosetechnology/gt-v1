@@ -335,12 +335,27 @@ GTGenericStackDebugger >> formatStackEntry: aContext [
 	 
 ]
 
-{ #category : #'building presentations' }
-GTGenericStackDebugger >> inspectorIn: composite [
+{ #category : #actions }
+GTGenericStackDebugger >> inspect: anObject [
 
-	^ composite custom:
-			(GTDebuggerInspector new  
-				showFirst: [ :a | a custom: GTDebuggerVariablesBrowser new ])
+	((self browser paneNamed: #inspector) port: #entity) value: anObject.
+	(self browser paneNamed: #inspector) update.
+	
+]
+
+{ #category : #'building presentations' }
+GTGenericStackDebugger >> inspectorIn: aComposite [
+
+	^ aComposite dynamic 
+		display: [:anObject |
+			self inspectorIn: aComposite on: anObject ]
+]
+
+{ #category : #'building presentations' }
+GTGenericStackDebugger >> inspectorIn: aComposite on: anObject [
+				
+	^ anObject gtConstructDebuggerInspectorIn: aComposite
+	
 	
 ]
 
