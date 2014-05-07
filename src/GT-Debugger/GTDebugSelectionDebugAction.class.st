@@ -14,7 +14,8 @@ GTDebugSelectionDebugAction class >> gtActionFor: aDebugger [
 { #category : #'as yet unclassified' }
 GTDebugSelectionDebugAction >> defaultKeyText [
 
-	^ 'D'
+	^ nil
+	"^ 'D'"
 ]
 
 { #category : #'as yet unclassified' }
