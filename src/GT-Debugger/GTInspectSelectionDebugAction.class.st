@@ -33,12 +33,7 @@ GTInspectSelectionDebugAction >> defaultOrder [
 { #category : #'as yet unclassified' }
 GTInspectSelectionDebugAction >> executeAction [
 	
-	self debugger codePresentation selectLine.
-	self debugger
-		evaluate: self debugger codePresentation selectedText 
-		in: self currentContext 
-		notifying: self
-		andDo: [ :result | result inspect ] 
+	self debugger codePresentation evaluateSelectionAndDo: [ :result | result inspect ]
 		
 
 ]
@@ -53,10 +48,4 @@ GTInspectSelectionDebugAction >> id [
 GTInspectSelectionDebugAction >> initialize [
 
 	self needsUpdate: false
-]
-
-{ #category : #'as yet unclassified' }
-GTInspectSelectionDebugAction >> notify: aString at: anInteger in: aStream [
-	
-	self codePresentation notify: aString at: anInteger in: aStream
 ]

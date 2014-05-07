@@ -15,7 +15,7 @@ GTRunToSelectionDebugAction class >> gtActionFor: aDebugger [
 { #category : #accessing }
 GTRunToSelectionDebugAction >> defaultOrder [
 
-	^ 5
+	^ 1
 ]
 
 { #category : #actions }

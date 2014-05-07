@@ -27,18 +27,13 @@ GTExecuteSelectionDebugAction >> defaultLabel [
 { #category : #'as yet unclassified' }
 GTExecuteSelectionDebugAction >> defaultOrder [
 
-	^ 10
+	^ 15
 ]
 
 { #category : #'as yet unclassified' }
 GTExecuteSelectionDebugAction >> executeAction [
 	
-	self debugger codePresentation selectLine.
-	self debugger
-		evaluate: self debugger codePresentation selectedText 
-		in: self currentContext 
-		notifying: self
-		andDo: [ :result | ] 
+	self debugger codePresentation evaluateSelection
 		
 
 ]
@@ -53,10 +48,4 @@ GTExecuteSelectionDebugAction >> id [
 GTExecuteSelectionDebugAction >> initialize [
 
 	self needsUpdate: false
-]
-
-{ #category : #'as yet unclassified' }
-GTExecuteSelectionDebugAction >> notify: aString at: anInteger in: aStream [
-	
-	self codePresentation notify: aString at: anInteger in: aStream
 ]

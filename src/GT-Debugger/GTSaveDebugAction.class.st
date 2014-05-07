@@ -1,9 +1,6 @@
 Class {
 	#name : #GTSaveDebugAction,
 	#superclass : #DebugAction,
-	#instVars : [
-		'sourceCode'
-	],
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -15,14 +12,10 @@ GTSaveDebugAction class >> gtActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousAccept
 ]
 
-{ #category : #'as yet unclassified' }
-GTSaveDebugAction >> asGlamourAction [
+{ #category : #accessing }
+GTSaveDebugAction >> defaultKeyText [
 
-	^ super asGlamourAction
-			shortcut: $s;
-			action: [ :textPresentation |
-				self sourceCode: textPresentation text.
-				self execute ]
+	^ 's'
 ]
 
 { #category : #initialization }
@@ -40,14 +33,11 @@ GTSaveDebugAction >> defaultOrder [
 { #category : #actions }
 GTSaveDebugAction >> executeAction [
 
-	self session 
+	self debugger codePresentation 
+		compileTextIn: self currentContext from: self session 
+
+	"self session 
 		recompileMethodTo: sourceCode 
 		inContext: self currentContext 
-		notifying: self debugger codePresentation
-]
-
-{ #category : #accessing }
-GTSaveDebugAction >> sourceCode: aText [
-
-	sourceCode := aText
+		notifying: self debugger codePresentation"
 ]
