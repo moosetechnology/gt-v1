@@ -10,9 +10,6 @@ self registerToolsOn: Smalltalk tools
 Class {
 	#name : #GTPlayground,
 	#superclass : #GLMCompositePresentation,
-	#instVars : [
-		'context'
-	],
 	#classInstVars : [
 		'repository'
 	],
@@ -95,20 +92,26 @@ GTPlayground >> codeIn: a [
 		beForScripting;
 		title: [ :page | page title ];
 		format: [ :page | page content ];
-		variableBindings: [ :page| context bingings ];
-		populate: #selection
+		act: [ :text :page |
+				page content: text text.
+				text selectionInterval: (1 to: text text size).
+				text evaluateSelectionAndDo: [ :result | text selection: result ]  ]
 			icon: GLMUIThemeExtraIcons glamorousPlay
 "			on: $O"
-			entitled: 'Execute all and open'
-			with: [ :text :page |
+			entitled: 'Execute all and open';
+		selectionAct: [ :text :page |
 				page content: text text.
-				self evaluateAllFrom: text ];
-		selectionPopulate: #selection
+				text evaluateSelectionAndDo: [ :result | text selection: result ] ]
 			on: $o
-			entitled: 'Open'
-			with: [ :text :page |
-				page content: text text.
-				self evaluateSelectionFrom: text ];
+			entitled: 'Open';
+		installDefaultSelectionActions;
+		selectionAct: [ :text :page |
+				text selectLine.
+				self systemNavigation 
+					browseMethodsWithString: text selectedText
+					matchCase: false ]
+			on: $E
+			entitled: 'Extended string search';
 		dynamicActions: [ self actionsForPreviousContents ]
 ]
 
@@ -119,9 +122,8 @@ GTPlayground >> compose [
 		custom:
 			(GTInspector new first
 				noActions;
-				showFirst: [ :a ||code| 
-					code := self codeIn: a.
-					self installWorkspaceActionsIn: code ];
+				showFirst: [ :composite |
+					self codeIn: composite.];
 				yourself);
 		on: GLMBrowserClosing do: [ 
 			"This is a hack for the moment.
@@ -131,72 +133,6 @@ GTPlayground >> compose [
 					content: self first panes first presentations first text.
 			self entity content asString trimBoth isEmpty
 				ifFalse: [ self class repository add: self entity ] ]
-]
-
-{ #category : #building }
-GTPlayground >> evaluateAllFrom: aTextPresentation [
-	| result |
-	
-	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
-	result := self evaluateText: aTextPresentation text andDo: [ :x | x ] notifying: context.
-	context notifier: nil. 
-	aTextPresentation updateVariableBindings.
-	^ result
-]
-
-{ #category : #building }
-GTPlayground >> evaluateSelectionFrom: aTextPresentation [ 
-	
-	^ self evaluateSelectionFrom: aTextPresentation andDo: [:result | result ]
-]
-
-{ #category : #building }
-GTPlayground >> evaluateSelectionFrom: aTextPresentation andDo: aBlock [
-	| result |
-	
-	aTextPresentation selectLine.
-	context notifier: aTextPresentation. "In case of a compilation error this object get's notified."
-	result := self evaluateText: aTextPresentation selectedText andDo: aBlock notifying: context.
-	context notifier: nil. 
-	aTextPresentation updateVariableBindings.
-	^ result
-]
-
-{ #category : #'do-its' }
-GTPlayground >> evaluateText: aText andDo: aBlock notifying: aRequestor [
-	|result|
-	
-	"Must evaluate with context and receiver nil so that the missing bingings get created"
-	result := nil class compiler
-		source: aText;
-		context: nil;
-		receiver: nil;
-		requestor: aRequestor;
-		failBlock:  [ ^ nil];
-		evaluate.	
-			
-	^ aBlock value: result
-]
-
-{ #category : #initializing }
-GTPlayground >> initialize [
-
-	super initialize.
-	context := GTPlaygroundContext new
-]
-
-{ #category : #building }
-GTPlayground >> installWorkspaceActionsIn: aPresentation [
-
-	^ aPresentation 
-		installDefaultSelectionActions;
-		selectionAct: [ :text :page |
-				text selectLine.
-				self systemNavigation 
-					browseMethodsWithString: text selectedText
-					matchCase: false ]
-			on: $E
-			entitled: 'Extended string search'.
 ]
 
 { #category : #building }
