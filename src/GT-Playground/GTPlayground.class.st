@@ -92,6 +92,7 @@ GTPlayground >> actionsForPreviousContents [
 { #category : #building }
 GTPlayground >> codeIn: a [
 	^ a smalltalkCode
+		beForScripting;
 		title: [ :page | page title ];
 		format: [ :page | page content ];
 		variableBindings: [ :page| context bingings ];
@@ -187,22 +188,15 @@ GTPlayground >> initialize [
 { #category : #building }
 GTPlayground >> installWorkspaceActionsIn: aPresentation [
 
-	^ aPresentation
-		selectionAct: [ :text :page |
-				self evaluateSelectionFrom: text ]
-			on: $d
-			entitled: 'Do it';
-		selectionAct: [ :text :page |
-				(self evaluateSelectionFrom: text andDo: [ :result | result inspect ]) ]
-			on: $i
-			entitled: 'Inspect it';
+	^ aPresentation 
+		installDefaultSelectionActions;
 		selectionAct: [ :text :page |
 				text selectLine.
 				self systemNavigation 
 					browseMethodsWithString: text selectedText
 					matchCase: false ]
 			on: $E
-			entitled: 'Extended string search'
+			entitled: 'Extended string search'.
 ]
 
 { #category : #building }
