@@ -40,6 +40,11 @@ GTMetacellerRelease >> canModify [
 	^self isCopy
 ]
 
+{ #category : #accessing }
+GTMetacellerRelease >> commonVersion [
+	^self version commonVersion
+]
+
 { #category : #initialization }
 GTMetacellerRelease >> determineMetacelloVersion [
 	self project ifNil: [  ^nil ].

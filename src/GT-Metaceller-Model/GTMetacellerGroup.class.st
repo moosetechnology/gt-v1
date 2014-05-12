@@ -47,6 +47,11 @@ GTMetacellerGroup >> hasWarnings [
 ]
 
 { #category : #testing }
+GTMetacellerGroup >> isCompatibleWith: anItem [
+	^false
+]
+
+{ #category : #testing }
 GTMetacellerGroup >> isGroup [
 	^true
 ]
@@ -73,10 +78,12 @@ GTMetacellerGroup >> specAccessors [
 
 { #category : #actions }
 GTMetacellerGroup >> testValid [
-	self children do: [ :each | each testValid ]
+	self children do: [ :each | each testValid ].
+	^self loadList
 ]
 
 { #category : #actions }
 GTMetacellerGroup >> validate [
-	self children do: [ :each | each validate ]
+	self children do: [ :each | each validate ].
+	^self loadList
 ]

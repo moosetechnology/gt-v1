@@ -1009,9 +1009,10 @@ GTMetacellerVersion >> tagsOf: aSpec [
 ]
 
 { #category : #actions }
-GTMetacellerVersion >> test: anItemOrList [ 
-	(self itemListFrom: anItemOrList) do: [ :each |
-		each resetValidated; test ]
+GTMetacellerVersion >> test: anItemOrList [
+	(self itemListFrom: anItemOrList) do: [ :item |
+		item resetValidated.
+		item testValid ] displayingProgress: ('Testing version ', self version asString)
 ]
 
 { #category : #actions }

@@ -50,11 +50,19 @@ GTMetacellerProjectReference >> className: aString [
 
 { #category : #accessing }
 GTMetacellerProjectReference >> configForProject [
+	self configNameForProject
+		ifNil: [ ^nil ]
+		ifNotNilDo: [ :configName |
+			^Smalltalk at: configName ifAbsent: [ nil ] ]
+]
+
+{ #category : #accessing }
+GTMetacellerProjectReference >> configNameForProject [
 	| projectReference |
 	projectReference := self projectReference.
 	projectReference ifNil: [  ^nil ].
 	projectReference className ifNil: [  ^nil ].
-	^Smalltalk at: (projectReference className asSymbol) ifAbsent: [ nil ]
+	^projectReference className asSymbol
 ]
 
 { #category : #'code generation' }
@@ -78,6 +86,12 @@ GTMetacellerProjectReference >> fileReference [
 	retVal := self referenceSpec file.
 	(retVal = self referenceSpec className) ifTrue: [ ^nil ].
 	^retVal
+]
+
+{ #category : #testing }
+GTMetacellerProjectReference >> isCompatibleWith: anItem [
+	(super isCompatibleWith: anItem) ifFalse: [ ^false ].
+	^(self configNameForProject = anItem configNameForProject)
 ]
 
 { #category : #testing }
@@ -107,6 +121,13 @@ GTMetacellerProjectReference >> labelAsText [
 	
 ]
 
+{ #category : #actions }
+GTMetacellerProjectReference >> loadConfiguration [
+	[ :job |
+		job title: 'Ensuring configuration of ', self projectReference name,' loaded.'.
+		self projectReference ensureProjectLoaded ] asJob run
+]
+
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> loads [
 	^self propertyAt: #loads ifAbsent: [ ^self projectReference loads ]
@@ -115,6 +136,28 @@ GTMetacellerProjectReference >> loads [
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> loads: aString [
 	^self propertyAt: #loads put: aString
+]
+
+{ #category : #'code generation' }
+GTMetacellerProjectReference >> mergeSpec: anItem [
+	^self projectReference mergeSpec: anItem projectReference
+]
+
+{ #category : #accessing }
+GTMetacellerProjectReference >> mergeWith: aProjectRef errors: anErrors warnings: aWarnings [ 
+	(self version = aProjectRef version) ifFalse: [
+		self fullTraces do: [ :myTrace |
+			aProjectRef fullTraces do: [ :each |
+				aWarnings add: 'Incompatible versions between ', myTrace, ' and ', each, String cr,
+					self version asString, ' ~= ', aProjectRef version asString ] ].
+		^nil ].
+	(self repositories = aProjectRef repositories) ifFalse: [
+		self fullTraces do: [ :myTrace |
+			aProjectRef fullTraces do: [ :each |
+				aWarnings add: 'Incompatible repositories between ', myTrace, ' and ', each, String cr,
+					self repositories asString, ' ~= ', aProjectRef repositories asString ] ].
+		^nil ].
+	^self mergeWith: aProjectRef
 ]
 
 { #category : #'accessing spec' }
@@ -164,6 +207,12 @@ GTMetacellerProjectReference >> projectReference [
 		ifFalse: [ ^self referenceSpec ]
 ]
 
+{ #category : #'as yet unclassified' }
+GTMetacellerProjectReference >> resetValidated [
+	super resetValidated.
+	children := nil
+]
+
 { #category : #'code generation' }
 GTMetacellerProjectReference >> specAccessors [
 	^#( versionString className file postLoadDoIt preLoadDoIt loads )
@@ -181,13 +230,17 @@ GTMetacellerProjectReference >> supplyingAnswers: aString [
 
 { #category : #actions }
 GTMetacellerProjectReference >> testValid [
-	self fetchConfiguration.
+	self loadConfiguration.
 	^super testValid
 ]
 
 { #category : #actions }
 GTMetacellerProjectReference >> validate [
-	" TODO "
+	| loadList |
+	loadList := super validate.
+	self errors addAll: loadList errors.
+	self warnings addAll: loadList warnings.
+	^loadList
 ]
 
 { #category : #'accessing spec' }
@@ -198,4 +251,12 @@ GTMetacellerProjectReference >> versionString [
 { #category : #'accessing spec' }
 GTMetacellerProjectReference >> versionString: aString [
 	^self propertyAt: #versionString put: aString
+]
+
+{ #category : #tool }
+GTMetacellerProjectReference >> wrapperFor: aSpec version: aVersion [
+	| retVal |
+	retVal := super wrapperFor: aSpec version: aVersion.
+	retVal parents add: self.
+	^retVal
 ]

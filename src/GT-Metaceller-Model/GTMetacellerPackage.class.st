@@ -71,6 +71,12 @@ GTMetacellerPackage >> fileReference [
 ]
 
 { #category : #testing }
+GTMetacellerPackage >> isCompatibleWith: anItem [
+	(super isCompatibleWith: anItem) ifFalse: [ ^false ].
+	^self name = anItem name
+]
+
+{ #category : #testing }
 GTMetacellerPackage >> isLoaded [
 	^self packageSpec isPackageLoaded
 ]
@@ -113,6 +119,15 @@ GTMetacellerPackage >> loadedVersionName [
 	self referenceSpec workingCopy ifNotNil: [
 		^self referenceSpec workingCopy ancestry ancestorString ].
 	^self referenceSpec file
+]
+
+{ #category : #private }
+GTMetacellerPackage >> mergeWith: aPackage errors: anErrors warnings: aWarnings [ 
+	(self file = aPackage file) ifTrue: [ ^self ].
+	self fullTraces do: [ :myTrace |
+		aPackage fullTraces do: [ :each |
+			anErrors add: 'Incompatible filenames between ', myTrace, ' and ', each ] ].
+	^nil
 ]
 
 { #category : #testing }
@@ -188,6 +203,6 @@ GTMetacellerPackage >> validate [
 		" explicit filename should not be provided"
 		self file ifNotNil: [ self addWarning: 'Explicit filename in a baseline version.' ] ].
 	" check the dependencies "
-	self version validateDependencies: self
-	
+	self version validateDependencies: self.
+	^self loadList
 ]

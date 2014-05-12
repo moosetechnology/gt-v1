@@ -8,7 +8,8 @@ Class {
 		'errors',
 		'warnings',
 		'properties',
-		'isCopy'
+		'isCopy',
+		'parents'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -38,10 +39,21 @@ GTMetacellerItem >> addAll: aString to: aCollection version: aVersion [
 	(self isProject: spec) ifFalse: [ spec includes do: [ :each | self addAll: each to: aCollection version: aVersion ] ]
 ]
 
+{ #category : #private }
+GTMetacellerItem >> addAllTo: aLoadList [
+	aLoadList add: self children: self children.
+	^aLoadList
+]
+
 { #category : #accessing }
 GTMetacellerItem >> addError: aString [
 	(self errors includes: aString)
 		ifFalse: [ self errors add: aString ]
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> addParent: aParent [
+	self parents add: aParent
 ]
 
 { #category : #accessing }
@@ -136,6 +148,13 @@ GTMetacellerItem >> errors [
 	^errors ifNil: [ errors := OrderedCollection new ]
 ]
 
+{ #category : #accessing }
+GTMetacellerItem >> fullTraces [
+	self parents ifEmpty: [ ^Array with: self itemName ].
+	^self parents inject: OrderedCollection new into: [ :traces :parent |
+		traces addAll: (parent fullTraces collect: [ :each | each, '/', self itemName ]); yourself ]
+]
+
 { #category : #testing }
 GTMetacellerItem >> hasBaselineBlessing [
 	^#( baseline ) includes: self blessing
@@ -195,6 +214,12 @@ GTMetacellerItem >> initialize: aVersion spec: aSpec [
 	self initialize.
 	version := aVersion.
 	referenceSpec := aSpec
+]
+
+{ #category : #testing }
+GTMetacellerItem >> isCompatibleWith: anItem [
+	(self class = anItem class) ifFalse: [ ^false ].
+	^true
 ]
 
 { #category : #accessing }
@@ -260,12 +285,25 @@ GTMetacellerItem >> labelAsText [
 	^self referenceSpec label
 ]
 
+{ #category : #actions }
+GTMetacellerItem >> loadList [
+	^GTMetacellerLoadList new
+		add: self;
+		yourself
+]
+
+{ #category : #'code generation' }
+GTMetacellerItem >> mergeSpec: anItem [
+	^(self referenceSpec mergeSpec: anItem referenceSpec)
+]
+
 { #category : #'code generation' }
 GTMetacellerItem >> mergeWith: anItem [
 	| retVal |
 	(self class == anItem class) ifFalse: [ GTMetacellerStateError signal: 'Cannot merge two items of different class.' ].
 	retVal := self copy.
-	retVal referenceSpec: (self referenceSpec mergeSpec: anItem referenceSpec).
+	retVal referenceSpec: (self mergeSpec: anItem).
+	anItem parents do: [ :each | retVal addParent: each ].
 	^retVal
 ]
 
@@ -274,9 +312,14 @@ GTMetacellerItem >> name [
 	^self referenceSpec name
 ]
 
-{ #category : #'accessing version' }
+{ #category : #'accessing spec' }
 GTMetacellerItem >> parent [
 	^(self version parent item: self itemName)
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> parents [
+	^parents ifNil: [ parents := OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -293,6 +336,7 @@ GTMetacellerItem >> platforms [
 GTMetacellerItem >> postCopy [
 	super postCopy.
 	properties := self properties copy.
+	parents := self parents copy.
 	isCopy := true
 ]
 
@@ -435,12 +479,17 @@ GTMetacellerItem >> specString [
 { #category : #actions }
 GTMetacellerItem >> testValid [
 	" by default we should only need to validate "
-	self validate
+	^self validate
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> trace [
+	^trace ifNil: [ trace := OrderedCollection new ]
 ]
 
 { #category : #actions }
 GTMetacellerItem >> validate [
-	self subclassResponsibility
+	^self loadList
 ]
 
 { #category : #accessing }
