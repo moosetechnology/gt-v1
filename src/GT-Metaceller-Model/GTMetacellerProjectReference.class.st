@@ -143,15 +143,15 @@ GTMetacellerProjectReference >> mergeSpec: anItem [
 	^self projectReference mergeSpec: anItem projectReference
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing spec' }
 GTMetacellerProjectReference >> mergeWith: aProjectRef errors: anErrors warnings: aWarnings [ 
-	(self version = aProjectRef version) ifFalse: [
+	(self versionString = aProjectRef versionString) ifFalse: [
 		self fullTraces do: [ :myTrace |
 			aProjectRef fullTraces do: [ :each |
-				aWarnings add: 'Incompatible versions between ', myTrace, ' and ', each, String cr,
-					self version asString, ' ~= ', aProjectRef version asString ] ].
+				anErrors add: 'Incompatible versions between ', myTrace, ' and ', each, String cr,
+					self versionString asString, ' ~= ', aProjectRef versionString asString ] ].
 		^nil ].
-	(self repositories = aProjectRef repositories) ifFalse: [
+	(self repositoriesEqualTo: aProjectRef repositories) ifFalse: [
 		self fullTraces do: [ :myTrace |
 			aProjectRef fullTraces do: [ :each |
 				aWarnings add: 'Incompatible repositories between ', myTrace, ' and ', each, String cr,
@@ -207,7 +207,12 @@ GTMetacellerProjectReference >> projectReference [
 		ifFalse: [ ^self referenceSpec ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GTMetacellerProjectReference >> repositoriesEqualTo: aList [
+	^aList repositoryDescriptions asSet = (self repositories repositoryDescriptions) asSet
+]
+
+{ #category : #actions }
 GTMetacellerProjectReference >> resetValidated [
 	super resetValidated.
 	children := nil
@@ -237,7 +242,7 @@ GTMetacellerProjectReference >> testValid [
 { #category : #actions }
 GTMetacellerProjectReference >> validate [
 	| loadList |
-	loadList := super validate.
+	loadList := self loadList.
 	self errors addAll: loadList errors.
 	self warnings addAll: loadList warnings.
 	^loadList
@@ -257,6 +262,6 @@ GTMetacellerProjectReference >> versionString: aString [
 GTMetacellerProjectReference >> wrapperFor: aSpec version: aVersion [
 	| retVal |
 	retVal := super wrapperFor: aSpec version: aVersion.
-	retVal parents add: self.
+	retVal addParent: self.
 	^retVal
 ]

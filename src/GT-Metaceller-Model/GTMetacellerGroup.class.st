@@ -78,12 +78,18 @@ GTMetacellerGroup >> specAccessors [
 
 { #category : #actions }
 GTMetacellerGroup >> testValid [
-	self children do: [ :each | each testValid ].
-	^self loadList
+	self children do: [ :each | each testValid ]
 ]
 
 { #category : #actions }
 GTMetacellerGroup >> validate [
-	self children do: [ :each | each validate ].
-	^self loadList
+	self children do: [ :each | each validate ]
+]
+
+{ #category : #tool }
+GTMetacellerGroup >> wrapperFor: anItem version: aVersion [
+	| retVal |
+	retVal := super wrapperFor: anItem version: aVersion.
+	retVal parents: self parents.
+	^retVal
 ]

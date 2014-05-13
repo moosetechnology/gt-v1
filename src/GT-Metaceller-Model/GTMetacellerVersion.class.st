@@ -13,7 +13,9 @@ Class {
 		'wrappers',
 		'isNew',
 		'properties',
-		'isCopy'
+		'isCopy',
+		'errors',
+		'warnings'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -294,6 +296,11 @@ GTMetacellerVersion >> errorMessage [
 	^self version asString
 ]
 
+{ #category : #accessing }
+GTMetacellerVersion >> errors [
+	^errors ifNil: [ errors := OrderedCollection new ]
+]
+
 { #category : #actions }
 GTMetacellerVersion >> fetch [
 	self version ifNotNil: [ self version fetch ]
@@ -396,6 +403,10 @@ GTMetacellerVersion >> infoText [
 	self packagesAndProjects do: [ :each |
 		each hasWarnings ifTrue: [ 
 			retVal append: String cr; append: each warningText ] ].
+	self errors do: [ :each |
+		retVal append: String cr; append: (Text string: each attribute: TextColor red) ].
+	self warnings do: [ :each |
+		retVal append: String cr; append: (Text string: each attribute: TextColor orange) ].
 	^retVal
 		
 ]
@@ -1010,9 +1021,21 @@ GTMetacellerVersion >> tagsOf: aSpec [
 
 { #category : #actions }
 GTMetacellerVersion >> test: anItemOrList [
-	(self itemListFrom: anItemOrList) do: [ :item |
-		item resetValidated.
-		item testValid ] displayingProgress: ('Testing version ', self version asString)
+	[ :job |
+		| itemList loadList |
+		job title: ('Testing version ', self version asString).
+		itemList := (self itemListFrom: anItemOrList).
+		job max: itemList size.
+		loadList := GTMetacellerLoadList new.
+		itemList 
+			withIndexDo: [ :item :index |
+				item resetValidated.
+				item testValid.
+				loadList add: item.
+				job currentValue: index ].
+		self errors addAll: loadList errors.
+		self warnings addAll: loadList warnings ] asJob run
+
 ]
 
 { #category : #actions }
@@ -1170,6 +1193,11 @@ GTMetacellerVersion >> versionStatus [
 { #category : #'accessing version' }
 GTMetacellerVersion >> versions [
 	^#()
+]
+
+{ #category : #accessing }
+GTMetacellerVersion >> warnings [
+	^warnings ifNil: [ warnings := OrderedCollection new ]
 ]
 
 { #category : #private }

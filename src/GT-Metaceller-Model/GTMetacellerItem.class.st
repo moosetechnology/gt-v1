@@ -53,7 +53,9 @@ GTMetacellerItem >> addError: aString [
 
 { #category : #accessing }
 GTMetacellerItem >> addParent: aParent [
-	self parents add: aParent
+	(self parents includes: aParent)
+		ifFalse: [ 
+			self parents add: aParent ]
 ]
 
 { #category : #accessing }
@@ -323,6 +325,11 @@ GTMetacellerItem >> parents [
 ]
 
 { #category : #accessing }
+GTMetacellerItem >> parents: aCollection [ 
+	parents := aCollection
+]
+
+{ #category : #accessing }
 GTMetacellerItem >> platform [
 	^self version platform
 ]
@@ -430,7 +437,7 @@ GTMetacellerItem >> resetProperties [
 
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GTMetacellerItem >> resetValidated [
 	warnings := nil.
 	errors := nil.
@@ -478,8 +485,6 @@ GTMetacellerItem >> specString [
 
 { #category : #actions }
 GTMetacellerItem >> testValid [
-	" by default we should only need to validate "
-	^self validate
 ]
 
 { #category : #accessing }
@@ -489,7 +494,6 @@ GTMetacellerItem >> trace [
 
 { #category : #actions }
 GTMetacellerItem >> validate [
-	^self loadList
 ]
 
 { #category : #accessing }

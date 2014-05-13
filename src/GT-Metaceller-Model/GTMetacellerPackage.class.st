@@ -204,5 +204,5 @@ GTMetacellerPackage >> validate [
 		self file ifNotNil: [ self addWarning: 'Explicit filename in a baseline version.' ] ].
 	" check the dependencies "
 	self version validateDependencies: self.
-	^self loadList
+	^self
 ]
