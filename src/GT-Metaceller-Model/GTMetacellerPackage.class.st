@@ -48,6 +48,13 @@ GTMetacellerPackage >> checkExistsIn: aRepositorySpecs [
 ]
 
 { #category : #'code generation' }
+GTMetacellerPackage >> compare: aPackage toLoadList: aLoadList [
+	(self file = aPackage file) ifTrue: [ ^self ].
+	aLoadList addError: 'Incompatible versions' myValue: self file asString otherValue: aPackage file asString between: self and: aPackage.
+	^nil
+]
+
+{ #category : #'code generation' }
 GTMetacellerPackage >> defaultItemKindString [
 	^'package'
 ]
@@ -121,12 +128,10 @@ GTMetacellerPackage >> loadedVersionName [
 	^self referenceSpec file
 ]
 
-{ #category : #private }
-GTMetacellerPackage >> mergeWith: aPackage errors: anErrors warnings: aWarnings [ 
+{ #category : #'code generation' }
+GTMetacellerPackage >> mergeWith: aPackage loadList: aLoadList [
 	(self file = aPackage file) ifTrue: [ ^self ].
-	self fullTraces do: [ :myTrace |
-		aPackage fullTraces do: [ :each |
-			anErrors add: 'Incompatible filenames between ', myTrace, ' and ', each ] ].
+	aLoadList addError: 'Incompatible versions' myValue: self file asString otherValue: aPackage file asString between: self for: aPackage.
 	^nil
 ]
 

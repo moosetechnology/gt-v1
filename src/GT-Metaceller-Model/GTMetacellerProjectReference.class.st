@@ -48,6 +48,15 @@ GTMetacellerProjectReference >> className: aString [
 	^self propertyAt: #className put: aString
 ]
 
+{ #category : #'code generation' }
+GTMetacellerProjectReference >> compare: aProjectRef toLoadList: aLoadList [
+	(self versionString = aProjectRef versionString) ifFalse: [
+		aLoadList addError: 'Incompatible versions' myValue: self versionString asString otherValue: aProjectRef versionString asString between: self and: aProjectRef.
+		^nil ].
+	(self repositoriesEqualTo: aProjectRef repositories) ifFalse: [
+		aLoadList addWarning: 'Incompatible versions' myValue: self repositories asString otherValue: aProjectRef repositories asString between: self and: aProjectRef ]
+]
+
 { #category : #accessing }
 GTMetacellerProjectReference >> configForProject [
 	self configNameForProject
@@ -141,23 +150,6 @@ GTMetacellerProjectReference >> loads: aString [
 { #category : #'code generation' }
 GTMetacellerProjectReference >> mergeSpec: anItem [
 	^self projectReference mergeSpec: anItem projectReference
-]
-
-{ #category : #'accessing spec' }
-GTMetacellerProjectReference >> mergeWith: aProjectRef errors: anErrors warnings: aWarnings [ 
-	(self versionString = aProjectRef versionString) ifFalse: [
-		self fullTraces do: [ :myTrace |
-			aProjectRef fullTraces do: [ :each |
-				anErrors add: 'Incompatible versions between ', myTrace, ' and ', each, String cr,
-					self versionString asString, ' ~= ', aProjectRef versionString asString ] ].
-		^nil ].
-	(self repositoriesEqualTo: aProjectRef repositories) ifFalse: [
-		self fullTraces do: [ :myTrace |
-			aProjectRef fullTraces do: [ :each |
-				aWarnings add: 'Incompatible repositories between ', myTrace, ' and ', each, String cr,
-					self repositories asString, ' ~= ', aProjectRef repositories asString ] ].
-		^nil ].
-	^self mergeWith: aProjectRef
 ]
 
 { #category : #'accessing spec' }
@@ -262,6 +254,6 @@ GTMetacellerProjectReference >> versionString: aString [
 GTMetacellerProjectReference >> wrapperFor: aSpec version: aVersion [
 	| retVal |
 	retVal := super wrapperFor: aSpec version: aVersion.
-	retVal addParent: self.
+	retVal parentTrace: self.
 	^retVal
 ]

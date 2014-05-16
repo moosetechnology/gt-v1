@@ -9,7 +9,7 @@ Class {
 		'warnings',
 		'properties',
 		'isCopy',
-		'parents'
+		'parentTrace'
 	],
 	#category : #'GT-Metaceller-Model'
 }
@@ -52,10 +52,11 @@ GTMetacellerItem >> addError: aString [
 ]
 
 { #category : #accessing }
-GTMetacellerItem >> addParent: aParent [
-	(self parents includes: aParent)
-		ifFalse: [ 
-			self parents add: aParent ]
+GTMetacellerItem >> addErrorsAndWarnings: aDictionary [ 
+	aDictionary keysAndValuesDo: [ :key :value |
+		key isSymbol ifFalse: [ self halt ].
+		key = #'errors' ifTrue: [ self errors addAll: value ].
+		key = #'warnings' ifTrue: [ self warnings addAll: value ] ]
 ]
 
 { #category : #accessing }
@@ -151,10 +152,9 @@ GTMetacellerItem >> errors [
 ]
 
 { #category : #accessing }
-GTMetacellerItem >> fullTraces [
-	self parents ifEmpty: [ ^Array with: self itemName ].
-	^self parents inject: OrderedCollection new into: [ :traces :parent |
-		traces addAll: (parent fullTraces collect: [ :each | each, '/', self itemName ]); yourself ]
+GTMetacellerItem >> fullTrace [
+	self parentTrace ifNil: [ ^self itemName ].
+	^self parentTrace fullTrace, '/', self itemName
 ]
 
 { #category : #testing }
@@ -305,7 +305,6 @@ GTMetacellerItem >> mergeWith: anItem [
 	(self class == anItem class) ifFalse: [ GTMetacellerStateError signal: 'Cannot merge two items of different class.' ].
 	retVal := self copy.
 	retVal referenceSpec: (self mergeSpec: anItem).
-	anItem parents do: [ :each | retVal addParent: each ].
 	^retVal
 ]
 
@@ -320,13 +319,13 @@ GTMetacellerItem >> parent [
 ]
 
 { #category : #accessing }
-GTMetacellerItem >> parents [
-	^parents ifNil: [ parents := OrderedCollection new ]
+GTMetacellerItem >> parentTrace [
+	^parentTrace
 ]
 
 { #category : #accessing }
-GTMetacellerItem >> parents: aCollection [ 
-	parents := aCollection
+GTMetacellerItem >> parentTrace: anItem [ 
+	parentTrace := anItem
 ]
 
 { #category : #accessing }
@@ -343,7 +342,6 @@ GTMetacellerItem >> platforms [
 GTMetacellerItem >> postCopy [
 	super postCopy.
 	properties := self properties copy.
-	parents := self parents copy.
 	isCopy := true
 ]
 
@@ -488,8 +486,16 @@ GTMetacellerItem >> testValid [
 ]
 
 { #category : #accessing }
-GTMetacellerItem >> trace [
-	^trace ifNil: [ trace := OrderedCollection new ]
+GTMetacellerItem >> traceToRoot [
+	^self traceToRoot: OrderedCollection new
+]
+
+{ #category : #accessing }
+GTMetacellerItem >> traceToRoot: aCollection [ 
+	self parentTrace ifNil: [ ^aCollection ].
+	^(self parentTrace traceToRoot: aCollection)
+		add: self parentTrace;
+		yourself
 ]
 
 { #category : #actions }

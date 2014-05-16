@@ -1020,7 +1020,14 @@ GTMetacellerVersion >> tagsOf: aSpec [
 ]
 
 { #category : #actions }
+GTMetacellerVersion >> test [
+	self test: nil
+]
+
+{ #category : #actions }
 GTMetacellerVersion >> test: anItemOrList [
+	errors := nil.
+	warnings := nil.
 	[ :job |
 		| itemList loadList |
 		job title: ('Testing version ', self version asString).
@@ -1033,8 +1040,11 @@ GTMetacellerVersion >> test: anItemOrList [
 				item testValid.
 				loadList add: item.
 				job currentValue: index ].
-		self errors addAll: loadList errors.
-		self warnings addAll: loadList warnings ] asJob run
+		loadList errorMap keysAndValuesDo: [ :key :value |
+			key = #'errors' ifTrue: [ self errors addAll: value ].
+			key = #'warnings' ifTrue: [ self warnings addAll: value ].
+			key isSymbol ifFalse: [
+				key addErrorsAndWarnings: value ] ] ] asJob run
 
 ]
 

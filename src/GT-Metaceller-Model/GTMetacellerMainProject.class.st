@@ -168,6 +168,11 @@ GTMetacellerMainProject >> snapshotVersion: aString baseline: aBaseline [
 			self printVersionsFor: platform version: version on: s ] ]
 ]
 
+{ #category : #actions }
+GTMetacellerMainProject >> test [
+	self releases do: [ :each | each test ]
+]
+
 { #category : #display }
 GTMetacellerMainProject >> title [
 	^ ((self configuration name beginsWith: 'ConfigurationOf') 

@@ -90,6 +90,6 @@ GTMetacellerGroup >> validate [
 GTMetacellerGroup >> wrapperFor: anItem version: aVersion [
 	| retVal |
 	retVal := super wrapperFor: anItem version: aVersion.
-	retVal parents: self parents.
+	retVal parentTrace: self.
 	^retVal
 ]

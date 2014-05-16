@@ -176,6 +176,11 @@ GTMetacellerRelease >> saveVersion [
 	self project createRelease: self releaseName version: self versionName
 ]
 
+{ #category : #actions }
+GTMetacellerRelease >> test [
+	self version test
+]
+
 { #category : #'accessing version' }
 GTMetacellerRelease >> test: aCollection [ 
 	self version ifNil: [ ^self ].

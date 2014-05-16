@@ -210,6 +210,11 @@ GTMetacellerConfiguration >> status [
 ]
 
 { #category : #actions }
+GTMetacellerConfiguration >> test [
+	self mainProject test
+]
+
+{ #category : #actions }
 GTMetacellerConfiguration >> test: aCollection [ 
 	self mainProject test: aCollection
 ]
