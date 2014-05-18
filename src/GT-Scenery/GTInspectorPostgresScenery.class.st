@@ -1,0 +1,44 @@
+Class {
+	#name : #GTInspectorPostgresScenery,
+	#superclass : #Scenery,
+	#category : #'GT-Scenery'
+}
+
+{ #category : #'as yet unclassified' }
+GTInspectorPostgresScenery class >> menuCommandOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: self name)
+		order: 4.0; 
+		parent: #Scenery;
+		label: 'Inspector - Postgres';
+		action:[self new setUp]
+]
+
+{ #category : #setUp }
+GTInspectorPostgresScenery >> setUp [
+	self cleanWindows.
+	(GTPlayground openContents: '| conn |
+conn := PGConnection new.
+conn connectionArgs:
+		(PGConnectionArgs
+			hostname: ''localhost''
+			portno: 5432
+			databaseName: ''girba''
+			userName: ''girba''
+			password: '''').
+conn startup.
+conn') maximize.
+	GTSnippets reset.
+	GTSnippets snippetAt: #PGResultSet asClass put: '| builder models |
+models := (self dataRows
+		sortDescending: [ :x | x atName: #population ])
+		first: 100.
+builder := GET2DiagramBuilder new.
+builder horizontalBarDiagram
+	models: models;
+	modelLabels: [ :row | row atName: #cityname ];
+	x: [ :row | row atName: #population ]";
+	color: ((RTNIdentityNormalizer 
+		withCommand: [ :row | row atName: #continent ]))".
+builder'
+]
