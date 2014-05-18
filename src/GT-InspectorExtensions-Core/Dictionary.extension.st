@@ -5,8 +5,12 @@ Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
 		title: [ :anObject | self size asString, ' items' ];
 		display: [ self associations];
-		column: 'Key' evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
-		column: 'Value' evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+		column: 'Key' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ]
+			sortedBy: [:x :y | x > y ];
+		column: 'Value' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ]
+			sortedBy: [:x :y | x > y ];
 		selectionAct: [ :table |
 			table rawSelection do: [ :assoc |
 				self removeKey: assoc key ].
