@@ -7,6 +7,13 @@ Morph >> gtInspectorMappingsIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Morph >> gtInspectorMorphExtensionIn: composite [
+	<gtInspectorPresentationOrder: 15>
+	^ (self extension gtInspectorStateIn: composite)
+		title: 'Extensions'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Morph >> gtInspectorMorphIn: composite [
 	<gtInspectorPresentationOrder: 90>  
 	composite morph 
