@@ -1,6 +1,6 @@
 Class {
 	#name : #GTInspectorInspectorSizeScenery,
-	#superclass : #Scenery,
+	#superclass : #GTScenery,
 	#category : #'GT-Scenery'
 }
 
@@ -8,8 +8,8 @@ Class {
 GTInspectorInspectorSizeScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 10.0; 
-		parent: #Scenery;
+		order: 100.0; 
+		parent: #GTScenery;
 		label: 'Inspector - Inspector size';
 		action:[self new setUp]
 ]

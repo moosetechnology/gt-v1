@@ -1,6 +1,6 @@
 Class {
 	#name : #GTInspectorFileReferenceScenery,
-	#superclass : #Scenery,
+	#superclass : #GTScenery,
 	#category : #'GT-Scenery'
 }
 
@@ -8,8 +8,8 @@ Class {
 GTInspectorFileReferenceScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 4.0; 
-		parent: #Scenery;
+		order: 5.0; 
+		parent: #GTScenery;
 		label: 'Inspector - FileReference';
 		action:[self new setUp]
 ]

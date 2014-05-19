@@ -1,6 +1,6 @@
 Class {
 	#name : #GTInspectorColorScenery,
-	#superclass : #Scenery,
+	#superclass : #GTScenery,
 	#category : #'GT-Scenery'
 }
 
@@ -9,7 +9,7 @@ GTInspectorColorScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
 		order: 2.0; 
-		parent: #Scenery;
+		parent: #GTScenery;
 		label: 'Inspector - Color';
 		action:[self new setUp]
 ]

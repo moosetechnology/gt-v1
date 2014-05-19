@@ -1,6 +1,6 @@
 Class {
 	#name : #GTInspectorInspectorItselfScenery,
-	#superclass : #Scenery,
+	#superclass : #GTScenery,
 	#category : #'GT-Scenery'
 }
 
@@ -8,8 +8,8 @@ Class {
 GTInspectorInspectorItselfScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 5.0; 
-		parent: #Scenery;
+		order: 10.0; 
+		parent: #GTScenery;
 		label: 'Inspector - Inspector';
 		action:[self new setUp]
 ]

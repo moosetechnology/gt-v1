@@ -1,6 +1,6 @@
 Class {
 	#name : #GTInspectorPostgresScenery,
-	#superclass : #Scenery,
+	#superclass : #GTScenery,
 	#category : #'GT-Scenery'
 }
 
@@ -8,8 +8,8 @@ Class {
 GTInspectorPostgresScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 4.0; 
-		parent: #Scenery;
+		order: 6.0; 
+		parent: #GTScenery;
 		label: 'Inspector - Postgres';
 		action:[self new setUp]
 ]

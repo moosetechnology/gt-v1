@@ -1,25 +1,26 @@
 Class {
-	#name : #Scenery,
+	#name : #GTScenery,
 	#superclass : #Object,
 	#category : #'GT-Scenery'
 }
 
 { #category : #'as yet unclassified' }
-Scenery class >> menuCommandOn: aBuilder [
+GTScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
-	(aBuilder item: #Scenery)
+	(aBuilder item: #GTScenery)
 		order: 7.0; 
+		label: 'Scenery';
 		withSeparatorAfter
 ]
 
 { #category : #utilities }
-Scenery >> cleanWindows [
+GTScenery >> cleanWindows [
 	(World submorphs 
 		select: [ :each | each isKindOf: SystemWindow ])
 		do: #delete
 ]
 
 { #category : #setUp }
-Scenery >> setUp [
+GTScenery >> setUp [
 	
 ]
