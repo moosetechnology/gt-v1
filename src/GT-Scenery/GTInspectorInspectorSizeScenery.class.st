@@ -17,7 +17,7 @@ GTInspectorInspectorSizeScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorInspectorSizeScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: '(RPackageOrganizer default packageNamed: #''GT-Inspector'') linesOfCode + 
+	(GTPlayground openContents: 'GTInspector package linesOfCode + 
 ((RPackageOrganizer default packages 
 	select: [:each | each name beginsWith: ''GT-InspectorExtensions'']) 
 		sum: #linesOfCode)') maximize
