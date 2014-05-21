@@ -26,6 +26,7 @@ GTObjectVariablesBrowser >> compose [
 { #category : #'private building' }
 GTObjectVariablesBrowser >> evaluatorIn: composite [
 	^ (composite smalltalkCode)
+		beForScripting;
 		doItReceiver: #yourself;
 		display: [ :object | 
 			String streamContents: [ :stream | 
@@ -33,13 +34,12 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 					nextPutAll: (self printStringOf: object);
 					cr;
 					nextPutAll: (GTSnippets snippetAt: object class)] ];
-		selectionPopulate: #selection
-			on: $o
-			entitled: 'Do it and open (o)'
-			with: [ :text :object | 
-				text selectLine.
+		selectionAct: [ :text :object |
 				GTSnippets snippetAt: object class put: (self stringWithoutInitialCommentFrom: text text asString).
-				Compiler evaluate: text selectedText for: object logged: false ] 
+				text evaluateSelectionAndDo: [ :result | text selection: result ] ]
+			on: $o
+			entitled: 'Do it and open (o)';
+		installDefaultSelectionActions
 ]
 
 { #category : #'private building' }
