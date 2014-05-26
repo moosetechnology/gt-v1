@@ -94,3 +94,13 @@ MessageTally >> localTime [
 		inject: self time 
 		into: [ :diff :each | diff - each time ]
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+MessageTally class >> on: aBlock [
+	"This utility method constructs a tally object and returns it without
+	triggering the construction of the default report"
+	^ MessageTally new
+		spyEvery: 1
+		on: aBlock;
+		yourself 
+]
