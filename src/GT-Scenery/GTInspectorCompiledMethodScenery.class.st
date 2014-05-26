@@ -8,7 +8,7 @@ Class {
 GTInspectorCompiledMethodScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 4.0; 
+		order: 20.0; 
 		parent: #GTScenery;
 		label: 'Inspector - CompiledMethod';
 		action:[self new setUp]

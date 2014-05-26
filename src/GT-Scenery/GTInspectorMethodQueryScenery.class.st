@@ -8,7 +8,7 @@ Class {
 GTInspectorMethodQueryScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 4.1; 
+		order: 21.0; 
 		parent: #GTScenery;
 		label: 'Inspector - Method Query';
 		action:[self new setUp]

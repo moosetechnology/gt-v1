@@ -29,6 +29,16 @@ conn connectionArgs:
 conn startup.
 conn') maximize.
 	GTSnippets reset.
+	GTSnippets snippetAt: #'PGConnection-SQL' put: 'select * from city
+select 
+		city.countrycode, 
+		city.name as cityname, 
+		city.population, 
+		country.lifeexpectancy as life, 
+		country.continent 
+			from city 
+			left join country
+				on city.countrycode=country.code'.
 	GTSnippets snippetAt: #PGResultSet asClass put: '| builder models |
 models := (self dataRows
 		sortDescending: [ :x | x atName: #population ])

@@ -17,8 +17,7 @@ GTInspectorWorldScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorWorldScenery >> setUp [
 	self cleanWindows.
-	CPDiverging show canvas.
 	SettingBrowser open extent: 600@400.
-	Nautilus open.
-	(GTPlayground openContents: 'World') maximize
+	GTPlayground openContents: '1 / 0.
+World'
 ]
