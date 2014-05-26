@@ -5,7 +5,7 @@ PGConnection >> gtInspectorSQLIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite rubricText
 		title: 'SQL';
-		display: [ '' ];
+		display: [ GTSnippets instance snippetAtOrEmpty: #'PGConnection-SQL' ];
 		selectionPopulate: #selection
 			on: $o 
 			entitled: 'Execute and open'

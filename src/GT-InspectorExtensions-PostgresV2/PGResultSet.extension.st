@@ -14,6 +14,9 @@ PGResultSet >> gtInspectorResultTableIn: composite [
 			table 
 				column: [:r | column fieldName ] 
 				evaluated: [:eachRow | 
-					(eachRow dataKeyedByFieldName at: column fieldName) asString ]].
+					(eachRow dataKeyedByFieldName at: column fieldName) asString ]
+				sortedBy: [:x :y | 
+														(x dataKeyedByFieldName at: column fieldName) > 
+														(y dataKeyedByFieldName at: column fieldName)]].
 		table ]
 ]
