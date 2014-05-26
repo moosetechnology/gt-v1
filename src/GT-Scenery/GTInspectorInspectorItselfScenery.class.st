@@ -8,7 +8,7 @@ Class {
 GTInspectorInspectorItselfScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 101.0; 
+		order: 99.0; 
 		parent: #GTScenery;
 		label: 'Inspector - Inspector';
 		action:[self new setUp]

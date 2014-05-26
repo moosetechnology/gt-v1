@@ -11,7 +11,8 @@ GTInspectorInspectorSizeScenery class >> menuCommandOn: aBuilder [
 		order: 100.0; 
 		parent: #GTScenery;
 		label: 'Inspector - Inspector size';
-		action:[self new setUp]
+		action:[self new setUp];
+		withSeparatorAfter
 ]
 
 { #category : #setUp }
