@@ -49,6 +49,13 @@ GTSnippets >> snippetAt: anObject put: aString [
 ]
 
 { #category : #accessing }
+GTSnippets >> snippetAtOrEmpty: anObject [
+	^ self snippets 
+		at: anObject 
+		ifAbsent: [ '' ]
+]
+
+{ #category : #accessing }
 GTSnippets >> snippets [ 
 	^ snippets ifNil: [ snippets := IdentityDictionary new ]
 ]
