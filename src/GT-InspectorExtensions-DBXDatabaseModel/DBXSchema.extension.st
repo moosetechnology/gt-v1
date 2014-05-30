@@ -11,5 +11,6 @@ DBXSchema >> gtInspectorTablesIn: composite inContext: anInspector [
 	composite list 
 		title: 'Tables';
 		display: [ dbxConnection tablesDescriptionForSchema: self name ];
+		format: #name;
 		when: [ dbxConnection notNil ]
 ]
