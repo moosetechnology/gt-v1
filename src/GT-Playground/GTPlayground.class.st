@@ -88,8 +88,7 @@ GTPlayground >> actionsForPreviousContents [
 
 { #category : #building }
 GTPlayground >> codeIn: a [
-	^ a smalltalkCode
-		beForScripting;
+	^ a pharoPlayground
 		title: [ :page | page title ];
 		format: [ :page | page content ];
 		act: [ :text :page |
