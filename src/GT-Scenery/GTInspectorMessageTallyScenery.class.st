@@ -17,8 +17,5 @@ GTInspectorMessageTallyScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorMessageTallyScenery >> setUp [
 	self cleanWindows.
-	CPDiverging show canvas.
-	SettingBrowser open extent: 600@400.
-	Nautilus open.
-	(GTPlayground openContents: 'MessageTally on: [ XMLParserTest new benchmark3 ]') maximize
+	(GTPlayground openContents: 'MessageTally on: [ XMLParserTest new benchmark3 ].') maximize
 ]
