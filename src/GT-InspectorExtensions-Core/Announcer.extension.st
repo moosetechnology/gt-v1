@@ -12,7 +12,7 @@ Announcer >> gtInspectorSubscriptionsIn: composite [
 		column: 'Kind' evaluated: [ :each | each class name ];
 		act: [ :table | 
 			self subscriptions reset.
-			table reset ] icon: GLMUIThemeExtraIcons glamorousCancel entitled: 'Reset';
+			table update ] icon: GLMUIThemeExtraIcons glamorousCancel entitled: 'Reset';
 		selectionAct: [ :table | 
 			self subscriptions remove: table selection.
 			table update ] entitled: 'Remove subscription'
