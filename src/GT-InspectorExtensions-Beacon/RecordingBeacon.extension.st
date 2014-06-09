@@ -1,6 +1,15 @@
 Extension { #name : #RecordingBeacon }
 
 { #category : #'*GT-InspectorExtensions-Beacon' }
+RecordingBeacon classSide >> gtExampleInstanceUsage [
+	<gtExample>
+	^ RecordingBeacon new 
+		runDuring: [ 
+			MessageSignal log: 'This is a message'.
+			MessageSignal log: 'This is another message'. ]	
+]
+
+{ #category : #'*GT-InspectorExtensions-Beacon' }
 RecordingBeacon >> gtInspectorRecordingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite list 
