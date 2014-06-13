@@ -6,11 +6,9 @@ Dictionary >> gtInspectorItemsIn: composite [
 		title: [ :anObject | self size asString, ' items' ];
 		display: [ self associations];
 		column: 'Key' 
-			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ]
-			sortedBy: [:x :y | x > y ];
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
 		column: 'Value' 
-			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ]
-			sortedBy: [:x :y | x > y ];
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
 		selectionAct: [ :table |
 			table rawSelection do: [ :assoc |
 				self removeKey: assoc key ].
