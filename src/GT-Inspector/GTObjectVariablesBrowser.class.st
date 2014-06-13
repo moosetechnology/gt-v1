@@ -71,11 +71,9 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 		showOnly: 50;
 		display: [ :anObject | self variableValuePairsFor: anObject ];
 		column: 'Variable' 
-			evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ] 
-			sortedBy: [ :x :y | x > y ];
+			evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
 		column: 'Value' 
-			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
-			sortedBy: [ :x :y | x > y ];
+			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		send: #value;
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
