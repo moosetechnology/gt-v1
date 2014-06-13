@@ -4,7 +4,7 @@ Extension { #name : #MethodContext }
 MethodContext >> gtConstructDebuggerInspectorIn: composite [
 	
 	^composite custom: ((GTDebuggerInspector new  
-		showFirst: [ :a | a custom: GTDebuggerVariablesBrowser new ];
+		showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new startOn: self)];
 		yourself) 
 			startOn: self)
 ]

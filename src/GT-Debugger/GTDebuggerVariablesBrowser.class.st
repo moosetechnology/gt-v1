@@ -9,6 +9,12 @@ Class {
 	#category : #'GT-Debugger'
 }
 
+{ #category : #'as yet unclassified' }
+GTDebuggerVariablesBrowser >> compareVariableTypeOf: x withVariable: y in: aContext [
+
+	^ (self variableTypeOf: x in: aContext) < (self variableTypeOf: y in: aContext)
+]
+
 { #category : #building }
 GTDebuggerVariablesBrowser >> compose [  
 	"self title: [:each | GTInspector new printObjectAsAnItem: each receiver ]."
@@ -26,12 +32,18 @@ GTDebuggerVariablesBrowser >> compose [
 GTDebuggerVariablesBrowser >> tagsForVariable: aString from: aContext [
 	^ (aContext reservedNames includes: aString) 
 		ifTrue: [ #() ]
-		ifFalse: [  
-			(aContext receiver class hasInstVarNamed: aString)
-				ifTrue: [ 'attribute' ]
-				ifFalse: [ (aContext method argumentNames includes: aString)
-					ifTrue: [ 'parameter' ]
-					ifFalse: [ 'temp' ] ] ]
+		ifFalse: [ self variableTypeOf: aString in: aContext ]
+			
+	
+]
+
+{ #category : #'as yet unclassified' }
+GTDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
+	^ (aContext receiver class hasInstVarNamed: aString)
+			ifTrue: [ 'attribute' ]
+			ifFalse: [ (aContext method argumentNames includes: aString)
+				ifTrue: [ 'parameter' ]
+				ifFalse: [ 'temp' ] ]
 			
 	
 ]
@@ -46,7 +58,12 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 			evaluated: [ '' ]
 			width: 75
 			tags: [ :assoc :context |
-				self tagsForVariable: assoc key from: context ];
+				self tagsForVariable: assoc key from: context ]
+			sortedBy: [ :x :y | 
+				self 
+					compareVariableTypeOf: x key
+					withVariable: y key
+					in: ((self presentations first paneNamed: #variables) port: #entity) value];
 		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]
 					on: Error
