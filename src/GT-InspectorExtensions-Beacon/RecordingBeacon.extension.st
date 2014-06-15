@@ -19,5 +19,19 @@ RecordingBeacon >> gtInspectorRecordingsIn: composite [
 		column: 'Type' evaluated: [ :each | each class name ];
 		column: 'Contents' evaluated: [ :each | String streamContents: [ :s | each printOneLineContentsOn: s ] ];
 		showOnly: 50;
-		updateOn: Announcement from: [ self announcer ]
+		beMultiple;
+		send: [ :selection | 
+			(selection isNil or: [ selection size > 1 ] )
+				ifFalse: [selection first] ifTrue: [selection]] ;
+		updateOn: Announcement from: [ self announcer ];
+		selectionAct: [ :table | 
+			recordings := self recordings \ table selection.
+			table update ]
+			icon: GLMUIThemeExtraIcons glamorousRemove
+			entitled: 'Remove';
+		act: [ :table |
+			self reset.
+			table update ]
+			icon: GLMUIThemeExtraIcons glamorousRemove
+			entitled: 'Remove all'
 ]
