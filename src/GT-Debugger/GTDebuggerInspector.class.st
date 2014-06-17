@@ -13,11 +13,9 @@ Class {
 
 { #category : #building }
 GTDebuggerInspector >> compose [
-	self finder with: [:browser | 
-		browser fixedSizePanes: self class numberOfInspectorPanes.
-		browser show: [ :a :each | 
+	self pager show: [ :a :each | 
 			a dynamic display: [ :x | 
-				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d inContext: self ] ] ] ]
+				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d inContext: self ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
