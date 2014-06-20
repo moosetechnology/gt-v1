@@ -1,6 +1,24 @@
 Extension { #name : #Announcer }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Announcer >> gtInspectorAnnouncementsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	| announcements |
+	announcements := OrderedCollection new.
+	self when: Announcement do: [ :ann | announcements add: ann ].
+	composite list
+		title: 'Announcements';
+		display: [ announcements ];
+		format: #gtDisplayStirng;
+		updateOn: Announcement from: self;
+		act: [ :table | 
+			announcements := OrderedCollection new.
+			table update ] 
+			icon: GLMUIThemeExtraIcons glamorousCancel 
+			entitled: 'Reset'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Announcer >> gtInspectorSubscriptionsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite table
