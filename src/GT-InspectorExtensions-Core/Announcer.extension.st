@@ -4,13 +4,14 @@ Extension { #name : #Announcer }
 Announcer >> gtInspectorAnnouncementsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	| recordedAnnouncements |
-	recordedAnnouncements := OrderedCollection new.
-	self when: Announcement do: [ :ann | recordedAnnouncements add: ann ].
+	recordedAnnouncements := CollectionValueHolder value: OrderedCollection new.
+	self when: Announcement do: [ :ann | recordedAnnouncements addFirst: ann ].
 	composite list
 		title: 'Announcements';
-		display: [ recordedAnnouncements ];
-		format: #gtDisplayStirng;
-		updateOn: Announcement from: self;
+		display: [ recordedAnnouncements value ];
+		showOnly: 50;
+		format: #gtDisplayString;
+		updateOn: Announcement from: recordedAnnouncements announcer;
 		act: [ :table | 
 			recordedAnnouncements := OrderedCollection new.
 			table update ] 
