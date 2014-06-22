@@ -120,7 +120,7 @@ FileReference >> gtInspectorGroupedFilesIn: composite [
 											(b value sumNumbers: metric) ].
 			grouped := (grouped first: (20 min: grouped size)) select: [:each | (each value sumNumbers: metric) > 0].
 			diag := (GETHorizontalBarDiagram new)
-				xAxisLabel: 'Locations';
+				xAxisLabel: 'Number of files';
 				modelLabels: [:each | each key ];
 				x: [:each | each value size];
 				valueAxis;
@@ -129,7 +129,7 @@ FileReference >> gtInspectorGroupedFilesIn: composite [
 				on: ROMouseClick do: [:event | presentation selection: event model value ];
 				models: grouped.
 			diag2 := (GETHorizontalBarDiagram new)
-				xAxisLabel: 'Tallies';
+				xAxisLabel: 'Total size in MB';
 				x: [:each | (each value sumNumbers: metric) / 1000000];
 				regularAxis;
 				xAxisOnTop;
