@@ -19,7 +19,7 @@ GTObjectVariablesBrowser >> compose [
 			self variablesIn: a ].
 		browser transmit to: #evaluator; andShow: [:a | 
 			self evaluatorIn: a ].
-		browser transmit from: #variables; toOutsidePort: #selection.
+		browser transmit from: #variables; toOutsidePort: #selection; transformed: [:assoc | assoc ifNotNil: [assoc value]].
 		browser transmit from: #evaluator; toOutsidePort: #selection ]
 ]
 
@@ -74,7 +74,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 			evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
 		column: 'Value' 
 			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
-		send: #value;
+		"send: #value;"
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
