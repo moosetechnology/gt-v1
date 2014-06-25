@@ -1,6 +1,28 @@
 Extension { #name : #Announcer }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Announcer >> gtInspectorAnnouncementsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	| recordedAnnouncements |
+	recordedAnnouncements := CollectionValueHolder value: OrderedCollection new.
+	self when: Announcement do: [ :ann | recordedAnnouncements addFirst: DateAndTime now -> ann ].
+	composite table
+		title: 'Announcements';
+		display: [ recordedAnnouncements value ];
+		column: 'Time' evaluated: #key;
+		column: 'Announcement' evaluated: #value;
+		send: #value;
+		showOnly: 50;
+		format: #gtDisplayString;
+		updateOn: Announcement from: recordedAnnouncements announcer;
+		act: [ :table | 
+			recordedAnnouncements := OrderedCollection new.
+			table update ] 
+			icon: GLMUIThemeExtraIcons glamorousCancel 
+			entitled: 'Reset'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Announcer >> gtInspectorSubscriptionsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite table
