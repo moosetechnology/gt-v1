@@ -8,8 +8,11 @@ ContextPart >> gtInspectorVariableValuePairs [
 	^ super gtInspectorVariableValuePairs
 		addAll:
 				(self tempNames
-						collect: [ :tempName | 
+						collect: [ :tempName ||value|
 							tempIndex := tempIndex + 1.
-							('[' , tempName , ']') -> (self debuggerMap namedTempAt: tempIndex in: self) ]);
+							value := [self debuggerMap namedTempAt: tempIndex in: self] 
+								on: Error 
+								do: [value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
+							('[' , tempName , ']') -> value ]);
 		yourself
 ]

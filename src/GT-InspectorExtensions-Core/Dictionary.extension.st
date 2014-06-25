@@ -1,16 +1,6 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Dictionary class >> gtExampleSimple [
-	<gtExample>
-	| dict |
-	dict := Dictionary new.
-	dict at: 4 put: 2.
-	dict at: #fourty put: 'two'.
-	^ dict
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
 		title: [ :anObject | self size asString, ' items' ];
