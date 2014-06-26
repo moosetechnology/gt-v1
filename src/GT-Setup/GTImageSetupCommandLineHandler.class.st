@@ -30,7 +30,7 @@ GTImageSetupCommandLineHandler >> activate [
 { #category : #activation }
 GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self cleanupWorld.
-	self installGLMWhitespaceTheme.
+"	self installGLMWhitespaceTheme."
 	self installFonts.
 	self installAthens.
 	self installGTInspector.
