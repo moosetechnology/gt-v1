@@ -72,11 +72,6 @@ GTMoldableDebugger class >> patchworkUIThemeColor [
 
 ]
 
-{ #category : #'tools registry' }
-GTMoldableDebugger class >> registerToolsOn: registry [
-	self subclassResponsibility 
-]
-
 { #category : #accessing }
 GTMoldableDebugger class >> sessionClass [
 	self subclassResponsability
