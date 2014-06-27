@@ -72,6 +72,13 @@ GTMetacellerLoadList >> errorMap [
 	^errorMap ifNil: [ errorMap := Dictionary new ]
 ]
 
+{ #category : #errors }
+GTMetacellerLoadList >> errors [
+	^self errorMap collect: [ :assoc |
+		self halt ]
+	
+]
+
 { #category : #accessing }
 GTMetacellerLoadList >> findItems: anItem [ 
 	^self items select: [ :each |
@@ -81,4 +88,9 @@ GTMetacellerLoadList >> findItems: anItem [
 { #category : #accessing }
 GTMetacellerLoadList >> items [
 	^items ifNil: [ items := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GTMetacellerLoadList >> warnings [
+	^#()
 ]
