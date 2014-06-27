@@ -149,6 +149,10 @@ GTImageSetupCommandLineHandler >> loadOlderAthensPackagesToCorrectTheFontCaching
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> setPreferredSettings [
-	NECPreferences popupShowAutomatic: false.
-	GTGenericStackDebugger enableStackColoring: true 
+	NECPreferences 
+		popupShowAutomatic: false;
+		expandPrefixes: true;
+		popupShowWithShortcut: Character tab asShortcut.
+	GTGenericStackDebugger enableStackColoring: true.
+	GLMWhitespaceTheme setPreferredShoutColors.
 ]
