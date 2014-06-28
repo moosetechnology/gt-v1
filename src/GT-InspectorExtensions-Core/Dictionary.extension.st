@@ -24,6 +24,10 @@ Dictionary >> gtInspectorItemsIn: composite [
 				self removeKey: assoc key ].
 			table update ]
 			entitled: 'Remove item(s)';
+		selectionPopulate: #selection 
+			entitled: 'Open key'
+			with: [ :table |
+				(table rawSelection collect: #key) gtInspectorInterestingObject ];
 		beMultiple;
 		withSmalltalkSearch;
 		send: [ :selection | (selection notNil and: [selection size = 1]) 
