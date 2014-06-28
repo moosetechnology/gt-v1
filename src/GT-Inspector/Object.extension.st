@@ -1,12 +1,12 @@
 Extension { #name : #Object }
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtDisplayOn: stream [
 	"This offers a means to customize how the object is shown in the inspector"
 	^ self printOn: stream
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtDisplayString [
 	"This offers a means to customize how the object is shown in the inspector.
 	Do not override this method. Override gtDisplayOn: instead"
@@ -18,7 +18,7 @@ Object >> gtDisplayString [
 	^ limitedString , ' ...'
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorActionBrowse [
 	<gtInspectorAction>
 	^ GLMGenericAction new
@@ -27,7 +27,7 @@ Object >> gtInspectorActionBrowse [
 		title: 'Browse'
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorActions [
 	"This is a utility method that allows each object to define a set of actions 
 	specific for itself. These actions are used when the object appears in the inspector.
@@ -48,7 +48,7 @@ Object >> gtInspectorActions [
 		first < second]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 900>
 	
@@ -62,14 +62,19 @@ Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
 					title: 'E.g. source' ]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
+Object >> gtInspectorInterestingObject [
+	^ self
+]
+
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorMetaIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>
 	^ composite custom: (GTSimpleMethodsBrowser new startOn: self) 
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 	"This is a utility method that collects all presentations for the current object.
 	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
@@ -87,14 +92,14 @@ Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 			ifTrue: [ self perform: eachPragma selector with: composite with: aGTInspector ] ]
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorStateIn: composite [
 	"This is the most basic presentation showing the state of the object"
 	<gtInspectorPresentationOrder: 10>
 	^ composite custom: (GTObjectVariablesBrowser new startOn: self)
 ]
 
-{ #category : #'*gt-inspector' }
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorVariableValuePairs [
 	"This is a helper method that returns a collection of 
 		variable_name -> value
