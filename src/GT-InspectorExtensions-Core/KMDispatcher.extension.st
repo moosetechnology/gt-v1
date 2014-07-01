@@ -3,17 +3,19 @@ Extension { #name : #KMDispatcher }
 { #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite tree 
+	composite table 
 		title: 'Keys';
 		display: [ 
-			(self targets collect: #category)
+			((self targets collect: #category)
 				add: self directKeymaps;
-				yourself ];
+				yourself)
+				flatCollect: [ :category | 
+					category allEntries keymaps collect: [ :key | key -> category ] ]
+				 ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
-		children: [ :item :treePresentation :level |
-			(item isKindOf: KMCategory)
-				ifFalse: [ #() ]
-				ifTrue: [ item allEntries keymaps ] ];
-		format: #gtDisplayString;
-		allExpanded
+		column: 'Category' evaluated: [ :assoc | '' ] tags: [ :assoc | assoc value name ifNil: [ #() ] ifNotNil: [ { assoc value name }]];
+		column: 'Shortcut' evaluated: [ :assoc | assoc key shortcut gtDisplayString ] width: 120;
+		column: 'Description' evaluated: [ :assoc | assoc key description ];
+		column: 'Action' evaluated: [ :assoc | assoc key action gtDisplayString ];
+		send: #key
 ]
