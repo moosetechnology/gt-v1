@@ -13,9 +13,9 @@ KMDispatcher >> gtInspectorMappingsIn: composite [
 					category allEntries keymaps collect: [ :key | key -> category ] ]
 				 ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
-		column: 'Category' evaluated: [ :assoc | '' ] tags: [ :assoc | assoc value name ifNil: [ #() ] ifNotNil: [ { assoc value name }]];
 		column: 'Shortcut' evaluated: [ :assoc | assoc key shortcut gtDisplayString ] width: 120;
 		column: 'Description' evaluated: [ :assoc | assoc key description ];
 		column: 'Action' evaluated: [ :assoc | assoc key action gtDisplayString ];
+		column: 'Category' evaluated: [ :assoc | '' ] tags: [ :assoc | assoc value name ifNil: [ #() ] ifNotNil: [ { assoc value name }]];
 		send: #key
 ]
