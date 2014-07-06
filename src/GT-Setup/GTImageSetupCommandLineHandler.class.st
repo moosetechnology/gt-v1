@@ -38,7 +38,8 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings.
-	self disableBreakingCommandPlusOKeybindingsInPharo30
+	self disableBreakingCommandPlusOKeybindingsInPharo30.
+	self loadMorphTreeMorphPatchToFixTheDebuggerInPharo30
 ]
 
 { #category : #utilities }
@@ -48,6 +49,10 @@ GTImageSetupCommandLineHandler >> cleanupWorld [
 
 { #category : #patches }
 GTImageSetupCommandLineHandler >> disableBreakingCommandPlusOKeybindingsInPharo30 [
+	"In GT we use Cmd+o extensively, and the current logic of global bindings makes it
+	impossible to use when a global binding is defined even as Cmd+o+somethingelse.
+	
+	So, we disable all global bindings that start with Cmd+o"
 	((KMRepository default globalCategories flatCollect: [ :each | each allEntries keymaps ])
 		select: [ :each | each shortcut beginsWith: $o command ]) do: #disable
 ]
@@ -129,6 +134,14 @@ GTImageSetupCommandLineHandler >> loadFonts [
 		FreeTypeFontProvider registerFont: (Smalltalk at: each asSymbol) ].
 	FreeTypeSystemSettings loadFt2Library: true.
 	FreeTypeFontProvider current updateFromSystem
+]
+
+{ #category : #patches }
+GTImageSetupCommandLineHandler >> loadMorphTreeMorphPatchToFixTheDebuggerInPharo30 [
+	Gofer new 
+		smalltalkhubUser: 'Pharo' project: 'Pharo30Inbox';
+		package: 'SLICE-Issue-13422-Image-crashes-because-an-open-Nautilus-browser-hangs-onto-many-objects-while-code-is-being-loaded';
+		load
 ]
 
 { #category : #patches }
