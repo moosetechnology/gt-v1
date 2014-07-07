@@ -33,8 +33,9 @@ GTSaveDebugAction >> defaultOrder [
 { #category : #actions }
 GTSaveDebugAction >> executeAction [
 
+	self needsUpdate: false.
 	self debugger codePresentation 
-		compileTextIn: self currentContext from: self session 
+		compileTextIn: self currentContext from: self session andDo: [ self needsUpdate: true ]
 
 	"self session 
 		recompileMethodTo: sourceCode 
