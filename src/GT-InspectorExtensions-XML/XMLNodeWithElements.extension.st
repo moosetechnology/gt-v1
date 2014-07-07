@@ -1,6 +1,6 @@
 Extension { #name : #XMLNodeWithElements }
 
-{ #category : #'*gt-inspectorextensions-xml' }
+{ #category : #'*GT-InspectorExtensions-XML' }
 XMLNodeWithElements >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite text 
@@ -8,7 +8,7 @@ XMLNodeWithElements >> gtInspectorSourceIn: composite [
 		format: [ self prettyPrinted ]
 ]
 
-{ #category : #'*gt-inspectorextensions-xml' }
+{ #category : #'*GT-InspectorExtensions-XML' }
 XMLNodeWithElements >> gtInspectorTreeIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	^ composite tree 
