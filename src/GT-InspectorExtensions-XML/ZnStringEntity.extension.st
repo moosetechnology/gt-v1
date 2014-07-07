@@ -7,5 +7,6 @@ ZnStringEntity >> gtInspectorXmlIn: composite [
 	xml := [XMLDOMParser parse: self string]
 		on: XMLWellFormednessException
 		do: [ ^ self ].
-	xml gtInspectorTreeIn: composite
+	(xml gtInspectorTreeIn: composite)
+		title: 'XML'
 ]
