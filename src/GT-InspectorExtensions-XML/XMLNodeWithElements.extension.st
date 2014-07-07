@@ -11,7 +11,7 @@ XMLNodeWithElements >> gtInspectorSourceIn: composite [
 { #category : #'*gt-inspectorextensions-xml' }
 XMLNodeWithElements >> gtInspectorTreeIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite tree 
+	^ composite tree 
 		title: 'Tree';
 		display: [ { self } ];
 		children: #elements;
