@@ -11,8 +11,8 @@ BouncingAtomsMorph classSide >> gtInspectorLiveIn: composite [
 		t transmit to: #atoms; andShow: [ :a | 
 			a list 
 				display: #submorphs;
-				format: [ :each | 
-					each bounds topLeft asString ] ].
+				format: [ :each :morph | 
+					'Atom ', (morph submorphs indexOf: each) asString "bounds topLeft asString" ] ].
 		t transmit from: #atoms; toOutsidePort: #selection. ];
 		startOn: self new
 ]
