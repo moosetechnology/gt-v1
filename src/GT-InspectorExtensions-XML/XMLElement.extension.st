@@ -31,7 +31,7 @@ XMLElement >> gtInspectorImageIn: composite inContext: aGTInspector [
 			self formForImageEntity:
 				(ZnClient new 
       				beOneShot;
-      				get: 'http://www.w3.org', (self attributeNodes attributeValueAt: 'src');
+      				get: url/ (self attributeNodes attributeValueAt: 'src');
       				entity)];
 		when: [ self name = 'img' and: [(self attributeNodes attributeValueAt: 'src') notNil]]
 ]
