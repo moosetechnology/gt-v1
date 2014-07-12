@@ -15,5 +15,5 @@ XMLNodeWithElements >> gtInspectorTreeIn: composite [
 		title: 'Tree';
 		display: [ { self } ];
 		children: #elements;
-		format: [ :each | each name ]
+		format: [ :each | (GTObjectPrinter new asTruncatedTextFrom: each name) asString ]
 ]
