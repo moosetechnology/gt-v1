@@ -12,6 +12,15 @@ CompiledMethod class >> gtExampleSimple [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+CompiledMethod >> gtInspectorASTIn: composite [
+	<gtInspectorPresentationOrder: 35> 
+	(GTSimpleRBTreeBrowser new treeIn: composite)
+		title: 'AST';
+		display: [ :anObject | {anObject ast} ]
+		
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorBytecodeIn: composite [
 	<gtInspectorPresentationOrder: 40> 
 	composite text 
