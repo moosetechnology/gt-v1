@@ -3,7 +3,7 @@ Extension { #name : #Form }
 { #category : #'*GT-InspectorExtensions-Core' }
 Form >> gtInspectorFormIn: composite [
 	<gtInspectorPresentationOrder: 90>  
-	composite morph 
+	^ composite morph 
 		title: 'Morph';
-		display: [:object | object asMorph]
+		display: [ self asMorph ]
 ]
