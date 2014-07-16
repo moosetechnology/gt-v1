@@ -1,6 +1,11 @@
 Extension { #name : #XMLNodeWithElements }
 
 { #category : #'*GT-InspectorExtensions-XML' }
+XMLNodeWithElements >> gtDisplayOn: stream [
+	stream nextPutAll: self name
+]
+
+{ #category : #'*GT-InspectorExtensions-XML' }
 XMLNodeWithElements >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite text 
@@ -15,6 +20,6 @@ XMLNodeWithElements >> gtInspectorTreeIn: composite [
 		title: 'Tree';
 		display: [ { self } ];
 		children: #elements;
-		format: [ :each | (GTObjectPrinter new asTruncatedTextFrom: each name) asString ];
+		format: #gtDisplayString;
 		rootsExpanded
 ]
