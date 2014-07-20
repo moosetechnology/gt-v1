@@ -9,27 +9,35 @@ KMRepository class >> gtExampleDefault [
 { #category : #'*GT-InspectorExtensions-Core' }
 KMRepository >> gtInspectorGlobalsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite tree 
+	composite table 
 		title: 'Global keys';
-		display: #globalCategories;
+		display: [ 
+			self globalCategories
+				flatCollect: [ :category | 
+					category allEntries keymaps collect: [ :key | key -> category ] ]
+				 ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
-		children: [ :item :treePresentation :level |
-			level > 1 
-				ifTrue: [ #() ]
-				ifFalse: [ item allEntries keymaps  ] ];
-		format: #gtDisplayString
+		column: 'Shortcut' evaluated: [ :assoc | assoc key shortcut gtDisplayString ] width: 120;
+		column: 'Description' evaluated: [ :assoc | assoc key description ];
+		column: 'Action' evaluated: [ :assoc | assoc key action gtDisplayString ];
+		column: 'Category' evaluated: [ :assoc | '' ] tags: [ :assoc | assoc value name ifNil: [ #() ] ifNotNil: [ { assoc value name }]];
+		send: #key
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 KMRepository >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite tree 
+	composite table 
 		title: 'Keys';
-		display: #categories;
+		display: [ 
+			self categories values
+				flatCollect: [ :category | 
+					category allEntries keymaps collect: [ :key | key -> category ] ]
+				 ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
-		children: [ :item :treePresentation :level |
-			level > 1 
-				ifTrue: [ #() ]
-				ifFalse: [ item allEntries keymaps  ] ];
-		format: #gtDisplayString
+		column: 'Shortcut' evaluated: [ :assoc | assoc key shortcut gtDisplayString ] width: 120;
+		column: 'Description' evaluated: [ :assoc | assoc key description ];
+		column: 'Action' evaluated: [ :assoc | assoc key action gtDisplayString ];
+		column: 'Category' evaluated: [ :assoc | '' ] tags: [ :assoc | assoc value name ifNil: [ #() ] ifNotNil: [ { assoc value name }]];
+		send: #key
 ]
