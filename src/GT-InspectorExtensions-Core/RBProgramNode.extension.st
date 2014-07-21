@@ -4,19 +4,13 @@ Extension { #name : #RBProgramNode }
 RBProgramNode >> gtInspectorSourceCodeIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 
-	^ (GTSimpleRBTreeBrowser new sourceIn: composite)
+	^ composite smalltalkCode 
 		title: 'Source code';
-		initialize: [ :presentation | presentation selectionInterval: self sourceInterval ]
-		"populate: #selectionInterval 
-			icon: GLMUIThemeExtraIcons glamorousSearch 
-			entitled: 'Where is?' 
-			with: [ self sourceInterval ]"
-		"act: [ :presentation |
-				presentation selectionInterval: self sourceInterval.
-				presentation update.
-				self halt.  ] 
-			icon: GLMUIThemeExtraIcons glamorousSearch 
-			entitled: 'Where is?'"
+		display: [ self source ];
+		smalltalkClass: [ self parents first methodClass ]; 
+		initialize: [ :presentation | 
+			presentation selectionInterval: self sourceInterval ];
+		act: [ self method compiledMethod browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
