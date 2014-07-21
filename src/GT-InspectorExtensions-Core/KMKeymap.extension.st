@@ -9,3 +9,10 @@ KMKeymap >> gtDisplayOn: aStream [
 		nextPutAll: ' do ' ;
 		nextPutAll: self action gtDisplayString
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+KMKeymap >> gtInspectorSourceCodeIn: composite [
+	<gtInspectorPresentationOrder: 30> 
+
+	^ self action gtInspectorSourceCodeIn: composite
+]
