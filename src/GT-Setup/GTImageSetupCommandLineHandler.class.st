@@ -39,7 +39,7 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self flushMCCache.
 	self setPreferredSettings.
 	self disableBreakingCommandPlusOKeybindingsInPharo30.
-	self loadMorphTreeMorphPatchToFixTheDebuggerInPharo30
+"	self loadMorphTreeMorphPatchToFixTheDebuggerInPharo30"
 ]
 
 { #category : #utilities }
