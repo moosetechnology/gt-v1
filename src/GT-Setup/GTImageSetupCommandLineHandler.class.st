@@ -38,8 +38,7 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings.
-	self disableBreakingCommandPlusOKeybindingsInPharo30.
-"	self loadMorphTreeMorphPatchToFixTheDebuggerInPharo30"
+	self disableBreakingCommandPlusOKeybindingsInPharo30
 ]
 
 { #category : #utilities }
@@ -134,30 +133,6 @@ GTImageSetupCommandLineHandler >> loadFonts [
 		FreeTypeFontProvider registerFont: (Smalltalk at: each asSymbol) ].
 	FreeTypeSystemSettings loadFt2Library: true.
 	FreeTypeFontProvider current updateFromSystem
-]
-
-{ #category : #patches }
-GTImageSetupCommandLineHandler >> loadMorphTreeMorphPatchToFixTheDebuggerInPharo30 [
-	Gofer new 
-		smalltalkhubUser: 'Pharo' project: 'Pharo30Inbox';
-		package: 'SLICE-Issue-13422-Image-crashes-because-an-open-Nautilus-browser-hangs-onto-many-objects-while-code-is-being-loaded';
-		load
-]
-
-{ #category : #patches }
-GTImageSetupCommandLineHandler >> loadOlderAthensPackagesToCorrectTheFontCachingProblem [
-	"
-	This is a workaround fir the bug described here:
-	https://pharo.fogbugz.com/f/cases/12777/Athens-font-cacheing-bug
-	"
-	Gofer new 
-		smalltalkhubUser: 'Pharo' project: 'Pharo30';
-		package: 'Athens-Cairo' constraint: [ :version |
-			version author = 'MarcusDenker' and: [ version versionNumber = 51 ] ];
-		package: 'Athens-Core' constraint: [ :version | 
-			version author = 'MarcusDenker' and: [ version versionNumber = 34 ] ];
-		load
-		
 ]
 
 { #category : #utilities }
