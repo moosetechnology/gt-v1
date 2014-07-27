@@ -169,7 +169,7 @@ FileReference >> gtInspectorItemsIn: composite [
 				each creationTime printHMSOn: s ]];
 		icon: [ :each | 
 			each isDirectory 
-				ifTrue: [ GLMUIThemeExtraIcons glamorousOpen ] 
+				ifTrue: [ GLMUIThemeExtraIcons glamorousFolder ] 
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
 		when: [self isDirectory and: [self hasChildren]];
 		selectionAct: [:table | table selection delete. table update] entitled: 'Delete'
