@@ -96,8 +96,8 @@ GTInspector class >> registerToolsOn: registry [
 GTInspector class >> settingsOn: aBuilder [ 
 	<systemsettings>
 	
-	(aBuilder group: #glamorousInspector)
-		label: 'Glamorous Inspector';
+	(aBuilder group: #gt)
+		label: 'Glamorous Toolkit';
 		with: [
 			(aBuilder setting: #numberOfInspectorPanes)
 				target: self; 
