@@ -50,5 +50,7 @@ builder horizontalBarDiagram
 	x: [ :row | row atName: #population ]";
 	color: ((RTNIdentityNormalizer 
 		withCommand: [ :row | row atName: #continent ]))".
+builder view canvas when: TRResizeCanvasEvent do: [ 
+		builder view canvas camera translateTo: 0@300. ].
 builder'
 ]
