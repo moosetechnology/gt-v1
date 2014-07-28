@@ -36,9 +36,14 @@ Morph >> gtInspectorMorphExtensionIn: composite [
 { #category : #'*GT-InspectorExtensions-Core' }
 Morph >> gtInspectorMorphIn: composite [
 	<gtInspectorPresentationOrder: 90>  
-	composite morph 
+	| morphPresentation |
+	morphPresentation := composite morph.
+	morphPresentation 
 		title: 'Morph';
-		display: [ :each | self imageForm asMorph ];
+		display: [ :each |
+			self imageForm asMorph
+				on: #mouseDown send: #value: to: [ :event | 
+					morphPresentation selection: (self morphsAt: event position) ] ];
 		act: [ :pres | self exportAsPNG ] entitled: 'Export as PNG';
 		act: [ :pres | self delete ] entitled: 'Delete'
 ]
