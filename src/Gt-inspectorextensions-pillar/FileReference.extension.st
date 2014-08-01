@@ -9,3 +9,14 @@ FileReference >> gtInspectorPillarConfigurationIn: composite [
 		buildFromFile: self)
 			gtInspectorInputFilesIn: composite
 ]
+
+{ #category : #'*GT-InspectorExtensions-Pillar' }
+FileReference >> gtInspectorPillarIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	(self extension = 'pillar')
+		ifFalse: [ ^ self ].
+	
+	composite custom: (GLMRubricHighlightedTextPresentation new
+		editingMode: [GLMHighlighterTextRubEditingMode forStyler: #GTPillarHighlighterTextDecorator];
+		display: [ self readStreamDo: #contents ])
+]
