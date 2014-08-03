@@ -17,6 +17,10 @@ FileReference >> gtInspectorPillarIn: composite [
 		ifFalse: [ ^ self ].
 	
 	composite custom: (GLMRubricHighlightedTextPresentation new
+		title: 'Pillar';
 		editingMode: [GLMHighlighterTextRubEditingMode forStyler: #GTPillarHighlighterTextDecorator];
-		display: [ self readStreamDo: #contents ])
+		display: [ self readStreamDo: #contents ];
+		act: [:rub | 
+			self ensureDelete; writeStreamDo: [ :s | s nextPutAll: rub text asString ]
+			] icon: GLMUIThemeExtraIcons glamorousSave on: $s entitled: 'Save')
 ]
