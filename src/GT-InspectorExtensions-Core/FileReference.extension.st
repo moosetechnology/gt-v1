@@ -205,8 +205,8 @@ FileReference >> gtInspectorStScriptIn: composite [
 				with: [ :text :object | 
 					Compiler evaluate: text selectedText for: object logged: false ];
 			act: [ :text |
-				self writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
-				icon: GLMUIThemeExtraIcons glamorousAccept
+				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
+				icon: GLMUIThemeExtraIcons glamorousSave
 				on: $s
 				entitled: 'Save';
 			when: [ self extension = 'st' ]
