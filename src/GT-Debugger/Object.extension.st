@@ -41,5 +41,6 @@ Object >> gtDebuggerStateIn: composite [
 	<gtDebuggerPresentationOrder: 10>
 	
 	(GTObjectVariablesBrowser new variablesIn: composite)
-		title: 'State'
+		title: 'State';
+		send: #value
 ]
