@@ -42,6 +42,20 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 ]
 
 { #category : #'private building' }
+GTObjectVariablesBrowser >> iconFor: anObject [
+		
+	^ [ (anObject iconOrThumbnailOfSize: 16)
+		ifNil: [ anObject class systemIcon ] ]
+			on: Error do: [ :error |
+			self iconFor: anObject error: error ]
+]
+
+{ #category : #'private building' }
+GTObjectVariablesBrowser >> iconFor: anEyeElement error: error [
+	^ Smalltalk ui icons smallWarningIcon
+]
+
+{ #category : #'private building' }
 GTObjectVariablesBrowser >> printStringOf: anObject [
 	^ [(anObject printString contractTo: 200) asSmalltalkComment] 
 			on: Error 
@@ -61,7 +75,6 @@ GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 { #category : #'private building' }
 GTObjectVariablesBrowser >> variableValuePairsFor: anObject [
 	^ anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
-		addFirst: 'self' -> anObject; 
 		yourself
 ]
 
@@ -69,9 +82,13 @@ GTObjectVariablesBrowser >> variableValuePairsFor: anObject [
 GTObjectVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
-		display: [ :anObject | self variableValuePairsFor: anObject ];
+		shouldValidate: false;
+		shouldRootsExpand: true;
+		children: [ :assoc | self variableValuePairsFor: assoc value ];
+		icon: [ :assoc | self iconFor: assoc value ];
+		display: [ :anObject | {'self' -> anObject} ];
 		column: 'Variable' 
-			evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
+			evaluated: [:assoc | '  ',(GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
 		column: 'Value' 
 			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
 		"send: #value;"
