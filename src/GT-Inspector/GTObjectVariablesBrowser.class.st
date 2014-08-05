@@ -75,6 +75,7 @@ GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 { #category : #'private building' }
 GTObjectVariablesBrowser >> variableValuePairsFor: anObject [
 	^ anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
+		addFirst: 'self' -> anObject;
 		yourself
 ]
 
@@ -83,7 +84,9 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
 		shouldValidate: false;
-		children: [ :assoc | self variableValuePairsFor: assoc value ];
+		children: [ :assoc | assoc key = 'self'
+			ifTrue: [ #() ]
+			ifFalse: [ self variableValuePairsFor: assoc value ] ];
 		icon: [ :assoc | self iconFor: assoc value ];
 		display: [ :anObject | self variableValuePairsFor: anObject ];
 		column: 'Variable' 
