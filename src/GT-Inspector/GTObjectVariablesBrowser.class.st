@@ -94,8 +94,6 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 			evaluated: [:assoc | '  ',(GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
 		column: 'Value' 
 			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
-		column: 'Class'
-			evaluated: [ :assoc | assoc value class name ];
 		"send: #value;"
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
