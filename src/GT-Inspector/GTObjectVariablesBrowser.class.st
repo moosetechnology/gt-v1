@@ -83,10 +83,9 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
 		shouldValidate: false;
-		shouldRootsExpand: true;
 		children: [ :assoc | self variableValuePairsFor: assoc value ];
 		icon: [ :assoc | self iconFor: assoc value ];
-		display: [ :anObject | {'self' -> anObject} ];
+		display: [ :anObject | self variableValuePairsFor: anObject ];
 		column: 'Variable' 
 			evaluated: [:assoc | '  ',(GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
 		column: 'Value' 
