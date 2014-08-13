@@ -28,18 +28,18 @@ GTPillarHighlighterTextDecorator >> parser [
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator >> treatFileLinks: aText [
 	
-	| name filePreamble fileName fileLink |
+	| name filePreamble fileName fileLabel fileLink parser |
 	name := (#word asParser plus flatten , $> asParser) flatten.
 	filePreamble := 'file://' asParser.
-	fileName := (#word asParser / $. asParser) plus flatten.
-	fileLink := $+ asParser , name optional , filePreamble , fileName , $+ asParser
-	 ==> [: t | 
-		'' asText join:
-		(t 
-			at: 4 put: 
-				((t at: 4) asText addAttribute: 
-					(GTPillarFileTextLink new fileName: (t at: 4)));
-			yourself) ].
-	^ (fileLink negate star flatten , (fileLink , fileLink negate star flatten ==> [:t | '' asText join: t]) star  
-		==> [:t | (t at: 1) , ('' asText join: (t at: 2)) ] ) parse: aText 
+	fileName := (#word asParser / $. asParser) plus flatten
+		==> [ :t | 
+			t asText addAttribute: 
+				("GTPillarFileTextLink new fileName: t"
+				TextColor color: Color red) ].
+	fileLabel := name optional ==> [:t | t ifNil: ['' asText]].
+	fileLink := $+ asParser , fileLabel , filePreamble, fileName , $+ asParser
+	 ==> [: t | '' asText join: t ].
+	parser := ((fileLink / fileLink negate plus flatten ==> [:t | '' asText join: t]) star  
+		==> [:t | ('' asText join: t) ] ).
+	^ parser parse: aText 
 ]
