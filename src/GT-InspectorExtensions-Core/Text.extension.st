@@ -7,7 +7,7 @@ Text >> gtInspectorItemsIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Text >> gtInspectorTextIn: composite [
-	<gtInspectorPresentationOrder: 30>  
+	<gtInspectorPresentationOrder: -10>  
 	 composite text
 		title: 'Text';
 		format: self
