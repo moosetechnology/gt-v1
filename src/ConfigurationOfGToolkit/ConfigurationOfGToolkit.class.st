@@ -913,7 +913,8 @@ ConfigurationOfGToolkit >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.6-baseline'.
-	spec for: #'pharo3.x' version: '0.12-baseline'
+	spec for: #'pharo3.x' version: '0.12-baseline'.
+	spec for: #'pharo4.x' version: '0.12-baseline'
 ]
 
 { #category : #snapshots }
