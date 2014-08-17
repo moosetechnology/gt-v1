@@ -43,6 +43,7 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> cleanupWorld [
+	SystemWindow allSubInstances do: #delete.
 	World color: Color white
 ]
 
