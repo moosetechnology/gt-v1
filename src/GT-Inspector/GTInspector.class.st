@@ -155,3 +155,9 @@ GTInspector >> printObjectAsAnItem: anObject [
 		nextPut: $).
 	^ stream contents
 ]
+
+{ #category : #'as yet unclassified' }
+GTInspector >> showFirst: aBlock [
+
+	self first showFirst: aBlock
+]
