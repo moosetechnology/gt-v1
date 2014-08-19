@@ -13,7 +13,7 @@ FileReference >> gtInspectorPillarConfigurationIn: composite [
 { #category : #'*GT-InspectorExtensions-Pillar' }
 FileReference >> gtInspectorPillarIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	(self extension = 'pillar')
+	(#('pier' 'pillar') includes: self extension)
 		ifFalse: [ ^ self ].
 	
 	composite custom: (GLMRubricHighlightedTextPresentation new
