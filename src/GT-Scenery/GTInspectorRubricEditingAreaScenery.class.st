@@ -16,14 +16,14 @@ GTInspectorRubricEditingAreaScenery class >> menuCommandOn: aBuilder [
 
 { #category : #setUp }
 GTInspectorRubricEditingAreaScenery >> setUp [
-"	self cleanWindows."
+	self cleanWindows.
 	(GTPlayground openContents: 'area := RubEditingArea new
 		beWrapped;
 		withoutSelectionBar;
 		setTextWith: ''How is this text editor structured internally?''.
-area openInWindow.
+area openInWindow width: 400.
 area ') .
-"	GTSnippets reset."
+	GTSnippets reset.
 	GTSnippets snippetAt: #RubEditingArea asClass put: 'view := ROMondrianViewBuilder new.
 self textArea
      withDeep: [ :each |
