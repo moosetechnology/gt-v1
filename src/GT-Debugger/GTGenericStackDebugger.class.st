@@ -348,7 +348,7 @@ GTGenericStackDebugger >> inspectorIn: aComposite [
 
 	^ aComposite dynamic 
 		display: [:anObject |
-			self inspectorIn: aComposite on: anObject ]
+			self inspectorIn: GLMCompositePresentation new on: anObject ]
 ]
 
 { #category : #'building presentations' }
