@@ -15,6 +15,7 @@ Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
 		title: [ :anObject | self size asString, ' items' ];
 		display: [ self associations];
+		children: [ :each | (each value isKindOf: Dictionary) ifTrue: [ each value associations ] ifFalse: [#()] ];
 		column: 'Key' 
 			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
 		column: 'Value' 
