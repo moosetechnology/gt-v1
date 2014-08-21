@@ -25,7 +25,7 @@ CompiledMethod >> gtInspectorBytecodeIn: composite [
 	<gtInspectorPresentationOrder: 40> 
 	composite text 
 		title: 'Bytecode';
-		display: [:anObject | anObject symbolic ]
+		display: [ self symbolic ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
