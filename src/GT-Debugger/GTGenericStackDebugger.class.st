@@ -422,6 +422,13 @@ GTGenericStackDebugger >> proceed: aTopView [
 
 ]
 
+{ #category : #'building presentations' }
+GTGenericStackDebugger >> retrieveStackFrom: aSession [
+
+	^ aSession stack
+		
+]
+
 { #category : #updating }
 GTGenericStackDebugger >> selectTopContext [
 	((self browser paneNamed: #stack) port: #selection) value: self interruptedContext
@@ -493,7 +500,7 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 	^ composite list	
 		title: 'Stack';
 		showOnly: 50;
-		display: #stack;
+		display: [:aSession | self retrieveStackFrom: aSession];
 		format: [ :each | self formatStackEntry: each]
 ]
 
