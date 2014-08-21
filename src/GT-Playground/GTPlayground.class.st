@@ -119,10 +119,11 @@ GTPlayground >> compose [
 	self
 		title: 'Playground';
 		custom:
-			(GTInspector new first
+			(GTInspector new
+				noTitle; 
 				noActions;
 				showFirst: [ :composite |
-					self codeIn: composite.];
+					self codeIn: composite ];
 				yourself);
 		on: GLMBrowserClosing do: [ 
 			"This is a hack for the moment.
