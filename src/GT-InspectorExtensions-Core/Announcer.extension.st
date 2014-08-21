@@ -1,11 +1,17 @@
 Extension { #name : #Announcer }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Announcer >> gtInspectorAnnouncementsIn: composite [
+Announcer >> gtInspectorAnnouncementsIn: composite context: aGTContext [
 	<gtInspectorPresentationOrder: 40>
-	| recordedAnnouncements |
+	| recordedAnnouncements messageSend |
+	
 	recordedAnnouncements := CollectionValueHolder value: OrderedCollection new.
-	self when: Announcement do: [ :ann | recordedAnnouncements addFirst: DateAndTime now -> ann ].
+	messageSend := MessageSend receiver: recordedAnnouncements selector: #addAnnouncementFirst:.
+	self
+		when: Announcement
+		send: #cull:
+		to: messageSend.
+	aGTContext when: GLMBrowserClosing do: [ self unsubscribe: messageSend ].
 	composite table
 		title: 'Announcements';
 		display: [ recordedAnnouncements value ];
