@@ -140,6 +140,11 @@ GTInspector >> panes [
 	^ self first panes
 ]
 
+{ #category : #accessing }
+GTInspector >> previousEntity [
+	^ self entities reverse second
+]
+
 { #category : #private }
 GTInspector >> printObjectAsAnItem: anObject [ 
 	|  stream  |
