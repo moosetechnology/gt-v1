@@ -145,6 +145,16 @@ GTInspector >> previousEntity [
 	^ self entities reverse second
 ]
 
+{ #category : #accessing }
+GTInspector >> previousEntityTo: anObject [
+	| entities index |
+	entities := self entities.
+	index := entities indexOf: anObject.
+	^ index < 2 
+		ifTrue: [ nil ]
+		ifFalse: [ entities at: index - 1 ]
+]
+
 { #category : #private }
 GTInspector >> printObjectAsAnItem: anObject [ 
 	^ String streamContents: [:stream |
