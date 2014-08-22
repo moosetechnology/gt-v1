@@ -11,7 +11,8 @@ GTDebuggerPetitParserScenery class >> menuCommandOn: aBuilder [
 		order: 201.0; 
 		parent: #GTScenery;
 		label: 'Debugger - PetitParser';
-		action:[self new setUp]
+		action:[self new setUp];
+		withSeparatorAfter
 ]
 
 { #category : #setUp }
