@@ -20,6 +20,7 @@ Announcer >> gtInspectorAnnouncementsIn: composite context: aGTContext [
 		send: #value;
 		showOnly: 50;
 		format: #gtDisplayString;
+		filterOn: [:text :each | Compiler evaluate: '| date each | date := self key. each := self value. ', text for: each logged: false ];
 		updateOn: Announcement from: recordedAnnouncements announcer;
 		act: [ :table | 
 			recordedAnnouncements := OrderedCollection new.
