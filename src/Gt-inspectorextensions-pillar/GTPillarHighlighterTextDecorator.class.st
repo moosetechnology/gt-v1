@@ -16,7 +16,7 @@ GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
 		aString asString lines collect: [:each | 
 			(each beginsWith: '!') 
 				ifTrue: [ each asText makeAllColor: Color blue darker ]
-				ifFalse: [ (self treatFileLinks: each) asText ]
+				ifFalse: [ each asText ]
 	]).
 ]
 

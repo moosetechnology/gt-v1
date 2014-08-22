@@ -24,3 +24,15 @@ FileReference >> gtInspectorPillarIn: composite [
 			self ensureDelete; writeStreamDo: [ :s | s nextPutAll: rub text asString ]
 			] icon: GLMUIThemeExtraIcons glamorousSave on: $s entitled: 'Save')
 ]
+
+{ #category : #'*GT-InspectorExtensions-Pillar' }
+FileReference >> gtInspectorPillarProjectIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	(self isDirectory not or: [
+	(self files noneSatisfy: [:each | each basename = 'pillar.conf'])])
+		ifTrue: [ ^ self ].
+	(((PRSTONConfigurationInterpreter baseDirectory: self)
+		buildFromFile: (self files detect: [:each | each basename = 'pillar.conf']))
+			gtInspectorInputFilesIn: composite)
+			title: 'Pillar'
+]

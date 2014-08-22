@@ -1,6 +1,31 @@
 Extension { #name : #Class }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Class >> gtInspectorAllReferencesIn: composite [
+	"This provides a list of all methods provided by the current class"
+	<gtInspectorPresentationOrder: 20>
+	composite list 
+		title: 'All Ref';
+		display: [ (SystemNavigation default allReferencesTo: self binding) 
+						sorted: [ :x :y | x name < y name ] ];
+		format: #name;
+		tags: [ :each | { each package name } ]
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Class >> gtInspectorAllReferencesOutsideIn: composite [
+	"This provides a list of all methods provided by the current class"
+	<gtInspectorPresentationOrder: 20>
+	composite list 
+		title: 'All Ref Outside';
+		display: [ ((SystemNavigation default allReferencesTo: self binding) 
+							reject: [ :method | method package name == self package name ])
+						sorted: [ :x :y | x name < y name ] ];
+		format: #name;
+		tags: [ :each | { each package name } ]
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Class >> gtInspectorCommentIn: composite [
 	"This provides an editable comment of the current class"
 	<gtInspectorPresentationOrder: 20>
