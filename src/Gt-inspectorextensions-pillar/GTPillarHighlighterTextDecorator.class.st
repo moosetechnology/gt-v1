@@ -12,12 +12,16 @@ GTPillarHighlighterTextDecorator class >> key [
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
 	
+	| line |
 	^ String cr asText join: (
 		aString asString lines collect: [:each | 
 			(each beginsWith: '!') 
 				ifTrue: [ each asText makeAllColor: Color blue darker ]
-				ifFalse: [ each asText ]
-	]).
+				ifFalse: [ 
+					line := each asText. 
+					self treatFileLinks: line.
+					line ]
+	])
 ]
 
 { #category : #'as yet unclassified' }
@@ -28,18 +32,9 @@ GTPillarHighlighterTextDecorator >> parser [
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator >> treatFileLinks: aText [
 	
-	| name filePreamble fileName fileLabel fileLink parser |
-	name := (#word asParser plus flatten , $> asParser) flatten.
-	filePreamble := 'file://' asParser.
-	fileName := (#word asParser / $. asParser) plus flatten
-		==> [ :t | 
-			t asText addAttribute: 
-				("GTPillarFileTextLink new fileName: t"
-				TextColor color: Color red) ].
-	fileLabel := name optional ==> [:t | t ifNil: ['' asText]].
-	fileLink := $+ asParser , fileLabel , filePreamble, fileName , $+ asParser
-	 ==> [: t | '' asText join: t ].
-	parser := ((fileLink / fileLink negate plus flatten ==> [:t | '' asText join: t]) star  
-		==> [:t | ('' asText join: t) ] ).
-	^ parser parse: aText 
+	(GTPillarParser new parse: aText asString)
+		do: [ :each | 
+			aText
+				addAttribute: (TextColor color: Color red)
+				from: each start to: each stop  ]
 ]

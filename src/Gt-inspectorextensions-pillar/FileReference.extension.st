@@ -21,8 +21,12 @@ FileReference >> gtInspectorPillarIn: composite [
 		editingMode: [GLMHighlighterTextRubEditingMode forStyler: #GTPillarHighlighterTextDecorator];
 		display: [ self readStreamDo: #contents ];
 		act: [:rub | 
-			self ensureDelete; writeStreamDo: [ :s | s nextPutAll: rub text asString ]
-			] icon: GLMUIThemeExtraIcons glamorousSave on: $s entitled: 'Save')
+			self 
+				ensureDelete; 
+				writeStreamDo: [ :s | s nextPutAll: rub text asString ]] 
+			icon: GLMUIThemeExtraIcons glamorousSave 
+			on: $s 
+			entitled: 'Save')
 ]
 
 { #category : #'*GT-InspectorExtensions-Pillar' }
