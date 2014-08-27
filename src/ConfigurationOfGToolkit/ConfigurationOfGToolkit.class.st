@@ -377,7 +377,7 @@ ConfigurationOfGToolkit >> baseline013: aSpec [
 				aSpec
 					versionString: #'development';
 					className: 'ConfigurationOfGlamour';
-					loads: #('Roassal' 'Roassal2');
+					loads: #('CoreExtras' 'Roassal' 'Roassal2');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'PetitParser' with: [
 				aSpec
