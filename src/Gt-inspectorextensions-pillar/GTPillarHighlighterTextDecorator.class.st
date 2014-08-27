@@ -34,7 +34,5 @@ GTPillarHighlighterTextDecorator >> treatFileLinks: aText [
 	
 	(GTPillarParser new parse: aText asString)
 		do: [ :each | 
-			aText
-				addAttribute: (TextColor color: Color red)
-				from: each start to: each stop  ]
+			each executeOn: aText  ]
 ]

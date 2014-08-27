@@ -17,7 +17,8 @@ Class {
 { #category : #'as yet unclassified' }
 GTPillarParser >> code [
 	"TODO: provide more precise definition of a code rule"
-	^ '[[[' asParser, ']]]' asParser negate star flatten token, ']]]' asParser ==> [ :res | res second ]
+	^ '[[[' asParser, ']]]' asParser negate star flatten token, ']]]' asParser ==> [ :res | 
+		GTPillarCodeHighlightingCommand new token: res second ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -27,7 +28,7 @@ GTPillarParser >> codeIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> file [
-	^ fileLabel optional , filePreamble , fileName
+	^ fileLabel optional , filePreamble , fileName ==> #third
 ]
 
 { #category : #'as yet unclassified' }
@@ -47,8 +48,9 @@ GTPillarParser >> filePreamble [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> link [
-	"TODO: Please, provide exact definition of a link rule"
-	^ '+' asParser , file token , '+' asParser ==> [:res | res second ]
+	^ '+' asParser , file token , '+' asParser ==> [:res | 
+		GTPillarFileHighlightingCommand new 
+			token: res second]
 ]
 
 { #category : #'as yet unclassified' }

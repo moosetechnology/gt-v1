@@ -2,28 +2,22 @@ Class {
 	#name : #GTHighlightingCommand,
 	#superclass : #Object,
 	#instVars : [
-		'start',
-		'stop'
+		'token'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
 { #category : #accessing }
-GTHighlightingCommand >> start [
-	^ start
+GTHighlightingCommand >> executeOn: aText [
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
-GTHighlightingCommand >> start: anObject [
-	start := anObject
+GTHighlightingCommand >> token [
+	^ token
 ]
 
 { #category : #accessing }
-GTHighlightingCommand >> stop [
-	^ stop
-]
-
-{ #category : #accessing }
-GTHighlightingCommand >> stop: anObject [
-	stop := anObject
+GTHighlightingCommand >> token: anObject [
+	token := anObject
 ]

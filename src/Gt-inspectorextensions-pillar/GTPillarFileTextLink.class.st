@@ -14,5 +14,5 @@ GTPillarFileTextLink >> actOnClick: anEvent for: anObject in: paragraph editor: 
 
 { #category : #'as yet unclassified' }
 GTPillarFileTextLink >> fileName: aString [
-	fileReference := aString
+	fileReference := aString 
 ]
