@@ -11,8 +11,11 @@ GTPillarHighlighterTextDecorator class >> key [
 
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
-	
-	| line |
+	| result |
+	result := aString asText.
+	self treatFileLinks: result.
+	^ result
+	"| line |
 	^ String cr asText join: (
 		aString asString lines collect: [:each | 
 			(each beginsWith: '!') 
@@ -21,7 +24,7 @@ GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
 					line := each asText. 
 					self treatFileLinks: line.
 					line ]
-	])
+	])"
 ]
 
 { #category : #'as yet unclassified' }

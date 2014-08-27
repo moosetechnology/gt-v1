@@ -6,5 +6,9 @@ Class {
 
 { #category : #'as yet unclassified' }
 GTPillarCodeHighlightingCommand >> executeOn: aText [
-	aText addAttribute: (TextColor red) from: self token start to: self token stop
+	| styler styledText |
+	styler := SHTextStylerST80 new.
+	styler classOrMetaClass: nil.
+	styledText := styler styledTextFor: (aText copyFrom: self token start to: self token stop).
+	aText replaceFrom: self token start to: self token stop with: styledText
 ]
