@@ -10,15 +10,6 @@ GLMBrowser >> gtInspectorBrowserIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-GLMBrowser >> gtInspectorOpenTreeIn: composite [
-	<gtInspectorPresentationOrder: 30>  
-	^ composite roassal 
-		title: 'Tree';
-		painting: [:view :b | 
-			self viewTreeOn: view ]
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 GLMBrowser >> gtInspectorTransmissionsIn: composite [
 	<gtInspectorPresentationOrder: 35>  
 	^ composite list 

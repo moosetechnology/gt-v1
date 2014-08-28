@@ -52,21 +52,6 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-MessageTally >> gtInspectorPerformanceChartIn: composite [
-	<gtInspectorPresentationOrder: 40>
-	| metric |
-	metric := #localTally.
-	^ composite graphET
-		title: 'Top tallies';
-		diagram: [ :renderer :presentation |
-			GTInspectorMessageTallyCharter new 
-				performanceOf: self 
-				with: renderer 
-				in: presentation ];
-		when: [ self children notEmpty ]
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 MessageTally >> gtInspectorReportIn: composite [
 	<gtInspectorPresentationOrder: 60>
 	^ composite text
