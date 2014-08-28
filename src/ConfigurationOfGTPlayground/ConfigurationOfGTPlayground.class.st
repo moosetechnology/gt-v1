@@ -1,3 +1,6 @@
+"
+self loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGTPlayground,
 	#superclass : #Object,
