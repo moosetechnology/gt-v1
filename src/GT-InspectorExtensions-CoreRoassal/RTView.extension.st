@@ -1,6 +1,14 @@
 Extension { #name : #RTView }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTView >> gtInspectorElementsHierarchyIn: composite [
+	<gtInspectorPresentationOrder: 20>
+	composite list 
+		title: 'Elements';
+		display: [ :each | each elements ]
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTView >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
