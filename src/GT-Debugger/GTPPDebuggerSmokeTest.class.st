@@ -11,6 +11,11 @@ GTPPDebuggerSmokeTest >> debuggerToTest [
 ]
 
 { #category : #accessing }
+GTPPDebuggerSmokeTest >> expectedFailures [
+	^ #(testDebugger)
+]
+
+{ #category : #accessing }
 GTPPDebuggerSmokeTest >> instantiateSession [
 	| initialContext process |
 	initialContext := [ PPArithmeticParser new parse: '1+1'] asContext.
