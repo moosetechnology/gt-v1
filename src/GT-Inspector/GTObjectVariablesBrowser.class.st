@@ -57,7 +57,7 @@ GTObjectVariablesBrowser >> iconFor: anEyeElement error: error [
 
 { #category : #'private building' }
 GTObjectVariablesBrowser >> printStringOf: anObject [
-	^ [(anObject printString contractTo: 200) asSmalltalkComment] 
+	^ [(anObject printString contractTo: 200) asComment] 
 			on: Error 
 			do: ['"Error printing. Try self printString to debug"']
 ]
