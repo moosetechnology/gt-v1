@@ -140,7 +140,9 @@ ConfigurationOfGTInspector >> baseline01: spec [
 				spec requires: #(#'GT-Inspector' 'GlamourCore' ). ];
 			package: #'GT-InspectorExtensions-CoreRoassal' with: [
 				spec requires: #(#'GT-Inspector' 'GlamourCore' 'GlamourExtras' ). ].
-		spec group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' ). ].
+		spec 
+			group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' );
+			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' #'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser'). ].
 
 ]
 
