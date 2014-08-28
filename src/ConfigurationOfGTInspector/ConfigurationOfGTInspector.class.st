@@ -1,3 +1,6 @@
+"
+self loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGTInspector,
 	#superclass : #Object,
@@ -114,6 +117,9 @@ ConfigurationOfGTInspector >> baseline01: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
+		spec description: 'Separate configuration for the inspector'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '2014-08-28'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
 		spec 
 			project: 'GlamourCore' with: [
@@ -139,10 +145,12 @@ ConfigurationOfGTInspector >> baseline01: spec [
 			package: 'GT-InspectorExtensions-Core' with: [
 				spec requires: #(#'GT-Inspector' 'GlamourCore' ). ];
 			package: #'GT-InspectorExtensions-CoreRoassal' with: [
-				spec requires: #(#'GT-Inspector' 'GlamourCore' 'GlamourExtras' ). ].
+				spec requires: #(#'GT-Inspector' 'GlamourCore' 'GlamourExtras' ). ];
+			package: 'GT-Tests-Inspector' with: [
+				spec requires: #('Core' ). ].
 		spec 
 			group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' );
-			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' #'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser'). ].
+			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' #'GT-InspectorExtensions-CoreRoassal' 'GT-Tests-Inspector' 'DeepTraverser' ). ].
 
 ]
 
