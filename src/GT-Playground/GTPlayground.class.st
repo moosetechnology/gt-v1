@@ -10,11 +10,20 @@ self registerToolsOn: Smalltalk tools
 Class {
 	#name : #GTPlayground,
 	#superclass : #GLMCompositePresentation,
+	#classVars : [
+		'GTPlaygroundEnabledStatus'
+	],
 	#classInstVars : [
 		'repository'
 	],
 	#category : #'GT-Playground'
 }
+
+{ #category : #settings }
+GTPlayground class >> isGTPlaygroundEnabled [
+
+	^ GTPlaygroundEnabledStatus ifNil: [ GTPlaygroundEnabledStatus := Smalltalk tools workspace = self ]
+]
 
 { #category : #'instance creation' }
 GTPlayground class >> open [
@@ -48,6 +57,12 @@ GTPlayground class >> openContents: aString label: aLabel [
 ]
 
 { #category : #'tools registry' }
+GTPlayground class >> register [
+
+	self registerToolsOn: Smalltalk tools
+]
+
+{ #category : #'tools registry' }
 GTPlayground class >> registerToolsOn: registry [
 	"Add ourselves to registry. See [Smalltalk tools]"
 	"self registerToolsOn: Smalltalk tools" 
@@ -63,6 +78,33 @@ GTPlayground class >> repository [
 { #category : #accessing }
 GTPlayground class >> reset [
 	repository := nil
+]
+
+{ #category : #settings }
+GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
+	| oldStatus |
+	
+	oldStatus := self isGTPlaygroundEnabled.
+	GTPlaygroundEnabledStatus := aBoolean.
+	oldStatus ~= GTPlaygroundEnabledStatus ifTrue: [ 
+		GTPlaygroundEnabledStatus 
+			ifTrue: [ self register ]
+			ifFalse: [ Workspace registerToolsOn: Smalltalk tools ] ]
+	
+	
+]
+
+{ #category : #settings }
+GTPlayground class >> settingsOn: aBuilder [ 
+	<systemsettings>
+	
+	(aBuilder setting: #GTPlaygroundStatus)
+		target: self;
+		parent: #gt;
+		getSelector: #isGTPlaygroundEnabled;
+		setSelector: #setGTPlaygroundEnabledStatus:; 
+		label: 'GTPlayground';
+		description: 'Enable or disable the GTPlayground.'
 ]
 
 { #category : #'tools registry' }
