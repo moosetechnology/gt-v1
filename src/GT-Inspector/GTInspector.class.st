@@ -13,6 +13,7 @@ Class {
 	#name : #GTInspector,
 	#superclass : #GLMCompositePresentation,
 	#classVars : [
+		'GTInspectorEnabledStatus',
 		'GTNumberOfInspectorPanes'
 	],
 	#category : #'GT-Inspector'
@@ -71,6 +72,12 @@ GTInspector class >> inspectorExtendingMethods [
 ]
 
 { #category : #settings }
+GTInspector class >> isGTInspectorEnabled [
+
+	^ GTInspectorEnabledStatus ifNil: [ GTInspectorEnabledStatus := Smalltalk tools inspector = self ]
+]
+
+{ #category : #settings }
 GTInspector class >> numberOfInspectorPanes [
 	^ GTNumberOfInspectorPanes 
 ]
@@ -86,10 +93,31 @@ GTInspector class >> openOn: anObject [
 ]
 
 { #category : #'tools registry' }
+GTInspector class >> register [
+
+	self registerToolsOn: Smalltalk tools
+
+]
+
+{ #category : #'tools registry' }
 GTInspector class >> registerToolsOn: registry [
 	"self registerToolsOn: Smalltalk tools " 
 	registry register: self as: #inspector
 
+]
+
+{ #category : #settings }
+GTInspector class >> setGTInspectorEnabledStatus: aBoolean [
+	| oldStatus |
+	
+	oldStatus := self isGTInspectorEnabled.
+	GTInspectorEnabledStatus := aBoolean.
+	oldStatus ~= GTInspectorEnabledStatus ifTrue: [ 
+		GTInspectorEnabledStatus 
+			ifTrue: [ self register ]
+			ifFalse: [ EyeInspector registerToolsOn: Smalltalk tools ] ]
+	
+	
 ]
 
 { #category : #settings }
@@ -102,7 +130,13 @@ GTInspector class >> settingsOn: aBuilder [
 			(aBuilder setting: #numberOfInspectorPanes)
 				target: self; 
 				label: 'Number of inspector panes';
-		 		description: 'Specifies the maximum number of panes that are visible at every moment in a Glamorous Inspector.'.]
+		 		description: 'Specifies the maximum number of panes that are visible at every moment in a Glamorous Inspector.'.
+			(aBuilder setting: #GTInspectorStatus)
+				target: self;
+				getSelector: #isGTInspectorEnabled;
+				setSelector: #setGTInspectorEnabledStatus:; 
+				label: 'GTInspector';
+		 		description: 'Enable or disable the GTInspector.'.]
 ]
 
 { #category : #building }
