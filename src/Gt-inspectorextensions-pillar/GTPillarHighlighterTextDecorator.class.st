@@ -1,8 +1,16 @@
 Class {
 	#name : #GTPillarHighlighterTextDecorator,
 	#superclass : #GLMHighlighterTextDecorator,
+	#instVars : [
+		'presentation'
+	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
+
+{ #category : #'as yet unclassified' }
+GTPillarHighlighterTextDecorator class >> inPresentation: aGLMRubricPresentation [
+	^ self new presentation: aGLMRubricPresentation 
+]
 
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator class >> key [
@@ -13,18 +21,9 @@ GTPillarHighlighterTextDecorator class >> key [
 GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
 	| result |
 	result := aString asText.
-	self treatFileLinks: result.
+	(GTPillarParser new parse: aString) do: [ :each | 
+		each executeOn: result inPresentation: self presentation ].
 	^ result
-	"| line |
-	^ String cr asText join: (
-		aString asString lines collect: [:each | 
-			(each beginsWith: '!') 
-				ifTrue: [ each asText makeAllColor: Color blue darker ]
-				ifFalse: [ 
-					line := each asText. 
-					self treatFileLinks: line.
-					line ]
-	])"
 ]
 
 { #category : #'as yet unclassified' }
@@ -32,10 +31,12 @@ GTPillarHighlighterTextDecorator >> parser [
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
-GTPillarHighlighterTextDecorator >> treatFileLinks: aText [
-	
-	(GTPillarParser new parse: aText asString)
-		do: [ :each | 
-			each executeOn: aText  ]
+{ #category : #accessing }
+GTPillarHighlighterTextDecorator >> presentation [
+	^ presentation
+]
+
+{ #category : #accessing }
+GTPillarHighlighterTextDecorator >> presentation: anObject [
+	presentation := anObject
 ]

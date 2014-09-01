@@ -13,6 +13,11 @@ GTHighlightingCommand >> executeOn: aText [
 ]
 
 { #category : #accessing }
+GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
 GTHighlightingCommand >> token [
 	^ token
 ]
