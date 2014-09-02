@@ -1,6 +1,6 @@
 Class {
 	#name : #GTPillarHighlighterTextDecorator,
-	#superclass : #GLMHighlighterTextDecorator,
+	#superclass : #GLMHighlighterTextStylerDecorator,
 	#instVars : [
 		'presentation',
 		'fileReference'
@@ -23,6 +23,16 @@ GTPillarHighlighterTextDecorator class >> inPresentation: aGLMRubricPresentation
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator class >> key [
 	^ self name
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarHighlighterTextDecorator >> defaultStyler [
+
+	^ GLMHighlighterTextParserStyler new
+		view: self;
+		parser: self
+
+	
 ]
 
 { #category : #accessing }

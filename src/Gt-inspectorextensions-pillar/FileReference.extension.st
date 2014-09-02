@@ -19,7 +19,7 @@ FileReference >> gtInspectorPillarIn: composite [
 	composite custom: (GLMRubricHighlightedTextPresentation new
 		title: 'Pillar';
 		editingMode: [ : rubPresentation |
-			GLMHighlighterTextRubEditingMode forStyler: (
+			GLMHighlighterTextRubEditingMode withStylerDecorator: (
 				GTPillarHighlighterTextDecorator 
 					inPresentation: rubPresentation
 					fileReference: self)];
