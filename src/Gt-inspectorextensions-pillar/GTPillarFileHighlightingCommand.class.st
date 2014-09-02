@@ -5,18 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-GTPillarFileHighlightingCommand >> executeOn: aText inPresentation: aPresentation [
-	| link |
-	link := GTPillarFileTextLink new
-					fileName: self token parsedValue;
-					presentation: aPresentation.
-	aText 
-		addAttribute: link
-		from: self token start 
-		to: self token stop
-]
-
-{ #category : #accessing }
 GTPillarFileHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	| attribute targetFileReference |
 	targetFileReference := aFileReference parent resolveString: self token parsedValue.

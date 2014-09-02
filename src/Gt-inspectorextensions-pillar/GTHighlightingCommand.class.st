@@ -8,16 +8,6 @@ Class {
 }
 
 { #category : #accessing }
-GTHighlightingCommand >> executeOn: aText [
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation [
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
 GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	self subclassResponsibility 
 ]
