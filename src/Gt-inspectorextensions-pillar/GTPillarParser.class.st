@@ -33,12 +33,12 @@ GTPillarParser >> file [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> fileLabel [
-	^ (#word asParser plus flatten , $> asParser) flatten
+	^ ((#word asParser / #space asParser) plus flatten , $> asParser) flatten
 ]
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> fileName [ 
-	^ (#word asParser / $. asParser) plus flatten
+	^ (#word asParser / $. asParser / #space asParser / $/ asParser ) plus flatten
 ]
 
 { #category : #'as yet unclassified' }
