@@ -18,6 +18,11 @@ GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation [
 ]
 
 { #category : #accessing }
+GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
 GTHighlightingCommand >> token [
 	^ token
 ]

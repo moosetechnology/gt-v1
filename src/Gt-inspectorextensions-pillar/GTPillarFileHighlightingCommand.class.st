@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-GTPillarFileHighlightingCommand >> executeOn: aText [
-	aText addAttribute: (GTPillarFileTextLink new fileName: self token parsedValue) from: self token start to: self token stop
-]
-
-{ #category : #accessing }
 GTPillarFileHighlightingCommand >> executeOn: aText inPresentation: aPresentation [
 	| link |
 	link := GTPillarFileTextLink new
@@ -19,4 +14,19 @@ GTPillarFileHighlightingCommand >> executeOn: aText inPresentation: aPresentatio
 		addAttribute: link
 		from: self token start 
 		to: self token stop
+]
+
+{ #category : #accessing }
+GTPillarFileHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
+	| attribute targetFileReference |
+	targetFileReference := aFileReference parent resolveString: self token parsedValue.
+	attribute := targetFileReference exists 
+		ifTrue: [ GTPillarFileTextLink new
+									fileReference: targetFileReference;
+									presentation: aPresentation ]
+		ifFalse: [ TextColor red ].
+	aText 
+		addAttribute: attribute
+		from: self token start 
+		to: self token stop.
 ]
