@@ -8,12 +8,12 @@ Class {
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #evaluating }
 GTPillarFileTextLink >> actOnClick: anEvent for: anObject in: paragraph editor: editor [
 	^ self presentation selection: fileReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPillarFileTextLink >> fileReference: aFileReference [
 	fileReference := aFileReference 
 ]
