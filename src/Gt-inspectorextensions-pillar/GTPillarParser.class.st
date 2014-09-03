@@ -17,7 +17,9 @@ Class {
 		'url',
 		'urlLabel',
 		'urlName',
-		'fileSetting'
+		'fileSetting',
+		'note',
+		'noteIsland'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -94,8 +96,19 @@ GTPillarParser >> linkIsland [
 ]
 
 { #category : #'as yet unclassified' }
+GTPillarParser >> note [
+	^ #startOfLine asParser , ('@@' asParser , #newline asParser negate star) token ==> [:res | 
+		GTNoteHighlightingCommand new token: res second]
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> noteIsland [
+	^ note island ==> #second
+]
+
+{ #category : #'as yet unclassified' }
 GTPillarParser >> start [
-	^ (codeIsland / linkIsland / embedIsland / headingIsland) star
+	^ (codeIsland / linkIsland / embedIsland / headingIsland / noteIsland) star
 ]
 
 { #category : #'as yet unclassified' }
