@@ -9,7 +9,9 @@ Class {
 		'fileLabel',
 		'filePreamble',
 		'fileName',
-		'file'
+		'file',
+		'headingIsland',
+		'heading'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -47,6 +49,17 @@ GTPillarParser >> filePreamble [
 ]
 
 { #category : #'as yet unclassified' }
+GTPillarParser >> heading [
+	^ #startOfLine asParser , ($! asParser , #newline asParser negate star) token ==> [:res | 
+		GTHeadingHighlightingCommand new token: res second]
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> headingIsland [
+	^ heading island ==> #second
+]
+
+{ #category : #'as yet unclassified' }
 GTPillarParser >> link [
 	^ '+' asParser , file token , '+' asParser ==> [:res | 
 		GTPillarFileHighlightingCommand new 
@@ -60,5 +73,5 @@ GTPillarParser >> linkIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> start [
-	^ (codeIsland / linkIsland) star
+	^ (codeIsland / linkIsland / headingIsland) star
 ]
