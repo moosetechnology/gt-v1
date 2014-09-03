@@ -16,7 +16,7 @@ GTPPStepToSameNamedProductionAction class >> gtActionType [
 GTPPStepToSameNamedProductionAction >> appliesToContext: aContext [
 
 	^ (super appliesToContext: aContext) and: [ 
-		self session isNamedPPParser: aContext receiver ]
+		self session isPPProduction: aContext receiver ]
 ]
 
 { #category : #accessing }

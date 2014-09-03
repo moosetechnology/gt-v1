@@ -31,14 +31,6 @@ GTPPDebugSession >> isActive: aContext [
 ]
 
 { #category : #testing }
-GTPPDebugSession >> isNamedPPParser: anObject [ 
-
-	^ (self isPPParser: anObject) and: [ 
-		anObject name notNil ]
-	
-]
-
-{ #category : #testing }
 GTPPDebugSession >> isPPParser: anObject [ 
 
 	^ self isPPParserClass: anObject class
@@ -53,12 +45,20 @@ GTPPDebugSession >> isPPParserClass: aClass [
 	
 ]
 
+{ #category : #testing }
+GTPPDebugSession >> isPPProduction: anObject [ 
+
+	^ (anObject class includesBehavior: PPDelegateParser ) and: [ 
+			anObject name notNil ]
+	
+]
+
 { #category : #predicates }
 GTPPDebugSession >> namedProductionPredicate: anObject [
 	""
 	
 	^ self createPredicateForBlock: [ :aContext |
-		(self isNamedPPParser: aContext receiver) and: [ 
+		(self isPPProduction: aContext receiver) and: [ 
 			anObject isNil or: [ 
 				aContext receiver name = anObject ] ] ]
 ]

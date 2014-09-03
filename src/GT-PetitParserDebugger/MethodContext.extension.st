@@ -32,7 +32,8 @@ MethodContext >> locateTopNamedPPParser [
 	
 	^ self findContextSuchThat:  [ :ctx | 
 		ctx isPPParseMethodContext and: [ 
-					ctx receiver name notNil ] ]
+			(ctx receiver class includesBehavior: PPDelegateParser) and: [  
+					ctx receiver name notNil ] ] ]
 	
 	
 

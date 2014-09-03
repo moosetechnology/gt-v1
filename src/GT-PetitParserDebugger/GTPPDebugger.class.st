@@ -233,7 +233,7 @@ GTPPDebugger >> streamSelectionInterval [
 { #category : #'printing/formatting' }
 GTPPDebugger >> textAttributesForStackEntry: aContext [
 
-	(self session isNamedPPParser: aContext receiver) 
+	(self session isPPProduction: aContext receiver) 
 		ifTrue: [ ^ {TextEmphasis bold} ].
 		
 	(self session rootParserContext  == aContext )
