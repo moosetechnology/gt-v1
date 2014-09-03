@@ -13,7 +13,7 @@ GTPillarLinkHighlightingCommand >> executeOn: aText inPresentation: aPresentatio
 									fileReference: target contents;
 									presentation: aPresentation ]
 		ifFalse: [ TextColor red ]]
-	on: NameLookupFailure, ZnUnknownScheme do: [attribute := TextColor red].
+	on: NameLookupFailure, ZnUnknownScheme, ZnMissingHost do: [attribute := TextColor red].
 	aText 
 		addAttribute: attribute
 		from: self token start 

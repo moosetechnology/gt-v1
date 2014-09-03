@@ -105,7 +105,7 @@ GTPillarParser >> url [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> urlLabel [
-	^ ($> asParser negate plus flatten , $> asParser) flatten
+	^ (($> asParser / $* asParser) negate plus flatten , $> asParser) flatten
 ]
 
 { #category : #'as yet unclassified' }
