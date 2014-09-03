@@ -16,7 +16,8 @@ Class {
 		'embedIsland',
 		'url',
 		'urlLabel',
-		'urlName'
+		'urlName',
+		'fileSetting'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -47,7 +48,7 @@ GTPillarParser >> embedIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> file [
-	^ fileLabel optional , filePreamble , fileName ==> #third
+	^ fileLabel optional , filePreamble , fileName , fileSetting star ==> #third
 ]
 
 { #category : #'as yet unclassified' }
@@ -57,12 +58,17 @@ GTPillarParser >> fileLabel [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> fileName [ 
-	^ $+ asParser negate plus flatten
+	^ ($+ asParser / $| asParser) negate plus flatten
 ]
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> filePreamble [
 	^ 'file://' asParser
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> fileSetting [
+	^ $| asParser , ($+ asParser / $| asParser) negate plus
 ]
 
 { #category : #'as yet unclassified' }
