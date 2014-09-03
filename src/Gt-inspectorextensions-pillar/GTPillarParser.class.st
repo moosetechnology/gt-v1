@@ -11,7 +11,12 @@ Class {
 		'fileName',
 		'file',
 		'headingIsland',
-		'heading'
+		'heading',
+		'embed',
+		'embedIsland',
+		'url',
+		'urlLabel',
+		'urlName'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -26,6 +31,18 @@ GTPillarParser >> code [
 { #category : #'as yet unclassified' }
 GTPillarParser >> codeIsland [
 	^ code island ==> #second
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> embed [
+	^ '+' asParser , file token , '+' asParser ==> [:res | 
+		GTPillarFileHighlightingCommand new 
+			token: res second]
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> embedIsland [
+	^ embed island ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -61,9 +78,8 @@ GTPillarParser >> headingIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> link [
-	^ '+' asParser , file token , '+' asParser ==> [:res | 
-		GTPillarFileHighlightingCommand new 
-			token: res second]
+	^ '*' asParser , url token , '*' asParser ==> [:res | 
+		GTPillarLinkHighlightingCommand new token: res second]
 ]
 
 { #category : #'as yet unclassified' }
@@ -73,5 +89,20 @@ GTPillarParser >> linkIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> start [
-	^ (codeIsland / linkIsland / headingIsland) star
+	^ (codeIsland / linkIsland / embedIsland / headingIsland) star
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> url [
+	^ urlLabel optional , urlName ==> #second
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> urlLabel [
+	^ ($> asParser negate plus flatten , $> asParser) flatten
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> urlName [ 
+	^ $* asParser negate plus flatten
 ]
