@@ -472,7 +472,7 @@ ConfigurationOfGToolkit >> baseline014: aSpec [
 		aSpec
 			group: 'Tests' with: #( 'GT-Metaceller-Tests');
 			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
-			group: 'default' with: #( 'GT-Setup' 'GT-PetitParserDebugger' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GT-Metaceller-Glamour' 'GTInspector' 'GTPlayground' 'Tests');
+			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GT-Metaceller-Glamour' 'GTInspector' 'GTPlayground' 'Tests');
 			group: 'metaceller' with: #( 'GT-Metaceller-Glamour' 'GT-Metaceller-Tests') ]
 ]
 
