@@ -19,7 +19,8 @@ Class {
 		'urlName',
 		'fileSetting',
 		'note',
-		'noteIsland'
+		'noteIsland',
+		'codeLanguage'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -27,13 +28,20 @@ Class {
 { #category : #'as yet unclassified' }
 GTPillarParser >> code [
 	"TODO: provide more precise definition of a code rule"
-	^ '[[[' asParser, ']]]' asParser negate star flatten token, ']]]' asParser ==> [ :res | 
-		GTPillarCodeHighlightingCommand new token: res second ]
+	^ #startOfLine asParser , '[[[' asParser , codeLanguage optional ,  
+	(#startOfLine asParser , ']]]' asParser) negate star flatten token ,
+	#startOfLine asParser , ']]]' asParser ==> [ :res | 
+		GTPillarCodeHighlightingCommand new token: res fourth ] 
 ]
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> codeIsland [
 	^ code island ==> #second
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> codeLanguage [
+	^ 'language=' asParser , #word asParser plus ==> #second
 ]
 
 { #category : #'as yet unclassified' }
