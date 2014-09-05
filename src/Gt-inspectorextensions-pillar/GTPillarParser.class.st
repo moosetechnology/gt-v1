@@ -20,7 +20,9 @@ Class {
 		'fileSetting',
 		'note',
 		'noteIsland',
-		'codeLanguage'
+		'codeLanguage',
+		'commentIsland',
+		'comment'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -44,6 +46,17 @@ GTPillarParser >> codeIsland [
 { #category : #'as yet unclassified' }
 GTPillarParser >> codeLanguage [
 	^ 'language=' asParser , #word asParser plus flatten ==> #second
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> comment [
+	^ #startOfLine asParser , ('%' asParser , #newline asParser negate star) token ==> [:res | 
+		GTCommentHighlightingCommand new token: res second]
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParser >> commentIsland [
+	^ comment island ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -118,7 +131,7 @@ GTPillarParser >> noteIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> start [
-	^ (codeIsland / linkIsland / embedIsland / headingIsland / noteIsland) star
+	^ (codeIsland / linkIsland / embedIsland / headingIsland / noteIsland / commentIsland ) star
 ]
 
 { #category : #'as yet unclassified' }
