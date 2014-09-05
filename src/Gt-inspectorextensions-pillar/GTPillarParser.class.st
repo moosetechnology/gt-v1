@@ -31,7 +31,9 @@ GTPillarParser >> code [
 	^ #startOfLine asParser , '[[[' asParser , codeLanguage optional ,  
 	(#startOfLine asParser , ']]]' asParser) negate star flatten token ,
 	#startOfLine asParser , ']]]' asParser ==> [ :res | 
-		GTPillarCodeHighlightingCommand new token: res fourth ] 
+		GTPillarCodeHighlightingCommand new 
+			language: res third;
+			token: res fourth ] 
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,7 +43,7 @@ GTPillarParser >> codeIsland [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> codeLanguage [
-	^ 'language=' asParser , #word asParser plus ==> #second
+	^ 'language=' asParser , #word asParser plus flatten ==> #second
 ]
 
 { #category : #'as yet unclassified' }
