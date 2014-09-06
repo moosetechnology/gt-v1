@@ -6,14 +6,10 @@ Class {
 
 { #category : #accessing }
 GTPillarLinkHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
-	| attribute target |
-	[target := ZnEasy get: self token parsedValue.
-	attribute := target isSuccess 
-		ifTrue: [ GTPillarFileTextLink new
-									fileReference: target contents;
-									presentation: aPresentation ]
-		ifFalse: [ TextColor red ]]
-	on: NameLookupFailure, ZnUnknownScheme, ZnMissingHost do: [attribute := TextColor red].
+	| attribute |
+	attribute := GTPillarFileTextLink new
+									fileReference: self token parsedValue;
+									presentation: aPresentation.
 	aText 
 		addAttribute: attribute
 		from: self token start 
