@@ -6,5 +6,13 @@ PRExportConfiguration >> gtInspectorInputFilesIn: composite [
 	^ composite list 
 		title: 'Files';
 		display: [self inputFiles];
-		format: #basename
+		format: #basename;
+		act: [
+			| c | 
+			c := self propertyAt: 'configurations' ifAbsent: [ #() ].
+			c isEmpty 
+				ifTrue: [ self export ] 
+				ifFalse: [ c do: #export ] ] 
+			icon: GLMUIThemeExtraIcons glamorousPlay 
+			entitled: 'Export'
 ]

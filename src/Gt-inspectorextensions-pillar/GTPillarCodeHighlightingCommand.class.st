@@ -29,7 +29,7 @@ GTPillarCodeHighlightingCommand >> executeOn: aText inPresentation: aPresentatio
 
 { #category : #accessing }
 GTPillarCodeHighlightingCommand >> isSmalltalk [ 
-	^ self language = 'smalltalk'
+	^ self language asLowercase = 'smalltalk'
 ]
 
 { #category : #accessing }

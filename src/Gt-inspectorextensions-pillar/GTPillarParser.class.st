@@ -78,7 +78,7 @@ GTPillarParser >> file [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> fileLabel [
-	^ ($> asParser negate plus flatten , $> asParser) flatten
+	^ ($> asParser / $+ asParser / $| asParser) negate plus flatten , $> asParser
 ]
 
 { #category : #'as yet unclassified' }
