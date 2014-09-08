@@ -20,14 +20,13 @@ Object >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 	pragmas := (Pragma 
 				allNamed: #gtDebuggerPresentationOrder: 
 				from: self class 
-				to: Object 
-				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)]) asOrderedCollection.
+				to: Object) asOrderedCollection.
 	pragmas addAll:((Pragma 
 				allNamed: #gtInspectorPresentationOrder: 
 				from: self class 
-				to: Object 
-				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)])
+				to: Object)
 					reject: [:pragma| pragma method selector = #gtInspectorStateIn: ]).
+	pragmas := pragmas sorted: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
 	pragmas do: [ :eachPragma | 
 		(eachPragma selector findTokens: $:) size = 1 
 			ifTrue: [ self perform: eachPragma selector with: composite ]. 
