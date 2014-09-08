@@ -63,7 +63,7 @@ GTPlayground class >> openContents: aString [
 	
 
 	| page |
-	"self halt."
+	
 	page := GTPlaygroundPage new
 		content: aString;
 		yourself.
@@ -75,7 +75,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 	"Open a new playground with the given contents"
 
 	| page |
-"	self halt."
+
 	page := GTPlaygroundPage new
 		content: aString;
 		title: aLabel;
@@ -86,7 +86,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 { #category : #'compatibility-tools' }
 GTPlayground class >> openLabel: aLabel [
 	| page |
-	"self halt."
+
 	page := GTPlaygroundPage new
 		title: aLabel;
 		yourself.
@@ -149,6 +149,21 @@ GTPlayground class >> taskbarIcon [
 	"Answer the icon for the receiver in a task bar."
 
 	^ Smalltalk ui icons iconNamed: #workspaceIcon
+]
+
+{ #category : #accessing }
+GTPlayground >> acceptAction: anAction [
+	"acceptAction := anAction."
+]
+
+{ #category : #accessing }
+GTPlayground >> acceptContents: aString [
+
+	"self fileName ifNotNil: [ self saveString: aString toFile: self fileName ].
+
+	acceptAction ifNotNil:[acceptAction value: aString]."
+	self contents: aString.
+	^ true
 ]
 
 { #category : #building }
