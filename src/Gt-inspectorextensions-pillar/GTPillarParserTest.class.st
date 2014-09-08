@@ -57,6 +57,34 @@ Transcript endEntry.] fork
 ]
 
 { #category : #'as yet unclassified' }
+GTPillarParserTest >> testCode3 [
+	self parse: '[[[
+		Transcript crShow: ''Hi there!'']]]' rule: #code.
+
+	self assert: result = #code.
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParserTest >> testCode4 [
+	self parse: '[[[
+	AClass>>aMethod
+		Transcript crShow: ''Hi there!''
+	]]]' rule: #code.
+
+	self assert: result = #code.
+]
+
+{ #category : #'as yet unclassified' }
+GTPillarParserTest >> testCode5 [
+	self parse: '[[[
+	AClass class>>aMethod
+		Transcript crShow: ''Hi there!''
+	]]]' rule: #code.
+
+	self assert: result = #code.
+]
+
+{ #category : #'as yet unclassified' }
 GTPillarParserTest >> testCodeIsland [
 	self parse: '[[[
 		Transcript crShow: ''Hi there!''
