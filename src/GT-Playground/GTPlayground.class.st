@@ -19,7 +19,31 @@ Class {
 	#category : #'GT-Playground'
 }
 
-{ #category : #settings }
+{ #category : #'compatibility-tools' }
+GTPlayground class >> edit: aString label: aLabel [
+
+"Open a new playground with the given contents"
+"Compatibility with the original Workspace"
+"#edit: aText label: labelString accept: anAction"
+"	^(Smalltalk tools workspace openLabel: labelString)
+		acceptContents:  aText;
+		acceptAction: anAction;
+		yourself."
+
+"Open an editor on the given string/text"
+	| page |
+	"self halt"
+
+	page := GTPlaygroundPage new
+		content: aString;
+		title: aLabel;
+		yourself.
+		
+	self flag: #TODO. "We need to put an equivalent to the acceptAction thing."
+	^ self new openOn: page
+]
+
+{ #category : #'as yet unclassified' }
 GTPlayground class >> isGTPlaygroundEnabled [
 
 	^ GTPlaygroundEnabledStatus ifNil: [ GTPlaygroundEnabledStatus := Smalltalk tools workspace = self ]
@@ -36,8 +60,10 @@ GTPlayground class >> open [
 { #category : #'instance creation' }
 GTPlayground class >> openContents: aString [
 	"Open a new playground with the given contents. aString has to be Smalltalk code. The style is applied"
+	
 
 	| page |
+	"self halt."
 	page := GTPlaygroundPage new
 		content: aString;
 		yourself.
@@ -49,6 +75,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 	"Open a new playground with the given contents"
 
 	| page |
+"	self halt."
 	page := GTPlaygroundPage new
 		content: aString;
 		title: aLabel;
@@ -56,7 +83,17 @@ GTPlayground class >> openContents: aString label: aLabel [
 	^ self new openOn: page
 ]
 
-{ #category : #'tools registry' }
+{ #category : #'compatibility-tools' }
+GTPlayground class >> openLabel: aLabel [
+	| page |
+	"self halt."
+	page := GTPlaygroundPage new
+		title: aLabel;
+		yourself.
+	^ self new openOn: page
+]
+
+{ #category : #'as yet unclassified' }
 GTPlayground class >> register [
 
 	self registerToolsOn: Smalltalk tools
@@ -80,7 +117,7 @@ GTPlayground class >> reset [
 	repository := nil
 ]
 
-{ #category : #settings }
+{ #category : #'as yet unclassified' }
 GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
 	| oldStatus |
 	
@@ -94,7 +131,7 @@ GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
 	
 ]
 
-{ #category : #settings }
+{ #category : #'as yet unclassified' }
 GTPlayground class >> settingsOn: aBuilder [ 
 	<systemsettings>
 	
