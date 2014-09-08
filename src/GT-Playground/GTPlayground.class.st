@@ -159,11 +159,7 @@ GTPlayground >> acceptAction: anAction [
 { #category : #accessing }
 GTPlayground >> acceptContents: aString [
 
-	"self fileName ifNotNil: [ self saveString: aString toFile: self fileName ].
-
-	acceptAction ifNotNil:[acceptAction value: aString]."
-	self contents: aString.
-	^ true
+	^ self entity acceptContents: aString
 ]
 
 { #category : #building }
