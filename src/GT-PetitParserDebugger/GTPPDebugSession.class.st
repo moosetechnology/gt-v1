@@ -101,7 +101,7 @@ GTPPDebugSession >> process: aProcess context: aContext [
 { #category : #accessing }
 GTPPDebugSession >> rootParser [
 
-	^ rootParserContext receiver
+	^ (rootParserContext tempAt: 1) root "children first children first"
 ]
 
 { #category : #accessing }

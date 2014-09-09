@@ -190,6 +190,20 @@ GTPPDebugger >> productionSelectorsFrom: class [
 	^ class productionSelectors
 ]
 
+{ #category : #'building presentations' }
+GTPPDebugger >> progressIn: aComposite [ 
+	(self session stream stream respondsTo: #asPositionMorph)
+		ifFalse: [ ^ self ].
+	aComposite morph 
+		title: 'Progress';
+		display: [
+			| morph |
+			morph := ScrollPane new.
+			morph color: Color white.  
+			morph scroller addMorph: self session stream stream asPositionMorph.
+			morph ].
+]
+
 { #category : #'private utilities' }
 GTPPDebugger >> sourceCodeFrom: class selector: production [
 
@@ -228,6 +242,20 @@ GTPPDebugger >> streamPane [
 GTPPDebugger >> streamSelectionInterval [
 
 	^ self selectionIntervalForPane: #stream
+]
+
+{ #category : #'building presentations' }
+GTPPDebugger >> tallyIn: composite [
+	(self session stream stream respondsTo: #asFrequencyTable)
+		ifFalse: [ ^ self ].
+	composite table 
+		title: 'Tally';
+		column: 'Parser' evaluated: [ :each | each first displayName ];
+		column: 'Count' evaluated: [ :each | each second printString ];
+		column: 'Percentage (%)' evaluated: [ :each | each third printString ];
+		display: [ self session stream stream asFrequencyTable ];
+		noSelection;
+		showOnly: 50
 ]
 
 { #category : #'printing/formatting' }

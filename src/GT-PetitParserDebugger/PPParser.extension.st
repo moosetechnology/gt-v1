@@ -1,6 +1,12 @@
 Extension { #name : #PPParser }
 
 { #category : #'*GT-PetitParserDebugger' }
+PPParser >> fullDebug: anObject [
+
+	^ self debug: (PPBrowserStream on: anObject)
+]
+
+{ #category : #'*GT-PetitParserDebugger' }
 PPParser classSide >> productionSelectors [
 
 	^ #()
