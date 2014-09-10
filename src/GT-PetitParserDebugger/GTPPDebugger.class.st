@@ -35,6 +35,19 @@ GTPPDebugger class >> sessionClass [
 	^ GTPPDebugSession 
 ]
 
+{ #category : #'building presentations' }
+GTPPDebugger >> debugViewIn: composite [
+	(self session stream respondsTo: #root)
+		ifFalse: [ ^ self ].
+	(composite dynamic 
+		title: 'Result';
+		display: [|resultPresentation|
+			resultPresentation := GLMCompositePresentation new.
+			self session stream root root gtDebugView: resultPresentation.
+			resultPresentation last noTitle.
+			resultPresentation ])
+]
+
 { #category : #building }
 GTPPDebugger >> debuggerStructureIn: browser [
 	
@@ -125,6 +138,18 @@ GTPPDebugger >> graphIn: aComposite forSession: aSession forPoduction: aProducti
 			morph color: Color white.
 			morph scroller addMorph: (self production: aProduction from: aSession rootParser class) morphicProduction.
 			morph ] 
+]
+
+{ #category : #'building presentations' }
+GTPPDebugger >> inspectorIn: aComposite on: anObject [
+	
+	super inspectorIn: aComposite on: anObject.
+	
+	"aComposite last title: 'Inspector'.
+	self progressIn: aComposite.
+	self tallyIn: aComposite.
+	self debugViewIn: aComposite."
+	^ aComposite
 ]
 
 { #category : #'building actions' }
