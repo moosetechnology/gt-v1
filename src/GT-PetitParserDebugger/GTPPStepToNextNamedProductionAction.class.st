@@ -24,9 +24,10 @@ GTPPStepToNextNamedProductionAction class >> gtToNextProductionActionFor: aDebug
 
 	^ (self forDebugger: aDebugger)
 		production: nil;
-		label: 'any production';
+		label: 'Step to next production';
 		category: 'Next parser invocation';
-		order: 202
+		icon: GLMUIThemeExtraIcons glamourousNextProduction;
+		order: 195
 ]
 
 { #category : #registration }

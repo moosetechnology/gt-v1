@@ -17,15 +17,21 @@ GTPPStepToNextParserAction >> defaultCategory [
 ]
 
 { #category : #accessing }
+GTPPStepToNextParserAction >> defaultIcon [
+
+	^ GLMUIThemeExtraIcons glamourousNextParser
+]
+
+{ #category : #accessing }
 GTPPStepToNextParserAction >> defaultLabel [ 
 
-	^ 'any parser'
+	^ 'Step to next parser'
 ]
 
 { #category : #accessing }
 GTPPStepToNextParserAction >> defaultOrder [
 
-	^ 200
+	^ 190
 ]
 
 { #category : #actions }

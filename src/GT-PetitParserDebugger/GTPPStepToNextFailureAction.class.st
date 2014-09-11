@@ -11,9 +11,15 @@ GTPPStepToNextFailureAction class >> gtActionType [
 ]
 
 { #category : #accessing }
+GTPPStepToNextFailureAction >> defaultIcon [ 
+	
+	^ GLMUIThemeExtraIcons glamourousNextFailure
+]
+
+{ #category : #accessing }
 GTPPStepToNextFailureAction >> defaultLabel [ 
 	
-	^ 'Next parser failure'
+	^ 'Step to next parser failure'
 ]
 
 { #category : #accessing }
