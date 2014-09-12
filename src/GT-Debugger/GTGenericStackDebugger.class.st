@@ -371,6 +371,12 @@ GTGenericStackDebugger >> installDebuggingActionsFor: aPresentation [
 	self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation
 ]
 
+{ #category : #'building actions' }
+GTGenericStackDebugger >> installStackDebuggingActionsFor: aPresentation [
+
+	self installActionsForRootPragmas: self stackDebuggingActionsPragmas in: aPresentation
+]
+
 { #category : #'building presentations' }
 GTGenericStackDebugger >> methodCodeIn: composite forContext: aContext [
 
@@ -487,11 +493,17 @@ GTGenericStackDebugger >> sourceCode: aString [
 	^ ((self browser paneNamed: #code) port: #text) value: aString
 ]
 
+{ #category : #'building actions' }
+GTGenericStackDebugger >> stackDebuggingActionsPragmas [
+
+	^ #( stackDebuggingAction )
+]
+
 { #category : #'building presentations' }
 GTGenericStackDebugger >> stackIn: composite [
 
 	(self stackWidgetIn: composite)
-		with: [ :stackWidget | self installDebuggingActionsFor: stackWidget ]
+		with: [ :stackWidget | self installStackDebuggingActionsFor: stackWidget ]
 ]
 
 { #category : #'building presentations' }
