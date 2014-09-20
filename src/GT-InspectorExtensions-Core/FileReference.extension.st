@@ -133,7 +133,8 @@ FileReference >> gtInspectorItemsIn: composite [
 				ifTrue: [ GLMUIThemeExtraIcons glamorousFolder ] 
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
 		when: [self isDirectory and: [self hasChildren]];
-		selectionAct: [:table | table selection delete. table update] entitled: 'Delete'
+		selectionAct: [:table | table selection delete. table update] entitled: 'Delete';
+		act: [ :table | table update ] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Refresh'
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
