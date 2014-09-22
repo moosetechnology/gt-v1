@@ -122,7 +122,7 @@ ConfigurationOfGTPlayground >> baseline01: spec [
 				spec
 					className: #ConfigurationOfGTInspector;
 					versionString: #'development';
-					loads: #('Core' );
+					loads: #('Core' 'Tests' );
 					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
 		spec package: 'GT-Playground' with: [
 				spec requires: #('GTInspector' ). ].
