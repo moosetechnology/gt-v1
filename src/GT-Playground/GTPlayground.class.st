@@ -159,7 +159,10 @@ GTPlayground >> acceptAction: anAction [
 { #category : #accessing }
 GTPlayground >> acceptContents: aString [
 
-	^ self entity acceptContents: aString
+	^ (self entity acceptContents: aString)
+		ifTrue: [  
+			self update.
+			true]
 ]
 
 { #category : #building }
