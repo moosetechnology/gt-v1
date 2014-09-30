@@ -256,7 +256,7 @@ ConfigurationOfGTInspector >> version102: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '9/30/2014 20:55'.
 		spec 
-			project: 'GlamourCore' with: '2.72'.
+			project: 'GlamourCore' with: '2.71'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.239';
 			package: 'GT-InspectorExtensions-Core' with: [ 
