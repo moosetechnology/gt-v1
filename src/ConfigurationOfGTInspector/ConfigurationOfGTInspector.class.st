@@ -320,7 +320,7 @@ ConfigurationOfGTInspector >> version105: spec [
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.241';
 			package: 'GT-InspectorExtensions-Core' with: [ 
-				spec file: 'GT-InspectorExtensions-Core-AndreiChis.59'.
+				spec file: 'GT-InspectorExtensions-Core-AndreiChis.60'.
 				spec repository: 'http://www.smalltalkhub.com/mc/PharoExtras/GTToolsIntegration/main' ];
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.22'. ].
 
