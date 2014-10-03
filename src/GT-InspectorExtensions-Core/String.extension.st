@@ -14,6 +14,6 @@ String >> gtInspectorItemsIn: composite [
 { #category : #'*GT-InspectorExtensions-Core' }
 String >> gtInspectorTextIn: composite [
 	<gtInspectorPresentationOrder: 30>  
-	 composite rubricText
+	 composite text
 		title: 'String'
 ]
