@@ -1,7 +1,7 @@
-Extension { #name : #Date }
+Extension { #name : #DateAndTime }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Date >> gtInspectorDetailsIn: composite [
+DateAndTime >> gtInspectorDetailsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
 		title: [ 'Details' ];
@@ -12,16 +12,17 @@ Date >> gtInspectorDetailsIn: composite [
 					'day of month' -> self dayOfMonth.
 					'day of week' -> self dayOfWeekName.
 					'day of year' -> self dayOfYear.
-					'iso' -> self yyyymmdd } ];
+					'hours' -> self hours.
+					'minutes' -> self minutes.
+					'seconds' -> self seconds.
+					'nanoseconds' -> self nanoSecond.
+					'meridian' -> self meridianAbbreviation.
+					'offset' -> self offset.
+					'date' -> self asDate.
+					'time' -> self asTime.
+					'iso' -> self printString.
+					'utc' -> self asUTC } ];
 		column: 'Key' evaluated: #key;
 		column: 'Value' evaluated: #value;
 		send: #value
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Date >> gtInspectorPreviewIn: composite [
-	<gtInspectorPresentationOrder: 30>
-	composite morph
-		title: 'Calendar';
-		morph: [ CalendarMorph on: self ]
 ]
