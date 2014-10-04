@@ -28,13 +28,13 @@ GTInspectorMessageTallyCharter >> nestingMapOf: aMessageTally on: view [
 ]
 
 { #category : #visualization }
-GTInspectorMessageTallyCharter >> performanceOf: aMessageTally with: renderer in: presentation [
+GTInspectorMessageTallyCharter >> performanceOf: aMessageTally with: builder in: presentation [
 	"Displays a Graph-ET chart showing the top 20 most costly methods within a MessageTally.
 	For each method it sows the number of occurences of a method and the 
 	total amount of local tallies for that method. Useful for identifying outliers 
 	within one execution."
 	
-	| all diag diag2 grouped metric |
+	| all grouped metric |
 	metric := #localTally.
 	all := aMessageTally deepCollect: [ :each | each sonsOver: 1 ].
 	grouped := (all groupedBy: [ :each | String streamContents: [:s | each gtDisplayIdentifierOn: s] ]) 
@@ -42,26 +42,8 @@ GTInspectorMessageTallyCharter >> performanceOf: aMessageTally with: renderer in
 									(a value sumNumbers: metric) > 
 									(b value sumNumbers: metric) ].
 	grouped := (grouped first: (20 min: grouped size)) select: [:each | (each value sumNumbers: metric) > 0].
-	diag := (GETHorizontalBarDiagram new)
-		xAxisLabel: 'Locations';
-		modelLabels: [:each | each key ];
-		x: [:each | each value size];
-		valueAxis;
-		color: Color veryLightGray;
-		axisColor: Color veryLightGray;
-		on: ROMouseClick do: [:event | presentation selection: event model value ];
-		models: grouped.
-	diag2 := (GETHorizontalBarDiagram new)
-		xAxisLabel: 'Tallies';
-		x: [:each | each value sumNumbers: metric];
-		regularAxis;
-		xAxisOnTop;
-		gapFraction: 1 / 2;
-		color: (Color red);
-		axisColor: (Color red);
-		on: ROMouseClick do: [:event | presentation selection: event model value ];
-		models: grouped.
-	(renderer unionDiagram)
-		add: diag;
-		add: diag2
+	builder pointName: [ :each | each key ].
+	builder points: grouped.
+	builder bottomValue: [ :each | each key size ] titled: 'Locations'.
+	builder topValue: [ :each | each value sumNumbers: metric ] titled: 'Tallies'
 ]

@@ -32,12 +32,13 @@ MessageTally >> gtInspectorPerformanceChartIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	| metric |
 	metric := #localTally.
-	^ composite graphET
+	^ composite roassal2
 		title: 'Top tallies';
-		diagram: [ :renderer :presentation |
+		initializeView: [ RTDoubleBarBuilder new ];
+		painting: [ :builder :presentation |
 			GTInspectorMessageTallyCharter new 
 				performanceOf: self 
-				with: renderer 
+				with: builder
 				in: presentation ];
 		when: [ self children notEmpty ]
 ]
