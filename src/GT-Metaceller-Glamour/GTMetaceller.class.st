@@ -109,8 +109,9 @@ GTMetaceller >> configurationsIn: a [
 { #category : #building }
 GTMetaceller >> detailsForConfiguration: aBrowser [
 	(aBrowser respondsTo: #roassal) ifTrue: [ 
-		aBrowser roassal
+		aBrowser roassal2
 			title: 'Imports';
+			initializeView: [ RTMondrianViewBuilder new ];
 			painting: [:view :config | config viewVersionMapOn: view] ]
 		ifFalse: [ 
 			aBrowser text
