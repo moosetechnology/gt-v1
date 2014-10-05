@@ -7,11 +7,6 @@ String class >> gtInspectorFourtyTwo [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-String >> gtInspectorItemsIn: composite [
-	"No items presentation for a String"
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 String >> gtInspectorTextIn: composite [
 	<gtInspectorPresentationOrder: 30>  
 	 composite rubricText
