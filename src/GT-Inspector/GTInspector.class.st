@@ -139,6 +139,13 @@ GTInspector class >> settingsOn: aBuilder [
 		 		description: 'Enable or disable the GTInspector.'.]
 ]
 
+{ #category : #'as yet unclassified' }
+GTInspector >> actOnPaneAdded: ann [
+
+	self panes size > 1 ifTrue: [ 
+		(self panes before: self panes last) updateToolbar "announce: (GLMPresentationToolbarUpdated new presentation: ann presentation)" ]
+]
+
 { #category : #building }
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
@@ -147,13 +154,17 @@ GTInspector >> compose [
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each |
 			a title: [ self printObjectAsAnItem: each ].
-			a dynamicActions: [ each gtInspectorActions ].
-			a dynamic display: [ :x | 
-				(GLMCompositePresentation new with: [:d | 
-					each 
-						gtInspectorPresentationsIn: d 
-						inContext: self ])
-						startOn: x ] ] ]
+			a dynamicActions: [ :aPresentation | 
+				each gtInspectorActions asOrderedCollection", (self globalActionsFor: aPresentation)" ].
+			a dynamic 
+				display: [ :x | 
+					(GLMCompositePresentation new with: [:d | 
+						each 
+							gtInspectorPresentationsIn: d 
+							inContext: self ])
+							startOn: x ] ] ].
+			
+	self first on: GLMPaneAdded send: #actOnPaneAdded: to: self
 ]
 
 { #category : #accessing }
@@ -161,6 +172,19 @@ GTInspector >> entities [
 	"returns the list of objects from the #entity port of each pane of the finder"
 	^ self first panes collect: [ :each | 
 		(each port: #entity) value ]
+]
+
+{ #category : #'as yet unclassified' }
+GTInspector >> globalActionsFor: aPresentation [
+
+	^ { 
+		GLMGenericAction new
+			action: [ self removeLastPane ];
+			icon: GLMUIThemeExtraIcons glamorousCancel ;
+			condition: [ :currentPresentation |
+				self panes size > 1 and: [ self panes last presentations = currentPresentation ] ];
+			title: 'Close' 
+	}
 ]
 
 { #category : #opening }
@@ -203,6 +227,16 @@ GTInspector >> printObjectAsAnItem: anObject [
 		nextPutAll: (GTObjectPrinter new asTruncatedTextFrom: anObject) asString;
 		nextPut: $).
 	^ stream contents
+]
+
+{ #category : #'as yet unclassified' }
+GTInspector >> removeLastPane [
+	| lastPane |
+	
+	lastPane := self first panes last.
+	self first removeLastPane.
+	self first announce: (GLMPaneRemoved pane: lastPane fromBrowser: self first).
+	self first panes last updateToolbar
 ]
 
 { #category : #'as yet unclassified' }
