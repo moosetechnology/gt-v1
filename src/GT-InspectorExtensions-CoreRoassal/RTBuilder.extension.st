@@ -1,7 +1,7 @@
-Extension { #name : #RTMondrianViewBuilder }
+Extension { #name : #RTBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTMondrianViewBuilder >> gtInspectorViewIn: composite [
+RTBuilder >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
 		title: 'View';
