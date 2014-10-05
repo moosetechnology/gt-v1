@@ -40,7 +40,7 @@ Morph >> gtInspectorMorphIn: composite [
 	morphPresentation := composite morph.
 	morphPresentation 
 		title: 'Morph';
-		display: [ :each |
+		display: [
 			self imageForm asMorph
 				on: #mouseDown send: #value: to: [ :event | 
 					morphPresentation selection: (self morphsAt: event position) ] ];

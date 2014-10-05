@@ -17,9 +17,9 @@ ComposableModel >> gtInspectorModelNestingIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-ComposableModel >> gtInspectorSpecIn: composite [
+ComposableModel >> gtInspectorPreviewIn: composite [
 	<gtInspectorPresentationOrder: 30>
-	composite spec 
-		title: 'Preview';
-		when: [ self widget notNil ]
+	
+	(self widget notNil and: [ self widget widget notNil ]) ifTrue: [ 
+		 self widget widget gtInspectorMorphIn: composite ].
 ]
