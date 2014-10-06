@@ -1,10 +1,11 @@
-Extension { #name : #TraitDescription }
+Extension { #name : #TClassDescription }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-TraitDescription >> gtInspectorUsersIn: composite [
+TClassDescription >> gtInspectorUsersIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite list 	
 		title: 'Users';
+		when: [ self isTrait ];
 		display: [ 
 			Smalltalk allClasses select: [ :class |
 			   class traitComposition traits includes: self ] ]
