@@ -214,19 +214,17 @@ GTInspector >> previousEntityTo: anObject [
 ]
 
 { #category : #private }
-GTInspector >> printObjectAsAnItem: anObject [ 
-	|  stream  |
-	stream := String new writeStream.
-	stream
-		nextPutAll: (anObject class name first isVowel 
-				ifTrue: [ 'an ' ]
-				ifFalse: [ 'a ' ]);
-		nextPutAll: anObject class name.
-	stream 
-		nextPutAll: ' (';
-		nextPutAll: (GTObjectPrinter new asTruncatedTextFrom: anObject) asString;
-		nextPut: $).
-	^ stream contents
+GTInspector >> printObjectAsAnItem: anObject [
+	| header printString |
+	header := (anObject class name first isVowel
+		ifTrue: [ 'an ' ]
+		ifFalse: [ 'a ' ]) , anObject class name.
+	printString := (GTObjectPrinter new asTruncatedTextFrom: anObject) asString.
+	^ (printString beginsWith: header)
+		ifTrue: [ printString ]
+		ifFalse: [ 
+			String streamContents: [ :out | 
+				out << header; << ' ('; << printString; << ')' ] ]
 ]
 
 { #category : #'as yet unclassified' }
