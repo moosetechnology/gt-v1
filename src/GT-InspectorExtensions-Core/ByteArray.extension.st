@@ -10,7 +10,7 @@ ByteArray class >> gtExampleSimple [
 ByteArray >> gtInspectorBytesIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
-		title: [ 'Bytes' ];
+		title: 'Bytes';
 		display: [ 
 			(self size < 2048 or: [ self confirm: 'Looking at more than 2048 bytes might be slow. Continue ?' ])
 				ifTrue: [ {
