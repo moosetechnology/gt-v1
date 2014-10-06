@@ -1,36 +1,36 @@
 Class {
-	#name : #GTOpenSelectionDebugAction,
+	#name : #GTSelectionGoDebugAction,
 	#superclass : #DebugAction,
 	#category : #'GT-Debugger-Actions'
 }
 
 { #category : #registration }
-GTOpenSelectionDebugAction class >> gtActionFor: aDebugger [
+GTSelectionGoDebugAction class >> gtActionFor: aDebugger [
 	<gtContextCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 ]
 
 { #category : #'as yet unclassified' }
-GTOpenSelectionDebugAction >> defaultKeyText [
+GTSelectionGoDebugAction >> defaultKeyText [
 
-	^ 'o'
+	^ 'g'
 ]
 
 { #category : #'as yet unclassified' }
-GTOpenSelectionDebugAction >> defaultLabel [
+GTSelectionGoDebugAction >> defaultLabel [
 
-	^ 'Open it'
+	^ 'Do it and go'
 ]
 
 { #category : #'as yet unclassified' }
-GTOpenSelectionDebugAction >> defaultOrder [
+GTSelectionGoDebugAction >> defaultOrder [
 
 	^ 5
 ]
 
 { #category : #'as yet unclassified' }
-GTOpenSelectionDebugAction >> executeAction [
+GTSelectionGoDebugAction >> executeAction [
 	
 	self debugger codePresentation evaluateSelectionAndDo: [ :result | self debugger inspect: result ] 
 		
@@ -38,13 +38,13 @@ GTOpenSelectionDebugAction >> executeAction [
 ]
 
 { #category : #'as yet unclassified' }
-GTOpenSelectionDebugAction >> id [
+GTSelectionGoDebugAction >> id [
 
 	^ #gTOpenSelectionDebugAction
 ]
 
 { #category : #'as yet unclassified' }
-GTOpenSelectionDebugAction >> initialize [
+GTSelectionGoDebugAction >> initialize [
 
 	self needsUpdate: false
 ]
