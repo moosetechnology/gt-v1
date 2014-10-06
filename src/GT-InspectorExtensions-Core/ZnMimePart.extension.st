@@ -1,7 +1,7 @@
-Extension { #name : #ZnMessage }
+Extension { #name : #ZnMimePart }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-ZnMessage >> gtInspectorContentsIn: composite [
+ZnMimePart >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	self hasEntity
 		ifTrue: [ 
@@ -20,7 +20,7 @@ ZnMessage >> gtInspectorContentsIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-ZnMessage >> gtInspectorHeadersIn: composite [ 
+ZnMimePart >> gtInspectorHeadersIn: composite [ 
 	<gtInspectorPresentationOrder: 30>
 	^ (self headers gtInspectorHeadersIn: composite) 
 		title: [:anObject | self headers headers size asString , ' headers' ]
