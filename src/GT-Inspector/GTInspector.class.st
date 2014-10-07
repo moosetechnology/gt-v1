@@ -146,6 +146,17 @@ GTInspector >> actOnPaneAdded: ann [
 		(self panes before: self panes last) updateToolbar "announce: (GLMPresentationToolbarUpdated new presentation: ann presentation)" ]
 ]
 
+{ #category : #'as yet unclassified' }
+GTInspector >> closeActionsFor: aPresentation [
+
+	^ GLMGenericAction new
+			action: [ self removeLastPane ];
+			icon: GLMUIThemeExtraIcons glamorousCancel ;
+			condition: [ :currentPresentation |
+				self panes size > 1 and: [ self panes last presentations = currentPresentation ] ];
+			title: 'Close' 
+]
+
 { #category : #building }
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
@@ -155,7 +166,8 @@ GTInspector >> compose [
 		browser show: [ :a :each |
 			a title: [ self printObjectAsAnItem: each ].
 			a dynamicActions: [ :aPresentation | 
-				each gtInspectorActions asOrderedCollection", (self globalActionsFor: aPresentation)" ].
+				each gtInspectorActions asOrderedCollection ].
+			"a labelActionBlock: [ :aPresentation | self closeActionsFor: aPresentation ]."
 			a dynamic 
 				display: [ :x | 
 					(GLMCompositePresentation new with: [:d | 
@@ -172,19 +184,6 @@ GTInspector >> entities [
 	"returns the list of objects from the #entity port of each pane of the finder"
 	^ self first panes collect: [ :each | 
 		(each port: #entity) value ]
-]
-
-{ #category : #'as yet unclassified' }
-GTInspector >> globalActionsFor: aPresentation [
-
-	^ { 
-		GLMGenericAction new
-			action: [ self removeLastPane ];
-			icon: GLMUIThemeExtraIcons glamorousCancel ;
-			condition: [ :currentPresentation |
-				self panes size > 1 and: [ self panes last presentations = currentPresentation ] ];
-			title: 'Close' 
-	}
 ]
 
 { #category : #opening }
