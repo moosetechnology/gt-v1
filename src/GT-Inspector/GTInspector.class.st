@@ -167,7 +167,7 @@ GTInspector >> compose [
 			a title: [ self printObjectAsAnItem: each ].
 			a dynamicActions: [ :aPresentation | 
 				each gtInspectorActions asOrderedCollection ].
-			"a labelActionBlock: [ :aPresentation | self closeActionsFor: aPresentation ]."
+			a labelActionBlock: [ :aPresentation | self closeActionsFor: aPresentation ].
 			a dynamic 
 				display: [ :x | 
 					(GLMCompositePresentation new with: [:d | 
