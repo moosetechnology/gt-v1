@@ -73,6 +73,23 @@ GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 ]
 
 { #category : #'private building' }
+GTObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject basedOn: aString [
+	|result|
+
+	(anObject class hasInstVarNamed: aSymbol) 
+		ifFalse: [ ^ self ].
+	result := anObject class compiler
+			source: aString;
+			context: nil;
+			receiver: anObject;
+			failBlock: [ ^ self ];
+			evaluate.
+						
+	anObject instVarNamed: aSymbol put: result.
+	
+]
+
+{ #category : #'private building' }
 GTObjectVariablesBrowser >> variableValuePairsFor: anObject [
 	^ anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection 
 		yourself
@@ -94,7 +111,9 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 			evaluated: [:assoc | '  ',(GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
 		column: 'Value' 
 			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
-			"modified: [:newValue | self flag: 'change variable value here' ]";
+			"modified: [:newValue :assoc :presentation | 
+				self updateInstanceVariable: assoc key from: presentation entity basedOn: newValue.
+				presentation update ]";
 		"send: #value;"
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
