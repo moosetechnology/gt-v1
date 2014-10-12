@@ -1,7 +1,7 @@
-Extension { #name : #Class }
+Extension { #name : #TClass }
 
 { #category : #'*GT-Inspector' }
-Class >> gtInspectorExamplesIn: composite [
+TClass >> gtInspectorExamplesIn: composite [
 	"This provides a list of example objects for the current class"
 	<gtInspectorPresentationOrder: 20>
 	composite custom: (GTExamplesBrowser new startOn: self)
