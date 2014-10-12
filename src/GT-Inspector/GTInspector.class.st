@@ -147,7 +147,7 @@ GTInspector >> actOnPaneAdded: ann [
 ]
 
 { #category : #'as yet unclassified' }
-GTInspector >> closeActionsFor: aPresentation [
+GTInspector >> closeActionFor: aPresentation [
 
 	^ GLMGenericAction new
 			action: [ self removeLastPane ];
@@ -167,7 +167,7 @@ GTInspector >> compose [
 			a title: [ self printObjectAsAnItem: each ].
 			a dynamicActions: [ :aPresentation | 
 				each gtInspectorActions asOrderedCollection ].
-			a labelActionBlock: [ :aPresentation | self closeActionsFor: aPresentation ].
+			a titleAction: [ :aPresentation | self closeActionFor: aPresentation ].
 			a dynamic 
 				display: [ :x | 
 					(GLMCompositePresentation new with: [:d | 
