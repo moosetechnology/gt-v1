@@ -188,12 +188,13 @@ GTPlayground >> codeIn: a [
 				page content: text text.
 				text selectionInterval: (1 to: text text size).
 				text evaluateSelectionAndDo: [ :result | text selection: result ]  ]
-			icon: GLMUIThemeExtraIcons glamorousPlay
+			icon: GLMUIThemeExtraIcons glamorousGo
 "			on: $G"
 			entitled: 'Do it all and go';
 		selectionAct: [ :text :page |
 				page content: text text.
 				text evaluateSelectionAndDo: [ :result | text selection: result ] ]
+			icon: GLMUIThemeExtraIcons glamorousGo
 			on: $g
 			entitled: 'Do it and go';
 		installDefaultSelectionActions;
