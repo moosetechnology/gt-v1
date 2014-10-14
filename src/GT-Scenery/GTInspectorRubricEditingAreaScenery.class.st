@@ -20,7 +20,8 @@ GTInspectorRubricEditingAreaScenery >> setUp [
 	(GTPlayground openContents: 'area := RubEditingArea new
 		beWrapped;
 		withoutSelectionBar;
-		setTextWith: ''How is this text editor structured internally?''.
+		beForSmalltalkScripting;
+		setTextWith: ''"How is this text editor structured internally?"''.
 area openInWindow width: 400.
 area ') .
 	GTSnippets reset.
