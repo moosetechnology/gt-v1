@@ -24,6 +24,12 @@ CompiledMethod >> gtInspectorBytecodeIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+CompiledMethod >> gtInspectorBytesIn: composite [
+	<gtInspectorPresentationOrder: 30>
+	"It makes no sense to view me as a collection of bytes"
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorIrIn: composite [
 	<gtInspectorPresentationOrder: 35> 
 	composite text 
@@ -31,6 +37,11 @@ CompiledMethod >> gtInspectorIrIn: composite [
 		display: [ :anObject || string |
 				string := anObject ir longPrintString.
 				string copyFrom: 2 to: string size ]
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+CompiledMethod >> gtInspectorItemsIn: composite [
+	"It makes no sense to view me as a collection of items"
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
