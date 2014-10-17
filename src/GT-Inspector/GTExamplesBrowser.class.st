@@ -13,11 +13,13 @@ Class {
 { #category : #building }
 GTExamplesBrowser >> compose [
 	self title: 'E.g.'.
-	self when: [ :class | (self examplesFor: class) notEmpty ].
-	self list
-		display: [ :class | self examplesFor: class ];
-		format: [ :pragmaExamplePair | pragmaExamplePair result gtDisplayString ];
+	self when: [ :class | (self rootExamplesFor: class) notEmpty ].
+	self tree
+		display: [ :class | self rootExamplesFor: class ];
+		children: [ :anExample | anExample childrenExamples ];
+		format: [ :anExample | anExample result gtDisplayString ];
 		send: [ :pragmaExamplePair | pragmaExamplePair result ];
+		allExpanded;
 		morphicSelectionAct: [ :list | 
 			list rawSelection methodReference browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
@@ -30,13 +32,17 @@ GTExamplesBrowser >> compose [
 ]
 
 { #category : #private }
-GTExamplesBrowser >> examplesFor: anObject [
+GTExamplesBrowser >> rootExamplesFor: anObject [
 	| pragmas |
+
 	pragmas := Pragma 
 				allNamed: #gtExample 
 				in: anObject class.
-	^ pragmas collect: [ :eachPragma | 
-		GTExample new
-			methodReference: eachPragma method asRingDefinition ]
-
+	^ (pragmas select: [ :each | each selector isUnary ])
+		ifEmpty: [ #() ]
+		ifNotEmpty: [ :rootPragmas | rootPragmas collect: [ :eachPragma | 
+			GTExample fromMethodReference: eachPragma method asRingDefinition ] ]
+	
+	
+	
 ]
