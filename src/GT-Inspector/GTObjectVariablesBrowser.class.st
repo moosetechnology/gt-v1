@@ -37,8 +37,8 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 				GTSnippets 
 					snippetAt: object class 
 					put: (self stringWithoutInitialCommentFrom: text text asString) ];
-		installDefaultSelectionActions;
-		installGoAction
+		installGoAction;
+		installDefaultSelectionActions
 ]
 
 { #category : #'private building' }
