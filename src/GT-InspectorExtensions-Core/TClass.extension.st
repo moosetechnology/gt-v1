@@ -1,7 +1,7 @@
-Extension { #name : #Class }
+Extension { #name : #TClass }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Class >> gtInspectorAllReferencesIn: composite [
+TClass >> gtInspectorAllReferencesIn: composite [
 	"This provides a list of all methods provided by the current class"
 	<gtInspectorPresentationOrder: 20>
 	composite list 
@@ -13,7 +13,7 @@ Class >> gtInspectorAllReferencesIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Class >> gtInspectorAllReferencesOutsideIn: composite [
+TClass >> gtInspectorAllReferencesOutsideIn: composite [
 	"This provides a list of all methods provided by the current class"
 	<gtInspectorPresentationOrder: 20>
 	composite list 
@@ -26,7 +26,7 @@ Class >> gtInspectorAllReferencesOutsideIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Class >> gtInspectorCommentIn: composite [
+TClass >> gtInspectorCommentIn: composite [
 	"This provides an editable comment of the current class"
 	<gtInspectorPresentationOrder: 20>
 	composite text 
@@ -40,7 +40,7 @@ Class >> gtInspectorCommentIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Class >> gtInspectorMethodsIn: composite [
+TClass >> gtInspectorMethodsIn: composite [
 	"This provides a list of all methods provided by the current class"
 	<gtInspectorPresentationOrder: 20>
 	composite list 
