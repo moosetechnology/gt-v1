@@ -33,12 +33,12 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 					nextPutAll: (self printStringOf: object);
 					cr;
 					nextPutAll: (GTSnippets snippetAt: object class)] ];
-		selectionAct: [ :text :object |
-				GTSnippets snippetAt: object class put: (self stringWithoutInitialCommentFrom: text text asString).
-				text evaluateSelectionAndDo: [ :result | text selection: result ] ]
-			on: $g
-			entitled: 'Do it and go';
-		installDefaultSelectionActions
+		onChangeOfPort: #text act: [ :text :object |
+				GTSnippets 
+					snippetAt: object class 
+					put: (self stringWithoutInitialCommentFrom: text text asString) ];
+		installDefaultSelectionActions;
+		installGoAction
 ]
 
 { #category : #'private building' }
