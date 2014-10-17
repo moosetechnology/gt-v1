@@ -36,7 +36,7 @@ GTExamplesBrowser >> rootExamplesFor: anObject [
 	| pragmas |
 
 	pragmas := Pragma 
-				allNamed: #gtExample 
+				allNamed: #example 
 				in: anObject class.
 	^ (pragmas select: [ :each | each selector isUnary ])
 		ifEmpty: [ #() ]

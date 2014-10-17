@@ -16,7 +16,7 @@ Class {
 { #category : #'as yet unclassified' }
 GTExample class >> exempleDependencyPragma [
 
-	^ #gtExampleFrom:
+	^ #exampleFrom:
 ]
 
 { #category : #'as yet unclassified' }
