@@ -2,7 +2,7 @@ Extension { #name : #GLMTabulator }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 GLMTabulator class >> gtExampleSimple [
-	<gtExample>
+	<example>
 	^ GLMTabulator new 
 		with: [ :t |
 			t column: #one.

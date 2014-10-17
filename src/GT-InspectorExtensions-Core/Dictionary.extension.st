@@ -2,7 +2,7 @@ Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary class >> gtExampleSimple [
-	<gtExample>
+	<example>
 	| dict |
 	dict := Dictionary new.
 	dict at: 4 put: 2.

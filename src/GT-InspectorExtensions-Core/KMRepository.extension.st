@@ -2,7 +2,7 @@ Extension { #name : #KMRepository }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 KMRepository class >> gtExampleDefault [
-	<gtExample>
+	<example>
 	^ self default
 ]
 

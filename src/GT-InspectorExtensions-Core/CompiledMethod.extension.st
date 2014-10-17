@@ -2,7 +2,7 @@ Extension { #name : #CompiledMethod }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod class >> gtExampleSimple [
-	<gtExample>
+	<example>
 	^ self class>>#gtExampleSimple
 ]
 
