@@ -13,9 +13,6 @@ Class {
 	#classVars : [
 		'GTPlaygroundEnabledStatus'
 	],
-	#classInstVars : [
-		'repository'
-	],
 	#category : #'GT-Playground'
 }
 
@@ -34,7 +31,7 @@ GTPlayground class >> edit: aString label: aLabel [
 	| page |
 	"self halt"
 
-	page := GTPlaygroundPage new
+	page := GTPlayPage new
 		content: aString;
 		title: aLabel;
 		yourself.
@@ -53,7 +50,7 @@ GTPlayground class >> isGTPlaygroundEnabled [
 GTPlayground class >> open [
 	"self open"
 	| page |
-	page := GTPlaygroundPage new.
+	page := GTPlayPage new.
 	^ self new openOn: page
 ]
 
@@ -64,7 +61,7 @@ GTPlayground class >> openContents: aString [
 
 	| page |
 	
-	page := GTPlaygroundPage new
+	page := GTPlayPage new
 		content: aString;
 		yourself.
 	^ self new openOn: page
@@ -76,7 +73,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 
 	| page |
 
-	page := GTPlaygroundPage new
+	page := GTPlayPage new
 		content: aString;
 		title: aLabel;
 		yourself.
@@ -87,7 +84,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 GTPlayground class >> openLabel: aLabel [
 	| page |
 
-	page := GTPlaygroundPage new
+	page := GTPlayPage new
 		title: aLabel;
 		yourself.
 	^ self new openOn: page
@@ -105,16 +102,6 @@ GTPlayground class >> registerToolsOn: registry [
 	"self registerToolsOn: Smalltalk tools" 
 	registry register: self as: #workspace
 
-]
-
-{ #category : #accessing }
-GTPlayground class >> repository [
-	^ repository ifNil: [ repository := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-GTPlayground class >> reset [
-	repository := nil
 ]
 
 { #category : #'as yet unclassified' }
@@ -167,14 +154,14 @@ GTPlayground >> acceptContents: aString [
 
 { #category : #building }
 GTPlayground >> actionsForPreviousContents [
-	^ self class repository reverse
+	^ GTPlayBook instance pages
 		collect: [ :each | 
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);
 				action: [ :text | 
 					self pushToRepositoryFrom: text.
 					text entity: each.
-					self class repository remove: each.
+					GTPlayBook instance removePage: each.
 					text update ];
 				yourself ]
 ]
@@ -214,14 +201,14 @@ GTPlayground >> compose [
 			self entity
 					content: self first panes first presentations first text.
 			self entity content asString trimBoth isEmpty
-				ifFalse: [ self class repository add: self entity ] ]
+				ifFalse: [ GTPlayBook instance addPage: self entity ] ]
 ]
 
 { #category : #building }
 GTPlayground >> pushToRepositoryFrom: aTextPresentation [
 	| page |
-	page := GTPlaygroundPage new.
+	page := GTPlayPage new.
 	page content: aTextPresentation text.
 	page content asString trimBoth isEmpty
-		ifFalse: [ self class repository add: page ] 
+		ifFalse: [ GTPlayBook instance addPage: page ] 
 ]

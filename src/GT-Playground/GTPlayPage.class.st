@@ -2,7 +2,7 @@
 GTPlayground open
 "
 Class {
-	#name : #GTPlaygroundPage,
+	#name : #GTPlayPage,
 	#superclass : #Object,
 	#instVars : [
 		'title',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'compatibility-tools' }
-GTPlaygroundPage >> acceptContents: aString [
+GTPlayPage >> acceptContents: aString [
 
 	self flag: #TODO. "Need support for what lies in the comment down here"
 	"self fileName ifNotNil: [ self saveString: aString toFile: self fileName ].
@@ -23,17 +23,17 @@ GTPlaygroundPage >> acceptContents: aString [
 ]
 
 { #category : #accessing }
-GTPlaygroundPage >> content [
+GTPlayPage >> content [
 	^ content
 ]
 
 { #category : #accessing }
-GTPlaygroundPage >> content: anObject [
+GTPlayPage >> content: anObject [
 	content := anObject
 ]
 
 { #category : #'as yet unclassified' }
-GTPlaygroundPage >> gtInspectorContentIn: composite [
+GTPlayPage >> gtInspectorContentIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite pharoPlayground 
 		title: 'Content';
@@ -41,17 +41,17 @@ GTPlaygroundPage >> gtInspectorContentIn: composite [
 ]
 
 { #category : #accessing }
-GTPlaygroundPage >> initialize [
+GTPlayPage >> initialize [
 	content := ''.
 	title := 'Playground'
 ]
 
 { #category : #accessing }
-GTPlaygroundPage >> title [
+GTPlayPage >> title [
 	^ title
 ]
 
 { #category : #accessing }
-GTPlaygroundPage >> title: anObject [
+GTPlayPage >> title: anObject [
 	title := anObject
 ]
