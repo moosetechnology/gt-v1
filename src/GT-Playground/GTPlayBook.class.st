@@ -22,7 +22,7 @@ GTPlayBook class >> reset [
 
 { #category : #accessing }
 GTPlayBook >> addPage: aPage [
-	self pages add: aPage
+	self pages addFirst: aPage
 ]
 
 { #category : #accessing }
