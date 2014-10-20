@@ -61,6 +61,11 @@ GTPlayPage >> initialize [
 ]
 
 { #category : #accessing }
+GTPlayPage >> silentContent: aString [
+	content := aString
+]
+
+{ #category : #accessing }
 GTPlayPage >> title [
 	^ title
 ]

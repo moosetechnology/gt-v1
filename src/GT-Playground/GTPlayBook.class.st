@@ -34,7 +34,7 @@ GTPlayBook >> addPage: aPage [
 { #category : #accessing }
 GTPlayBook >> addPageIfInteresting: aPage [
 	aPage content asString trimBoth isEmpty
-		ifFalse: [ self pages addFirst: aPage ]
+		ifFalse: [ self addPage: aPage ]
 ]
 
 { #category : #accessing }
