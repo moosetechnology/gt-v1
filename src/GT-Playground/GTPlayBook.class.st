@@ -11,12 +11,18 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GTPlayBook class >> cacheDirectory [
+	^ 'play-cache/' asFileReference ensureCreateDirectory
+]
+
+{ #category : #'as yet unclassified' }
 GTPlayBook class >> instance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
 { #category : #'as yet unclassified' }
 GTPlayBook class >> reset [
+	
 	instance := nil
 ]
 
@@ -26,8 +32,16 @@ GTPlayBook >> addPage: aPage [
 ]
 
 { #category : #accessing }
+GTPlayBook >> addPageIfInteresting: aPage [
+	aPage content asString trimBoth isEmpty
+		ifFalse: [ self pages addFirst: aPage ]
+]
+
+{ #category : #accessing }
 GTPlayBook >> initialize [
-	pages := OrderedCollection new
+	pages := (self class cacheDirectory files 
+		select: [ :each | each extension = 'ph' ] 
+		thenCollect: [ :each | GTPlayPage new content: (each readStreamDo: #contents) ]) asOrderedCollection 
 ]
 
 { #category : #accessing }

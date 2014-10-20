@@ -159,9 +159,10 @@ GTPlayground >> actionsForPreviousContents [
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);
 				action: [ :text | 
-					self pushToRepositoryFrom: text.
-					text entity: each.
-					GTPlayBook instance removePage: each.
+					| page |
+					page := GTPlayPage new.
+					page content: each content.
+					text entity: page.
 					text update ];
 				yourself ]
 ]
@@ -200,8 +201,7 @@ GTPlayground >> compose [
 			us keep the model in sync"
 			self entity
 					content: self first panes first presentations first text.
-			self entity content asString trimBoth isEmpty
-				ifFalse: [ GTPlayBook instance addPage: self entity ] ]
+			GTPlayBook instance addPageIfInteresting: self entity ]
 ]
 
 { #category : #building }

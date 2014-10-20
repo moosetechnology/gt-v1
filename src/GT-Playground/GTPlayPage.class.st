@@ -23,13 +23,27 @@ GTPlayPage >> acceptContents: aString [
 ]
 
 { #category : #accessing }
+GTPlayPage >> cacheDirectory [
+	^ GTPlayBook cacheDirectory
+]
+
+{ #category : #accessing }
 GTPlayPage >> content [
 	^ content
 ]
 
 { #category : #accessing }
-GTPlayPage >> content: anObject [
-	content := anObject
+GTPlayPage >> content: aString [
+	content := aString.
+	aString isEmpty 
+		ifTrue: [ self fileReference ensureDelete ]
+		ifFalse: [ self fileReference writeStreamDo: [ :s | s nextPutAll: aString ] ]
+]
+
+{ #category : #accessing }
+GTPlayPage >> fileReference [
+
+	^ self cacheDirectory / (self title, '.ph')
 ]
 
 { #category : #'as yet unclassified' }
@@ -43,7 +57,7 @@ GTPlayPage >> gtInspectorContentIn: composite [
 { #category : #accessing }
 GTPlayPage >> initialize [
 	content := ''.
-	title := 'Playground'
+	title := (DateAndTime now asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
 ]
 
 { #category : #accessing }
