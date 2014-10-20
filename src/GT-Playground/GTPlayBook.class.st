@@ -7,12 +7,20 @@ Class {
 	#classVars : [
 		'instance'
 	],
+	#classInstVars : [
+		'cacheDirectory'
+	],
 	#category : #'GT-Playground'
 }
 
 { #category : #'as yet unclassified' }
 GTPlayBook class >> cacheDirectory [
-	^ 'play-cache/' asFileReference ensureCreateDirectory
+	^ cacheDirectory ifNil: [cacheDirectory := 'play-cache/' asFileReference ensureCreateDirectory]
+]
+
+{ #category : #accessing }
+GTPlayBook class >> cacheDirectory: aString [ 
+	cacheDirectory := aString asFileReference
 ]
 
 { #category : #'as yet unclassified' }
