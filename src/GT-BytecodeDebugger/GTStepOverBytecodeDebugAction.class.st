@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #registration }
-GTStepOverBytecodeDebugAction class >> gtDebugActionFor: aDebugger [
+GTStepOverBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 	<gtBytecodeStackDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
@@ -26,6 +26,12 @@ GTStepOverBytecodeDebugAction >> appliesToDebugger: aDebugger [
 GTStepOverBytecodeDebugAction >> defaultLabel [
 
 	^ 'Step over'
+]
+
+{ #category : #accessing }
+GTStepOverBytecodeDebugAction >> defaultOrder [
+
+	^ 20
 ]
 
 { #category : #actions }

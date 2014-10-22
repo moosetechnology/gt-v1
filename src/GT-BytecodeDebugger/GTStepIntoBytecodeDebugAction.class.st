@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #registration }
-GTStepIntoBytecodeDebugAction class >> gtDebugActionFor: aDebugger [
+GTStepIntoBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 	<gtBytecodeStackDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
@@ -26,6 +26,12 @@ GTStepIntoBytecodeDebugAction >> appliesToDebugger: aDebugger [
 GTStepIntoBytecodeDebugAction >> defaultLabel [
 
 	^ 'Step into'
+]
+
+{ #category : #accessing }
+GTStepIntoBytecodeDebugAction >> defaultOrder [
+
+	^ 15
 ]
 
 { #category : #actions }

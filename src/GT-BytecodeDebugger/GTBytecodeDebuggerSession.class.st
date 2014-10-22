@@ -39,3 +39,17 @@ GTBytecodeDebuggerSession >> symbolicBytecodeForCurrentPCFrom: aContext [
 		detect: [ :each | each offset = pc ]
 		ifNone: [ nil ]
 ]
+
+{ #category : #evaluating }
+GTBytecodeDebuggerSession >> unwindAndRestartToContext: aContext [
+	|ctx|
+
+	ctx := interruptedProcess popTo: aContext.
+	ctx == aContext ifTrue: [ 
+		"Only restart the process if the stack was unwind"
+		interruptedProcess
+			restartTop;
+			suspendedContext ].
+	self flag: 'Should a warning be displayed if the the unwind failed?'.
+	self updateContextTo:  aContext
+]
