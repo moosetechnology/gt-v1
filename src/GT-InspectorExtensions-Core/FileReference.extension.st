@@ -59,7 +59,7 @@ FileReference >> gtInspectorActionMaterializeFuel [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorContentsIn: composite [
-	<gtInspectorPresentationOrder: 10>
+	<gtInspectorPresentationOrder: 5>
 	composite rubricText
 			title: 'Raw';
 			display: [ 
@@ -98,7 +98,7 @@ FLMaterializer materializeFromFileNamed: 'GTtest.fuel'"
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorGifIn: composite [
-	<gtInspectorPresentationOrder: 10>
+	<gtInspectorPresentationOrder: 0>
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | GIFReadWriter formFromStream: stream ] ];
@@ -107,7 +107,7 @@ FileReference >> gtInspectorGifIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorItemsIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 0>
 	^ composite table 
 		title: 'Items';
 		display: [ 
@@ -139,7 +139,7 @@ FileReference >> gtInspectorItemsIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorJpegIn: composite [
-	<gtInspectorPresentationOrder: 10>
+	<gtInspectorPresentationOrder: 0>
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | JPEGReadWriter formFromStream: stream ] ];
@@ -148,7 +148,7 @@ FileReference >> gtInspectorJpegIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorPngIn: composite [
-	<gtInspectorPresentationOrder: 10>
+	<gtInspectorPresentationOrder: 0>
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
@@ -157,7 +157,7 @@ FileReference >> gtInspectorPngIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorStScriptIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 0>
 	composite smalltalkCode
 			title: 'Script';
 			display: [ self readStreamDo: [ :s | s contents ] ];
@@ -171,5 +171,5 @@ FileReference >> gtInspectorStScriptIn: composite [
 				icon: GLMUIThemeExtraIcons glamorousSave
 				on: $s
 				entitled: 'Save';
-			when: [ self extension = 'st' ]
+			when: [ self extension = 'st' or: [self extension = 'ph'] ]
 ]
