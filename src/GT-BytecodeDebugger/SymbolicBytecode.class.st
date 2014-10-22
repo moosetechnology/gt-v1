@@ -17,6 +17,21 @@ Class {
 	#category : #'GT-BytecodeDebugger'
 }
 
+{ #category : #comparing }
+SymbolicBytecode >> = anObject [
+
+	self == anObject
+		ifTrue: [^ true].
+
+	(self class == anObject class)
+		ifFalse: [^ false].
+
+	^ (self bytes = anObject bytes) and: [ 
+		(self description = anObject description) and: [ 
+			(self method = anObject method) and: [ 
+				self offset = anObject offset ] ] ]
+]
+
 { #category : #accessing }
 SymbolicBytecode >> bytes [
 	^ bytes

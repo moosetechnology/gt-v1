@@ -1,9 +1,9 @@
+"
+I am a debugger that provides the ability to step through the execution at the bytecode level
+"
 Class {
 	#name : #GTBytecodeDebugger,
 	#superclass : #GTGenericStackDebugger,
-	#instVars : [
-		'symbolicBytecodes'
-	],
 	#category : #'GT-BytecodeDebugger'
 }
 
@@ -26,25 +26,40 @@ GTBytecodeDebugger class >> registerToolsOn: registry [
 	registry registerDebugger: self withRank: 10.
 ]
 
-{ #category : #'as yet unclassified' }
-GTBytecodeDebugger >> methodCodeIn: composite forContext: aContext [
+{ #category : #accessing }
+GTBytecodeDebugger class >> sessionClass [
 
-	(self methodCodeWidgetIn: composite forContext: aContext)
-		initialize: [ :code | |pc|
-			symbolicBytecodes := self currentContext method symbolicBytecodes.
-				pc := self currentContext pc.
-				code selection: (symbolicBytecodes detect: [ :each | each offset = pc] ifNone: [ nil ] ).
-			"code selectionInterval: (self session selectedCodeRangeForContext: self currentContext)" ];
-		with: [ :code | "self installCodeActionsFor: code "]
+	^ GTBytecodeDebuggerSession
 ]
 
-{ #category : #'as yet unclassified' }
-GTBytecodeDebugger >> methodCodeWidgetIn: composite forContext: aContext [
+{ #category : #'building actions' }
+GTBytecodeDebugger >> debuggingActionsPragmas [
 
-	^ composite tree
+	^ #( bytecodeDebuggingAction )
+]
+
+{ #category : #'building presentations' }
+GTBytecodeDebugger >> methodCodeIn: aComposite forContext: aContext [
+
+	(self methodCodeWidgetIn: aComposite forContext: aContext)
+		initialize: [ :bytecodePresentation |
+				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ];
+		with: [ :bytecodePresentation | "self installCodeActionsFor: code "]
+]
+
+{ #category : #'building presentations' }
+GTBytecodeDebugger >> methodCodeWidgetIn: aComposite forContext: aContext [
+
+	^ aComposite tree
 		title: 'Bytecode';
 		rootsExpanded;
-		display: [ symbolicBytecodes ];
+		display: [ aContext method symbolicBytecodes ];
 		children: [ :each | each isArray ifTrue: [each] ifFalse: #() ];
 		format: [ :each | each printString].
+]
+
+{ #category : #'building actions' }
+GTBytecodeDebugger >> stackDebuggingActionsPragmas [
+
+	^ #( bytecodeStackDebuggingAction )
 ]
