@@ -25,7 +25,7 @@ Object >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 				allNamed: #gtInspectorPresentationOrder: 
 				from: self class 
 				to: Object)
-					reject: [:pragma| pragma method selector = #gtInspectorStateIn: ]).
+					reject: [:pragma| pragma method selector = #gtInspectorRawIn: ]).
 	pragmas := pragmas sorted: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
 	pragmas do: [ :eachPragma | 
 		(eachPragma selector findTokens: $:) size = 1 
