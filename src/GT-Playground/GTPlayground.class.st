@@ -1,11 +1,20 @@
 "
-self open.
-self reset.
-
 Playground is the correspondent of a classic Smalltalk Workspace. The problem with the name Workspace is that it implies that work should be carried out in this space, while this is not a best practice. Playground describes better the intention of providing a place in which we can quickly play with some code.
 
-self registerToolsOn: Smalltalk tools
+The model behind a Playground instance is a PlayPage object.
 
+!!Use cases
+The Playground can be used in two ways
+
+# As a place to construct and try out code snippets.
+# as an entry point into an inspection process.
+
+In both cases, the ability of diving into objects to the right is an important feature.
+
+!!Running
+[ [ [ 
+	self open.
+ ] ] ]
 "
 Class {
 	#name : #GTPlayground,
@@ -40,7 +49,7 @@ GTPlayground class >> edit: aString label: aLabel [
 	^ self new openOn: page
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #settings }
 GTPlayground class >> isGTPlaygroundEnabled [
 
 	^ GTPlaygroundEnabledStatus ifNil: [ GTPlaygroundEnabledStatus := Smalltalk tools workspace = self ]
@@ -90,7 +99,7 @@ GTPlayground class >> openLabel: aLabel [
 	^ self new openOn: page
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'tools registry' }
 GTPlayground class >> register [
 
 	self registerToolsOn: Smalltalk tools
@@ -104,7 +113,7 @@ GTPlayground class >> registerToolsOn: registry [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #settings }
 GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
 	| oldStatus |
 	
@@ -118,7 +127,7 @@ GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #settings }
 GTPlayground class >> settingsOn: aBuilder [ 
 	<systemsettings>
 	
@@ -178,12 +187,15 @@ GTPlayground >> codeIn: a [
 		format: [ :page | page content ];
 		act: [ :text :page |
 				text selectionInterval: (1 to: text text size).
-				text evaluateSelectionAndDo: [ :result | text selection: result ]  ]
+				text evaluateSelectionAndDo: [ :result | text selection: result ] ]
 			icon: GLMUIThemeExtraIcons glamorousGo
 "			on: $G"
 			entitled: 'Do it all and go';
 		installGoAction;
 		installDefaultSelectionActions;
+		act: [ :text :page | page publishUrl ]
+			icon: GLMUIThemeExtraIcons glamorousSaveToUrl
+			entitled: 'Remote publish';
 		dynamicActions: [ self actionsForPreviousContents ];
 		onChangeOfPort: #text act: [ :text :page | page content: text text ]
 ]

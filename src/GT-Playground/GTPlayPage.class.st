@@ -1,5 +1,7 @@
 "
-GTPlayground open
+It holds one page of code. It is the model behind the Playground.
+
+It also knows how to store itself on disk, and every time its content changes, it updates the corresponding file.
 "
 Class {
 	#name : #GTPlayPage,
@@ -58,6 +60,14 @@ GTPlayPage >> gtInspectorContentIn: composite [
 GTPlayPage >> initialize [
 	content := ''.
 	title := (DateAndTime now asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
+]
+
+{ #category : #accessing }
+GTPlayPage >> publishUrl [
+	| url |
+	url := GTUrlProvider new post: self content.
+	Clipboard clipboardText: url asString.
+	self inform: url asString , ' was published and the url was copied to clipboard'
 ]
 
 { #category : #accessing }
