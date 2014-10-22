@@ -7,16 +7,39 @@ Class {
 	#instVars : [
 		'methodReference',
 		'result',
-		'name',
+		'title',
 		'parentExample'
 	],
 	#category : #'GT-Inspector'
 }
 
 { #category : #'as yet unclassified' }
+GTExample class >> examplePragmas [
+
+	^ #(example example:)
+]
+
+{ #category : #'as yet unclassified' }
 GTExample class >> exempleDependencyPragma [
 
 	^ #exampleFrom:
+]
+
+{ #category : #'as yet unclassified' }
+GTExample class >> fromDependencyPragma: aPragma [
+
+	^ self fromExamplePragma: (aPragma method pragmas detect: [:each | 
+			self examplePragmas includes: each keyword])
+]
+
+{ #category : #'as yet unclassified' }
+GTExample class >> fromExamplePragma: aPragma [
+	| example |
+	
+	example := self fromMethodReference: aPragma method asRingDefinition.
+	aPragma arguments size = 1 ifTrue: [ 
+		example title: (aPragma argumentAt: 1) ].
+	^ example
 ]
 
 { #category : #'as yet unclassified' }
@@ -30,12 +53,6 @@ GTExample class >> fromMethodReference: aMethodReference [
 	^ newExample
 ]
 
-{ #category : #'as yet unclassified' }
-GTExample class >> fromPragma: aPragma [
-	
-	^ self fromMethodReference: aPragma method asRingDefinition
-]
-
 { #category : #accessing }
 GTExample >> childrenExamples [
 	
@@ -45,7 +62,7 @@ GTExample >> childrenExamples [
 			(aPragma argumentAt: 1) = self methodReference selector]) 
 				ifEmpty: [ #() ]
 				ifNotEmpty: [ :pragmas | 
-					pragmas collect: [ :each | GTExample fromPragma: each ] ]
+					pragmas collect: [ :each | GTExample fromDependencyPragma: each ] ]
 ]
 
 { #category : #accessing }
@@ -62,11 +79,6 @@ GTExample >> methodReference [
 { #category : #accessing }
 GTExample >> methodReference: anObject [
 	methodReference := anObject
-]
-
-{ #category : #accessing }
-GTExample >> name [
-	^ name
 ]
 
 { #category : #accessing }
@@ -105,6 +117,20 @@ GTExample >> rootExample [
 GTExample >> targetClass [
 
 	^ methodReference realClass
+]
+
+{ #category : #accessing }
+GTExample >> title [
+
+	^ title 
+		ifNil: [ self result ]
+		ifNotNil: [ title ]
+]
+
+{ #category : #accessing }
+GTExample >> title: aString [
+
+	title := aString
 ]
 
 { #category : #accessing }

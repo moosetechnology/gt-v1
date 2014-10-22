@@ -17,7 +17,7 @@ GTExamplesBrowser >> compose [
 	self tree
 		display: [ :class | self rootExamplesFor: class ];
 		children: [ :anExample | anExample childrenExamples ];
-		format: [ :anExample | anExample result gtDisplayString ];
+		format: [ :anExample | anExample title gtDisplayString ];
 		send: [ :pragmaExamplePair | pragmaExamplePair result ];
 		allExpanded;
 		morphicSelectionAct: [ :list | 
@@ -35,13 +35,16 @@ GTExamplesBrowser >> compose [
 GTExamplesBrowser >> rootExamplesFor: anObject [
 	| pragmas |
 
-	pragmas := Pragma 
-				allNamed: #example 
-				in: anObject class.
+	pragmas := GTExample examplePragmas 
+		inject: OrderedCollection new
+		into: [ :result :pragma |
+			result , (Pragma 
+				allNamed: pragma 
+				in: anObject class)].
 	^ (pragmas select: [ :each | each selector isUnary ])
-		ifEmpty: [ #() ]
-		ifNotEmpty: [ :rootPragmas | rootPragmas collect: [ :eachPragma | 
-			GTExample fromMethodReference: eachPragma method asRingDefinition ] ]
+			ifEmpty: [ #() ]
+			ifNotEmpty: [ :examplePragmas | examplePragmas collect: [ :eachPragma | 
+				GTExample fromExamplePragma: eachPragma ] ]
 	
 	
 	
