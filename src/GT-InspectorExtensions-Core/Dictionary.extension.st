@@ -1,13 +1,28 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Dictionary class >> gtExampleSimple [
+Dictionary class >> gtExampleEmptyDictionary [
 	<example>
-	| dict |
-	dict := Dictionary new.
-	dict at: 4 put: 2.
-	dict at: #fourty put: 'two'.
-	^ dict
+
+	^ Dictionary new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Dictionary class >> gtExampleOneElementDictionaryFrom: anEmptyDictionary [
+	<example>
+	<exampleFrom: #gtExampleEmptyDictionary>
+	
+	anEmptyDictionary at: 4 put: 2.
+	^ anEmptyDictionary
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Dictionary class >> gtExampleTwoElementsDictionaryFrom: aDictionary [
+	<example>
+	<exampleFrom: #gtExampleOneElementDictionaryFrom:>
+	
+	aDictionary at: #fourty put: 'two'.
+	^ aDictionary
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
