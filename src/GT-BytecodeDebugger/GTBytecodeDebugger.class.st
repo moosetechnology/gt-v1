@@ -33,6 +33,12 @@ GTBytecodeDebugger class >> sessionClass [
 ]
 
 { #category : #'building actions' }
+GTBytecodeDebugger >> codeActionsPragmas [
+
+	^ #( bytecodeDebuggingAction )
+]
+
+{ #category : #'building actions' }
 GTBytecodeDebugger >> debuggingActionsPragmas [
 
 	^ #( bytecodeDebuggingAction )
@@ -44,7 +50,7 @@ GTBytecodeDebugger >> methodCodeIn: aComposite forContext: aContext [
 	(self methodCodeWidgetIn: aComposite forContext: aContext)
 		initialize: [ :bytecodePresentation |
 				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ];
-		with: [ :bytecodePresentation | "self installCodeActionsFor: code "]
+		with: [ :bytecodePresentation | self installCodeActionsFor: bytecodePresentation]
 ]
 
 { #category : #'building presentations' }
