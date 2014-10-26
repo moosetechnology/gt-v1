@@ -8,28 +8,8 @@ Class {
 }
 
 { #category : #visualization }
-GTInspectorMessageTallyCharter >> nestingMapOf: aMessageTally on: view [
-	"This is provides a treemap visualization of a message tally"
-		
-	| builder methods methodNestings |
-	builder := ROTreeMapBuilder new.
-	builder weightBlock: [ :el | el children size max: 1 ].
-	methods := OrderedCollection new.
-	methodNestings := OrderedCollection new.
-	aMessageTally 
-		deep: #children
-		do: [ :each | methods add: each ]
-		relationDo: [ :from :to | methodNestings add: from->to ].
-	builder nodes: methods.
-	builder nestingFromAssociations: methodNestings.
-	builder fillNodes: [:x | true] withColor: (RONColorLinearNormalizer inContext: methods withCommand: [:m | (m isKindOf: ROElement) ifTrue: [ m model localTally ] ifFalse: [m localTally] ]  lowColor: Color white highColor: Color red ).
-	builder withShadedFrames.
-	builder drawOn: view raw
-]
-
-{ #category : #visualization }
 GTInspectorMessageTallyCharter >> performanceOf: aMessageTally with: builder in: presentation [
-	"Displays a Graph-ET chart showing the top 20 most costly methods within a MessageTally.
+	"Displays a double chart showing the top 20 most costly methods within a MessageTally.
 	For each method it sows the number of occurences of a method and the 
 	total amount of local tallies for that method. Useful for identifying outliers 
 	within one execution."
