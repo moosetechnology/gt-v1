@@ -113,7 +113,7 @@ GTSimpleMethodsBrowser >> sourceOf: method for: object in: composite [
 		selectionPopulate: #evaluatedObject
 			on: $o
 			entitled: 'Do it and open (o)'
-			with: [ :text | Compiler evaluate: text selectedText for: object logged: false ];
+			with: [ :text | Smalltalk compiler evaluate: text selectedText for: object logged: false ];
 		act: [ :text :m | self updateOuterPaneFrom: text for: method ]
 			icon: GLMUIThemeExtraIcons glamorousAccept
 			on: $s
