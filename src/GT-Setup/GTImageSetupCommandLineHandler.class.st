@@ -32,7 +32,7 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self cleanupWorld.
 "	self installGLMWhitespaceTheme."
 	self installFonts.
-	self installAthens.
+"	self installAthens."
 	self installGTInspector.
 	self installGTDebuggers.
 	self installGTPlayground.
@@ -60,11 +60,6 @@ GTImageSetupCommandLineHandler >> disableBreakingCommandPlusOKeybindingsInPharo3
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> flushMCCache [
 	MCFileBasedRepository flushAllCaches 
-]
-
-{ #category : #utilities }
-GTImageSetupCommandLineHandler >> installAthens [
-	ROPlatform setCurrent: 'athens'
 ]
 
 { #category : #utilities }
