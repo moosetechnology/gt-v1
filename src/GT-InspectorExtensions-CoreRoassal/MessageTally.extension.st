@@ -10,7 +10,6 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 						withCommand: #tally 
 						lowColor: Color gray 
 						highColor: Color red.
-	self halt.
 	^ (composite tree)
 		title: 'Tree';
 		children: [ :each | each children ];
