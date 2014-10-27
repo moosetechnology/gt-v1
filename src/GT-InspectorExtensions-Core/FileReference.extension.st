@@ -165,7 +165,7 @@ FileReference >> gtInspectorStScriptIn: composite [
 				on: $o
 				entitled: 'Do it and open (o)'
 				with: [ :text :object | 
-					Compiler evaluate: text selectedText for: object logged: false ];
+					Smalltalk compiler evaluate: text selectedText for: object logged: false ];
 			act: [ :text |
 				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
 				icon: GLMUIThemeExtraIcons glamorousSave
