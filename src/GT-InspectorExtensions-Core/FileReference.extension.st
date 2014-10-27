@@ -61,7 +61,7 @@ FileReference >> gtInspectorActionMaterializeFuel [
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite rubricText
-			title: 'Raw';
+			title: 'Contents';
 			display: [ 
 				self readStreamDo: [ :stream | 
 					| result |
