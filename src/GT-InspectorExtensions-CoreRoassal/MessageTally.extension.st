@@ -5,11 +5,12 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	| methods normalizer |
 	methods := self withDeepCollect: #children.
-	normalizer := RONColorLinearNormalizer 
+	normalizer := RTNColorLinearNormalizer 
 						inContext: methods 
 						withCommand: #tally 
 						lowColor: Color gray 
 						highColor: Color red.
+	self halt.
 	^ (composite tree)
 		title: 'Tree';
 		children: [ :each | each children ];
@@ -17,10 +18,10 @@ MessageTally >> gtInspectorMessageTreeIn: composite [
 		format: [ :each | 
 			Text 
 				string: each gtDisplayString
-				attributes: { TextColor color: (normalizer roValue: each)}];
+				attributes: { TextColor color: (normalizer rtValue: each)}];
 		when: [ self children notEmpty ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ];
-		morphicSelectionAct: [ :list | GTUtils browseMethod: list selection method ]
+		morphicSelectionAct: [ :list | list selection method browse ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse (b)'
