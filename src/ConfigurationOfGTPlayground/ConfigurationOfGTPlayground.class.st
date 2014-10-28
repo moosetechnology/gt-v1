@@ -281,6 +281,20 @@ ConfigurationOfGTPlayground >> version107: spec [
 ]
 
 { #category : #versions }
+ConfigurationOfGTPlayground >> version108: spec [
+	<version: '1.0.8' imports: #('1.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0.8'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '10/28/2014 14:07'.
+		spec project: 'GTInspector' with: '1.0.8'.
+		spec package: 'GT-Playground' with: 'GT-Playground-TudorGirba.46'. ]
+
+]
+
+{ #category : #versions }
 ConfigurationOfGTPlayground >> version10: spec [
 	<version: '1.0' imports: #('1.0-baseline' )>
 
