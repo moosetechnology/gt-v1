@@ -476,7 +476,7 @@ ConfigurationOfGToolkit >> baseline014: aSpec [
 			group: 'metaceller' with: #( 'GT-Metaceller-Glamour' 'GT-Metaceller-Tests') ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #baselines }
 ConfigurationOfGToolkit >> baseline015: aSpec [
 	<version: '0.15-baseline'>
 	aSpec for: #'common' do: [
