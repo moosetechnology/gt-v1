@@ -172,12 +172,12 @@ ConfigurationOfGTInspector >> baseline10: spec [
 					versionString: #'development';
 					loads: #('Core' 'Core Tests' 'Morphic' );
 					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];
-			project: 'GlamourExtras' with: [
+			"project: 'GlamourExtras' with: [
 				spec
 					className: #ConfigurationOfGlamour;
 					versionString: #'development';
 					loads: #('CoreExtras' 'Roassal' 'Roassal2' );
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];"
 			project: 'DeepTraverser' with: [
 				spec
 					className: #ConfigurationOfDeepTraverser;
@@ -188,14 +188,14 @@ ConfigurationOfGTInspector >> baseline10: spec [
 				spec requires: #('GlamourCore' ). ];
 			package: 'GT-InspectorExtensions-Core' with: [
 				spec requires: #(#'GT-Inspector' 'GlamourCore' ). ];
-			package: #'GT-InspectorExtensions-CoreRoassal' with: [
-				spec requires: #(#'GT-Inspector' 'GlamourCore' 'GlamourExtras' ). ];
+			"package: #'GT-InspectorExtensions-CoreRoassal' with: [
+				spec requires: #(#'GT-Inspector' 'GlamourCore' 'GlamourExtras' ). ];"
 			package: 'GT-Tests-Inspector' with: [
 				spec requires: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' ). ].
 		spec 
 			group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' );
 			group: 'Tests' with: #(#'GT-Tests-Inspector' );
-			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' #'GT-InspectorExtensions-CoreRoassal' 'GT-Tests-Inspector' 'DeepTraverser' ). ].
+			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' "#'GT-InspectorExtensions-CoreRoassal'" 'GT-Tests-Inspector' 'DeepTraverser' ). ].
 
 ]
 
