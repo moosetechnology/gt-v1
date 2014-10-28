@@ -171,18 +171,18 @@ ConfigurationOfGTInspector >> baseline10: spec [
 					className: #ConfigurationOfGlamour;
 					versionString: #'development';
 					loads: #('Core' 'Core Tests' 'Morphic' );
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ]
 			"project: 'GlamourExtras' with: [
 				spec
 					className: #ConfigurationOfGlamour;
 					versionString: #'development';
 					loads: #('CoreExtras' 'Roassal' 'Roassal2' );
 					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];"
-			project: 'DeepTraverser' with: [
+			"project: 'DeepTraverser' with: [
 				spec
 					className: #ConfigurationOfDeepTraverser;
 					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ].
+					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ]".
 		spec 
 			package: #'GT-Inspector' with: [
 				spec requires: #('GlamourCore' ). ];
@@ -195,7 +195,7 @@ ConfigurationOfGTInspector >> baseline10: spec [
 		spec 
 			group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' );
 			group: 'Tests' with: #(#'GT-Tests-Inspector' );
-			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' "#'GT-InspectorExtensions-CoreRoassal'" 'GT-Tests-Inspector' 'DeepTraverser' ). ].
+			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' "#'GT-InspectorExtensions-CoreRoassal'" 'GT-Tests-Inspector' "'DeepTraverser'" ). ].
 
 ]
 
@@ -282,8 +282,7 @@ ConfigurationOfGTInspector >> version101: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '9/30/2014 17:11'.
 		spec 
-			project: 'GlamourCore' with: '2.71';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.71'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.239';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.55';
@@ -301,8 +300,7 @@ ConfigurationOfGTInspector >> version102: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '9/30/2014 20:55'.
 		spec 
-			project: 'GlamourCore' with: '2.71';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.71'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.239';
 			package: 'GT-InspectorExtensions-Core' with: [ 
@@ -322,8 +320,7 @@ ConfigurationOfGTInspector >> version103: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '9/30/2014 14:52'.
 		spec 
-			project: 'GlamourCore' with: '2.72';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.72'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.239';
 			package: 'GT-InspectorExtensions-Core' with: [ 
@@ -343,8 +340,7 @@ ConfigurationOfGTInspector >> version104: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/02/2014 18:16'.
 		spec 
-			project: 'GlamourCore' with: '2.73';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.73'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.239';
 			package: 'GT-InspectorExtensions-Core' with: [ 
@@ -364,8 +360,7 @@ ConfigurationOfGTInspector >> version105: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/03/2014 17:06'.
 		spec 
-			project: 'GlamourCore' with: '2.74';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.74'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.241';
 			package: 'GT-InspectorExtensions-Core' with: [ 
@@ -385,8 +380,7 @@ ConfigurationOfGTInspector >> version106: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/06/2014 11:42'.
 		spec 
-			project: 'GlamourCore' with: '2.75';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.75'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-AndreiChis.242';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.63';
@@ -404,8 +398,7 @@ ConfigurationOfGTInspector >> version107: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/12/2014 19:56'.
 		spec 
-			project: 'GlamourCore' with: '2.76';
-			project: 'DeepTraverser' with: '1.0'.
+			project: 'GlamourCore' with: '2.76'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.249';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-SvenVanCaekenberghe.65';
