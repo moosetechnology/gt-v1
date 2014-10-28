@@ -156,6 +156,36 @@ ConfigurationOfGTInspector >> baseline01: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGTInspector >> baseline101: spec [
+	<version: '1.0.1-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec description: 'For version 1.0'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '2014-09-22'.
+		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
+		spec 
+			project: 'GlamourCore' with: [
+				spec
+					className: #ConfigurationOfGlamourCore;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
+		spec 
+			package: #'GT-Inspector' with: [
+				spec requires: #('GlamourCore' ). ];
+			package: 'GT-InspectorExtensions-Core' with: [
+				spec requires: #(#'GT-Inspector' 'GlamourCore' ). ];
+			package: 'GT-Tests-Inspector' with: [
+				spec requires: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' ). ].
+		spec 
+			group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' );
+			group: 'Tests' with: #(#'GT-Tests-Inspector' );
+			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' 'GT-Tests-Inspector'). ].
+
+]
+
+{ #category : #baselines }
 ConfigurationOfGTInspector >> baseline10: spec [
 	<version: '1.0-baseline'>
 
@@ -395,7 +425,7 @@ ConfigurationOfGTInspector >> version107: spec [
 
 { #category : #versions }
 ConfigurationOfGTInspector >> version108: spec [
-	<version: '1.0.8' imports: #('1.0-baseline' )>
+	<version: '1.0.8' imports: #('1.0.1-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
@@ -403,7 +433,7 @@ ConfigurationOfGTInspector >> version108: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/28/2014 14:07'.
 		spec 
-			project: 'GlamourCore' with: '2.77'.
+			project: 'GlamourCore' with: '1.0.0'.
 		spec 
 			package: #'GT-Inspector' with: 'GT-Inspector-AndreiChis.258';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.74';
