@@ -161,7 +161,7 @@ ConfigurationOfGTInspector >> baseline101: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
-		spec description: 'For version 1.0'.
+		spec description: 'version 1.0.1'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '2014-09-22'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
