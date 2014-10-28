@@ -59,7 +59,7 @@ GTInspector class >> inspect: anObject label: aString [
 { #category : #openning }
 GTInspector class >> inspector: anObject [
 
-	^ self inspect: anObject
+	^ self openOn: anObject
 ]
 
 { #category : #inspecting }
