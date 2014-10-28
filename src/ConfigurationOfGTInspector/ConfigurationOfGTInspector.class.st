@@ -171,31 +171,18 @@ ConfigurationOfGTInspector >> baseline10: spec [
 					className: #ConfigurationOfGlamour;
 					versionString: #'development';
 					loads: #('Core' 'Core Tests' 'Morphic' );
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ]
-			"project: 'GlamourExtras' with: [
-				spec
-					className: #ConfigurationOfGlamour;
-					versionString: #'development';
-					loads: #('CoreExtras' 'Roassal' 'Roassal2' );
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];"
-			"project: 'DeepTraverser' with: [
-				spec
-					className: #ConfigurationOfDeepTraverser;
-					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ]".
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
 		spec 
 			package: #'GT-Inspector' with: [
 				spec requires: #('GlamourCore' ). ];
 			package: 'GT-InspectorExtensions-Core' with: [
 				spec requires: #(#'GT-Inspector' 'GlamourCore' ). ];
-			"package: #'GT-InspectorExtensions-CoreRoassal' with: [
-				spec requires: #(#'GT-Inspector' 'GlamourCore' 'GlamourExtras' ). ];"
 			package: 'GT-Tests-Inspector' with: [
 				spec requires: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' ). ].
 		spec 
 			group: 'Core' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' );
 			group: 'Tests' with: #(#'GT-Tests-Inspector' );
-			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' "#'GT-InspectorExtensions-CoreRoassal'" 'GT-Tests-Inspector' "'DeepTraverser'" ). ].
+			group: 'default' with: #(#'GT-Inspector' 'GT-InspectorExtensions-Core' 'GT-Tests-Inspector'). ].
 
 ]
 
@@ -403,6 +390,24 @@ ConfigurationOfGTInspector >> version107: spec [
 			package: #'GT-Inspector' with: 'GT-Inspector-TudorGirba.249';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-SvenVanCaekenberghe.65';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.22'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspector >> version108: spec [
+	<version: '1.0.8' imports: #('1.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0.8'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '10/28/2014 14:07'.
+		spec 
+			project: 'GlamourCore' with: '2.77'.
+		spec 
+			package: #'GT-Inspector' with: 'GT-Inspector-AndreiChis.258';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.74';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.23'. ].
 
 ]
 
