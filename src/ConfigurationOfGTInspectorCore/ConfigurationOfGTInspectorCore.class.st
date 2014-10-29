@@ -1,5 +1,5 @@
 "
-Core configuration of the GTInspector for integrating with Pharo.
+Core configuration of GTInspector for integrating with Pharo.
 
 self loadDevelopment
 "
