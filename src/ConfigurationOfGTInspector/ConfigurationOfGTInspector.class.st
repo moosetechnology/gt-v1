@@ -263,8 +263,8 @@ ConfigurationOfGTInspector >> baseline11: spec [
 ]
 
 { #category : #baselines }
-ConfigurationOfGTInspector >> baseline12: spec [
-	<version: '1.2-baseline'>
+ConfigurationOfGTInspector >> baseline20: spec [
+	<version: '2.0-baseline'>
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
@@ -311,7 +311,7 @@ ConfigurationOfGTInspector >> customProjectAttributes [
 ConfigurationOfGTInspector >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '1.2-baseline'.
+	spec for: #'common' version: '2.0-baseline'.
 
 ]
 
