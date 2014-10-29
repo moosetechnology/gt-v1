@@ -174,3 +174,30 @@ ConfigurationOfGTInspectorCore >> project [
 		project loadType: #linear. "change to #atomic if desired"
 		project ]
 ]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfGTInspectorCore >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '2.0.0'.
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version200: spec [
+	<version: '2.0.0' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.0'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '10/29/2014 17:01'.
+		
+		spec 
+			package: #'GT-Inspector' with: 'GT-Inspector-AndreiChis.259';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.74';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.23'. 
+		spec 
+			project: 'GlamourCore' with: '3.0.0'. ].
+
+]
