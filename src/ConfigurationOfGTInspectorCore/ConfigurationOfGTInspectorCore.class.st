@@ -1,3 +1,8 @@
+"
+Core configuration of the GTInspector for integrating with Pharo.
+
+self loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGTInspectorCore,
 	#superclass : #Object,
@@ -137,7 +142,7 @@ ConfigurationOfGTInspectorCore >> baseline10: spec [
 		spec 
 			group: 'Core' with: #('GT-Inspector' 'GT-InspectorExtensions-Core' );
 			group: 'Tests' with: #('GT-Tests-Inspector' );
-			group: 'default' with: #('GT-Inspector' 'GT-InspectorExtensions-Core''GT-Tests-Inspector' ) ]
+			group: 'default' with: #('GT-Inspector' 'GT-InspectorExtensions-Core' 'GT-Tests-Inspector' ) ]
 
 ]
 
