@@ -344,7 +344,7 @@ ConfigurationOfGTPlayground >> version200: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/29/2014 16:54'.
 		
-		spec package: 'GTPlaygroundCore' with: '2.0.0'.
+		spec project: 'GTPlaygroundCore' with: '2.0.0'.
 		spec project: 'GTInspector' with: '2.0.0'. ]
 
 ]
