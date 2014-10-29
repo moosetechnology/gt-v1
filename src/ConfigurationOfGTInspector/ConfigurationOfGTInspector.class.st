@@ -1,4 +1,6 @@
 "
+Full configuration of the GTInspector for loading into Moose.
+
 self loadDevelopment
 "
 Class {
@@ -268,7 +270,7 @@ ConfigurationOfGTInspector >> baseline12: spec [
 		spec blessing: #'baseline'.
 		spec description: 'Use GTInspectorCore'.
 		spec author: 'AndreiChis'.
-		spec timestamp: '2014-09-22'.
+		spec timestamp: '2014-10-29'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
 		
 		spec 
