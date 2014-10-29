@@ -241,3 +241,10 @@ GTInspector >> showFirst: aBlock [
 
 	self first showFirst: aBlock
 ]
+
+{ #category : #'as yet unclassified' }
+GTInspector >> updatePanesFor: anObject [
+
+	(self panes select: [ :each | 
+		(each port: #entity) value == anObject ]) do: [ :each | each update ]
+]
