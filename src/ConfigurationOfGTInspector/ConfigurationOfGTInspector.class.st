@@ -1,5 +1,5 @@
 "
-Full configuration of the GTInspector for loading into Moose.
+Full configuration of GTInspector for loading into Moose.
 
 self loadDevelopment
 "
