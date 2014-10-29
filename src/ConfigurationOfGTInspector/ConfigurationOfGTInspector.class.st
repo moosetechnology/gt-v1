@@ -497,3 +497,22 @@ ConfigurationOfGTInspector >> version10: spec [
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.22'. ].
 
 ]
+
+{ #category : #versions }
+ConfigurationOfGTInspector >> version200: spec [
+	<version: '2.0.0' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.0'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '10/29/2014 17:01'.
+		
+		spec 
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-AlexandreBergel.15'.
+		spec 
+			project: 'GTInspectorCore' with: '2.0.0';
+			project: 'Glamour' with: '3.0.0';
+			project: 'DeepTraversal' with: '1.0'. ].
+
+]
