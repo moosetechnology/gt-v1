@@ -1,4 +1,6 @@
 "
+Full configuration of GTPlayground for loading into Moose.
+
 self loadDevelopment
 "
 Class {
