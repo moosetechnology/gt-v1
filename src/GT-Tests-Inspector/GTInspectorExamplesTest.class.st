@@ -23,7 +23,7 @@ GTInspectorExamplesTest >> testEachPresentation [
 	| pragmas window browser |
 
 	Object withAllSubclassesDo: [ :eachClass |
-		(GTExamplesBrowser new rootExamplesFor: eachClass) do: [ :exampleToTest |
+		eachClass gtExamples do: [ :exampleToTest |
 			pragmas := Pragma 
 						allNamed: #gtInspectorPresentationOrder: 
 						from: exampleToTest class 
