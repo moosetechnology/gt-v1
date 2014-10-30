@@ -1,9 +1,9 @@
 Extension { #name : #RTExampleSelection }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTExampleSelection >> gtInspectorSourceIn: composite [
+RTExampleSelection >> gtDisplaySourceIn: composite [
 	<gtInspectorPresentationOrder: -8>
-	composite smalltalkCode
+	^ composite smalltalkCode
 		beForScripting;
 		title: 'Source';
 		format: [ 
@@ -12,10 +12,7 @@ RTExampleSelection >> gtInspectorSourceIn: composite [
 			firstLine := source lines first.
 			sourceWithoutFirstLine := source copyFrom: firstLine size + 1 to: source size.
 			sourceWithoutFirstLine ];
-		
-
 		act: [ :text :page |
-			
 				text selectionInterval: (1 to: text text size).
 				text evaluateSelectionAndDo: [ :result | text selection: result ] ]
 			icon: GLMUIThemeExtraIcons glamorousGo
@@ -31,4 +28,10 @@ RTExampleSelection >> gtInspectorViewIn: composite [
 		title: 'Canvas';
 		initializeView: [ exampleObject perform: selector ]
 		
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTExampleSelection >> isGTExample [
+
+	^ true
 ]
