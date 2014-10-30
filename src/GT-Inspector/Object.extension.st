@@ -1,5 +1,22 @@
 Extension { #name : #Object }
 
+{ #category : #'*GT-Inspector-Examples' }
+Object >> gtDisplayExamplesIn: aComposite [
+
+	^ aComposite tree
+		title: 'E.g.';
+		when: [ self gtExamples notEmpty ];
+		display: [ self gtExamples ];
+		children: [ :anExample | anExample childrenExamples ];
+		format: [ :anExample | anExample title gtDisplayString ];
+		send: [ :anExample | anExample result ];
+		allExpanded;
+		selectionPopulate: #selection 
+			on: $o 
+			entitled: 'Open source' 
+			with: [ :list | list rawSelection methodReference ]
+]
+
 { #category : #'*GT-Inspector' }
 Object >> gtDisplayOn: stream [
 	"This offers a means to customize how the object is shown in the inspector"
@@ -16,6 +33,22 @@ Object >> gtDisplayString [
 	limitedString := String streamContents: [:s | self gtDisplayOn: s] limitedTo: limit.
 	limitedString size < limit ifTrue: [^ limitedString].
 	^ limitedString , ' ...'
+]
+
+{ #category : #'*GT-Inspector-Examples' }
+Object >> gtExamples [
+
+	^	self gtExamplesExtractionStrategy rootExamplesFor: self
+]
+
+{ #category : #'*GT-Inspector-Examples' }
+Object >> gtExamplesExtractionStrategy [
+
+	^ GTExampleExtractionStrategy new
+		addExampleConstructor: (GTPragmaExampleConstructor for: #example);
+		addExampleConstructor: (GTPragmaExampleConstructor for: #example:);
+		yourself
+		
 ]
 
 { #category : #'*GT-Inspector' }
@@ -56,10 +89,10 @@ Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
 	(aGTInspector panes size > 1) 
 		ifFalse: [ ^ self ].	
 	previousRawSelection := (aGTInspector panes reversed second port: #rawSelection) value.
-	((previousRawSelection isKindOf: GTExample) "and: [
+	((previousRawSelection isGTExample) "and: [
 		aGTInspector first lastActivePresentation pane ~= aGTInspector panes reversed second ]")
 			ifTrue: [ 
-				(previousRawSelection methodReference gtInspectorSourceIn: composite) 
+				(previousRawSelection gtDisplaySourceIn: composite) 
 					title: 'E.g. source' ]
 ]
 
@@ -112,4 +145,10 @@ Object >> gtInspectorVariableValuePairs [
 	^ Set new
 		addAll: bindings;
 		yourself
+]
+
+{ #category : #'*GT-Inspector-Examples' }
+Object >> isGTExample [
+	
+	^ false
 ]
