@@ -30,17 +30,6 @@ GTPragmaExampleConstructor >> createExampleFor: aMethodReference [
 	^ newExample
 ]
 
-{ #category : #'example creation' }
-GTPragmaExampleConstructor >> createExampleFrom: aMethodReference [
-	| newExample targetPragma |
-
-	newExample := self exampleClass new.
-	targetPragma := aMethodReference pragmaAt: self pragmaKeyword.
-	targetPragma arguments size = 1 ifTrue: [ 
-		newExample title: (targetPragma argumentAt: 1) ].
-	^ newExample
-]
-
 { #category : #accessing }
 GTPragmaExampleConstructor >> pragmaKeyword [
 

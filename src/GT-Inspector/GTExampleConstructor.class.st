@@ -22,12 +22,6 @@ GTExampleConstructor >> createExampleFor: aMethod [
 	self subclassResponsibility 
 ]
 
-{ #category : #'example creation' }
-GTExampleConstructor >> createExampleFrom: aMethod [
-
-	self subclassResponsibility 
-]
-
 { #category : #accessing }
 GTExampleConstructor >> defaultExampleClass [
 
