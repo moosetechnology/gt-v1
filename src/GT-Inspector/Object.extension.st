@@ -45,10 +45,6 @@ Object >> gtExamples [
 Object >> gtExamplesExtractionStrategy [
 
 	^ GTExampleExtractionStrategy new
-		addExampleConstructor: (GTPragmaExampleConstructor for: #example);
-		addExampleConstructor: (GTPragmaExampleConstructor for: #example:);
-		yourself
-		
 ]
 
 { #category : #'*GT-Inspector' }

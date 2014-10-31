@@ -4,44 +4,37 @@ I extract and create examples from an example provider.
 Class {
 	#name : #GTExampleExtractionStrategy,
 	#superclass : #Object,
-	#instVars : [
-		'exampleConstructors'
-	],
 	#category : #'GT-Inspector-Examples'
 }
-
-{ #category : #adding }
-GTExampleExtractionStrategy >> addExampleConstructor: anObject [
-
-	exampleConstructors add: anObject
-]
 
 { #category : #'example creation' }
 GTExampleExtractionStrategy >> childrenExamplesFor: anExample [
 
 	^ ((Pragma 
-		allNamed: self exempleDependencyPragma 
+		allNamed: self exampleDependencyPragma 
 		in: anExample provider class) select: [ :aPragma | 
 			(aPragma argumentAt: 1) = anExample selector]) 
 				ifEmpty: [ #() ]
 				ifNotEmpty: [ :pragmas | 
 					pragmas collect: [ :each | 
-						(self fromDependencyPragma: each in: anExample provider) ] ]
+						(self createExampleFromDependencyPragma: each from: anExample provider) ] ]
 ]
 
 { #category : #'example creation' }
-GTExampleExtractionStrategy >> createExampleFor: aMethod from: anExampleProvider [ 
+GTExampleExtractionStrategy >> createExampleForExamplePragma: aPragma from: anExampleProvider [
+	| example |
 	
-	^ (self locateConstructorFor: aMethod)
-		ifNil: [ nil ]
-		ifNotNil: [ :aConstructor | self createExampleFor: aMethod from: anExampleProvider using: aConstructor ] 
+	example := self createExampleForMethod: aPragma method asRingDefinition from: anExampleProvider.
+	aPragma arguments size = 1 ifTrue: [ 
+		example title: (aPragma argumentAt: 1) ].
+	^ example
 ]
 
 { #category : #'example creation' }
-GTExampleExtractionStrategy >> createExampleFor: aMethod from: anExampleProvider using: aConstructor [ 
+GTExampleExtractionStrategy >> createExampleForMethod: aMethod from: anExampleProvider [
 	| newExample |
 
-	newExample := (aConstructor createExampleFor: aMethod) 
+	newExample := self exampleClass new
 		selector: aMethod selector;
 		extractionStrategy: self;
 		provider: anExampleProvider.
@@ -49,33 +42,31 @@ GTExampleExtractionStrategy >> createExampleFor: aMethod from: anExampleProvider
 	^ newExample
 ]
 
+{ #category : #'example creation' }
+GTExampleExtractionStrategy >> createExampleFromDependencyPragma: aPragma from: anExampleProvider [
+
+	^ self 
+		createExampleForExamplePragma: (aPragma method pragmas detect: [:each | 
+				self examplePragmas includes: each keyword])
+		from: anExampleProvider
+]
+
 { #category : #accessing }
-GTExampleExtractionStrategy >> exempleDependencyPragma [
+GTExampleExtractionStrategy >> exampleClass [
+
+	^ GTExample
+]
+
+{ #category : #accessing }
+GTExampleExtractionStrategy >> exampleDependencyPragma [
 
 	^ #exampleFrom:
 ]
 
-{ #category : #private }
-GTExampleExtractionStrategy >> fromDependencyPragma: aPragma in: anExampleProvider [
+{ #category : #accessing }
+GTExampleExtractionStrategy >> examplePragmas [
 
-	^ self 
-		createExampleFor: aPragma method
-		from: anExampleProvider
-]
-
-{ #category : #initialization }
-GTExampleExtractionStrategy >> initialize [
-	super initialize.
-	
-	exampleConstructors := OrderedCollection new
-]
-
-{ #category : #private }
-GTExampleExtractionStrategy >> locateConstructorFor: aMethod [
-
-	^ exampleConstructors 
-		detect: [ :aConstructor | aConstructor appliesTo: aMethod ]
-		ifNone: [ nil ]
+	^ #(example example:)
 ]
 
 { #category : #'example creation' }
@@ -83,27 +74,30 @@ GTExampleExtractionStrategy >> parentExampleFor: anExample [
 	| dependencyPragma |
 	
 	dependencyPragma := anExample methodReference compiledMethod pragmas 
-		detect: [ :each | each keyword = self exempleDependencyPragma ] 
+		detect: [ :each | each keyword = self exampleDependencyPragma ] 
 		ifNone: [ nil ].
 
 	^ dependencyPragma 
 		ifNil: [ nil ]
 		ifNotNil: [
 			self 
-				createExampleFor: (anExample methodReference realClass 
+				createExampleForMethod: (anExample methodReference realClass 
 					compiledMethodAt: (dependencyPragma argumentAt: 1))
 				from: anExample provider ].
 ]
 
 { #category : #'example creation' }
 GTExampleExtractionStrategy >> rootExamplesFor: anExampleProvider [
+	| pragmas |
 
-	^ anExampleProvider class methods 
+	pragmas := self examplePragmas 
 		inject: OrderedCollection new
-		into: [ :newExamples :aMethod |
-			"Not the best solution for filtering root examples"
-			aMethod selector isUnary ifTrue: [  
-				(self createExampleFor: aMethod from: anExampleProvider) ifNotNil: [ :anExample |
-					newExamples add: anExample ] ].
-			newExamples ]
+		into: [ :result :pragma |
+			result , (Pragma 
+				allNamed: pragma 
+				in: anExampleProvider class)].
+	^ (pragmas select: [ :each | each selector isUnary ])
+			ifEmpty: [ #() ]
+			ifNotEmpty: [ :examplePragmas | examplePragmas collect: [ :eachPragma | 
+				self createExampleForExamplePragma: eachPragma from: anExampleProvider ] ]
 ]
