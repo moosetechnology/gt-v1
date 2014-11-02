@@ -48,12 +48,19 @@ GTPlayPage >> fileReference [
 	^ self cacheDirectory / (self title, '.ph')
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
+GTPlayPage >> gtDisplayOn: stream [
+	stream nextPutAll: (self content asString copyReplaceAll: String cr with: String space)
+]
+
+{ #category : #ui }
 GTPlayPage >> gtInspectorContentIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 0>
 	composite pharoPlayground 
 		title: 'Content';
-		display: #content
+		display: #content;
+		installGoAction;
+		installDefaultSelectionActions
 ]
 
 { #category : #accessing }

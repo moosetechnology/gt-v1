@@ -50,6 +50,16 @@ GTPlayBook >> addPageIfInteresting: aPage [
 		ifFalse: [ self addPage: aPage ]
 ]
 
+{ #category : #'as yet unclassified' }
+GTPlayBook >> gtPagesIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	composite list 
+		title: 'Pages';
+		display: [ self pages ];
+		format: #gtDisplayString;
+		filterOn: [ :text :each | text match: each content]
+]
+
 { #category : #accessing }
 GTPlayBook >> initialize [
 	pages := (self class cacheDirectory files 
