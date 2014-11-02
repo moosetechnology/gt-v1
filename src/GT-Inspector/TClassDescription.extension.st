@@ -1,13 +1,13 @@
-Extension { #name : #TClass }
+Extension { #name : #TClassDescription }
 
 { #category : #'*GT-Inspector-Examples' }
-TClass >> examplesProvider [
+TClassDescription >> examplesProvider [
 
 	^ self
 ]
 
 { #category : #'*GT-Inspector-Examples' }
-TClass >> gtDisplayExamplesIn: aComposite [
+TClassDescription >> gtDisplayExamplesIn: aComposite [
 
 	^ aComposite tree
 		title: 'E.g.';
@@ -24,19 +24,19 @@ TClass >> gtDisplayExamplesIn: aComposite [
 ]
 
 { #category : #'*GT-Inspector-Examples' }
-TClass >> gtExamples [
+TClassDescription >> gtExamples [
 
 	^	self gtExamplesExtractionStrategy rootExamplesFor: self
 ]
 
 { #category : #'*GT-Inspector-Examples' }
-TClass >> gtExamplesExtractionStrategy [
+TClassDescription >> gtExamplesExtractionStrategy [
 
 	^ GTExampleExtractionStrategy new
 ]
 
-{ #category : #'*GT-Inspector' }
-TClass >> gtInspectorExamplesIn: composite [
+{ #category : #'*GT-Inspector-Examples' }
+TClassDescription >> gtInspectorExamplesIn: composite [
 	"This provides a list of example objects for the current class"
 	<gtInspectorPresentationOrder: 20>
 	
