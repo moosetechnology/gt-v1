@@ -18,9 +18,13 @@ Class {
 	#category : #'GT-Playground'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPlayBook class >> cacheDirectory [
-	^ cacheDirectory ifNil: [cacheDirectory := 'play-cache/' asFileReference ensureCreateDirectory]
+	^ cacheDirectory 
+		ifNil: [cacheDirectory := self defaultCacheDirectory]
+		ifNotNil: [ cacheDirectory exists 
+			ifTrue: [ cacheDirectory ]
+			ifFalse: [ cacheDirectory := self defaultCacheDirectory ] ]
 ]
 
 { #category : #accessing }
@@ -28,12 +32,17 @@ GTPlayBook class >> cacheDirectory: aString [
 	cacheDirectory := aString asFileReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GTPlayBook class >> defaultCacheDirectory [
+	^ 'play-cache/' asFileReference ensureCreateDirectory
+]
+
+{ #category : #accessing }
 GTPlayBook class >> instance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #protocol }
 GTPlayBook class >> reset [
 	
 	instance := nil
