@@ -509,7 +509,7 @@ ConfigurationOfGTInspector >> version200: spec [
 		spec timestamp: '10/29/2014 17:01'.
 		
 		spec 
-			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-AlexandreBergel.15'.
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.18'.
 		spec 
 			project: 'GTInspectorCore' with: '2.0.0';
 			project: 'Glamour' with: '3.0.0';
