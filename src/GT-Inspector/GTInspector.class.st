@@ -176,7 +176,7 @@ GTInspector >> compose [
 							inContext: self ])
 							startOn: x ] ] ].
 			
-	self first on: GLMPaneAdded send: #actOnPaneAdded: to: self
+	self first when: GLMPaneAdded send: #actOnPaneAdded: to: self
 ]
 
 { #category : #accessing }
