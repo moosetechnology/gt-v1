@@ -348,3 +348,18 @@ ConfigurationOfGTPlayground >> version200: spec [
 		spec project: 'GTInspector' with: '2.0.0'. ]
 
 ]
+
+{ #category : #versions }
+ConfigurationOfGTPlayground >> version201: spec [
+	<version: '2.0.1' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.1'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/13/2014 13:54'.
+		
+		spec project: 'GTPlaygroundCore' with: '2.0.1'.
+		spec project: 'GTInspector' with: '2.0.1'. ]
+
+]
