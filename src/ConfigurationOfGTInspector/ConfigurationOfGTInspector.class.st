@@ -535,3 +535,22 @@ ConfigurationOfGTInspector >> version201: spec [
 			project: 'DeepTraversal' with: '1.0'. ].
 
 ]
+
+{ #category : #versions }
+ConfigurationOfGTInspector >> version202: spec [
+	<version: '2.0.2' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.2'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/14/2014 11:48'.
+		
+		spec 
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.18'.
+		spec 
+			project: 'GTInspectorCore' with: '2.0.2';
+			project: 'Glamour' with: '3.0.2';
+			project: 'DeepTraversal' with: '1.0'. ].
+
+]
