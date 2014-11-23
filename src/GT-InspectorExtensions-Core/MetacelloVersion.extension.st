@@ -1,6 +1,30 @@
 Extension { #name : #MetacelloVersion }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+MetacelloVersion >> allProjects [
+	| all |
+	all := OrderedCollection new.
+	self allProjectsDo: [ :each |
+		all add: each ].
+	^ all
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+MetacelloVersion >> allProjectsDo: aBlock [
+	self allProjectsDo: aBlock withTraversedProjects: OrderedCollection new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+MetacelloVersion >> allProjectsDo: aBlock withTraversedProjects: aCollection [
+	self projects do: [ :each |
+		(each version notNil and: [(aCollection includes: each version) not]) 
+		ifTrue: [
+			aCollection add: each version.
+			aBlock value: each version.
+			each version allProjectsDo: aBlock withTraversedProjects: aCollection ] ]
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 MetacelloVersion >> gtInspectorPackagesIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite list
