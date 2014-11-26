@@ -13,3 +13,12 @@ RPackage >> spotterClassesFor: aStep [
 			title: 'Classes';
 			matchSubstring
 ]
+
+{ #category : #'*GT-Spotter' }
+RPackage >> spotterTagsFor: aStep [
+	<spotterOrder: 20>
+	aStep listProcessor
+			allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
+			title: 'Tags';
+			matchSubstring
+]
