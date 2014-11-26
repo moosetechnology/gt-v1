@@ -13,7 +13,8 @@ GTPPDebugger class >> defaultTitle [
 { #category : #testing }
 GTPPDebugger class >> handlesContext: aContext [
 
-	^ aContext locateTopPPParser notNil 
+	^ (aContext findContextSuchThat:  [ :ctx | 
+				ctx isPPParseRootMethodContext ]) notNil 
 ]
 
 { #category : #'tools registry' }

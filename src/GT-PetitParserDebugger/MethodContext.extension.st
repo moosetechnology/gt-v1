@@ -11,6 +11,16 @@ MethodContext >> isPPParseMethodContext [
 ]
 
 { #category : #'*GT-PetitParserDebugger' }
+MethodContext >> isPPParseRootMethodContext [
+	
+	^ (self receiver class inheritsFrom: PPParser) and: [ 
+		self selector = #parse: ] 
+	
+	
+
+]
+
+{ #category : #'*GT-PetitParserDebugger' }
 MethodContext >> locateRootPPParser [
 	"Find the last context starting from the top of the stack (or the first starting from the bottom of the stack)
 	that was created by a PPParser"
