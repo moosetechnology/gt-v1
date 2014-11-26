@@ -1,0 +1,321 @@
+"
+This is the main model class.
+
+It handles the steps of the search, and it handles the search text.
+"
+Class {
+	#name : #GTSpotter,
+	#superclass : #Object,
+	#instVars : [
+		'foundationOrigin',
+		'steps',
+		'announcer',
+		'currentStep',
+		'pagerModel',
+		'text'
+	],
+	#category : #'GT-Spotter-Model'
+}
+
+{ #category : #example }
+GTSpotter class >> example [
+	|morph|
+	
+	morph := GTSpotterMorph new
+		width: 630;
+		doLayout.
+	morph spotterModel: self new.
+	
+	morph openInWorld.
+	morph bounds: (morph bounds translateBy: ((morph world center - morph center) - (0@200))).
+	morph spotterModel setText: '' from: nil.
+
+]
+
+{ #category : #example }
+GTSpotter class >> exampleWorldMenu [
+	|morph|
+	
+	morph := GTSpotterMorph new
+		width: 400;
+		doLayout.
+	morph spotterModel: (self on: World worldMenu).
+	
+	morph openInWorld.
+	morph bounds: (morph bounds translateBy: ((morph world center - morph center) - (0@200))).
+	
+	"hack. need to do a separate method"
+	morph spotterModel setText: '' from: nil.
+	morph spotterModel currentStep process: nil.
+]
+
+{ #category : #'instance creation' }
+GTSpotter class >> on: anObject [
+	
+	^ self new foundationOrigin: anObject
+]
+
+{ #category : #'actions api' }
+GTSpotter >> addStep: aStepModel [
+	self steps add: aStepModel.
+	self notifyStepAdded: aStepModel
+]
+
+{ #category : #accessing }
+GTSpotter >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #accessing }
+GTSpotter >> currentStep [
+	
+	^ currentStep ifNil: [ 
+			self isEmpty 
+				ifTrue: [ self newStep origin: self foundationOrigin ]
+				ifFalse: [ currentStep := self steps last ] ]
+]
+
+{ #category : #accessing }
+GTSpotter >> currentStep: aStepModel [
+	
+	currentStep := aStepModel.
+	self notifyCurrentStepChanged
+]
+
+{ #category : #'actions api' }
+GTSpotter >> exit [
+
+	self announcer announce: (GTSpotterExitAnnouncement new)
+]
+
+{ #category : #accessing }
+GTSpotter >> foundationOrigin [
+	
+	^ foundationOrigin ifNil: [ foundationOrigin := self ]
+]
+
+{ #category : #accessing }
+GTSpotter >> foundationOrigin: anObject [
+	
+	foundationOrigin := anObject
+]
+
+{ #category : #'model access' }
+GTSpotter >> getText [
+
+	^ self text
+]
+
+{ #category : #testing }
+GTSpotter >> hasPreviousStep [
+
+	^ self steps size > 1
+]
+
+{ #category : #testing }
+GTSpotter >> isEmpty [
+
+	^ self steps isEmpty
+]
+
+{ #category : #protocol }
+GTSpotter >> menu [
+	^ nil
+]
+
+{ #category : #'instance creation' }
+GTSpotter >> newStep [
+
+	^ GTSpotterStep new 
+		spotter: self
+]
+
+{ #category : #notifying }
+GTSpotter >> notifyCurrentStepChanged [
+
+	self announcer announce: (GTSpotterCurrentStepChanged new)
+]
+
+{ #category : #notifying }
+GTSpotter >> notifyStepAdded: aStep [
+
+	self announcer announce: (GTSpotterStepAdded new stepModel: aStep)
+]
+
+{ #category : #notifying }
+GTSpotter >> notifyStepPopped [
+
+	self announcer announce: (GTSpotterStepPopped new)
+]
+
+{ #category : #'event handling' }
+GTSpotter >> onPagePopped [
+	
+	self steps size > 0 ifTrue: [
+		self currentStep: self steps last ]
+]
+
+{ #category : #accessing }
+GTSpotter >> pagerModel [
+
+	^ pagerModel ifNil: [
+		pagerModel := GLMPagerModel new defaultNumberOfVisiblePages: 1.
+		pagerModel announcer subscribe: GLMPagePoped send: #onPagePopped to: self.
+		pagerModel ]
+]
+
+{ #category : #'actions api' }
+GTSpotter >> popStep [
+
+	"there always should be minimum one step left"
+	(self steps size > 1)
+		ifTrue: [
+			self steps removeLast.
+			self notifyStepPopped.
+			"perform pane popping only after we scrolled to the penultimate pane, so user doesn't see blinking"
+			self pagerModel
+				scrollToPane: (self steps size)
+				callback: [ self pagerModel popPane: false ] ]
+]
+
+{ #category : #accessing }
+GTSpotter >> previousStep [
+	
+	^ self steps size > 1 
+		ifTrue: [ self steps reversed second ]
+]
+
+{ #category : #'actions api' }
+GTSpotter >> pushStep: stepModel [
+	
+	self addStep: stepModel.
+	"updating current step"
+	self currentStep: stepModel
+]
+
+{ #category : #'event handling' }
+GTSpotter >> requestNextStepWith: origin [
+	text := ''.
+	self pushStep: (self newStep origin: origin; yourself).
+	self steps last process: nil.
+]
+
+{ #category : #'model access' }
+GTSpotter >> setText: aText from: aView [
+
+	self steps isEmpty
+		"by default there are no steps, so we need to create one based on foundation origin"
+		ifTrue: [ self addStep: ( self newStep origin: self foundationOrigin ) ].
+
+	(aText asString isEmpty and: [ text isEmpty not ])
+		ifTrue: [ self currentStep process: nil ]
+		ifFalse: [ self currentStep process: aText asString ].
+	
+	text := aText asString asText.
+	^ true
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForClassesFor: aStep [
+	<spotterOrder: 10>
+	aStep listProcessor
+			allCandidates: [ Smalltalk allClasses ];
+			title: 'Classes';
+			matchSubstring;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForDirectoriesFor: aStep [
+	<spotterOrder: 50>
+	(FileSystem workingDirectory 
+		spotterForDirectoriesFor: aStep)
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForFilesFor: aStep [
+	<spotterOrder: 40>
+	(FileSystem workingDirectory spotterForFilesFor: aStep)
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForPackagesFor: aStep [
+	<spotterOrder: 20>
+	aStep listProcessor
+			allCandidates: [ RPackageOrganizer default packages ];
+			title: 'Packages';
+			itemName: [ :package | package name ];
+			itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
+			matchSubstring;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForPlaygroundPagesFor: aStep [
+	<spotterOrder: 100>
+	aStep listProcessor
+			allCandidates: [ GTPlayBook instance pages ];
+			title: 'Playground';
+			itemName: [ :page | page content asString contractTo: 100 ];
+			matchSubstring
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForPragmasFor: aStep [
+	<spotterOrder: 40>
+	aStep listProcessor
+			allCandidates: [:x | PragmaType all ];
+			title: 'Pragmas';
+			itemName: [ :pragma | pragma keyword ];
+			matchSubstring;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterForToolsFor: aStep [
+	<spotterOrder: 90>
+	^ (World worldMenu spotterItemsFor: aStep)
+		title: 'Menu'
+]
+
+{ #category : #protocol }
+GTSpotter >> spotterImplementorsFor: aStep [
+	<spotterOrder: 30>
+	| processor |
+	processor := aStep listProcessor.
+	processor 
+		title: 'Implementors';
+		filter: [ :query :stream |
+				| aCollection |
+				aCollection := OrderedCollection  new.
+				SystemNavigation default allBehaviorsDo: [:class | 
+					(class includesSelector: query asSymbol)
+						ifTrue: [
+							| method |
+							method := class>>(query asSymbol).
+							aCollection add: method.
+							aCollection size > 5 ifFalse: [ 
+								stream addValue: method value: processor ]]].
+				aCollection ].
+	^ processor
+]
+
+{ #category : #accessing }
+GTSpotter >> steps [
+
+	^ steps ifNil: [ steps := OrderedCollection new ]
+]
+
+{ #category : #'actions api' }
+GTSpotter >> terminateProcessors [
+
+	self steps do: [ :each | each terminateProcessors ]
+]
+
+{ #category : #accessing }
+GTSpotter >> text [
+
+	^ text ifNil: [ text := '' asText ]
+]
