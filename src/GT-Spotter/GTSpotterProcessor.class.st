@@ -1,5 +1,5 @@
 "
-This is the abstract class that models a processor that is associated with a spotter category. It can spot items to be displayed in that category by reacting to a filter: message.
+This is the abstract class that models a processor that is associated with a spotter category. It can spot items to be displayed in that category by reacting to a filter: message. 
 "
 Class {
 	#name : #GTSpotterProcessor,

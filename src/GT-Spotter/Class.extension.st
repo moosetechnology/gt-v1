@@ -6,6 +6,26 @@ Class >> spotterActDefault [
 ]
 
 { #category : #'*GT-Spotter' }
+Class >> spotterClassInstanceVariablesFor: aStep [
+	<spotterOrder: 20>
+	aStep listProcessor
+			title: 'Class instance variables';
+			allCandidates: [ self class layout allSlots ];
+			itemName: [:each | each name asString];
+			matchSubstring
+]
+
+{ #category : #'*GT-Spotter' }
+Class >> spotterClassMethodsFor: aStep [
+	<spotterOrder: 10>
+	aStep listProcessor
+			title: 'Class methods';
+			allCandidates: [ self class methods ];
+			itemName: [ :method | method selector ];
+			matchSubstring
+]
+
+{ #category : #'*GT-Spotter' }
 Class >> spotterInstanceVariablesFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor
@@ -19,7 +39,7 @@ Class >> spotterInstanceVariablesFor: aStep [
 Class >> spotterMethodsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
-			title: 'Methods';
+			title: 'Instance methods';
 			allCandidates: [ self methods ];
 			itemName: [ :method | method selector ];
 			matchSubstring

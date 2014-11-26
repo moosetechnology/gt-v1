@@ -1,3 +1,6 @@
+"
+This is a parameterized class.
+"
 Class {
 	#name : #GTSpotterCandidatesListProcessor,
 	#superclass : #GTSpotterCandidatesProcessor,
