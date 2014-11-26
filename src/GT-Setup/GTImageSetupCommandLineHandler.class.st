@@ -32,29 +32,17 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self cleanupWorld.
 "	self installGLMWhitespaceTheme."
 	self installFonts.
-"	self installAthens."
 	self installGTInspector.
 	self installGTDebuggers.
 	self installGTPlayground.
 	self flushMCCache.
-	self setPreferredSettings.
-	self disableBreakingCommandPlusOKeybindingsInPharo30
+	self setPreferredSettings
 ]
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> cleanupWorld [
 	SystemWindow allSubInstances do: #delete.
 	World color: Color white
-]
-
-{ #category : #patches }
-GTImageSetupCommandLineHandler >> disableBreakingCommandPlusOKeybindingsInPharo30 [
-	"In GT we use Cmd+o extensively, and the current logic of global bindings makes it
-	impossible to use when a global binding is defined even as Cmd+o+somethingelse.
-	
-	So, we disable all global bindings that start with Cmd+o"
-	((KMRepository default globalCategories flatCollect: [ :each | each allEntries keymaps ])
-		select: [ :each | each shortcut beginsWith: $o command ]) do: #disable
 ]
 
 { #category : #utilities }
@@ -100,7 +88,6 @@ GTImageSetupCommandLineHandler >> installGTDebuggers [
 	
 	GTGenericStackDebugger registerExtraToolsOn: Smalltalk tools.
 	GTGlamourDebugger registerToolsOn: Smalltalk tools.
-	GTPPDebugger registerToolsOn: Smalltalk tools.
 	#ACGlamourDebugger asClassIfPresent: [ :acdDebugger | acdDebugger register ].
 	GTSUnitDebugger registerToolsOn: Smalltalk tools.
 	
