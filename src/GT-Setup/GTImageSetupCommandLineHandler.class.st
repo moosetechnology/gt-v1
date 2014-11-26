@@ -100,6 +100,7 @@ GTImageSetupCommandLineHandler >> installGTDebuggers [
 	
 	GTGenericStackDebugger registerExtraToolsOn: Smalltalk tools.
 	GTGlamourDebugger registerToolsOn: Smalltalk tools.
+	GTPPDebugger registerToolsOn: Smalltalk tools.
 	#ACGlamourDebugger asClassIfPresent: [ :acdDebugger | acdDebugger register ].
 	GTSUnitDebugger registerToolsOn: Smalltalk tools.
 	
