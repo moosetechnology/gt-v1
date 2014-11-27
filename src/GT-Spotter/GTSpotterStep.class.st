@@ -61,11 +61,17 @@ GTSpotterStep >> asyncTasks [
 ]
 
 { #category : #actions }
-GTSpotterStep >> canDiveInSelectedCandidate [
+GTSpotterStep >> canDiveIn: aCandidate [
 	| newFakeStep |
 	newFakeStep := self spotter newStep.
-	self selectedCandidate spotterProcessorsFor: newFakeStep.
+	aCandidate spotterProcessorsFor: newFakeStep.
 	^ newFakeStep processors notEmpty
+]
+
+{ #category : #actions }
+GTSpotterStep >> canDiveInSelectedCandidate [
+
+	^ self canDiveIn: self selectedCandidate
 ]
 
 { #category : #accessing }

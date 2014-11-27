@@ -1,14 +1,58 @@
 Class {
 	#name : #GTSpotterItemBrick,
-	#superclass : #GLMBrick,
+	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'iconBrick',
 		'labelBrick',
 		'stepModel',
-		'candidateLink'
+		'candidateLink',
+		'actionbarBrick'
 	],
 	#category : #'GT-Spotter-UI'
 }
+
+{ #category : #accessing }
+GTSpotterItemBrick >> actionbarBrick [
+	^ actionbarBrick
+]
+
+{ #category : #accessing }
+GTSpotterItemBrick >> actionbarBrick: aBrick [
+
+	actionbarBrick ifNotNil: [self removeBrick: actionbarBrick].
+	actionbarBrick := aBrick.
+	
+	self theme spotterWidgetThemer itemActionbarStyleFor: aBrick.
+	
+	self addBrickBack: actionbarBrick
+]
+
+{ #category : #adding }
+GTSpotterItemBrick >> addActActionButton [
+
+	self actionbarBrick addActionButton: (
+		self newActionButtonBrick
+			icon: GLMUIThemeExtraIcons glamorousGo;
+			addUpAction: [ self beSelected. self stepModel act ];
+			yourself).
+]
+
+{ #category : #adding }
+GTSpotterItemBrick >> addDiveInActionButton [
+
+	(self stepModel canDiveIn: self candidate) ifTrue: [ 
+		self actionbarBrick addActionButton: (
+			self newActionButtonBrick
+				icon: GLMUIThemeExtraIcons glamorousSpawn;
+				addUpAction: [ self beSelected. self stepModel diveIn ];
+				yourself) ].
+]
+
+{ #category : #actions }
+GTSpotterItemBrick >> beSelected [
+	self stepModel selected: self candidateLink
+	
+]
 
 { #category : #accessing }
 GTSpotterItemBrick >> candidate [
@@ -29,6 +73,30 @@ GTSpotterItemBrick >> candidateLink: aDoubleLink [
 ]
 
 { #category : #'event handling' }
+GTSpotterItemBrick >> check [
+
+	self showActionbar.
+	super check.
+]
+
+{ #category : #'event handling' }
+GTSpotterItemBrick >> checkOrUncheck [
+
+	self stepModel selected = self candidateLink
+		ifTrue: [ self isChecked ifFalse: [ self check ] ]
+		ifFalse: [ self isChecked ifTrue: [ self uncheck ] ]
+]
+
+{ #category : #'event handling' }
+GTSpotterItemBrick >> deselect [
+	"is called when item is not more hovered with mouse"
+	
+	self isChecked ifFalse: [ self hideActionbar ].
+	super deselect
+	
+]
+
+{ #category : #'event handling' }
 GTSpotterItemBrick >> doubleClick: evt [
 
 	self stepModel act
@@ -37,6 +105,13 @@ GTSpotterItemBrick >> doubleClick: evt [
 { #category : #'event handling' }
 GTSpotterItemBrick >> handlesMouseDown: evt [
 	^ true
+]
+
+{ #category : #actions }
+GTSpotterItemBrick >> hideActionbar [
+	
+	self theme spotterWidgetThemer itemActionbarInvisibleStyleFor: self actionbarBrick.
+	self doLayout.
 ]
 
 { #category : #accessing }
@@ -64,11 +139,13 @@ GTSpotterItemBrick >> iconBrick: aBrick [
 { #category : #initialization }
 GTSpotterItemBrick >> initialize [
 	super initialize.
+	self enable.
 	
 	self theme spotterWidgetThemer itemNormalStyleFor: self.
 	
 	self iconBrick: self newIconBrick.
 	self labelBrick: self newLabelBrick.
+	self actionbarBrick: self newActionbarBrick.
 ]
 
 { #category : #accessing }
@@ -106,6 +183,18 @@ GTSpotterItemBrick >> mouseDown: evt [
 ]
 
 { #category : #'instance creation' }
+GTSpotterItemBrick >> newActionButtonBrick [
+
+	^ GLMActionButtonBrick new
+]
+
+{ #category : #'instance creation' }
+GTSpotterItemBrick >> newActionbarBrick [
+
+	^ GTSpotterItemActionbarBrick new
+]
+
+{ #category : #'instance creation' }
 GTSpotterItemBrick >> newIconBrick [
 
 	^ GLMInteractableBrick new normalImage: ((Form extent: 16@16 depth: 32) fillAlpha: 0)
@@ -126,21 +215,28 @@ GTSpotterItemBrick >> notifySelected [
 { #category : #'event handling' }
 GTSpotterItemBrick >> onSelectedChanged: ann [
 
-	self selectOrDeselect
+	self checkOrUncheck
 ]
 
 { #category : #'event handling' }
-GTSpotterItemBrick >> selectOrDeselect [
+GTSpotterItemBrick >> select [
+	"is called when item is hovered with mouse"
+	
+	self isChecked ifFalse: [ self showActionbar ].
+	super select
+]
 
-	self stepModel selected = self candidateLink
-		ifTrue: [ self theme spotterWidgetThemer itemSelectedStyleFor: self. self notifySelected ]
-		ifFalse: [ self theme spotterWidgetThemer itemNormalStyleFor: self ]
+{ #category : #actions }
+GTSpotterItemBrick >> showActionbar [
+
+	self theme spotterWidgetThemer itemActionbarVisibleStyleFor: self actionbarBrick.
+	self doLayout.
 ]
 
 { #category : #'event handling' }
 GTSpotterItemBrick >> singleClick: evt [
 
-	self stepModel selected: self candidateLink
+	self beSelected
 ]
 
 { #category : #accessing }
@@ -156,11 +252,21 @@ GTSpotterItemBrick >> stepModel: aModel [
 	
 	stepModel announcer subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedChanged: to: self.
 	
-	self selectOrDeselect
+	self
+		addActActionButton;
+		addDiveInActionButton;
+		checkOrUncheck.
 ]
 
 { #category : #accessing }
 GTSpotterItemBrick >> text: aString [
 
 	self labelBrick text: aString.
+]
+
+{ #category : #'event handling' }
+GTSpotterItemBrick >> uncheck [
+	super uncheck.
+	self hideActionbar.
+	self notifySelected.
 ]

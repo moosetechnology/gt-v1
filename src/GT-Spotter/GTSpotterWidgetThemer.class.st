@@ -174,6 +174,37 @@ GTSpotterWidgetThemer >> innerBorderWidth [
 	^ 1
 ]
 
+{ #category : #styles }
+GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
+
+	aBrick widthBlock: [ aBrick normalImage width + aBrick layoutProperties horizontalPadding ].
+	aBrick pressedColor: self itemSelectedBackgroundColor darker.
+	aBrick layoutProperties paddingLeft: self outerBorderWidth.
+	aBrick layoutProperties paddingRight: self outerBorderWidth.
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> itemActionbarInvisibleStyleFor: aBrick [
+
+	aBrick layoutProperties minWidth: 0.
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
+
+	aBrick layoutPolicy: GLMBrickHorizontalFillLinearLayout new.
+	aBrick layoutProperties horizontalPercent: 0.
+	aBrick layoutProperties marginRight: self outerBorderWidth.
+	
+	self itemActionbarInvisibleStyleFor: aBrick.
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> itemActionbarVisibleStyleFor: aBrick [
+
+	aBrick layoutProperties minWidthBlock: [ :actionbar | actionbar subbricks inject: (actionbar layoutProperties horizontalPadding + actionbar layoutProperties horizontalMargin) into: [ :width :each | width + each brickOuterBounds width ] ].
+]
+
 { #category : #values }
 GTSpotterWidgetThemer >> itemFamilyName [
 
@@ -246,7 +277,9 @@ GTSpotterWidgetThemer >> itemNormalBackgroundColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemNormalStyleFor: aBrick [
 
-	aBrick color: self itemNormalBackgroundColor.
+	aBrick normalColor: self itemNormalBackgroundColor.
+	aBrick selectedColor: self itemHoveredBackgroundColor.
+	aBrick checkedColor: self itemSelectedBackgroundColor.
 	aBrick heightBlock: [ :anItem | self itemHeight ]
 ]
 
