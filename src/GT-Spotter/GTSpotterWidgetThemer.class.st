@@ -89,7 +89,7 @@ GTSpotterWidgetThemer >> categoryMarginTop [
 { #category : #values }
 GTSpotterWidgetThemer >> categoryNameMarginLeft [
 
-	^ 25
+	^ self itemIconMaxWidth
 ]
 
 { #category : #values }
