@@ -41,8 +41,6 @@ GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
-
-	aBrick color: Color white.
 	
 	aBrick layoutProperties marginLeft: self outerBorderWidth.
 	aBrick layoutProperties marginRight: self outerBorderWidth.
@@ -51,7 +49,6 @@ GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbWrapperStyleFor: aBrick [
 
-	aBrick color: self backgroundColor
 ]
 
 { #category : #values }
@@ -346,10 +343,14 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
 
-	aBrick layoutProperties marginTop: self outerBorderWidth.
-	aBrick layoutProperties marginBottom: self outerBorderWidth.
-	aBrick layoutProperties marginLeft: self outerBorderWidth.
-	aBrick layoutProperties marginRight: self outerBorderWidth.
+	aBrick layoutProperties paddingTop: self outerBorderWidth.
+	aBrick layoutProperties paddingBottom: self outerBorderWidth.
+	aBrick layoutProperties paddingLeft: self outerBorderWidth.
+	aBrick layoutProperties paddingRight: self outerBorderWidth.
+	
+	aBrick borderColor: self borderColor.
+	aBrick borderWidth: self outerBorderWidth.
+	aBrick color: self borderColor.
 ]
 
 { #category : #values }
@@ -362,7 +363,6 @@ GTSpotterWidgetThemer >> spotterGhostText [
 GTSpotterWidgetThemer >> spotterStyleFor: aBrick [
 
 	aBrick brickRoot: GLMBandBrick new.
-	aBrick brickRoot color: self borderColor.
 ]
 
 { #category : #styles }
