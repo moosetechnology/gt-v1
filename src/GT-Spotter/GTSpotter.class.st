@@ -18,21 +18,6 @@ Class {
 }
 
 { #category : #example }
-GTSpotter class >> example [
-	|morph|
-	
-	morph := GTSpotterMorph new
-		width: 630;
-		doLayout.
-	morph spotterModel: self new.
-	
-	morph openInWorld.
-	morph bounds: (morph bounds translateBy: ((morph world center - morph center) - (0@200))).
-	morph spotterModel setText: '' from: nil.
-
-]
-
-{ #category : #example }
 GTSpotter class >> exampleWorldMenu [
 	|morph|
 	
