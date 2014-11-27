@@ -123,14 +123,14 @@ ConfigurationOfGTSpotter >> baseline10: spec [
 			package: 'GT-Spotter' with: [
 				spec requires: #('GlamourCore' ). ];
 			package: 'GT-SpotterExtensions-Core' with: [
-				spec requires: #('GT-Spotter' 'GlamourCore' ). ] ].
+				spec requires: #('GT-Spotter' 'GlamourCore' ). ].
 		
 		spec 
 			project: 'GlamourCore' with: [
 				spec
 					className: #ConfigurationOfGlamourCore;
 					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/'.
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
 		
 		spec 
 			group: 'Core' with: #('GT-Spotter' 'GT-SpotterExtensions-Core' );
