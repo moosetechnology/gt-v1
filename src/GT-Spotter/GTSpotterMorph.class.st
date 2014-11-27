@@ -61,8 +61,9 @@ GTSpotterMorph >> contentsBrick: aBrick [
 { #category : #actions }
 GTSpotterMorph >> diveIn [
 
-	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep isEmpty ifFalse: [ self spotterModel currentStep diveIn ] ]
+	self spotterModel isEmpty ifFalse: [ 
+		self spotterModel currentStep isEmpty ifFalse: [ 
+			self spotterModel currentStep diveIn ] ]
 ]
 
 { #category : #actions }

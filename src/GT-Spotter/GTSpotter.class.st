@@ -49,10 +49,30 @@ GTSpotter class >> exampleWorldMenu [
 	morph spotterModel currentStep process: nil.
 ]
 
+{ #category : #inspecting }
+GTSpotter class >> gtInspectorExtensionsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite list
+		title: 'Extensions';
+		display: [ self spotterExtendingMethods ];
+		showOnly: 50;
+		format: [ :each | each gtDisplayString ];
+		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ]
+]
+
 { #category : #'instance creation' }
 GTSpotter class >> on: anObject [
 	
 	^ self new foundationOrigin: anObject
+]
+
+{ #category : #inspecting }
+GTSpotter class >> spotterExtendingMethods [
+	^(Object withAllSubclasses
+		flatCollect: [ :each | 
+			(Pragma allNamed: #spotterOrder: in: each) 
+				collect: [ :p | p method asRingDefinition ] ])
+		sorted
 ]
 
 { #category : #'actions api' }

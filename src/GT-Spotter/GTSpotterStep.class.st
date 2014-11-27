@@ -60,6 +60,14 @@ GTSpotterStep >> asyncTasks [
 	^ asyncTasks ifNil: [ asyncTasks := HashTable new ]
 ]
 
+{ #category : #actions }
+GTSpotterStep >> canDiveInSelectedCandidate [
+	| newFakeStep |
+	newFakeStep := self spotter newStep.
+	self selectedCandidate spotterProcessorsFor: newFakeStep.
+	^ newFakeStep processors notEmpty
+]
+
 { #category : #accessing }
 GTSpotterStep >> candidates [
 
@@ -71,8 +79,8 @@ GTSpotterStep >> candidates [
 
 { #category : #actions }
 GTSpotterStep >> diveIn [
-
-	self spotter requestNextStepWith: self selectedCandidate
+	self canDiveInSelectedCandidate ifTrue: [ 
+		self spotter requestNextStepWith: self selectedCandidate ]
 ]
 
 { #category : #actions }
