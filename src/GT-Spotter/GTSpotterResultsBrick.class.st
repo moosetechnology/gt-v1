@@ -54,7 +54,7 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 	candidateBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
 	categoryMorph listBrick addBrickBack: candidateBrick.
 	
-	categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick subbricks size) all: self waitingText.
+	categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick submorphs size) all: self waitingText.
 
 	self doLayout.
 	self changed.
@@ -74,7 +74,7 @@ GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	categoryMorph := self categoryMorphOf: ann category.
 	categoryMorph ifNil: [ ^ self ].
 	
-	categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick subbricks size) all: ann amount.
+	categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick submorphs size) all: ann amount.
 	
 	
 ]

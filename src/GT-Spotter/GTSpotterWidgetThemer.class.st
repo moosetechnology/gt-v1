@@ -66,7 +66,7 @@ GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 	aBrick label layoutProperties marginRight: self categoryNameMarginRight.
 	aBrick label fontSize: self titleFontSize.
 	aBrick label familyName: self titleFamilyName.
-	aBrick color: self titleBackgroundColor.
+	aBrick color: self titleBackgroundColor
 ]
 
 { #category : #styles }
