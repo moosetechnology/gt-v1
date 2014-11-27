@@ -7,7 +7,7 @@ Class >> spotterActDefault [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 Class >> spotterClassInstanceVariablesFor: aStep [
-	<spotterOrder: 20>
+	<spotterOrder: 25>
 	aStep listProcessor
 			title: 'Class instance variables';
 			allCandidates: [ self class layout allSlots ];
@@ -17,7 +17,7 @@ Class >> spotterClassInstanceVariablesFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 Class >> spotterClassMethodsFor: aStep [
-	<spotterOrder: 10>
+	<spotterOrder: 15>
 	aStep listProcessor
 			title: 'Class methods';
 			allCandidates: [ self class methods ];
@@ -61,6 +61,7 @@ Class >> spotterSubclassesFor: aStep [
 	aStep listProcessor
 			title: 'All subclasses';
 			allCandidates: [ self allSubclasses ];
+			itemIcon: #systemIcon;
 			matchSubstring
 ]
 
@@ -70,5 +71,6 @@ Class >> spotterSuperclassesFor: aStep [
 	aStep listProcessor
 			title: 'All superclasses';
 			allCandidates: [ self deepCollect: #superclass ];
+			itemIcon: #systemIcon;
 			matchSubstring
 ]

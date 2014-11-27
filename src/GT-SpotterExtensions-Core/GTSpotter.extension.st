@@ -7,6 +7,7 @@ GTSpotter >> spotterForClassesFor: aStep [
 			allCandidates: [ Smalltalk allClasses ];
 			title: 'Classes';
 			matchSubstring;
+			itemIcon: #systemIcon;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
