@@ -66,7 +66,7 @@ GTSpotterCandidatesProcessor >> is: anObject matching: aString [
 
 { #category : #'filtering/searching' }
 GTSpotterCandidatesProcessor >> itemIconFor: anObject [
-	^ anObject systemIcon
+	^ nil
 ]
 
 { #category : #'filtering/searching' }
