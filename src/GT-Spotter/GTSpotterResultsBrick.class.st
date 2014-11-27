@@ -27,18 +27,6 @@ GTSpotterResultsBrick >> categoryMorphOf: aProcessor [
 	^ self categories at: aProcessor ifAbsent: [ nil ]
 ]
 
-{ #category : #initialization }
-GTSpotterResultsBrick >> initialize [
-	super initialize.
-	
-	band layoutPolicy: GTSpotterResultsBrickLayout new.
-	band heightBlock: [ :aBand | |height isFirstVisible|
-		isFirstVisible := true.
-		height := aBand layoutProperties verticalMargin.
-		aBand subbricks do: [ :each | height := height + (each height > 0 ifTrue: [ isFirstVisible ifTrue: [ isFirstVisible := false. 0 ] ifFalse: [ each layoutProperties verticalMargin]] ifFalse: [ 0 ]) + each height ].
-		height ]
-]
-
 { #category : #'instance creation' }
 GTSpotterResultsBrick >> newCategoryBrick [
 

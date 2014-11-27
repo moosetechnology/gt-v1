@@ -60,10 +60,10 @@ GTSpotterWidgetThemer >> buttonPressedColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 
-	aBrick heightBlock: [ :aName | aName label textSize y ].
 	aBrick textPosition: #rightCenter.
 	aBrick textColor: self titleTextColor.
-	aBrick layoutProperties marginTop: -7.
+	aBrick layoutProperties horizontalPercent: 0.
+	aBrick layoutProperties minWidthBlock: [ :amount | (amount label textSize x * 1.2) + amount label layoutProperties horizontalMargin ].
 	aBrick label layoutProperties marginRight: self categoryNameMarginRight.
 	aBrick label layoutProperties marginLeft: self categoryNameMarginLeft.
 	aBrick label fontSize: self titleFontSize.
@@ -74,13 +74,6 @@ GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryCandidatesListStyleFor: aBrick [
 
-	aBrick layoutProperties horizontalPercent: self categoryCandidatesListWidth
-]
-
-{ #category : #values }
-GTSpotterWidgetThemer >> categoryCandidatesListWidth [
-
-	^ 100 - self categoryTitleWidth "percents"
 ]
 
 { #category : #styles }
@@ -96,7 +89,7 @@ GTSpotterWidgetThemer >> categoryMarginTop [
 { #category : #values }
 GTSpotterWidgetThemer >> categoryNameMarginLeft [
 
-	^ 15
+	^ 25
 ]
 
 { #category : #values }
@@ -107,16 +100,14 @@ GTSpotterWidgetThemer >> categoryNameMarginRight [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryStyleFor: aBrick [
-
-	aBrick layoutProperties marginTop: self categoryMarginTop
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 
-	aBrick heightBlock: [ :aName | ((aName label textSize y * 1.2) max: self itemHeight) ceiling ].
-	aBrick textPosition: #rightCenter.
+	aBrick textPosition: #leftCenter.
 	aBrick textColor: self titleTextColor.
+	aBrick layoutProperties horizontalPercent: 100.
 	aBrick label layoutProperties marginRight: self categoryNameMarginRight.
 	aBrick label layoutProperties marginLeft: self categoryNameMarginLeft.
 	aBrick label fontSize: self titleFontSize.
@@ -127,14 +118,8 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 
-	aBrick layoutProperties horizontalPercent: self categoryTitleWidth.
-	aBrick layoutPolicy: GLMBrickVerticalFillLinearLayout new.
-]
-
-{ #category : #values }
-GTSpotterWidgetThemer >> categoryTitleWidth [
-
-	^ 25 "percents"
+	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
+	aBrick heightBlock: [ 30 ].
 ]
 
 { #category : #styles }
@@ -301,12 +286,6 @@ GTSpotterWidgetThemer >> outerBorderWidth [
 	^ 5
 ]
 
-{ #category : #values }
-GTSpotterWidgetThemer >> previewPaneWidth [
-	"width in Percents of the preview pane"
-	^ 57"%"
-]
-
 { #category : #styles }
 GTSpotterWidgetThemer >> resultsPaneStyleFor: aBrick [
 
@@ -424,7 +403,8 @@ GTSpotterWidgetThemer >> titleFamilyName [
 
 { #category : #values }
 GTSpotterWidgetThemer >> titleFontSize [
-	^ 8
+
+	^ 9
 ]
 
 { #category : #values }

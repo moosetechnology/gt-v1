@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterCategoryBrick,
-	#superclass : #GLMBrick,
+	#superclass : #GLMBandBrick,
 	#instVars : [
 		'listBrick',
 		'titleBrick',
@@ -10,7 +10,7 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterCategoryBrick >> amount: anInteger [
 ]
 
@@ -31,14 +31,7 @@ GTSpotterCategoryBrick >> height [
 	"instead of deleting brick when empty, just make it invisible"
 	^ self listBrick subbricks isEmpty
 		ifTrue: [ 0 ]
-		ifFalse: [ self listBrick height max: (self titleBrick height)]
-]
-
-{ #category : #initialization }
-GTSpotterCategoryBrick >> initialize [
-	super initialize.
-	
-	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new
+		ifFalse: [ super height ]
 ]
 
 { #category : #accessing }

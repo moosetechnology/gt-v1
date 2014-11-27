@@ -77,6 +77,7 @@ GTSpotterItemBrick >> check [
 
 	self showActionbar.
 	super check.
+	self notifySelected.
 ]
 
 { #category : #'event handling' }
@@ -109,7 +110,7 @@ GTSpotterItemBrick >> handlesMouseDown: evt [
 
 { #category : #actions }
 GTSpotterItemBrick >> hideActionbar [
-	
+		
 	self theme spotterWidgetThemer itemActionbarInvisibleStyleFor: self actionbarBrick.
 	self doLayout.
 ]
@@ -266,7 +267,8 @@ GTSpotterItemBrick >> text: aString [
 
 { #category : #'event handling' }
 GTSpotterItemBrick >> uncheck [
+	
 	super uncheck.
-	self hideActionbar.
-	self notifySelected.
+	
+	self isSelected ifFalse: [ ^ self hideActionbar ].
 ]
