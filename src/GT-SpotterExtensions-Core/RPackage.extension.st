@@ -15,6 +15,15 @@ RPackage >> spotterClassesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+RPackage >> spotterExtensionMethodsFor: aStep [
+	<spotterOrder: 30>
+	aStep listProcessor
+			allCandidates: [ self extensionMethods ];
+			title: 'Extension Methods';
+			matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 RPackage >> spotterTagsFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor
