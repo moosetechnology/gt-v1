@@ -60,12 +60,10 @@ GTSpotterWidgetThemer >> buttonPressedColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 
-	aBrick textPosition: #rightCenter.
+	aBrick textPosition: #leftCenter.
 	aBrick textColor: self titleTextColor.
-	aBrick layoutProperties horizontalPercent: 0.
-	aBrick layoutProperties minWidthBlock: [ :amount | (amount label textSize x * 1.2) + amount label layoutProperties horizontalMargin ].
+	aBrick layoutProperties horizontalPercent: 100.
 	aBrick label layoutProperties marginRight: self categoryNameMarginRight.
-	aBrick label layoutProperties marginLeft: self categoryNameMarginLeft.
 	aBrick label fontSize: self titleFontSize.
 	aBrick label familyName: self titleFamilyName.
 	aBrick color: self titleBackgroundColor.
@@ -107,7 +105,8 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 
 	aBrick textPosition: #leftCenter.
 	aBrick textColor: self titleTextColor.
-	aBrick layoutProperties horizontalPercent: 100.
+	aBrick layoutProperties horizontalPercent: 0.
+	aBrick layoutProperties minWidthBlock: [ :name | (name label textSize x * 1.2) + name label layoutProperties horizontalMargin ].
 	aBrick label layoutProperties marginRight: self categoryNameMarginRight.
 	aBrick label layoutProperties marginLeft: self categoryNameMarginLeft.
 	aBrick label fontSize: self titleFontSize.
