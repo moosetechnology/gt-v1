@@ -95,11 +95,9 @@ GTSpotterCandidatesProcessor >> render: anObject [
 
 { #category : #private }
 GTSpotterCandidatesProcessor >> streamAllCandidatesOn: aStream [
-	(self allCandidates first: (self candidatesLimit min: self allCandidates size))
-		do:[ :each |
-			aStream
-				addValue: each 
-				value: self].	
+	aStream
+				addObjects: (self allCandidates first: (self candidatesLimit min: self allCandidates size))
+				inProcessor: self.
 	^ self allCandidates
 ]
 

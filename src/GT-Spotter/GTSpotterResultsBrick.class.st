@@ -34,6 +34,25 @@ GTSpotterResultsBrick >> newCategoryBrick [
 ]
 
 { #category : #'event handling' }
+GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
+	|categoryMorph candidateBrick|
+	
+	categoryMorph := self categoryMorphOf: ann category.
+	categoryMorph ifNil: [ ^ self ].
+	
+	ann candidateLinks do: [ :each |
+		candidateBrick := (ann category render: each value) candidateLink: each; stepModel: self stepModel; yourself.
+		candidateBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
+		categoryMorph listBrick addBrickBack: candidateBrick.
+		
+		categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick submorphs size) all: self waitingText.
+	].
+
+	self doLayout.
+	self changed.
+]
+
+{ #category : #'event handling' }
 GTSpotterResultsBrick >> onAllCandidatesRemoved: ann [
 
 	(self categoryMorphOf: ann category) listBrick removeAllBricks.
@@ -114,6 +133,7 @@ GTSpotterResultsBrick >> stepModel: aModel [
 	stepModel candidates announcer subscribe: GTSpotterCategoryAdded send: #onCategoryAdded: to: self.
 	stepModel candidates announcer subscribe: GTSpotterCandidateAdded send: #onCandidateAdded: to: self.
 	stepModel candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved: to: self.
+	stepModel candidates announcer subscribe: GTSpotterAllCandidatesAdded send: #onAllCandidatesAdded: to: self.
 	stepModel candidates announcer subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedCandidateChanged: to: self.
 	stepModel candidates announcer subscribe: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.
 ]

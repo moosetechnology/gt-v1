@@ -9,6 +9,12 @@ Class {
 	#category : #'GT-Spotter-Utils'
 }
 
+{ #category : #'as yet unclassified' }
+GTSpotterUIThreadStream >> addObjects: aCollection inProcessor: aProcessor [
+
+	self performSymbol: #addAllCandidates:in: withArguments: { aCollection . aProcessor }
+]
+
 { #category : #'adding/removing' }
 GTSpotterUIThreadStream >> addValue: anObject [
 
