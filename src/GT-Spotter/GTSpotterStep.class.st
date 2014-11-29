@@ -137,11 +137,13 @@ GTSpotterStep >> origin: anObject [
 { #category : #processing }
 GTSpotterStep >> process: aString [
 	"I do not accept empty queries or the same queries as before.
-	I nil is passed, than an empty string will be processed. This approach is used to
+	If nil is passed, than an empty string will be processed. This approach is used to
 	destinguish when user deletes last character in the search and when search field became
 	empty after spawning new step"
 
 	self query: (aString ifNil: [ '' ]).
+	self candidates removeAllCandidates.
+	
 	self processors do: [ :processor |
 		(self asyncTaskFor: processor)
 			execute: [ :input | processor filter: input on: self stream ]

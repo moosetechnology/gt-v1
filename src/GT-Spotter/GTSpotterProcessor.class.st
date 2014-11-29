@@ -33,7 +33,6 @@ GTSpotterProcessor >> doFilter: aStringQuery on: aStream [
 { #category : #public }
 GTSpotterProcessor >> filter: aStringQuery on: aStream [
 	
-	aStream removeValue: self.
 	allFilteredCandidates := nil.
 	(aStringQuery notEmpty or: [ self wantsToDisplayOnEmptyQuery ]) ifTrue: [
 		allFilteredCandidates := self doFilter: aStringQuery on: aStream ].

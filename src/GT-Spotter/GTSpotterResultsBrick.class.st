@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterResultsBrick,
-	#superclass : #GLMScrollPaneBrick,
+	#superclass : #GLMStackedScrollPaneBrick,
 	#instVars : [
 		'stepModel',
 		'categories'
@@ -9,10 +9,18 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTSpotterResultsBrick >> buildCategory: aProcessorClass [
-
-	^ self newCategoryBrick on: self stepModel category: aProcessorClass
+GTSpotterResultsBrick >> addCategory: aProcessor [
+	|titleBrick categoryBrick|
 	
+	titleBrick := self newTitleBrick on: self stepModel category: aProcessor.
+	self theme spotterWidgetThemer categoryTitleStyleFor: titleBrick.
+	self addBrickBack: titleBrick.
+	
+	categoryBrick := (self newCategoryBrick on: self stepModel category: aProcessor) titleBrick: titleBrick.
+	self theme spotterWidgetThemer categoryStyleFor: categoryBrick .
+	self addBrickBack: categoryBrick.
+	
+	^ categoryBrick
 ]
 
 { #category : #accessing }
@@ -24,7 +32,7 @@ GTSpotterResultsBrick >> categories [
 { #category : #accessing }
 GTSpotterResultsBrick >> categoryMorphOf: aProcessor [
 
-	^ self categories at: aProcessor ifAbsent: [ nil ]
+	^ self categories at: aProcessor ifAbsentPut: [ self addCategory: aProcessor ]
 ]
 
 { #category : #'instance creation' }
@@ -33,19 +41,24 @@ GTSpotterResultsBrick >> newCategoryBrick [
 	^ GTSpotterCategoryBrick new
 ]
 
+{ #category : #'instance creation' }
+GTSpotterResultsBrick >> newTitleBrick [
+
+	^ GTSpotterCategoryTitleBrick new
+]
+
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
 	|categoryMorph candidateBrick|
 	
 	categoryMorph := self categoryMorphOf: ann category.
-	categoryMorph ifNil: [ ^ self ].
 	
 	ann candidateLinks do: [ :each |
 		candidateBrick := (ann category render: each value) candidateLink: each; stepModel: self stepModel; yourself.
 		candidateBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
-		categoryMorph listBrick addBrickBack: candidateBrick.
+		categoryMorph addBrickBack: candidateBrick.
 		
-		categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick submorphs size) all: self waitingText.
+		categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
 	].
 
 	self doLayout.
@@ -53,9 +66,10 @@ GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
 ]
 
 { #category : #'event handling' }
-GTSpotterResultsBrick >> onAllCandidatesRemoved: ann [
-
-	(self categoryMorphOf: ann category) listBrick removeAllBricks.
+GTSpotterResultsBrick >> onAllCandidatesRemoved [
+	
+	self band removeAllBricks.
+	categories := nil.
 	
 	self doLayout.
 	self changed.
@@ -67,13 +81,12 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 	|categoryMorph candidateBrick|
 	
 	categoryMorph := self categoryMorphOf: ann category.
-	categoryMorph ifNil: [ ^ self ].
 	
 	candidateBrick := (ann category render: ann candidate) candidateLink: ann candidateLink; stepModel: self stepModel; yourself.
 	candidateBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
-	categoryMorph listBrick addBrickBack: candidateBrick.
+	categoryMorph addBrickBack: candidateBrick.
 	
-	categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick submorphs size) all: self waitingText.
+	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
 
 	self doLayout.
 	self changed.
@@ -87,33 +100,15 @@ GTSpotterResultsBrick >> onCandidateSelected: ann [
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
-
 	|categoryMorph|
+	
+	ann amount <= 1 ifTrue: [ ^ self ].
 	
 	categoryMorph := self categoryMorphOf: ann category.
 	categoryMorph ifNil: [ ^ self ].
 	
-	categoryMorph titleBrick setAmountVisible: (categoryMorph listBrick submorphs size) all: ann amount.
+	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
-	
-]
-
-{ #category : #'event handling' }
-GTSpotterResultsBrick >> onCategoryAdded: ann [
-	|categoryBrick|
-		
-	categoryBrick := self buildCategory: ann category.
-	
-	self categories isEmpty
-		ifFalse: [ self theme spotterWidgetThemer categoryStyleFor: categoryBrick ]
-		ifTrue: [ self theme spotterWidgetThemer categoryFirstStyleFor: categoryBrick ].
-		
-	self categories add: (ann category -> categoryBrick).
-		
-	self addBrickBack: categoryBrick.
-	
-	self doLayout.
-	self changed.
 	
 ]
 
@@ -130,9 +125,8 @@ GTSpotterResultsBrick >> stepModel [
 GTSpotterResultsBrick >> stepModel: aModel [
 	stepModel := aModel.
 	
-	stepModel candidates announcer subscribe: GTSpotterCategoryAdded send: #onCategoryAdded: to: self.
 	stepModel candidates announcer subscribe: GTSpotterCandidateAdded send: #onCandidateAdded: to: self.
-	stepModel candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved: to: self.
+	stepModel candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
 	stepModel candidates announcer subscribe: GTSpotterAllCandidatesAdded send: #onAllCandidatesAdded: to: self.
 	stepModel candidates announcer subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedCandidateChanged: to: self.
 	stepModel candidates announcer subscribe: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.

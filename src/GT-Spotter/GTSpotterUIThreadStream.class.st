@@ -63,9 +63,3 @@ GTSpotterUIThreadStream >> receiver [
 GTSpotterUIThreadStream >> receiver: anObject [
 	receiver := anObject
 ]
-
-{ #category : #'adding/removing' }
-GTSpotterUIThreadStream >> removeValue: anObject [
-
-	self performSymbol: self onRemoveSelector withArguments: { anObject }
-]

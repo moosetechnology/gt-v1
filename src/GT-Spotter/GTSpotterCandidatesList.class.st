@@ -68,7 +68,6 @@ GTSpotterCandidatesList >> addProcessor: aProcessor [
 	self processorLinksMap add: (aProcessor -> processorLink).
 	self processors addLast: processorLink.
 	
-	self notifyProcessorAdded: aProcessor.
 	^ processorLink
 ]
 
@@ -162,6 +161,12 @@ GTSpotterCandidatesList >> nextProcessorLinkOf: aProcessorLink [
 ]
 
 { #category : #notifying }
+GTSpotterCandidatesList >> notifyAllCandidatesRemoved [
+
+	self announcer announce: (GTSpotterAllCandidatesRemoved new)
+]
+
+{ #category : #notifying }
 GTSpotterCandidatesList >> notifyAmountChanged: anInteger in: aProcessor [
 	
 	self announcer announce: (GTSpotterCandidatesAmountChanged new amount: anInteger; category: aProcessor; yourself)
@@ -171,18 +176,6 @@ GTSpotterCandidatesList >> notifyAmountChanged: anInteger in: aProcessor [
 GTSpotterCandidatesList >> notifyCandidateAdded: aCandidateLink in: aProcessor [
 
 	self announcer announce: (GTSpotterCandidateAdded new candidateLink: aCandidateLink; category: aProcessor; yourself).
-]
-
-{ #category : #notifying }
-GTSpotterCandidatesList >> notifyCandidatesRemoved: aProcessorClass [
-
-	self announcer announce: (GTSpotterAllCandidatesRemoved new category: aProcessorClass)
-]
-
-{ #category : #notifying }
-GTSpotterCandidatesList >> notifyProcessorAdded: aProcessor [
-
-	self announcer announce: (GTSpotterCategoryAdded new category: aProcessor).
 ]
 
 { #category : #'stream handling' }
@@ -292,6 +285,19 @@ GTSpotterCandidatesList >> processors [
 ]
 
 { #category : #'adding/removing' }
+GTSpotterCandidatesList >> removeAllCandidates [
+
+	self processors linksDo: [ :each | each clear ].
+	self candidates removeAll.
+	self notifyAllCandidatesRemoved
+	
+	
+	
+	
+	
+]
+
+{ #category : #'adding/removing' }
 GTSpotterCandidatesList >> removeAllCandidatesOf: aProcessor [
 	|processorLink head tail current|
 	
@@ -304,8 +310,7 @@ GTSpotterCandidatesList >> removeAllCandidatesOf: aProcessor [
 		
 	(head = tail) ifTrue: [
 		self candidates removeCycledLink: head.
-		processorLink clear.
-		^ self notifyCandidatesRemoved: aProcessor ].
+		processorLink clear. ].
 	
 	current := head.
 	[ current = tail ] whileFalse: [ |nextCurrent|
@@ -316,8 +321,6 @@ GTSpotterCandidatesList >> removeAllCandidatesOf: aProcessor [
 	self candidates removeCycledLink: current.
 	
 	processorLink clear.
-	
-	self notifyCandidatesRemoved: aProcessor
 	
 	
 	
