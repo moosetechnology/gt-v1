@@ -138,8 +138,10 @@ GTSpotterStep >> process: aString [
 
 	self query: (aString ifNil: [ '' ]).
 	self candidates removeAllCandidates.
+	"updating timestamp in a stream, to prevent candidates from old process being shown"
+	self stream updateTimestamp.
 	
-	(self asyncTask)
+	self asyncTask
 		execute: [ :input | self processors do: [ :processor | processor filter: input on: self stream ] ]
 		withArguments: { self query }
 		callback: [  ].

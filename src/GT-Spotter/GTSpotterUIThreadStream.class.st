@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'onAddedSelector',
 		'onRemoveSelector',
-		'receiver'
+		'receiver',
+		'timestamp'
 	],
 	#category : #'GT-Spotter-Utils'
 }
@@ -49,9 +50,13 @@ GTSpotterUIThreadStream >> onRemoveSelector: anObject [
 
 { #category : #performing }
 GTSpotterUIThreadStream >> performSymbol: aSymbol withArguments: aCollection [
+	|time|
+	"we save current timestamp here, so that defer block can check if it belongs to the correct task"
+	time := self timestamp.
 	"UI manages commands for us"
 	Processor yield.
-	UIManager default defer: [ self receiver perform: aSymbol withEnoughArguments: aCollection ]
+	"if timestamp is wrong just skip command"
+	UIManager default defer: [ time = self timestamp ifTrue: [ self receiver perform: aSymbol withEnoughArguments: aCollection ] ]
 ]
 
 { #category : #accessing }
@@ -62,4 +67,20 @@ GTSpotterUIThreadStream >> receiver [
 { #category : #accessing }
 GTSpotterUIThreadStream >> receiver: anObject [
 	receiver := anObject
+]
+
+{ #category : #accessing }
+GTSpotterUIThreadStream >> timestamp [
+	^ timestamp
+]
+
+{ #category : #accessing }
+GTSpotterUIThreadStream >> timestamp: anObject [
+	timestamp := anObject
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterUIThreadStream >> updateTimestamp [
+
+	self timestamp: Time microsecondClockValue
 ]

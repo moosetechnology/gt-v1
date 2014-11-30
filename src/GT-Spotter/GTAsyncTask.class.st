@@ -15,10 +15,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTAsyncTask >> complete: anObject [
+GTAsyncTask >> complete: anObject callback: aBlock [
 	
 	process ifNil: [ ^ self terminate ].
 	process isTerminated ifFalse: [ "for some cases when we try to return result of wrong process" ^ self ].
+	
+	callback = aBlock ifFalse: [ ^ self terminate ].
 	
 	callback ifNotNil: [ callback cull: anObject ].
 	process := nil.
@@ -34,7 +36,7 @@ GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBloc
 	process := [ |result|
 		result := aBlock valueWithArguments: aCollection.
 		"we use it to pass result from background thread and execute callback block in UI thread"
-		UIManager default defer: [ self complete: result ]
+		UIManager default defer: [ self complete: result callback: callbackBlock ]
 	]	newProcess
 		resume.
 		
@@ -44,6 +46,6 @@ GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBloc
 { #category : #'as yet unclassified' }
 GTAsyncTask >> terminate [
 
-		process ifNotNil: [ process terminate. process := nil ].
-		callback := nil.
+	process ifNotNil: [ process terminate. process := nil ].
+	callback := nil.
 ]
