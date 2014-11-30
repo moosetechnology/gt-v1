@@ -102,9 +102,24 @@ GTSpotterCandidatesListProcessor >> matchLogic: aBlockWithTwoArguments [
 
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> matchSubstring [
-	self matchLogic: [ :anObject :query | 
-		(self itemNameFor: anObject) asLowercase
-			beginsWith: query asLowercase ]
+	self filter: [ :query :stream |
+		| prefixMatchers rest |
+		prefixMatchers := OrderedCollection  new.
+		rest := OrderedCollection new.
+		self allCandidates do: [:each | 
+			| index |
+			index := (self itemNameFor: each) findString: query startingAt: 1 caseSensitive: false.
+			index >= 1 ifTrue: [
+				index = 1 
+					ifTrue: [ 
+							prefixMatchers add: each.
+							prefixMatchers size > 5 ifFalse: [ 
+								stream addValue: each value: self ]]
+					ifFalse: [ rest add: each ]]].
+		(prefixMatchers size < 5) ifTrue: [ 
+			(rest first: ((5 - prefixMatchers size) min: rest size)) do: [ :each |
+				stream addValue: each value: self ] ].
+		prefixMatchers , rest ]
 ]
 
 { #category : #accessing }
