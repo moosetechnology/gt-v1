@@ -1,5 +1,5 @@
 "
-This is a parameterized class.
+This is a candidates processor that can be parameterized via blocks.
 "
 Class {
 	#name : #GTSpotterCandidatesListProcessor,

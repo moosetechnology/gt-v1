@@ -1,3 +1,6 @@
+"
+This processor adds the ability of computing and caching all possible candidates. It is useful when we know all candidates upfront.
+"
 Class {
 	#name : #GTSpotterCandidatesProcessor,
 	#superclass : #GTSpotterProcessor,
