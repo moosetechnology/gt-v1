@@ -118,7 +118,7 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 
 	aBrick layoutProperties floating: #stack.
-	aBrick color: Color white.
+	aBrick color: (Color white alpha: 0.95).
 	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
 	aBrick heightBlock: [ 30 ].
 ]
