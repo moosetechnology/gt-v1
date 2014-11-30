@@ -22,7 +22,7 @@ Class {
 		'selected',
 		'stream',
 		'candidates',
-		'asyncTasks',
+		'asyncTask',
 		'spotter'
 	],
 	#category : #'GT-Spotter-Model'
@@ -49,15 +49,9 @@ GTSpotterStep >> announcer [
 ]
 
 { #category : #accessing }
-GTSpotterStep >> asyncTaskFor: aProcessor [
+GTSpotterStep >> asyncTask [
 
-	^ self asyncTasks at: aProcessor ifAbsentPut: [ GTAsyncTask new ]
-]
-
-{ #category : #accessing }
-GTSpotterStep >> asyncTasks [
-
-	^ asyncTasks ifNil: [ asyncTasks := HashTable new ]
+	^ asyncTask ifNil: [ asyncTask := GTAsyncTask new ]
 ]
 
 { #category : #actions }
@@ -144,11 +138,10 @@ GTSpotterStep >> process: aString [
 	self query: (aString ifNil: [ '' ]).
 	self candidates removeAllCandidates.
 	
-	self processors do: [ :processor |
-		(self asyncTaskFor: processor)
-			execute: [ :input | processor filter: input on: self stream ]
-			withArguments: { self query }
-			callback: [  ] ].
+	(self asyncTask)
+		execute: [ :input | self processors do: [ :processor | processor filter: input on: self stream ] ]
+		withArguments: { self query }
+		callback: [  ].
 ]
 
 { #category : #accessing }
@@ -292,5 +285,5 @@ GTSpotterStep >> stream [
 { #category : #actions }
 GTSpotterStep >> terminateProcessors [
 
-	self asyncTasks do: [ :each | each terminate ]
+	self asyncTask terminate
 ]
