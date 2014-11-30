@@ -51,6 +51,8 @@ GTSpotterResultsBrick >> newTitleBrick [
 GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
 	|categoryMorph candidateBrick|
 	
+	ann candidateLinks isEmpty ifTrue: [ ^ self ].
+	
 	categoryMorph := self categoryMorphOf: ann category.
 	
 	ann candidateLinks do: [ :each |
@@ -102,7 +104,7 @@ GTSpotterResultsBrick >> onCandidateSelected: ann [
 GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	|categoryMorph|
 	
-	ann amount <= 1 ifTrue: [ ^ self ].
+	ann amount < 1 ifTrue: [ ^ self ].
 	
 	categoryMorph := self categoryMorphOf: ann category.
 	categoryMorph ifNil: [ ^ self ].
