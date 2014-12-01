@@ -89,15 +89,6 @@ GTSpotterItemBrick >> checkOrUncheck [
 ]
 
 { #category : #'event handling' }
-GTSpotterItemBrick >> deselect [
-	"is called when item is not more hovered with mouse"
-	
-	"self isChecked ifFalse: [ self hideActionbar ]."
-	super deselect
-	
-]
-
-{ #category : #'event handling' }
 GTSpotterItemBrick >> doubleClick: evt [
 
 	self stepModel act
@@ -217,14 +208,6 @@ GTSpotterItemBrick >> notifySelected [
 GTSpotterItemBrick >> onSelectedChanged: ann [
 
 	self checkOrUncheck
-]
-
-{ #category : #'event handling' }
-GTSpotterItemBrick >> select [
-	"is called when item is hovered with mouse"
-	
-	"self isChecked ifFalse: [ self showActionbar ]."
-	super select
 ]
 
 { #category : #actions }

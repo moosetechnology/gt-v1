@@ -26,17 +26,14 @@ GTSpotterWidgetThemer >> borderColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 
-	aBrick enable.
-	aBrick renderer: (GLMRoundButtonBrickRenderer new antialiasing: true; isRoundedRight: false; isRoundedLeft: false; yourself).
 	aBrick textPosition: #center.
 	aBrick normalColor: self borderColor.
-	aBrick selectedColor: self borderColor.
 	
 	aBrick layoutProperties marginTop: self outerBorderWidth.
-	aBrick layoutProperties marginBottom: "self outerBorderWidth" 0.
 	aBrick layoutProperties marginRight: self outerBorderWidth.
 	
-	aBrick label layoutProperties paddingLeft: self outerBorderWidth * 2.
+	aBrick layoutProperties paddingLeft: self outerBorderWidth.
+	aBrick layoutProperties paddingRight: self outerBorderWidth.
 ]
 
 { #category : #styles }
