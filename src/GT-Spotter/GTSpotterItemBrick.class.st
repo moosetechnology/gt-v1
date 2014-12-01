@@ -43,7 +43,7 @@ GTSpotterItemBrick >> addDiveInActionButton [
 	(self stepModel canDiveIn: self candidate) ifTrue: [ 
 		self actionbarBrick addActionButton: (
 			self newActionButtonBrick
-				icon: GLMUIThemeExtraIcons glamorousSpawn;
+				icon: GLMUIThemeExtraIcons glamorousRight;
 				addUpAction: [ self beSelected. self stepModel diveIn ];
 				yourself) ].
 ]
@@ -92,7 +92,7 @@ GTSpotterItemBrick >> checkOrUncheck [
 GTSpotterItemBrick >> deselect [
 	"is called when item is not more hovered with mouse"
 	
-	self isChecked ifFalse: [ self hideActionbar ].
+	"self isChecked ifFalse: [ self hideActionbar ]."
 	super deselect
 	
 ]
@@ -223,7 +223,7 @@ GTSpotterItemBrick >> onSelectedChanged: ann [
 GTSpotterItemBrick >> select [
 	"is called when item is hovered with mouse"
 	
-	self isChecked ifFalse: [ self showActionbar ].
+	"self isChecked ifFalse: [ self showActionbar ]."
 	super select
 ]
 

@@ -20,20 +20,20 @@ GTSpotterWidgetThemer >> backgroundColor [
 GTSpotterWidgetThemer >> borderColor [
 	"color that is used for border and dividers of UI parts of Spotter
 	for example divider between header and results or between preview and list"
-	^ Color r: 219 g: 217 b: 217 range: 255
+	^ Color r: 200 g: 200 b: 200 range: 255
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 
 	aBrick enable.
-	aBrick renderer: (GLMRoundButtonBrickRenderer new antialiasing: true; isRoundedRight: true; isRoundedLeft: true; yourself).
+	aBrick renderer: (GLMRoundButtonBrickRenderer new antialiasing: true; isRoundedRight: false; isRoundedLeft: false; yourself).
 	aBrick textPosition: #center.
-	aBrick normalColor: Color veryVeryLightGray.
-	aBrick selectedColor: Color veryVeryLightGray darker.
+	aBrick normalColor: self borderColor.
+	aBrick selectedColor: self borderColor.
 	
 	aBrick layoutProperties marginTop: self outerBorderWidth.
-	aBrick layoutProperties marginBottom: self outerBorderWidth.
+	aBrick layoutProperties marginBottom: "self outerBorderWidth" 0.
 	aBrick layoutProperties marginRight: self outerBorderWidth.
 	
 	aBrick label layoutProperties paddingLeft: self outerBorderWidth * 2.
@@ -211,7 +211,7 @@ GTSpotterWidgetThemer >> itemHeight [
 { #category : #values }
 GTSpotterWidgetThemer >> itemHoveredBackgroundColor [
 
-	^ self backgroundColor slightlyDarker
+	^ Color transparent
 ]
 
 { #category : #styles }
