@@ -51,7 +51,7 @@ Class >> spotterReferenceFor: aStep [
 	aStep listProcessor
 			title: 'References';
 			allCandidates: [ (SystemNavigation default allReferencesTo: self binding) collect: #compiledMethod ];
-			itemName: [ :method | method asString ];
+			itemName: [ :method | method gtDisplayString ];
 			matchSubstring
 ]
 
