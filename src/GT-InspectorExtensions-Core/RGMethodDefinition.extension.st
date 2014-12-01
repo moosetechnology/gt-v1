@@ -2,7 +2,7 @@ Extension { #name : #RGMethodDefinition }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RGMethodDefinition >> gtInspectorImplementorsIn: composite [
-	<gtInspectorPresentationOrder: 30>
+	<gtInspectorPresentationOrder: 4>
 	composite list 
 		title: 'Implementors';
 		display: [ self compiledMethod implementors ]
@@ -10,7 +10,7 @@ RGMethodDefinition >> gtInspectorImplementorsIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RGMethodDefinition >> gtInspectorSendersIn: composite [
-	<gtInspectorPresentationOrder: 30>
+	<gtInspectorPresentationOrder: 2>
 	composite list 
 		title: 'Senders';
 		display: [ self compiledMethod senders ]
@@ -18,7 +18,7 @@ RGMethodDefinition >> gtInspectorSendersIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RGMethodDefinition >> gtInspectorSourceIn: composite [
-	<gtInspectorPresentationOrder: 20>
+	<gtInspectorPresentationOrder: 00>
 	^ composite smalltalkCode 
 		title: 'Source';
 		smalltalkClass: [ self methodClass ];
