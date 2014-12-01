@@ -76,9 +76,9 @@ GTSpotterWidgetThemer >> categoryFirstStyleFor: aBrick [
 ]
 
 { #category : #values }
-GTSpotterWidgetThemer >> categoryMarginTop [
+GTSpotterWidgetThemer >> categoryMarginBottom [
 
-	^ 20 "pixels"
+	^ (self itemHeight * (2/3)) ceiling "pixels"
 ]
 
 { #category : #values }
@@ -95,6 +95,8 @@ GTSpotterWidgetThemer >> categoryNameMarginRight [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryStyleFor: aBrick [
+
+	aBrick layoutProperties marginBottom: self categoryMarginBottom
 ]
 
 { #category : #styles }
