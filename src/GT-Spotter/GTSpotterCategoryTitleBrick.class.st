@@ -30,10 +30,16 @@ GTSpotterCategoryTitleBrick >> amountBrick: aBrick [
 GTSpotterCategoryTitleBrick >> doLayout [
 
 	self amountBrick layoutProperties horizontalPercent: 100.
+	self nameBrick label textPosition: #leftCenter.
+	self layoutProperties paddingLeft: (self theme spotterWidgetThemer categoryNameMarginLeft).
+	
 	super doLayout.
 	
 	self amountBrick isDotsAdded ifTrue: [
-		self amountBrick layoutProperties horizontalPercent: 0. super doLayout ].
+		self amountBrick layoutProperties horizontalPercent: 0.
+		self layoutProperties paddingLeft: (self theme spotterWidgetThemer categoryNameMarginLeft / 2).
+		self nameBrick label textPosition: #center.
+		super doLayout ].
 ]
 
 { #category : #accessing }
