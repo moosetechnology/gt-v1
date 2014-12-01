@@ -106,11 +106,10 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 	aBrick textPosition: #leftCenter.
 	aBrick textColor: self titleTextColor.
 	aBrick layoutProperties horizontalPercent: 0.
-	aBrick layoutProperties minWidthBlock: [ :name | (name label textSize x * 1.2) + name label layoutProperties horizontalMargin ].
-	aBrick label layoutProperties marginLeft: self categoryNameMarginLeft.
+	aBrick layoutProperties minWidthBlock: [ :name | (aBrick owner brickInnerBounds width) min: ((name label textSize x * 1.2) + name label layoutProperties horizontalMargin) ].
 	aBrick label fontSize: self titleFontSize.
 	aBrick label familyName: self titleFamilyName.
-	aBrick color: self titleBackgroundColor.
+	aBrick color: self titleBackgroundColor
 ]
 
 { #category : #styles }
@@ -119,7 +118,7 @@ GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 	aBrick layoutProperties floating: #stack.
 	aBrick color: (Color white alpha: 0.95).
 	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
-"	aBrick heightBlock: [ :title | title layoutProperties zIndex = 1 ifTrue: [ 30 ] ifFalse: [ 30 ] ]."
+	aBrick layoutProperties paddingLeft: self categoryNameMarginLeft.
 	aBrick heightBlock: [ 30 ]
 ]
 
