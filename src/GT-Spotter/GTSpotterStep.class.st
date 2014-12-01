@@ -135,7 +135,10 @@ GTSpotterStep >> process: aString [
 	If nil is passed, than an empty string will be processed. This approach is used to
 	destinguish when user deletes last character in the search and when search field became
 	empty after spawning new step"
-
+	
+	"no need to search for the same query"
+	(self query isNotEmpty and: [ aString = self query ]) ifTrue: [ ^ self ].
+	
 	self query: (aString ifNil: [ '' ]).
 	self candidates removeAllCandidates.
 	"updating timestamp in a stream, to prevent candidates from old process being shown"
