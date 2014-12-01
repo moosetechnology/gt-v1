@@ -20,7 +20,7 @@ GTSpotterWidgetThemer >> backgroundColor [
 GTSpotterWidgetThemer >> borderColor [
 	"color that is used for border and dividers of UI parts of Spotter
 	for example divider between header and results or between preview and list"
-	^ Color r: 200 g: 200 b: 200 range: 255
+	^ Color r: 180 g: 180 b: 180 range: 255
 ]
 
 { #category : #styles }
@@ -28,6 +28,7 @@ GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 
 	aBrick textPosition: #center.
 	aBrick normalColor: self borderColor.
+	aBrick textColor: Color white.
 	
 	aBrick layoutProperties marginTop: self outerBorderWidth.
 	aBrick layoutProperties marginRight: self outerBorderWidth.
