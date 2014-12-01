@@ -26,6 +26,16 @@ GTSpotterCategoryTitleBrick >> amountBrick: aBrick [
 	self addBrickBack: amountBrick
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterCategoryTitleBrick >> doLayout [
+
+	self amountBrick layoutProperties horizontalPercent: 100.
+	super doLayout.
+	
+	self amountBrick isDotsAdded ifTrue: [
+		self amountBrick layoutProperties horizontalPercent: 0. super doLayout ].
+]
+
 { #category : #accessing }
 GTSpotterCategoryTitleBrick >> nameBrick [
 
