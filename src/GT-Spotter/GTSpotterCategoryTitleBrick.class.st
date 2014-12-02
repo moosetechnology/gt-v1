@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterCategoryTitleBrick,
-	#superclass : #GLMBandBrick,
+	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'nameBrick',
 		'amountBrick',
@@ -26,19 +26,14 @@ GTSpotterCategoryTitleBrick >> amountBrick: aBrick [
 	self addBrickBack: amountBrick
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GTSpotterCategoryTitleBrick >> doLayout [
-
-	self amountBrick layoutProperties horizontalPercent: 100.
-	self nameBrick label textPosition: #leftCenter.
-	self layoutProperties paddingLeft: (self theme spotterWidgetThemer categoryNameMarginLeft).
 	
 	super doLayout.
 	
 	self amountBrick isDotsAdded ifTrue: [
 		self amountBrick layoutProperties horizontalPercent: 0.
 		self layoutProperties paddingLeft: (((self width - self nameBrick width) / 2) ceiling max: 0).
-		self nameBrick label textPosition: #leftCenter.
 		super doLayout ].
 ]
 
@@ -84,6 +79,22 @@ GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 
 
 	^ self
+]
+
+{ #category : #layouting }
+GTSpotterCategoryTitleBrick >> onLayoutEvent: aLayoutEvent [
+	super onLayoutEvent: aLayoutEvent.
+	
+	(aLayoutEvent isKindOf: GLMBrickLayoutStacked) ifTrue: [ "self enable" ]
+]
+
+{ #category : #layouting }
+GTSpotterCategoryTitleBrick >> onPrepareLayout [
+	super onPrepareLayout.
+	
+	self amountBrick layoutProperties horizontalPercent: 100.
+	self layoutProperties paddingLeft: (self theme spotterWidgetThemer categoryNameMarginLeft).
+	self disable.
 ]
 
 { #category : #accessing }

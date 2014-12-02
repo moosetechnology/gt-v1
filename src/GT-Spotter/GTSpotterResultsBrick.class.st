@@ -134,14 +134,6 @@ GTSpotterResultsBrick >> stepModel: aModel [
 	stepModel candidates announcer subscribe: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.
 ]
 
-{ #category : #scrolling }
-GTSpotterResultsBrick >> update [
-
-	self categories do: [ :each | each titleBrick layoutProperties paddingLeft: (self theme spotterWidgetThemer categoryNameMarginLeft) ].
-	
-	super update
-]
-
 { #category : #accessing }
 GTSpotterResultsBrick >> waitingText [
 
