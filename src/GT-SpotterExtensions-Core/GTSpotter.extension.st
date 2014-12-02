@@ -83,9 +83,10 @@ GTSpotter >> spotterImplementorsFor: aStep [
 	processor := aStep listProcessor.
 	processor 
 		title: 'Implementors';
-		filter: [ :query :stream |
-				| aCollection |
+		filter: [ :originalQuery :stream |
+				| aCollection query |
 				aCollection := OrderedCollection  new.
+				query := originalQuery trimBoth.
 				SystemNavigation default allBehaviorsDo: [:class | 
 					(class includesSelector: query asSymbol)
 						ifTrue: [
