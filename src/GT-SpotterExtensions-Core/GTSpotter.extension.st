@@ -93,7 +93,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 							method := class>>(query asSymbol).
 							aCollection add: method.
 							aCollection size > 5 ifFalse: [ 
-								stream addValue: method value: processor ]]].
+								stream addObject: method inProcessor: processor ]]].
 				aCollection ].
 	^ processor
 ]
