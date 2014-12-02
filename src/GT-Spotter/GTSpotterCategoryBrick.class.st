@@ -38,6 +38,12 @@ GTSpotterCategoryBrick >> on: aStepModel category: aProcessor [
 ]
 
 { #category : #accessing }
+GTSpotterCategoryBrick >> setAmountVisible: visible all: all [
+
+	self titleBrick setAmountVisible: visible all: all
+]
+
+{ #category : #accessing }
 GTSpotterCategoryBrick >> stepModel [
 	^ stepModel
 ]

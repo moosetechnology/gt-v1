@@ -8,7 +8,7 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
-{ #category : #'instance creation' }
+{ #category : #adding }
 GTSpotterResultsBrick >> addCategory: aProcessor [
 	|titleBrick categoryBrick|
 	
@@ -21,6 +21,19 @@ GTSpotterResultsBrick >> addCategory: aProcessor [
 	self addBrickBack: categoryBrick.
 	
 	^ categoryBrick
+]
+
+{ #category : #adding }
+GTSpotterResultsBrick >> buildItemFor: aCandidateLink in: aProcessor [
+	|itemBrick|
+	itemBrick := (aProcessor render: aCandidateLink value)
+			candidateLink: aCandidateLink;
+			stepModel: self stepModel;
+			yourself.
+			
+	itemBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
+	^ itemBrick
+	
 ]
 
 { #category : #accessing }
@@ -49,19 +62,14 @@ GTSpotterResultsBrick >> newTitleBrick [
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
-	|categoryMorph candidateBrick|
-	
+	|categoryMorph|
 	ann candidateLinks isEmpty ifTrue: [ ^ self ].
 	
 	categoryMorph := self categoryMorphOf: ann category.
 	
-	ann candidateLinks do: [ :each |
-		candidateBrick := (ann category render: each value) candidateLink: each; stepModel: self stepModel; yourself.
-		candidateBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
-		categoryMorph addBrickBack: candidateBrick.
-		
-		categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
-	].
+	ann candidateLinks do: [ :each | categoryMorph addBrickBack: (self buildItemFor: each in: ann category)	].
+	
+	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
 
 	self doLayout.
 	self changed.
@@ -80,15 +88,10 @@ GTSpotterResultsBrick >> onAllCandidatesRemoved [
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidateAdded: ann [
-	|categoryMorph candidateBrick|
 	
-	categoryMorph := self categoryMorphOf: ann category.
-	
-	candidateBrick := (ann category render: ann candidate) candidateLink: ann candidateLink; stepModel: self stepModel; yourself.
-	candidateBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
-	categoryMorph addBrickBack: candidateBrick.
-	
-	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
+	(self categoryMorphOf: ann category)
+		addBrickBack: (self buildItemFor: ann candidateLink in: ann category);
+		setAmountVisible: ((self categoryMorphOf: ann category) submorphs size) all: self waitingText.
 
 	self doLayout.
 	self changed.
