@@ -14,6 +14,9 @@ Class {
 		'pagerModel',
 		'text'
 	],
+	#classInstVars : [
+		'history'
+	],
 	#category : #'GT-Spotter-Model'
 }
 
@@ -45,10 +48,20 @@ GTSpotter class >> gtInspectorExtensionsIn: composite [
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ]
 ]
 
+{ #category : #accessing }
+GTSpotter class >> history [
+	^ history ifNil: [ history := WeakOrderedCollection new ]
+]
+
 { #category : #'instance creation' }
 GTSpotter class >> on: anObject [
 	
 	^ self new foundationOrigin: anObject
+]
+
+{ #category : #accessing }
+GTSpotter class >> resetHistory [
+	^ history := nil
 ]
 
 { #category : #inspecting }
@@ -62,6 +75,7 @@ GTSpotter class >> spotterExtendingMethods [
 
 { #category : #'actions api' }
 GTSpotter >> addStep: aStepModel [
+	aStepModel origin = self ifFalse: [ self class history addFirst: aStepModel origin ].
 	self steps add: aStepModel.
 	self notifyStepAdded: aStepModel
 ]
