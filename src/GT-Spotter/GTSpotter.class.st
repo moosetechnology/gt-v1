@@ -75,8 +75,9 @@ GTSpotter class >> spotterExtendingMethods [
 
 { #category : #'actions api' }
 GTSpotter >> addStep: aStepModel [
-	((aStepModel origin = self) 
+	(((aStepModel origin = self) 
 		or: [ (self class history includes: aStepModel origin) ]) 
+		or: [ (aStepModel origin isNil) ])
 			ifFalse: [ self class history addFirst: aStepModel origin ].
 	self steps add: aStepModel.
 	self notifyStepAdded: aStepModel
