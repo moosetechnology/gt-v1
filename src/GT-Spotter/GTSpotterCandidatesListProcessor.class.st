@@ -102,9 +102,10 @@ GTSpotterCandidatesListProcessor >> matchLogic: aBlockWithTwoArguments [
 
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> matchSubstring [
-	self filter: [ :query :stream |
-		| prefixMatchers rest |
+	self filter: [ :originalQuery :stream |
+		| prefixMatchers rest query |
 		"if filter is empty we stream all candidates"
+		query := originalQuery trimBoth asLowercase.
 		query isEmpty 
 			ifTrue: [ self streamAllCandidatesOn: stream ]
 			ifFalse: [
