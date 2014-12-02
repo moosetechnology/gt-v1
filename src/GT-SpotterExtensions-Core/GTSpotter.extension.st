@@ -67,6 +67,16 @@ GTSpotter >> spotterForToolsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterHistoryFor: aStep [
+	<spotterOrder: 0>
+	aStep listProcessor
+			allCandidates: [:x | self class history ];
+			title: 'History';
+			matchSubstring;
+			wantsToDisplayOnEmptyQuery: true
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterImplementorsFor: aStep [
 	<spotterOrder: 30>
 	| processor |
