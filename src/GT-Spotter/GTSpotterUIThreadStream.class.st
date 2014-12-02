@@ -10,22 +10,16 @@ Class {
 	#category : #'GT-Spotter-Utils'
 }
 
+{ #category : #'adding/removing' }
+GTSpotterUIThreadStream >> addObject: firstObject inProcessor: secondObject [
+
+	self performSymbol: self onAddedSelector withArguments: { firstObject. secondObject }
+]
+
 { #category : #'as yet unclassified' }
 GTSpotterUIThreadStream >> addObjects: aCollection inProcessor: aProcessor [
 
 	self performSymbol: #addAllCandidates:in: withArguments: { aCollection . aProcessor }
-]
-
-{ #category : #'adding/removing' }
-GTSpotterUIThreadStream >> addValue: anObject [
-
-	self performSymbol: self onAddedSelector withArguments: { anObject }
-]
-
-{ #category : #'adding/removing' }
-GTSpotterUIThreadStream >> addValue: firstObject value: secondObject [
-
-	self performSymbol: self onAddedSelector withArguments: { firstObject. secondObject }
 ]
 
 { #category : #accessing }

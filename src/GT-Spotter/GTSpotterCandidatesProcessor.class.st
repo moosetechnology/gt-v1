@@ -52,7 +52,7 @@ GTSpotterCandidatesProcessor >> doFilter: aStringQuery on: aStream [
 			
 			(mResults size >= self candidatesLimit)
 				ifTrue: [ mResults size = self candidatesLimit ifTrue: [ Processor activeProcess priority: Processor userBackgroundPriority  ] ]
-				ifFalse: [ aStream addValue: each value: self ].
+				ifFalse: [ aStream addObject: each inProcessor: self ].
 				
 			mResults add: each.
 		] ].

@@ -118,11 +118,11 @@ GTSpotterCandidatesListProcessor >> matchSubstring [
 							ifTrue: [ 
 									prefixMatchers add: each.
 									prefixMatchers size > 5 ifFalse: [ 
-										stream addValue: each value: self ]]
+										stream addObject: each inProcessor: self ]]
 							ifFalse: [ rest add: each ]]].
 				(prefixMatchers size < 5) ifTrue: [ 
 					(rest first: ((5 - prefixMatchers size) min: rest size)) do: [ :each |
-						stream addValue: each value: self ] ].
+						stream addObject: each inProcessor: self ] ].
 				prefixMatchers , rest ] ]
 ]
 
