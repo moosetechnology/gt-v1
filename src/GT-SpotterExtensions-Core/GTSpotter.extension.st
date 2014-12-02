@@ -70,7 +70,7 @@ GTSpotter >> spotterForToolsFor: aStep [
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 0>
 	aStep listProcessor
-			allCandidates: [:x | self class history ];
+			allCandidates: [:x | self class history select: [ :each | each isNotNil ] ];
 			title: 'History';
 			matchSubstring;
 			wantsToDisplayOnEmptyQuery: true
