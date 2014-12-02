@@ -58,19 +58,6 @@ GTSpotterHeaderBrick >> onCurrentStepChanged [
 	self searchField moveCursorAtTheEnd
 ]
 
-{ #category : #drawing }
-GTSpotterHeaderBrick >> onDraw: aCanvas [
-	"draws a slight gradient"
-	aCanvas
-		fillRectangle: self brickBounds
-		fillStyle: (
-			(InterpolatedGradientFillStyle
-				colors: {self color slightlyLighter. self color})
-				origin: 0 @ 0;
-				radial: true;
-				direction: 0 @ self width).
-]
-
 { #category : #accessing }
 GTSpotterHeaderBrick >> searchField [
 
