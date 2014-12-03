@@ -79,10 +79,7 @@ GTSpotter class >> spotterExtendingMethods [
 
 { #category : #'actions api' }
 GTSpotter >> addStep: aStepModel [
-	(((aStepModel origin = self) 
-		or: [ (self class history includes: aStepModel origin) ]) 
-		or: [ (aStepModel origin isNil) ])
-			ifFalse: [ self class history addFirst: aStepModel origin ].
+	self historize: aStepModel origin.
 	self steps add: aStepModel.
 	self notifyStepAdded: aStepModel
 ]
@@ -136,6 +133,14 @@ GTSpotter >> getText [
 GTSpotter >> hasPreviousStep [
 
 	^ self steps size > 1
+]
+
+{ #category : #'actions api' }
+GTSpotter >> historize: target [
+	(target = self or: [ target isNil ])
+		ifFalse: [ 
+			self class history remove: target ifAbsent: [].
+			self class history addFirst: target ]
 ]
 
 { #category : #testing }
