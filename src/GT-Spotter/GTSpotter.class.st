@@ -22,38 +22,23 @@ Class {
 
 { #category : #example }
 GTSpotter class >> exampleMC [
-
 	"self exampleMC"
-	|morph|
 	
-	morph := GTSpotterMorph new
+	^ GTSpotterMorph new
 		width: 400;
-		doLayout.
-	morph spotterModel: (self on: MCWorkingCopy allManagers).
-	
-	morph openInWorld.
-	morph bounds: (morph bounds translateBy: ((morph world center - morph center) - (0@200))).
-	
-	"hack. need to do a separate method"
-	morph spotterModel setText: '' from: nil.
-	morph spotterModel currentStep process: nil.
+		doLayout;
+		spotterModel: (self on: MCWorkingCopy allManagers);
+		openCenteredInWorld
 ]
 
 { #category : #example }
 GTSpotter class >> exampleWorldMenu [
-	|morph|
 	
-	morph := GTSpotterMorph new
+	^ GTSpotterMorph new
 		width: 400;
-		doLayout.
-	morph spotterModel: (self on: World worldMenu).
-	
-	morph openInWorld.
-	morph bounds: (morph bounds translateBy: ((morph world center - morph center) - (0@200))).
-	
-	"hack. need to do a separate method"
-	morph spotterModel setText: '' from: nil.
-	morph spotterModel currentStep process: nil.
+		doLayout;
+		spotterModel: (self on: World worldMenu);
+		openCenteredInWorld
 ]
 
 { #category : #inspecting }

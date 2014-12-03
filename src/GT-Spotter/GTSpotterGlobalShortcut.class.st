@@ -19,11 +19,13 @@ GTSpotterGlobalShortcut class >> isGlobalCategory [
 GTSpotterGlobalShortcut class >> openGlobalSpotter [
 	globalSpotter 
 		ifNotNil: [ globalSpotter delete ].
-	globalSpotter := GTSpotterMorph new width: 630; doLayout.
-	globalSpotter spotterModel: GTSpotter new.
-	globalSpotter openInWorld.
-	globalSpotter bounds: (globalSpotter bounds translateBy: ((globalSpotter world center - globalSpotter center) - (0@200))).
-	globalSpotter spotterModel setText: '' from: nil.
+		
+	globalSpotter := GTSpotterMorph new
+		width: 630;
+		doLayout;
+		spotterModel: GTSpotter new;
+		openCenteredInWorld.
+		
 	^ globalSpotter
 ]
 
