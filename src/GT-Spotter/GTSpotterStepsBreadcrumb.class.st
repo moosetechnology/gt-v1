@@ -27,6 +27,7 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 				self items do: [ :each | width := width + each width + each layoutProperties marginRight ].
 				width - self items last layoutProperties marginRight ] ].
 	
+	self band data: 0.
 	self addBrickBack: band.
 ]
 
