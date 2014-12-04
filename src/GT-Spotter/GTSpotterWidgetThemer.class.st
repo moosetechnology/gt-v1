@@ -255,6 +255,7 @@ GTSpotterWidgetThemer >> itemIconStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 
+	aBrick label highlightingLogic: [ :aCanvas :aRectangle | aCanvas line: aRectangle bottomLeft to: aRectangle bottomRight width: 1 color: Color lightGray ].
 	aBrick layoutProperties horizontalPercent: 100.
 	aBrick label familyName: self itemFamilyName.
 	aBrick label fontSize: self itemFontSize.
