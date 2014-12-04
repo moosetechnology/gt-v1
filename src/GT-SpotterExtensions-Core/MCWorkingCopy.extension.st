@@ -4,7 +4,7 @@ Extension { #name : #MCWorkingCopy }
 MCWorkingCopy >> spotterAllRepositoriesFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor
-		title: 'All';
+		title: 'All repositories';
 		allCandidates: [ MCRepositoryGroup default repositories ];
 		itemName: [ :item | item description ];
 		actLogic: [ :item | self spotterCommit: self in: item ];
@@ -27,7 +27,7 @@ MCWorkingCopy >> spotterCommit: workingCopy in: aRepository [
 MCWorkingCopy >> spotterPackageRepositoriesFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
-		title: 'Package';
+		title: 'Package repositories';
 		allCandidates: [ self repositoryGroup repositories ];
 		itemName: [ :item | item description ];
 		actLogic: [ :item | self spotterCommit: self in: item ];

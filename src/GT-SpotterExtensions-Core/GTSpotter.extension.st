@@ -1,6 +1,17 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
+	<spotterOrder: 80>
+	aStep listProcessor
+			allCandidates: [ MCWorkingCopy allManagers select: #modified ];
+			title: 'Dirty Monticello packages';
+			itemIcon: [ Smalltalk ui icons iconNamed: #dirtyPackageIcon ];
+			matchSubstring;
+			wantsToDisplayOnEmptyQuery: true
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForClassesFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
@@ -60,13 +71,6 @@ GTSpotter >> spotterForPragmasFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForToolsFor: aStep [
-	<spotterOrder: 90>
-	^ (World worldMenu spotterItemsFor: aStep)
-		title: 'Menu'
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 0>
 	aStep listProcessor
@@ -97,4 +101,11 @@ GTSpotter >> spotterImplementorsFor: aStep [
 								stream addObject: method inProcessor: processor ]]].
 				aCollection ].
 	^ processor
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterWorldMenuFor: aStep [
+	<spotterOrder: 90>
+	^ (World worldMenu spotterItemsFor: aStep)
+		title: 'Menu'
 ]
