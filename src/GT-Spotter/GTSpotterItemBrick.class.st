@@ -106,6 +106,12 @@ GTSpotterItemBrick >> hideActionbar [
 	self doLayout.
 ]
 
+{ #category : #actions }
+GTSpotterItemBrick >> highlightQuery [
+
+	self labelBrick label highlight: self stepModel query
+]
+
 { #category : #accessing }
 GTSpotterItemBrick >> icon: aForm [
 
@@ -239,6 +245,7 @@ GTSpotterItemBrick >> stepModel: aModel [
 	self
 		addActActionButton;
 		addDiveInActionButton;
+		highlightQuery;
 		checkOrUncheck.
 ]
 
