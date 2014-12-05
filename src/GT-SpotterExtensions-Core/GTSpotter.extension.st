@@ -104,6 +104,27 @@ GTSpotter >> spotterImplementorsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterStfxFor: aStep [
+	<spotterOrder: 30>
+	| processor |
+	processor := aStep listProcessor.
+	processor 
+		title: 'ws.stfx.eu';
+		filter: [ :originalQuery :stream |
+			| aCollection query |
+			aCollection := OrderedCollection  new.
+			query := originalQuery trimBoth.
+			(query beginsWith: 'http://ws.stfx.eu') ifTrue: [ 
+				[| page |
+				page := GTUrlProvider new get: query.
+				stream addObject: page inProcessor: processor.
+				aCollection add: page] on: Error do: [  ] ].
+			aCollection ];
+		actLogic: [ :string | GTPlayground openContents: string ].
+	^ processor
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterWorldMenuFor: aStep [
 	<spotterOrder: 90>
 	^ (World worldMenu spotterItemsFor: aStep)
