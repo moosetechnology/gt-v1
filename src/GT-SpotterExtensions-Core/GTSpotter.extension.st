@@ -115,12 +115,12 @@ GTSpotter >> spotterStfxFor: aStep [
 			aCollection := OrderedCollection  new.
 			query := originalQuery trimBoth.
 			(query beginsWith: 'http://ws.stfx.eu') ifTrue: [ 
-				[| page |
-				page := GTUrlProvider new get: query.
+				[| string page |
+				string := GTUrlProvider new get: query.
+				page := GTPlayPage new content: string.
 				stream addObject: page inProcessor: processor.
-				aCollection add: page] on: Error do: [  ] ].
-			aCollection ];
-		actLogic: [ :string | GTPlayground openContents: string ].
+				aCollection add: page] on: Error do: [ "nothing" ] ].
+			aCollection ].
 	^ processor
 ]
 
