@@ -143,7 +143,11 @@ GTSpotterMorph >> initializeListeners [
 	
 	self 
 		bindKeyCombination: Character cr asKeyCombination 
-		toAction: [ self act ]
+		toAction: [ self act ].
+		
+	self 
+		bindKeyCombination: $p command shift 
+		toAction: [ self exportAsPNGSilently ]
 ]
 
 { #category : #'instance creation' }
