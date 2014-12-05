@@ -61,11 +61,11 @@ GTPlayBook >> addPage: aPage [
 
 { #category : #accessing }
 GTPlayBook >> addPageIfInteresting: aPage [
-	aPage content asString trimBoth isEmpty
-		ifFalse: [ self addPage: aPage ]
+	aPage content asString trimBoth isEmpty ifTrue: [ ^ self ].
+	self addPage: aPage
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
 GTPlayBook >> gtPagesIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	composite list 
@@ -77,9 +77,9 @@ GTPlayBook >> gtPagesIn: composite [
 
 { #category : #accessing }
 GTPlayBook >> initialize [
-	pages := (self class cacheDirectory files 
-		select: [ :each | each extension = 'ph' ] 
-		thenCollect: [ :each | GTPlayPage new content: (each readStreamDo: #contents) ]) asOrderedCollection 
+	pages := (((self class cacheDirectory files 
+		select: [ :each | each extension = 'ph' ]) first: 100) 
+		collect: [ :each | GTPlayPage new content: (each readStreamDo: #contents) ]) asOrderedCollection 
 ]
 
 { #category : #accessing }
