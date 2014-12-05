@@ -2,7 +2,7 @@ Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
-	<spotterOrder: 80>
+	<spotterOrder: 85>
 	aStep listProcessor
 			allCandidates: [ MCWorkingCopy allManagers select: #modified ];
 			title: 'Dirty Monticello packages';
@@ -33,6 +33,15 @@ GTSpotter >> spotterForDirectoriesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForFilesFor: aStep [
 	<spotterOrder: 40>
+	
+"	^ self isDirectory ifTrue: [
+		aStep listProcessor
+			allCandidates: [ self files ];
+			title: 'Files';
+			itemName: #basename;
+			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
+			matchSubstring ]"
+	
 	(FileSystem workingDirectory spotterForFilesFor: aStep)
 		wantsToDisplayOnEmptyQuery: false
 ]
@@ -72,7 +81,7 @@ GTSpotter >> spotterForPragmasFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterHistoryFor: aStep [
-	<spotterOrder: 0>
+	<spotterOrder: 80>
 	aStep listProcessor
 			allCandidates: [:x | self class history select: [ :each | each isNotNil ] ];
 			title: 'History';
