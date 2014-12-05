@@ -32,6 +32,12 @@ GTPlayBook class >> cacheDirectory: aString [
 	cacheDirectory := aString asFileReference
 ]
 
+{ #category : #protocol }
+GTPlayBook class >> cleanUp [
+	
+	instance := nil
+]
+
 { #category : #accessing }
 GTPlayBook class >> defaultCacheDirectory [
 	^ 'play-cache/' asFileReference ensureCreateDirectory
