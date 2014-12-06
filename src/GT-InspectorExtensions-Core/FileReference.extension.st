@@ -1,6 +1,11 @@
 Extension { #name : #FileReference }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+FileReference >> gtDisplayOn: stream [
+	filesystem printPath: path on: stream
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExampleDirectory [
 	<example>
 	| directory subDirectory |
