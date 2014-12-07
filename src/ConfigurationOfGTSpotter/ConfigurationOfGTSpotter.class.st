@@ -1,3 +1,6 @@
+"
+ConfigurationOfGTSpotter loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGTSpotter,
 	#superclass : #Object,
@@ -165,4 +168,22 @@ ConfigurationOfGTSpotter >> project [
 		(Smalltalk at: #MetacelloVersionConstructor) on: self project: project.
 		project loadType: #linear. "change to #atomic if desired"
 		project ]
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version100: spec [
+	<version: '1.0.0' imports: #('1.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0.0'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '12/07/2014 14:48'.
+		
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.59';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.20'.
+		spec 
+			project: 'GlamourCore' with: '3.0.3'. ].
+
 ]
