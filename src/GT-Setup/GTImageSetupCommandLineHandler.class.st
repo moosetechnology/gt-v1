@@ -128,5 +128,6 @@ GTImageSetupCommandLineHandler >> setPreferredSettings [
 		popupShowWithShortcut: Character tab asShortcut.
 	GTGenericStackDebugger enableStackColoring: true.
 	GLMWhitespaceTheme setPreferredShoutColors.
-	KMRepository reset
+	KMRepository reset.
+	ThemeIcons current: GLMThemeIcons new
 ]
