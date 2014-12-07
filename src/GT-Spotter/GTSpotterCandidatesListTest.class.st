@@ -32,7 +32,7 @@ GTSpotterCandidatesListTest >> setUp [
 { #category : #'as yet unclassified' }
 GTSpotterCandidatesListTest >> testAddCategories [
 	|categories|
-	categories := { A1. A2. A3 }.
+	categories := { GTSpotterA1 . GTSpotterA2 . GTSpotterA3 }.
 	
 	self addCategories: categories.
 	self assert: (self hasCategories: categories)
@@ -42,8 +42,8 @@ GTSpotterCandidatesListTest >> testAddCategories [
 GTSpotterCandidatesListTest >> testAddOneCandidateA1 [
 	|link category|
 	
-	category := candidates addProcessor: A1.
-	link := candidates addCandidate: 11 in: A1.
+	category := candidates addProcessor: GTSpotterA1.
+	link := candidates addCandidate: 11 in: GTSpotterA1.
 	
 	self assert: (link nextLink = link).
 	self assert: (link previousLink = link).
@@ -59,10 +59,10 @@ GTSpotterCandidatesListTest >> testAddOneCandidateA1 [
 GTSpotterCandidatesListTest >> testAddOneCandidateA1A2 [
 	|link11 link21 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	link11 := candidates addCandidate: 11 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
 	
 	self assert: (link11 nextLink = link21).
 	self assert: (link11 previousLink = link21).
@@ -86,13 +86,13 @@ GTSpotterCandidatesListTest >> testAddOneCandidateA1A2 [
 GTSpotterCandidatesListTest >> testAddOneCandidateA1A2A3 [
 	|link11 link21 link31 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link31 := candidates addCandidate: 31 in: A3.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link31 := candidates addCandidate: 31 in: GTSpotterA3.
 	
 	self assert: (link11 nextLink = link21).
 	self assert: (link11 previousLink = link31).
@@ -120,10 +120,10 @@ GTSpotterCandidatesListTest >> testAddOneCandidateA1A2A3 [
 GTSpotterCandidatesListTest >> testAddThreeCandidateA1 [
 	|link1 link2 link3 category|
 	
-	category := candidates addProcessor: A1.
-	link1 := candidates addCandidate: 11 in: A1.
-	link2 := candidates addCandidate: 12 in: A1.
-	link3 := candidates addCandidate: 13 in: A1.
+	category := candidates addProcessor: GTSpotterA1.
+	link1 := candidates addCandidate: 11 in: GTSpotterA1.
+	link2 := candidates addCandidate: 12 in: GTSpotterA1.
+	link3 := candidates addCandidate: 13 in: GTSpotterA1.
 	
 	self assert: (link1 nextLink = link2).
 	self assert: (link1 previousLink = link3).
@@ -146,15 +146,15 @@ GTSpotterCandidatesListTest >> testAddThreeCandidateA1 [
 GTSpotterCandidatesListTest >> testAddThreeCandidateA1A2 [
 	|link11 link12 link13 link21 link22 link23 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
 	
 	self assert: (link11 nextLink = link12).
 	self assert: (link11 previousLink = link23).
@@ -188,19 +188,19 @@ GTSpotterCandidatesListTest >> testAddThreeCandidateA1A2 [
 GTSpotterCandidatesListTest >> testAddThreeCandidateA1A2A3 [
 	|link11 link12 link13 link21 link22 link23 link31 link32 link33 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
-	link31 := candidates addCandidate: 31 in: A3.
-	link32 := candidates addCandidate: 32 in: A3.
-	link33 := candidates addCandidate: 33 in: A3.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
+	link31 := candidates addCandidate: 31 in: GTSpotterA3.
+	link32 := candidates addCandidate: 32 in: GTSpotterA3.
+	link33 := candidates addCandidate: 33 in: GTSpotterA3.
 	
 	self assert: (link11 nextLink = link12).
 	self assert: (link11 previousLink = link33).
@@ -246,19 +246,19 @@ GTSpotterCandidatesListTest >> testAddThreeCandidateA1A2A3 [
 GTSpotterCandidatesListTest >> testAddThreeCandidateA1A2A3Shuffled [
 	|link11 link12 link13 link21 link22 link23 link31 link32 link33 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link11 := candidates addCandidate: 11 in: A1.
-	link31 := candidates addCandidate: 31 in: A3.
-	link12 := candidates addCandidate: 12 in: A1.
-	link32 := candidates addCandidate: 32 in: A3.
-	link23 := candidates addCandidate: 23 in: A2.
-	link33 := candidates addCandidate: 33 in: A3.
-	link13 := candidates addCandidate: 13 in: A1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link31 := candidates addCandidate: 31 in: GTSpotterA3.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link32 := candidates addCandidate: 32 in: GTSpotterA3.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
+	link33 := candidates addCandidate: 33 in: GTSpotterA3.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
 	
 	self assert: (link11 nextLink = link12).
 	self assert: (link11 previousLink = link33).
@@ -304,9 +304,9 @@ GTSpotterCandidatesListTest >> testAddThreeCandidateA1A2A3Shuffled [
 GTSpotterCandidatesListTest >> testAddTwoCandidateA1 [
 	|link1 link2 category|
 	
-	category := candidates addProcessor: A1.
-	link1 := candidates addCandidate: 11 in: A1.
-	link2 := candidates addCandidate: 12 in: A1.
+	category := candidates addProcessor: GTSpotterA1.
+	link1 := candidates addCandidate: 11 in: GTSpotterA1.
+	link2 := candidates addCandidate: 12 in: GTSpotterA1.
 	
 	self assert: (link1 nextLink = link2).
 	self assert: (link1 previousLink = link2).
@@ -326,13 +326,13 @@ GTSpotterCandidatesListTest >> testAddTwoCandidateA1 [
 GTSpotterCandidatesListTest >> testAddTwoCandidateA1A2 [
 	|link11 link12 link21 link22 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
 	
 	self assert: (link11 nextLink = link12).
 	self assert: (link11 previousLink = link22).
@@ -362,16 +362,16 @@ GTSpotterCandidatesListTest >> testAddTwoCandidateA1A2 [
 GTSpotterCandidatesListTest >> testAddTwoCandidateA1A2A3 [
 	|link11 link12 link21 link22 link31 link32 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link31 := candidates addCandidate: 31 in: A3.
-	link32 := candidates addCandidate: 32 in: A3.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link31 := candidates addCandidate: 31 in: GTSpotterA3.
+	link32 := candidates addCandidate: 32 in: GTSpotterA3.
 	
 	self assert: (link11 nextLink = link12).
 	self assert: (link11 previousLink = link32).
@@ -408,19 +408,19 @@ GTSpotterCandidatesListTest >> testAddTwoCandidateA1A2A3 [
 GTSpotterCandidatesListTest >> testCategoryLinkByCandidateLinkThreeA1A2A3 [
 	|link11 link12 link13 link21 link22 link23 link31 link32 link33 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
-	link31 := candidates addCandidate: 31 in: A3.
-	link32 := candidates addCandidate: 32 in: A3.
-	link33 := candidates addCandidate: 33 in: A3.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
+	link31 := candidates addCandidate: 31 in: GTSpotterA3.
+	link32 := candidates addCandidate: 32 in: GTSpotterA3.
+	link33 := candidates addCandidate: 33 in: GTSpotterA3.
 	
 	self assert: (category1 = (candidates getProcessorLinkByCandidateLink: link11)).
 	self assert: (category1 = (candidates getProcessorLinkByCandidateLink: link12)).
@@ -440,15 +440,15 @@ GTSpotterCandidatesListTest >> testNextA1A2Category [
 
 	|link11 link12 link13 link21 link22 link23 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
 	
 	self assert: (category1 = (candidates nextProcessorLinkOf: category2)).
 	self assert: (category2 = (candidates nextProcessorLinkOf: category1)).
@@ -461,12 +461,12 @@ GTSpotterCandidatesListTest >> testNextA1A2EmptyCategory [
 
 	|link11 link12 link13 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
 	
 	self assert: (category1 = (candidates nextProcessorLinkOf: category1)).
 	self assert: (category1 = (candidates nextProcessorLinkOf: category2)).
@@ -479,11 +479,11 @@ GTSpotterCandidatesListTest >> testNextA1Category [
 
 	|link11 link12 link13 category1 |
 	
-	category1 := candidates addProcessor: A1.
+	category1 := candidates addProcessor: GTSpotterA1.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
 	
 	self assert: (category1 = (candidates nextProcessorLinkOf: category1)).
 	
@@ -495,15 +495,15 @@ GTSpotterCandidatesListTest >> testPreviousA1A2Category [
 
 	|link11 link12 link13 link21 link22 link23 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
 	
 	self assert: (category1 = (candidates previousProcessorLinkOf: category2)).
 	self assert: (category2 = (candidates previousProcessorLinkOf: category1)).
@@ -516,12 +516,12 @@ GTSpotterCandidatesListTest >> testPreviousA1A2EmptyCategory [
 
 	|link11 link12 link13 category1 category2|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
 	
 	self assert: (category1 = (candidates previousProcessorLinkOf: category1)).
 	self assert: (category1 = (candidates previousProcessorLinkOf: category2)).
@@ -534,11 +534,11 @@ GTSpotterCandidatesListTest >> testPreviousA1Category [
 
 	|link11 link12 link13 category1 |
 	
-	category1 := candidates addProcessor: A1.
+	category1 := candidates addProcessor: GTSpotterA1.
 	
-	link11 := candidates addCandidate: 11 in: A1.
-	link12 := candidates addCandidate: 12 in: A1.
-	link13 := candidates addCandidate: 13 in: A1.
+	link11 := candidates addCandidate: 11 in: GTSpotterA1.
+	link12 := candidates addCandidate: 12 in: GTSpotterA1.
+	link13 := candidates addCandidate: 13 in: GTSpotterA1.
 	
 	self assert: (category1 = (candidates previousProcessorLinkOf: category1)).
 	
@@ -549,23 +549,23 @@ GTSpotterCandidatesListTest >> testPreviousA1Category [
 GTSpotterCandidatesListTest >> testRemoveCandidatesA1A2A3FromA1A2A3 [
 	|category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	candidates addCandidate: 11 in: A1.
-	candidates addCandidate: 12 in: A1.
-	candidates addCandidate: 13 in: A1.
-	candidates addCandidate: 21 in: A2.
-	candidates addCandidate: 22 in: A2.
-	candidates addCandidate: 23 in: A2.
-	candidates addCandidate: 31 in: A3.
-	candidates addCandidate: 32 in: A3.
-	candidates addCandidate: 33 in: A3.
+	candidates addCandidate: 11 in: GTSpotterA1.
+	candidates addCandidate: 12 in: GTSpotterA1.
+	candidates addCandidate: 13 in: GTSpotterA1.
+	candidates addCandidate: 21 in: GTSpotterA2.
+	candidates addCandidate: 22 in: GTSpotterA2.
+	candidates addCandidate: 23 in: GTSpotterA2.
+	candidates addCandidate: 31 in: GTSpotterA3.
+	candidates addCandidate: 32 in: GTSpotterA3.
+	candidates addCandidate: 33 in: GTSpotterA3.
 	
-	candidates removeAllCandidatesOf: A1.
-	candidates removeAllCandidatesOf: A3.
-	candidates removeAllCandidatesOf: A2.
+	candidates removeAllCandidatesOf: GTSpotterA1.
+	candidates removeAllCandidatesOf: GTSpotterA3.
+	candidates removeAllCandidatesOf: GTSpotterA2.
 			
 	self assert: (candidates head = nil).
 	self assert: (candidates tail = nil).
@@ -584,22 +584,22 @@ GTSpotterCandidatesListTest >> testRemoveCandidatesA1A2A3FromA1A2A3 [
 GTSpotterCandidatesListTest >> testRemoveCandidatesA1A3FromA1A2A3 [
 	|link21 link22 link23 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	candidates addCandidate: 11 in: A1.
-	candidates addCandidate: 12 in: A1.
-	candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
-	candidates addCandidate: 31 in: A3.
-	candidates addCandidate: 32 in: A3.
-	candidates addCandidate: 33 in: A3.
+	candidates addCandidate: 11 in: GTSpotterA1.
+	candidates addCandidate: 12 in: GTSpotterA1.
+	candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
+	candidates addCandidate: 31 in: GTSpotterA3.
+	candidates addCandidate: 32 in: GTSpotterA3.
+	candidates addCandidate: 33 in: GTSpotterA3.
 	
-	candidates removeAllCandidatesOf: A1.
-	candidates removeAllCandidatesOf: A3.
+	candidates removeAllCandidatesOf: GTSpotterA1.
+	candidates removeAllCandidatesOf: GTSpotterA3.
 	
 	self assert: (link21 nextLink = link22).
 	self assert: (link21 previousLink = link23).
@@ -627,21 +627,21 @@ GTSpotterCandidatesListTest >> testRemoveCandidatesA1A3FromA1A2A3 [
 GTSpotterCandidatesListTest >> testRemoveCandidatesA1FromA1A2A3 [
 	|link21 link22 link23 link31 link32 link33 category1 category2 category3|
 	
-	category1 := candidates addProcessor: A1.
-	category2 := candidates addProcessor: A2.
-	category3 := candidates addProcessor: A3.
+	category1 := candidates addProcessor: GTSpotterA1.
+	category2 := candidates addProcessor: GTSpotterA2.
+	category3 := candidates addProcessor: GTSpotterA3.
 	
-	candidates addCandidate: 11 in: A1.
-	candidates addCandidate: 12 in: A1.
-	candidates addCandidate: 13 in: A1.
-	link21 := candidates addCandidate: 21 in: A2.
-	link22 := candidates addCandidate: 22 in: A2.
-	link23 := candidates addCandidate: 23 in: A2.
-	link31 := candidates addCandidate: 31 in: A3.
-	link32 := candidates addCandidate: 32 in: A3.
-	link33 := candidates addCandidate: 33 in: A3.
+	candidates addCandidate: 11 in: GTSpotterA1.
+	candidates addCandidate: 12 in: GTSpotterA1.
+	candidates addCandidate: 13 in: GTSpotterA1.
+	link21 := candidates addCandidate: 21 in: GTSpotterA2.
+	link22 := candidates addCandidate: 22 in: GTSpotterA2.
+	link23 := candidates addCandidate: 23 in: GTSpotterA2.
+	link31 := candidates addCandidate: 31 in: GTSpotterA3.
+	link32 := candidates addCandidate: 32 in: GTSpotterA3.
+	link33 := candidates addCandidate: 33 in: GTSpotterA3.
 	
-	candidates removeAllCandidatesOf: A1.
+	candidates removeAllCandidatesOf: GTSpotterA1.
 	
 	self assert: (link21 nextLink = link22).
 	self assert: (link21 previousLink = link33).
