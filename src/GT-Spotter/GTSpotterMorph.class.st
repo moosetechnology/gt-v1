@@ -184,7 +184,7 @@ GTSpotterMorph >> outOfWorld: aWorld [
 	super outOfWorld: aWorld.
 	self unsubscribeListeners.
 	
-	self spotterModel terminateProcessors.
+	self spotterModel ifNotNil: [:m | m terminateProcessors].
 	
 	"restoring previous focus"
 	focusedMorph ifNotNil: [ focusedMorph takeKeyboardFocus ]
