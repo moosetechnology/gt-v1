@@ -170,6 +170,14 @@ ConfigurationOfGTSpotter >> project [
 		project ]
 ]
 
+{ #category : #'symbolic versions' }
+ConfigurationOfGTSpotter >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '1.0.0'.
+
+]
+
 { #category : #versions }
 ConfigurationOfGTSpotter >> version100: spec [
 	<version: '1.0.0' imports: #('1.0-baseline' )>
