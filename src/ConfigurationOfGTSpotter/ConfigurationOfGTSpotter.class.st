@@ -181,7 +181,7 @@ ConfigurationOfGTSpotter >> version100: spec [
 		spec timestamp: '12/07/2014 14:48'.
 		
 		spec 
-			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.59';
+			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.61';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.20'.
 		spec 
 			project: 'GlamourCore' with: '3.0.3'. ].
