@@ -204,6 +204,14 @@ ConfigurationOfGTPlayground >> project [
 		project ]
 ]
 
+{ #category : #'symbolic versions' }
+ConfigurationOfGTPlayground >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '2.0.4'.
+
+]
+
 { #category : #versions }
 ConfigurationOfGTPlayground >> version101: spec [
 	<version: '1.0.1' imports: #('1.0-baseline' )>
