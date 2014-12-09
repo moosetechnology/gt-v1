@@ -184,6 +184,6 @@ ConfigurationOfGTSpotter >> version100: spec [
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.61';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.20'.
 		spec 
-			project: 'GlamourCore' with: '3.0.3'. ].
+			project: 'GlamourCore' with: '3.0.4'. ].
 
 ]
