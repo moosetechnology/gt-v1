@@ -328,6 +328,14 @@ ConfigurationOfGTInspector >> project [
 		project ]
 ]
 
+{ #category : #'symbolic versions' }
+ConfigurationOfGTInspector >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '2.0.4'.
+
+]
+
 { #category : #versions }
 ConfigurationOfGTInspector >> version101: spec [
 	<version: '1.0.1' imports: #('1.0-baseline' )>
