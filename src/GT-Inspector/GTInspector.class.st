@@ -164,6 +164,7 @@ GTInspector >> closeActionFor: aPresentation [
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
+	"self act: [:b | b presentationFilter ifNotNil: [ :filter | filter changeFilterRequestFor: b] ] icon: GLMUIThemeExtraIcons glamorousSpawn entitled: 'Edit'."
 	self pager with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each |
@@ -208,6 +209,12 @@ GTInspector >> openExplorerFor: anObject [
 { #category : #accessing }
 GTInspector >> panes [
 	^ self first panes
+]
+
+{ #category : #accessing }
+GTInspector >> presentationFilter [
+
+	^ presentationFilter
 ]
 
 { #category : #context }
@@ -258,9 +265,9 @@ GTInspector >> removeLastPane [
 { #category : #context }
 GTInspector >> shouldDisplayPresentationCreateBy: aMethod [
 	
-	^ presentationFilter 
+	^ self presentationFilter 
 		ifNil: [ true]
-		ifNotNil: [ presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
+		ifNotNil: [ self presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
 ]
 
 { #category : #'as yet unclassified' }

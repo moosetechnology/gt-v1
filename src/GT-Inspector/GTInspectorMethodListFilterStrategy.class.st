@@ -14,6 +14,11 @@ GTInspectorMethodListFilterStrategy >> addMethodSignatureFor: aMethod [
 ]
 
 { #category : #'as yet unclassified' }
+GTInspectorMethodListFilterStrategy >> changeFilterRequestFor: aGTInspector [
+
+]
+
+{ #category : #'as yet unclassified' }
 GTInspectorMethodListFilterStrategy >> initialize [
 	super initialize.
 	methodSignatures := OrderedCollection new.

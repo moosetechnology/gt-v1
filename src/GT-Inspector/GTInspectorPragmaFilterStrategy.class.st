@@ -3,7 +3,8 @@ Class {
 	#superclass : #GTInspectorPresentationFilterStrategy,
 	#instVars : [
 		'defaultPragmaKey',
-		'pragmaKeys'
+		'allPragmaKeys',
+		'selectedPragmaKeys'
 	],
 	#category : #'GT-Inspector'
 }
@@ -11,7 +12,25 @@ Class {
 { #category : #adding }
 GTInspectorPragmaFilterStrategy >> addPragmaKey: aSymbol [
 
-	pragmaKeys add: aSymbol
+	allPragmaKeys add: aSymbol.
+	selectedPragmaKeys add: aSymbol.
+]
+
+{ #category : #'as yet unclassified' }
+GTInspectorPragmaFilterStrategy >> changeFilterRequestFor: aGTInspector [
+	|treeModel|
+	
+	treeModel := MorphTreeModel new.
+	treeModel
+		 beCheckList;
+		 rootItems: allPragmaKeys;
+		 wrapBlockOrSelector: #printString;
+		 autoMultiSelection: true;
+		 headerLabel: 'Tags';
+		 selectItems: selectedPragmaKeys.
+	 (treeModel openDialogWindowIn: World title: 'All available tags' selectedtems: selectedPragmaKeys) ifNotNil: [ :selection | 
+		selectedPragmaKeys := selection.
+		aGTInspector update ]
 ]
 
 { #category : #accessing }
@@ -24,7 +43,8 @@ GTInspectorPragmaFilterStrategy >> defaultInspectorPragmaKey: aSymbol [
 GTInspectorPragmaFilterStrategy >> initialize [
 	super initialize.
 	
-	pragmaKeys := OrderedCollection new.
+	allPragmaKeys := OrderedCollection new.
+	selectedPragmaKeys := OrderedCollection new.
 	defaultPragmaKey := #gtInspectorTagDefault
 ]
 
@@ -39,5 +59,5 @@ GTInspectorPragmaFilterStrategy >> inspectorPragmasFrom: aMethod [
 { #category : #testing }
 GTInspectorPragmaFilterStrategy >> shouldDisplayPresentationCreateBy: aMethod [
 
-	^ (self inspectorPragmasFrom: aMethod) includesAny: pragmaKeys
+	^ (self inspectorPragmasFrom: aMethod) includesAny: selectedPragmaKeys
 ]
