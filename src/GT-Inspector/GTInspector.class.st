@@ -12,6 +12,9 @@ self registerToolsOn: Smalltalk tools.
 Class {
 	#name : #GTInspector,
 	#superclass : #GLMCompositePresentation,
+	#instVars : [
+		'presentationFilter'
+	],
 	#classVars : [
 		'GTInspectorEnabledStatus',
 		'GTNumberOfInspectorPanes'
@@ -186,6 +189,16 @@ GTInspector >> entities [
 		(each port: #entity) value ]
 ]
 
+{ #category : #initialization }
+GTInspector >> initialize [
+	super initialize.
+	
+	"self presentationsFilter: (GTInspectorPragmaFilterStrategy new
+			defaultInspectorPragmaKey: #gtInspectorTagCustom;
+			addPragmaKey: #gtInspectorTagBasic;
+			addPragmaKey: #gtInspectorTagCustom)"
+]
+
 { #category : #opening }
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
@@ -195,6 +208,12 @@ GTInspector >> openExplorerFor: anObject [
 { #category : #accessing }
 GTInspector >> panes [
 	^ self first panes
+]
+
+{ #category : #context }
+GTInspector >> presentationsFilter: aPresentationFilterStragery [
+
+	presentationFilter := aPresentationFilterStragery
 ]
 
 { #category : #accessing }
@@ -234,6 +253,14 @@ GTInspector >> removeLastPane [
 	self first removeLastPane.
 	self first announce: (GLMPaneRemoved pane: lastPane fromBrowser: self first).
 	self first panes last updateToolbar
+]
+
+{ #category : #context }
+GTInspector >> shouldDisplayPresentationCreateBy: aMethod [
+	
+	^ presentationFilter 
+		ifNil: [ true]
+		ifNotNil: [ presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
 ]
 
 { #category : #'as yet unclassified' }

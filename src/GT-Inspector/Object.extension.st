@@ -72,6 +72,7 @@ Object >> gtInspectorInterestingObject [
 Object >> gtInspectorMetaIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>
+	<gtInspectorTagBasic>
 	^ composite custom: (GTSimpleMethodsBrowser new startOn: self) 
 ]
 
@@ -86,6 +87,8 @@ Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 				from: self class 
 				to: Object
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
+	pragmas := pragmas select: [ :aPragma | 
+		aGTInspector shouldDisplayPresentationCreateBy: aPragma method ].
 	pragmas do: [ :eachPragma | 
 		(eachPragma selector findTokens: $:) size = 1 
 			ifTrue: [ self perform: eachPragma selector with: composite ]. 
@@ -97,6 +100,7 @@ Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 Object >> gtInspectorRawIn: composite [
 	"This is the most basic presentation showing the state of the object"
 	<gtInspectorPresentationOrder: 10>
+	<gtInspectorTagBasic>
 	^ composite custom: GTObjectVariablesBrowser new
 ]
 
