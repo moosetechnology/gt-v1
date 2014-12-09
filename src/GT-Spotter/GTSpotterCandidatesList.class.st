@@ -275,7 +275,8 @@ GTSpotterCandidatesList >> privateAddCandidate: aCandidateLink weightedInNotFull
 { #category : #accessing }
 GTSpotterCandidatesList >> processorLinksMap [
 
-	^ processorLinksMap ifNil: [ processorLinksMap := HashTable new ]
+	^ processorLinksMap ifNil: [ processorLinksMap := Dictionary new ]
+	
 ]
 
 { #category : #accessing }

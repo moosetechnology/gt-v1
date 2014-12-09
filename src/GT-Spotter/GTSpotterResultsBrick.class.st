@@ -39,7 +39,7 @@ GTSpotterResultsBrick >> buildItemFor: aCandidateLink in: aProcessor [
 { #category : #accessing }
 GTSpotterResultsBrick >> categories [
 
-	^ categories ifNil: [ categories := HashTable new ]
+	^ categories ifNil: [ categories := Dictionary new ]
 ]
 
 { #category : #accessing }
