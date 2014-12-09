@@ -1,6 +1,13 @@
 Extension { #name : #Pragma }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Pragma >> gtDisplayOn: stream [
+	self method gtDisplayOn: stream.
+	stream space.
+	self printOn: stream
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Pragma class >> gtInspectorAnnotatedMethodsIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 	composite table 
