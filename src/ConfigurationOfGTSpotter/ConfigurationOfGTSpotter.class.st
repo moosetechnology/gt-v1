@@ -182,7 +182,7 @@ ConfigurationOfGTSpotter >> version100: spec [
 		
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.61';
-			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.20'.
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.21'.
 		spec 
 			project: 'GlamourCore' with: '3.0.4'. ].
 
