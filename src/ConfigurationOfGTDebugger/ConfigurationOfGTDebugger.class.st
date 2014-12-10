@@ -191,3 +191,28 @@ ConfigurationOfGTDebugger >> project [
 		project loadType: #linear. "change to #atomic if desired"
 		project ]
 ]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfGTDebugger >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '1.0.0'.
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version100: spec [
+	<version: '1.0.0' imports: #('0.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0.1'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '9/30/2014 17:11'.
+		spec 
+			project: 'GTInspector' with: #'stable'";
+			project: 'NewDebugger' with: #'stable'".
+		spec 
+			package: #'GT-Debugger' with: 'GT-Debugger-AndreiChis.213'].
+
+]
