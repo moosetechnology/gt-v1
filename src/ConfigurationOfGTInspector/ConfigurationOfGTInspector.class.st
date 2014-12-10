@@ -609,7 +609,7 @@ ConfigurationOfGTInspector >> version205: spec [
 		spec blessing: #'stable'.
 		spec description: 'version 2.0.5'.
 		spec author: 'AndreiChis'.
-		spec timestamp: '12/09/2014 12:08'.
+		spec timestamp: '12/10/2014 13:38'.
 		
 		spec 
 			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.20'.
