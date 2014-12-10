@@ -140,6 +140,7 @@ GTSpotterMorph >> initializeListeners [
 	self bindKeyCombination: Character arrowLeft command toAction: [ self diveOut ].
 
 	self bindKeyCombination: Character arrowRight command shift toAction: [ self diveInCategory ].
+	self bindKeyCombination: Character arrowLeft command shift toAction: [ self diveOut ].
 	
 	self 
 		bindKeyCombination: Character cr asKeyCombination 

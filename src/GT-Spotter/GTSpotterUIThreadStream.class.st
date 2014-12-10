@@ -13,13 +13,15 @@ Class {
 { #category : #'adding/removing' }
 GTSpotterUIThreadStream >> addObject: firstObject inProcessor: secondObject [
 
-	self performSymbol: self onAddedSelector withArguments: { firstObject. secondObject }
+	self performSymbol: self onAddedSelector withArguments: { firstObject. secondObject }.
+	Processor yield
 ]
 
 { #category : #'adding/removing' }
 GTSpotterUIThreadStream >> addObjects: aCollection inProcessor: aProcessor [
 
-	self performSymbol: #addAllCandidates:in: withArguments: { aCollection . aProcessor }
+	self performSymbol: #addAllCandidates:in: withArguments: { aCollection . aProcessor }.
+	Processor yield
 ]
 
 { #category : #accessing }
@@ -66,7 +68,8 @@ GTSpotterUIThreadStream >> receiver: anObject [
 { #category : #'adding/removing' }
 GTSpotterUIThreadStream >> removeAllCandidates [
 
-	self performSymbol: #removeAllCandidates withArguments: { }
+	self performSymbol: #removeAllCandidates withArguments: { }.
+	Processor yield
 ]
 
 { #category : #accessing }
