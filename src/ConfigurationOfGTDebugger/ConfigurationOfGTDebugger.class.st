@@ -208,7 +208,7 @@ ConfigurationOfGTDebugger >> version100: spec [
 		spec blessing: #'stable'.
 		spec description: 'version 1.0.1'.
 		spec author: 'AndreiChis'.
-		spec timestamp: '9/30/2014 17:11'.
+		spec timestamp: '12/10/2014 14:11'.
 		spec 
 			project: 'GTInspector' with: #'stable'";
 			project: 'NewDebugger' with: #'stable'".
