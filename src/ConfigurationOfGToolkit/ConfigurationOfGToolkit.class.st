@@ -680,7 +680,7 @@ ConfigurationOfGToolkit >> baseline017: aSpec [
 				aSpec
 					versionString: #'development';
 					className: 'ConfigurationOfAnnouncerCentricDebugger';
-					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ];
+					repository: 'http://www.smalltalkhub.com/mc/Moose/AnnouncerCentricDebugger/main' ];
 			project: 'Glamour' with: [
 				aSpec
 					versionString: #'development';
@@ -760,7 +760,7 @@ ConfigurationOfGToolkit >> baseline018: aSpec [
 				aSpec
 					versionString: #'development';
 					className: 'ConfigurationOfAnnouncerCentricDebugger';
-					repository: 'http://www.smalltalkhub.com/mc/AndreiChis/AnnouncerCentricDebugger/main' ];
+					repository: 'http://www.smalltalkhub.com/mc/Moose/AnnouncerCentricDebugger/main' ];
 			project: 'Glamour' with: [
 				aSpec
 					versionString: #'development';
