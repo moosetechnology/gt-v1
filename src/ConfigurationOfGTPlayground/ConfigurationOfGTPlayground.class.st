@@ -208,7 +208,7 @@ ConfigurationOfGTPlayground >> project [
 ConfigurationOfGTPlayground >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.0.4'.
+	spec for: #'common' version: '2.0.5'.
 
 ]
 
@@ -414,5 +414,20 @@ ConfigurationOfGTPlayground >> version204: spec [
 		
 		spec project: 'GTPlaygroundCore' with: '2.0.4'.
 		spec project: 'GTInspector' with: '2.0.4'. ]
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlayground >> version205: spec [
+	<version: '2.0.5' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.5'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '12/10/2014 13:38'.
+		
+		spec project: 'GTPlaygroundCore' with: #'stable'.
+		spec project: 'GTInspector' with: #'stable'. ]
 
 ]
