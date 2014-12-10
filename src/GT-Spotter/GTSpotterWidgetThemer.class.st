@@ -133,7 +133,7 @@ GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> closeButtonStyleFor: aBrick [
 
-	aBrick normalImage: GLMUIThemeExtraIcons glamorousCancel.
+	aBrick normalImage: GLMUIThemeExtraIcons glamorousClose.
 	aBrick pressedColor: self buttonPressedColor.
 	aBrick layoutProperties horizontalPercent: 0.
 ]
