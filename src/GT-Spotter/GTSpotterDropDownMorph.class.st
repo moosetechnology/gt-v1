@@ -7,6 +7,15 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
+{ #category : #'as yet unclassified' }
+GTSpotterDropDownMorph >> buildPane: aStepModel [
+	|pane|
+	
+	pane := GTSpotterResultsBrick new stepModel: aStepModel.
+	self theme spotterWidgetThemer resultsPaneStyleFor: pane.
+	^ pane
+]
+
 { #category : #initialization }
 GTSpotterDropDownMorph >> initialize [
 	super initialize.
@@ -17,7 +26,8 @@ GTSpotterDropDownMorph >> initialize [
 { #category : #'event handling' }
 GTSpotterDropDownMorph >> onStepAdded: ann [
 	"as soon as step added we need to push it"
-	self pushPane: (GTSpotterStepPane new stepModel: ann stepModel)
+
+	self pushPane: (self buildPane: ann stepModel)
 ]
 
 { #category : #accessing }
@@ -29,7 +39,7 @@ GTSpotterDropDownMorph >> spotterModel [
 GTSpotterDropDownMorph >> spotterModel: aModel [ 
 	spotterModel := aModel.
 	
-	spotterModel steps do: [ :each | self pushPane: (GTSpotterStepPane new stepModel: each) ].
+	spotterModel steps do: [ :each | self pushPane: (self buildPane: each) ].
 	
 	spotterModel announcer subscribe: GTSpotterStepAdded send: #onStepAdded: to: self.
 ]
