@@ -15,7 +15,7 @@ GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 GTSpotter >> spotterForClassesFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
-			allCandidates: [ Smalltalk allClasses ];
+			allCandidates: [ Smalltalk allClassesAndTraits ];
 			title: 'Classes';
 			matchSubstring;
 			itemIcon: #systemIcon;
