@@ -80,7 +80,6 @@ GTSpotter class >> spotterExtendingMethods [
 
 { #category : #'actions api' }
 GTSpotter >> addStep: aStepModel [
-	self historize: aStepModel origin.
 	self steps add: aStepModel.
 	self notifyStepAdded: aStepModel
 ]

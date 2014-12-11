@@ -26,7 +26,7 @@ GTSpotterResultsBrick >> addCategory: aProcessor [
 { #category : #adding }
 GTSpotterResultsBrick >> buildItemFor: aCandidateLink in: aProcessor [
 	|itemBrick|
-	itemBrick := (aProcessor render: aCandidateLink value)
+	itemBrick := (aCandidateLink renderingProcessor render: aCandidateLink value)
 			candidateLink: aCandidateLink;
 			stepModel: self stepModel;
 			yourself.

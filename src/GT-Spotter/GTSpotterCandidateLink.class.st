@@ -3,7 +3,8 @@ Class {
 	#superclass : #DoubleLink,
 	#instVars : [
 		'processorLink',
-		'weight'
+		'weight',
+		'renderingProcessorLink'
 	],
 	#category : #'GT-Spotter-Utils'
 }
@@ -29,7 +30,7 @@ GTSpotterCandidateLink >> asSpotterCandidateLink [
 { #category : #accessing }
 GTSpotterCandidateLink >> processor [
 
-	^ self processorLink value key
+	^ self processorLink value
 ]
 
 { #category : #accessing }
@@ -39,7 +40,25 @@ GTSpotterCandidateLink >> processorLink [
 
 { #category : #accessing }
 GTSpotterCandidateLink >> processorLink: anObject [
-	processorLink := anObject
+
+	"we set rendering processor only if one is not set. it allows to have a collection of items,
+	that have different rendering processors"
+	
+	processorLink ifNil: [ renderingProcessorLink := anObject ].
+	processorLink := anObject.
+	
+]
+
+{ #category : #accessing }
+GTSpotterCandidateLink >> renderingProcessor [
+
+	^ renderingProcessorLink value
+]
+
+{ #category : #accessing }
+GTSpotterCandidateLink >> renderingProcessor: aProcessorLink [
+
+	renderingProcessorLink := aProcessorLink
 ]
 
 { #category : #accessing }
