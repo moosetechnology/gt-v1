@@ -52,6 +52,7 @@ GTSpotterCandidateLink >> processorLink: anObject [
 { #category : #accessing }
 GTSpotterCandidateLink >> renderingProcessor [
 
+	renderingProcessorLink ifNil: [ renderingProcessorLink := processorLink ].
 	^ renderingProcessorLink value
 ]
 
