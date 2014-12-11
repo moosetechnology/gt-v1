@@ -98,10 +98,13 @@ GTSpotterMorph >> extent: aPoint [
 
 { #category : #'events-processing' }
 GTSpotterMorph >> handleListenEvent: anEvent [
-	
+		
 	anEvent type = #mouseDown ifTrue: [ 
 		(self fullBoundsInWorld containsPoint: anEvent position) not
-			ifTrue: [ self delete ] ]
+			ifTrue: [ self delete ] ].
+		
+	anEvent type = #keyDown ifTrue: [
+		anEvent keyValue = 56 ifTrue: [ self shiftPressed ]	]
 ]
 
 { #category : #'event handling' }
@@ -123,7 +126,8 @@ GTSpotterMorph >> initialize [
 { #category : #initialize }
 GTSpotterMorph >> initializeListeners [
 
-	self activeHand addMouseListener: self.
+	self activeHand addEventListener: self.
+	
 	Morph announcer weak on: MorphLostFocus send: #onLostFocus: to: self.
 	
 	self bindKeyCombination: Character escape toAction: [ self escapePressed ].
@@ -132,6 +136,8 @@ GTSpotterMorph >> initializeListeners [
 	self bindKeyCombination: Character arrowDown toAction: [ self selectNextCandidate ].
 	self bindKeyCombination: Character arrowUp command toAction: [ self selectPreviousCandidate ].
 	self bindKeyCombination: Character arrowDown command toAction: [ self selectNextCandidate ].
+	self bindKeyCombination: Character arrowUp shift toAction: [ self selectPreviousCandidate ].
+	self bindKeyCombination: Character arrowDown shift toAction: [ self selectNextCandidate ].
 	
 	self bindKeyCombination: Character arrowUp command shift toAction: [ self selectPreviousCategory ].
 	self bindKeyCombination: Character arrowDown command shift toAction: [ self selectNextCategory ].
@@ -223,6 +229,13 @@ GTSpotterMorph >> selectPreviousCategory [
 	
 ]
 
+{ #category : #actions }
+GTSpotterMorph >> shiftPressed [
+
+	self spotterModel isEmpty
+		ifFalse: [ self spotterModel currentStep shiftPressed ]
+]
+
 { #category : #accessing }
 GTSpotterMorph >> spotterModel [
 
@@ -249,6 +262,6 @@ GTSpotterMorph >> spotterModel: aSpotter [
 { #category : #initialize }
 GTSpotterMorph >> unsubscribeListeners [
 
-	self activeHand removeMouseListener: self.
+	self activeHand removeEventListener: self.
 	Morph announcer unsubscribe: self.
 ]

@@ -23,7 +23,8 @@ Class {
 		'stream',
 		'candidates',
 		'asyncTask',
-		'spotter'
+		'spotter',
+		'isCategorySelected'
 	],
 	#category : #'GT-Spotter-Model'
 }
@@ -101,6 +102,12 @@ GTSpotterStep >> exit [
 ]
 
 { #category : #testing }
+GTSpotterStep >> isCategorySelected [
+
+	^ isCategorySelected ifNil: [ isCategorySelected := Morph new activeHand shiftPressed ]
+]
+
+{ #category : #testing }
 GTSpotterStep >> isEmpty [
 
 	^ self candidates isEmpty
@@ -112,6 +119,14 @@ GTSpotterStep >> listProcessor [
 	processor := GTSpotterCandidatesListProcessor new.
 	self addProcessor: processor.
 	^ processor
+]
+
+{ #category : #notifying }
+GTSpotterStep >> notifyCategorySelectedOrDeselected [
+
+	self isCategorySelected
+		ifTrue: [ self announcer announce: GTSpotterCategorySelected new ]
+		ifFalse: [ self announcer announce: GTSpotterCategoryDeselected new ]
 ]
 
 { #category : #notifying }
@@ -266,6 +281,19 @@ GTSpotterStep >> selectedCandidate [
 	^ self selected
 		ifNotNil: [ self selected value ]
 		ifNil: [ nil ]
+]
+
+{ #category : #accessing }
+GTSpotterStep >> selectedCategory [
+
+	^ self selected processor
+]
+
+{ #category : #actions }
+GTSpotterStep >> shiftPressed [
+
+	isCategorySelected := self isCategorySelected not.
+	self notifyCategorySelectedOrDeselected
 ]
 
 { #category : #accessing }
