@@ -2,7 +2,7 @@ Extension { #name : #PGDataRow }
 
 { #category : #'*GT-InspectorExtensions-PostgresV2' }
 PGDataRow >> gtInspectorValuesIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 0>
 	composite table
 		title: 'Values';
 		display: [ self dictionary keys ];

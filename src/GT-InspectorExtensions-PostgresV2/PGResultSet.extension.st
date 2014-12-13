@@ -2,7 +2,7 @@ Extension { #name : #PGResultSet }
 
 { #category : #'*GT-InspectorExtensions-PostgresV2' }
 PGResultSet >> gtInspectorResultTableIn: composite [
-	<gtInspectorPresentationOrder: 50>
+	<gtInspectorPresentationOrder: 0>
 	composite dynamic 
 		title: 'Result';
 		display: [ | table |

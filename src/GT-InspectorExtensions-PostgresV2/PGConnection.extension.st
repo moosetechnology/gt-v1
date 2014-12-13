@@ -2,12 +2,12 @@ Extension { #name : #PGConnection }
 
 { #category : #'*GT-InspectorExtensions-PostgresV2' }
 PGConnection >> gtInspectorSQLIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 0>
 	composite rubricText
 		title: 'SQL';
 		display: [ GTSnippets instance snippetAtOrEmpty: #'PGConnection-SQL' ];
 		selectionPopulate: #selection
-			on: $o 
+			on: $g
 			entitled: 'Execute and open'
 			with: [ :text | 
 				| queryResults |
