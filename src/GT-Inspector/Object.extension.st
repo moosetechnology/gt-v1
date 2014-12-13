@@ -72,7 +72,7 @@ Object >> gtInspectorInterestingObject [
 Object >> gtInspectorMetaIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>
-	<gtInspectorTagBasic>
+	<gtInspectorTag: #basic>
 	^ composite custom: (GTSimpleMethodsBrowser new startOn: self) 
 ]
 
@@ -100,7 +100,7 @@ Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 Object >> gtInspectorRawIn: composite [
 	"This is the most basic presentation showing the state of the object"
 	<gtInspectorPresentationOrder: 10>
-	<gtInspectorTagBasic>
+	<gtInspectorTag: #basic>
 	^ composite custom: GTObjectVariablesBrowser new
 ]
 

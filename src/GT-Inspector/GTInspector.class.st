@@ -164,7 +164,7 @@ GTInspector >> closeActionFor: aPresentation [
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
-	"self act: [:b | b presentationFilter ifNotNil: [ :filter | filter changeFilterRequestFor: b] ] icon: GLMUIThemeExtraIcons glamorousSpawn entitled: 'Edit'."
+	"self act: [:b | b presentationFilter ifNotNil: [ :filter | filter changeFilterRequestFor: b] ] icon: GLMUIThemeExtraIcons glamorousSpawn entitled: 'Edit context'."
 	self pager with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each |
@@ -194,10 +194,10 @@ GTInspector >> entities [
 GTInspector >> initialize [
 	super initialize.
 	
-	"self presentationsFilter: (GTInspectorPragmaFilterStrategy new
-			defaultInspectorPragmaKey: #gtInspectorTagCustom;
-			addPragmaKey: #gtInspectorTagBasic;
-			addPragmaKey: #gtInspectorTagCustom)"
+	"self presentationsFilter: (GTInspectorTagFilterStrategy new
+			defaultTag: #custom;
+			addAndSelectTag: #basic;
+			addAndSelectTag: #custom)"
 ]
 
 { #category : #opening }
