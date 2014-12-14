@@ -162,7 +162,9 @@ GTSpotterStep >> process: aString [
 	self stream updateTimestamp.
 	
 	self asyncTask
-		execute: [ :input | self stream removeAllCandidates. self processors do: [ :processor | processor filter: input on: self stream ] ]
+		execute: [ :input | 
+				self stream removeAllCandidates. 
+				self relevantProcessorsProcess: input ]
 		withArguments: { self query }
 		callback: [  ].
 ]
@@ -196,6 +198,42 @@ GTSpotterStep >> query [
 GTSpotterStep >> query: aString [
 
 	query := aString
+]
+
+{ #category : #accessing }
+GTSpotterStep >> relevantProcessorsFor: aQueryString do: aBlock [
+	aQueryString substrings 
+		detect: [ :each | each beginsWith: '#' ]
+		ifFound: [ :categoryQuery | 
+			self processors 
+				select: [ :each | each title beginsWith: categoryQuery allButFirst ]
+				thenDo: [ :processor | 
+					processor 
+						filter: (aQueryString copyReplaceAll: categoryQuery with: '') 
+						on: self stream ] ]
+		ifNone: [ 
+			self processors do: [ :processor | 
+				processor 
+					filter: aQueryString 
+					on: self stream ]]
+]
+
+{ #category : #accessing }
+GTSpotterStep >> relevantProcessorsProcess: aQueryString [
+	aQueryString substrings 
+		detect: [ :each | each beginsWith: '#' ]
+		ifFound: [ :categoryQuery | 
+			self processors 
+				select: [ :each | each title asLowercase beginsWith: categoryQuery allButFirst asLowercase ]
+				thenDo: [ :processor | 
+					processor 
+						filter: (aQueryString copyReplaceAll: categoryQuery with: '') 
+						on: self stream ] ]
+		ifNone: [ 
+			self processors do: [ :processor | 
+				processor 
+					filter: aQueryString 
+					on: self stream ]]
 ]
 
 { #category : #selecting }
