@@ -1,6 +1,44 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReferencesBlock inProcessor: processor onStream: stream [
+	| prefixMatchers split rootDirectory query fullQuery rest |
+	fullQuery := originalQuery trimBoth asLowercase.
+	split := fullQuery piecesCutWhere: [ :a :b | a = $/ ].
+	rootDirectory := split size <= 1
+		ifTrue: [ 
+			query := fullQuery.
+			FileSystem workingDirectory ]
+		ifFalse: [ 
+			(split last endsWith: '/')
+				ifTrue: [ 
+					query := ''.
+					fullQuery asFileReference ]
+				ifFalse: [ 
+					query := split last.
+					('' join: split allButLast) asFileReference ] ].
+	prefixMatchers := OrderedCollection new.
+	rest := OrderedCollection new.
+	rootDirectory exists
+		ifTrue: [ 
+			(fileReferencesBlock value: rootDirectory)
+				do: [ :reference | 
+					| index |
+					index := reference basename findString: query startingAt: 1 caseSensitive: false.
+					index >= 1
+						ifTrue: [ 
+							index = 1
+								ifTrue: [ 
+									prefixMatchers add: reference.
+									prefixMatchers size > 5
+										ifFalse: [ stream addObject: reference inProcessor: processor ] ]
+								ifFalse: [ rest add: reference ] ] ].
+			prefixMatchers size < 5
+				ifTrue: [ (rest first: (5 - prefixMatchers size min: rest size)) do: [ :each | stream addObject: each inProcessor: processor ] ] ].
+	^ prefixMatchers , rest
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 	<spotterOrder: 85>
 	aStep listProcessor
@@ -25,44 +63,31 @@ GTSpotter >> spotterForClassesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForDirectoriesFor: aStep [
 	<spotterOrder: 50>
-	(FileSystem workingDirectory 
-		spotterForDirectoriesFor: aStep)
-		wantsToDisplayOnEmptyQuery: false
+	| processor |
+	processor := aStep listProcessor.
+	processor
+		title: 'Directories';
+		filter: [ :originalQuery :stream | 
+					self
+						filterByQuery: originalQuery
+						forReferencesComputedAs: [ :root | root directories ]
+						inProcessor: processor
+						onStream: stream ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForFilesFor: aStep [
-	<spotterOrder: 40>	
+	<spotterOrder: 40>
 	| processor |
 	processor := aStep listProcessor.
 	processor
 		title: 'Files';
-		filter: [ :originalQuery :stream |
-			| query prefixMatchers rest split rootDirectory fullQuery |
-			fullQuery := originalQuery trimBoth asLowercase.
-			split := fullQuery piecesCutWhere: [ :a :b | a = $/ ].
-			rootDirectory := split isEmpty 	
-											ifTrue: [ query := fullQuery. FileSystem workingDirectory ] 
-											ifFalse: [ 
-												(split last endsWith: '/')
-													ifTrue: [ query := ''. fullQuery asFileReference ]
-													ifFalse: [ query := split last. ('' join: split allButLast) asFileReference ]].
-			rootDirectory exists ifTrue: [
-					prefixMatchers := OrderedCollection new.
-					rest := OrderedCollection new.
-					(rootDirectory directories, rootDirectory files) do: [:reference | 
-							| index |
-							index := (reference basename findString: query startingAt: 1 caseSensitive: false).
-							index >= 1 ifTrue: [
-								index = 1 ifTrue: [ 
-									prefixMatchers add: reference.
-									prefixMatchers size > 5 ifFalse: [ 
-										stream addObject: reference inProcessor: processor ]]
-									ifFalse: [ rest add: reference ]]]].
-					(prefixMatchers size < 5) ifTrue: [ 
-						(rest first: ((5 - prefixMatchers size) min: rest size)) do: [ :each |
-							stream addObject: each inProcessor: processor ] ].
-					prefixMatchers , rest ] 
+		filter: [ :originalQuery :stream | 
+					self
+						filterByQuery: originalQuery
+						forReferencesComputedAs: [ :root | root files ]
+						inProcessor: processor
+						onStream: stream ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
