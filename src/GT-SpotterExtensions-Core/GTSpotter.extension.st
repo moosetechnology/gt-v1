@@ -69,6 +69,7 @@ GTSpotter >> spotterForDirectoriesFor: aStep [
 	processor := aStep listProcessor.
 	processor
 		title: 'Directories';
+		wantsToDisplayOnEmptyQuery: false;
 		filter: [ :originalQuery :stream | 
 					self
 						filterByQuery: originalQuery
@@ -84,6 +85,7 @@ GTSpotter >> spotterForFilesFor: aStep [
 	processor := aStep listProcessor.
 	processor
 		title: 'Files';
+		wantsToDisplayOnEmptyQuery: false;
 		filter: [ :originalQuery :stream | 
 					self
 						filterByQuery: originalQuery
