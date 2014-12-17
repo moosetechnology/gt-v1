@@ -193,7 +193,7 @@ GTSpotter >> spotterStfxFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterWorldMenuFor: aStep [
-	<spotterOrder: 90>
+	<spotterOrder: 9>
 	^ (World worldMenu spotterItemsFor: aStep)
 		title: 'Menu'
 ]
