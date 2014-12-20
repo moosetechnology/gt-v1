@@ -30,22 +30,21 @@ GTSpotterItemBrick >> actionbarBrick: aBrick [
 { #category : #adding }
 GTSpotterItemBrick >> addActActionButton [
 
-	self actionbarBrick addActionButton: (
-		self newActionButtonBrick
-			icon: GLMUIThemeExtraIcons glamorousPlay;
+	self actionbarBrick addActionButton: (self newActionButtonBrick
+			icon: self theme spotterWidgetThemer iconAct;
 			addUpAction: [ self beSelected. self stepModel act ];
-			yourself).
+			yourself)
+		
 ]
 
 { #category : #adding }
 GTSpotterItemBrick >> addDiveInActionButton [
-
-	(self stepModel canDiveIn: self candidate) ifTrue: [ 
-		self actionbarBrick addActionButton: (
-			self newActionButtonBrick
-				icon: GLMUIThemeExtraIcons glamorousRight;
-				addUpAction: [ self beSelected. self stepModel diveIn ];
-				yourself) ].
+		
+	(self stepModel canDiveIn: self candidate) ifTrue: [
+		self actionbarBrick addActionButton: (self newActionButtonBrick
+			icon: self theme spotterWidgetThemer iconDiveIn;
+			addUpAction: [ self beSelected. self stepModel diveIn ];
+			yourself)]
 ]
 
 { #category : #actions }

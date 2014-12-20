@@ -161,6 +161,28 @@ GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 	aBrick color: self backgroundColor.
 ]
 
+{ #category : #icons }
+GTSpotterWidgetThemer >> iconAct [
+	|icon|
+	
+	icon:= GLMBrickVectorIcons play.
+	icon color: (Color gray alpha: 0.8).
+	icon layoutProperties paddingLeft: 3.
+	icon layoutProperties paddingRight: 3.
+	
+	^ icon
+]
+
+{ #category : #icons }
+GTSpotterWidgetThemer >> iconDiveIn [
+	|icon|
+	
+	icon:= GLMBrickVectorIcons right.
+	icon color: (Color gray alpha: 0.8).
+	
+	^ icon
+]
+
 { #category : #values }
 GTSpotterWidgetThemer >> innerBorderWidth [
 	"width of the border that separates panes in the spotter"
@@ -170,8 +192,12 @@ GTSpotterWidgetThemer >> innerBorderWidth [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 
-	aBrick widthBlock: [ aBrick normalImage width + aBrick layoutProperties horizontalPadding ].
+	aBrick widthBlock: [ 16 + aBrick layoutProperties horizontalPadding ].
+	aBrick layoutProperties marginTop: 4.
+	aBrick layoutProperties marginBottom: 4.
 	aBrick pressedColor: self itemSelectedBackgroundColor darker.
+	aBrick layoutProperties paddingTop: self outerBorderWidth.
+	aBrick layoutProperties paddingBottom: self outerBorderWidth.
 	aBrick layoutProperties paddingLeft: self outerBorderWidth.
 	aBrick layoutProperties paddingRight: self outerBorderWidth.
 ]
