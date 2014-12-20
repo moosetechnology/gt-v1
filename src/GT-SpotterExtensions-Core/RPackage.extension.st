@@ -2,7 +2,7 @@ Extension { #name : #RPackage }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 RPackage >> spotterActDefault [
-	^ Nautilus openOnPackage: self
+	^ PackageTreeNautilus openOnPackage: self
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
