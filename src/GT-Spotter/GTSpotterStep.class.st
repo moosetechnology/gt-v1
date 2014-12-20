@@ -92,7 +92,7 @@ GTSpotterStep >> diveIn [
 GTSpotterStep >> diveInCategory [
 	| processorLink |
 	processorLink := (self candidates getProcessorLinkByCandidateLink: self selected).
-	self spotter requestNextStepWith: (processorLink processor allFilteredCandidates collect: [ :each | each asSpotterCandidateLink processorLink: processorLink ])
+	self spotter requestNextStepWith: (processorLink processor allFilteredCandidates collect: [ :each | each asSpotterCandidateLink renderingProcessor: processorLink ])
 ]
 
 { #category : #actions }

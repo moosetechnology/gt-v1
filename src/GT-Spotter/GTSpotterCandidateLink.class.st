@@ -27,6 +27,28 @@ GTSpotterCandidateLink >> asSpotterCandidateLink [
 	^ self
 ]
 
+{ #category : #copying }
+GTSpotterCandidateLink >> copy [
+	|link|
+	link := self class value: self value.
+	link privateProcessorLink: processorLink.
+	link privateRenderingProcessorLink: renderingProcessorLink.
+	link weight: weight.
+	^ link
+]
+
+{ #category : #private }
+GTSpotterCandidateLink >> privateProcessorLink: aLink [
+
+	processorLink := aLink
+]
+
+{ #category : #private }
+GTSpotterCandidateLink >> privateRenderingProcessorLink: aLink [
+
+	renderingProcessorLink := aLink
+]
+
 { #category : #accessing }
 GTSpotterCandidateLink >> processor [
 
@@ -44,7 +66,7 @@ GTSpotterCandidateLink >> processorLink: anObject [
 	"we set rendering processor only if one is not set. it allows to have a collection of items,
 	that have different rendering processors"
 	
-	processorLink ifNil: [ renderingProcessorLink := anObject ].
+	processorLink ifNil: [ self renderingProcessor: anObject ].
 	processorLink := anObject.
 	
 ]
@@ -52,14 +74,15 @@ GTSpotterCandidateLink >> processorLink: anObject [
 { #category : #accessing }
 GTSpotterCandidateLink >> renderingProcessor [
 
-	renderingProcessorLink ifNil: [ renderingProcessorLink := processorLink ].
+	renderingProcessorLink ifNil: [ self renderingProcessor: processorLink ].
 	^ renderingProcessorLink value
 ]
 
 { #category : #accessing }
 GTSpotterCandidateLink >> renderingProcessor: aProcessorLink [
 
-	renderingProcessorLink := aProcessorLink
+	renderingProcessorLink ifNil: [ renderingProcessorLink := aProcessorLink processor asSpotterProcessorLink ].
+	processorLink ifNil: [ processorLink := aProcessorLink ]
 ]
 
 { #category : #accessing }
