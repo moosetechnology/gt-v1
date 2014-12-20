@@ -1,46 +1,6 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReferencesBlock inProcessor: processor onStream: stream [
-	| prefixMatchers split rootDirectory query fullQuery rest |
-	fullQuery := originalQuery trimBoth asLowercase.
-	split := fullQuery piecesCutWhere: [ :a :b | a = FileSystem disk separator ].
-	split size <= 1
-		ifTrue: [ 
-			query := fullQuery.
-			rootDirectory := FileSystem workingDirectory ]
-		ifFalse: [ 
-			(split last last = FileSystem disk separator)
-				ifTrue: [ 
-					query := ''.
-					rootDirectory := fullQuery asFileReference ]
-				ifFalse: [ 
-					query := split last.
-					rootDirectory := ('' join: split allButLast) asFileReference ] ].
-	rootDirectory exists ifFalse: [ ^ OrderedCollection new ].
-	query isEmpty ifTrue: [ 
-		| all |
-		all := fileReferencesBlock value: rootDirectory.
-		(all first: (all size min: 5)) do: [:reference | stream addObject: reference inProcessor: processor].
-		^ all  ].
-	prefixMatchers := OrderedCollection new.
-	rest := OrderedCollection new.
-	(fileReferencesBlock value: rootDirectory) do: [ :reference | 
-			| index |
-			index := reference basename findString: query startingAt: 1 caseSensitive: false.
-			index >= 1 ifTrue: [ 
-				index = 1 
-					ifTrue: [ 
-						prefixMatchers add: reference.
-						prefixMatchers size > 5
-							ifFalse: [ stream addObject: reference inProcessor: processor ] ]
-					ifFalse: [ rest add: reference ] ] ].
-	prefixMatchers size < 5
-		ifTrue: [ (rest first: (5 - prefixMatchers size min: rest size)) do: [ :each | stream addObject: each inProcessor: processor ] ].
-	^ prefixMatchers , rest
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 	<spotterOrder: 85>
 	aStep listProcessor
@@ -55,7 +15,7 @@ GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 GTSpotter >> spotterForClassesFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
-			allCandidates: [ Smalltalk allClassesAndTraits ];
+			allCandidates: [ Smalltalk allClasses ];
 			title: 'Classes';
 			matchSubstring;
 			itemIcon: #systemIcon;
@@ -65,33 +25,16 @@ GTSpotter >> spotterForClassesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForDirectoriesFor: aStep [
 	<spotterOrder: 50>
-	| processor |
-	processor := aStep listProcessor.
-	processor
-		title: 'Directories';
-		wantsToDisplayOnEmptyQuery: false;
-		filter: [ :originalQuery :stream | 
-					self
-						filterByQuery: originalQuery
-						forReferencesComputedAs: [ :root | root directories ]
-						inProcessor: processor
-						onStream: stream ]
+	(FileSystem workingDirectory 
+		spotterForDirectoriesFor: aStep)
+		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForFilesFor: aStep [
-	<spotterOrder: 40>
-	| processor |
-	processor := aStep listProcessor.
-	processor
-		title: 'Files';
-		wantsToDisplayOnEmptyQuery: false;
-		filter: [ :originalQuery :stream | 
-					self
-						filterByQuery: originalQuery
-						forReferencesComputedAs: [ :root | root files ]
-						inProcessor: processor
-						onStream: stream ]
+	<spotterOrder: 40>	
+	(FileSystem workingDirectory spotterForFilesFor: aStep)
+		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -140,34 +83,25 @@ GTSpotter >> spotterHistoryFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterImplementorsFor: aStep [
     <spotterOrder: 30>
-	| processor |
-	self flag: 'This has to be refactored from scratch'.
-	processor := aStep listProcessor.
-	processor
-		title: 'Implementors';
-		filter: [ :originalQuery :stream |
-			|query prefixMatchers rest |
-			query := originalQuery trimBoth asLowercase.
-			query isEmpty 
-				ifFalse: [
-					prefixMatchers := OrderedCollection new.
-					rest := OrderedCollection new.
-					SystemNavigation default allBehaviorsDo: [:class | 
-						class selectorsDo:[ :selector | 
-							| index |
-							index := (selector findString: query startingAt: 1 caseSensitive: false).
-							index >= 1 ifTrue: [
-								| method |
-								method := class>>selector.
-								index = 1 ifTrue: [ 
-									prefixMatchers add: method.
-									prefixMatchers size > 5 ifFalse: [ 
-										stream addObject: method inProcessor: processor ]]
-									ifFalse: [ rest add: method ]]]].
-					(prefixMatchers size < 5) ifTrue: [ 
-						(rest first: ((5 - prefixMatchers size) min: rest size)) do: [ :each |
-							stream addObject: each inProcessor: processor ] ].
-					prefixMatchers , rest ]  ]
+    | processor |
+    processor := aStep listProcessor.
+    processor 
+        title: 'Implementors';
+        filter: [ :originalQuery :stream |
+                | aCollection query |
+                aCollection := OrderedCollection  new.
+                query := originalQuery trimBoth.
+                SystemNavigation default allBehaviorsDo: [:class | 
+                    class selectorsDo:[:selector | 
+                        (selector includesSubstring: query)
+                        ifTrue: [
+                            | method |
+                            method := class>>selector.
+                            aCollection add: method.
+                            aCollection size > 5 ifFalse: [ 
+                                stream addObject: method inProcessor: processor ]]]].
+                aCollection ].
+    ^ processor
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -193,7 +127,7 @@ GTSpotter >> spotterStfxFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterWorldMenuFor: aStep [
-	<spotterOrder: 9>
+	<spotterOrder: 90>
 	^ (World worldMenu spotterItemsFor: aStep)
 		title: 'Menu'
 ]
