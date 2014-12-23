@@ -1411,9 +1411,12 @@ ConfigurationOfGToolkit >> baseline09: spec [
 ConfigurationOfGToolkit >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.6-baseline'.
+	spec for: #'common' version: '0.18-baseline'.
+
 	spec for: #'pharo3.x' version: '0.18-baseline'.
-	spec for: #'pharo4.x' version: '0.17-baseline'
+
+	spec for: #'pharo4.x' version: '0.17-baseline'.
+
 ]
 
 { #category : #snapshots }
@@ -1635,7 +1638,10 @@ ConfigurationOfGToolkit >> snapshot2 [
 ConfigurationOfGToolkit >> stable: spec [
 	<symbolicVersion: #'stable'>
 
+	spec for: #'common' version: '0.19'.
+
 	spec for: #'pharo2.x' version: '0.7-snapshot'.
+
 	spec for: #'pharo3.x' version: '0.18'.
 
 ]
@@ -1669,6 +1675,38 @@ ConfigurationOfGToolkit >> version018: spec [
 			package: 'GT-Setup' with: 'GT-SUnitDebugger-AndreiChis.13';
 			"package: 'GT-Tools' with: 'GT-Tools-StephanEggermont.138';"
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.194'].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkit >> version019: spec [
+	<version: '0.19' imports: #('0.18-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 0.19'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '12/23/2014 14:13'.
+		spec 
+			project: 'AnnouncerCentricDebugger' with: #'stable';
+			project: 'Glamour' with: #'stable';
+			project: 'PetitParser' with: #'stable';
+			project: 'GTDebugger' with: #'stable';
+			project: 'GTInspector' with: #'stable';
+			project: 'GTPlayground' with: #'stable';
+			project: 'GTSpotter' with: #'stable'.
+		spec 
+			package: 'GT-Coder' with: 'GT-Coder';
+			package: 'GT-GlamourDebugger' with: 'GT-GlamourDebugger-TudorGirba.41';
+			package: 'GT-Metaceller-Glamour' with: 'GT-Metaceller-Glamour-TudorGirba.25';
+			package: 'GT-Metaceller-Model' with: 'GT-Metaceller-Model-DiegoLont.47';
+			package: 'GT-Metaceller-Stream' with: 'GT-Metaceller-Stream-DiegoLont.7';
+			package: 'GT-Metaceller-Tests' with: 'GT-Metaceller-Tests-DiegoLont.20';
+			package: 'GT-PetitParserDebugger' with: 'GT-PetitParserDebugger-AndreiChis.44';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.13';
+			package: 'GT-Setup' with: 'GT-Setup-TudorGirba.25';
+			package: 'GT-Tools' with: 'GT-Tools';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.194'. ].
 
 ]
 
