@@ -1415,7 +1415,7 @@ ConfigurationOfGToolkit >> development: spec [
 
 	spec for: #'pharo3.x' version: '0.18-baseline'.
 
-	spec for: #'pharo4.x' version: '0.17-baseline'.
+	spec for: #'pharo4.x' version: '0.18-baseline'.
 
 ]
 
@@ -1642,7 +1642,7 @@ ConfigurationOfGToolkit >> stable: spec [
 
 	spec for: #'pharo2.x' version: '0.7-snapshot'.
 
-	spec for: #'pharo3.x' version: '0.18'.
+	spec for: #'pharo3.x' version: '0.19'.
 
 ]
 
