@@ -33,7 +33,7 @@ TClass >> gtInspectorCommentIn: composite [
 		title: 'Comment';
 		display: [ self comment ];
 		act: [ :text | 
-			self comment: text text stamp: Author changeStamp]
+			self comment: text text ]
 			icon: GLMUIThemeExtraIcons glamorousAccept 
 			on: $s
 			entitled: 'Accept'

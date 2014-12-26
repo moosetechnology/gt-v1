@@ -2,7 +2,7 @@ Extension { #name : #Collection }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Collection >> gtInspectorItemsIn: composite [
-	<gtInspectorPresentationOrder: 30>  
+	<gtInspectorPresentationOrder: 0>  
 	^ (composite list)
 		title: [ :anObject | anObject size asString, ' items' ];
 		display: [ :aCollection | self ];
