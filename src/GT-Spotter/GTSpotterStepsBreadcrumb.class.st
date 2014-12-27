@@ -142,7 +142,7 @@ GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	self push: (GLMLabelBrick new
 		text: ((selectedCandidate = origin)
 			ifTrue: [ (previousStep selected renderingProcessor render: selectedCandidate) labelBrick text ]
-			ifFalse: [ origin gtDisplayString ]))
+			ifFalse: [ (origin isKindOf: Collection) ifTrue: [ previousStep selected processor title ] ifFalse: [ origin gtDisplayString] ]))
 ]
 
 { #category : #'events-processing' }
