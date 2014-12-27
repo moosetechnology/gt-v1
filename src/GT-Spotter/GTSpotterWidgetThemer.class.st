@@ -161,6 +161,28 @@ GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 	aBrick color: self backgroundColor.
 ]
 
+{ #category : #icons }
+GTSpotterWidgetThemer >> iconAct [
+	|icon|
+	
+	icon:= GLMBrickVectorIcons play.
+	icon color: (Color gray alpha: 0.8).
+	icon layoutProperties paddingLeft: 3.
+	icon layoutProperties paddingRight: 3.
+	
+	^ icon
+]
+
+{ #category : #icons }
+GTSpotterWidgetThemer >> iconDiveIn [
+	|icon|
+	
+	icon:= GLMBrickVectorIcons right.
+	icon color: (Color gray alpha: 0.8).
+	
+	^ icon
+]
+
 { #category : #values }
 GTSpotterWidgetThemer >> innerBorderWidth [
 	"width of the border that separates panes in the spotter"
@@ -170,8 +192,12 @@ GTSpotterWidgetThemer >> innerBorderWidth [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 
-	aBrick widthBlock: [ aBrick normalImage width + aBrick layoutProperties horizontalPadding ].
+	aBrick widthBlock: [ 16 + aBrick layoutProperties horizontalPadding ].
+	aBrick layoutProperties marginTop: 4.
+	aBrick layoutProperties marginBottom: 4.
 	aBrick pressedColor: self itemSelectedBackgroundColor darker.
+	aBrick layoutProperties paddingTop: self outerBorderWidth.
+	aBrick layoutProperties paddingBottom: self outerBorderWidth.
 	aBrick layoutProperties paddingLeft: self outerBorderWidth.
 	aBrick layoutProperties paddingRight: self outerBorderWidth.
 ]
@@ -255,10 +281,17 @@ GTSpotterWidgetThemer >> itemIconStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 
-	aBrick label highlightingLogic: [ :aCanvas :aRectangle | |bounds|
-		"because font calculates text width wrong"
-		bounds := aRectangle translateBy: (-3@0).
-		aCanvas line: bounds bottomLeft to: bounds bottomRight width: 1 color: Color lightGray ].
+	aBrick label highlightingLogic: [ :aCanvas :aRectangle | | linePath stroke|
+		linePath := aCanvas createPath: [:builder |
+			builder
+				absolute;
+				moveTo: aRectangle bottomLeft;
+     			lineTo: aRectangle bottomRight - (3@0) ].
+
+		stroke := aCanvas setStrokePaint: Color lightGray.
+		stroke width: 1.
+
+		aCanvas drawShape: linePath ].
 	
 	aBrick layoutProperties horizontalPercent: 100.
 	aBrick label familyName: self itemFamilyName.
