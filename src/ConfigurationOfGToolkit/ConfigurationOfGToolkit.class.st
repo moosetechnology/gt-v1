@@ -1413,7 +1413,7 @@ ConfigurationOfGToolkit >> development: spec [
 
 	spec for: #'common' version: '0.18-baseline'.
 
-	spec for: #'pharo3.x' version: '0.18-baseline'.
+	spec for: #'pharo3.x' version: '0.19'.
 
 	spec for: #'pharo4.x' version: '0.18-baseline'.
 
