@@ -154,6 +154,7 @@ ConfigurationOfGTSpotter >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '1.0-baseline'.
+	spec for: #'pharo3.x' version: '1.0.4'
 
 ]
 
@@ -174,7 +175,8 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.0.3'.
+	spec for: #'pharo4.x' version: '1.0.3'.
+	spec for: #'pharo3.x' version: '1.0.4'.
 
 ]
 
@@ -240,6 +242,22 @@ ConfigurationOfGTSpotter >> version103: spec [
 		spec author: 'TudorGirba'.
 		spec timestamp: '12/28/2014 14:10'.
 		spec project: 'GlamourCore' with: '3.0.6'.
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.75';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AliakseiSyrel.30'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version104: spec [
+	<version: '1.0.4' imports: #('1.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0.4 for Pharo 3.0'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '1/04/2014 11:10'.
+		spec project: 'GlamourCore' with: '3.0.7'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.75';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AliakseiSyrel.30'. ].
