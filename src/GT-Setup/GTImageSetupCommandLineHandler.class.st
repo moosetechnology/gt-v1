@@ -32,10 +32,10 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self cleanupWorld.
 "	self installGLMWhitespaceTheme."
 	self installFonts.
-	self installGTInspector.
-	self installGTDebuggers.
-	self installGTPlayground.
-	self flushMCCache.
+"	self installGTInspector.
+"	self installGTDebuggers.
+"	self installGTPlayground.
+"	self flushMCCache.
 	self setPreferredSettings
 ]
 
