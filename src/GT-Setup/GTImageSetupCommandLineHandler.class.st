@@ -33,7 +33,7 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 "	self installGLMWhitespaceTheme."
 	self installFonts.
 	self installGTInspector.
-	self installGTDebuggers.
+	"self installGTDebuggers."
 	self installGTPlayground.
 	self flushMCCache.
 	self setPreferredSettings
@@ -63,6 +63,7 @@ GTImageSetupCommandLineHandler >> installDemoFonts [
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> installFonts [
+	self loadFonts.
 	StandardFonts 
 		setAllStandardFontsTo: (LogicalFont familyName: 'Source Sans Pro' pointSize: 10);
 		haloFont: (LogicalFont familyName: 'Source Sans Pro' pointSize: 10);
@@ -103,6 +104,20 @@ GTImageSetupCommandLineHandler >> installGTInspector [
 GTImageSetupCommandLineHandler >> installGTPlayground [
 	
 	GTPlayground registerToolsOn: Smalltalk tools
+]
+
+{ #category : #utilities }
+GTImageSetupCommandLineHandler >> loadFonts [
+	#('SourceCodeProRegular' 'SourceCodeProBold' 'SourceSansProRegular' 'SourceSansProBold') do: [ :each | 
+		each asSymbol asClassIfAbsent: [
+			Gofer new 
+				smalltalkhubUser: 'girba' project: 'FreeFonts';
+				package: each;
+				load ].
+		"(Smalltalk at: each asSymbol) new install"
+		FreeTypeFontProvider registerFont: (Smalltalk at: each asSymbol) ].
+	FreeTypeSystemSettings loadFt2Library: true.
+	FreeTypeFontProvider current updateFromSystem
 ]
 
 { #category : #utilities }
