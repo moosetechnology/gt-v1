@@ -910,7 +910,7 @@ ConfigurationOfGToolkit >> baseline020: aSpec [
 		aSpec
 			group: 'Tests' with: #();
 			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
-			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GT-Metaceller-Glamour' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests') ]
+			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests') ]
 ]
 
 { #category : #baselines }
