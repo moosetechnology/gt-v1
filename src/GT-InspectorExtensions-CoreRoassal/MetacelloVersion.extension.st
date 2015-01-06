@@ -7,7 +7,7 @@ MetacelloVersion >> gtInspectorProjectMapIn: composite [
 		title: 'Project map';
 		initializeView: [ RTMondrianViewBuilder new ];
 		painting: [ :view |
-			view shape label text: [:each | each asString copyReplaceAll: 'ConfigurationOf' with: ''].
+			view shape label.
 			view nodes: self allProjects.
 			view 
 				edgesFrom: #yourself 
