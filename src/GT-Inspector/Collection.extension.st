@@ -9,10 +9,12 @@ Collection >> gtInspectorInterestingObject [
 
 { #category : #'*GT-Inspector' }
 Collection >> gtInspectorVariableValuePairs [
-	| pairs |
+	| pairs index |
 	pairs := super gtInspectorVariableValuePairs.
-	self doWithIndex: [ :each :index | 
+	index := 1.
+	self do: [ :each | 
 		index > 42 ifTrue: [ ^ pairs ].
-		pairs add: (index asTwoCharacterString -> each) ].
+		pairs add: (index asTwoCharacterString -> each).
+		index := index + 1 ].
 	^ pairs
 ]
