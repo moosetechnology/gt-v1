@@ -36,26 +36,6 @@ Class >> spotterInstanceVariablesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-Class >> spotterMethodsFor: aStep [
-	<spotterOrder: 10>
-	aStep listProcessor
-			title: 'Instance methods';
-			allCandidates: [ self methods ];
-			itemName: [ :method | method selector ];
-			matchSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-Class >> spotterReferenceFor: aStep [
-	<spotterOrder: 30>
-	aStep listProcessor
-			title: 'References';
-			allCandidates: [ (SystemNavigation default allReferencesTo: self binding) collect: #compiledMethod ];
-			itemName: [ :method | method gtDisplayString ];
-			matchSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 Class >> spotterSubclassesFor: aStep [
 	<spotterOrder: 50>
 	aStep listProcessor
