@@ -26,27 +26,24 @@ GTSpotterWidgetThemer >> borderColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 
-	aBrick textPosition: #center.
-	aBrick normalColor: self borderColor.
-	aBrick textColor: Color white.
+	aBrick
+		textPosition: #center;
+		normalColor: self borderColor;
+		textColor: Color white.
 	
-	aBrick layoutProperties marginTop: self outerBorderWidth.
-	aBrick layoutProperties marginRight: self outerBorderWidth.
-	
-	aBrick layoutProperties paddingLeft: self outerBorderWidth.
-	aBrick layoutProperties paddingRight: self outerBorderWidth.
+	aBrick layoutProperties
+		marginTop: self outerBorderWidth;
+		marginRight: self outerBorderWidth;
+		paddingLeft: self outerBorderWidth;
+		paddingRight: self outerBorderWidth
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 	
-	aBrick layoutProperties marginLeft: self outerBorderWidth.
-	aBrick layoutProperties marginRight: self outerBorderWidth.
-]
-
-{ #category : #styles }
-GTSpotterWidgetThemer >> breadcrumbWrapperStyleFor: aBrick [
-
+	aBrick layoutProperties
+		marginLeft: self outerBorderWidth;
+		marginRight: self outerBorderWidth
 ]
 
 { #category : #values }
@@ -58,22 +55,18 @@ GTSpotterWidgetThemer >> buttonPressedColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 
-	aBrick textPosition: #leftCenter.
-	aBrick textColor: self titleTextColor.
-	aBrick layoutProperties horizontalPercent: 100.
-	aBrick layoutProperties marginLeft: self categoryNameMarginRight.
-	aBrick label fontSize: self titleFontSize.
-	aBrick label familyName: self titleFamilyName.
-	aBrick color: self titleBackgroundColor
-]
-
-{ #category : #styles }
-GTSpotterWidgetThemer >> categoryCandidatesListStyleFor: aBrick [
-
-]
-
-{ #category : #styles }
-GTSpotterWidgetThemer >> categoryFirstStyleFor: aBrick [
+	aBrick
+		textPosition: #leftCenter;
+		textColor: self titleTextColor;
+		color: self titleBackgroundColor.
+	
+	aBrick label
+		fontSize: self titleFontSize;
+		familyName: self titleFamilyName.
+	
+	aBrick layoutProperties
+		horizontalPercent: 100;
+		marginLeft: self categoryNameMarginRight.
 ]
 
 { #category : #values }
@@ -103,49 +96,61 @@ GTSpotterWidgetThemer >> categoryStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 
-	aBrick textPosition: #leftCenter.
-	aBrick textColor: self titleTextColor.
-	aBrick layoutProperties horizontalPercent: 0.
-	aBrick layoutProperties minWidthBlock: [ :name | (aBrick owner brickInnerBounds width) min: ((name label textSize x) + name label layoutProperties horizontalMargin) ].
-	aBrick label fontSize: self titleFontSize.
-	aBrick label familyName: self titleFamilyName.
-	aBrick color: self titleBackgroundColor
+	aBrick
+		textPosition: #leftCenter;
+		textColor: self titleTextColor;
+		color: self titleBackgroundColor.
+	
+	aBrick label
+		fontSize: self titleFontSize;
+		familyName: self titleFamilyName.
+	
+	aBrick layoutProperties
+		horizontalPercent: 0;
+		minWidthBlock: [ :name | (aBrick owner brickInnerBounds width) min: ((name label textSize x) + name label layoutProperties horizontalMargin) ].
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 
-	aBrick layoutProperties floating: #stack.
-	aBrick normalColor: (Color white alpha: 0.95).
-	aBrick selectedColor: (Color veryVeryLightGray lighter alpha: 0.95).
+	aBrick
+		layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new;
+		normalColor: (Color white alpha: 0.95);
+		selectedColor: (Color veryVeryLightGray lighter alpha: 0.95);
+		heightBlock: [ 30 ].
 	
-	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
-	aBrick layoutProperties maxWidthBlock: [ :title |
-		aBrick layoutProperties horizontalPadding + 
-		(title nameBrick label textSize x )+ title amountBrick label textSize x +
-		title nameBrick layoutProperties horizontalPadding + title nameBrick layoutProperties horizontalMargin + 
-		title nameBrick label layoutProperties horizontalPadding + title nameBrick label layoutProperties horizontalMargin + 
-		title amountBrick layoutProperties horizontalMargin ].
-	aBrick layoutProperties paddingLeft: self categoryNameMarginLeft.
-	aBrick heightBlock: [ 30 ]
+	aBrick layoutProperties
+		floating: #stack;
+		paddingLeft: self categoryNameMarginLeft;
+		maxWidthBlock: [ :title |
+			aBrick layoutProperties horizontalPadding + 
+			(title nameBrick label textSize x )+ title amountBrick label textSize x +
+			title nameBrick layoutProperties horizontalPadding + title nameBrick layoutProperties horizontalMargin + 
+			title nameBrick label layoutProperties horizontalPadding + title nameBrick label layoutProperties horizontalMargin + 
+			title amountBrick layoutProperties horizontalMargin ].
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> closeButtonStyleFor: aBrick [
 
-	aBrick normalImage: GLMUIThemeExtraIcons glamorousClose.
-	aBrick pressedColor: self buttonPressedColor.
+	aBrick
+		normalImage: GLMUIThemeExtraIcons glamorousClose;
+		pressedColor: self buttonPressedColor.
+		
 	aBrick layoutProperties horizontalPercent: 0.
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> dropDownPaneStyleFor: aBrick [
 
-	aBrick layoutProperties: GLMBrickLayoutProperties new.
-	aBrick layoutProperties verticalPercent: 100.	"will fill the rest of the space in spotter vertically"
-	aBrick layoutProperties marginTop: self innerBorderWidth.
-	aBrick color: self backgroundColor.
-	aBrick height: 400
+	aBrick
+		layoutProperties: GLMBrickLayoutProperties new;
+		color: self backgroundColor;
+		height: 400.
+
+	aBrick layoutProperties
+		verticalPercent: 100;
+		marginTop: self innerBorderWidth.
 ]
 
 { #category : #values }
@@ -157,8 +162,9 @@ GTSpotterWidgetThemer >> headerHeight [
 { #category : #styles }
 GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 
-	aBrick heightBlock: [ :brick | self headerHeight ].
-	aBrick color: self backgroundColor.
+	aBrick
+		heightBlock: [ :brick | self headerHeight ];
+		color: self backgroundColor
 ]
 
 { #category : #icons }
@@ -192,14 +198,17 @@ GTSpotterWidgetThemer >> innerBorderWidth [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 
-	aBrick widthBlock: [ 16 + aBrick layoutProperties horizontalPadding ].
-	aBrick layoutProperties marginTop: 4.
-	aBrick layoutProperties marginBottom: 4.
-	aBrick pressedColor: self itemSelectedBackgroundColor darker.
-	aBrick layoutProperties paddingTop: self outerBorderWidth.
-	aBrick layoutProperties paddingBottom: self outerBorderWidth.
-	aBrick layoutProperties paddingLeft: self outerBorderWidth.
-	aBrick layoutProperties paddingRight: self outerBorderWidth.
+	aBrick
+		widthBlock: [ 16 + aBrick layoutProperties horizontalPadding ];
+		pressedColor: self itemSelectedBackgroundColor darker.
+	
+	aBrick layoutProperties
+		marginTop: 4;
+		marginBottom: 4;
+		paddingTop: self outerBorderWidth;
+		paddingBottom: self outerBorderWidth;
+		paddingLeft: self outerBorderWidth;
+		paddingRight: self outerBorderWidth
 ]
 
 { #category : #styles }
@@ -212,8 +221,10 @@ GTSpotterWidgetThemer >> itemActionbarInvisibleStyleFor: aBrick [
 GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 
 	aBrick layoutPolicy: GLMBrickHorizontalFillLinearLayout new.
-	aBrick layoutProperties horizontalPercent: 0.
-	aBrick layoutProperties marginRight: self outerBorderWidth.
+	
+	aBrick layoutProperties
+		horizontalPercent: 0;
+		marginRight: self outerBorderWidth.
 	
 	self itemActionbarInvisibleStyleFor: aBrick.
 ]
@@ -269,34 +280,37 @@ GTSpotterWidgetThemer >> itemIconMaxWidth [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemIconStyleFor: aBrick [
 	"icon form must already be set before styling"
-	aBrick layoutProperties horizontalPercent: 0.	"constant width"
-	aBrick layoutProperties marginLeft: self titleMarginLeft.
-	"margin right depends on maximal icon width and on image form width"
-	aBrick layoutProperties marginRight: (self itemIconMaxWidth - aBrick normalImage width - aBrick layoutProperties marginLeft).
-	aBrick layoutProperties minWidth: (aBrick normalImage width + aBrick layoutProperties horizontalMargin).
+	
 	"making icon a bit transparent"
-	aBrick normalImage: (aBrick normalImage asAlphaImageMorph alpha: self itemIconAlphaValue) cachedForm
+	aBrick normalImage: (aBrick normalImage asAlphaImageMorph alpha: self itemIconAlphaValue) cachedForm.
+	
+	aBrick layoutProperties
+		horizontalPercent: 0;	"constant width"
+		marginLeft: self titleMarginLeft;
+		"margin right depends on maximal icon width and on image form width"
+		marginRight: (self itemIconMaxWidth - aBrick normalImage width - aBrick layoutProperties marginLeft);
+		minWidth: (aBrick normalImage width + aBrick layoutProperties horizontalMargin).
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 
-	aBrick label highlightingLogic: [ :aCanvas :aRectangle | | linePath stroke|
-		linePath := aCanvas createPath: [:builder |
-			builder
-				absolute;
-				moveTo: aRectangle bottomLeft;
-     			lineTo: aRectangle bottomRight - (3@0) ].
-
-		stroke := aCanvas setStrokePaint: Color lightGray.
-		stroke width: 1.
-
-		aCanvas drawShape: linePath ].
-	
-	aBrick layoutProperties horizontalPercent: 100.
-	aBrick label familyName: self itemFamilyName.
-	aBrick label fontSize: self itemFontSize.
-	aBrick layoutProperties marginRight: self outerBorderWidth.
+	aBrick label
+		familyName: self itemFamilyName;
+		fontSize: self itemFontSize;
+		highlightingLogic: [ :aCanvas :aRectangle | | linePath stroke|
+			linePath := aCanvas createPath: [:builder |
+				builder
+					absolute;
+					moveTo: aRectangle bottomLeft;
+     				lineTo: aRectangle bottomRight - (3@0) ].
+			stroke := aCanvas setStrokePaint: Color lightGray.
+			stroke width: 1.
+			aCanvas drawShape: linePath ].
+		
+	aBrick layoutProperties
+		horizontalPercent: 100;
+		marginRight: self outerBorderWidth.
 ]
 
 { #category : #values }
@@ -308,10 +322,11 @@ GTSpotterWidgetThemer >> itemNormalBackgroundColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemNormalStyleFor: aBrick [
 
-	aBrick normalColor: self itemNormalBackgroundColor.
-	aBrick selectedColor: self itemHoveredBackgroundColor.
-	aBrick checkedColor: self itemSelectedBackgroundColor.
-	aBrick heightBlock: [ :anItem | self itemHeight ]
+	aBrick
+		normalColor: self itemNormalBackgroundColor;
+		selectedColor: self itemHoveredBackgroundColor;
+		checkedColor: self itemSelectedBackgroundColor;
+		heightBlock: [ :anItem | self itemHeight ]
 ]
 
 { #category : #values }
@@ -384,32 +399,43 @@ GTSpotterWidgetThemer >> searchFieldMarginLeft [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
-	aMorph layoutProperties: GLMBrickLayoutProperties new.
-	aMorph layoutProperties horizontalPercent: 100.
-	aMorph layoutProperties marginLeft: self searchFieldMarginLeft.
-	aMorph hResizing: #spaceFill.
-	aMorph vResizing: #spaceFill.
-	aMorph color: Color transparent.
-	aMorph withoutAdornment.
-	aMorph withGhostText: self spotterGhostText.
-	aMorph ghostTextRuler fontName: self searchFieldFamilyName pointSize: self searchFieldFontSize.
-	aMorph textArea font: (LogicalFont familyName: self searchFieldFamilyName pointSize: self searchFieldFontSize).
-	aMorph textArea backgroundColor: Color transparent.
-	aMorph autoAccept: true.
-	aMorph borderColor: Color white
+
+	aMorph
+		layoutProperties: GLMBrickLayoutProperties new;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		color: Color transparent;
+		withoutAdornment;
+		withGhostText: self spotterGhostText;
+		autoAccept: true;
+		borderColor: Color white.
+		
+	aMorph layoutProperties
+		horizontalPercent: 100;
+		marginLeft: self searchFieldMarginLeft.
+	
+	aMorph ghostTextRuler
+		fontName: self searchFieldFamilyName pointSize: self searchFieldFontSize.
+		
+	aMorph textArea
+		font: (LogicalFont familyName: self searchFieldFamilyName pointSize: self searchFieldFontSize);
+		backgroundColor: Color transparent.
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
 
-	aBrick layoutProperties paddingTop: self outerBorderWidth.
-	aBrick layoutProperties paddingBottom: self outerBorderWidth.
-	aBrick layoutProperties paddingLeft: self outerBorderWidth.
-	aBrick layoutProperties paddingRight: self outerBorderWidth.
+	aBrick
+		borderColor: self borderColor;
+		borderWidth: self outerBorderWidth;
+		color: self borderColor.
 	
-	aBrick borderColor: self borderColor.
-	aBrick borderWidth: self outerBorderWidth.
-	aBrick color: self borderColor.
+	aBrick layoutProperties
+		paddingTop: self outerBorderWidth;
+		paddingBottom: self outerBorderWidth;
+		paddingLeft: self outerBorderWidth;
+		paddingRight: self outerBorderWidth
+	
 ]
 
 { #category : #values }
@@ -433,8 +459,9 @@ GTSpotterWidgetThemer >> stepPaneStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> stepsBandStyleFor: aBrick [
 
-	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
-	aBrick widthBlock: [ :b |  ].
+	aBrick
+		layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new;
+		widthBlock: [ :b | 0 ].
 ]
 
 { #category : #values }
