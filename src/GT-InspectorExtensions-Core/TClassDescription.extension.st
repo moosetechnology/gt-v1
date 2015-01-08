@@ -7,6 +7,7 @@ TClassDescription >> gtInspectorUsersIn: composite [
 		title: 'Users';
 		when: [ self isTrait ];
 		display: [ 
-			Smalltalk allClasses select: [ :class |
-			   class traitComposition traits includes: self ] ]
+			self traitUsers asArray
+			"Smalltalk allClasses select: [ :class |
+			   class traitComposition traits includes: self ]" ]
 ]
