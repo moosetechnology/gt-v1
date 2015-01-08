@@ -74,3 +74,13 @@ Class >> spotterSuperclassesFor: aStep [
 			itemIcon: #systemIcon;
 			matchSubstring
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+Class >> spotterUsedTraitsFor: aStep [
+	<spotterOrder: 60>
+	aStep listProcessor
+			title: 'Uses Traits';
+			allCandidates: [ self traits asArray ];
+			itemIcon: #systemIcon;
+			matchSubstring
+]
