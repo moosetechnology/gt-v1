@@ -73,7 +73,9 @@ GTPlayground class >> openContents: aString [
 	page := GTPlayPage new
 		content: aString;
 		yourself.
-	^ self new openOn: page
+	^ self new 
+		openOn: page;
+		yourself
 ]
 
 { #category : #'instance creation' }
@@ -218,4 +220,11 @@ GTPlayground >> compose [
 			self entity
 					content: self first panes first presentations first text.
 			GTPlayBook instance addPageIfInteresting: self entity ]
+]
+
+{ #category : #'as yet unclassified' }
+GTPlayground >> label: aString [
+	"Set the window label to the given string"
+	self title: aString.
+	self update
 ]
