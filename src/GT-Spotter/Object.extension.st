@@ -18,6 +18,13 @@ Object >> spotterActDefault [
 ]
 
 { #category : #'*GT-Spotter' }
+Object >> spotterPreviewIn: aCanvas [
+
+	aCanvas text
+		display: [ GTObjectPrinter new asTruncatedTextFrom: self ]
+]
+
+{ #category : #'*GT-Spotter' }
 Object >> spotterProcessorsFor: aSpotterStep [
 	
 	^ ((Pragma 
