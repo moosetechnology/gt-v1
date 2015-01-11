@@ -32,18 +32,15 @@ GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 		textColor: Color white.
 	
 	aBrick layoutProperties
-		marginTop: self outerBorderWidth;
-		marginRight: self outerBorderWidth;
-		paddingLeft: self outerBorderWidth;
-		paddingRight: self outerBorderWidth
+		margin: { self outerBorderWidth . self outerBorderWidth . 0 . 0 };
+		padding: { 0 . self outerBorderWidth }
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 	
 	aBrick layoutProperties
-		marginLeft: self outerBorderWidth;
-		marginRight: self outerBorderWidth
+		margin: { 0 . self outerBorderWidth }
 ]
 
 { #category : #values }
@@ -201,12 +198,8 @@ GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 		pressedColor: self itemSelectedBackgroundColor darker.
 	
 	aBrick layoutProperties
-		marginTop: 4;
-		marginBottom: 4;
-		paddingTop: self outerBorderWidth;
-		paddingBottom: self outerBorderWidth;
-		paddingLeft: self outerBorderWidth;
-		paddingRight: self outerBorderWidth
+		margin: #(4 0);
+		padding: self outerBorderWidth
 ]
 
 { #category : #styles }
@@ -428,10 +421,7 @@ GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
 		color: self borderColor.
 	
 	aBrick layoutProperties
-		paddingTop: self outerBorderWidth;
-		paddingBottom: self outerBorderWidth;
-		paddingLeft: self outerBorderWidth;
-		paddingRight: self outerBorderWidth
+		padding: self outerBorderWidth
 	
 ]
 
