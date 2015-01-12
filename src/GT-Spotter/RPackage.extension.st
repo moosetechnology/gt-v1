@@ -1,9 +1,13 @@
 Extension { #name : #RPackage }
 
 { #category : #'*GT-Spotter' }
-RPackage >> spotterPreviewIn: aCanvas [
+RPackage >> spotterPreviewIn: aComposite [
 
-	aCanvas list
-		display: [:each | each classes  "self classes"];
-		format: [ :aClass | aClass gtDisplayString  ]
+	aComposite list
+		title: 'Preview';
+		display: #classes;
+		format: #gtDisplayString;
+		entity: self.
+		
+	self flag: 'move "entity: self" somewhere else, maybe'
 ]

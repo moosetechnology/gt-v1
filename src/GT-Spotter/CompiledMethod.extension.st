@@ -1,9 +1,13 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*GT-Spotter' }
-CompiledMethod >> spotterPreviewIn: aCanvas [
+CompiledMethod >> spotterPreviewIn: aComposite [
 
-	aCanvas pharoMethod
-		smalltalkClass: [ self methodClass ];
-		display: [ self getSource ]
+	aComposite pharoMethod
+		title: 'Preview';
+		display: #getSource;
+		smalltalkClass: #methodClass;
+		entity: self.
+		
+	self flag: 'move "entity: self" somewhere else, maybe'
 ]
