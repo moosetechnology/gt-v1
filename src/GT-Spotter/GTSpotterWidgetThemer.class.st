@@ -164,24 +164,14 @@ GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconAct [
-	|icon|
-	
-	icon:= GLMBrickVectorIcons play.
-	icon color: (Color gray alpha: 0.8).
-	icon layoutProperties paddingLeft: 3.
-	icon layoutProperties paddingRight: 3.
-	
-	^ icon
+
+	^ GLMUIThemeExtraIcons glamorousPlay
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveIn [
-	|icon|
-	
-	icon:= GLMBrickVectorIcons right.
-	icon color: (Color gray alpha: 0.8).
-	
-	^ icon
+
+	^ GLMUIThemeExtraIcons glamorousRight
 ]
 
 { #category : #values }
@@ -194,12 +184,9 @@ GTSpotterWidgetThemer >> innerBorderWidth [
 GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 
 	aBrick
-		width: [ 16 + aBrick layoutProperties horizontalPadding ];
-		pressedColor: self itemSelectedBackgroundColor darker.
-	
-	aBrick layoutProperties
-		margin: #(4 0);
-		padding: self outerBorderWidth
+		width: [ aBrick normalImage width + aBrick layoutProperties horizontalPadding ];
+		pressedColor: self itemSelectedBackgroundColor darker;
+		padding: { 0 . self outerBorderWidth }
 ]
 
 { #category : #styles }
@@ -288,16 +275,11 @@ GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 	aBrick label
 		familyName: self itemFamilyName;
 		fontSize: self itemFontSize;
-		highlightingLogic: [ :aCanvas :aRectangle | | linePath stroke|
-			linePath := aCanvas createPath: [:builder |
-				builder
-					absolute;
-					moveTo: aRectangle bottomLeft;
-     				lineTo: aRectangle bottomRight - (3@0) ].
-			stroke := aCanvas setStrokePaint: Color lightGray.
-			stroke width: 1.
-			aCanvas drawShape: linePath ].
-		
+		highlightingLogic: [ :aCanvas :aRectangle | |bounds|
+			"because font calculates text width wrong"
+			bounds := aRectangle translateBy: (-3@0).
+			aCanvas line: bounds bottomLeft to: bounds bottomRight width: 1 color: Color lightGray ].
+	
 	aBrick layoutProperties
 		hSpaceFill;
 		marginRight: self outerBorderWidth.
