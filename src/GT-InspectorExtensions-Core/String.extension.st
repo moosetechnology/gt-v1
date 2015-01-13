@@ -8,7 +8,7 @@ String class >> gtInspectorFourtyTwo [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 String >> gtInspectorTextIn: composite [
-	<gtInspectorPresentationOrder: 30>  
+	<gtInspectorPresentationOrder: -10>  
 	 composite rubricText
 		title: 'String'
 ]
