@@ -23,6 +23,12 @@ GTStepOverBytecodeDebugAction >> appliesToDebugger: aDebugger [
 ]
 
 { #category : #accessing }
+GTStepOverBytecodeDebugAction >> defaultKeyText [
+
+	^ 't'
+]
+
+{ #category : #accessing }
 GTStepOverBytecodeDebugAction >> defaultLabel [
 
 	^ 'Step over bytecode'
