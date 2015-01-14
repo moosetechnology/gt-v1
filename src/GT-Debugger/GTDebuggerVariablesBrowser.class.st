@@ -49,10 +49,16 @@ GTDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 ]
 
 { #category : #'private building' }
+GTDebuggerVariablesBrowser >> variablesFromContext: aContext [ 
+
+	^ aContext gtDebuggerRetrieveVariableValuePairs
+]
+
+{ #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesIn: composite [
-	composite table
+	^ composite table
 		showOnly: 50;
-		display: [ :context | context gtDebuggerRetrieveVariableValuePairs ];
+		display: [ :context | self variablesFromContext: context ];
 		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key];
 		column: 'Type'
 			evaluated: [ '' ]

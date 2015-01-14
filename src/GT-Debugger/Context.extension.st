@@ -7,10 +7,10 @@ Context >> findContextMatchingPredicate: aPredicate [
 ]
 
 { #category : #'*GT-Debugger' }
-Context >> gtConstructDebuggerInspectorIn: composite [
+Context >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 	
 	^composite custom: ((GTDebuggerInspector new  
-		showFirst: [ :a | a custom: (GTDebuggerVariablesBrowser new startOn: self)];
+		showFirst: [ :a | a custom: (aDebugger class variablesBrowserClass new startOn: self)];
 		yourself) 
 			startOn: self)
 ]

@@ -255,6 +255,12 @@ GTGenericStackDebugger class >> stackWidgetClass [
 	^ self
 ]
 
+{ #category : #accessing }
+GTGenericStackDebugger class >> variablesBrowserClass [
+
+	^ GTDebuggerVariablesBrowser
+]
+
 { #category : #'building actions' }
 GTGenericStackDebugger >> codeActionsPragmas [
 
@@ -356,7 +362,7 @@ GTGenericStackDebugger >> inspectorIn: aComposite [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> inspectorIn: aComposite on: anObject [
 				
-	^ anObject gtConstructDebuggerInspectorIn: aComposite
+	^ anObject gtConstructDebuggerInspectorIn: aComposite for: self
 	
 	
 ]
