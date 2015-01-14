@@ -32,6 +32,12 @@ GTBytecodeDebugger class >> sessionClass [
 	^ GTBytecodeDebuggerSession
 ]
 
+{ #category : #accessing }
+GTBytecodeDebugger class >> variablesBrowserClass [
+
+	^ GTBytecodeDebuggerVariablesBrowser
+]
+
 { #category : #'building actions' }
 GTBytecodeDebugger >> codeActionsPragmas [
 
@@ -45,16 +51,7 @@ GTBytecodeDebugger >> debuggingActionsPragmas [
 ]
 
 { #category : #'building presentations' }
-GTBytecodeDebugger >> methodCodeIn: aComposite forContext: aContext [
-
-	(self methodCodeWidgetIn: aComposite forContext: aContext)
-		initialize: [ :bytecodePresentation |
-				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ];
-		with: [ :bytecodePresentation | self installCodeActionsFor: bytecodePresentation]
-]
-
-{ #category : #'building presentations' }
-GTBytecodeDebugger >> methodCodeWidgetIn: aComposite forContext: aContext [
+GTBytecodeDebugger >> methodBytecodeIn: aComposite forContext: aContext [
 
 	^ aComposite tree
 		title: 'Bytecode';
@@ -62,6 +59,15 @@ GTBytecodeDebugger >> methodCodeWidgetIn: aComposite forContext: aContext [
 		display: [ aContext method symbolicBytecodes ];
 		children: [ :each | each isArray ifTrue: [each] ifFalse: #() ];
 		format: [ :each | each printString].
+]
+
+{ #category : #'building presentations' }
+GTBytecodeDebugger >> methodCodeIn: aComposite forContext: aContext [
+
+	(self methodBytecodeIn: aComposite forContext: aContext)
+		initialize: [ :bytecodePresentation |
+				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ].
+	super methodCodeIn: aComposite forContext: aContext.
 ]
 
 { #category : #'building actions' }
