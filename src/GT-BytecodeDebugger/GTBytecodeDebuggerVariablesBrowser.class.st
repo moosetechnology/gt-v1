@@ -16,13 +16,13 @@ GTBytecodeDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 		in: aContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private building' }
 GTBytecodeDebuggerVariablesBrowser >> variablesFromContext: aContext [ 
 
 	^ aContext gtBytecodeDebuggerRetrieveContextValues
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private building' }
 GTBytecodeDebuggerVariablesBrowser >> variablesIn: aComposite [
 
 	^ (super variablesIn: aComposite)

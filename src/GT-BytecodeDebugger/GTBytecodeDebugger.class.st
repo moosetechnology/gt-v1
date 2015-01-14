@@ -39,7 +39,7 @@ GTBytecodeDebugger class >> variablesBrowserClass [
 ]
 
 { #category : #'building actions' }
-GTBytecodeDebugger >> codeActionsPragmas [
+GTBytecodeDebugger >> bytecodeActionsPragmas [
 
 	^ #( bytecodeDebuggingAction )
 ]
@@ -47,7 +47,19 @@ GTBytecodeDebugger >> codeActionsPragmas [
 { #category : #'building actions' }
 GTBytecodeDebugger >> debuggingActionsPragmas [
 
-	^ #( bytecodeDebuggingAction )
+	^ #()
+]
+
+{ #category : #'printing/formatting' }
+GTBytecodeDebugger >> formatBytecode: aBytecode [
+	| textAttributes|
+	
+	textAttributes := {TextColor black}.
+	self selectedContext pc = aBytecode offset ifTrue: [ textAttributes := {TextColor black. TextEmphasis bold} ]. 
+	self selectedContext pc > aBytecode offset ifTrue: [ textAttributes := {TextColor new color: Color darkGray} ].
+	^ Text 
+		string: aBytecode printString
+		attributes: textAttributes
 ]
 
 { #category : #'building presentations' }
@@ -58,7 +70,7 @@ GTBytecodeDebugger >> methodBytecodeIn: aComposite forContext: aContext [
 		rootsExpanded;
 		display: [ aContext method symbolicBytecodes ];
 		children: [ :each | each isArray ifTrue: [each] ifFalse: #() ];
-		format: [ :each | each printString].
+		format: [ :each | self formatBytecode: each ].
 ]
 
 { #category : #'building presentations' }
@@ -66,7 +78,8 @@ GTBytecodeDebugger >> methodCodeIn: aComposite forContext: aContext [
 
 	(self methodBytecodeIn: aComposite forContext: aContext)
 		initialize: [ :bytecodePresentation |
-				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ].
+				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ];
+		with: [ :bytecode | self installActionsForRootPragmas: self bytecodeActionsPragmas in: bytecode ].
 	super methodCodeIn: aComposite forContext: aContext.
 ]
 

@@ -15,6 +15,12 @@ GTGoAndInspectBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugge
 	^ (self forDebugger: aDebugger)
 ]
 
+{ #category : #'as yet unclassified' }
+GTGoAndInspectBytecodeDebugAction >> defaultKeyText [
+
+	^ 'g'
+]
+
 { #category : #accessing }
 GTGoAndInspectBytecodeDebugAction >> defaultLabel [
 
@@ -35,7 +41,7 @@ GTGoAndInspectBytecodeDebugAction >> id [
 	^ GTGoAndInspectBytecodeDebugAction name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTGoAndInspectBytecodeDebugAction >> initialize [
 
 	super initialize.

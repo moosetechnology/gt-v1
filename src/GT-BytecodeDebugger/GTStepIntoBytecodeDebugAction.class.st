@@ -25,7 +25,7 @@ GTStepIntoBytecodeDebugAction >> appliesToDebugger: aDebugger [
 { #category : #accessing }
 GTStepIntoBytecodeDebugAction >> defaultLabel [
 
-	^ 'Step into'
+	^ 'Step into bytecode'
 ]
 
 { #category : #accessing }
@@ -43,5 +43,5 @@ GTStepIntoBytecodeDebugAction >> executeAction [
 { #category : #accessing }
 GTStepIntoBytecodeDebugAction >> id [
 
-	^ #GTStepIntoBytecodeDebugAction
+	^ GTStepIntoBytecodeDebugAction name
 ]

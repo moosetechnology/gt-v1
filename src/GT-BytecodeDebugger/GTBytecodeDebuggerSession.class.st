@@ -9,6 +9,19 @@ Class {
 }
 
 { #category : #'debugging actions' }
+GTBytecodeDebuggerSession >> runToBytecode: aSymbolicBytecode inContext: aContext [ 
+	"Attempt to step over instructions in selectedContext until the 
+	execution reaches the selected instruction. This happens when the
+	program counter passes the begining of selectionInterval." 
+	
+	aSymbolicBytecode offset <= aContext pc 
+		ifTrue: [ ^self ].
+	self stepOverBytecodeInContext: aContext.
+	[ aContext == self interruptedContext and: [ aContext pc < aSymbolicBytecode offset ] ] 
+		whileTrue: [ self stepOverBytecodeInContext: aContext ]
+]
+
+{ #category : #'debugging actions' }
 GTBytecodeDebuggerSession >> stepIntoBytecodeInContext: aContext [
 
 	(self isContextPostMortem: aContext) ifTrue: [^ self].
