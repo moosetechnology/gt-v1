@@ -194,7 +194,7 @@ GTInspector >> entities [
 GTInspector >> initialize [
 	super initialize.
 	
-	self presentationsFilter: (GTInspectorTagFilterStrategy new
+	self presentationFilter: (GTInspectorTagFilterStrategy new
 			defaultTag: #custom;
 			addAndSelectTag: #basic;
 			addAndSelectTag: #custom;
@@ -219,7 +219,7 @@ GTInspector >> presentationFilter [
 ]
 
 { #category : #context }
-GTInspector >> presentationsFilter: aPresentationFilterStragery [
+GTInspector >> presentationFilter: aPresentationFilterStragery [
 	"Set a filter for limiting the number of visible presentations."
 	presentationFilter := aPresentationFilterStragery
 ]

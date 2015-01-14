@@ -23,7 +23,7 @@ GTInspectorTagFilterStrategy class >> exampleBasicInspector [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilterStrategy new
 		addAndSelectTag: #basic).
 	inspector openOn: Morph new.
 ]
@@ -34,7 +34,7 @@ GTInspectorTagFilterStrategy class >> exampleCustomInspector [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilterStrategy new
 		defaultTag: #custom;
 		addAndSelectTag: #custom).
 	inspector openOn: Morph new.
@@ -46,7 +46,7 @@ GTInspectorTagFilterStrategy class >> exampleExampleBrowser [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilterStrategy new
 		addAndSelectTag: #examples).
 	inspector openOn: Dictionary.
 ]
@@ -57,7 +57,7 @@ GTInspectorTagFilterStrategy class >> exampleFullInspector [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilterStrategy new
 		defaultTag: #custom;
 		addAndSelectTag: #custom;
 		addAndSelectAllTags).

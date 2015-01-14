@@ -19,7 +19,7 @@ GTInspectorMethodListFilterStrategy class >> exampleASTBrowser [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
 		addAndSelectSignatureFor: CompiledMethod>>#gtInspectorASTIn:;
 		addAndSelectSignatureFor: RBProgramNode>>#gtInspectorSourceCodeIn:).
 	inspector openOn: Morph>>#initialize.
@@ -31,7 +31,7 @@ GTInspectorMethodListFilterStrategy class >> exampleCodeBrowser [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
 		addAndSelectSignatureFor: Object>>#gtInspectorMetaIn:).
 	inspector openOn: Morph new.
 ]
@@ -42,7 +42,7 @@ GTInspectorMethodListFilterStrategy class >> exampleFileBrowser [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
 		addAndSelectSignatureFor: FileReference>>#gtInspectorStScriptIn:;
 		addAndSelectSignatureFor: FileReference>>#gtInspectorPngIn:;
 		addAndSelectSignatureFor: FileReference>>#gtInspectorJpegIn:;
@@ -59,7 +59,7 @@ GTInspectorMethodListFilterStrategy class >> exampleFullInspector [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
 		addAndSelectAllSignatures).
 	inspector openOn: Morph new.
 ]
@@ -70,7 +70,7 @@ GTInspectorMethodListFilterStrategy class >> exampleRawInspector [
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationsFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
 		addAndSelectSignatureFor: Object>>#gtInspectorRawIn:).
 	inspector openOn: Morph new.
 ]
