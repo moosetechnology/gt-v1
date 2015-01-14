@@ -191,7 +191,7 @@ GTPlayground >> codeIn: a [
 				text selectionInterval: (1 to: text text size).
 				text highlightEvaluateAndDo: [ :result | text selection: result ] ]
 			icon: GLMUIThemeExtraIcons glamorousGo
-"			on: $G"
+			on: $G
 			entitled: 'Do it all and go';
 		installGoAction;
 		installDefaultSelectionActions;
