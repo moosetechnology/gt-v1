@@ -98,9 +98,11 @@ GTSpotter >> spotterForFilesFor: aStep [
 GTSpotter >> spotterForGlobalVarsFor: aStep [
 	<spotterOrder: 40>
 	aStep listProcessor
-			allCandidates: [:x | GTSpottedGlobalVariable all];
+			allCandidates: [ Smalltalk globals associations select:[:assoc | 
+			assoc value isBehavior not and:[ 
+				assoc value isTrait not]] ];
 			title: 'Global variables';
-			itemName:[:global | global varName];
+			itemName:[:global | global key ];
 			matchSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
