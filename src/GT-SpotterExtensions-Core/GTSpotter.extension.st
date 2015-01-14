@@ -95,6 +95,17 @@ GTSpotter >> spotterForFilesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForGlobalVarsFor: aStep [
+	<spotterOrder: 40>
+	aStep listProcessor
+			allCandidates: [:x | GTSpottedGlobalVariable all];
+			title: 'Global variables';
+			itemName:[:global | global varName];
+			matchSubstring;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForPackagesFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor
