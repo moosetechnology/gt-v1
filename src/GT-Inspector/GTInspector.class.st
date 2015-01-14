@@ -194,10 +194,11 @@ GTInspector >> entities [
 GTInspector >> initialize [
 	super initialize.
 	
-	"self presentationsFilter: (GTInspectorTagFilterStrategy new
+	self presentationsFilter: (GTInspectorTagFilterStrategy new
 			defaultTag: #custom;
 			addAndSelectTag: #basic;
-			addAndSelectTag: #custom)"
+			addAndSelectTag: #custom;
+			addAndSelectTag: #examples)
 ]
 
 { #category : #opening }
@@ -219,7 +220,7 @@ GTInspector >> presentationFilter [
 
 { #category : #context }
 GTInspector >> presentationsFilter: aPresentationFilterStragery [
-
+	"Set a filter for limiting the number of visible presentations."
 	presentationFilter := aPresentationFilterStragery
 ]
 
@@ -264,7 +265,8 @@ GTInspector >> removeLastPane [
 
 { #category : #context }
 GTInspector >> shouldDisplayPresentationCreateBy: aMethod [
-	
+	"Verify whether or not the presentation created by the given method should be displayed.
+	If no filter is given display all presentations."
 	^ self presentationFilter 
 		ifNil: [ true]
 		ifNotNil: [ self presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
