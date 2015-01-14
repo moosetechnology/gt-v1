@@ -422,7 +422,8 @@ GTGenericStackDebugger >> openNotifierContents: msgString label: label [
 { #category : #'printing/formatting' }
 GTGenericStackDebugger >> printStackEntry: aContext [
 
-	^ String streamContents: [:stream | aContext printDebugOn: stream ] 
+	^ (String streamContents: [:stream | aContext printDebugOn: stream ]) 
+			replaceAll: Character cr with: Character space 
 ]
 
 { #category : #'old api' }
