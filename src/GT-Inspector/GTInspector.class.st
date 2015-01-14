@@ -142,14 +142,14 @@ GTInspector class >> settingsOn: aBuilder [
 		 		description: 'Enable or disable the GTInspector.'.]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GTInspector >> actOnPaneAdded: ann [
 
 	self panes size > 1 ifTrue: [ 
 		(self panes before: self panes last) updateToolbar "announce: (GLMPresentationToolbarUpdated new presentation: ann presentation)" ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTInspector >> closeActionFor: aPresentation [
 
 	^ GLMGenericAction new
@@ -201,7 +201,7 @@ GTInspector >> initialize [
 			addAndSelectTag: #examples)
 ]
 
-{ #category : #opening }
+{ #category : #actions }
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
 	self openOn: anObject
@@ -212,7 +212,7 @@ GTInspector >> panes [
 	^ self first panes
 ]
 
-{ #category : #accessing }
+{ #category : #context }
 GTInspector >> presentationFilter [
 
 	^ presentationFilter
@@ -253,7 +253,7 @@ GTInspector >> printObjectAsAnItem: anObject [
 				out << header; << ' ('; << printString; << ')' ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTInspector >> removeLastPane [
 	| lastPane |
 	
@@ -272,13 +272,13 @@ GTInspector >> shouldDisplayPresentationCreateBy: aMethod [
 		ifNotNil: [ self presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scripting }
 GTInspector >> showFirst: aBlock [
 
 	self first showFirst: aBlock
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTInspector >> updatePanesFor: anObject [
 
 	(self panes select: [ :each | 
