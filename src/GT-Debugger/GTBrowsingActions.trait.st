@@ -95,7 +95,7 @@ GTBrowsingActions >> currentClass [
 { #category : #accessing }
 GTBrowsingActions >> currentClassOrMetaClass [
 
-	^ self currentContext classOrMetaClass
+	^ self currentContext methodClass
 ]
 
 { #category : #accessing }
