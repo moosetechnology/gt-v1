@@ -914,6 +914,82 @@ ConfigurationOfGToolkit >> baseline020: aSpec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGToolkit >> baseline021: aSpec [
+	<version: '0.21-baseline'>
+	aSpec for: #'common' do: [
+		aSpec
+			blessing: #'baseline';
+			description: 'Added GT-BytecodeDebugger';
+			author: 'AndreiChis';
+			timestamp: '2015-01-15';
+			repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
+		aSpec
+			package: 'GT-Coder' with: [
+				aSpec
+					requires: #( 'Glamour') ];
+			package: 'GT-GlamourDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger') ];
+			package: 'GT-PetitParserDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger' 'PetitParser') ];
+			package: 'GT-BytecodeDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger') ];
+			package: 'GT-SUnitDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger') ];
+			package: 'GT-Setup';
+			package: 'GT-Tools' with: [
+				aSpec
+					requires: #( 'Glamour') ];
+			package: 'Glamour-Morphic-Theme' with: [
+				aSpec
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		aSpec
+			project: 'AnnouncerCentricDebugger' with: [
+				aSpec
+					versionString: #'development';
+					className: 'ConfigurationOfAnnouncerCentricDebugger';
+					repository: 'http://www.smalltalkhub.com/mc/Moose/AnnouncerCentricDebugger/main' ];
+			project: 'Glamour' with: [
+				aSpec
+					versionString: #'development';
+					className: 'ConfigurationOfGlamour';
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
+			project: 'PetitParser' with: [
+				aSpec
+					versionString: #'development';
+					className: 'ConfigurationOfPetitParser';
+					repository: 'http://www.smalltalkhub.com/mc/Moose/PetitParser/main' ];
+			project: 'GTDebugger' with: [
+				aSpec
+					className: #ConfigurationOfGTDebugger;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'GTInspector' with: [
+				aSpec
+					className: #ConfigurationOfGTInspector;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'GTPlayground' with: [
+				aSpec
+					className: #ConfigurationOfGTPlayground;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'GTSpotter' with: [
+				aSpec
+					className: #ConfigurationOfGTSpotter;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
+			
+		aSpec
+			group: 'Tests' with: #();
+			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
+			group: 'default' with: #( 'GT-Setup' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests') ]
+]
+
+{ #category : #baselines }
 ConfigurationOfGToolkit >> baseline02: spec [ 
 	<version: '0.2-baseline'>
 	
@@ -1488,7 +1564,7 @@ ConfigurationOfGToolkit >> development: spec [
 
 	spec for: #'pharo3.x' version: '0.19'.
 
-	spec for: #'pharo4.x' version: '0.20-baseline'.
+	spec for: #'pharo4.x' version: '0.21-baseline'.
 
 ]
 
