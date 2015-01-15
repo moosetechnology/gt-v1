@@ -30,7 +30,7 @@ GTGoAndInspectBytecodeDebugAction >> defaultLabel [
 { #category : #actions }
 GTGoAndInspectBytecodeDebugAction >> executeAction [
 	
-	self debugger inspect: self debugger codePresentation selection  
+	self debugger inspect: self debugger bytecodePresentation selection  
 		
 
 ]

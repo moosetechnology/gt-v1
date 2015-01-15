@@ -44,6 +44,18 @@ GTBytecodeDebugger >> bytecodeActionsPragmas [
 	^ #( bytecodeDebuggingAction )
 ]
 
+{ #category : #accessing }
+GTBytecodeDebugger >> bytecodePresentation [
+	
+	^ self codePane presentations first
+]
+
+{ #category : #accessing }
+GTBytecodeDebugger >> codePresentation [
+	
+	^ self codePane presentations second
+]
+
 { #category : #'building actions' }
 GTBytecodeDebugger >> debuggingActionsPragmas [
 

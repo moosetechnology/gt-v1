@@ -16,7 +16,7 @@ GTStepToBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 GTStepToBytecodeDebugAction >> appliesToDebugger: aDebugger [
 
 	^ aDebugger session isInterruptedContextPostMortem not and: [ 
-		aDebugger codePresentation selection offset > aDebugger currentContext pc ]
+		aDebugger bytecodePresentation selection offset > aDebugger currentContext pc ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GTStepToBytecodeDebugAction >> defaultOrder [
 GTStepToBytecodeDebugAction >> executeAction [
 
 	self session
-		runToBytecode: self debugger codePresentation selection 
+		runToBytecode: self debugger bytecodePresentation selection 
 		inContext: self currentContext
 ]
 
