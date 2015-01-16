@@ -44,16 +44,56 @@ GTBytecodeDebugger >> bytecodeActionsPragmas [
 	^ #( bytecodeDebuggingAction )
 ]
 
+{ #category : #'building presentations' }
+GTBytecodeDebugger >> bytecodeIn: aComposite forContext: aContext [
+
+	(self methodBytecodeWidgetIn: aComposite forContext: aContext)
+		initialize: [ :bytecodePresentation |
+				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ];
+		with: [ :bytecode | self installActionsForRootPragmas: self bytecodeActionsPragmas in: bytecode ].
+]
+
+{ #category : #accessing }
+GTBytecodeDebugger >> bytecodePane [
+
+	^ self browser paneNamed: #bytecode
+]
+
 { #category : #accessing }
 GTBytecodeDebugger >> bytecodePresentation [
 	
-	^ self codePane presentations first
+	^ self bytecodePane presentations first
 ]
 
 { #category : #accessing }
 GTBytecodeDebugger >> codePresentation [
 	
-	^ self codePane presentations second
+	^ self codePane presentations first
+]
+
+{ #category : #building }
+GTBytecodeDebugger >> debuggerStructureIn: browser [
+	
+	browser
+		row: [ :row | 
+					row
+						column: #stack span: 2;
+						column: #bytecode span: 2; 
+						column: #code span: 3 ]
+			span: 2;
+		row: #inspector.
+		
+]
+
+{ #category : #building }
+GTBytecodeDebugger >> debuggerTransmissionsIn: browser [
+
+	super debuggerTransmissionsIn: browser.
+	browser transmit
+		from: #stack port: #selection;
+		to: #bytecode;
+		andShow: [ :composite :aContext | self bytecodeIn: composite forContext: aContext ]
+
 ]
 
 { #category : #'building actions' }
@@ -75,7 +115,7 @@ GTBytecodeDebugger >> formatBytecode: aBytecode [
 ]
 
 { #category : #'building presentations' }
-GTBytecodeDebugger >> methodBytecodeIn: aComposite forContext: aContext [
+GTBytecodeDebugger >> methodBytecodeWidgetIn: aComposite forContext: aContext [
 
 	^ aComposite tree
 		title: 'Bytecode';
@@ -83,16 +123,6 @@ GTBytecodeDebugger >> methodBytecodeIn: aComposite forContext: aContext [
 		display: [ aContext method symbolicBytecodes ];
 		children: [ :each | each isArray ifTrue: [each] ifFalse: #() ];
 		format: [ :each | self formatBytecode: each ].
-]
-
-{ #category : #'building presentations' }
-GTBytecodeDebugger >> methodCodeIn: aComposite forContext: aContext [
-
-	(self methodBytecodeIn: aComposite forContext: aContext)
-		initialize: [ :bytecodePresentation |
-				bytecodePresentation selection: (self session symbolicBytecodeForCurrentPCFrom: self currentContext) ];
-		with: [ :bytecode | self installActionsForRootPragmas: self bytecodeActionsPragmas in: bytecode ].
-	super methodCodeIn: aComposite forContext: aContext.
 ]
 
 { #category : #'building actions' }
