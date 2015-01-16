@@ -65,12 +65,6 @@ GTBytecodeDebugger >> bytecodePresentation [
 	^ self bytecodePane presentations first
 ]
 
-{ #category : #accessing }
-GTBytecodeDebugger >> codePresentation [
-	
-	^ self codePane presentations first
-]
-
 { #category : #building }
 GTBytecodeDebugger >> debuggerStructureIn: browser [
 	
@@ -122,7 +116,19 @@ GTBytecodeDebugger >> methodBytecodeWidgetIn: aComposite forContext: aContext [
 		rootsExpanded;
 		display: [ aContext method symbolicBytecodes ];
 		children: [ :each | each isArray ifTrue: [each] ifFalse: #() ];
-		format: [ :each | self formatBytecode: each ].
+		format: [ :each | self formatBytecode: each ];
+		onChangeOfPort: #selection act: [ :bytecodes | 
+			self codePresentation 
+				selectionInterval: (bytecodes selection
+					ifNil: [ 1 to: 0 ] 
+					ifNotNil: [:selectedBytecode| selectedBytecode sourceInterval]) ] 
+]
+
+{ #category : #'building presentations' }
+GTBytecodeDebugger >> methodCodeIn: composite forContext: aContext [
+
+	(self methodCodeWidgetIn: composite forContext: aContext)
+		with: [ :code | self installCodeActionsFor: code ]
 ]
 
 { #category : #'building actions' }
