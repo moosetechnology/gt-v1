@@ -59,7 +59,6 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
 		display: [ :context | self variablesFromContext: context ];
-		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key];
 		column: 'Type'
 			evaluated: [ '' ]
 			width: 75
