@@ -332,7 +332,7 @@ ConfigurationOfGTInspector >> project [
 ConfigurationOfGTInspector >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.0.6'.
+	spec for: #'common' version: '2.0.7'.
 
 ]
 
@@ -632,6 +632,25 @@ ConfigurationOfGTInspector >> version206: spec [
 		
 		spec 
 			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-AndreiChis.25'.
+		spec 
+			project: 'GTInspectorCore' with: #'stable';
+			project: 'Glamour' with: #'stable';
+			project: 'DeepTraversal' with: #'stable'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspector >> version207: spec [
+	<version: '2.0.7' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.7'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '01/16/2014 19:11'.
+		
+		spec 
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-AndreiChis.26'.
 		spec 
 			project: 'GTInspectorCore' with: #'stable';
 			project: 'Glamour' with: #'stable';
