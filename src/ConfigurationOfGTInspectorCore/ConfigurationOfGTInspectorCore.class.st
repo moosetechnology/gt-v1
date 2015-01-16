@@ -179,7 +179,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.0.9'.
+	spec for: #'common' version: '2.0.10'.
 	spec for: #'pharo3.x' version: '2.0.7'.
 
 
@@ -202,6 +202,23 @@ ConfigurationOfGTInspectorCore >> version200: spec [
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.24'. 
 		spec 
 			project: 'GlamourCore' with: '3.0.0'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version2010: spec [
+	<version: '2.0.10' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.10'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '01/16/2015 19:10'.
+		spec project: 'GlamourCore' with: '3.0.10'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.284';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.93';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.24'. ].
 
 ]
 
