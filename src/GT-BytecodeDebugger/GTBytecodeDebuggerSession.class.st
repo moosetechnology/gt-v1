@@ -16,31 +16,16 @@ GTBytecodeDebuggerSession >> runToBytecode: aSymbolicBytecode inContext: aContex
 	
 	aSymbolicBytecode offset <= aContext pc 
 		ifTrue: [ ^self ].
-	self stepOverBytecodeInContext: aContext.
+	self stepOver: aContext.
 	[ aContext == self interruptedContext and: [ aContext pc < aSymbolicBytecode offset ] ] 
-		whileTrue: [ self stepOverBytecodeInContext: aContext ]
+		whileTrue: [ self stepOver: aContext ]
 ]
 
-{ #category : #'debugging actions' }
-GTBytecodeDebuggerSession >> stepIntoBytecodeInContext: aContext [
-
-	(self isContextPostMortem: aContext) ifTrue: [^ self].
-
-	interruptedProcess step: aContext.
-	self updateContextTo:  interruptedProcess suspendedContext.
-]
-
-{ #category : #'debugging actions' }
-GTBytecodeDebuggerSession >> stepOverBytecodeInContext: aContext [
-	| newContext |
+{ #category : #private }
+GTBytecodeDebuggerSession >> stepToFirstInterestingBytecodeIn: aProcess [
+	"Do not step over any bytecode."
 	
-	(self isContextPostMortem: aContext) ifTrue: [^ self].
-
-	newContext := interruptedProcess completeStep: aContext.
-	self updateContextTo:  
-		(newContext == aContext
-			ifTrue: [ interruptedProcess suspendedContext ]
-			ifFalse: [ newContext ]).
+	^ aProcess suspendedContext
 ]
 
 { #category : #acessing }
@@ -51,18 +36,4 @@ GTBytecodeDebuggerSession >> symbolicBytecodeForCurrentPCFrom: aContext [
 	^ aContext method symbolicBytecodes 
 		detect: [ :each | each offset = pc ]
 		ifNone: [ nil ]
-]
-
-{ #category : #evaluating }
-GTBytecodeDebuggerSession >> unwindAndRestartToContext: aContext [
-	|ctx|
-
-	ctx := interruptedProcess popTo: aContext.
-	ctx == aContext ifTrue: [ 
-		"Only restart the process if the stack was unwind"
-		interruptedProcess
-			restartTop;
-			suspendedContext ].
-	self flag: 'Should a warning be displayed if the the unwind failed?'.
-	self updateContextTo:  aContext
 ]
