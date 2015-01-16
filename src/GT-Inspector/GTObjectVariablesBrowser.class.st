@@ -64,7 +64,7 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 
 { #category : #'private building' }
 GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
-	^ (aString trimLeft isEmpty not and: [ aString trimLeft first = $" ])
+	^ (aString isEmpty not and: [ aString trimLeft first = $" ])
 		ifFalse: [ aString trimBoth ]
 		ifTrue: [|startIndex|
 			startIndex := aString findAnySubStr: '"' startingAt: (aString indexOf: $") + 1.
@@ -87,7 +87,7 @@ GTObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject based
 			failBlock: [ ^ self ];
 			evaluate.
 						
-	anObject instVarNamed: aSymbol put: result.
+	anObject writeSlotNamed: aSymbol value: result.
 	
 ]
 

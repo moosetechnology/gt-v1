@@ -51,7 +51,6 @@ Object >> gtInspectorActions [
 { #category : #'*GT-Inspector' }
 Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 900>
-	<gtInspectorTag: #examples>
 	
 	| previousRawSelection |
 	(aGTInspector panes size > 1) 
@@ -81,7 +80,6 @@ Object >> gtInspectorMetaIn: composite [
 Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 	"This is a utility method that collects all presentations for the current object.
 	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
-	The inspector can decice whether or not a presentation should be dispayed.
 	Subclasses might want to override it for more special behavior."
 	| pragmas |
 	pragmas := Pragma 
@@ -113,8 +111,8 @@ Object >> gtInspectorVariableValuePairs [
 	for the current object.
 	Subclasses can override it to specialize what appears in the variables presentation"
 	| bindings |
-	bindings := self class allInstVarNames asSet
-					collect: [ :iv | iv -> (self instVarNamed: iv) ].
+	bindings := self class allSlots asSet
+					collect: [ :slot | slot name -> (slot read: self) ].
 	1 to: (self basicSize min: 42) do: [ :index | 
 		bindings add: (index asTwoCharacterString -> (self basicAt: index)) ].
 	^ bindings

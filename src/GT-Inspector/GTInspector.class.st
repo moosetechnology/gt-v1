@@ -142,14 +142,14 @@ GTInspector class >> settingsOn: aBuilder [
 		 		description: 'Enable or disable the GTInspector.'.]
 ]
 
-{ #category : #callbacks }
+{ #category : #'as yet unclassified' }
 GTInspector >> actOnPaneAdded: ann [
 
 	self panes size > 1 ifTrue: [ 
 		(self panes before: self panes last) updateToolbar "announce: (GLMPresentationToolbarUpdated new presentation: ann presentation)" ]
 ]
 
-{ #category : #actions }
+{ #category : #'as yet unclassified' }
 GTInspector >> closeActionFor: aPresentation [
 
 	^ GLMGenericAction new
@@ -194,14 +194,13 @@ GTInspector >> entities [
 GTInspector >> initialize [
 	super initialize.
 	
-	self presentationFilter: (GTInspectorTagFilterStrategy new
+	"self presentationsFilter: (GTInspectorTagFilterStrategy new
 			defaultTag: #custom;
 			addAndSelectTag: #basic;
-			addAndSelectTag: #custom;
-			addAndSelectTag: #examples)
+			addAndSelectTag: #custom)"
 ]
 
-{ #category : #actions }
+{ #category : #opening }
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
 	self openOn: anObject
@@ -212,15 +211,15 @@ GTInspector >> panes [
 	^ self first panes
 ]
 
-{ #category : #context }
+{ #category : #accessing }
 GTInspector >> presentationFilter [
 
 	^ presentationFilter
 ]
 
 { #category : #context }
-GTInspector >> presentationFilter: aPresentationFilterStragery [
-	"Set a filter for limiting the number of visible presentations."
+GTInspector >> presentationsFilter: aPresentationFilterStragery [
+
 	presentationFilter := aPresentationFilterStragery
 ]
 
@@ -253,7 +252,7 @@ GTInspector >> printObjectAsAnItem: anObject [
 				out << header; << ' ('; << printString; << ')' ] ]
 ]
 
-{ #category : #actions }
+{ #category : #'as yet unclassified' }
 GTInspector >> removeLastPane [
 	| lastPane |
 	
@@ -265,20 +264,19 @@ GTInspector >> removeLastPane [
 
 { #category : #context }
 GTInspector >> shouldDisplayPresentationCreateBy: aMethod [
-	"Verify whether or not the presentation created by the given method should be displayed.
-	If no filter is given display all presentations."
+	
 	^ self presentationFilter 
 		ifNil: [ true]
 		ifNotNil: [ self presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
 ]
 
-{ #category : #scripting }
+{ #category : #'as yet unclassified' }
 GTInspector >> showFirst: aBlock [
 
 	self first showFirst: aBlock
 ]
 
-{ #category : #actions }
+{ #category : #'as yet unclassified' }
 GTInspector >> updatePanesFor: anObject [
 
 	(self panes select: [ :each | 

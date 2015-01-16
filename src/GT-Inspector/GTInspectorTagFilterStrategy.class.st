@@ -1,10 +1,23 @@
 "
-GTInspectorTagFilterStrategy implements a filtering strategy for presentations based on tags.
+inspector := GTInspector new.
+inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+			defaultTag: #custom;
+			addAndSelectTag: #custom).
+inspector openOn: Morph new.
 
-A tag is defined as the parameter of the prama <gtInspectorTag:>. A method can have one or more tags.
-The filter returns true for a method if that method contains at least a tag selected in the filter. To be taken into account during filtering a tag must be first added to the filter and the selected. Only tags that have been first added can be selected.  
+inspector := GTInspector new.
+inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+			defaultTag: #custom;
+			addTag: #custom;
+			addAndSelectTag: #basic).
+inspector openOn: Morph new.
 
-If a method does not define any tags the filter threats that method as having a single tag stored in the #defaultTag instance variable. The default defaultTag is #custom. The #basic tag  groups the Raw and Meta presentations. Inspect 'GTInspectorTagFilterStrategy new allPragmasWithTag' to view all pragmas creating the tags.
+inspector := GTInspector new.
+inspector presentationsFilter: (GTInspectorTagFilterStrategy new
+			defaultTag: #custom;
+			addAndSelectTag: #basic;
+			addAndSelectTag: #custom).
+inspector openOn: Morph new.
 "
 Class {
 	#name : #GTInspectorTagFilterStrategy,
@@ -17,53 +30,6 @@ Class {
 	#category : #'GT-Inspector'
 }
 
-{ #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleBasicInspector [
-	"An inspector showing only the basic presentations Raw and Meta for all object."
-	|inspector|
-	
-	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
-		addAndSelectTag: #basic).
-	inspector openOn: Morph new.
-]
-
-{ #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleCustomInspector [
-	"An inspector showing only the custom presentations for all object (excluding Raw and Meta)."
-	|inspector|
-	
-	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
-		defaultTag: #custom;
-		addAndSelectTag: #custom).
-	inspector openOn: Morph new.
-]
-
-{ #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleExampleBrowser [
-	"A browser for viewing examples"
-	|inspector|
-	
-	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
-		addAndSelectTag: #examples).
-	inspector openOn: Dictionary.
-]
-
-{ #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleFullInspector [
-	"An inspector showing all the available presentations for all objects."
-	|inspector|
-	
-	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
-		defaultTag: #custom;
-		addAndSelectTag: #custom;
-		addAndSelectAllTags).
-	inspector openOn: Morph new.
-]
-
 { #category : #adding }
 GTInspectorTagFilterStrategy >> addAllTags [
 	
@@ -73,7 +39,7 @@ GTInspectorTagFilterStrategy >> addAllTags [
 { #category : #adding }
 GTInspectorTagFilterStrategy >> addAndSelectAllTags [
 	
-	self allTags do: [ :aTag | self addAndSelectTag: aTag ] 
+	self allTags do: [ :aTag | self addAndSelectTag: allTags ] 
 ]
 
 { #category : #adding }
@@ -98,11 +64,10 @@ GTInspectorTagFilterStrategy >> allPragmasWithTag [
 { #category : #accessing }
 GTInspectorTagFilterStrategy >> allTags [
 
-	^ (self allPragmasWithTag collect: [ :pragma | 
-		pragma argumentAt: 1 ]) asSet sorted: [ :a :b | a < b ]
+	^ (self allPragmasWithTag collect: [ :pragma | pragma argumentAt: 1 ]) asSet sorted: [ :a :b | a < b ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTInspectorTagFilterStrategy >> changeFilterRequestFor: aGTInspector [
 
 	self
@@ -130,7 +95,7 @@ GTInspectorTagFilterStrategy >> initialize [
 	defaultTag := #custom
 ]
 
-{ #category : #callbacks }
+{ #category : #'as yet unclassified' }
 GTInspectorTagFilterStrategy >> replaceSelectedTagsWith: aListOfSymbols in: aGTInspector [
 
 	selectedTags := aListOfSymbols.
