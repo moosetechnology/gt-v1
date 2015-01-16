@@ -17,39 +17,28 @@ Context >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 
 { #category : #'*GT-Debugger' }
 Context >> gtDebuggerRetrieveVariableValuePairs [
-	| normalFieldList specialFieldList context|
+	|fieldList context|
 
-	specialFieldList := OrderedCollection new.
-	normalFieldList := OrderedCollection new.
-	context := self. 
-	context == nil ifTrue: [^ {'_thisContext' -> nil}].
-	specialFieldList 
-		add: ('_self' -> context receiver);
-		add: ('_thisContext' ->  context).
-	context stackPtr > (context tempNames size+1)
-		ifTrue: [ 
-			specialFieldList 
-					add: (('[temp ', (context stackPtr - context tempNames size) asString, '] (_stack top)' -> (context top))).
-			context stackPtr - context tempNames size - 1 to: 1 by: -1 do: [ :index|
-				specialFieldList 
-					add: (('[temp', index asString, ']' -> (context at: (index+context tempNames size)))) ] ]
-		ifFalse: [
-			specialFieldList 
-				add: ('_stack top' -> (context stackPtr > 0 ifTrue: [ context top]))].
+	fieldList := OrderedCollection new.
+	context := self.
+	fieldList 
+		add: ('_self' ->  context receiver);
+	      addAll: (context receiver class allSlots collect: [:slot | slot name -> (slot read: context receiver) ]).
 	
-	normalFieldList
-	   addAll: (context receiver class allSlots collect: [:slot | slot name -> (slot read: context receiver) ]).
+	fieldList add: ('_thisContext' ->  context).
+	 context == nil ifTrue: [^fieldList].
+	fieldList 
+		add: ('_stack top' -> ( context stackPtr > 0 ifTrue: [ context top])).
+		
 	(context tempNames notEmpty) ifTrue: [
-		normalFieldList addAll: ((1 to: context tempNames size) collect: [ :index || key value |
+		fieldList addAll: ((1 to: context tempNames size) collect: [ :index || key value |
 			key := context tempNames at: index.
 			value := [context debuggerMap namedTempAt: index in: context] 
 				on: Error 
 				do: [value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
 			key -> value ] ) ].
 	
-	^ specialFieldList, 
-	 (normalFieldList 
-		sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key])  
+	^ fieldList sorted: [:variablePair1 :variablePair2 | variablePair1 key < variablePair2 key]
 ]
 
 { #category : #'*GT-Debugger' }
