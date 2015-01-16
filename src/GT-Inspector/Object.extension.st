@@ -51,6 +51,7 @@ Object >> gtInspectorActions [
 { #category : #'*GT-Inspector' }
 Object >> gtInspectorExampleSourceIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 900>
+	<gtInspectorTag: #examples>
 	
 	| previousRawSelection |
 	(aGTInspector panes size > 1) 
@@ -80,6 +81,7 @@ Object >> gtInspectorMetaIn: composite [
 Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 	"This is a utility method that collects all presentations for the current object.
 	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
+	The inspector can decice whether or not a presentation should be dispayed.
 	Subclasses might want to override it for more special behavior."
 	| pragmas |
 	pragmas := Pragma 

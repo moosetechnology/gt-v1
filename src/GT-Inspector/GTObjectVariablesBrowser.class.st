@@ -64,7 +64,7 @@ GTObjectVariablesBrowser >> printStringOf: anObject [
 
 { #category : #'private building' }
 GTObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
-	^ (aString isEmpty not and: [ aString trimLeft first = $" ])
+	^ (aString trimLeft isEmpty not and: [ aString trimLeft first = $" ])
 		ifFalse: [ aString trimBoth ]
 		ifTrue: [|startIndex|
 			startIndex := aString findAnySubStr: '"' startingAt: (aString indexOf: $") + 1.
