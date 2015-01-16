@@ -2,7 +2,7 @@ Extension { #name : #Context }
 
 { #category : #'*GT-BytecodeDebugger' }
 Context >> gtBytecodeDebuggerRetrieveContextValues [
-	|fieldList displayedTemp context|
+	|fieldList displayedTemp context slotsSize|
 
 	fieldList := OrderedCollection new.
 	context := self.
@@ -21,11 +21,11 @@ Context >> gtBytecodeDebuggerRetrieveContextValues [
 	(context tempNames copy asOrderedCollection removeAll: displayedTemp; yourself) ifNotEmptyDo: [ :uninitializedTemps |
 		uninitializedTemps do: [ :each |
 			fieldList add: ('- [', each, ']') -> nil ] ].
-	
+	slotsSize := context receiver class allSlots size.
 	fieldList 
-		addAll: ((context receiver class allInstVarNames size to: 1 by: -1) collect: [:index ||name| 
-			name := context receiver class instVarNameForIndex: index.
-			('rcv', (index-1) asString, ' [', name , ']') -> (context receiver instVarNamed: name) ]).
+		addAll: ((context receiver class allSlots reverse) collect: [:slot ||name| 
+			name := slot name.
+			('rcv', (slotsSize := slotsSize - 1) asString, ' [', name , ']') -> (slot read: context receiver) ]).
 	
 	^ fieldList
 ]
