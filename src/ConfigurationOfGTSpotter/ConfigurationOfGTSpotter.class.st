@@ -175,7 +175,7 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'pharo4.x' version: '1.0.6'.
+	spec for: #'pharo4.x' version: '1.0.7'.
 	spec for: #'pharo3.x' version: '1.0.4'.
 
 ]
@@ -291,5 +291,20 @@ ConfigurationOfGTSpotter >> version106: spec [
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.77';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.34'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version107: spec [
+	<version: '1.0.7' imports: #('1.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '01/16/2015 19:13'.
+		spec project: 'GlamourCore' with: '3.0.10'.
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.86';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.37' ].
 
 ]
