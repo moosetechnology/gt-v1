@@ -21,11 +21,21 @@ Class {
 }
 
 { #category : #example }
+GTSpotter class >> exampleInWindow [
+	
+	^ GTSpotterMorph new
+		extent: 400@500;
+		doLayout;
+		spotterModel: self new;
+		openInWindow
+]
+
+{ #category : #example }
 GTSpotter class >> exampleMC [
 	"self exampleMC"
 	
 	^ GTSpotterMorph new
-		width: 400;
+		extent: 400@500;
 		doLayout;
 		spotterModel: (self on: MCWorkingCopy allManagers);
 		openCenteredInWorld
@@ -35,7 +45,7 @@ GTSpotter class >> exampleMC [
 GTSpotter class >> exampleWorldMenu [
 	
 	^ GTSpotterMorph new
-		width: 400;
+		extent: 400@500;
 		doLayout;
 		spotterModel: (self on: World worldMenu);
 		openCenteredInWorld

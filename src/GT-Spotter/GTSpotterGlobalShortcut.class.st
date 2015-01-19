@@ -21,10 +21,23 @@ GTSpotterGlobalShortcut class >> openGlobalSpotter [
 		ifNotNil: [ globalSpotter delete ].
 		
 	globalSpotter := GTSpotterMorph new
-		width: 630;
-		doLayout;
+		extent: 630@500;
 		spotterModel: GTSpotter new;
 		openCenteredInWorld.
+		
+	^ globalSpotter
+]
+
+{ #category : #accessing }
+GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
+	<example>
+	globalSpotter 
+		ifNotNil: [ globalSpotter delete ].
+		
+	globalSpotter := GTSpotterMorph new
+		extent: 830@630;
+		spotterModel: GTSpotter new;
+		openInWindowLabeled: 'Spotter Debug Mode'.
 		
 	^ globalSpotter
 ]
@@ -36,6 +49,15 @@ GTSpotterGlobalShortcut >> keymapToggle [
 	^ KMKeymap
 			shortcut: Character cr shift
 			action: [ self class openGlobalSpotter ]
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterGlobalShortcut >> keymapToggleDebug [
+	"KMRepository reset"
+	"<shortcut>"
+	^ KMKeymap
+			shortcut: Character cr command
+			action: [ self class openGlobalSpotterDebug ]
 ]
 
 { #category : #'as yet unclassified' }

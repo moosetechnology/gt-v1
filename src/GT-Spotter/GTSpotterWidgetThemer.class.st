@@ -140,8 +140,7 @@ GTSpotterWidgetThemer >> dropDownPaneStyleFor: aBrick [
 
 	aBrick
 		layoutProperties: GLMBrickLayoutProperties new;
-		color: self backgroundColor;
-		height: 400.
+		color: self backgroundColor.
 
 	aBrick layoutProperties
 		vSpaceFill;
@@ -158,8 +157,10 @@ GTSpotterWidgetThemer >> headerHeight [
 GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 
 	aBrick
-		height: [ self headerHeight ];
-		color: self backgroundColor
+		color: self backgroundColor.
+		
+	aBrick layout
+		staticHeight: [ self headerHeight ]
 ]
 
 { #category : #icons }
@@ -396,13 +397,15 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
-
+	
 	aBrick
+		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
 		borderColor: self borderColor;
 		borderWidth: self outerBorderWidth;
 		color: self borderColor.
 	
 	aBrick layoutProperties
+		vSpaceFill;
 		padding: self outerBorderWidth
 	
 ]
@@ -416,7 +419,8 @@ GTSpotterWidgetThemer >> spotterGhostText [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterStyleFor: aBrick [
 
-	aBrick brickRoot: GLMBandBrick new.
+	"aBrick brickRoot: GLMBandBrick new."
+	aBrick brickRoot layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new
 ]
 
 { #category : #styles }
