@@ -120,11 +120,11 @@ ConfigurationOfGTChatter >> baseline01: spec [
 				spec
 					className: #ConfigurationOfRemoteAnnouncement;
 					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/JurajKubelka/Configuration/main/' ];
+					repository: 'http://smalltalkhub.com/mc/PharoExtras/RemoteAnnouncement/main/' ];
 			project: 'GlamourCore' with: [
 				spec
 					className: #ConfigurationOfGlamourCore;
-					versionString: #'bleedingEdge';
+					versionString: #'development';
 					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
 		spec package: #'GT-Chatter' with: [
 				spec requires: #('RemoteAnnouncement' 'GlamourCore' ). ]. ].
