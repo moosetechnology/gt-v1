@@ -35,6 +35,7 @@ GTChatterExamples class >> exampleChatterUI [
 	<example>
 	| chatter |
 	chatter := GTChatter new.
+	chatter setLocalProxy.
 	chatter conversations: self conversationsModel.
 	^ chatter open
 ]

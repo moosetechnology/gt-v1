@@ -27,6 +27,11 @@ GTChatter class >> open [
 	^ self uniqueInstance open
 ]
 
+{ #category : #ui }
+GTChatter class >> openNamed: aClientId [ 
+	^ self new clientId: aClientId; open
+]
+
 { #category : #accessing }
 GTChatter class >> reset [
 	uniqueInstance ifNotNil: [ :aChatter |
@@ -130,8 +135,10 @@ GTChatter >> open [
 { #category : #accessing }
 GTChatter >> proxy [
 	^ proxy ifNil: [ 
-			proxy := RAProxy new connectIfNotConnected; yourself.
+			proxy := RAProxy new.
 			self subscribeForAnnoucements.
+			proxy url: GTCSettings url.
+			proxy connectIfNotConnected.
 			proxy ]
 ]
 

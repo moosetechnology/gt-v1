@@ -8,7 +8,8 @@ Class {
 		'client1',
 		'client2',
 		'client3',
-		'ui1'
+		'ui1',
+		'proxy'
 	],
 	#category : #'GT-Chatter-Tests'
 }
@@ -25,9 +26,10 @@ GTChatterUITest >> basicChat [
 { #category : #running }
 GTChatterUITest >> setUp [
 	super setUp.
-	client1 := GTChatter new clientId: 'client1'; start.
-	client2 := GTChatter new clientId: 'client2'; proxy: client1 proxy; start.
-	client3 := GTChatter new clientId: 'client3'; proxy: client1 proxy; start.
+	proxy := Announcer new.
+	client1 := GTChatter new clientId: 'client1'; proxy: proxy; start.
+	client2 := GTChatter new clientId: 'client2'; proxy: proxy; start.
+	client3 := GTChatter new clientId: 'client3'; proxy: proxy; start.
 
 ]
 
