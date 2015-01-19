@@ -12,8 +12,7 @@ RTFindInAView >> initializeElement: aView [
 	mb view: aView.
 	mb menu: 'Find' callback: [ 
         GTSpotterMorph new
-                        width: 400;
-                        doLayout;
+                        extent: 400@500;
                         spotterModel: (GTSpotter on: aView);
                         openCenteredInWorld ].
 	mb build
