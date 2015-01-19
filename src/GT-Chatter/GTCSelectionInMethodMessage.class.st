@@ -1,11 +1,11 @@
 Class {
 	#name : #GTCSelectionInMethodMessage,
-	#superclass : #GTCAbstractMessage,
+	#superclass : #GTCAddressedMessage,
 	#instVars : [
 		'ring',
 		'selection'
 	],
-	#category : #'GT-Chatter-Model'
+	#category : #'GT-Chatter-RemoteAnnouncements'
 }
 
 { #category : #converting }

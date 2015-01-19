@@ -1,10 +1,10 @@
 Class {
 	#name : #GTConversationAnnouncement,
-	#superclass : #GTAnnouncement,
+	#superclass : #GTInternalAnnouncement,
 	#instVars : [
 		'conversation'
 	],
-	#category : #'GT-Chatter-Announcements'
+	#category : #'GT-Chatter-InternalAnnouncements'
 }
 
 { #category : #accessing }

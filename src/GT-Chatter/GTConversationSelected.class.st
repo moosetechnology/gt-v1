@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'conversation'
 	],
-	#category : #'GT-Chatter-Announcements'
+	#category : #'GT-Chatter-InternalAnnouncements'
 }
 
 { #category : #accessing }

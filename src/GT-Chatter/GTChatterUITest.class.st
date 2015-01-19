@@ -16,11 +16,11 @@ Class {
 
 { #category : #support }
 GTChatterUITest >> basicChat [
-	client1 send: 'Hello Client2!' to: 'client2'.
-	client2 send: 'Hello Client1!' to: 'client1'.
-	client1 send: 'How are you?' to: 'client2'.
-	client2 send: 'I am fine. Thanks' to: 'client1'.
-	client1 send: 'Hello Client3!' to: 'client3'.
+	client1 sendText: 'Hello Client2!' to: 'client2'.
+	client2 sendText: 'Hello Client1!' to: 'client1'.
+	client1 sendText: 'How are you?' to: 'client2'.
+	client2 sendText: 'I am fine. Thanks' to: 'client1'.
+	client1 sendText: 'Hello Client3!' to: 'client3'.
 ]
 
 { #category : #running }

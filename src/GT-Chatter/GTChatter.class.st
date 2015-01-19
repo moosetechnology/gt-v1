@@ -40,8 +40,8 @@ GTChatter class >> reset [
 ]
 
 { #category : #protocol }
-GTChatter class >> send: aMessage to: aClientId [
-	^ self uniqueInstance send: aMessage to: aClientId
+GTChatter class >> sendText: aMessage to: aClientId [
+	^ self uniqueInstance sendText: aMessage to: aClientId
 ]
 
 { #category : #accessing }
@@ -136,7 +136,7 @@ GTChatter >> open [
 GTChatter >> proxy [
 	^ proxy ifNil: [ 
 			proxy := RAProxy new.
-			self subscribeForAnnoucements.
+			self subscribeForRemoteAnnoucements.
 			proxy url: GTCSettings url.
 			proxy connectIfNotConnected.
 			proxy ]
@@ -146,9 +146,9 @@ GTChatter >> proxy [
 GTChatter >> proxy: anObject [
 	| shouldSubscribe |
 	shouldSubscribe := proxy notNil.
-	proxy ifNotNil: [ :aProxy | self unsubscribeFromAnnoucements ].
+	proxy ifNotNil: [ :aProxy | self unsubscribeFromRemoteAnnoucements ].
 	proxy := anObject.
-	shouldSubscribe ifTrue: [ self subscribeForAnnoucements ].
+	shouldSubscribe ifTrue: [ self subscribeForRemoteAnnoucements ].
 ]
 
 { #category : #protocol }
@@ -171,23 +171,27 @@ GTChatter >> selectRecipient [
 ]
 
 { #category : #protocol }
-GTChatter >> send: aMessage [ 
-	| aRecipient |
-	aRecipient := self selectRecipient.
-	aRecipient ifNotNil: [ 
-		self send: aMessage to: aRecipient ]
+GTChatter >> send: anAnnouncement [
+	| message |
+	anAnnouncement updateFromChatter: self.
+	message := self sent: anAnnouncement.
+	self proxy announce: anAnnouncement.
 ]
 
 { #category : #protocol }
-GTChatter >> send: aMessage to: aClientId [
-	| message |
-	message := self sent: aMessage to: aClientId.
-	self proxy announce: (GTPrivateMessage new 
+GTChatter >> sendText: aTextOrString to: aClientId [
+	| anAnnouncement |
+	anAnnouncement := GTCTextMessage new 
 										from: self clientId; 
 										to: aClientId; 
-										message: aMessage;
-										yourself).
-	^ message
+										message: aTextOrString;
+										yourself.
+	self send: anAnnouncement.
+]
+
+{ #category : #private }
+GTChatter >> sent: aRemoteAnnouncement [ 
+	^ self conversations sent: aRemoteAnnouncement asSentMessage
 ]
 
 { #category : #private }
@@ -205,7 +209,7 @@ GTChatter >> setLocalProxy [
 
 { #category : #protocol }
 GTChatter >> start [
-	self subscribeForAnnoucements.
+	self subscribeForRemoteAnnoucements.
 	self notifyAsOnline.
 	self onlineUsersUpdater start.
 ]
@@ -213,16 +217,26 @@ GTChatter >> start [
 { #category : #protocol }
 GTChatter >> stop [
 	self onlineUsersUpdater stop.
-	self unsubscribeFromAnnoucements.
+	self unsubscribeFromRemoteAnnoucements.
 	
 ]
 
 { #category : #private }
-GTChatter >> subscribeForAnnoucements [
+GTChatter >> subscribeForLocalAnnouncements [
+	self announcer 
+		when: GTSendTextMessage 
+			do: [ :announcement | 
+				self sendText: announcement message to: announcement clientId.
+				announcement messageSent ]
+			for: self.
+]
+
+{ #category : #private }
+GTChatter >> subscribeForRemoteAnnoucements [
 	self subscribed ifTrue: [ ^ self ].
 	subscribed := true.
 	self proxy 
-		when: GTPrivateMessage 
+		when: GTCAddressedMessage 
 			do: [ :announcement | 
 				(announcement isFor: self clientId) 
 					ifTrue: [ self receive: announcement ] ]
@@ -237,30 +251,20 @@ GTChatter >> subscribeForAnnoucements [
 			for: self.
 ]
 
-{ #category : #private }
-GTChatter >> subscribeForLocalAnnouncements [
-	self announcer 
-		when: GTSendMessage 
-			do: [ :announcement | 
-				self send: announcement message to: announcement clientId.
-				announcement messageSent ]
-			for: self.
-]
-
 { #category : #accessing }
 GTChatter >> subscribed [
 	^ subscribed ifNil: [ subscribed := false ]
 ]
 
 { #category : #private }
-GTChatter >> unsubscribeFromAnnoucements [
-	self proxy unsubscribe: self.
-	subscribed := false.
+GTChatter >> unsubscribeFromLocalAnnoucementsOn: anAnnouncerOrNil [
+	anAnnouncerOrNil ifNotNil: [ anAnnouncerOrNil unsubscribe: self ]
 ]
 
 { #category : #private }
-GTChatter >> unsubscribeFromLocalAnnoucementsOn: anAnnouncerOrNil [
-	anAnnouncerOrNil ifNotNil: [ anAnnouncerOrNil unsubscribe: self ]
+GTChatter >> unsubscribeFromRemoteAnnoucements [
+	self proxy unsubscribe: self.
+	subscribed := false.
 ]
 
 { #category : #protocol }

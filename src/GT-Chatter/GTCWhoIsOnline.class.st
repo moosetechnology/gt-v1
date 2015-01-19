@@ -1,5 +1,5 @@
 Class {
 	#name : #GTCWhoIsOnline,
-	#superclass : #GTRemoteAnnouncement,
-	#category : #'GT-Chatter-Announcements'
+	#superclass : #GTCRemoteAnnouncement,
+	#category : #'GT-Chatter-RemoteAnnouncements'
 }

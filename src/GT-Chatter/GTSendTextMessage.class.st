@@ -1,29 +1,29 @@
 Class {
-	#name : #GTSendMessage,
+	#name : #GTSendTextMessage,
 	#superclass : #GTUIAnnouncement,
 	#instVars : [
 		'conversation'
 	],
-	#category : #'GT-Chatter-Announcements'
+	#category : #'GT-Chatter-InternalAnnouncements'
 }
 
 { #category : #accessing }
-GTSendMessage >> clientId [
+GTSendTextMessage >> clientId [
 	^ conversation recipient
 ]
 
 { #category : #accessing }
-GTSendMessage >> conversation: aGTConversation [ 
+GTSendTextMessage >> conversation: aGTConversation [ 
 	conversation := aGTConversation
 ]
 
 { #category : #accessing }
-GTSendMessage >> message [
+GTSendTextMessage >> message [
 	^ self widget text copy
 ]
 
 { #category : #protocol }
-GTSendMessage >> messageSent [
+GTSendTextMessage >> messageSent [
 	"Clean input field."
 	"self widget text: ''"
 ]

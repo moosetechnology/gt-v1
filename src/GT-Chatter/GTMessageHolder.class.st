@@ -27,6 +27,11 @@ GTMessageHolder >> asString [
 	^ self message asString
 ]
 
+{ #category : #'as yet unclassified' }
+GTMessageHolder >> from [
+	^ self message from
+]
+
 { #category : #accessing }
 GTMessageHolder >> message [
 	
@@ -46,14 +51,12 @@ GTMessageHolder >> printOn: aStream [
 
 { #category : #accessing }
 GTMessageHolder >> timestamp [
-	
-	^ timestamp
+	^ self message timestamp
 ]
 
-{ #category : #accessing }
-GTMessageHolder >> timestamp: anObject [
-	
-	timestamp := anObject
+{ #category : #'as yet unclassified' }
+GTMessageHolder >> to [
+	^ self message to
 ]
 
 { #category : #ui }

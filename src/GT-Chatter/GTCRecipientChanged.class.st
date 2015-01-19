@@ -1,5 +1,5 @@
 Class {
 	#name : #GTCRecipientChanged,
 	#superclass : #GTConversationAnnouncement,
-	#category : #'GT-Chatter-Announcements'
+	#category : #'GT-Chatter-InternalAnnouncements'
 }

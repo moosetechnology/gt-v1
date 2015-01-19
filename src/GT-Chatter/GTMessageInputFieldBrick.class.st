@@ -11,7 +11,7 @@ Class {
 GTMessageInputFieldBrick >> acceptedText: aRubTextAccepted [ 
 	aRubTextAccepted text asString trimBoth isEmpty ifTrue: [ ^ self ].
 	self announcer 
-				announce: (GTSendMessage new 
+				announce: (GTSendTextMessage new 
 								widget: aRubTextAccepted morph;
 								conversation: self conversation;
 								yourself).

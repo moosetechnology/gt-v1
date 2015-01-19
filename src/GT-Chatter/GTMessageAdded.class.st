@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'message'
 	],
-	#category : #'GT-Chatter-Announcements'
+	#category : #'GT-Chatter-InternalAnnouncements'
 }
 
 { #category : #accessing }

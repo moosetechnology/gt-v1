@@ -125,6 +125,15 @@ GTConversations >> second [
 ]
 
 { #category : #protocol }
+GTConversations >> sent: aGTSentMessage [ 
+	^ monitor critical: [ 
+		items 
+			detect: [ :aConversation | aConversation isWith: aGTSentMessage to ] 
+			ifFound: [ :aConversation | self addMessage: aGTSentMessage to: aConversation ]
+			ifNone: [ self newConversationWithRecipient: aGTSentMessage to message: aGTSentMessage ] ]
+]
+
+{ #category : #protocol }
 GTConversations >> sent: aGTSentMessage to: aClientId [ 
 	^ monitor critical: [ 
 		items 

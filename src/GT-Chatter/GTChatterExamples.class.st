@@ -120,13 +120,14 @@ GTChatterExamples class >> exampleSentMessageRowBrick [
 
 { #category : #accessing }
 GTChatterExamples class >> receivedMessageModel [
-	^ GTReceivedMessage new
+	^ (GTCTextMessage new
 			message: (String loremIpsum: 100);
-			timestamp: DateAndTime now;
-			yourself
+			yourself) asReceivedMessage
 ]
 
 { #category : #accessing }
 GTChatterExamples class >> sentMessageModel [
-	^ (String loremIpsum: 100) asSentMessage.
+	^ (GTCTextMessage new
+		message: (String loremIpsum: 100);
+		yourself) asSentMessage.
 ]

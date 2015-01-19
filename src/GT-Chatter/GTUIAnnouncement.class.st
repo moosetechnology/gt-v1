@@ -1,10 +1,10 @@
 Class {
 	#name : #GTUIAnnouncement,
-	#superclass : #GTAnnouncement,
+	#superclass : #GTInternalAnnouncement,
 	#instVars : [
 		'widget'
 	],
-	#category : #'GT-Chatter-Announcements'
+	#category : #'GT-Chatter-InternalAnnouncements'
 }
 
 { #category : #accessing }

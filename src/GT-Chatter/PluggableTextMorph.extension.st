@@ -2,5 +2,5 @@ Extension { #name : #PluggableTextMorph }
 
 { #category : #'*GT-Chatter' }
 PluggableTextMorph >> chatAboutIt [
-	self model chatAboutSelection: self getSelection
+	self model chatAboutSelection: self selectionInterval
 ]
