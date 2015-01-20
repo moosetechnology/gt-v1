@@ -23,7 +23,7 @@ GTBytecodeDebugger class >> register [
 GTBytecodeDebugger class >> registerToolsOn: registry [
 
 	"Add ourselves to registry. See [Smalltalk tools]" 
-	registry registerDebugger: self withRank: 10.
+	registry registerDebugger: self withRank: 5.
 ]
 
 { #category : #accessing }
