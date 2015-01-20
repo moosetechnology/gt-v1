@@ -376,13 +376,15 @@ GTGenericStackDebugger >> installCodeActionsFor: aPresentation [
 { #category : #'building actions' }
 GTGenericStackDebugger >> installDebuggingActionsFor: aPresentation [
 
-	self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation
+	"self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation"
 ]
 
 { #category : #'building actions' }
 GTGenericStackDebugger >> installStackDebuggingActionsFor: aPresentation [
 
-	self installActionsForRootPragmas: self stackDebuggingActionsPragmas in: aPresentation
+	self 
+		installActionsForRootPragmas: self stackDebuggingActionsPragmas 
+		in: aPresentation
 ]
 
 { #category : #'building presentations' }
@@ -505,13 +507,14 @@ GTGenericStackDebugger >> sourceCode: aString [
 { #category : #'building actions' }
 GTGenericStackDebugger >> stackDebuggingActionsPragmas [
 
-	^ #( stackDebuggingAction )
+	^ #( stackDebuggingAction ) , self debuggingActionsPragmas
+
 ]
 
 { #category : #'building presentations' }
 GTGenericStackDebugger >> stackIn: composite [
 
-	(self stackWidgetIn: composite)
+	^ (self stackWidgetIn: composite)
 		with: [ :stackWidget | self installStackDebuggingActionsFor: stackWidget ]
 ]
 
