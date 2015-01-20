@@ -11,19 +11,19 @@ GTProfileSelectionDebugAction class >> gtActionFor: aDebugger [
 	^ (self forDebugger: aDebugger)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTProfileSelectionDebugAction >> defaultLabel [
 
 	^ 'Profile it'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTProfileSelectionDebugAction >> defaultOrder [
 
 	^ 30
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTProfileSelectionDebugAction >> executeAction [
 	
 	self debugger codePresentation profileSelection
@@ -31,13 +31,13 @@ GTProfileSelectionDebugAction >> executeAction [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTProfileSelectionDebugAction >> id [
 
 	^ #gTProfileSelectionDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTProfileSelectionDebugAction >> initialize [
 
 	self needsUpdate: false

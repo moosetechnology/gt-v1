@@ -12,25 +12,25 @@ GTPrintSelectionDebugAction class >> gtActionFor: aDebugger [
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPrintSelectionDebugAction >> defaultKeyText [
 
 	^ 'p'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPrintSelectionDebugAction >> defaultLabel [
 
 	^ 'Print it'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPrintSelectionDebugAction >> defaultOrder [
 
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTPrintSelectionDebugAction >> executeAction [
 	
 	self debugger codePresentation printSelection
@@ -38,13 +38,13 @@ GTPrintSelectionDebugAction >> executeAction [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPrintSelectionDebugAction >> id [
 
 	^ #gTPrintSelectionDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTPrintSelectionDebugAction >> initialize [
 
 	self needsUpdate: false

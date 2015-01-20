@@ -12,25 +12,25 @@ GTExecuteSelectionDebugAction class >> gtActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousSpawn
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTExecuteSelectionDebugAction >> defaultKeyText [
 
 	^ 'd'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTExecuteSelectionDebugAction >> defaultLabel [
 
 	^ 'Do it'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTExecuteSelectionDebugAction >> defaultOrder [
 
 	^ 15
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTExecuteSelectionDebugAction >> executeAction [
 	
 	self debugger codePresentation evaluateSelection
@@ -38,13 +38,13 @@ GTExecuteSelectionDebugAction >> executeAction [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTExecuteSelectionDebugAction >> id [
 
 	^ #gTExecuteSelectionDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTExecuteSelectionDebugAction >> initialize [
 
 	self needsUpdate: false

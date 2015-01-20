@@ -12,32 +12,32 @@ GTClearEditorDebugAction class >> gtActionFor: aDebugger [
 		icon: GLMUIThemeExtraIcons glamorousCancel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTClearEditorDebugAction >> defaultIcon [
 
 	^ nil
 	"^ Smalltalk ui icons smallCancelIcon"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTClearEditorDebugAction >> defaultKeyText [
 
 	^ 'l'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTClearEditorDebugAction >> defaultLabel [
 
 	^ 'Cancel'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTClearEditorDebugAction >> defaultOrder [
 
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTClearEditorDebugAction >> executeAction [
 
 	(self confirm:
@@ -45,13 +45,13 @@ GTClearEditorDebugAction >> executeAction [
 Is it OK to cancel changes?' translated) ifTrue: [ self debugger updateBrowser]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTClearEditorDebugAction >> id [
 
 	^ #gtClearEditorDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTClearEditorDebugAction >> initialize [
 
 	self needsUpdate: false

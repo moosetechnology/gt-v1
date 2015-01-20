@@ -12,25 +12,25 @@ GTInspectSelectionDebugAction class >> gtActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousInspect
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTInspectSelectionDebugAction >> defaultKeyText [
 
 	^ 'i'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTInspectSelectionDebugAction >> defaultLabel [
 
 	^ 'Inspect it'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTInspectSelectionDebugAction >> defaultOrder [
 
 	^ 15
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTInspectSelectionDebugAction >> executeAction [
 	
 	self debugger codePresentation evaluateSelectionAndDo: [ :result | result inspect ]
@@ -38,13 +38,13 @@ GTInspectSelectionDebugAction >> executeAction [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTInspectSelectionDebugAction >> id [
 
 	^ #gTInspectSelectionDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTInspectSelectionDebugAction >> initialize [
 
 	self needsUpdate: false

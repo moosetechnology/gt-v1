@@ -11,25 +11,25 @@ GTSelectionGoDebugAction class >> gtActionFor: aDebugger [
 	^ (self forDebugger: aDebugger)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSelectionGoDebugAction >> defaultKeyText [
 
 	^ 'g'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSelectionGoDebugAction >> defaultLabel [
 
 	^ 'Do it and go'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSelectionGoDebugAction >> defaultOrder [
 
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTSelectionGoDebugAction >> executeAction [
 	
 	self debugger codePresentation evaluateSelectionAndDo: [ :result | self debugger inspect: result ] 
@@ -37,13 +37,13 @@ GTSelectionGoDebugAction >> executeAction [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSelectionGoDebugAction >> id [
 
 	^ #gTOpenSelectionDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTSelectionGoDebugAction >> initialize [
 
 	self needsUpdate: false

@@ -11,26 +11,26 @@ GTDebugSelectionDebugAction class >> gtActionFor: aDebugger [
 	^ (self forDebugger: aDebugger)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebugSelectionDebugAction >> defaultKeyText [
 
 	^ nil
 	"^ 'D'"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebugSelectionDebugAction >> defaultLabel [
 
 	^ 'Debug it'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebugSelectionDebugAction >> defaultOrder [
 
 	^ 20
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTDebugSelectionDebugAction >> executeAction [
 	
 	self debugger codePresentation debugSelection
@@ -38,13 +38,13 @@ GTDebugSelectionDebugAction >> executeAction [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebugSelectionDebugAction >> id [
 
 	^ #gTDebugSelectionDebugAction
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTDebugSelectionDebugAction >> initialize [
 
 	self needsUpdate: false

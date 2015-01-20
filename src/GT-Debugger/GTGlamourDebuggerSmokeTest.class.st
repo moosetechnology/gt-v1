@@ -4,13 +4,13 @@ Class {
 	#category : #'GT-Debugger-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGlamourDebuggerSmokeTest >> debuggerToTest [
 
 	^ GTGlamourDebugger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTGlamourDebuggerSmokeTest >> instantiateSession [
 	| initialContext process |
 	initialContext := [GLMBasicExamples open] asContext.
@@ -22,7 +22,7 @@ GTGlamourDebuggerSmokeTest >> instantiateSession [
 	^ self debuggerToTest spanNewSessionForContext: process suspendedContext fromProcess: process
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GTGlamourDebuggerSmokeTest >> stepToGlamourModelConstructionInProcess: aProcess [
 
 	aProcess
