@@ -15,7 +15,7 @@ Class {
 	#category : #'GT-Playground'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #settings }
 GTUrlProvider class >> settingsOn: aBuilder [ 
 	<systemsettings>
 	
@@ -27,12 +27,12 @@ GTUrlProvider class >> settingsOn: aBuilder [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTUrlProvider class >> stringUrlProvider [
 	^ self urlProvider asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTUrlProvider class >> stringUrlProvider: aString [
 	self urlProvider: aString
 ]
