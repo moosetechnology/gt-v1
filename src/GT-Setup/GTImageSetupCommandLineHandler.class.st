@@ -10,12 +10,12 @@ Class {
 	#category : #'GT-Setup'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTImageSetupCommandLineHandler class >> commandName [
 	^ 'gtimagesetup'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTImageSetupCommandLineHandler class >> description [
 	^ 'Sets up the image with GToolkit specific tools and settings'
 ]
