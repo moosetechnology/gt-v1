@@ -6,7 +6,7 @@ Class {
 
 { #category : #'actions creation' }
 GTBrowseDebugAction class >> gtDebugActionsFor: aDebugger [
-	<gtContextDebuggingAction>
+	<gtContextStackDebuggingAction>
 	
 	^ super debugActionsFor: aDebugger
 ]
