@@ -2,7 +2,7 @@ Extension { #name : #RestartDebugAction }
 
 { #category : #'*GT-Debugger' }
 RestartDebugAction class >> gtActionFor: aDebugger [
-	<gtDebuggingAction>
+	<gtStackDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousRestart

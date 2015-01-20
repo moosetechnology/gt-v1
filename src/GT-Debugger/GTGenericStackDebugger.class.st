@@ -376,13 +376,13 @@ GTGenericStackDebugger >> installCodeActionsFor: aPresentation [
 { #category : #'building actions' }
 GTGenericStackDebugger >> installDebuggingActionsFor: aPresentation [
 
-	"self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation"
+	self installActionsForRootPragmas: self debuggingActionsPragmas in: aPresentation
 ]
 
 { #category : #'building actions' }
 GTGenericStackDebugger >> installStackDebuggingActionsFor: aPresentation [
 
-	self installActionsForRootPragmas: (self stackDebuggingActionsPragmas, self debuggingActionsPragmas) in: aPresentation
+	self installActionsForRootPragmas: self stackDebuggingActionsPragmas in: aPresentation
 ]
 
 { #category : #'building presentations' }

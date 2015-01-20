@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Debugger'
 }
 
-{ #category : #settings }
+{ #category : #'as yet unclassified' }
 GTDebuggerSystemSettings class >> debugSettingsOn: aBuilder [
 	<systemsettings>
 	
