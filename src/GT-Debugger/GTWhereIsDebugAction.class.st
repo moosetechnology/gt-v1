@@ -12,6 +12,12 @@ GTWhereIsDebugAction class >> gtActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousSearch
 ]
 
+{ #category : #accessing }
+GTWhereIsDebugAction >> defaultOrder [
+
+	^ 210
+]
+
 { #category : #actions }
 GTWhereIsDebugAction >> executeAction [
 

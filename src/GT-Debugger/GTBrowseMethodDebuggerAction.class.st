@@ -21,7 +21,7 @@ GTBrowseMethodDebuggerAction >> defaultLabel [
 { #category : #accessing }
 GTBrowseMethodDebuggerAction >> defaultOrder [
 
-	^ 200
+	^ 220
 ]
 
 { #category : #actions }
