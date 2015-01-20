@@ -5,7 +5,7 @@ GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReference
 	| prefixMatchers split rootDirectory query fullQuery rest |
 	fullQuery := originalQuery trimBoth asLowercase.
 	split := fullQuery piecesCutWhere: [ :a :b | a = FileSystem disk delimiter ].
-	split size <= 1
+	split size < 1
 		ifTrue: [ 
 			query := fullQuery.
 			rootDirectory := FileSystem workingDirectory ]
