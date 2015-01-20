@@ -6,7 +6,7 @@ Class {
 
 { #category : #registration }
 GTPPStepToGlamourDebugger class >> gtActionType [
-	<gtStackDebuggingAction>
+	<gtDebuggingAction>
 ]
 
 { #category : #testing }
