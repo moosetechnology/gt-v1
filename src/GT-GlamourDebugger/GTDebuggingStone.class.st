@@ -8,7 +8,7 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 GTDebuggingStone class >> forPragma: aPragma forSession: aSession [
 
 	^ self new forPragma: aPragma forSession: aSession

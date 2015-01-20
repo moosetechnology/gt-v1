@@ -7,13 +7,13 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTGlamourStepToNextStoneAction class >> debuggingStonePragma [
 
 	^ #debuggingStone:label:
 ]
 
-{ #category : #registration }
+{ #category : #'as yet unclassified' }
 GTGlamourStepToNextStoneAction class >> gtActionFor: aDebugger [
 	<gtGlamourDebuggingAction>
 	<gtContextGlamourDebuggingAction>
@@ -25,7 +25,7 @@ GTGlamourStepToNextStoneAction class >> gtActionFor: aDebugger [
 	
 ]
 
-{ #category : #registration }
+{ #category : #'as yet unclassified' }
 GTGlamourStepToNextStoneAction class >> gtGoToDebugingStoneActionsFor: aDebugger [
 	<gtGlamourDebuggingAction>
 	<gtContextGlamourDebuggingAction>
