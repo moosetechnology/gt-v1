@@ -1,6 +1,6 @@
 Class {
 	#name : #GTDebugSelectionDebugAction,
-	#superclass : #DebugAction,
+	#superclass : #GTCodeDebugAction,
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -33,7 +33,7 @@ GTDebugSelectionDebugAction >> defaultOrder [
 { #category : #actions }
 GTDebugSelectionDebugAction >> executeAction [
 	
-	self debugger codePresentation debugSelection
+	self codePresentation debugSelection
 		
 
 ]
@@ -46,6 +46,6 @@ GTDebugSelectionDebugAction >> id [
 
 { #category : #initialization }
 GTDebugSelectionDebugAction >> initialize [
-
+	super initialize.
 	self needsUpdate: false
 ]

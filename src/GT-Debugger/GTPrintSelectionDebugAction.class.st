@@ -1,6 +1,6 @@
 Class {
 	#name : #GTPrintSelectionDebugAction,
-	#superclass : #DebugAction,
+	#superclass : #GTCodeDebugAction,
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -33,7 +33,7 @@ GTPrintSelectionDebugAction >> defaultOrder [
 { #category : #actions }
 GTPrintSelectionDebugAction >> executeAction [
 	
-	self debugger codePresentation printSelection
+	self codePresentation printSelection
 		
 
 ]
@@ -46,6 +46,6 @@ GTPrintSelectionDebugAction >> id [
 
 { #category : #initialization }
 GTPrintSelectionDebugAction >> initialize [
-
+	super initialize.
 	self needsUpdate: false
 ]

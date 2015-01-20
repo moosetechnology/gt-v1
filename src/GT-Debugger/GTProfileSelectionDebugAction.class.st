@@ -1,6 +1,6 @@
 Class {
 	#name : #GTProfileSelectionDebugAction,
-	#superclass : #DebugAction,
+	#superclass : #GTCodeDebugAction,
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -26,7 +26,7 @@ GTProfileSelectionDebugAction >> defaultOrder [
 { #category : #actions }
 GTProfileSelectionDebugAction >> executeAction [
 	
-	self debugger codePresentation profileSelection
+	self codePresentation profileSelection
 		
 
 ]
@@ -39,6 +39,6 @@ GTProfileSelectionDebugAction >> id [
 
 { #category : #initialization }
 GTProfileSelectionDebugAction >> initialize [
-
+	super initialize.
 	self needsUpdate: false
 ]

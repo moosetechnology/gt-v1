@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSaveDebugAction,
-	#superclass : #DebugAction,
+	#superclass : #GTCodeDebugAction,
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -34,7 +34,7 @@ GTSaveDebugAction >> defaultOrder [
 GTSaveDebugAction >> executeAction [
 
 	self needsUpdate: false.
-	self debugger codePresentation 
+	self codePresentation
 		compileTextIn: self currentContext from: self session andDo: [ self needsUpdate: true ]
 
 	"self session 

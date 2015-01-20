@@ -1,6 +1,6 @@
 Class {
 	#name : #GTInspectSelectionDebugAction,
-	#superclass : #DebugAction,
+	#superclass : #GTCodeDebugAction,
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -33,7 +33,7 @@ GTInspectSelectionDebugAction >> defaultOrder [
 { #category : #actions }
 GTInspectSelectionDebugAction >> executeAction [
 	
-	self debugger codePresentation evaluateSelectionAndDo: [ :result | result inspect ]
+	self codePresentation evaluateSelectionAndDo: [ :result | result inspect ]
 		
 
 ]
@@ -46,6 +46,6 @@ GTInspectSelectionDebugAction >> id [
 
 { #category : #initialization }
 GTInspectSelectionDebugAction >> initialize [
-
+	super initialize.
 	self needsUpdate: false
 ]
