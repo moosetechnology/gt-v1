@@ -19,7 +19,7 @@ Class {
 	#category : #'GT-SpotterExtensions-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 PragmaType class >> all [
 	| pragmas |
 	pragmas := OrderedCollection new.
