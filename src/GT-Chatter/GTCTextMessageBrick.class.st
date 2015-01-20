@@ -1,5 +1,5 @@
 Class {
-	#name : #GTMessageBrick,
+	#name : #GTCTextMessageBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
 		'editingAreaBrick'
@@ -8,26 +8,26 @@ Class {
 }
 
 { #category : #visitor }
-GTMessageBrick >> acceptReceivedMessage: aMessage [
+GTCTextMessageBrick >> acceptReceivedMessage: aMessage [
 	self editingAreaBrick 
 				backgroundColor: Color lightGray;
 				textColor: Color black.
 ]
 
 { #category : #visitor }
-GTMessageBrick >> acceptSentMessage: aMessage [
+GTCTextMessageBrick >> acceptSentMessage: aMessage [
 	self editingAreaBrick 
 				backgroundColor: Color green muchDarker;
 				textColor: Color white.
 ]
 
 { #category : #accessing }
-GTMessageBrick >> editingAreaBrick [
+GTCTextMessageBrick >> editingAreaBrick [
 	^ editingAreaBrick
 ]
 
 { #category : #accessing }
-GTMessageBrick >> editingAreaBrick: aBrick [
+GTCTextMessageBrick >> editingAreaBrick: aBrick [
 	editingAreaBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	editingAreaBrick := aBrick.
 	editingAreaBrick 
@@ -39,7 +39,7 @@ GTMessageBrick >> editingAreaBrick: aBrick [
 ]
 
 { #category : #initialization }
-GTMessageBrick >> initialize [
+GTCTextMessageBrick >> initialize [
 	super initialize.
 	
 	"my width is 90% of my parent"
@@ -50,18 +50,17 @@ GTMessageBrick >> initialize [
 ]
 
 { #category : #accessing }
-GTMessageBrick >> message [
+GTCTextMessageBrick >> message [
 	^ self data
 ]
 
 { #category : #accessing }
-GTMessageBrick >> message: aMessage [
-	self data: aMessage.
-	aMessage visit: self.
-	self editingAreaBrick setTextWith: aMessage message asText.
+GTCTextMessageBrick >> message: aTextMessage [
+	self data: aTextMessage.
+	self editingAreaBrick setTextWith: aTextMessage message asText.
 ]
 
 { #category : #'instance creation' }
-GTMessageBrick >> newEditingAreaBrick [
+GTCTextMessageBrick >> newEditingAreaBrick [
 	^ RubEditingArea new
 ]

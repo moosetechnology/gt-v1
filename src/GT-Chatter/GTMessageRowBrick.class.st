@@ -26,22 +26,8 @@ GTMessageRowBrick >> blankBrick [
 	^ blankBrick ifNil: [
 		blankBrick := GLMBrick new.
 		"blank space must fill the rest of my width. It depends on messageBrick's percent width"
-		blankBrick layoutProperties horizontalPercent: (100 - self messageBrick layoutProperties horizontalPercent).
+		blankBrick layoutProperties horizontalPercent: 5.
 		blankBrick ]
-]
-
-{ #category : #examples }
-GTMessageRowBrick >> exampleReceivedMessage [
-	| message brick |
-	message := GTReceivedMessage new
-			message: (String loremIpsum: 100);
-			timestamp: DateAndTime now;
-			yourself.
-	brick := self new.
-	brick message: message.
-	^ GLMFoundationBrick new
-			addBrickBack: brick;
-			openInWindowLabeled: 'Received Message'.
 ]
 
 { #category : #examples }
@@ -53,6 +39,20 @@ GTMessageRowBrick >> exampleSentMessage [
 	^ GLMFoundationBrick new
 			addBrickBack: brick;
 			openInWindowLabeled: 'Sent Message'.
+]
+
+{ #category : #examples }
+GTMessageRowBrick >> exampleTextMessageBrick [
+	| message brick |
+	message := GTReceivedMessage new
+			message: (String loremIpsum: 100);
+			timestamp: DateAndTime now;
+			yourself.
+	brick := self new.
+	brick message: message.
+	^ GLMFoundationBrick new
+			addBrickBack: brick;
+			openInWindowLabeled: 'Received Message'.
 ]
 
 { #category : #initialization }
@@ -77,25 +77,26 @@ GTMessageRowBrick >> message [
 ]
 
 { #category : #accessing }
-GTMessageRowBrick >> message: aMessage [
+GTMessageRowBrick >> message: aSentOrReceivedMessage [
 	"for performance we reuse views in the list, instead of creating a new one.
 	this method updates me and my subviews"
 	
 	"much easier to remove everything and add subviews back instead of changing order manually"
-	self message = aMessage ifTrue: [ ^ self ].
-	self data: aMessage.
+	self message = aSentOrReceivedMessage ifTrue: [ ^ self ].
+	self data: aSentOrReceivedMessage.
 	self removeAllBricks.
-	self messageBrick message: aMessage.
+	messageBrick := aSentOrReceivedMessage message asMessageMorph.
+	aSentOrReceivedMessage visit: messageBrick.
 		
 	"position of blank space depends on message's sender"
-	aMessage visit: self.	
+	aSentOrReceivedMessage visit: self.	
 
 ]
 
 { #category : #accessing }
 GTMessageRowBrick >> messageBrick [
 	^ messageBrick ifNil: [ 
-		messageBrick := GTMessageBrick new.
+		messageBrick := GTCTextMessageBrick new.
 		messageBrick layoutProperties horizontalPercent: 95.
 		messageBrick ]
 ]

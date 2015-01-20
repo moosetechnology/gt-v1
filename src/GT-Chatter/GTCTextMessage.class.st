@@ -15,9 +15,11 @@ GTCTextMessage class >> to: to [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-GTCTextMessage >> asText [
-	^ self message asText
+{ #category : #converting }
+GTCTextMessage >> asMessageMorph [
+	^ GTCTextMessageBrick new
+			message: self;
+			yourself
 ]
 
 { #category : #accessing }

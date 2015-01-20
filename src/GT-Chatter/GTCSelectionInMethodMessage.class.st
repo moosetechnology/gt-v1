@@ -9,11 +9,10 @@ Class {
 }
 
 { #category : #converting }
-GTCSelectionInMethodMessage >> asText [
-	| aText |
-	aText := ring asString asText.
-	aText addAttribute: (GTCTextRingLink new ring: ring; yourself).
-	^ aText
+GTCSelectionInMethodMessage >> asMessageMorph [
+	^ GTCSelectionInMethodMessageBrick new
+			message: self;
+			yourself
 ]
 
 { #category : #accessing }
@@ -24,6 +23,11 @@ GTCSelectionInMethodMessage >> ring [
 { #category : #accessing }
 GTCSelectionInMethodMessage >> ring: anObject [
 	ring := anObject
+]
+
+{ #category : #accessing }
+GTCSelectionInMethodMessage >> ringClass [
+	^ self ring ringClass
 ]
 
 { #category : #accessing }
