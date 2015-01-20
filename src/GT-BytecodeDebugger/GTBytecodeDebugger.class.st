@@ -41,7 +41,7 @@ GTBytecodeDebugger class >> variablesBrowserClass [
 { #category : #'building actions' }
 GTBytecodeDebugger >> bytecodeActionsPragmas [
 
-	^ #( bytecodeDebuggingAction )
+	^ #( bytecodeCodeDebuggingAction )
 ]
 
 { #category : #'building presentations' }
@@ -90,12 +90,6 @@ GTBytecodeDebugger >> debuggerTransmissionsIn: browser [
 
 ]
 
-{ #category : #'building actions' }
-GTBytecodeDebugger >> debuggingActionsPragmas [
-
-	^ #()
-]
-
 { #category : #'printing/formatting' }
 GTBytecodeDebugger >> formatBytecode: aBytecode [
 	| textAttributes|
@@ -129,10 +123,4 @@ GTBytecodeDebugger >> methodCodeIn: composite forContext: aContext [
 
 	(self methodCodeWidgetIn: composite forContext: aContext)
 		with: [ :code | self installCodeActionsFor: code ]
-]
-
-{ #category : #'building actions' }
-GTBytecodeDebugger >> stackDebuggingActionsPragmas [
-
-	^ #( bytecodeStackDebuggingAction )
 ]

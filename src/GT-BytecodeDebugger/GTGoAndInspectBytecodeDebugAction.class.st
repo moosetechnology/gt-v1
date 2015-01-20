@@ -10,7 +10,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GTGoAndInspectBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
-	<gtContextBytecodeDebuggingAction>
+	<gtContextBytecodeCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 ]
