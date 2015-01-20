@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-GlamourDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTGlamourStepToPresentationBuildAction class >> gtActionType [
 	"<gtContextGlamourDebuggingAction>"
 ]
