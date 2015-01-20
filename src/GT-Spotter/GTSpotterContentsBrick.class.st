@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterContentsBrick,
-	#superclass : #GLMBandBrick,
+	#superclass : #GLMBrick,
 	#instVars : [
 		'headerBrick',
 		'dropDownBrick',
@@ -80,7 +80,7 @@ GTSpotterContentsBrick >> showDropDownPane [
 
 	self dropDownBrick: self newDropDownMorph.
 	self dropDownBrick spotterModel: self spotterModel.
-	self brickRoot extent: self extent.
+	self doLayout
 ]
 
 { #category : #accessing }

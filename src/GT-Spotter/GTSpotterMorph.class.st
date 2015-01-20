@@ -5,8 +5,9 @@ Class {
 		'focusedMorph',
 		'breadcrumbBrick',
 		'breadcrumbWrapperBrick',
-		'contentsBrick',
-		'spotterModel'
+		'paneBrick',
+		'spotterModel',
+		'autoHide'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -16,6 +17,18 @@ GTSpotterMorph >> act [
 	self spotterModel isEmpty ifTrue: [ ^self ].
 	self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
 	self spotterModel currentStep act
+]
+
+{ #category : #accessing }
+GTSpotterMorph >> autoHide [
+
+	^ autoHide ifNil: [ autoHide := true ]
+]
+
+{ #category : #accessing }
+GTSpotterMorph >> autoHide: aBoolean [
+
+	autoHide := aBoolean
 ]
 
 { #category : #accessing }
@@ -35,25 +48,9 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
 	
 	breadcrumbWrapperBrick := GLMBandBrick new.
+	breadcrumbWrapperBrick layout staticHeight: [ :b | b height ].
 	breadcrumbWrapperBrick addBrickBack: breadcrumbBrick.
 	self addBrickBack: breadcrumbWrapperBrick
-]
-
-{ #category : #accessing }
-GTSpotterMorph >> contentsBrick [
-
-	^ contentsBrick
-]
-
-{ #category : #accessing }
-GTSpotterMorph >> contentsBrick: aBrick [
-	
-	contentsBrick ifNotNil: [self removeBrick: contentsBrick].
-	contentsBrick := aBrick.
-		
-	self theme spotterWidgetThemer spotterContentsStyleFor: contentsBrick.
-
-	self addBrickBack: contentsBrick
 ]
 
 { #category : #actions }
@@ -77,28 +74,17 @@ GTSpotterMorph >> diveOut [
 	self spotterModel popStep
 ]
 
-{ #category : #geometry }
-GTSpotterMorph >> doLayout [
-	self extent: self extent.
-	super doLayout.
-]
-
 { #category : #actions }
 GTSpotterMorph >> escapePressed [
 
 	self delete
 ]
 
-{ #category : #geometry }
-GTSpotterMorph >> extent: aPoint [
-	super extent: (aPoint x @ (self brickRoot height))
-]
-
 { #category : #'events-processing' }
 GTSpotterMorph >> handleListenEvent: anEvent [
 		
 	anEvent type = #mouseDown ifTrue: [ 
-		(self fullBoundsInWorld containsPoint: anEvent position) not
+		((self fullBoundsInWorld containsPoint: anEvent position) not and: [ self autoHide ])
 			ifTrue: [ self delete ] ].
 		
 	anEvent type = #keyDown ifTrue: [
@@ -110,6 +96,12 @@ GTSpotterMorph >> handlesMouseDown: evt [
 	^ true
 ]
 
+{ #category : #actions }
+GTSpotterMorph >> hidePreview [
+
+	self paneBrick hidePreview
+]
+
 { #category : #initialization }
 GTSpotterMorph >> initialize [
 	super initialize.
@@ -118,7 +110,7 @@ GTSpotterMorph >> initialize [
 	self theme spotterWidgetThemer spotterStyleFor: self.
 	
 	self breadcrumbBrick: self newBreadcrumbBrick.
-	self contentsBrick: self newContentsBrick.
+	self paneBrick: self newPaneBrick
 ]
 
 { #category : #initialize }
@@ -163,9 +155,9 @@ GTSpotterMorph >> newBreadcrumbBrick [
 ]
 
 { #category : #'instance creation' }
-GTSpotterMorph >> newContentsBrick [
+GTSpotterMorph >> newPaneBrick [
 
-	^ GTSpotterContentsBrick new
+	^ GTSpotterPaneBrick new
 ]
 
 { #category : #'events-processing' }
@@ -173,16 +165,20 @@ GTSpotterMorph >> onBreadcrumbVisibilityChanged [
 	|translate|
 	
 	translate := 0@self breadcrumbBrick defaultBreadcrumbHeight.
-	
 	self breadcrumbBrick isVisible	ifTrue: [ translate := translate negated ].
-		
-	self bounds: (self bounds translateBy: (translate))
+	self bounds: ((self bounds translateBy: (translate)) withHeight: (self bounds height - translate y))
 ]
 
 { #category : #'events-processing' }
 GTSpotterMorph >> onLostFocus: event [
 
 	focusedMorph ifNil: [ focusedMorph := event morph ]
+]
+
+{ #category : #opening }
+GTSpotterMorph >> openInWindowLabeled: aString inWorld: aWorld [
+	self autoHide: false.
+	^ super openInWindowLabeled: aString inWorld: aWorld
 ]
 
 { #category : #initialize }
@@ -194,6 +190,23 @@ GTSpotterMorph >> outOfWorld: aWorld [
 	
 	"restoring previous focus"
 	focusedMorph ifNotNil: [ focusedMorph takeKeyboardFocus ]
+]
+
+{ #category : #accessing }
+GTSpotterMorph >> paneBrick [
+
+	^ paneBrick
+]
+
+{ #category : #accessing }
+GTSpotterMorph >> paneBrick: aBrick [
+	
+	paneBrick ifNotNil: [self removeBrick: paneBrick].
+	paneBrick := aBrick.
+		
+	self theme spotterWidgetThemer spotterPaneStyleFor: paneBrick.
+
+	self addBrickBack: paneBrick
 ]
 
 { #category : #actions }
@@ -235,6 +248,12 @@ GTSpotterMorph >> shiftPressed [
 		ifFalse: [ self spotterModel currentStep shiftPressed ]
 ]
 
+{ #category : #actions }
+GTSpotterMorph >> showPreview [
+
+	self paneBrick showPreview
+]
+
 { #category : #accessing }
 GTSpotterMorph >> spotterModel [
 
@@ -249,7 +268,7 @@ GTSpotterMorph >> spotterModel: aSpotter [
 	spotterModel announcer subscribe: GTSpotterExitAnnouncement send: #delete to: self.
 	
 	self breadcrumbBrick spotterModel: spotterModel.
-	self contentsBrick spotterModel: spotterModel.
+	self paneBrick spotterModel: spotterModel.
 	
 	"expanding drop down pane"
 	self spotterModel setText: '' from: nil.

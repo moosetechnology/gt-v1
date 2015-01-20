@@ -140,8 +140,7 @@ GTSpotterWidgetThemer >> dropDownPaneStyleFor: aBrick [
 
 	aBrick
 		layoutProperties: GLMBrickLayoutProperties new;
-		color: self backgroundColor;
-		height: 400.
+		color: self backgroundColor.
 
 	aBrick layoutProperties
 		vSpaceFill;
@@ -158,8 +157,10 @@ GTSpotterWidgetThemer >> headerHeight [
 GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 
 	aBrick
-		height: [ self headerHeight ];
-		color: self backgroundColor
+		color: self backgroundColor.
+		
+	aBrick layout
+		staticHeight: [ self headerHeight ]
 ]
 
 { #category : #icons }
@@ -396,14 +397,17 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
-
+	
 	aBrick
+		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
 		borderColor: self borderColor;
 		borderWidth: self outerBorderWidth;
 		color: self borderColor.
 	
 	aBrick layoutProperties
-		padding: self outerBorderWidth
+		hSpaceFill;
+		padding: self outerBorderWidth;
+		zIndex: 2
 	
 ]
 
@@ -414,9 +418,32 @@ GTSpotterWidgetThemer >> spotterGhostText [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
+	
+	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
+	aBrick layout
+		hSpaceFill;
+		vSpaceFill
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
+	
+	aBrick
+		borderColor: self borderColor;
+		borderWidth: 3.
+	
+	aBrick layout
+		horizontalPercent: 40;
+		margin: #(50 1 50 -3);
+		zIndex: 1
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> spotterStyleFor: aBrick [
 
-	aBrick brickRoot: GLMBandBrick new.
+	"aBrick brickRoot: GLMBandBrick new."
+	aBrick brickRoot layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new
 ]
 
 { #category : #styles }
