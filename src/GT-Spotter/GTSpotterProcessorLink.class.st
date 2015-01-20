@@ -9,7 +9,7 @@ Class {
 	#category : #'GT-Spotter-Utils'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterProcessorLink class >> from: aDoubleLink [
 
 	

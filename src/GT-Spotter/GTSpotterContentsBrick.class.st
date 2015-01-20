@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterContentsBrick,
-	#superclass : #GLMBrick,
+	#superclass : #GLMBandBrick,
 	#instVars : [
 		'headerBrick',
 		'dropDownBrick',

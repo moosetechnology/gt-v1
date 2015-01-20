@@ -6,8 +6,7 @@ Class {
 		'breadcrumbBrick',
 		'breadcrumbWrapperBrick',
 		'contentsBrick',
-		'spotterModel',
-		'autoHide'
+		'spotterModel'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -17,18 +16,6 @@ GTSpotterMorph >> act [
 	self spotterModel isEmpty ifTrue: [ ^self ].
 	self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
 	self spotterModel currentStep act
-]
-
-{ #category : #accessing }
-GTSpotterMorph >> autoHide [
-
-	^ autoHide ifNil: [ autoHide := true ]
-]
-
-{ #category : #accessing }
-GTSpotterMorph >> autoHide: aBoolean [
-
-	autoHide := aBoolean
 ]
 
 { #category : #accessing }
@@ -48,7 +35,6 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
 	
 	breadcrumbWrapperBrick := GLMBandBrick new.
-	breadcrumbWrapperBrick layout staticHeight: [ :b | b height ].
 	breadcrumbWrapperBrick addBrickBack: breadcrumbBrick.
 	self addBrickBack: breadcrumbWrapperBrick
 ]
@@ -91,17 +77,28 @@ GTSpotterMorph >> diveOut [
 	self spotterModel popStep
 ]
 
+{ #category : #geometry }
+GTSpotterMorph >> doLayout [
+	self extent: self extent.
+	super doLayout.
+]
+
 { #category : #actions }
 GTSpotterMorph >> escapePressed [
 
 	self delete
 ]
 
+{ #category : #geometry }
+GTSpotterMorph >> extent: aPoint [
+	super extent: (aPoint x @ (self brickRoot height))
+]
+
 { #category : #'events-processing' }
 GTSpotterMorph >> handleListenEvent: anEvent [
 		
 	anEvent type = #mouseDown ifTrue: [ 
-		((self fullBoundsInWorld containsPoint: anEvent position) not and: [ self autoHide ])
+		(self fullBoundsInWorld containsPoint: anEvent position) not
 			ifTrue: [ self delete ] ].
 		
 	anEvent type = #keyDown ifTrue: [
@@ -186,12 +183,6 @@ GTSpotterMorph >> onBreadcrumbVisibilityChanged [
 GTSpotterMorph >> onLostFocus: event [
 
 	focusedMorph ifNil: [ focusedMorph := event morph ]
-]
-
-{ #category : #opening }
-GTSpotterMorph >> openInWindowLabeled: aString inWorld: aWorld [
-	self autoHide: false.
-	^ super openInWindowLabeled: aString inWorld: aWorld
 ]
 
 { #category : #initialize }
