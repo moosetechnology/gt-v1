@@ -4,12 +4,12 @@ Class {
 	#category : #'GT-SUnitDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSUnitExampleFailingTest class >> isAbstract [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSUnitExampleFailingTest class >> isUnitTest [
 	^ false
 ]
