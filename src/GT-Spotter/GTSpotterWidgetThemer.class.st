@@ -320,6 +320,12 @@ GTSpotterWidgetThemer >> outerBorderWidth [
 	^ 5
 ]
 
+{ #category : #values }
+GTSpotterWidgetThemer >> previewBorderWidth [
+
+	^ 3
+]
+
 { #category : #styles }
 GTSpotterWidgetThemer >> resultsPaneStyleFor: aBrick [
 
@@ -427,15 +433,25 @@ GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> spotterPreviewCompositeStyleFor: aBrick [
+
+	aBrick layout
+		hSpaceFill;
+		margin: self previewBorderWidth
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 	
 	aBrick
 		borderColor: self borderColor;
-		borderWidth: 3.
+		borderWidth: self previewBorderWidth;
+		color: Color white.
 	
 	aBrick layout
-		horizontalPercent: 40;
-		margin: #(50 1 50 -3);
+		horizontalPercent: 45;
+		margin: #(50 0);
+		marginLeft: self previewBorderWidth negated;
 		zIndex: 1
 ]
 

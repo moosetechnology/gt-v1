@@ -45,7 +45,7 @@ GTSpotter class >> exampleMC [
 GTSpotter class >> exampleWithPreview [
 	<example>
 	^ GTSpotterMorph new
-		extent: (World extent / 1.5) asIntegerPoint;
+		extent: (World width / 1.4 @ (World height / 1.5)) asIntegerPoint;
 		showPreview;
 		spotterModel: self new;
 		openCenteredInWorld

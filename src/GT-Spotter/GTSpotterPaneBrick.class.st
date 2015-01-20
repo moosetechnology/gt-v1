@@ -85,5 +85,6 @@ GTSpotterPaneBrick >> showPreview [
 { #category : #accessing }
 GTSpotterPaneBrick >> spotterModel: aSpotter [
 
-	self contentsBrick spotterModel: aSpotter
+	self contentsBrick spotterModel: aSpotter.
+	self previewBrick spotterModel: aSpotter
 ]
