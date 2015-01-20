@@ -114,7 +114,7 @@ GTBrowsingActions >> currentMessageCategoryName [
 { #category : #accessing }
 GTBrowsingActions >> currentMessageName [
 
-	^ self currentContext messageName
+	^ self currentContext methodSelector
 ]
 
 { #category : #actions }
