@@ -6,7 +6,7 @@ Class {
 
 { #category : #registration }
 GTPPStepToPPDebugger class >> gtActionType [
-	<gtStackDebuggingAction>
+	<gtDebuggingAction>
 ]
 
 { #category : #'as yet unclassified' }
