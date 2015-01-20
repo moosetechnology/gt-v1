@@ -15,6 +15,7 @@ GTSpotterCandidateAdded >> candidate [
 
 { #category : #accessing }
 GTSpotterCandidateAdded >> candidateLink [
+
 	^ candidateLink
 ]
 
