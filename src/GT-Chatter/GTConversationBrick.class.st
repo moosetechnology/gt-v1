@@ -21,7 +21,7 @@ GTConversationBrick >> conversation: aConversation [
 	self data: aConversation.
 	self recipientBrickOn: aConversation.
 	self listAdaptor on: aConversation messages.
-	self listBrick invalidate.
+	self invalidate.
 	self inputBrick data: aConversation.
 ]
 
@@ -44,6 +44,9 @@ GTConversationBrick >> inputBrick [
 { #category : #scrolling }
 GTConversationBrick >> invalidate [
 	self listBrick invalidate.
+	self brickRoot doLayout.
+	self listBrick scrollTo: self listBrick band lastSubbrick.
+	self brickRoot changed.
 ]
 
 { #category : #accessing }

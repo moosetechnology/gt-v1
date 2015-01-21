@@ -33,9 +33,7 @@ GTConversationsBrick >> conversationSelected: aGTConversationSelected [
 	lastCheckedRowBrick := aGTConversationSelected widget.
 	lastSelectedConversation := aGTConversationSelected conversation.
 	aGTConversationSelected widget check.
-	self passEvent: aGTConversationSelected.
-	self brickRoot doLayout.
-	self brickRoot changed
+	self passEvent: aGTConversationSelected
 ]
 
 { #category : #accessing }
