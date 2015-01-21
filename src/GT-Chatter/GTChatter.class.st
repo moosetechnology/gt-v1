@@ -99,6 +99,14 @@ GTChatter >> conversations: anObject [
 	conversations announcer: self announcer.
 ]
 
+{ #category : #'instance creation' }
+GTChatter >> newRemoteProxy [
+	^ RAProxy new
+			url: GTCSettings url;
+			connectIfNotConnected;
+			yourself
+]
+
 { #category : #protocol }
 GTChatter >> notifyAsOnline [
 	^ self proxy announce: (GTCOnlineClient new from: self clientId; yourself)
@@ -134,12 +142,7 @@ GTChatter >> open [
 
 { #category : #accessing }
 GTChatter >> proxy [
-	^ proxy ifNil: [ 
-			proxy := RAProxy new.
-			self subscribeForRemoteAnnoucements.
-			proxy url: GTCSettings url.
-			proxy connectIfNotConnected.
-			proxy ]
+	^ proxy ifNil: [ self proxy: self newRemoteProxy. proxy ]
 ]
 
 { #category : #accessing }
@@ -205,6 +208,12 @@ GTChatter >> sent: aMessage to: aClientId [
 GTChatter >> setLocalProxy [
 	"Useful for test cases."
 	self proxy: Announcer new.
+]
+
+{ #category : #protocol }
+GTChatter >> setRemoteProxy [
+	"Useful for test cases."
+	self proxy: self newRemoteProxy.
 ]
 
 { #category : #protocol }
