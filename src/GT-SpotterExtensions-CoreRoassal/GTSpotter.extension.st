@@ -8,7 +8,7 @@ GTSpotter >> spotterRoassalExamplesFor: aStep [
 				flatCollect: [ :each | each gtExamples ] ];
 			title: 'Roassal Examples';
 			itemName: [ :example | example selector ];
-			itemIcon: [ :example | example iconForm ];
+			itemIcon: [ :example | [example iconForm] on: Error do: [ Form extent: 16@16  ] ];
 			matchSubstringByQueryParts;
 			wantsToDisplayOnEmptyQuery: false
 ]
