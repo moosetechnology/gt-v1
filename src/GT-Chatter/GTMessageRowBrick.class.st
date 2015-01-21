@@ -85,7 +85,7 @@ GTMessageRowBrick >> message: aSentOrReceivedMessage [
 	self message = aSentOrReceivedMessage ifTrue: [ ^ self ].
 	self data: aSentOrReceivedMessage.
 	self removeAllBricks.
-	messageBrick := aSentOrReceivedMessage message asMessageMorph.
+	messageBrick := aSentOrReceivedMessage contents asMessageMorph.
 	aSentOrReceivedMessage visit: messageBrick.
 		
 	"position of blank space depends on message's sender"

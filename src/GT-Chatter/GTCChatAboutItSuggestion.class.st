@@ -1,7 +1,7 @@
 Class {
 	#name : #GTCChatAboutItSuggestion,
 	#superclass : #SugsSuggestion,
-	#category : #'GT-Chatter-SmartSuggestions'
+	#category : #'GT-Chatter-Integration'
 }
 
 { #category : #execution }

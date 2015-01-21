@@ -7,6 +7,16 @@ Class {
 	#category : #'GT-Chatter-UI'
 }
 
+{ #category : #visitor }
+GTCLabeledButtonBrick >> acceptReceivedMessage: aGTReceivedMessage [ 
+
+]
+
+{ #category : #visitor }
+GTCLabeledButtonBrick >> acceptSentMessage: aGTSentMessage [ 
+
+]
+
 { #category : #accessing }
 GTCLabeledButtonBrick >> action: aBlock [
 	action := aBlock

@@ -20,14 +20,14 @@ GTCRemoteAnnouncement class >> from: from timestamp: timestamp [
 { #category : #converting }
 GTCRemoteAnnouncement >> asReceivedMessage [
 	^ GTReceivedMessage new
-			message: self;
+			contents: self;
 			yourself
 ]
 
 { #category : #converting }
 GTCRemoteAnnouncement >> asSentMessage [
 	^ GTSentMessage new
-			message: self;
+			contents: self;
 			yourself
 ]
 

@@ -2,8 +2,7 @@ Class {
 	#name : #GTMessageHolder,
 	#superclass : #Object,
 	#instVars : [
-		'message',
-		'timestamp'
+		'contents'
 	],
 	#category : #'GT-Chatter-Model'
 }
@@ -24,39 +23,37 @@ GTMessageHolder >> acceptUndefinedObject: anUndefinedObject factory: aGTCMessage
 
 { #category : #converting }
 GTMessageHolder >> asString [
-	^ self message asString
+	^ self contents asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GTMessageHolder >> contents [
+	^ contents
+]
+
+{ #category : #accessing }
+GTMessageHolder >> contents: anObject [
+	contents := anObject
+]
+
+{ #category : #accessing }
 GTMessageHolder >> from [
-	^ self message from
-]
-
-{ #category : #accessing }
-GTMessageHolder >> message [
-	
-	^ message
-]
-
-{ #category : #accessing }
-GTMessageHolder >> message: anObject [
-	
-	message := anObject
+	^ self contents from
 ]
 
 { #category : #printing }
 GTMessageHolder >> printOn: aStream [
-	aStream nextPutAll: (message printStringLimitedTo: 20)
+	aStream nextPutAll: (contents printStringLimitedTo: 20)
 ]
 
 { #category : #accessing }
 GTMessageHolder >> timestamp [
-	^ self message timestamp
+	^ self contents timestamp
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTMessageHolder >> to [
-	^ self message to
+	^ self contents to
 ]
 
 { #category : #ui }
