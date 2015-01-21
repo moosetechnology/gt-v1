@@ -25,6 +25,7 @@ GTMessageRowBrick >> acceptSentMessage: aMessage [
 GTMessageRowBrick >> blankBrick [
 	^ blankBrick ifNil: [
 		blankBrick := GLMBrick new.
+		blankBrick height: 0.
 		"blank space must fill the rest of my width. It depends on messageBrick's percent width"
 		blankBrick layoutProperties horizontalPercent: 5.
 		blankBrick ]
@@ -65,6 +66,7 @@ GTMessageRowBrick >> initialize [
 	"here we configurate paddings"
 	self layoutProperties
 		hSpaceFill;
+		vShrinkWrap;
 		paddingLeft: 5;
 		paddingRight: 5;
 		paddingTop: 10;

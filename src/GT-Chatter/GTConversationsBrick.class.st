@@ -34,6 +34,8 @@ GTConversationsBrick >> conversationSelected: aGTConversationSelected [
 	lastSelectedConversation := aGTConversationSelected conversation.
 	aGTConversationSelected widget check.
 	self passEvent: aGTConversationSelected.
+	self brickRoot doLayout.
+	self brickRoot changed
 ]
 
 { #category : #accessing }
@@ -83,7 +85,7 @@ GTConversationsBrick >> listAdaptor [
 { #category : #accessing }
 GTConversationsBrick >> listBrick [
 	^ listBrick ifNil: [ 
-			listBrick := GLMScrollListBrick new adaptor: self listAdaptor; yourself.
+			listBrick := GLMFallbackScrollListBrick new adaptor: self listAdaptor; yourself.
 			listBrick layoutProperties hSpaceFill; verticalPercent: 100.
 			self addBrickBack: listBrick.
 			listBrick ]

@@ -27,15 +27,22 @@ GTCTextMessageBrick >> editingAreaBrick [
 ]
 
 { #category : #accessing }
-GTCTextMessageBrick >> editingAreaBrick: aBrick [
+GTCTextMessageBrick >> editingAreaBrick: aMorph [
+	|brick|
 	editingAreaBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
-	editingAreaBrick := aBrick.
+	editingAreaBrick := aMorph.
 	editingAreaBrick 
 		layoutProperties: GLMBrickLayoutProperties new;
 		beReadOnly;
 		beWrapped.
 	editingAreaBrick layoutProperties hSpaceFill.
-	self addBrickBack: aBrick.
+	
+	"we receive a Morph and need to manually convert it to brick,
+	to allow its container shrink vertically to fit height of the rubric"
+	brick := aMorph asBrick.
+	brick layout vShrinkWrap.
+	
+	self addBrickBack: brick.
 ]
 
 { #category : #initialization }
@@ -45,7 +52,7 @@ GTCTextMessageBrick >> initialize [
 	"my width is 90% of my parent"
 	self layoutProperties 
 			horizontalPercent: 90;
-	 		vSpaceFill.
+	 		vShrinkWrap.
 	self editingAreaBrick: self newEditingAreaBrick.
 ]
 

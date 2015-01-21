@@ -50,6 +50,7 @@ GTChatterExamples class >> exampleConversationBrick [
 	^ GLMFoundationBrick new
 			addBrickBack: brick;
 			extent: 400@300;
+			doLayout;
 			openInWindowLabeled: 'My messages with ', model recipient asString.
 ]
 

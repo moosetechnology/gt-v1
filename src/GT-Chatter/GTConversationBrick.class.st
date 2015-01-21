@@ -59,7 +59,7 @@ GTConversationBrick >> listAdaptor [
 { #category : #accessing }
 GTConversationBrick >> listBrick [
 	^ listBrick ifNil: [ 
-			listBrick := GLMScrollListBrick new adaptor: self listAdaptor; yourself.
+			listBrick := GLMFallbackScrollListBrick new adaptor: self listAdaptor; yourself.
 			listBrick layoutProperties verticalPercent: 100.
 			self addBrickBack: listBrick.
 			listBrick ]
