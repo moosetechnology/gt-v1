@@ -1,7 +1,7 @@
 Extension { #name : #RGMethodDefinition }
 
 { #category : #'*GT-Chatter' }
-RGMethodDefinition >> gtInspectorActionChatAboutIT [
+RGMethodDefinition >> gtInspectorActionChatAboutIt [
 	<gtInspectorAction>
 	^ GLMGenericAction new
 		action: [ 
