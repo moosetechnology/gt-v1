@@ -65,6 +65,8 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 { #category : #updating }
 GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 
+	self owner ifNil: [ ^ self ].
+
 	self compositeBrick removeAllBricks.
 	anObject spotterPreviewIn: self compositeBrick.
 	self doLayout.

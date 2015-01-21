@@ -104,7 +104,7 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 		familyName: self titleFamilyName.
 	
 	aBrick layoutProperties
-		staticWidth: [ :name | (aBrick owner brickInnerBounds width) min: ((name label textSize x) + name label layoutProperties horizontalMargin) ].
+		staticWidth: [ :name | (aBrick owner innerBounds width) min: ((name label textSize x) + name label layoutProperties horizontalMargin) ].
 ]
 
 { #category : #styles }
@@ -211,7 +211,7 @@ GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 GTSpotterWidgetThemer >> itemActionbarVisibleStyleFor: aBrick [
 
 	aBrick layoutProperties
-		staticWidth: [ :actionbar | actionbar subbricks inject: (actionbar layoutProperties horizontalPadding + actionbar layoutProperties horizontalMargin) into: [ :width :each | width + each brickOuterBounds width ] ].
+		staticWidth: [ :actionbar | actionbar subbricks inject: (actionbar layoutProperties horizontalPadding + actionbar layoutProperties horizontalMargin) into: [ :width :each | width + each outerBounds width ] ].
 ]
 
 { #category : #values }

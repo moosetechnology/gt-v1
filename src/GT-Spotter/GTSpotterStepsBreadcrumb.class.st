@@ -20,7 +20,7 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 
 	band := aBrick.
 	band layoutPolicy: (GLMBrickHorizontalFillLinearLayout new).
-	band widthBlock: [ :bandBrick |
+	band width: [ :bandBrick |
 		self items isEmpty ifTrue: [ 0 ]
 			ifFalse: [ |width|
 				width := 0.
@@ -171,7 +171,7 @@ GTSpotterStepsBreadcrumb >> pop [
 GTSpotterStepsBreadcrumb >> push: aBrick [
 	self theme spotterWidgetThemer breadcrumbItemStyleFor: aBrick.
 	
-	aBrick widthBlock: [ :itemBrick | self calculateItemWidth: itemBrick ].
+	aBrick width: [ :itemBrick | self calculateItemWidth: itemBrick ].
 		
 	self band addBrickBack: aBrick.
 	self items addLast: aBrick.
