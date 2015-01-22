@@ -45,7 +45,7 @@ GTConversationBrick >> inputBrick [
 GTConversationBrick >> invalidate [
 	self listBrick invalidate.
 	self brickRoot doLayout.
-	self listBrick scrollTo: self listBrick band lastSubbrick.
+	self listBrick scrollToBottom.
 	self brickRoot changed.
 ]
 
