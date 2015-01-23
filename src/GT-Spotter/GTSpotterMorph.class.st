@@ -110,7 +110,8 @@ GTSpotterMorph >> initialize [
 	self theme spotterWidgetThemer spotterStyleFor: self.
 	
 	self breadcrumbBrick: self newBreadcrumbBrick.
-	self paneBrick: self newPaneBrick
+	self paneBrick: self newPaneBrick.
+	"self showPreview"
 ]
 
 { #category : #initialize }
