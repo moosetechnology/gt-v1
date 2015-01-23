@@ -2,7 +2,8 @@ Class {
 	#name : #GTCStackTraceMessage,
 	#superclass : #GTCAddressedMessage,
 	#instVars : [
-		'stack'
+		'stack',
+		'title'
 	],
 	#category : #'GT-Chatter-RemoteAnnouncements'
 }
@@ -27,4 +28,14 @@ GTCStackTraceMessage >> stack [
 { #category : #accessing }
 GTCStackTraceMessage >> stack: aByteArray [ 
 	stack := aByteArray zipped
+]
+
+{ #category : #accessing }
+GTCStackTraceMessage >> title [
+	^ title
+]
+
+{ #category : #accessing }
+GTCStackTraceMessage >> title: aString [ 
+	title := aString
 ]

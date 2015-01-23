@@ -14,5 +14,5 @@ GTCStackTraceBrick >> browseMethod [
 
 { #category : #actions }
 GTCStackTraceBrick >> labelString [
-	^ 'Click to debug stack trace'
+	^ self message title ifNil: [ 'Click to debug stack trace' ]
 ]

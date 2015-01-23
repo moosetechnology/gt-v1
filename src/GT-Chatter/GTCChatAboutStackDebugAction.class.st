@@ -66,6 +66,7 @@ GTCChatAboutStackDebugAction >> send: aByteArray [
 	| aMessage aReceiver |
 	aMessage := GTCStackTraceMessage new.
 	aMessage stack: aByteArray.
+	aMessage title: self debugger title.
 	aReceiver := GTChatter me selectRecipient.
 	aMessage to: aReceiver.
 	aReceiver ifNotNil: [ 
