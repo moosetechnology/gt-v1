@@ -24,10 +24,10 @@ GTCStackTraceMessage >> materialize [
 
 { #category : #accessing }
 GTCStackTraceMessage >> stack [
-	^ stack
+	^ stack unzipped
 ]
 
 { #category : #accessing }
 GTCStackTraceMessage >> stack: aByteArray [ 
-	stack := aByteArray
+	stack := aByteArray zipped
 ]
