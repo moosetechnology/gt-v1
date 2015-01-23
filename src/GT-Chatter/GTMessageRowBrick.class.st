@@ -31,31 +31,6 @@ GTMessageRowBrick >> blankBrick [
 		blankBrick ]
 ]
 
-{ #category : #examples }
-GTMessageRowBrick >> exampleSentMessage [
-	| message brick |
-	message := (String loremIpsum: 100) asSentMessage.
-	brick := self new.
-	brick message: message.
-	^ GLMFoundationBrick new
-			addBrickBack: brick;
-			openInWindowLabeled: 'Sent Message'.
-]
-
-{ #category : #examples }
-GTMessageRowBrick >> exampleTextMessageBrick [
-	| message brick |
-	message := GTReceivedMessage new
-			message: (String loremIpsum: 100);
-			timestamp: DateAndTime now;
-			yourself.
-	brick := self new.
-	brick message: message.
-	^ GLMFoundationBrick new
-			addBrickBack: brick;
-			openInWindowLabeled: 'Received Message'.
-]
-
 { #category : #initialization }
 GTMessageRowBrick >> initialize [
 	super initialize.
@@ -88,6 +63,9 @@ GTMessageRowBrick >> message: aSentOrReceivedMessage [
 	self data: aSentOrReceivedMessage.
 	self removeAllBricks.
 	messageBrick := aSentOrReceivedMessage contents asMessageMorph.
+	messageBrick layoutProperties 
+		horizontalPercent: 95;
+		vShrinkWrap.
 	aSentOrReceivedMessage visit: messageBrick.
 		
 	"position of blank space depends on message's sender"
@@ -97,10 +75,7 @@ GTMessageRowBrick >> message: aSentOrReceivedMessage [
 
 { #category : #accessing }
 GTMessageRowBrick >> messageBrick [
-	^ messageBrick ifNil: [ 
-		messageBrick := GTCTextMessageBrick new.
-		messageBrick layoutProperties horizontalPercent: 95.
-		messageBrick ]
+	^ messageBrick
 ]
 
 { #category : #visitor }

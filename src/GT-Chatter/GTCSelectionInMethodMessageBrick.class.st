@@ -26,7 +26,10 @@ GTCSelectionInMethodMessageBrick >> browseBrick: aBrick [
 	browseBrick 
 		enable;
 		addUpAction: [ self browseMethod ];
-		icon: GLMUIThemeExtraIcons glamorousBrowse. 	
+		icon: GLMUIThemeExtraIcons glamorousBrowse.
+	browseBrick layoutProperties 
+		horizontalPercent: 0;
+		staticWidth: [ :brick | brick normalImage width ].
 	self addBrickBack: aBrick.
 ]
 
@@ -39,9 +42,19 @@ GTCSelectionInMethodMessageBrick >> browseMethod [
 GTCSelectionInMethodMessageBrick >> initialize [
 	super initialize.
 	self layoutProperties hSpaceFill.
-	self layoutPolicy: GLMBrickHorizontalFillLinearLayout new.
+	self layoutPolicy: GLMBrickHorizontalProportionalLinearLayout new.
+	
 	self labelBrick: self newLabelBrick.
 	self browseBrick: self newBrowseBrick.
+
+	"here we configurate paddings"
+	self layoutProperties
+		hSpaceFill;
+		vShrinkWrap;
+		paddingLeft: 5;
+		paddingRight: 5;
+		paddingTop: 0;
+		paddingBottom: 0
 ]
 
 { #category : #accessing }
@@ -53,6 +66,7 @@ GTCSelectionInMethodMessageBrick >> labelBrick [
 GTCSelectionInMethodMessageBrick >> labelBrick: aBrick [
 	labelBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	labelBrick := aBrick.
+	labelBrick layoutProperties hSpaceFill.
 	self addBrickBack: aBrick.
 ]
 

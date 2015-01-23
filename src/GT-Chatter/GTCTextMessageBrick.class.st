@@ -49,10 +49,7 @@ GTCTextMessageBrick >> editingAreaBrick: aMorph [
 GTCTextMessageBrick >> initialize [
 	super initialize.
 	
-	"my width is 90% of my parent"
-	self layoutProperties 
-			horizontalPercent: 90;
-	 		vShrinkWrap.
+	self layoutProperties hSpaceFill.
 	self editingAreaBrick: self newEditingAreaBrick.
 ]
 

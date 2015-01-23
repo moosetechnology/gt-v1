@@ -126,6 +126,7 @@ GTChatterExamples class >> exampleSelectionInMethodMessageBrick [
 	| brick |
 	brick := GTCSelectionInMethodMessageBrick new.
 	brick message: self selectionInMethodModel.
+	brick color: Color white.
 	^ GLMFoundationBrick new
 			addBrickBack: brick;
 			openInWindowLabeled: 'Selection In Method Message'.
