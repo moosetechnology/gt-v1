@@ -5,7 +5,8 @@ CompiledMethod >> spotterPreviewIn: aComposite [
 
 	aComposite pharoMethod
 		title: 'Preview';
-		display: #getSource;
+		display: [:compiledMethod | 
+			' ', compiledMethod getSource];
 		smalltalkClass: #methodClass;
 		entity: self.
 		

@@ -91,12 +91,6 @@ GTSpotterWidgetThemer >> categoryStyleFor: aBrick [
 		marginBottom: self categoryMarginBottom
 ]
 
-{ #category : #values }
-GTSpotterWidgetThemer >> categoryTitleBackgroundColor [
-
-	^ Color white alpha: 0.95
-]
-
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 
@@ -118,7 +112,8 @@ GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 
 	aBrick
 		layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new;
-		normalColor: self categoryTitleBackgroundColor;
+		normalColor: (Color white alpha: 0.95);
+		selectedColor: (Color veryVeryLightGray lighter alpha: 0.95);
 		height: [ 30 ].
 	
 	aBrick layoutProperties
@@ -191,14 +186,8 @@ GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 
 	aBrick
 		width: [ aBrick normalImage width + aBrick layoutProperties horizontalPadding ];
-		pressedColor: self itemActionSelectedBackgroundColor;
+		pressedColor: self itemSelectedBackgroundColor darker;
 		padding: { 0 . self outerBorderWidth }
-]
-
-{ #category : #values }
-GTSpotterWidgetThemer >> itemActionSelectedBackgroundColor [
-
-	^ self itemSelectedBackgroundColor darker
 ]
 
 { #category : #styles }
@@ -287,7 +276,6 @@ GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 	aBrick label
 		familyName: self itemFamilyName;
 		fontSize: self itemFontSize;
-		textColor: self itemTextColor;
 		highlightingLogic: [ :aCanvas :aRectangle | |bounds|
 			"because font calculates text width wrong"
 			bounds := aRectangle translateBy: (-3@0).
@@ -324,12 +312,6 @@ GTSpotterWidgetThemer >> itemSelectedBackgroundColor [
 GTSpotterWidgetThemer >> itemSelectedStyleFor: aBrick [
 
 	aBrick color: self itemSelectedBackgroundColor
-]
-
-{ #category : #values }
-GTSpotterWidgetThemer >> itemTextColor [
-
-	^ Color black
 ]
 
 { #category : #values }
@@ -377,12 +359,6 @@ GTSpotterWidgetThemer >> resultsScrollbarWidth [
 ]
 
 { #category : #values }
-GTSpotterWidgetThemer >> searchFieldCursorColor [
-
-	^ Color black
-]
-
-{ #category : #values }
 GTSpotterWidgetThemer >> searchFieldFamilyName [
 
 	^ 'Source Sans Pro'
@@ -408,11 +384,10 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		color: Color transparent;
-		textColor: self searchFieldTextColor;
 		withoutAdornment;
 		withGhostText: self spotterGhostText;
 		autoAccept: true;
-		borderColor: Color transparent.
+		borderColor: Color white.
 		
 	aMorph layoutProperties
 		hSpaceFill;
@@ -424,14 +399,6 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
 	aMorph textArea
 		font: (LogicalFont familyName: self searchFieldFamilyName pointSize: self searchFieldFontSize);
 		backgroundColor: Color transparent.
-		
-	aMorph textArea cursor color: self searchFieldCursorColor
-]
-
-{ #category : #values }
-GTSpotterWidgetThemer >> searchFieldTextColor [
-	
-	^ Color black
 ]
 
 { #category : #styles }
