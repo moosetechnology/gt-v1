@@ -114,7 +114,6 @@ GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	
 	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
-	
 ]
 
 { #category : #'event handling' }

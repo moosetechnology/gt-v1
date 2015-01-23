@@ -100,5 +100,6 @@ GTSpotterCategoryTitleBrick >> onPrepareLayout [
 { #category : #accessing }
 GTSpotterCategoryTitleBrick >> setAmountVisible: visible all: all [
 
-	self amountBrick text: (visible asString, '/', all asString)
+	self amountBrick text: (visible asString, '/', all asString).
+	self amountBrick changed
 ]
