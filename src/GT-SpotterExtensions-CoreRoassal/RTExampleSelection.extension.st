@@ -8,3 +8,15 @@ RTExampleSelection >> matchesQuery: aSetOfNames [
 	^ aSetOfNames allSatisfy: [ :each | sourceCode includesSubstring: each ]
 
 ]
+
+{ #category : #'*GT-SpotterExtensions-CoreRoassal' }
+RTExampleSelection >> spotterPreviewIn: aComposite [
+
+	(self exampleObject class canPerform: (self selector, 'Icon') asSymbol)
+		ifTrue: [ 
+			aComposite addBrickBack: (self iconForm asAlphaImageMorph
+				layout: #center;
+				scale: 2.0) asBrick ]
+
+	
+]
