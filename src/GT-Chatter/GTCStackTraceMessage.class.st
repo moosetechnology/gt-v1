@@ -9,11 +9,8 @@ Class {
 
 { #category : #converting }
 GTCStackTraceMessage >> asMessageMorph [
-	^ GTCLabeledButtonBrick new
-			data: self;
-			text: 'Click to debug stack trace';
-			action: [ self materialize ];
-			enable;
+	^ GTCStackTraceBrick new
+			message: self;
 			yourself
 ]
 

@@ -71,6 +71,11 @@ GTCSelectionInMethodMessageBrick >> labelBrick: aBrick [
 ]
 
 { #category : #accessing }
+GTCSelectionInMethodMessageBrick >> labelString [
+	^ self message ring asString
+]
+
+{ #category : #accessing }
 GTCSelectionInMethodMessageBrick >> message [
 	^ self data
 ]
@@ -79,7 +84,7 @@ GTCSelectionInMethodMessageBrick >> message [
 GTCSelectionInMethodMessageBrick >> message: aSelectionInMethodMessage [
 	self message = aSelectionInMethodMessage ifTrue: [ ^ self ].
 	self data: aSelectionInMethodMessage.
-	self labelBrick text: aSelectionInMethodMessage ring asString.
+	self labelBrick text: self labelString.
 	self changed.
 ]
 
