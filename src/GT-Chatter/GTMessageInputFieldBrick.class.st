@@ -33,7 +33,7 @@ GTMessageInputFieldBrick >> conversation [
 { #category : #initialization }
 GTMessageInputFieldBrick >> initialize [
 	super initialize.
-	self layoutProperties horizontalPercent: 100. 
+	self theme chatterWidgetThemer textMessageInputFieldStyleFor: self.
 	self textBrick: self newTextBrick.
 ]
 
@@ -53,14 +53,7 @@ GTMessageInputFieldBrick >> textBrick: aRubScrolledTextMorph [
 				anOldBrick announcer unsubscribe: self. 
 				self removeBrick: anOldBrick ].
 	textBrick := aRubScrolledTextMorph.
-	textBrick
-		layoutProperties: GLMBrickLayoutProperties new;
-		beWrapped;
-		alwaysAccept: true;
-		autoAccept: false.
-	textBrick layoutProperties 
-		vSpaceFill; 
-		hSpaceFill.
+	self theme chatterWidgetThemer scrolledTextMorphStyleFor: textBrick.
 	self addBrickBack: textBrick.
 	(self textBrick announcer subscribe: RubTextAccepted send: #acceptedText: to: self) subscriber: self.
 ]

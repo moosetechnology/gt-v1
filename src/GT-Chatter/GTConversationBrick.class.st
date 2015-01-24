@@ -36,7 +36,6 @@ GTConversationBrick >> initialize [
 GTConversationBrick >> inputBrick [
 	^ inputBrick ifNil: [ 
 			inputBrick := self newInputBrick.
-			self theme chatterWidgetThemer textMessageEditorStyleFor: inputBrick.
 			self addBrickBack: inputBrick.
 			inputBrick ]
 ]

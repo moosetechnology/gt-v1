@@ -123,6 +123,11 @@ GTChatterWidgetThemer >> createConversationButtonStyleFor: aBrick [
 ]
 
 { #category : #values }
+GTChatterWidgetThemer >> editorGhostText [
+	^ 'Write new message here'
+]
+
+{ #category : #values }
 GTChatterWidgetThemer >> itemCheckedBackroundColor [
 	^ self itemPressedBackgroundColor
 ]
@@ -236,6 +241,21 @@ GTChatterWidgetThemer >> recipientStyleFor: aBrick [
 	aBrick layoutProperties horizontalPercent: 100.
 ]
 
+{ #category : #'styles - conversation' }
+GTChatterWidgetThemer >> scrolledTextMorphStyleFor: aBrick [
+	aBrick
+		layoutProperties: GLMBrickLayoutProperties new;
+		beWrapped;
+		withoutAdornment;
+		withGhostText: self editorGhostText;
+		alwaysAccept: true;
+		autoAccept: false.
+	aBrick layoutProperties 
+		vSpaceFill; 
+		hSpaceFill.
+
+]
+
 { #category : #'values - message' }
 GTChatterWidgetThemer >> sentMessageBackgroundColor [
 	^ self itemSelectedBackgroundColor
@@ -318,7 +338,7 @@ GTChatterWidgetThemer >> textMessageEditingAreaStyleFor: aBrick [
 ]
 
 { #category : #'styles - conversation' }
-GTChatterWidgetThemer >> textMessageEditorStyleFor: aBrick [
+GTChatterWidgetThemer >> textMessageInputFieldStyleFor: aBrick [
 	aBrick layoutProperties 
 		staticHeight: 30; 
 		hSpaceFill.
