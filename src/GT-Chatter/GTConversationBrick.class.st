@@ -61,7 +61,7 @@ GTConversationBrick >> listAdaptor [
 { #category : #accessing }
 GTConversationBrick >> listBrick [
 	^ listBrick ifNil: [ 
-			listBrick := GLMFallbackScrollListBrick new adaptor: self listAdaptor; yourself.
+			listBrick := GLMScrollListBrick new adaptor: self listAdaptor; yourself.
 			self theme chatterWidgetThemer messagesScrollListStyleFor: listBrick.
 			self addBrickBack: listBrick.
 			listBrick ]

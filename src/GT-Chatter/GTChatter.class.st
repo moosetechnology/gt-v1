@@ -12,8 +12,7 @@ Class {
 		'onlineUsersUpdater'
 	],
 	#classInstVars : [
-		'uniqueInstance',
-		'weakWindowHolder'
+		'uniqueInstance'
 	],
 	#category : #'GT-Chatter-Model'
 }
@@ -24,8 +23,8 @@ GTChatter class >> me [
 ]
 
 { #category : #ui }
-GTChatter class >> open [
-	^ self window openAsIs; expand; activate; yourself
+GTChatter class >> open [ 
+	^ self uniqueInstance open
 ]
 
 { #category : #ui }
@@ -48,12 +47,6 @@ GTChatter class >> sendText: aMessage to: aClientId [
 { #category : #accessing }
 GTChatter class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
-]
-
-{ #category : #ui }
-GTChatter class >> window [
-	weakWindowHolder ifNil: [ weakWindowHolder := WeakArray with: (self me open) ].
-	^ weakWindowHolder ifNotNil: [ :aHolder | aHolder first ]
 ]
 
 { #category : #adding }

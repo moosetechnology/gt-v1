@@ -161,7 +161,7 @@ GTChatterWidgetThemer >> itemSelectedBackgroundColor [
 { #category : #'styles - message' }
 GTChatterWidgetThemer >> messageCommonStyleFor: aBrick [
 	aBrick
-		shadowWidth: 5.
+		shadowWidth: self shadowWidth.
 	aBrick layoutProperties 
 		horizontalPercent: 95;
 		vShrinkWrap;
@@ -314,6 +314,11 @@ GTChatterWidgetThemer >> sentTextMessageStyleFor: aBrick [
 { #category : #values }
 GTChatterWidgetThemer >> shadowColor [
 	^ self backgroundColor darker alpha: 0.2
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> shadowWidth [
+	^ 3
 ]
 
 { #category : #'styles - source code pointer' }
