@@ -178,7 +178,7 @@ GTChatterExamples class >> randomConversationModel [
 	conversation := GTConversation new.
 	conversation recipient: 'client2'.
 	random := Random new.
-	max := (random next * 100) asInteger.
+	max := (random next * 10) asInteger + 5.
 	1 to: max do: [ :aNumber | | message |
 		message := random next < 0.5 
 							ifTrue: [ self randomSentMessageModel ]
@@ -191,7 +191,7 @@ GTChatterExamples class >> randomConversationModel [
 GTChatterExamples class >> randomConversationsModel [
 	| conversations |
 	conversations := GTConversations new.
-	1 to: 20 do: [ :index | | conversation |
+	1 to: 13 do: [ :index | | conversation |
 		conversation := self randomConversationModel.
 		conversation recipient: 'client ', index asString.
 		conversations addConversation: conversation ].

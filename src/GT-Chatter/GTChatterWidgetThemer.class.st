@@ -92,7 +92,7 @@ GTChatterWidgetThemer >> createConversationButtonStyleFor: aBrick [
 		staticHeight: 30.
 ]
 
-{ #category : #'styles - messages' }
+{ #category : #'styles - message' }
 GTChatterWidgetThemer >> messageCommonStyleFor: aBrick [
 	aBrick layoutProperties 
 		horizontalPercent: 95;
@@ -129,21 +129,31 @@ GTChatterWidgetThemer >> onlineUsersStyleFor: aBrick [
 		hSpaceFill.
 ]
 
+{ #category : #'accessing - message' }
+GTChatterWidgetThemer >> receivedMessageBackgroundColor [
+	^ Color lightGray
+]
+
+{ #category : #'accessing - message' }
+GTChatterWidgetThemer >> receivedMessageTextColor [
+	^ Color black
+]
+
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> receivedSourceCodeLabelStyleFor: aBrick [
-	aBrick textColor: Color white.
+	aBrick textColor: self receivedMessageTextColor.
 ]
 
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> receivedSourceCodePointerStyleFor: aBrick [
-	aBrick color: Color green muchDarker
+	aBrick color: self receivedMessageBackgroundColor
 ]
 
 { #category : #'styles - text message' }
 GTChatterWidgetThemer >> receivedTextMessageEditingAreaStyleFor: aBrick [
 	aBrick
-		backgroundColor: Color lightGray;
-		textColor: Color black.
+		backgroundColor: self receivedMessageBackgroundColor;
+		textColor: self receivedMessageTextColor.
 ]
 
 { #category : #'styles - conversations' }
@@ -152,16 +162,26 @@ GTChatterWidgetThemer >> recipientStyleFor: aBrick [
 	aBrick layoutProperties horizontalPercent: 100.
 ]
 
+{ #category : #'accessing - message' }
+GTChatterWidgetThemer >> sentMessageBackgroundColor [
+	^ Color green muchDarker
+]
+
+{ #category : #'accessing - message' }
+GTChatterWidgetThemer >> sentMessageTextColor [
+	^ Color white
+]
+
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> sentSourceCodePointerStyleFor: aBrick [
-	aBrick color: Color lightGray
+	aBrick color: self sentMessageBackgroundColor
 ]
 
 { #category : #'styles - text message' }
 GTChatterWidgetThemer >> sentTextMessageEditingAreaStyleFor: aBrick [
 	aBrick
-		backgroundColor: Color green muchDarker;
-		textColor: Color white.
+		backgroundColor: self sentMessageBackgroundColor;
+		textColor: self sentMessageTextColor.
 ]
 
 { #category : #'styles - source code pointer' }
