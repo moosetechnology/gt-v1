@@ -122,6 +122,17 @@ GTChatterWidgetThemer >> createConversationButtonStyleFor: aBrick [
 		staticHeight: 30.
 ]
 
+{ #category : #'styles - conversation' }
+GTChatterWidgetThemer >> dropListStyleFor: aBrick [
+	aBrick
+		layoutProperties: GLMBrickLayoutProperties new;
+		ghostText: self onlineUserGhostText.
+	aBrick layoutProperties 
+		vSpaceFill; 
+		hSpaceFill.
+
+]
+
 { #category : #values }
 GTChatterWidgetThemer >> editorGhostText [
 	^ 'Write new message here'
@@ -181,6 +192,11 @@ GTChatterWidgetThemer >> messagesScrollListStyleFor: aBrick [
 	aBrick layoutProperties 
 		verticalPercent: 100.
 
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> onlineUserGhostText [
+	^ 'Select an online user'
 ]
 
 { #category : #'styles - conversation' }

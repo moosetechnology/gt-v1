@@ -38,16 +38,13 @@ GTOnlineUsersDropListBrick >> dropList [
 GTOnlineUsersDropListBrick >> dropList: aBrick [
 	self dropList ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	dropList := aBrick.
+	self theme chatterWidgetThemer dropListStyleFor: dropList.
 	dropList 
-		layoutProperties: GLMBrickLayoutProperties new;
 		on: self
 			list: #recentOnlineUsers
 			selected: nil
 			changeSelected: #selectedRecipient:;
 		useSelectionIndex: false.
-	dropList layoutProperties 
-		vSpaceFill; 
-		hSpaceFill.
 	self addBrickBack: dropList.
 ]
 
