@@ -17,7 +17,7 @@ GTCSelectionInMethodMessageBrick >> acceptReceivedMessage: aGTReceivedMessage [
 GTCSelectionInMethodMessageBrick >> acceptSentMessage: aGTSentMessage [ 
 	self theme chatterWidgetThemer 
 			sentSourceCodePointerStyleFor: self;
-			sentSourceCodeLabelStyleFor: self labelBrick
+			sentSourceCodePointerLabelStyleFor: self labelBrick
 ]
 
 { #category : #accessing }

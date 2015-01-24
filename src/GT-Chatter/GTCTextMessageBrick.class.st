@@ -10,12 +10,14 @@ Class {
 { #category : #visitor }
 GTCTextMessageBrick >> acceptReceivedMessage: aMessage [
 	self theme chatterWidgetThemer 
+			receivedTextMessageStyleFor: self;
 			receivedTextMessageEditingAreaStyleFor: self editingAreaBrick.
 ]
 
 { #category : #visitor }
 GTCTextMessageBrick >> acceptSentMessage: aMessage [
 	self theme chatterWidgetThemer 
+			sentTextMessageStyleFor: self;
 			sentTextMessageEditingAreaStyleFor: self editingAreaBrick.
 ]
 

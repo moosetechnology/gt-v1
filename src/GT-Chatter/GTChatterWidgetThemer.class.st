@@ -17,12 +17,37 @@ GTChatterWidgetThemer class >> uniqueInstance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
-{ #category : #styles }
-GTChatterWidgetThemer >> chatterStyleFor: aBrick [
-
+{ #category : #values }
+GTChatterWidgetThemer >> backgroundColor [
+	"used as background color for all panes"
+	^ Color white
 ]
 
-{ #category : #accessing }
+{ #category : #values }
+GTChatterWidgetThemer >> borderColor [
+	"color that is used for border and dividers of UI parts of Spotter
+	for example divider between header and results or between preview and list"
+	^ Color r: 180 g: 180 b: 180 range: 255
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> buttonPressedColor [
+
+	^ self backgroundColor darker
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> buttonSelectedColor [
+	^ self buttonPressedColor darker
+]
+
+{ #category : #styles }
+GTChatterWidgetThemer >> chatterStyleFor: aBrick [
+	aBrick
+		color: self backgroundColor
+]
+
+{ #category : #values }
 GTChatterWidgetThemer >> conversationHorizontalPercent [
 	^ 70
 ]
@@ -33,10 +58,10 @@ GTChatterWidgetThemer >> conversationRowStyleFor: aBrick [
 		"to allow my children have proportional width (i.e 33% of me) and to fill my height"	
 		layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new;
 		enable;
-		normalColor: Color lightGray lighter;
-		selectedColor: Color lightGray;
-		pressedColor: Color gray;
-		checkedColor: Color gray.
+		normalColor: self itemNormalBackgroundColor;
+		selectedColor: self itemSelectedBackgroundColor;
+		pressedColor: self itemPressedBackgroundColor;
+		checkedColor: self itemCheckedBackroundColor.
 		
 	"here we configurate paddings"
 	aBrick layoutProperties
@@ -80,23 +105,54 @@ GTChatterWidgetThemer >> conversationsStyleFor: aBrick [
 
 ]
 
+{ #category : #icons }
+GTChatterWidgetThemer >> createConversationButtonIcon [
+	^ GLMUIThemeExtraIcons glamorousAdd
+]
+
 { #category : #'styles - conversations' }
 GTChatterWidgetThemer >> createConversationButtonStyleFor: aBrick [
 	aBrick 
-		normalImage: GLMUIThemeExtraIcons glamorousAdd;
-		pressedColor: Color darkGray; 
-		selectedColor: Color gray;
+		normalImage: self createConversationButtonIcon;
+		pressedColor: self buttonPressedColor ; 
+		selectedColor: self buttonSelectedColor;
 		enabled.
 	aBrick layoutProperties 
 		staticWidth: 30;
 		staticHeight: 30.
 ]
 
+{ #category : #values }
+GTChatterWidgetThemer >> itemCheckedBackroundColor [
+	^ self itemPressedBackgroundColor
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> itemNormalBackgroundColor [
+	^ Color transparent
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> itemPressedBackgroundColor [
+	^ self itemSelectedBackgroundColor darker
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> itemSelectedBackgroundColor [
+	^ self backgroundColor darker
+]
+
 { #category : #'styles - message' }
 GTChatterWidgetThemer >> messageCommonStyleFor: aBrick [
+	aBrick
+		shadowWidth: 5.
 	aBrick layoutProperties 
 		horizontalPercent: 95;
-		vShrinkWrap.
+		vShrinkWrap;
+		paddingLeft: 5;
+		paddingRight: 5;
+		paddingTop: 5;
+		paddingBottom: 5
 ]
 
 { #category : #'styles - conversation' }
@@ -129,23 +185,36 @@ GTChatterWidgetThemer >> onlineUsersStyleFor: aBrick [
 		hSpaceFill.
 ]
 
-{ #category : #'accessing - message' }
-GTChatterWidgetThemer >> receivedMessageBackgroundColor [
-	^ Color lightGray
+{ #category : #values }
+GTChatterWidgetThemer >> outerBorderWidth [
+	"the width of the border around the whole spotter"
+	^ 5
 ]
 
-{ #category : #'accessing - message' }
+{ #category : #'values - message' }
+GTChatterWidgetThemer >> receivedMessageBackgroundColor [
+	^ self itemSelectedBackgroundColor darker
+]
+
+{ #category : #'styles - message' }
+GTChatterWidgetThemer >> receivedMessageCommonStyleFor: aBrick [
+	aBrick
+		shadowColor: self shadowColor.
+]
+
+{ #category : #'values - message' }
 GTChatterWidgetThemer >> receivedMessageTextColor [
-	^ Color black
+	^ self textColor
 ]
 
 { #category : #'styles - source code pointer' }
-GTChatterWidgetThemer >> receivedSourceCodeLabelStyleFor: aBrick [
+GTChatterWidgetThemer >> receivedSourceCodePointerLabelStyleFor: aBrick [
 	aBrick textColor: self receivedMessageTextColor.
 ]
 
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> receivedSourceCodePointerStyleFor: aBrick [
+	self receivedMessageCommonStyleFor: aBrick.
 	aBrick color: self receivedMessageBackgroundColor
 ]
 
@@ -156,29 +225,41 @@ GTChatterWidgetThemer >> receivedTextMessageEditingAreaStyleFor: aBrick [
 		textColor: self receivedMessageTextColor.
 ]
 
+{ #category : #'styles - text message' }
+GTChatterWidgetThemer >> receivedTextMessageStyleFor: aBrick [
+	self receivedMessageCommonStyleFor: aBrick.
+]
+
 { #category : #'styles - conversations' }
 GTChatterWidgetThemer >> recipientStyleFor: aBrick [
 	aBrick textPosition: #center.
 	aBrick layoutProperties horizontalPercent: 100.
 ]
 
-{ #category : #'accessing - message' }
+{ #category : #'values - message' }
 GTChatterWidgetThemer >> sentMessageBackgroundColor [
-	^ Color green muchDarker
+	^ self itemSelectedBackgroundColor
 ]
 
-{ #category : #'accessing - message' }
+{ #category : #'styles - message' }
+GTChatterWidgetThemer >> sentMessageCommonStyleFor: aBrick [
+	aBrick
+		shadowColor: self shadowColor.
+]
+
+{ #category : #'values - message' }
 GTChatterWidgetThemer >> sentMessageTextColor [
-	^ Color white
+	^ self textColor
 ]
 
 { #category : #'styles - source code pointer' }
-GTChatterWidgetThemer >> sentSourceCodeLabelStyleFor: aBrick [
+GTChatterWidgetThemer >> sentSourceCodePointerLabelStyleFor: aBrick [
 	aBrick textColor: self sentMessageTextColor.
 ]
 
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> sentSourceCodePointerStyleFor: aBrick [
+	self sentMessageCommonStyleFor: aBrick.
 	aBrick color: self sentMessageBackgroundColor
 ]
 
@@ -189,6 +270,16 @@ GTChatterWidgetThemer >> sentTextMessageEditingAreaStyleFor: aBrick [
 		textColor: self sentMessageTextColor.
 ]
 
+{ #category : #'styles - text message' }
+GTChatterWidgetThemer >> sentTextMessageStyleFor: aBrick [
+	self sentMessageCommonStyleFor: aBrick.
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> shadowColor [
+	^ self backgroundColor darker alpha: 0.2
+]
+
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> sourceCodePointerBrowseButtonStyleFor: aBrick [
 	aBrick
@@ -196,22 +287,24 @@ GTChatterWidgetThemer >> sourceCodePointerBrowseButtonStyleFor: aBrick [
 		icon: GLMUIThemeExtraIcons glamorousBrowse.
 	aBrick layoutProperties 
 		horizontalPercent: 0;
-		staticWidth: [ :brick | brick normalImage width ].
+		staticWidth: [ :brick | brick normalImage width + (2 * self outerBorderWidth) ].
 ]
 
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> sourceCodePointerLabelStyleFor: aBrick [
+	aBrick padding: #(5 5).
 	aBrick layoutProperties hSpaceFill.
 ]
 
 { #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> sourceCodePointerStyleFor: aBrick [
 	self messageCommonStyleFor: aBrick.
-	aBrick layoutProperties
-		paddingLeft: 5;
-		paddingRight: 5;
-		paddingTop: 0;
-		paddingBottom: 0
+
+]
+
+{ #category : #values }
+GTChatterWidgetThemer >> textColor [
+	^ Color black
 ]
 
 { #category : #'styles - text message' }
