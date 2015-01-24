@@ -55,7 +55,11 @@ GTMessageInputFieldBrick >> textBrick: aRubScrolledTextMorph [
 	textBrick := aRubScrolledTextMorph.
 	self theme chatterWidgetThemer scrolledTextMorphStyleFor: textBrick.
 	self addBrickBack: textBrick.
-	(self textBrick announcer subscribe: RubTextAccepted send: #acceptedText: to: self) subscriber: self.
+	self textBrick 
+			bindKeyCombination: Character cr asKeyCombination 
+			toAction: [ self textBrick acceptContents ].
+	(self textBrick announcer subscribe: RubTextAccepted send: #acceptedText: to: self) 
+		subscriber: self.
 ]
 
 { #category : #accessing }

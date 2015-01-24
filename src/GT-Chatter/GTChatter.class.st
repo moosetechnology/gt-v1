@@ -18,6 +18,12 @@ Class {
 	#category : #'GT-Chatter-Model'
 }
 
+{ #category : #ui }
+GTChatter class >> close [
+	weakWindowHolder ifNotNil: [ :aHolder | 
+			aHolder first ifNotNil: [ :aWindow | aWindow delete ] ]
+]
+
 { #category : #accessing }
 GTChatter class >> me [
 	^ self uniqueInstance
@@ -25,7 +31,7 @@ GTChatter class >> me [
 
 { #category : #ui }
 GTChatter class >> open [
-	^ self window openAsIs; expand; activate; yourself
+	^ self window ifNotNil: [ :aWindow | aWindow openAsIs; expand; activate; yourself ]
 ]
 
 { #category : #ui }
@@ -35,6 +41,7 @@ GTChatter class >> openNamed: aClientId [
 
 { #category : #accessing }
 GTChatter class >> reset [
+	self close.
 	uniqueInstance ifNotNil: [ :aChatter |
 		uniqueInstance := nil.
 		aChatter stop ]
@@ -52,8 +59,9 @@ GTChatter class >> uniqueInstance [
 
 { #category : #ui }
 GTChatter class >> window [
-	weakWindowHolder ifNil: [ weakWindowHolder := WeakArray with: (self me open) ].
-	^ weakWindowHolder ifNotNil: [ :aHolder | aHolder first ]
+	weakWindowHolder ifNil: [ weakWindowHolder := WeakArray new: 1 ].
+	weakWindowHolder first ifNil: [ weakWindowHolder at: 1 put: (self me open) ].
+	^ weakWindowHolder first
 ]
 
 { #category : #adding }
