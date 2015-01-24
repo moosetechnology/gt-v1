@@ -139,7 +139,7 @@ GTSimpleMethodsBrowser >> updateOuterPaneFrom: text for: method [
 	| outerPane newMethod |
 	newMethod := method methodClass compile: text text notifying: nil.
 	outerPane := text pane browser pane.
-	outerPane update.
+	outerPane browser panes do: #update.
 	self
 		flag:
 			'This is a huge hack because of so many reasons:
