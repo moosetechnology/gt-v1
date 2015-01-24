@@ -10,14 +10,14 @@ Class {
 
 { #category : #visitor }
 GTCSelectionInMethodMessageBrick >> acceptReceivedMessage: aGTReceivedMessage [ 
-	self theme chatterWidgetThemer sentSourceCodePointerStyleFor: self.
+	self theme chatterWidgetThemer receivedSourceCodePointerStyleFor: self.
 ]
 
 { #category : #visitor }
 GTCSelectionInMethodMessageBrick >> acceptSentMessage: aGTSentMessage [ 
 	self theme chatterWidgetThemer 
-			receivedSourceCodePointerStyleFor: self;
-			receivedSourceCodeLabelStyleFor: self labelBrick
+			sentSourceCodePointerStyleFor: self;
+			sentSourceCodeLabelStyleFor: self labelBrick
 ]
 
 { #category : #accessing }

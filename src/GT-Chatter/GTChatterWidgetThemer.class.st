@@ -173,6 +173,11 @@ GTChatterWidgetThemer >> sentMessageTextColor [
 ]
 
 { #category : #'styles - source code pointer' }
+GTChatterWidgetThemer >> sentSourceCodeLabelStyleFor: aBrick [
+	aBrick textColor: self sentMessageTextColor.
+]
+
+{ #category : #'styles - source code pointer' }
 GTChatterWidgetThemer >> sentSourceCodePointerStyleFor: aBrick [
 	aBrick color: self sentMessageBackgroundColor
 ]
