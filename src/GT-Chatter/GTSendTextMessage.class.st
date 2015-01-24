@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GTSendTextMessage >> client [
+	^ conversation recipient
+]
+
+{ #category : #obsolete }
 GTSendTextMessage >> clientId [
 	^ conversation recipient
 ]

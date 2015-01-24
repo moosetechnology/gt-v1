@@ -51,27 +51,27 @@ GTChatterTest >> testSendTextTo [
 	self assert: client2 numberOfConversations equals: 0.
 	self assert: client3 numberOfConversations equals: 0.
 
-	client1 sendText: message to: client2 clientId.
+	client1 sendText: message to: client2 client.
 	self assert: client1 numberOfMessages equals: 1.
 	self assert: client2 numberOfMessages equals: 1.
 	self assert: client3 numberOfMessages equals: 0.
 	self assert: client1 numberOfConversations equals: 1.
 	self assert: client2 numberOfConversations equals: 1.
 	self assert: client3 numberOfConversations equals: 0.
-	self assert: client1 conversations first recipient equals: client2 clientId.
-	self assert: client2 conversations first recipient equals: client1 clientId.
+	self assert: client1 conversations first recipient equals: client2 client.
+	self assert: client2 conversations first recipient equals: client1 client.
 
-	client2 sendText: message to: client1 clientId.
+	client2 sendText: message to: client1 client.
 	self assert: client1 numberOfMessages equals: 2.
 	self assert: client2 numberOfMessages equals: 2.
 	self assert: client3 numberOfMessages equals: 0.
 	self assert: client1 numberOfConversations equals: 1.
 	self assert: client2 numberOfConversations equals: 1.
 	self assert: client3 numberOfConversations equals: 0.
-	self assert: client1 conversations first recipient equals: client2 clientId.
-	self assert: client2 conversations first recipient equals: client1 clientId.
+	self assert: client1 conversations first recipient equals: client2 client.
+	self assert: client2 conversations first recipient equals: client1 client.
 
-	client2 sendText: message to: client3 clientId.
+	client2 sendText: message to: client3 client.
 	self assert: client1 numberOfMessages equals: 2.
 	self assert: client2 numberOfMessages equals: 3.
 	self assert: client3 numberOfMessages equals: 1.
@@ -91,17 +91,17 @@ GTChatterTest >> testSendToAnnouncements [
 	client2 announcer when: GTConversationAnnouncement do: [ :announcement | receivedAnnouncements2 addLast: announcement ].
 	client3 announcer when: GTConversationAnnouncement do: [ :announcement | receivedAnnouncements3 addLast: announcement ].
 
-	client1 sendText: 'message 1' to: client2 clientId.
+	client1 sendText: 'message 1' to: client2 client.
 	self assert: receivedAnnouncements1 size equals: 1.
 	self assert: receivedAnnouncements2 size equals: 1.
 	self assert: receivedAnnouncements3 size equals: 0.
 	
-	client2 sendText: 'message 2' to: client1 clientId.
+	client2 sendText: 'message 2' to: client1 client.
 	self assert: receivedAnnouncements1 size equals: 2.
 	self assert: receivedAnnouncements2 size equals: 2.
 	self assert: receivedAnnouncements3 size equals: 0.
 
-	client2 sendText: 'message 3' to: client3 clientId.
+	client2 sendText: 'message 3' to: client3 client.
 	self assert: receivedAnnouncements1 size equals: 2.
 	self assert: receivedAnnouncements2 size equals: 3.
 	self assert: receivedAnnouncements3 size equals: 1.

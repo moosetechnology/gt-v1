@@ -20,6 +20,11 @@ GTChatterUI >> chatterModel: aGTChatter [
 ]
 
 { #category : #accessing }
+GTChatterUI >> client [
+	^ self chatterModel client
+]
+
+{ #category : #obsolete }
 GTChatterUI >> clientId [
 	^ self chatterModel clientId
 ]
@@ -44,5 +49,5 @@ GTChatterUI >> open [
 	^ self
 		extent: 400@300;
 		doLayout; 
-		openInWindowLabeled: 'Conversations of ', self clientId asString.
+		openInWindowLabeled: 'Conversations of ', self client asString.
 ]

@@ -3,13 +3,13 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'announcer',
-		'clientId',
 		'conversations',
 		'proxy',
 		'filter',
 		'subscribed',
 		'onlineUsers',
-		'onlineUsersUpdater'
+		'onlineUsersUpdater',
+		'client'
 	],
 	#classInstVars : [
 		'uniqueInstance',
@@ -91,13 +91,23 @@ GTChatter >> answerAsOnline: aGTCWhoIsOnline [
 ]
 
 { #category : #accessing }
-GTChatter >> clientId [
-	^ clientId ifNil: [ clientId := Author fullName ]
+GTChatter >> client [
+	^ client ifNil: [ client := GTClient new ]
 ]
 
 { #category : #accessing }
+GTChatter >> client: aGTClient [
+	client := aGTClient 
+]
+
+{ #category : #obsolete }
+GTChatter >> clientId [
+	^ self client fullName
+]
+
+{ #category : #obsolete }
 GTChatter >> clientId: anObject [
-	clientId := anObject
+	self client fullName: anObject
 ]
 
 { #category : #accessing }
@@ -114,6 +124,11 @@ GTChatter >> conversations: anObject [
 	conversations announcer: self announcer.
 ]
 
+{ #category : #private }
+GTChatter >> maybeStop [
+	self == self class me ifFalse: [ self stop ]
+]
+
 { #category : #'instance creation' }
 GTChatter >> newRemoteProxy [
 	^ RAProxy new
@@ -124,7 +139,7 @@ GTChatter >> newRemoteProxy [
 
 { #category : #protocol }
 GTChatter >> notifyAsOnline [
-	^ self proxy announce: (GTCOnlineClient new from: self clientId; yourself)
+	^ self proxy announce: (GTCOnlineClient new from: self client; yourself)
 ]
 
 { #category : #accessing }
@@ -149,10 +164,14 @@ GTChatter >> onlineUsersUpdater [
 
 { #category : #ui }
 GTChatter >> open [
+	| aWindow |
 	self start.
-	^ GTChatterUI new
+	aWindow := GTChatterUI new
 			chatterModel: self;
 			open.
+	aWindow announcer 
+		when: WindowClosed do: [ self maybeStop ].
+	^ aWindow
 ]
 
 { #category : #accessing }
@@ -200,7 +219,7 @@ GTChatter >> send: anAnnouncement [
 GTChatter >> sendText: aTextOrString to: aClientId [
 	| anAnnouncement |
 	anAnnouncement := GTCTextMessage new 
-										from: self clientId; 
+										from: self client; 
 										to: aClientId; 
 										message: aTextOrString;
 										yourself.
@@ -233,6 +252,7 @@ GTChatter >> setRemoteProxy [
 
 { #category : #protocol }
 GTChatter >> start [
+	self proxy start.
 	self subscribeForRemoteAnnoucements.
 	self notifyAsOnline.
 	self onlineUsersUpdater start.
@@ -242,7 +262,7 @@ GTChatter >> start [
 GTChatter >> stop [
 	self onlineUsersUpdater stop.
 	self unsubscribeFromRemoteAnnoucements.
-	
+	self proxy stop.
 ]
 
 { #category : #private }
@@ -250,7 +270,7 @@ GTChatter >> subscribeForLocalAnnouncements [
 	self announcer 
 		when: GTSendTextMessage 
 			do: [ :announcement | 
-				self sendText: announcement message to: announcement clientId.
+				self sendText: announcement message to: announcement client.
 				announcement messageSent ]
 			for: self.
 ]
@@ -262,12 +282,12 @@ GTChatter >> subscribeForRemoteAnnoucements [
 	self proxy 
 		when: GTCAddressedMessage 
 			do: [ :announcement | 
-				(announcement isFor: self clientId) 
+				(announcement isFor: self client) 
 					ifTrue: [ self receive: announcement ] ]
 			for: self;
 		when: GTCOnlineClient 
 			do: [ :announcement | 
-				 (announcement isFrom: self clientId)
+				 (announcement isFrom: self client)
 					ifFalse: [ self addOnlineUser: announcement ] ]
 			for: self;
 		when: GTCWhoIsOnline 
@@ -294,6 +314,6 @@ GTChatter >> unsubscribeFromRemoteAnnoucements [
 { #category : #protocol }
 GTChatter >> whoIsOnline [
 	self proxy announce: (GTCWhoIsOnline new 
-									from: self clientId;
+									from: self client;
 									yourself)
 ]

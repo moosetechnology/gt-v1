@@ -66,5 +66,5 @@ GTCRemoteAnnouncement >> timestamp: anObject [
 
 { #category : #protocol }
 GTCRemoteAnnouncement >> updateFromChatter: aGTChatter [ 
-	self from: aGTChatter clientId.
+	self from: aGTChatter client.
 ]
