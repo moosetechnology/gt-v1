@@ -355,8 +355,10 @@ GTChatterWidgetThemer >> textMessageEditingAreaStyleFor: aBrick [
 
 { #category : #'styles - conversation' }
 GTChatterWidgetThemer >> textMessageInputFieldStyleFor: aBrick [
+	aBrick
+		height: [ :brick | brick totalTextHeight ].
 	aBrick layoutProperties 
-		staticHeight: 30; 
+		staticHeight: [ :brick | brick totalTextHeight ];
 		hSpaceFill.
 
 ]

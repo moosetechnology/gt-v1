@@ -25,7 +25,7 @@ GTMessageInputFieldBrick >> announcer [
 			ifNotNil: [ :aData | aData announcer ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTMessageInputFieldBrick >> conversation [
 	^ self data
 ]
@@ -56,4 +56,9 @@ GTMessageInputFieldBrick >> textBrick: aRubScrolledTextMorph [
 	self theme chatterWidgetThemer scrolledTextMorphStyleFor: textBrick.
 	self addBrickBack: textBrick.
 	(self textBrick announcer subscribe: RubTextAccepted send: #acceptedText: to: self) subscriber: self.
+]
+
+{ #category : #accessing }
+GTMessageInputFieldBrick >> totalTextHeight [
+	^ self textBrick paragraph totalTextHeight
 ]
