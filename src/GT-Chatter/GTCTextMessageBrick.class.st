@@ -9,16 +9,14 @@ Class {
 
 { #category : #visitor }
 GTCTextMessageBrick >> acceptReceivedMessage: aMessage [
-	self editingAreaBrick 
-				backgroundColor: Color lightGray;
-				textColor: Color black.
+	self theme chatterWidgetThemer 
+			receivedTextMessageEditingAreaStyleFor: self editingAreaBrick.
 ]
 
 { #category : #visitor }
 GTCTextMessageBrick >> acceptSentMessage: aMessage [
-	self editingAreaBrick 
-				backgroundColor: Color green muchDarker;
-				textColor: Color white.
+	self theme chatterWidgetThemer 
+			sentTextMessageEditingAreaStyleFor: self editingAreaBrick.
 ]
 
 { #category : #accessing }
@@ -31,11 +29,7 @@ GTCTextMessageBrick >> editingAreaBrick: aMorph [
 	|brick|
 	editingAreaBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	editingAreaBrick := aMorph.
-	editingAreaBrick 
-		layoutProperties: GLMBrickLayoutProperties new;
-		beReadOnly;
-		beWrapped.
-	editingAreaBrick layoutProperties hSpaceFill.
+	self theme chatterWidgetThemer textMessageEditingAreaStyleFor: editingAreaBrick.
 	
 	"we receive a Morph and need to manually convert it to brick,
 	to allow its container shrink vertically to fit height of the rubric"
@@ -48,8 +42,7 @@ GTCTextMessageBrick >> editingAreaBrick: aMorph [
 { #category : #initialization }
 GTCTextMessageBrick >> initialize [
 	super initialize.
-	
-	self layoutProperties hSpaceFill.
+	self theme chatterWidgetThemer textMessageStyleFor: self.
 	self editingAreaBrick: self newEditingAreaBrick.
 ]
 

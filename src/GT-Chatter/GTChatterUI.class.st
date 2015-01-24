@@ -35,7 +35,7 @@ GTChatterUI >> conversationsBrick [
 { #category : #initialization }
 GTChatterUI >> initialize [
 	super initialize.
-	"self theme chatterWidgetThemer chatterStyleFor: self."
+	self theme chatterWidgetThemer chatterStyleFor: self.
 	
 ]
 

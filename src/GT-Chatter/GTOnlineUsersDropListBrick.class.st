@@ -51,6 +51,12 @@ GTOnlineUsersDropListBrick >> dropList: aBrick [
 	self addBrickBack: dropList.
 ]
 
+{ #category : #'as yet unclassified' }
+GTOnlineUsersDropListBrick >> initialize [
+	super initialize.
+	self theme chatterWidgetThemer onlineUsersStyleFor: self
+]
+
 { #category : #'instance creation' }
 GTOnlineUsersDropListBrick >> newDropList [
 	^ DropListMorph new

@@ -10,26 +10,22 @@ Class {
 
 { #category : #visitor }
 GTCSelectionInMethodMessageBrick >> acceptReceivedMessage: aGTReceivedMessage [ 
-	self color: Color lightGray
+	self theme chatterWidgetThemer sentSourceCodePointerStyleFor: self.
 ]
 
 { #category : #visitor }
 GTCSelectionInMethodMessageBrick >> acceptSentMessage: aGTSentMessage [ 
-	self color: Color green muchDarker.
-	self labelBrick textColor: Color white.
+	self theme chatterWidgetThemer 
+			receivedSourceCodePointerStyleFor: self;
+			receivedSourceCodeLabelStyleFor: self labelBrick
 ]
 
 { #category : #accessing }
 GTCSelectionInMethodMessageBrick >> browseBrick: aBrick [
 	browseBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	browseBrick := aBrick.
-	browseBrick 
-		enable;
-		addUpAction: [ self browseMethod ];
-		icon: GLMUIThemeExtraIcons glamorousBrowse.
-	browseBrick layoutProperties 
-		horizontalPercent: 0;
-		staticWidth: [ :brick | brick normalImage width ].
+	self theme chatterWidgetThemer sourceCodePointerBrowseButtonStyleFor: browseBrick.
+	browseBrick addUpAction: [ self browseMethod ].
 	self addBrickBack: aBrick.
 ]
 
@@ -41,20 +37,10 @@ GTCSelectionInMethodMessageBrick >> browseMethod [
 { #category : #initialization }
 GTCSelectionInMethodMessageBrick >> initialize [
 	super initialize.
-	self layoutProperties hSpaceFill.
-	self layoutPolicy: GLMBrickHorizontalProportionalLinearLayout new.
-	
+	self theme chatterWidgetThemer sourceCodePointerStyleFor: self.
 	self labelBrick: self newLabelBrick.
 	self browseBrick: self newBrowseBrick.
 
-	"here we configurate paddings"
-	self layoutProperties
-		hSpaceFill;
-		vShrinkWrap;
-		paddingLeft: 5;
-		paddingRight: 5;
-		paddingTop: 0;
-		paddingBottom: 0
 ]
 
 { #category : #accessing }
@@ -66,7 +52,7 @@ GTCSelectionInMethodMessageBrick >> labelBrick [
 GTCSelectionInMethodMessageBrick >> labelBrick: aBrick [
 	labelBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	labelBrick := aBrick.
-	labelBrick layoutProperties hSpaceFill.
+	self theme chatterWidgetThemer sourceCodePointerLabelStyleFor: labelBrick.
 	self addBrickBack: aBrick.
 ]
 

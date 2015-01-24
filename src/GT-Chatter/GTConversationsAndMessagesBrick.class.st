@@ -22,6 +22,11 @@ GTConversationsAndMessagesBrick >> acceptMessageAdded: aGTMessageAdded [
 ]
 
 { #category : #accessing }
+GTConversationsAndMessagesBrick >> chatterModel [ 
+	^ self data
+]
+
+{ #category : #accessing }
 GTConversationsAndMessagesBrick >> chatterModel: aGTChatter [ 
 	self data: aGTChatter.
 	self conversationsBrick chatterModel: aGTChatter.
@@ -36,10 +41,7 @@ GTConversationsAndMessagesBrick >> conversationBrick [
 GTConversationsAndMessagesBrick >> conversationBrick: aBrick [
 	conversationBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	conversationBrick := aBrick.
-	conversationBrick chatterModel: self data.
-	conversationBrick layoutProperties 
-		vSpaceFill; 
-		horizontalPercent: 70.
+	conversationBrick chatterModel: self chatterModel.
 	self addBrickBack: aBrick.
 ]
 
@@ -53,17 +55,13 @@ GTConversationsAndMessagesBrick >> conversationsBrick: aBrick [
 	conversationsBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	conversationsBrick := aBrick.
 	conversationsBrick selectedConversationProcessor: self.
-	conversationsBrick layoutProperties 
-		vSpaceFill; 
-		horizontalPercent: 30.
 	self addBrickBack: aBrick.
 ]
 
 { #category : #initialization }
 GTConversationsAndMessagesBrick >> initialize [
 	super initialize.
-	self layoutProperties vSpaceFill; hSpaceFill.
-	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
+	self theme chatterWidgetThemer conversationsAndMessagesStyleFor: self.
 	self conversationsBrick: self newConversationsBrick.
 	self conversationBrick: self newConversationBrick.
 ]

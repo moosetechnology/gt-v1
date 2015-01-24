@@ -7,10 +7,8 @@ Class {
 { #category : #initialization }
 GTRecipientBrick >> initialize [
 	super initialize.
-	
-	"my width is 90% of my parent"
-	self layoutProperties horizontalPercent: 90.
-	self textPosition: #center
+	self theme chatterWidgetThemer recipientStyleFor: self.
+
 ]
 
 { #category : #accessing }

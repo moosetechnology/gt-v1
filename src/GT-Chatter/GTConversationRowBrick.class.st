@@ -71,30 +71,28 @@ GTConversationRowBrick >> exampleExistingConversation [
 
 { #category : #initialization }
 GTConversationRowBrick >> initialize [
-	super initialize.
-	
-	self
-		"to allow my children have proportional width (i.e 33% of me) and to fill my height"	
-		layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new;
-		enable;
-		normalColor: Color lightGray lighter;
-		selectedColor: Color lightGray;
-		pressedColor: Color gray;
-		checkedColor: Color gray;
-		addBrickBack: self recipientBrick.
-		
-	"here we configurate paddings"
-	self layoutProperties
-		hSpaceFill;
-		paddingLeft: 5;
-		paddingRight: 5;
-		paddingTop: 10;
-		paddingBottom: 10.
+	super initialize.	
+	self theme chatterWidgetThemer conversationRowStyleFor: self.
+	self recipientBrick: self newRecipientBrick.
+
+]
+
+{ #category : #'instance creation' }
+GTConversationRowBrick >> newRecipientBrick [
+	^ GTRecipientBrick new
 ]
 
 { #category : #accessing }
 GTConversationRowBrick >> recipientBrick [
-	^ recipientBrick ifNil: [ recipientBrick := GTRecipientBrick new ]
+	^ recipientBrick
+]
+
+{ #category : #accessing }
+GTConversationRowBrick >> recipientBrick: aBrick [
+	recipientBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
+	recipientBrick := aBrick.
+	self addBrickBack: aBrick.
+	
 ]
 
 { #category : #'events-processing' }

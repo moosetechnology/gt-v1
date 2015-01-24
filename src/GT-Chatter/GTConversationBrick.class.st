@@ -28,15 +28,15 @@ GTConversationBrick >> conversation: aConversation [
 { #category : #initialization }
 GTConversationBrick >> initialize [
 	super initialize.
-	self layoutProperties hSpaceFill.
-	self layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new.
+	self theme chatterWidgetThemer conversationStyleFor: self.
+
 ]
 
 { #category : #accessing }
 GTConversationBrick >> inputBrick [
 	^ inputBrick ifNil: [ 
 			inputBrick := self newInputBrick.
-			inputBrick layoutProperties staticHeight: 30; hSpaceFill.
+			self theme chatterWidgetThemer textMessageEditorStyleFor: inputBrick.
 			self addBrickBack: inputBrick.
 			inputBrick ]
 ]
@@ -63,7 +63,7 @@ GTConversationBrick >> listAdaptor [
 GTConversationBrick >> listBrick [
 	^ listBrick ifNil: [ 
 			listBrick := GLMFallbackScrollListBrick new adaptor: self listAdaptor; yourself.
-			listBrick layoutProperties verticalPercent: 100.
+			self theme chatterWidgetThemer messagesScrollListStyleFor: listBrick.
 			self addBrickBack: listBrick.
 			listBrick ]
 ]
@@ -111,8 +111,6 @@ GTConversationBrick >> onlineUsersBrick: aBrick [
 	self onlineUsersBrick ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	onlineUsersBrick := aBrick.
 	onlineUsersBrick chatterModel: chatterModel.
-	onlineUsersBrick 
-		layoutProperties staticHeight: 30; hSpaceFill.
 	self addBrick: aBrick before: self listBrick.
 	self doLayout; changed.
 ]

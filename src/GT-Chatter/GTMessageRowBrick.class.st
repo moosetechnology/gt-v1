@@ -34,18 +34,7 @@ GTMessageRowBrick >> blankBrick [
 { #category : #initialization }
 GTMessageRowBrick >> initialize [
 	super initialize.
-	
-	"to allow my children have proportional width (i.e 33% of me) and to fill my height"
-	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
-	
-	"here we configurate paddings"
-	self layoutProperties
-		hSpaceFill;
-		vShrinkWrap;
-		paddingLeft: 5;
-		paddingRight: 5;
-		paddingTop: 10;
-		paddingBottom: 10
+	self theme chatterWidgetThemer messageRowStyleFor: self.
 ]
 
 { #category : #accessing }
@@ -63,9 +52,6 @@ GTMessageRowBrick >> message: aSentOrReceivedMessage [
 	self data: aSentOrReceivedMessage.
 	self removeAllBricks.
 	messageBrick := aSentOrReceivedMessage contents asMessageMorph.
-	messageBrick layoutProperties 
-		horizontalPercent: 95;
-		vShrinkWrap.
 	aSentOrReceivedMessage visit: messageBrick.
 		
 	"position of blank space depends on message's sender"

@@ -45,15 +45,8 @@ GTConversationsBrick >> conversations [
 GTConversationsBrick >> createConversationButtonBrick: aBrick [
 	conversationButton ifNotNil: [ :anOldBrick | self removeBrick: anOldBrick ].
 	conversationButton := aBrick.
-	conversationButton
-		normalImage: GLMUIThemeExtraIcons glamorousAdd;
-		addUpAction: [ self createNewConversation ];
-		pressedColor: Color darkGray; 
-		selectedColor: Color gray;
-		enabled.
-	conversationButton layoutProperties 
-		staticWidth: 30;
-		staticHeight: 30.
+	self theme chatterWidgetThemer createConversationButtonStyleFor: aBrick.
+	conversationButton addUpAction: [ self createNewConversation ].
 	self addBrickBack: conversationButton.
 ]
 
@@ -65,8 +58,7 @@ GTConversationsBrick >> createNewConversation [
 { #category : #initialization }
 GTConversationsBrick >> initialize [
 	super initialize.
-	self layoutProperties vSpaceFill; hSpaceFill.
-	self layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new.
+	self theme chatterWidgetThemer conversationsStyleFor: self.
 	self createConversationButtonBrick: self newCreateConversationButtonBrick.
 ]
 
@@ -84,7 +76,7 @@ GTConversationsBrick >> listAdaptor [
 GTConversationsBrick >> listBrick [
 	^ listBrick ifNil: [ 
 			listBrick := GLMFallbackScrollListBrick new adaptor: self listAdaptor; yourself.
-			listBrick layoutProperties hSpaceFill; verticalPercent: 100.
+			self theme chatterWidgetThemer conversationsScrollListStyleFor: listBrick. 
 			self addBrickBack: listBrick.
 			listBrick ]
 ]

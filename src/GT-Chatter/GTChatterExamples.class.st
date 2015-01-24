@@ -168,7 +168,7 @@ GTChatterExamples class >> exampleTextMessageBrick [
 { #category : #accessing }
 GTChatterExamples class >> messageModel [
 	^ GTCTextMessage new
-			message: (String loremIpsum: 100);
+			message: (String loremIpsum: ((Random new next * 100) rounded) + 10);
 			yourself
 ]
 
