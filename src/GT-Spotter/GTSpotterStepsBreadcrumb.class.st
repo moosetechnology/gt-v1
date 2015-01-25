@@ -191,7 +191,7 @@ GTSpotterStepsBreadcrumb >> scrollToTheLastOne [
 	|leftDelta rightDelta delta|
 	self items isEmpty ifTrue: [ ^ self ].
 	
-	self band brickBounds: (self band brickBounds translateBy: (self band data)@0).
+	self band translateX: self band data.
 	
 	rightDelta := self globalBounds right - self band globalBounds right.
 	leftDelta := self globalBounds left - self band globalBounds left.
