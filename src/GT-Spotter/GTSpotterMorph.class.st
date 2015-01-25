@@ -46,9 +46,11 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	breadcrumbBrick announcer subscribe: GTSpotterBreadcrumbVisibilityChanged send: #onBreadcrumbVisibilityChanged to: self.
 	
 	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
-	
-	breadcrumbWrapperBrick := GLMBandBrick new.
-	breadcrumbWrapperBrick layout staticHeight: [ :b | b height ].
+	breadcrumbWrapperBrick := GLMBrick new layout: GLMBrickVerticalFillLinearLayout new.
+	breadcrumbWrapperBrick layout
+		staticHeight: self theme spotterWidgetThemer breadcrumbHeight;
+		marginBottom: self theme spotterWidgetThemer breadcrumbTriangleHeight negated;
+		zIndex: 2.
 	breadcrumbWrapperBrick addBrickBack: breadcrumbBrick.
 	self addBrickBack: breadcrumbWrapperBrick
 ]
@@ -163,11 +165,9 @@ GTSpotterMorph >> newPaneBrick [
 
 { #category : #'events-processing' }
 GTSpotterMorph >> onBreadcrumbVisibilityChanged [
-	|translate|
-	
-	translate := 0@self breadcrumbBrick defaultBreadcrumbHeight.
-	self breadcrumbBrick isVisible	ifTrue: [ translate := translate negated ].
-	self bounds: ((self bounds translateBy: (translate)) withHeight: (self bounds height - translate y))
+
+	self doLayout.
+	self changed.
 ]
 
 { #category : #'events-processing' }
@@ -266,7 +266,7 @@ GTSpotterMorph >> spotterModel: aSpotter [
 
 	spotterModel := aSpotter.
 	
-	spotterModel announcer subscribe: GTSpotterExitAnnouncement send: #delete to: self.
+	spotterModel announcer subscribe: GTSpotterExitAnnouncement send: #escapePressed to: self.
 	
 	self breadcrumbBrick spotterModel: spotterModel.
 	self paneBrick spotterModel: spotterModel.

@@ -23,24 +23,61 @@ GTSpotterWidgetThemer >> borderColor [
 	^ Color r: 180 g: 180 b: 180 range: 255
 ]
 
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbHeight [
+
+	^ 30
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbItemBackgroundColor [
+
+	^ self borderColor
+]
+
 { #category : #styles }
-GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
+GTSpotterWidgetThemer >> breadcrumbItemLabelStyleFor: aBrick [
 
 	aBrick
 		textPosition: #center;
-		normalColor: self borderColor;
-		textColor: Color white.
+		normalColor: self breadcrumbItemBackgroundColor;
+		textColor: self breadcrumbItemTextColor;
+		padding: { 0 . self outerBorderWidth }.
+		
+	aBrick layout vSpaceFill
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
 	
-	aBrick layoutProperties
-		margin: { self outerBorderWidth . self outerBorderWidth . 0 . 0 };
-		padding: { 0 . self outerBorderWidth }
+	aBrick margin: { 0 . self outerBorderWidth . 0 . 0 }
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbItemTextColor [
+
+	^ Color white
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> breadcrumbItemTriangleStyleFor: aBrick [
+
+	aBrick renderer: (GTSpotterTriangleRenderer new orientation: #bottom).
+	aBrick layout staticHeight: self breadcrumbTriangleHeight.
+	aBrick color: self breadcrumbItemBackgroundColor
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 	
-	aBrick layoutProperties
+	aBrick layout
 		margin: { 0 . self outerBorderWidth }
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbTriangleHeight [
+
+	^ 16
 ]
 
 { #category : #values }
@@ -491,8 +528,7 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterStyleFor: aBrick [
 
-	"aBrick brickRoot: GLMBandBrick new."
-	aBrick brickRoot layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new
+	aBrick brickRoot layout: GLMBrickVerticalFillProportionalLinearLayout new
 ]
 
 { #category : #styles }

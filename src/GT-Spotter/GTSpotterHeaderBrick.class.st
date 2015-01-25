@@ -19,7 +19,7 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	self theme spotterWidgetThemer closeButtonStyleFor: closeButton.
 	
 	closeButton layoutProperties staticWidth: self height.	"to make button being a square"
-	closeButton addUpAction: [ self brickRoot delete ].
+	closeButton addUpAction: [ self spotterModel exit ].
 	
 	self addBrickBack: closeButton
 ]

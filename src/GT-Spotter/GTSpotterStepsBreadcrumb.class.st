@@ -36,7 +36,7 @@ GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
 	
 	"width of other bricks depends from the width of the last one"
 	^ aBrick isLastInOwner
-		ifTrue: [ ((aBrick approximateWidth min: (self width / 2)) max: ((self width - ((self maxNumberOfSteps - 1) * aBrick layoutProperties marginRight)) / self maxNumberOfSteps)) floor ]
+		ifTrue: [ ((aBrick labelBrick approximateWidth min: (self width / 2)) max: ((self width - ((self maxNumberOfSteps - 1) * aBrick layoutProperties marginRight)) / self maxNumberOfSteps)) floor ]
 		ifFalse: [ ((self width - self band lastSubbrick width - ((self maxNumberOfSteps - 1) * aBrick layoutProperties marginRight)) / (self maxNumberOfSteps - 1)) floor ]
 	
 ]
@@ -44,7 +44,7 @@ GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
 { #category : #accessing }
 GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 
-	^ 35
+	^ self theme spotterWidgetThemer breadcrumbHeight + self theme spotterWidgetThemer breadcrumbTriangleHeight
 ]
 
 { #category : #geometry }
@@ -81,21 +81,14 @@ GTSpotterStepsBreadcrumb >> glmAnimateBrickBounds: aValue duration: anInteger ca
 		]
 ]
 
-{ #category : #geometry }
-GTSpotterStepsBreadcrumb >> height [
-
-	^ self items isEmpty
-		ifTrue: [ 0 ]
-		ifFalse: [ self defaultBreadcrumbHeight ]
-]
-
 { #category : #initialization }
 GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
 	self layoutPolicy: (GLMBrickHorizontalFillLinearLayout new).
 		
-	self band: self newBand
+	self band: self newBand.
+	self height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
 	
 ]
 
@@ -139,7 +132,7 @@ GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	selectedCandidate := previousStep selectedCandidate.
 	origin := step origin.
 	
-	self push: (GLMLabelBrick new
+	self push: (GTSpotterStepBreadcrumbItem new
 		text: ((selectedCandidate = origin)
 			ifTrue: [ (previousStep selected renderingProcessor render: selectedCandidate) labelBrick text ]
 			ifFalse: [ (origin isKindOf: Collection) ifTrue: [ previousStep selected processor title ] ifFalse: [ origin gtDisplayString] ]))
@@ -163,6 +156,7 @@ GTSpotterStepsBreadcrumb >> pop [
 	self items size = 0
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
+			self items last showTriangle.
 			self doLayout.
 			self changed ]
 ]
@@ -172,7 +166,8 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 	self theme spotterWidgetThemer breadcrumbItemStyleFor: aBrick.
 	
 	aBrick width: [ :itemBrick | self calculateItemWidth: itemBrick ].
-		
+	
+	self items isEmpty ifFalse: [ self items last hideTriangle ].
 	self band addBrickBack: aBrick.
 	self items addLast: aBrick.
 	
