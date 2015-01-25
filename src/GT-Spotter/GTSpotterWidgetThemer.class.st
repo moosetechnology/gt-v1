@@ -524,11 +524,11 @@ GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 
 	aBrick layout: GLMBrickVerticalScrollListLayout new;
-		margin: { self headerHeight + self innerBorderWidth + self previewBorderWidth. 0 . self previewBorderWidth }.
+		margin: { self headerHeight + self innerBorderWidth + self previewBorderWidth. 0 . self previewBorderWidth . self outerBorderWidth negated}.
 		
 	aBrick layout
-		staticWidth: self previewArrowWidth;
-		zIndex: 2.
+		staticWidth: self previewArrowWidth - self outerBorderWidth;
+		zIndex: 3.
 ]
 
 { #category : #styles }
