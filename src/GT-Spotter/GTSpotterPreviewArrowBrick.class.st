@@ -67,7 +67,8 @@ GTSpotterPreviewArrowBrick >> onCandidateMoved [
 GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
 
 	self selectedItemBrick: ann candidateBrick.
-	self moveTo: self selectedItemBrick
+	self moveTo: self selectedItemBrick.
+	self brickRoot changed
 ]
 
 { #category : #'event handling' }

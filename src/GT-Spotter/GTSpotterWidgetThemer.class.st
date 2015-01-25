@@ -384,13 +384,13 @@ GTSpotterWidgetThemer >> previewArrowColor [
 { #category : #values }
 GTSpotterWidgetThemer >> previewArrowGapHack [
 
-	^ 1
+	^ self resultsScrollbarMarginRight + self resultsScrollbarWidth + self outerBorderWidth + 1"pager bug"
 ]
 
 { #category : #values }
 GTSpotterWidgetThemer >> previewArrowWidth [
 
-	^ self itemHeight / 2
+	^ (self itemHeight / 2) + self previewArrowGapHack
 ]
 
 { #category : #values }
@@ -534,11 +534,11 @@ GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 			self headerHeight + self innerBorderWidth + self previewBorderWidth.
 			0.
 			self previewBorderWidth.
-			(self outerBorderWidth + self previewArrowGapHack) negated }.
+			self previewArrowGapHack negated }.
 		
 	aBrick layout
-		staticWidth: self previewArrowWidth - self outerBorderWidth - self previewArrowGapHack;
-		zIndex: 3.
+		staticWidth: self previewArrowWidth - self previewArrowGapHack;
+		zIndex: 4.
 ]
 
 { #category : #styles }
@@ -546,7 +546,7 @@ GTSpotterWidgetThemer >> spotterPreviewArrowStyleFor: aBrick [
 
 	aBrick
 		renderer: (GTSpotterTriangleRenderer new orientation: #right);
-		height: [ self previewArrowWidth * 2 ]
+		height: [ (self previewArrowWidth - self previewArrowGapHack ) * 2 ]
 ]
 
 { #category : #styles }

@@ -64,13 +64,16 @@ GTSpotterTriangleRenderer >> renderLeftTriangle: aBrick on: aCanvas [
 
 { #category : #rendering }
 GTSpotterTriangleRenderer >> renderRightTriangle: aBrick on: aCanvas [
-	|a b c width height|
+	|a b c width height gap|
 	
-	width := aBrick brickBounds width.
+	gap := aBrick theme spotterWidgetThemer previewArrowGapHack.
+	aCanvas fillRectangle: (aBrick brickBounds withWidth: gap) color: aBrick color.
+	
+	width := aBrick brickBounds width - gap.
 	height := aBrick brickBounds height.
 	
-	a := aBrick brickBounds topLeft + (0 @ ((height / 2 - width) max: 0)).
-	b := aBrick brickBounds topLeft + (0 @ ((height / 2 + width) min: height)).
+	a := aBrick brickBounds topLeft + (gap @ ((height / 2 - width) max: 0)).
+	b := aBrick brickBounds topLeft + (gap @ ((height / 2 + width) min: height)).
 	c := aBrick brickBounds topRight + (0 @ (height / 2)).
 	
 	self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint . b asIntegerPoint . c asIntegerPoint}

@@ -106,6 +106,7 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 GTSpotterResultsBrick >> onCandidateSelected: ann [
 
 	self scrollTo: ann candidateBrick.
+	self brickRoot changed.
 ]
 
 { #category : #'event handling' }
