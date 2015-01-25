@@ -35,6 +35,12 @@ GTChatter class >> open [
 ]
 
 { #category : #ui }
+GTChatter class >> openChatWith: aGTClient [ 
+	self me addChatWith: aGTClient.
+	^ self open
+]
+
+{ #category : #ui }
 GTChatter class >> openNamed: aClientId [ 
 	^ self new clientId: aClientId; open
 ]
@@ -62,6 +68,11 @@ GTChatter class >> window [
 	weakWindowHolder ifNil: [ weakWindowHolder := WeakArray new: 1 ].
 	weakWindowHolder first ifNil: [ weakWindowHolder at: 1 put: (self me open) ].
 	^ weakWindowHolder first
+]
+
+{ #category : #adding }
+GTChatter >> addChatWith: aClient [
+	^ self conversations addChatWith: aClient
 ]
 
 { #category : #adding }

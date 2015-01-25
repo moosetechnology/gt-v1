@@ -10,6 +10,15 @@ Class {
 }
 
 { #category : #adding }
+GTConversations >> addChatWith: aGTClient [ 
+	^ monitor critical: [ 
+		items 
+			detect: [ :aConversation | aConversation isWith: aGTClient ] 
+			ifFound: [ :aConversation | aConversation ]
+			ifNone: [ self addNewConversationWith: aGTClient ] ]
+]
+
+{ #category : #adding }
 GTConversations >> addConversation: aGTConversation [ 
 	aGTConversation announcer: self announcer.
 	monitor critical: [ items addFirst: aGTConversation ].
@@ -31,6 +40,14 @@ GTConversations >> addMessage: aGTMessage to: aConversation [
 { #category : #adding }
 GTConversations >> addNewConversation [
 	^ self addConversation: GTConversation new.
+]
+
+{ #category : #adding }
+GTConversations >> addNewConversationWith: aClient [
+	^ self addConversation: 
+				(GTConversation new
+					recipient: aClient;
+					yourself)
 ]
 
 { #category : #accessing }

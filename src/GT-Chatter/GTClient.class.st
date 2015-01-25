@@ -29,6 +29,11 @@ GTClient >> fullName: anObject [
 	fullName := anObject
 ]
 
+{ #category : #protocol }
+GTClient >> openChat [
+	^ GTChatter openChatWith: self
+]
+
 { #category : #printing }
 GTClient >> printOn: aStream [
 	aStream
