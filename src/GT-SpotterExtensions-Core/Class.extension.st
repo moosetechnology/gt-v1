@@ -36,6 +36,16 @@ Class >> spotterInstanceVariablesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+Class >> spotterPackageFor: aStep [
+	<spotterOrder: 50>
+	aStep listProcessor
+			title: 'Package';
+			allCandidates: [ {self package} ];
+			itemIcon: #systemIcon;
+			matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 Class >> spotterSubclassesFor: aStep [
 	<spotterOrder: 50>
 	aStep listProcessor
