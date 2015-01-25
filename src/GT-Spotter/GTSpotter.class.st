@@ -45,7 +45,7 @@ GTSpotter class >> exampleMC [
 GTSpotter class >> exampleWithPreview [
 	<example>
 	^ GTSpotterMorph new
-		extent: (World width / 1.4 @ (World height / 1.5)) asIntegerPoint;
+		extent: (World width / 2.5 @ (World height / 1.5)) asIntegerPoint;
 		showPreview;
 		spotterModel: self new;
 		openCenteredInWorld
@@ -104,6 +104,12 @@ GTSpotter >> addStep: aStepModel [
 	self notifyStepAdded: aStepModel
 ]
 
+{ #category : #notifying }
+GTSpotter >> announce: anAnnouncement [
+	
+	self announcer announce: anAnnouncement
+]
+
 { #category : #accessing }
 GTSpotter >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
@@ -153,6 +159,12 @@ GTSpotter >> getText [
 GTSpotter >> hasPreviousStep [
 
 	^ self steps size > 1
+]
+
+{ #category : #'actions api' }
+GTSpotter >> hidePreview [
+
+	self announcer announce: GTSpotterHidePreview new
 ]
 
 { #category : #'actions api' }
@@ -264,6 +276,12 @@ GTSpotter >> setText: aText from: aView [
 	
 	text := aText asString asText.
 	^ true
+]
+
+{ #category : #'actions api' }
+GTSpotter >> showPreview [
+
+	self announcer announce: GTSpotterShowPreview new
 ]
 
 { #category : #accessing }

@@ -3,10 +3,25 @@ Class {
 	#superclass : #GLMBrick,
 	#instVars : [
 		'contentsBrick',
-		'previewBrick'
+		'previewBrick',
+		'arrowBrick'
 	],
 	#category : #'GT-Spotter-UI'
 }
+
+{ #category : #accessing }
+GTSpotterPaneBrick >> arrowBrick [
+
+	^ arrowBrick
+]
+
+{ #category : #accessing }
+GTSpotterPaneBrick >> arrowBrick: aBrick [
+
+	arrowBrick := aBrick.
+	self theme spotterWidgetThemer spotterPreviewArrowContainerStyleFor: self arrowBrick.
+	self addBrickBack: self arrowBrick
+]
 
 { #category : #accessing }
 GTSpotterPaneBrick >> contentsBrick [
@@ -28,10 +43,10 @@ GTSpotterPaneBrick >> contentsBrick: aBrick [
 { #category : #action }
 GTSpotterPaneBrick >> hidePreview [
 
-	(self hasSubbrick: self previewBrick) ifFalse: [ ^ self ].
+	self isPreviewShown ifFalse: [ ^ self ].
 
 	self removeBrick: self previewBrick.
-	self contentsBrick layout horizontalPercent: 100.
+	self contentsBrick layout hSpaceFill.
 	self doLayout.
 	self changed.
 ]
@@ -41,7 +56,20 @@ GTSpotterPaneBrick >> initialize [
 	super initialize.
 	
 	self contentsBrick: self newContentsBrick.
+	self arrowBrick: self newArrowBrick.
 	self previewBrick: self newPreviewBrick
+]
+
+{ #category : #testing }
+GTSpotterPaneBrick >> isPreviewShown [
+
+	^ self hasSubbrick: self previewBrick
+]
+
+{ #category : #'instance creation' }
+GTSpotterPaneBrick >> newArrowBrick [
+
+	^ GTSpotterPreviewArrowBrick new
 ]
 
 { #category : #'instance creation' }
@@ -74,9 +102,11 @@ GTSpotterPaneBrick >> previewBrick: aBrick [
 { #category : #action }
 GTSpotterPaneBrick >> showPreview [
 	
-	(self hasSubbrick: self previewBrick) ifTrue: [ ^ self ].
+	self isPreviewShown ifTrue: [ ^ self ].
 	
 	self addBrickBack: self previewBrick.
+	self previewBrick spotterModel ifNotNil: [ 
+		self previewBrick updatePreviewWith: self previewBrick spotterModel currentStep selectedCandidate ].
 	self contentsBrick layout horizontalPercent: (100 - self previewBrick layout horizontalPercent).
 	self doLayout.
 	self changed.
@@ -86,5 +116,6 @@ GTSpotterPaneBrick >> showPreview [
 GTSpotterPaneBrick >> spotterModel: aSpotter [
 
 	self contentsBrick spotterModel: aSpotter.
+	self arrowBrick spotterModel: aSpotter.
 	self previewBrick spotterModel: aSpotter
 ]

@@ -47,6 +47,7 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	
 	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
 	breadcrumbWrapperBrick := GLMBrick new layout: GLMBrickVerticalFillLinearLayout new.
+	breadcrumbWrapperBrick width: [ self paneBrick contentsBrick width - self theme spotterWidgetThemer outerBorderWidth ].
 	breadcrumbWrapperBrick layout
 		staticHeight: self theme spotterWidgetThemer breadcrumbHeight;
 		marginBottom: self theme spotterWidgetThemer breadcrumbTriangleHeight negated;
@@ -100,7 +101,10 @@ GTSpotterMorph >> handlesMouseDown: evt [
 
 { #category : #actions }
 GTSpotterMorph >> hidePreview [
-
+	|delta|
+	self paneBrick isPreviewShown ifFalse: [ ^ self ].
+	delta := ((self width - ((self width / 100) * (100 - self theme spotterWidgetThemer previewWidthPercent)))@0) negated / 2.
+	self bounds: (self bounds expandBy: delta).
 	self paneBrick hidePreview
 ]
 
@@ -171,9 +175,21 @@ GTSpotterMorph >> onBreadcrumbVisibilityChanged [
 ]
 
 { #category : #'events-processing' }
+GTSpotterMorph >> onHidePreview [
+
+	self hidePreview
+]
+
+{ #category : #'events-processing' }
 GTSpotterMorph >> onLostFocus: event [
 
 	focusedMorph ifNil: [ focusedMorph := event morph ]
+]
+
+{ #category : #'events-processing' }
+GTSpotterMorph >> onShowPreview [
+
+	self showPreview
 ]
 
 { #category : #opening }
@@ -251,7 +267,10 @@ GTSpotterMorph >> shiftPressed [
 
 { #category : #actions }
 GTSpotterMorph >> showPreview [
-
+	|delta|
+	self paneBrick isPreviewShown ifTrue: [ ^ self hidePreview ].
+	delta := (((self width * 100) / (100 - self theme spotterWidgetThemer previewWidthPercent) - self width)@0) / 2.
+	self bounds: (self bounds expandBy: delta).
 	self paneBrick showPreview
 ]
 
@@ -267,6 +286,8 @@ GTSpotterMorph >> spotterModel: aSpotter [
 	spotterModel := aSpotter.
 	
 	spotterModel announcer subscribe: GTSpotterExitAnnouncement send: #escapePressed to: self.
+	spotterModel announcer subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
+	spotterModel announcer subscribe: GTSpotterHidePreview send: #onHidePreview to: self.
 	
 	self breadcrumbBrick spotterModel: spotterModel.
 	self paneBrick spotterModel: spotterModel.

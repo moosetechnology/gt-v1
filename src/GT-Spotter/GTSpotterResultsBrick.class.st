@@ -30,8 +30,6 @@ GTSpotterResultsBrick >> buildItemFor: aCandidateLink in: aProcessor [
 			candidateLink: aCandidateLink;
 			stepModel: self stepModel;
 			yourself.
-			
-	itemBrick announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
 	^ itemBrick
 	
 ]
@@ -46,6 +44,13 @@ GTSpotterResultsBrick >> categories [
 GTSpotterResultsBrick >> categoryMorphOf: aProcessor [
 
 	^ self categories at: aProcessor ifAbsentPut: [ self addCategory: aProcessor ]
+]
+
+{ #category : #initialization }
+GTSpotterResultsBrick >> initialize [
+	super initialize.
+	
+	self announcer subscribe: GLMBrickScrollPositionChanged send: #onScrolled to: self
 ]
 
 { #category : #'instance creation' }
@@ -117,7 +122,9 @@ GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 ]
 
 { #category : #'event handling' }
-GTSpotterResultsBrick >> onSelectedCandidateChanged: ann [
+GTSpotterResultsBrick >> onScrolled [
+
+	self stepModel spotter announce: GTSpotterCandidateSelectedMoved new
 ]
 
 { #category : #accessing }
@@ -132,8 +139,8 @@ GTSpotterResultsBrick >> stepModel: aModel [
 	stepModel candidates announcer subscribe: GTSpotterCandidateAdded send: #onCandidateAdded: to: self.
 	stepModel candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
 	stepModel candidates announcer subscribe: GTSpotterAllCandidatesAdded send: #onAllCandidatesAdded: to: self.
-	stepModel candidates announcer subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedCandidateChanged: to: self.
 	stepModel candidates announcer subscribe: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.
+	stepModel spotter announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
 ]
 
 { #category : #accessing }

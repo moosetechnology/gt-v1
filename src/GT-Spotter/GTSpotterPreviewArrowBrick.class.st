@@ -1,0 +1,119 @@
+Class {
+	#name : #GTSpotterPreviewArrowBrick,
+	#superclass : #GLMBrick,
+	#instVars : [
+		'triangleBrick',
+		'selectedItemBrick',
+		'spotterModel'
+	],
+	#category : #'GT-Spotter-UI'
+}
+
+{ #category : #actions }
+GTSpotterPreviewArrowBrick >> hideTriangle [
+
+	self triangleBrick color: Color transparent.
+	self changed
+]
+
+{ #category : #initialization }
+GTSpotterPreviewArrowBrick >> initialize [
+	super initialize.
+	
+	self triangleBrick: self newTriangleBrick
+]
+
+{ #category : #actions }
+GTSpotterPreviewArrowBrick >> moveTo: anItemBrick [
+	|itemBounds selfBounds delta|
+	anItemBrick ifNil: [ ^ self ].
+	
+	itemBounds := anItemBrick globalBounds.
+	selfBounds := self globalBounds.
+	delta := ((itemBounds top - selfBounds top) max: 0) min: (selfBounds height - self triangleBrick height).
+	self triangleBrick brickBounds top = delta ifTrue: [ ^ self ].
+	
+	self triangleBrick translateY: self triangleBrick brickBounds top negated.
+	self triangleBrick translateY: delta.
+	self changed
+	
+]
+
+{ #category : #'instance creation' }
+GTSpotterPreviewArrowBrick >> newTriangleBrick [
+
+	^ GLMActionButtonBrick new
+]
+
+{ #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onCandidateMoved [
+	
+	self moveTo: self selectedItemBrick
+]
+
+{ #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
+
+	self selectedItemBrick: ann candidateBrick.
+	self moveTo: self selectedItemBrick
+]
+
+{ #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onStepAdded [
+	
+	self selectedItemBrick: nil
+]
+
+{ #category : #accessing }
+GTSpotterPreviewArrowBrick >> selectedItemBrick [
+	
+	^ selectedItemBrick
+]
+
+{ #category : #accessing }
+GTSpotterPreviewArrowBrick >> selectedItemBrick: aBrick [
+	
+	selectedItemBrick isNil & aBrick isNotNil ifTrue: [ self showTriangle ].
+	selectedItemBrick isNotNil & aBrick isNil ifTrue: [ self hideTriangle ].
+	
+	selectedItemBrick := aBrick
+]
+
+{ #category : #actions }
+GTSpotterPreviewArrowBrick >> showTriangle [
+
+	self triangleBrick color: self theme spotterWidgetThemer previewArrowColor.
+	self changed
+]
+
+{ #category : #accessing }
+GTSpotterPreviewArrowBrick >> spotterModel [
+
+	^ spotterModel
+]
+
+{ #category : #accessing }
+GTSpotterPreviewArrowBrick >> spotterModel: aSpotterModel [
+
+	spotterModel := aSpotterModel.
+	
+	self spotterModel announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
+	self spotterModel announcer subscribe: GTSpotterCandidateSelectedMoved send: #onCandidateMoved to: self.
+	self spotterModel announcer subscribe: GTSpotterStepAdded send: #onStepAdded to: self.
+]
+
+{ #category : #accessing }
+GTSpotterPreviewArrowBrick >> triangleBrick [
+
+	^ triangleBrick
+]
+
+{ #category : #accessing }
+GTSpotterPreviewArrowBrick >> triangleBrick: aBrick [
+
+	triangleBrick := aBrick.
+	self triangleBrick addUpAction: [ self spotterModel showPreview ].
+	self theme spotterWidgetThemer spotterPreviewArrowStyleFor: self triangleBrick.
+	self addBrickBack: self triangleBrick
+	
+]

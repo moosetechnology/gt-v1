@@ -372,13 +372,31 @@ GTSpotterWidgetThemer >> itemTextColor [
 { #category : #values }
 GTSpotterWidgetThemer >> outerBorderWidth [
 	"the width of the border around the whole spotter"
-	^ 5
+	^ 4
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> previewArrowColor [
+
+	^ self itemSelectedBackgroundColor
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> previewArrowWidth [
+
+	^ self itemHeight / 2
 ]
 
 { #category : #values }
 GTSpotterWidgetThemer >> previewBorderWidth [
 
-	^ 3
+	^ self outerBorderWidth
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> previewWidthPercent [
+
+	^ 40
 ]
 
 { #category : #styles }
@@ -503,6 +521,25 @@ GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
+
+	aBrick layout: GLMBrickVerticalScrollListLayout new;
+		margin: { self headerHeight + self innerBorderWidth + self previewBorderWidth. 0 . self previewBorderWidth }.
+		
+	aBrick layout
+		staticWidth: self previewArrowWidth;
+		zIndex: 2.
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> spotterPreviewArrowStyleFor: aBrick [
+
+	aBrick
+		renderer: (GTSpotterTriangleRenderer new orientation: #right);
+		height: [ self previewArrowWidth * 2 ]
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> spotterPreviewCompositeStyleFor: aBrick [
 
 	aBrick layout
@@ -519,9 +556,9 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 		color: Color white.
 	
 	aBrick layout
-		horizontalPercent: 45;
-		margin: #(50 0);
-		marginLeft: self previewBorderWidth negated;
+		horizontalPercent: self previewWidthPercent;
+		margin: { self headerHeight + self innerBorderWidth. 0 . 0};
+		marginLeft: (self previewBorderWidth + self previewArrowWidth) negated;
 		zIndex: 1
 ]
 

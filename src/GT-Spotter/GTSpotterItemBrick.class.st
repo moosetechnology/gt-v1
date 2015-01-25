@@ -208,13 +208,20 @@ GTSpotterItemBrick >> newLabelBrick [
 { #category : #notifying }
 GTSpotterItemBrick >> notifySelected [
 
-	self announcer announce: (GTSpotterCandidateSelected new candidateBrick: self)
+	self stepModel spotter announce: (GTSpotterCandidateSelected new candidateBrick: self)
 ]
 
 { #category : #'event handling' }
 GTSpotterItemBrick >> onSelectedChanged: ann [
 
 	self checkOrUncheck
+]
+
+{ #category : #'event handling' }
+GTSpotterItemBrick >> onStepPopped [
+
+	(self stepModel spotter steps last = self stepModel) & self isChecked ifTrue: [
+		self notifySelected ]
 ]
 
 { #category : #actions }
@@ -242,6 +249,7 @@ GTSpotterItemBrick >> stepModel: aModel [
 	stepModel := aModel.
 	
 	stepModel announcer subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedChanged: to: self.
+	stepModel spotter announcer subscribe: GTSpotterStepPopped send: #onStepPopped to: self.
 	
 	self
 		addActActionButton;
