@@ -112,7 +112,7 @@ GTSpotterResultsBrick >> onCandidateSelected: ann [
 GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	|categoryMorph|
 	
-	ann amount < 1 ifTrue: [ ^ self ].
+	ann amount < 1 ifTrue: [ ^ self changed ].
 	
 	categoryMorph := self categoryMorphOf: ann category.
 	categoryMorph ifNil: [ ^ self ].

@@ -46,6 +46,12 @@ GTSpotterPreviewArrowBrick >> newTriangleBrick [
 ]
 
 { #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onAllCandidatesRemoved [
+
+	self selectedItemBrick: nil
+]
+
+{ #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onCandidateMoved [
 	
 	self moveTo: self selectedItemBrick
@@ -61,7 +67,8 @@ GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
 { #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onStepAdded [
 	
-	self selectedItemBrick: nil
+	self selectedItemBrick: nil.
+	self spotterModel steps last candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
 ]
 
 { #category : #accessing }
