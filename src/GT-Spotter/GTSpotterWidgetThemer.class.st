@@ -382,6 +382,12 @@ GTSpotterWidgetThemer >> previewArrowColor [
 ]
 
 { #category : #values }
+GTSpotterWidgetThemer >> previewArrowGapHack [
+
+	^ 1
+]
+
+{ #category : #values }
 GTSpotterWidgetThemer >> previewArrowWidth [
 
 	^ self itemHeight / 2
@@ -524,10 +530,14 @@ GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 
 	aBrick layout: GLMBrickVerticalScrollListLayout new;
-		margin: { self headerHeight + self innerBorderWidth + self previewBorderWidth. 0 . self previewBorderWidth . self outerBorderWidth negated}.
+		margin: {
+			self headerHeight + self innerBorderWidth + self previewBorderWidth.
+			0.
+			self previewBorderWidth.
+			(self outerBorderWidth + self previewArrowGapHack) negated }.
 		
 	aBrick layout
-		staticWidth: self previewArrowWidth - self outerBorderWidth;
+		staticWidth: self previewArrowWidth - self outerBorderWidth - self previewArrowGapHack;
 		zIndex: 3.
 ]
 
