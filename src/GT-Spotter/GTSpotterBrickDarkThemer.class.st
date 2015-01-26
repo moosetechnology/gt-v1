@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterBrickDarkThemer,
-	#superclass : #GTSpotterBrickThemer,
+	#superclass : #GLMBrickDarkThemer,
 	#category : #'GT-Spotter-Theme'
 }
 
@@ -8,4 +8,10 @@ Class {
 GTSpotterBrickDarkThemer >> scrollbarColor [
 
 	^ Color black alpha: 0.5
+]
+
+{ #category : #'brick-scrollpane' }
+GTSpotterBrickDarkThemer >> scrollpaneBackgroundColor [
+
+	^ Color r: 0.3 g: 0.3 b: 0.3
 ]

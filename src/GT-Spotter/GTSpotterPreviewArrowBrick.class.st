@@ -72,6 +72,20 @@ GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
 ]
 
 { #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onHidePreview [
+
+	self color: Color transparent.
+	self brickRoot changed
+]
+
+{ #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onShowPreview [
+
+	self color: self theme spotterWidgetThemer backgroundColor.
+	self changed
+]
+
+{ #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onStepAdded [
 	
 	self selectedItemBrick: nil.
@@ -120,6 +134,8 @@ GTSpotterPreviewArrowBrick >> spotterModel: aSpotterModel [
 	self spotterModel announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
 	self spotterModel announcer subscribe: GTSpotterCandidateSelectedMoved send: #onCandidateMoved to: self.
 	self spotterModel announcer subscribe: GTSpotterStepAdded send: #onStepAdded to: self.
+	self spotterModel announcer subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
+	self spotterModel announcer subscribe: GTSpotterHidePreview send: #onHidePreview to: self
 ]
 
 { #category : #accessing }
@@ -132,7 +148,7 @@ GTSpotterPreviewArrowBrick >> triangleBrick [
 GTSpotterPreviewArrowBrick >> triangleBrick: aBrick [
 
 	triangleBrick := aBrick.
-	self triangleBrick addUpAction: [ self spotterModel showPreview ].
+	self triangleBrick addUpAction: [ self spotterModel togglePreview ].
 	self theme spotterWidgetThemer spotterPreviewArrowStyleFor: self triangleBrick.
 	self addBrickBack: self triangleBrick
 	

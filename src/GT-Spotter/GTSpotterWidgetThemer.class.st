@@ -26,7 +26,7 @@ GTSpotterWidgetThemer >> borderColor [
 { #category : #values }
 GTSpotterWidgetThemer >> breadcrumbHeight [
 
-	^ 30
+	^ 26
 ]
 
 { #category : #values }

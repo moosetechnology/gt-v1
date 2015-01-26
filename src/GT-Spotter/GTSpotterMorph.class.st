@@ -101,11 +101,8 @@ GTSpotterMorph >> handlesMouseDown: evt [
 
 { #category : #actions }
 GTSpotterMorph >> hidePreview [
-	|delta|
-	self paneBrick isPreviewShown ifFalse: [ ^ self ].
-	delta := ((self width - ((self width / 100) * (100 - self theme spotterWidgetThemer previewWidthPercent)))@0) negated / 2.
-	self bounds: (self bounds expandBy: delta).
-	self paneBrick hidePreview
+	
+	self spotterModel hidePreview
 ]
 
 { #category : #initialization }
@@ -129,7 +126,7 @@ GTSpotterMorph >> initializeListeners [
 	
 	self bindKeyCombination: Character escape toAction: [ self escapePressed ].
 	self bindKeyCombination: $w command toAction: [ self escapePressed ].
-	self bindKeyCombination: $p command toAction: [ self showPreview ].
+	self bindKeyCombination: $p command toAction: [ self togglePreview ].
 	
 	self bindKeyCombination: Character arrowUp toAction: [ self selectPreviousCandidate ].
 	self bindKeyCombination: Character arrowDown toAction: [ self selectNextCandidate ].
@@ -177,8 +174,11 @@ GTSpotterMorph >> onBreadcrumbVisibilityChanged [
 
 { #category : #'events-processing' }
 GTSpotterMorph >> onHidePreview [
-
-	self hidePreview
+	|delta|
+	self paneBrick isPreviewShown ifFalse: [ ^ self ].
+	delta := ((self width - ((self width / 100) * (100 - self theme spotterWidgetThemer previewWidthPercent)))@0) negated / 2.
+	self bounds: (self bounds expandBy: delta).
+	self paneBrick hidePreview
 ]
 
 { #category : #'events-processing' }
@@ -190,7 +190,11 @@ GTSpotterMorph >> onLostFocus: event [
 { #category : #'events-processing' }
 GTSpotterMorph >> onShowPreview [
 
-	self showPreview
+	|delta|
+	self paneBrick isPreviewShown ifTrue: [ ^ self ].
+	delta := (((self width * 100) / (100 - self theme spotterWidgetThemer previewWidthPercent) - self width)@0) / 2.
+	self bounds: (self bounds expandBy: delta).
+	self paneBrick showPreview
 ]
 
 { #category : #opening }
@@ -268,11 +272,8 @@ GTSpotterMorph >> shiftPressed [
 
 { #category : #actions }
 GTSpotterMorph >> showPreview [
-	|delta|
-	self paneBrick isPreviewShown ifTrue: [ ^ self hidePreview ].
-	delta := (((self width * 100) / (100 - self theme spotterWidgetThemer previewWidthPercent) - self width)@0) / 2.
-	self bounds: (self bounds expandBy: delta).
-	self paneBrick showPreview
+	
+	self spotterModel showPreview
 ]
 
 { #category : #accessing }
@@ -298,6 +299,12 @@ GTSpotterMorph >> spotterModel: aSpotter [
 	self spotterModel currentStep process: nil.
 	
 	
+]
+
+{ #category : #actions }
+GTSpotterMorph >> togglePreview [
+
+	self spotterModel togglePreview
 ]
 
 { #category : #initialize }

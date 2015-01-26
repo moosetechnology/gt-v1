@@ -12,7 +12,8 @@ Class {
 		'announcer',
 		'currentStep',
 		'pagerModel',
-		'text'
+		'text',
+		'isPreviewVisible'
 	],
 	#classInstVars : [
 		'history'
@@ -164,7 +165,10 @@ GTSpotter >> hasPreviousStep [
 { #category : #'actions api' }
 GTSpotter >> hidePreview [
 
-	self announcer announce: GTSpotterHidePreview new
+	self isPreviewVisible ifFalse: [ ^ self ].
+	self announcer announce: GTSpotterHidePreview new.
+	isPreviewVisible := false
+	
 ]
 
 { #category : #'actions api' }
@@ -179,6 +183,12 @@ GTSpotter >> historize: target [
 GTSpotter >> isEmpty [
 
 	^ self steps isEmpty
+]
+
+{ #category : #testing }
+GTSpotter >> isPreviewVisible [
+
+	^ isPreviewVisible ifNil: [ isPreviewVisible := false ]
 ]
 
 { #category : #protocol }
@@ -281,7 +291,10 @@ GTSpotter >> setText: aText from: aView [
 { #category : #'actions api' }
 GTSpotter >> showPreview [
 
-	self announcer announce: GTSpotterShowPreview new
+	self isPreviewVisible ifTrue: [ ^ self ].
+	self announcer announce: GTSpotterShowPreview new.
+	isPreviewVisible := true
+	
 ]
 
 { #category : #accessing }
@@ -300,4 +313,12 @@ GTSpotter >> terminateProcessors [
 GTSpotter >> text [
 
 	^ text ifNil: [ text := '' asText ]
+]
+
+{ #category : #'actions api' }
+GTSpotter >> togglePreview [
+
+	self isPreviewVisible
+		ifTrue: [ self hidePreview ]
+		ifFalse: [ self showPreview ]
 ]

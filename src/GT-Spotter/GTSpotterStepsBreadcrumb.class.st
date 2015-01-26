@@ -151,7 +151,7 @@ GTSpotterStepsBreadcrumb >> notifyBreadcrumbVisibilityChanged [
 GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	|step origin previousStep selectedCandidate|
 	
-	self spotterModel steps size <= 1 ifTrue: [ ^ self ].
+	self spotterModel steps size <= 1 ifTrue: [ ^ self push: (GTSpotterStepBreadcrumbItem new text: 'Spotter') ].
 	
 	step := ann stepModel.
 	previousStep := (step spotter steps at: step spotter steps size - 1).
