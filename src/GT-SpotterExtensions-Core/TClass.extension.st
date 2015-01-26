@@ -11,6 +11,18 @@ TClass >> spotterMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TClass >> spotterPreviewIn: aComposite [
+
+	aComposite pharoMethod
+		title: 'Preview';
+		display: #definitionForNautilus;
+		smalltalkClass: [ nil ];
+		entity: self.
+		
+	self flag: 'move "entity: self" somewhere else, maybe'
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TClass >> spotterReferenceFor: aStep [
 	<spotterOrder: 30>
 	aStep listProcessor

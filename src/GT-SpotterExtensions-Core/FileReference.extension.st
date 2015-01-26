@@ -23,3 +23,24 @@ FileReference >> spotterForFilesFor: aStep [
 			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
 			matchSubstring ]
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+FileReference >> spotterPreviewIn: aComposite [
+
+	self isDirectory ifFalse: [ ^ super spotterPreviewIn: aComposite ].
+	aComposite list
+		title: 'Preview';
+		display: #yourself;
+		format: [ :folder | 
+			GTSpotterItemBrick new 
+				text: folder basename; 
+				icon: (folder isDirectory 
+								ifTrue: [Smalltalk ui theme icons glamorousFolder]
+								ifFalse: [Smalltalk ui theme icons glamorousBrowse] ); 
+				disable; 
+				yourself ];
+		styled: [ :brick | brick ];
+		entity: self directories, self files.
+		
+	self flag: 'move "entity: self" somewhere else, maybe'
+]

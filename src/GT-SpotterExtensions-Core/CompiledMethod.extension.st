@@ -29,3 +29,16 @@ CompiledMethod >> spotterForSendersFor: aStep [
 CompiledMethod >> spotterItemsFor: aStep [
 	"do nothing for compiled method"
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+CompiledMethod >> spotterPreviewIn: aComposite [
+
+	aComposite pharoMethod
+		title: 'Preview';
+		display: [:compiledMethod | 
+			' ', compiledMethod getSource];
+		smalltalkClass: #methodClass;
+		entity: self.
+		
+	self flag: 'move "entity: self" somewhere else, maybe'
+]
