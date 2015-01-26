@@ -14,7 +14,7 @@ Class {
 	#category : #'GT-Spotter-Async'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #async }
 GTAsyncTask >> complete: anObject callback: aBlock [
 	
 	process ifNil: [ ^ self terminate ].
@@ -26,9 +26,9 @@ GTAsyncTask >> complete: anObject callback: aBlock [
 	process := nil.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #async }
 GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock [
-	"execution happens with UI process priority so that comunication with UI can be done in real time"
+	"execution happens with UI process priority so that communication with UI can be done in real time"
 	
 	self terminate.
 	
@@ -45,7 +45,7 @@ GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBloc
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #async }
 GTAsyncTask >> terminate [
 
 	process ifNotNil: [ process terminate. process := nil ].

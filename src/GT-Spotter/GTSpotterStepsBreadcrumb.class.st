@@ -9,6 +9,23 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
+{ #category : #'adding/removing' }
+GTSpotterStepsBreadcrumb >> addItem: aBrick [
+
+	self items size = 1 ifTrue: [
+		self items first labelBrick layout paddingLeft: self theme spotterWidgetThemer breadcrumbSeparatorWidth / 2 ].
+	self band addBrickBack: aBrick.
+	self items addLast: aBrick
+]
+
+{ #category : #'adding/removing' }
+GTSpotterStepsBreadcrumb >> addSeparator [
+	|separator|
+	separator := self newSeparator.
+	self theme spotterWidgetThemer breadcrumbSeparatorStyleFor: separator.
+	self band addBrickBack: separator
+]
+
 { #category : #accessing }
 GTSpotterStepsBreadcrumb >> band [
 
@@ -24,8 +41,8 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 		self items isEmpty ifTrue: [ 0 ]
 			ifFalse: [ |width|
 				width := 0.
-				self items do: [ :each | width := width + each width + each layoutProperties marginRight ].
-				width - self items last layoutProperties marginRight ] ].
+				self items do: [ :each | width := width + each width ].
+				width + ((self items size - 1) * self theme spotterWidgetThemer breadcrumbSeparatorWidth)] ].
 	
 	self band data: 0.
 	self addBrickBack: band.
@@ -33,11 +50,14 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
+	|sWidth bWidth|
+	sWidth := self theme spotterWidgetThemer breadcrumbSeparatorWidth.
+	bWidth := self width.
 	
 	"width of other bricks depends from the width of the last one"
 	^ aBrick isLastInOwner
-		ifTrue: [ ((aBrick labelBrick approximateWidth min: (self width / 2)) max: ((self width - ((self maxNumberOfSteps - 1) * aBrick layoutProperties marginRight)) / self maxNumberOfSteps)) floor ]
-		ifFalse: [ ((self width - self band lastSubbrick width - ((self maxNumberOfSteps - 1) * aBrick layoutProperties marginRight)) / (self maxNumberOfSteps - 1)) floor ]
+		ifTrue: [ ((aBrick labelBrick approximateWidth min: (bWidth / 2)) max: ((bWidth - ((self maxNumberOfSteps - 1) * sWidth)) / self maxNumberOfSteps)) floor ]
+		ifFalse: [ ((bWidth - self band lastSubbrick width - ((self maxNumberOfSteps - 1) * sWidth)) / (self maxNumberOfSteps - 1)) floor ]
 	
 ]
 
@@ -115,6 +135,12 @@ GTSpotterStepsBreadcrumb >> newBand [
 	^ GLMBrick new
 ]
 
+{ #category : #'instance creation' }
+GTSpotterStepsBreadcrumb >> newSeparator [
+
+	^ GLMBrick new
+]
+
 { #category : #notifying }
 GTSpotterStepsBreadcrumb >> notifyBreadcrumbVisibilityChanged [
 
@@ -151,6 +177,11 @@ GTSpotterStepsBreadcrumb >> pop [
 	self band removeBrick: self items last.
 	self items removeLast.
 	
+	self items size = 1 ifTrue: [
+		self items first labelBrick layout paddingLeft: 0 ].
+	
+	self items isEmpty ifFalse: [ self popSeparator ].
+	
 	"optimization. if last item was popped we need to update root to reposition all brick,
 	otherwise only I need to be updated"
 	self items size = 0
@@ -162,16 +193,25 @@ GTSpotterStepsBreadcrumb >> pop [
 ]
 
 { #category : #'adding/removing' }
+GTSpotterStepsBreadcrumb >> popSeparator [
+
+	self band removeBrick: self band lastSubbrick
+]
+
+{ #category : #'adding/removing' }
 GTSpotterStepsBreadcrumb >> push: aBrick [
+
 	self theme spotterWidgetThemer breadcrumbItemStyleFor: aBrick.
 	
 	aBrick width: [ :itemBrick | self calculateItemWidth: itemBrick ].
 	
-	self items isEmpty ifFalse: [ self items last hideTriangle ].
-	self band addBrickBack: aBrick.
-	self items addLast: aBrick.
+	self items isEmpty ifFalse: [
+		self items last hideTriangle.
+		self addSeparator ].
 	
-	"optimization. if first item was added we need to update root to reposition all brick,
+	self addItem: aBrick.
+	
+	"optimization. if first item was added we need to update root to reposition all bricks,
 	otherwise only I need to be updated"
 	self items size = 1
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]

@@ -49,8 +49,6 @@ GTSpotterWidgetThemer >> breadcrumbItemLabelStyleFor: aBrick [
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
-	
-	aBrick margin: { 0 . self outerBorderWidth . 0 . 0 }
 ]
 
 { #category : #values }
@@ -65,6 +63,36 @@ GTSpotterWidgetThemer >> breadcrumbItemTriangleStyleFor: aBrick [
 	aBrick renderer: (GTSpotterTriangleRenderer new orientation: #bottom).
 	aBrick layout staticHeight: self breadcrumbTriangleHeight.
 	aBrick color: self breadcrumbItemBackgroundColor
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbSeparatorColor [
+
+	^ Color white alpha: 0.5
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbSeparatorLineWidth [
+
+	^ 2
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> breadcrumbSeparatorStyleFor: aBrick [
+
+	aBrick
+		color: self breadcrumbItemBackgroundColor;
+		borderWidth: self breadcrumbSeparatorLineWidth;
+		borderColor: self breadcrumbSeparatorColor;
+		renderer: GTSpotterBreadcrumbSeparatorRenderer new;
+		width: self breadcrumbSeparatorWidth;
+		height: self breadcrumbHeight + self outerBorderWidth.
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> breadcrumbSeparatorWidth [
+
+	^ (self breadcrumbHeight + self outerBorderWidth) / 2 + 4 "we need slightly more because of drawing accuracy"
 ]
 
 { #category : #styles }
