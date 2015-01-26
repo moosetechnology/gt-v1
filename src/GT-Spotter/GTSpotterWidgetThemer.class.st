@@ -108,6 +108,12 @@ GTSpotterWidgetThemer >> breadcrumbTriangleHeight [
 	^ 16
 ]
 
+{ #category : #acessing }
+GTSpotterWidgetThemer >> brickThemer [
+
+	^ GTSpotterBrickThemer default
+]
+
 { #category : #values }
 GTSpotterWidgetThemer >> buttonPressedColor [
 
@@ -412,7 +418,7 @@ GTSpotterWidgetThemer >> previewArrowColor [
 { #category : #values }
 GTSpotterWidgetThemer >> previewArrowGapHack [
 
-	^ self resultsScrollbarMarginRight + self resultsScrollbarWidth + self outerBorderWidth + 1"pager bug"
+	^ self brickThemer scrollbarOffset + self brickThemer scrollbarWidth + self outerBorderWidth + 1"pager bug"
 ]
 
 { #category : #values }
@@ -439,30 +445,12 @@ GTSpotterWidgetThemer >> resultsPaneStyleFor: aBrick [
 	aBrick band layoutPolicy: GLMBrickVerticalLinedStackLayout new.
 	aBrick layoutProperties horizontalPercent: self resultsPaneWidth.
 	aBrick color: self backgroundColor.
-	aBrick verticalScrollbar bar color: self resultsScrollbarColor.
-	aBrick verticalScrollbar width: self resultsScrollbarWidth.
-	aBrick verticalScrollbar layoutProperties marginRight: self resultsScrollbarMarginRight.
 ]
 
 { #category : #values }
 GTSpotterWidgetThemer >> resultsPaneWidth [
 	"width in Percents of the results pane"
 	^ 100"%"
-]
-
-{ #category : #'values scrollbar' }
-GTSpotterWidgetThemer >> resultsScrollbarColor [
-	^ Color lightGray alpha: 0.2
-]
-
-{ #category : #'values scrollbar' }
-GTSpotterWidgetThemer >> resultsScrollbarMarginRight [
-	^ 1
-]
-
-{ #category : #'values scrollbar' }
-GTSpotterWidgetThemer >> resultsScrollbarWidth [
-	^ 3
 ]
 
 { #category : #values }

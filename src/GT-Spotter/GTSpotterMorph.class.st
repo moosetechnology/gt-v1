@@ -111,13 +111,13 @@ GTSpotterMorph >> hidePreview [
 { #category : #initialization }
 GTSpotterMorph >> initialize [
 	super initialize.
+	"setting custom brick themer for the whole spotter"
+	self themer: self theme spotterWidgetThemer brickThemer.
+	
 	self initializeListeners.
-	
 	self theme spotterWidgetThemer spotterStyleFor: self.
-	
 	self breadcrumbBrick: self newBreadcrumbBrick.
 	self paneBrick: self newPaneBrick.
-	"self showPreview"
 ]
 
 { #category : #initialize }
