@@ -47,7 +47,7 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	
 	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
 	breadcrumbWrapperBrick := GLMBrick new layout: GLMBrickVerticalFillLinearLayout new.
-	breadcrumbWrapperBrick width: [ self paneBrick contentsBrick width - self theme spotterWidgetThemer outerBorderWidth ].
+	breadcrumbWrapperBrick width: [ self paneBrick contentsBrick width ].
 	breadcrumbWrapperBrick layout
 		staticHeight: self theme spotterWidgetThemer breadcrumbHeight;
 		marginBottom: self theme spotterWidgetThemer breadcrumbTriangleHeight negated;

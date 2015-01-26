@@ -99,7 +99,7 @@ GTSpotterWidgetThemer >> breadcrumbSeparatorWidth [
 GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 	
 	aBrick layout
-		margin: { 0 . self outerBorderWidth }
+		margin: { 0 . 0 }
 ]
 
 { #category : #values }
