@@ -68,7 +68,7 @@ GTSpotterWidgetThemer >> breadcrumbItemTriangleStyleFor: aBrick [
 { #category : #values }
 GTSpotterWidgetThemer >> breadcrumbSeparatorColor [
 
-	^ Color white alpha: 0.5
+	^ self breadcrumbItemBackgroundColor muchLighter slightlyDarker
 ]
 
 { #category : #values }
