@@ -71,17 +71,28 @@ GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
 	self brickRoot changed
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterPreviewArrowBrick >> onDraw: aCanvas [
+	super onDraw: aCanvas.
+	
+		aCanvas
+			fillRectangle: ((self brickBounds withWidth: self theme spotterWidgetThemer outerBorderWidth) translateBy: (self themer scrollbarWidth + self themer scrollbarOffset + 1)@0)
+			color: (self spotterModel isPreviewVisible
+				ifTrue: [ self theme spotterWidgetThemer backgroundColor ]
+				ifFalse: [ Color transparent ])
+	
+	
+]
+
 { #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onHidePreview [
 
-	self color: Color transparent.
-	self brickRoot changed
+	self changed
 ]
 
 { #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onShowPreview [
 
-	self color: self theme spotterWidgetThemer backgroundColor.
 	self changed
 ]
 
