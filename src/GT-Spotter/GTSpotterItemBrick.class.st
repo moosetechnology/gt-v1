@@ -215,7 +215,7 @@ GTSpotterItemBrick >> notifySelected [
 GTSpotterItemBrick >> onRemoved [
 	super onRemoved.
 	"I must not receive any announcements as soon as i'm removed from dom"
-	self stepModel announcer unsubscribe: self
+	self stepModel ifNotNil: [ self stepModel announcer unsubscribe: self ]
 ]
 
 { #category : #'event handling' }
