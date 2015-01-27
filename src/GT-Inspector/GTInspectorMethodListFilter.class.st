@@ -1,11 +1,11 @@
 "
-GTInspectorMethodListFilterStrategy implements a filtering strategy for presentations based on method signatures (method selector and class).
+GTInspectorMethodListFilter implements a filtering strategy for presentations based on method signatures (method selector and class).
 
 The filter returns true for a method if the signature of that method is selected in the filter. To be taken into account during filtering a signature must be first added to the filter and the selected. Only signatures that have been first added can be selected. 
 "
 Class {
-	#name : #GTInspectorMethodListFilterStrategy,
-	#superclass : #GTInspectorPresentationFilterStrategy,
+	#name : #GTInspectorMethodListFilter,
+	#superclass : #GTInspectorPresentationFilter,
 	#instVars : [
 		'allMethodSignatures',
 		'selectedMethodSignatures'
@@ -14,35 +14,35 @@ Class {
 }
 
 { #category : #examples }
-GTInspectorMethodListFilterStrategy class >> exampleASTBrowser [
+GTInspectorMethodListFilter class >> exampleASTBrowser [
 	"An inspector showing a browser for navigating through AST nodes."
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilter new
 		addAndSelectSignatureFor: CompiledMethod>>#gtInspectorASTIn:;
 		addAndSelectSignatureFor: RBProgramNode>>#gtInspectorSourceCodeIn:).
 	inspector openOn: Morph>>#initialize.
 ]
 
 { #category : #examples }
-GTInspectorMethodListFilterStrategy class >> exampleCodeBrowser [
+GTInspectorMethodListFilter class >> exampleCodeBrowser [
 	"An inspector showing only the Meta presentation for all objects"
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilter new
 		addAndSelectSignatureFor: Object>>#gtInspectorMetaIn:).
 	inspector openOn: Morph new.
 ]
 
 { #category : #examples }
-GTInspectorMethodListFilterStrategy class >> exampleFileBrowser [
+GTInspectorMethodListFilter class >> exampleFileBrowser [
 	"An inspector for browsing directories and files."
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilter new
 		addAndSelectSignatureFor: FileReference>>#gtInspectorStScriptIn:;
 		addAndSelectSignatureFor: FileReference>>#gtInspectorPngIn:;
 		addAndSelectSignatureFor: FileReference>>#gtInspectorJpegIn:;
@@ -54,41 +54,41 @@ GTInspectorMethodListFilterStrategy class >> exampleFileBrowser [
 ]
 
 { #category : #examples }
-GTInspectorMethodListFilterStrategy class >> exampleFullInspector [
+GTInspectorMethodListFilter class >> exampleFullInspector [
 	"An inspector showing all presentations for all objects"
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilter new
 		addAndSelectAllSignatures).
 	inspector openOn: Morph new.
 ]
 
 { #category : #examples }
-GTInspectorMethodListFilterStrategy class >> exampleRawInspector [
+GTInspectorMethodListFilter class >> exampleRawInspector [
 	"An inspector showing only the Raw presentation for all objects"
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorMethodListFilterStrategy new
+	inspector presentationFilter: (GTInspectorMethodListFilter new
 		addAndSelectSignatureFor: Object>>#gtInspectorRawIn:).
 	inspector openOn: Morph new.
 ]
 
 { #category : #adding }
-GTInspectorMethodListFilterStrategy >> addAllSignatures [
+GTInspectorMethodListFilter >> addAllSignatures [
 	
 	self allPresentationMethods do: [ :aMethod | self addSignatureFor: aMethod ] 
 ]
 
 { #category : #adding }
-GTInspectorMethodListFilterStrategy >> addAndSelectAllSignatures [
+GTInspectorMethodListFilter >> addAndSelectAllSignatures [
 	
 	self allPresentationMethods do: [ :aMethod | self addAndSelectSignatureFor: aMethod ] 
 ]
 
 { #category : #adding }
-GTInspectorMethodListFilterStrategy >> addAndSelectSignatureFor: aMethod [
+GTInspectorMethodListFilter >> addAndSelectSignatureFor: aMethod [
 	|signature|
 	
 	signature := self signatureFor: aMethod.
@@ -98,7 +98,7 @@ GTInspectorMethodListFilterStrategy >> addAndSelectSignatureFor: aMethod [
 ]
 
 { #category : #adding }
-GTInspectorMethodListFilterStrategy >> addSignatureFor: aMethod [
+GTInspectorMethodListFilter >> addSignatureFor: aMethod [
 	|signature|
 	
 	signature := self signatureFor: aMethod.
@@ -106,14 +106,14 @@ GTInspectorMethodListFilterStrategy >> addSignatureFor: aMethod [
 ]
 
 { #category : #accessing }
-GTInspectorMethodListFilterStrategy >> allPresentationMethods [
+GTInspectorMethodListFilter >> allPresentationMethods [
 
 	^ (PragmaCollector allSystemPragmas select: [ :pragma | 
 		pragma key == self inspectorPragmaKey ]) collect: [ :aPragma | aPragma method ]
 ]
 
 { #category : #accessing }
-GTInspectorMethodListFilterStrategy >> changeFilterRequestFor: aGTInspector [
+GTInspectorMethodListFilter >> changeFilterRequestFor: aGTInspector [
 
 	self
 		openListChooseLabeled: 'All available presentations' 
@@ -125,40 +125,40 @@ GTInspectorMethodListFilterStrategy >> changeFilterRequestFor: aGTInspector [
 ]
 
 { #category : #initialization }
-GTInspectorMethodListFilterStrategy >> initialize [
+GTInspectorMethodListFilter >> initialize [
 	super initialize.
 	allMethodSignatures := OrderedCollection new.
 	selectedMethodSignatures := OrderedCollection new.
 ]
 
 { #category : #accessing }
-GTInspectorMethodListFilterStrategy >> inspectorPragmaKey [
+GTInspectorMethodListFilter >> inspectorPragmaKey [
 
 	^ #gtInspectorPresentationOrder:
 ]
 
 { #category : #printing }
-GTInspectorMethodListFilterStrategy >> printSignature: aSignature [
+GTInspectorMethodListFilter >> printSignature: aSignature [
 
 	^ aSignature first name, '>>', aSignature second asString
 ]
 
 { #category : #callbacks }
-GTInspectorMethodListFilterStrategy >> replaceSelectedSignaturesWith: aList in: aGTInspector [
+GTInspectorMethodListFilter >> replaceSelectedSignaturesWith: aList in: aGTInspector [
 
 	selectedMethodSignatures := aList.
 	aGTInspector update
 ]
 
 { #category : #testing }
-GTInspectorMethodListFilterStrategy >> shouldDisplayPresentationCreateBy: aMethod [
+GTInspectorMethodListFilter >> shouldDisplayPresentationCreateBy: aMethod [
 
 	^ selectedMethodSignatures anySatisfy: [ :aSignature | 
 		aSignature first = aMethod methodClass and: [ aSignature second = aMethod selector ] ]
 ]
 
 { #category : #accessing }
-GTInspectorMethodListFilterStrategy >> signatureFor: aMethod [
+GTInspectorMethodListFilter >> signatureFor: aMethod [
 
 	^ {aMethod methodClass . aMethod selector}
 ]

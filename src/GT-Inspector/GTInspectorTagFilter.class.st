@@ -1,14 +1,14 @@
 "
-GTInspectorTagFilterStrategy implements a filtering strategy for presentations based on tags.
+GTInspectorTagFilter implements a filtering strategy for presentations based on tags.
 
 A tag is defined as the parameter of the prama <gtInspectorTag:>. A method can have one or more tags.
 The filter returns true for a method if that method contains at least a tag selected in the filter. To be taken into account during filtering a tag must be first added to the filter and the selected. Only tags that have been first added can be selected.  
 
-If a method does not define any tags the filter threats that method as having a single tag stored in the #defaultTag instance variable. The default defaultTag is #custom. The #basic tag  groups the Raw and Meta presentations. Inspect 'GTInspectorTagFilterStrategy new allPragmasWithTag' to view all pragmas creating the tags.
+If a method does not define any tags the filter threats that method as having a single tag stored in the #defaultTag instance variable. The default defaultTag is #custom. The #basic tag  groups the Raw and Meta presentations. Inspect 'GTInspectorTagFilter new allPragmasWithTag' to view all pragmas creating the tags.
 "
 Class {
-	#name : #GTInspectorTagFilterStrategy,
-	#superclass : #GTInspectorPresentationFilterStrategy,
+	#name : #GTInspectorTagFilter,
+	#superclass : #GTInspectorPresentationFilter,
 	#instVars : [
 		'allTags',
 		'selectedTags',
@@ -18,46 +18,46 @@ Class {
 }
 
 { #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleBasicInspector [
+GTInspectorTagFilter class >> exampleBasicInspector [
 	"An inspector showing only the basic presentations Raw and Meta for all object."
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilter new
 		addAndSelectTag: #basic).
 	inspector openOn: Morph new.
 ]
 
 { #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleCustomInspector [
+GTInspectorTagFilter class >> exampleCustomInspector [
 	"An inspector showing only the custom presentations for all object (excluding Raw and Meta)."
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilter new
 		defaultTag: #custom;
 		addAndSelectTag: #custom).
 	inspector openOn: Morph new.
 ]
 
 { #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleExampleBrowser [
+GTInspectorTagFilter class >> exampleExampleBrowser [
 	"A browser for viewing examples"
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilter new
 		addAndSelectTag: #examples).
 	inspector openOn: Dictionary.
 ]
 
 { #category : #examples }
-GTInspectorTagFilterStrategy class >> exampleFullInspector [
+GTInspectorTagFilter class >> exampleFullInspector [
 	"An inspector showing all the available presentations for all objects."
 	|inspector|
 	
 	inspector := GTInspector new.
-	inspector presentationFilter: (GTInspectorTagFilterStrategy new
+	inspector presentationFilter: (GTInspectorTagFilter new
 		defaultTag: #custom;
 		addAndSelectTag: #custom;
 		addAndSelectAllTags).
@@ -65,45 +65,45 @@ GTInspectorTagFilterStrategy class >> exampleFullInspector [
 ]
 
 { #category : #adding }
-GTInspectorTagFilterStrategy >> addAllTags [
+GTInspectorTagFilter >> addAllTags [
 	
 	self allTags do: [ :aTag | self addTag: allTags ] 
 ]
 
 { #category : #adding }
-GTInspectorTagFilterStrategy >> addAndSelectAllTags [
+GTInspectorTagFilter >> addAndSelectAllTags [
 	
 	self allTags do: [ :aTag | self addAndSelectTag: aTag ] 
 ]
 
 { #category : #adding }
-GTInspectorTagFilterStrategy >> addAndSelectTag: aSymbol [
+GTInspectorTagFilter >> addAndSelectTag: aSymbol [
 
 	self addTag: aSymbol.
 	(selectedTags includes: aSymbol) ifFalse:  [selectedTags add: aSymbol]
 ]
 
 { #category : #adding }
-GTInspectorTagFilterStrategy >> addTag: aSymbol [
+GTInspectorTagFilter >> addTag: aSymbol [
 
 	(allTags includes: aSymbol) ifFalse:  [allTags add: aSymbol].
 ]
 
 { #category : #accessing }
-GTInspectorTagFilterStrategy >> allPragmasWithTag [
+GTInspectorTagFilter >> allPragmasWithTag [
 
 	^ PragmaCollector allSystemPragmas select: [ :pragma | pragma key == self tagPragmaKey ]
 ]
 
 { #category : #accessing }
-GTInspectorTagFilterStrategy >> allTags [
+GTInspectorTagFilter >> allTags [
 
 	^ (self allPragmasWithTag collect: [ :pragma | 
 		pragma argumentAt: 1 ]) asSet sorted: [ :a :b | a < b ]
 ]
 
 { #category : #accessing }
-GTInspectorTagFilterStrategy >> changeFilterRequestFor: aGTInspector [
+GTInspectorTagFilter >> changeFilterRequestFor: aGTInspector [
 
 	self
 		openListChooseLabeled: 'All available tags' 
@@ -116,13 +116,13 @@ GTInspectorTagFilterStrategy >> changeFilterRequestFor: aGTInspector [
 ]
 
 { #category : #accessing }
-GTInspectorTagFilterStrategy >> defaultTag: aSymbol [
+GTInspectorTagFilter >> defaultTag: aSymbol [
 
 	defaultTag := aSymbol
 ]
 
 { #category : #initialization }
-GTInspectorTagFilterStrategy >> initialize [
+GTInspectorTagFilter >> initialize [
 	super initialize.
 	
 	allTags := OrderedCollection new.
@@ -131,26 +131,26 @@ GTInspectorTagFilterStrategy >> initialize [
 ]
 
 { #category : #callbacks }
-GTInspectorTagFilterStrategy >> replaceSelectedTagsWith: aListOfSymbols in: aGTInspector [
+GTInspectorTagFilter >> replaceSelectedTagsWith: aListOfSymbols in: aGTInspector [
 
 	selectedTags := aListOfSymbols.
 	aGTInspector update.
 ]
 
 { #category : #testing }
-GTInspectorTagFilterStrategy >> shouldDisplayPresentationCreateBy: aMethod [
+GTInspectorTagFilter >> shouldDisplayPresentationCreateBy: aMethod [
 
 	^ (self tagsFrom: aMethod) includesAny: selectedTags
 ]
 
 { #category : #accessing }
-GTInspectorTagFilterStrategy >> tagPragmaKey [
+GTInspectorTagFilter >> tagPragmaKey [
 
 	^ #gtInspectorTag:
 ]
 
 { #category : #accessing }
-GTInspectorTagFilterStrategy >> tagsFrom: aMethod [
+GTInspectorTagFilter >> tagsFrom: aMethod [
 
 	^ (aMethod pragmas select: [ :each | each key == self tagPragmaKey ])
 		ifEmpty: [ defaultTag ifNil: [ {} ] ifNotNil: [ {defaultTag} ] ]

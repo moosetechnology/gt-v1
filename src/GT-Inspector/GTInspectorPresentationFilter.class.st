@@ -1,23 +1,23 @@
 "
-A GTInspectorPresentationFilterStrategy is the root class for filters that can limit the number if visible presentations for an object.
+A GTInspectorPresentationFilter is the root class for filters that can limit the number if visible presentations for an object.
 
 Subclasses need to implement  #shouldDisplayPresentationCreateBy: to indicate whether or not a give presentation should be displayed.
 
 "
 Class {
-	#name : #GTInspectorPresentationFilterStrategy,
+	#name : #GTInspectorPresentationFilter,
 	#superclass : #Object,
 	#category : #'GT-Inspector'
 }
 
 { #category : #accessing }
-GTInspectorPresentationFilterStrategy >> changeFilterRequestFor: aGTInspector [
+GTInspectorPresentationFilter >> changeFilterRequestFor: aGTInspector [
 
 	self subclassResponsibility
 ]
 
 { #category : #private }
-GTInspectorPresentationFilterStrategy >> openListChooseLabeled: sString forInspector: aGTInspector with: allElements select: selectedElements format: aBlockOrSelector actionSelector: aSymbol [
+GTInspectorPresentationFilter >> openListChooseLabeled: sString forInspector: aGTInspector with: allElements select: selectedElements format: aBlockOrSelector actionSelector: aSymbol [
 	|treeModel|
 	
 	treeModel := MorphTreeModel new.
@@ -31,7 +31,7 @@ GTInspectorPresentationFilterStrategy >> openListChooseLabeled: sString forInspe
 ]
 
 { #category : #testing }
-GTInspectorPresentationFilterStrategy >> shouldDisplayPresentationCreateBy: aMethod [
+GTInspectorPresentationFilter >> shouldDisplayPresentationCreateBy: aMethod [
 
 	self subclassResponsibility
 ]
