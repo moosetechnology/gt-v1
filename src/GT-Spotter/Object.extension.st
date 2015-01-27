@@ -21,7 +21,7 @@ Object >> spotterActDefault [
 Object >> spotterPreviewIn: aComposite [
 
 	aComposite table
-		title: 'Preview';
+		title: [ self gtDisplayString ];
 		display: [ :anObject | (anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection yourself) addFirst: 'self' -> anObject; yourself ];
 		column: 'Variable'
 			evaluated: [:assoc |	GTObjectPrinter new asNonTruncatedTextFrom: assoc key ]
