@@ -211,6 +211,13 @@ GTSpotterItemBrick >> notifySelected [
 	self stepModel spotter announce: (GTSpotterCandidateSelected new candidateBrick: self)
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterItemBrick >> onRemoved [
+	super onRemoved.
+	"I must not receive any announcements as soon as i'm removed from dom"
+	self stepModel announcer unsubscribe: self
+]
+
 { #category : #'event handling' }
 GTSpotterItemBrick >> onSelectedChanged: ann [
 
@@ -248,8 +255,8 @@ GTSpotterItemBrick >> stepModel: aModel [
 
 	stepModel := aModel.
 	
-	stepModel announcer subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedChanged: to: self.
-	stepModel spotter announcer subscribe: GTSpotterStepPopped send: #onStepPopped to: self.
+	stepModel announcer weak subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedChanged: to: self.
+	stepModel spotter announcer weak subscribe: GTSpotterStepPopped send: #onStepPopped to: self.
 	
 	self
 		addActActionButton;

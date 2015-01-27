@@ -281,9 +281,9 @@ GTSpotterMorph >> spotterModel: aSpotter [
 
 	spotterModel := aSpotter.
 	
-	spotterModel announcer subscribe: GTSpotterExitAnnouncement send: #escapePressed to: self.
-	spotterModel announcer subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
-	spotterModel announcer subscribe: GTSpotterHidePreview send: #onHidePreview to: self.
+	spotterModel announcer weak subscribe: GTSpotterExitAnnouncement send: #escapePressed to: self.
+	spotterModel announcer weak subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
+	spotterModel announcer weak subscribe: GTSpotterHidePreview send: #onHidePreview to: self.
 	
 	self breadcrumbBrick spotterModel: spotterModel.
 	self paneBrick spotterModel: spotterModel.

@@ -36,9 +36,9 @@ GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 		
 	globalSpotter := GTSpotterMorph new
 		extent: 830@630;
-		showPreview;
 		spotterModel: GTSpotter new;
-		openInWindowLabeled: 'Spotter Debug Mode'.
+		openInWindowLabeled: 'Spotter Debug Mode';
+		showPreview.
 		
 	^ globalSpotter
 ]

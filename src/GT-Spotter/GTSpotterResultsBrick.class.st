@@ -20,6 +20,9 @@ GTSpotterResultsBrick >> addCategory: aProcessor [
 	self theme spotterWidgetThemer categoryStyleFor: categoryBrick .
 	self addBrickBack: categoryBrick.
 	
+	self doLayout.
+	self changed.
+	
 	^ categoryBrick
 ]
 
@@ -88,6 +91,8 @@ GTSpotterResultsBrick >> onAllCandidatesRemoved [
 	
 	self band fullReleaseCachedState.
 	self band releaseCachedState.
+	self doLayout.
+	self changed.
 	
 ]
 
@@ -137,11 +142,11 @@ GTSpotterResultsBrick >> stepModel [
 GTSpotterResultsBrick >> stepModel: aModel [
 	stepModel := aModel.
 	
-	stepModel candidates announcer subscribe: GTSpotterCandidateAdded send: #onCandidateAdded: to: self.
-	stepModel candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
-	stepModel candidates announcer subscribe: GTSpotterAllCandidatesAdded send: #onAllCandidatesAdded: to: self.
-	stepModel candidates announcer subscribe: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.
-	stepModel spotter announcer subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
+	stepModel candidates announcer weak subscribe: GTSpotterCandidateAdded send: #onCandidateAdded: to: self.
+	stepModel candidates announcer weak subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
+	stepModel candidates announcer weak subscribe: GTSpotterAllCandidatesAdded send: #onAllCandidatesAdded: to: self.
+	stepModel candidates announcer weak subscribe: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.
+	stepModel spotter announcer weak subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
 ]
 
 { #category : #accessing }
