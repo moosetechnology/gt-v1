@@ -166,8 +166,8 @@ GTSpotter >> hasPreviousStep [
 GTSpotter >> hidePreview [
 
 	self isPreviewVisible ifFalse: [ ^ self ].
+	isPreviewVisible := false.
 	self announcer announce: GTSpotterHidePreview new.
-	isPreviewVisible := false
 	
 ]
 
@@ -292,8 +292,8 @@ GTSpotter >> setText: aText from: aView [
 GTSpotter >> showPreview [
 
 	self isPreviewVisible ifTrue: [ ^ self ].
+	isPreviewVisible := true.
 	self announcer announce: GTSpotterShowPreview new.
-	isPreviewVisible := true
 	
 ]
 

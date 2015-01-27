@@ -3,10 +3,17 @@ Class {
 	#superclass : #GLMBrick,
 	#instVars : [
 		'compositeBrick',
-		'spotterModel'
+		'spotterModel',
+		'asyncTask'
 	],
 	#category : #'GT-Spotter-UI'
 }
+
+{ #category : #accessing }
+GTSpotterPreviewBrick >> asyncTask [
+
+	^ asyncTask ifNil: [ asyncTask := GTAsyncTask new ]
+]
 
 { #category : #accessing }
 GTSpotterPreviewBrick >> compositeBrick [
@@ -17,6 +24,7 @@ GTSpotterPreviewBrick >> compositeBrick [
 { #category : #accessing }
 GTSpotterPreviewBrick >> compositeBrick: aBrick [
 
+	self compositeBrick ifNotNil: [ self removeBrick: self compositeBrick ].
 	compositeBrick := aBrick.
 	self theme spotterWidgetThemer spotterPreviewCompositeStyleFor: compositeBrick.
 	self addBrickBack: compositeBrick
@@ -65,10 +73,18 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 { #category : #updating }
 GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 
-	self owner ifNil: [ ^ self ].
-
-	self compositeBrick removeAllBricks.
-	anObject spotterPreviewIn: self compositeBrick.
-	self doLayout.
-	self changed
+	self spotterModel isPreviewVisible ifFalse: [ ^ self ].
+	
+	self asyncTask
+		execute: [ :composite :entity |
+				[ anObject spotterPreviewIn: composite ]
+					on: Exception
+					do: [ composite removeAllBricks ].
+				 composite ]
+		withArguments: { self newCompositeBrick . anObject }
+		callback: [ :composite |
+			self compositeBrick: composite.
+			self doLayout.
+			self changed ]
+		priority: Processor userBackgroundPriority
 ]

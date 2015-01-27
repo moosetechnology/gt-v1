@@ -160,7 +160,6 @@ GTSpotterStep >> process: aString [
 	self query: (aString ifNil: [ '' ]).
 	"updating timestamp in a stream, to prevent candidates from old process being shown"
 	self stream updateTimestamp.
-	self stream removeAllCandidates.
 	
 	self asyncTask
 		execute: [ :input | 

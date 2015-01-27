@@ -30,6 +30,12 @@ GTAsyncTask >> complete: anObject callback: aBlock [
 GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock [
 	"execution happens with UI process priority so that communication with UI can be done in real time"
 	
+	^ self execute: aBlock withArguments: aCollection callback: callbackBlock priority: Processor userSchedulingPriority
+]
+
+{ #category : #async }
+GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock priority: aPriority [
+	
 	self terminate.
 	
 	callback := callbackBlock.
@@ -39,7 +45,7 @@ GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBloc
 		UIManager default defer: [ self complete: result callback: callbackBlock ]
 	]	newProcess.
 	
-	process priority: Processor userSchedulingPriority.
+	process priority: aPriority.
 	process resume.
 		
 	^ self
