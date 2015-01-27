@@ -90,6 +90,17 @@ GTBytecodeDebugger >> debuggerTransmissionsIn: browser [
 
 ]
 
+{ #category : #'building presentations' }
+GTBytecodeDebugger >> decompiledCodeWidgetIn: composite forContext: aContext [
+
+	^ composite smalltalkCode
+		title: 'Decompiled';
+		format: [ aContext method codeForNoSource ];
+		smalltalkClass: [  aContext methodClass ];
+		doItReceiver: [ aContext receiver ];
+		doItContext: [  aContext ]
+]
+
 { #category : #'printing/formatting' }
 GTBytecodeDebugger >> formatBytecode: aBytecode [
 	| textAttributes|
@@ -122,5 +133,6 @@ GTBytecodeDebugger >> methodBytecodeWidgetIn: aComposite forContext: aContext [
 GTBytecodeDebugger >> methodCodeIn: composite forContext: aContext [
 
 	(self methodCodeWidgetIn: composite forContext: aContext)
-		with: [ :code | self installCodeActionsFor: code ]
+		with: [ :code | self installCodeActionsFor: code ].
+	"self decompiledCodeWidgetIn: composite forContext: aContext"
 ]
