@@ -23,7 +23,11 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 	context := self.
 	fieldList 
 		add: ('_self' ->  context receiver);
-	      addAll: (context receiver class allSlots collect: [:slot | slot name -> (slot read: context receiver) ]).
+	      addAll: (context receiver class allSlots collect: [:slot ||value| 
+				value := [(slot read: context receiver)] 
+					on: Error 
+					do: [ value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
+			slot name -> value ] ).
 	
 	fieldList add: ('_thisContext' ->  context).
 	 context == nil ifTrue: [^fieldList].
