@@ -91,14 +91,3 @@ GTSpotterHeaderBrick >> spotterModel: aModel [
 
 	spotterModel announcer subscribe: GTSpotterCurrentStepChanged send: #onCurrentStepChanged to: self.
 ]
-
-{ #category : #accessing }
-GTSpotterHeaderBrick >> stepsBand: aBrick [
-
-	stepsBrick ifNotNil: [self removeBrick: stepsBrick].
-	stepsBrick := aBrick.
-	
-	self theme spotterWidgetThemer stepsBandStyleFor: stepsBrick.
-	
-	self addBrickBack: aBrick
-]

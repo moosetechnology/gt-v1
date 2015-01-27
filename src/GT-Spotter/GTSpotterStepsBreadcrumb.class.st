@@ -67,11 +67,11 @@ GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 	^ self theme spotterWidgetThemer breadcrumbHeight + self theme spotterWidgetThemer breadcrumbTriangleHeight
 ]
 
-{ #category : #geometry }
+{ #category : #'as yet unclassified' }
 GTSpotterStepsBreadcrumb >> doLayout [
 	super doLayout.
-		
-	self scrollToTheLastOne.
+	
+	self scrollToTheLastOne: false
 ]
 
 { #category : #geometry }
@@ -105,10 +105,10 @@ GTSpotterStepsBreadcrumb >> glmAnimateBrickBounds: aValue duration: anInteger ca
 GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
-	self layoutPolicy: (GLMBrickHorizontalFillLinearLayout new).
-		
-	self band: self newBand.
-	self height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
+	self
+		layout: GLMBrickHorizontalFillLinearLayout new;
+		band: self newBand;
+		height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
 	
 ]
 
@@ -188,7 +188,8 @@ GTSpotterStepsBreadcrumb >> pop [
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
 			self items last showTriangle.
-			self doLayout.
+			super doLayout.
+			self scrollToTheLastOne.
 			self changed ]
 ]
 
@@ -216,13 +217,22 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 	self items size = 1
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
-			self doLayout.
+			super doLayout.
+			self scrollToTheLastOne.
 			self changed ].
 	
 ]
 
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> scrollToTheLastOne [
+
+	self scrollToTheLastOne: true
+	
+	
+]
+
+{ #category : #geometry }
+GTSpotterStepsBreadcrumb >> scrollToTheLastOne: isAnimated [
 	|leftDelta rightDelta delta|
 	self items isEmpty ifTrue: [ ^ self ].
 	
@@ -237,7 +247,7 @@ GTSpotterStepsBreadcrumb >> scrollToTheLastOne [
 	delta := (self items size <= self maxNumberOfSteps) ifTrue: [leftDelta] ifFalse: [rightDelta].
 	self band data: (self band data + delta).
 
-	"self band brickBounds: (self band brickBounds translateBy: delta@0)."
+	isAnimated ifFalse: [ ^ self band translateX: delta ].
 	
 	self
 		glmAnimateBrickBounds: delta

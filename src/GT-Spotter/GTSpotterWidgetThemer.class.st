@@ -99,7 +99,12 @@ GTSpotterWidgetThemer >> breadcrumbSeparatorWidth [
 GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 	
 	aBrick layout
-		margin: { 0 . 0 }
+		margin: { 0 . 0 }.
+		
+	aBrick layout
+		staticHeight: self breadcrumbHeight;
+		marginBottom: self breadcrumbTriangleHeight negated;
+		zIndex: 2.
 ]
 
 { #category : #values }
@@ -515,12 +520,12 @@ GTSpotterWidgetThemer >> searchFieldTextColor [
 GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
 	
 	aBrick
-		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
+		layout: GLMBrickVerticalFillProportionalLinearLayout new;
 		borderColor: self borderColor;
 		borderWidth: self outerBorderWidth;
 		color: self borderColor.
 	
-	aBrick layoutProperties
+	aBrick layout
 		hSpaceFill;
 		padding: self outerBorderWidth;
 		zIndex: 2
@@ -536,7 +541,7 @@ GTSpotterWidgetThemer >> spotterGhostText [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 	
-	aBrick layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
+	aBrick layout: GLMBrickHorizontalFillProportionalLinearLayout new.
 	aBrick layout
 		hSpaceFill;
 		vSpaceFill
@@ -582,7 +587,7 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 		color: Color white.
 	
 	aBrick layout
-		horizontalPercent: self previewWidthPercent;
+		hPercent: self previewWidthPercent;
 		margin: { self headerHeight + self innerBorderWidth. 0 . 0};
 		marginLeft: (self previewBorderWidth + self previewArrowWidth) negated;
 		zIndex: 1
@@ -592,20 +597,6 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 GTSpotterWidgetThemer >> spotterStyleFor: aBrick [
 
 	aBrick brickRoot layout: GLMBrickVerticalFillProportionalLinearLayout new
-]
-
-{ #category : #styles }
-GTSpotterWidgetThemer >> stepPaneStyleFor: aBrick [
-
-	aBrick color: self borderColor
-]
-
-{ #category : #styles }
-GTSpotterWidgetThemer >> stepsBandStyleFor: aBrick [
-
-	aBrick
-		layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new;
-		width: [ 0 ]
 ]
 
 { #category : #values }

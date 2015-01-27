@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'focusedMorph',
 		'breadcrumbBrick',
-		'breadcrumbWrapperBrick',
 		'paneBrick',
 		'spotterModel',
 		'autoHide'
@@ -40,20 +39,13 @@ GTSpotterMorph >> breadcrumbBrick [
 { #category : #accessing }
 GTSpotterMorph >> breadcrumbBrick: aBrick [
 
-	breadcrumbBrick ifNotNil: [self removeBrick: breadcrumbWrapperBrick].
+	breadcrumbBrick ifNotNil: [self removeBrick: breadcrumbBrick].
 	breadcrumbBrick := aBrick.
 	
 	breadcrumbBrick announcer subscribe: GTSpotterBreadcrumbVisibilityChanged send: #onBreadcrumbVisibilityChanged to: self.
-	
 	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
-	breadcrumbWrapperBrick := GLMBrick new layout: GLMBrickVerticalFillLinearLayout new.
-	breadcrumbWrapperBrick width: [ self paneBrick contentsBrick width ].
-	breadcrumbWrapperBrick layout
-		staticHeight: self theme spotterWidgetThemer breadcrumbHeight;
-		marginBottom: self theme spotterWidgetThemer breadcrumbTriangleHeight negated;
-		zIndex: 2.
-	breadcrumbWrapperBrick addBrickBack: breadcrumbBrick.
-	self addBrickBack: breadcrumbWrapperBrick
+	breadcrumbBrick width: [ self paneBrick contentsBrick width ].
+	self addBrickBack: breadcrumbBrick
 ]
 
 { #category : #actions }
@@ -178,7 +170,8 @@ GTSpotterMorph >> onHidePreview [
 	self paneBrick isPreviewShown ifFalse: [ ^ self ].
 	delta := ((self width - ((self width / 100) * (100 - self theme spotterWidgetThemer previewWidthPercent)))@0) negated / 2.
 	self bounds: (self bounds expandBy: delta).
-	self paneBrick hidePreview
+	self paneBrick hidePreview.
+	self doLayout
 ]
 
 { #category : #'events-processing' }
@@ -194,7 +187,8 @@ GTSpotterMorph >> onShowPreview [
 	self paneBrick isPreviewShown ifTrue: [ ^ self ].
 	delta := (((self width * 100) / (100 - self theme spotterWidgetThemer previewWidthPercent) - self width)@0) / 2.
 	self bounds: (self bounds expandBy: delta).
-	self paneBrick showPreview
+	self paneBrick showPreview.
+	self doLayout
 ]
 
 { #category : #opening }
