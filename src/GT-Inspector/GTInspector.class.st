@@ -190,6 +190,17 @@ GTInspector >> entities [
 		(each port: #entity) value ]
 ]
 
+{ #category : #context }
+GTInspector >> filterByMethods: aCollection [
+	| filter |
+	
+	filter := GTInspectorMethodListFilter new.
+	aCollection  do: [ :aMethod |
+		filter addAndSelectSignatureFor: aMethod ].
+	self presentationFilter: filter
+		
+]
+
 { #category : #initialization }
 GTInspector >> initialize [
 	super initialize.
