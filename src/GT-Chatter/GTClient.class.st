@@ -29,6 +29,12 @@ GTClient >> fullName: anObject [
 	fullName := anObject
 ]
 
+{ #category : #dispatch }
+GTClient >> heightToDisplayInList: aList [
+
+	^ aList font height
+]
+
 { #category : #protocol }
 GTClient >> openChat [
 	^ GTChatter openChatWith: self
@@ -40,7 +46,7 @@ GTClient >> printOn: aStream [
 		nextPutAll: self fullName asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #dispatch }
 GTClient >> widthToDisplayInList: aList [
 
 	^ aList font widthOfStringOrText: self fullName
