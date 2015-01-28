@@ -77,7 +77,7 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 	
 	self asyncTask
 		execute: [ :composite :entity |
-				[ anObject spotterPreviewIn: composite ]
+				[ anObject spotterPreviewIn: composite inContext: self spotterModel ]
 					on: Exception
 					do: [ composite removeAllBricks ].
 				 composite ]
