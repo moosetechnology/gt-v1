@@ -18,6 +18,17 @@ Class {
 	#category : #'GT-Chatter-Model'
 }
 
+{ #category : #'as yet unclassified' }
+GTChatter class >> chatterMenuOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: #GTChatter)
+		action: [ self open ];
+		order: 0.9;
+		parent: #Tools;
+		help: 'Chat with other developers'.
+	
+]
+
 { #category : #ui }
 GTChatter class >> close [
 	weakWindowHolder ifNotNil: [ :aHolder | 
@@ -201,9 +212,13 @@ GTChatter >> proxy: anObject [
 
 { #category : #protocol }
 GTChatter >> receive: aMessage [ 
-	^ self conversations 
+	| anAnswer |
+	anAnswer := self conversations 
 				receive: aMessage asReceivedMessage 
-				from: aMessage from
+				from: aMessage from.
+	"For Pharo Days presentation."
+	GTChatter me == self ifTrue: [ GTChatter open ].
+	^ anAnswer
 ]
 
 { #category : #ui }
