@@ -25,11 +25,13 @@ FileReference >> spotterForFilesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-FileReference >> spotterPreviewIn: aComposite [
-
-	self isDirectory ifFalse: [ ^ super spotterPreviewIn: aComposite ].
+FileReference >> spotterPreviewItemsIn: aComposite [
+	<spotterPreview: 10>
+	
+	self halt.
+	self isDirectory ifFalse: [ ^ self ].
 	aComposite list
-		title: 'Preview';
+		title: #gtDisplayString;
 		display: #yourself;
 		format: [ :folder | 
 			GTSpotterItemBrick new 
