@@ -39,3 +39,9 @@ GTClient >> printOn: aStream [
 	aStream
 		nextPutAll: self fullName asString
 ]
+
+{ #category : #'as yet unclassified' }
+GTClient >> widthToDisplayInList: aList [
+
+	^ aList font widthOfStringOrText: self fullName
+]
