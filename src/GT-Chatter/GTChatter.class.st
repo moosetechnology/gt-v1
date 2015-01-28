@@ -23,7 +23,7 @@ GTChatter class >> chatterMenuOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: #GTChatter)
 		action: [ self open ];
-		order: 0.9;
+		order: 0.09;
 		parent: #Tools;
 		help: 'Chat with other developers'.
 	
