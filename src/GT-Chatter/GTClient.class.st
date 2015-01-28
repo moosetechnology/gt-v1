@@ -35,6 +35,16 @@ GTClient >> heightToDisplayInList: aList [
 	^ aList font height
 ]
 
+{ #category : #dispatch }
+GTClient >> listRenderOn: aCanvas atRow: aRow bounds: bounds color: color backgroundColor: backgroundColor from: aMorph [
+
+	aCanvas
+		drawString: self fullName
+		in: bounds
+		font: aMorph font
+		color: color
+]
+
 { #category : #protocol }
 GTClient >> openChat [
 	^ GTChatter openChatWith: self
