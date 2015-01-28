@@ -500,7 +500,8 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aMorph [
 		withoutAdornment;
 		withGhostText: self spotterGhostText;
 		autoAccept: true;
-		borderColor: Color transparent.
+		borderColor: Color transparent;
+		borderWidth: 0.
 		
 	aMorph layoutProperties
 		hSpaceFill;
