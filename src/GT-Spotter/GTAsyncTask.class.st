@@ -34,12 +34,26 @@ GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBloc
 ]
 
 { #category : #async }
+GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock delay: anIntegerMilliseconds [
+	"execution happens with UI process priority so that communication with UI can be done in real time"
+	
+	^ self execute: aBlock withArguments: aCollection callback: callbackBlock priority: Processor userSchedulingPriority delay: anIntegerMilliseconds
+]
+
+{ #category : #async }
 GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock priority: aPriority [
+		
+	^ self execute: aBlock withArguments: aCollection callback: callbackBlock priority: aPriority delay: 0
+]
+
+{ #category : #async }
+GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock priority: aPriority delay: anIntegerMilliseconds [
 	
 	self terminate.
 	
 	callback := callbackBlock.
 	process := [ |result|
+		anIntegerMilliseconds > 0 ifTrue: [ anIntegerMilliseconds milliseconds wait ].
 		result := aBlock valueWithArguments: aCollection.
 		"we use it to pass result from background thread and execute callback block in UI thread"
 		UIManager default defer: [ self complete: result callback: callbackBlock ]

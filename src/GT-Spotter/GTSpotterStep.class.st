@@ -162,13 +162,13 @@ GTSpotterStep >> process: aString [
 	self stream updateTimestamp.
 	
 	self asyncTask
-		execute: [ :input | 
-				"added small delay before actual searching. It makes spotter faster :)"
-				200 milliseconds wait.
+		execute: [ :input |
 				self stream removeAllCandidates.
 				self relevantProcessorsProcess: input ]
 		withArguments: { self query }
-		callback: [  ].
+		callback: [  ]
+		"added small delay before actual searching. It makes spotter faster :)"
+		delay: 200
 ]
 
 { #category : #accessing }
