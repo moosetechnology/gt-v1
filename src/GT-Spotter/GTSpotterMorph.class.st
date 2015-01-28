@@ -72,7 +72,7 @@ GTSpotterMorph >> diveOut [
 { #category : #actions }
 GTSpotterMorph >> escapePressed [
 
-	self delete
+	self autoHide ifTrue: [ self delete ]
 ]
 
 { #category : #'events-processing' }
