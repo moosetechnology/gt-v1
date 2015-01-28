@@ -26,7 +26,7 @@ Object >> spotterPreviewIn: aComposite inContext: aSpotter [
 				from: self class 
 				to: Object
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
-	pragmas first do: [ :eachPragma | 
+	pragmas do: [ :eachPragma | 
 		(eachPragma selector findTokens: $:) size = 1 
 			ifTrue: [ self perform: eachPragma selector with: aComposite ]. 
 		(eachPragma selector findTokens: $:) size = 2
