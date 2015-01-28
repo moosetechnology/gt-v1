@@ -74,3 +74,22 @@ FileReference >> spotterPreviewPngIn: aComposite [
 		((self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ])
 			asAlphaImageMorph asBrick margin: 20)
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+FileReference >> spotterPreviewStScriptIn: aComposite [
+	<spotterPreview: 10>
+	
+	(self extension = 'st' or: [self extension = 'ph']) 
+		ifFalse: [ ^ self ].
+	aComposite custom: 
+		(RubScrolledTextMorph new
+			beForSmalltalkScripting;
+			setTextWith: (self readStreamDo: [ :stream | 
+					| result |
+					result := [(stream next: 10000) asString]
+						on: Error 
+						do: [ (stream binary next: 10000) asString ].
+					stream size > 10000
+						ifTrue: [ result, '  ... truncated ...' ]
+						ifFalse: [ result ] ]) )
+]
