@@ -31,10 +31,10 @@ CompiledMethod >> spotterItemsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-CompiledMethod >> spotterPreviewIn: aComposite [
-
+CompiledMethod >> spotterPreviewCodeIn: aComposite [
+	<spotterPreview: 10>
 	aComposite pharoMethod
-		title: 'Preview';
+		title: [ self gtDisplayString ];
 		display: [:compiledMethod | 
 			' ', compiledMethod getSource];
 		smalltalkClass: #methodClass;

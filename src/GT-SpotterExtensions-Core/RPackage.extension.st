@@ -24,8 +24,8 @@ RPackage >> spotterExtensionMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-RPackage >> spotterPreviewIn: aComposite [
-
+RPackage >> spotterPreviewCodeIn: aComposite [
+	<spotterPreview: 10>
 	aComposite list
 		title: 'Preview';
 		display: [ :x | x ];

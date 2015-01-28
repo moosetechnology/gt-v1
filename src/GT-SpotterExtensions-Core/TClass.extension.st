@@ -11,10 +11,10 @@ TClass >> spotterMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterPreviewIn: aComposite [
-
+TClass >> spotterPreviewCodeIn: aComposite [
+	<spotterPreview: 10>
 	aComposite pharoMethod
-		title: 'Preview';
+		title: [self name];
 		display: #definitionForNautilus;
 		smalltalkClass: [ nil ];
 		entity: self.

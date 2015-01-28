@@ -28,10 +28,9 @@ FileReference >> spotterForFilesFor: aStep [
 FileReference >> spotterPreviewItemsIn: aComposite [
 	<spotterPreview: 10>
 	
-	self halt.
 	self isDirectory ifFalse: [ ^ self ].
 	aComposite list
-		title: #gtDisplayString;
+		title: [ self gtDisplayString ];
 		display: #yourself;
 		format: [ :folder | 
 			GTSpotterItemBrick new 

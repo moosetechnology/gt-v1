@@ -6,8 +6,8 @@ GTPlayPage >> spotterActDefault [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTPlayPage >> spotterPreviewIn: aComposite [
-
+GTPlayPage >> spotterPreviewCodeIn: aComposite [
+	<spotterPreview: 10>
 	aComposite pharoMethod
 		title: 'Preview';
 		display: #content;
