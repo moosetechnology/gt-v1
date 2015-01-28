@@ -10,8 +10,8 @@ RTExampleSelection >> matchesQuery: aSetOfNames [
 ]
 
 { #category : #'*GT-SpotterExtensions-CoreRoassal' }
-RTExampleSelection >> spotterPreviewIn: aComposite [
-
+RTExampleSelection >> spotterPreviewExampleIn: aComposite [
+	<spotterPreview: 10>
 	(self exampleObject class canPerform: (self selector, 'Icon') asSymbol)
 		ifTrue: [ 
 			aComposite addBrickBack: (self iconForm asAlphaImageMorph
