@@ -288,9 +288,12 @@ GTSpotterMorph >> spotterModel: aSpotter [
 	self breadcrumbBrick spotterModel: spotterModel.
 	self paneBrick spotterModel: spotterModel.
 	
+	spotterModel class isPreviewVisible ifTrue: [ spotterModel showPreview ].
+	
 	"expanding drop down pane"
 	self spotterModel setText: '' from: nil.
 	self spotterModel currentStep process: nil.
+	
 	
 	
 ]

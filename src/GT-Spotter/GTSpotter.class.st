@@ -16,10 +16,17 @@ Class {
 		'isPreviewVisible'
 	],
 	#classInstVars : [
-		'history'
+		'history',
+		'isPreviewVisible'
 	],
 	#category : #'GT-Spotter-Model'
 }
+
+{ #category : #accessing }
+GTSpotter class >> dontShowPreview [
+
+	isPreviewVisible := false
+]
 
 { #category : #example }
 GTSpotter class >> exampleInWindow [
@@ -78,6 +85,12 @@ GTSpotter class >> history [
 	^ history ifNil: [ history := WeakOrderedCollection new ]
 ]
 
+{ #category : #accessing }
+GTSpotter class >> isPreviewVisible [
+
+	^ isPreviewVisible ifNil: [ isPreviewVisible := false ]
+]
+
 { #category : #'instance creation' }
 GTSpotter class >> on: anObject [
 	
@@ -88,6 +101,12 @@ GTSpotter class >> on: anObject [
 GTSpotter class >> resetHistory [
 	"self resetHistory"
 	^ history := nil
+]
+
+{ #category : #accessing }
+GTSpotter class >> showPreview [
+
+	isPreviewVisible := true
 ]
 
 { #category : #inspecting }
@@ -167,6 +186,7 @@ GTSpotter >> hidePreview [
 
 	self isPreviewVisible ifFalse: [ ^ self ].
 	isPreviewVisible := false.
+	self class dontShowPreview.
 	self announcer announce: GTSpotterHidePreview new.
 	
 ]
@@ -293,6 +313,7 @@ GTSpotter >> showPreview [
 
 	self isPreviewVisible ifTrue: [ ^ self ].
 	isPreviewVisible := true.
+	self class showPreview.
 	self announcer announce: GTSpotterShowPreview new.
 	
 ]
