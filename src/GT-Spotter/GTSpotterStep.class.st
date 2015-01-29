@@ -164,7 +164,9 @@ GTSpotterStep >> process: aString [
 	self asyncTask
 		execute: [ :input |
 				self stream removeAllCandidates.
-				self relevantProcessorsProcess: input ]
+				[ self relevantProcessorsProcess: input ]
+					on: Exception
+					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
 		withArguments: { self query }
 		callback: [  ]
 		"added small delay before actual searching. It makes spotter faster :)"
