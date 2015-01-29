@@ -136,6 +136,11 @@ GTSpotterMorph >> initializeListeners [
 	self bindKeyCombination: Character arrowRight command shift toAction: [ self diveInCategory ].
 	self bindKeyCombination: Character arrowLeft command shift toAction: [ self diveOut ].
 	
+	self bindKeyCombination: Character arrowUp alt toAction: [ self stepScrollPageUp ].
+	self bindKeyCombination: Character arrowDown alt toAction: [ self stepScrollPageDown ].
+	self bindKeyCombination: Character pageUp toAction: [ self stepScrollPageUp ].
+	self bindKeyCombination: Character pageDown toAction: [ self stepScrollPageDown ].
+	
 	self 
 		bindKeyCombination: Character cr asKeyCombination 
 		toAction: [ self act ].
@@ -296,6 +301,18 @@ GTSpotterMorph >> spotterModel: aSpotter [
 	
 	
 	
+]
+
+{ #category : #actions }
+GTSpotterMorph >> stepScrollPageDown [
+
+	self spotterModel currentStep announcer announce: (GTSpotterScrollPageDown new)
+]
+
+{ #category : #actions }
+GTSpotterMorph >> stepScrollPageUp [
+
+	self spotterModel currentStep announcer announce: (GTSpotterScrollPageUp new)
 ]
 
 { #category : #actions }
