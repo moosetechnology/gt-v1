@@ -37,13 +37,6 @@ GTSpotterCategoryBrick >> on: aStepModel category: aProcessor [
 	self category: aProcessor.
 ]
 
-{ #category : #'brick-structure-events' }
-GTSpotterCategoryBrick >> onRemoved [
-	super onRemoved.
-	
-	self removeAllBricks
-]
-
 { #category : #accessing }
 GTSpotterCategoryBrick >> setAmountVisible: visible all: all [
 

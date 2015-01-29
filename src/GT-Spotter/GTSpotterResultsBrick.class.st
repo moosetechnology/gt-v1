@@ -53,7 +53,7 @@ GTSpotterResultsBrick >> categoryMorphOf: aProcessor [
 GTSpotterResultsBrick >> initialize [
 	super initialize.
 	
-	self announcer subscribe: GLMBrickScrollPositionChanged send: #onScrolled to: self
+	self announcer weak subscribe: GLMBrickScrollPositionChanged send: #onScrolled to: self
 ]
 
 { #category : #'instance creation' }
@@ -125,6 +125,14 @@ GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	
 	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
+]
+
+{ #category : #'brick-structure-events' }
+GTSpotterResultsBrick >> onRemovedFrom: aBrick [
+	super onRemovedFrom: aBrick.
+	
+	self stepModel spotter announcer unsubscribe: self.
+	self stepModel announcer unsubscribe: self.
 ]
 
 { #category : #'event handling' }

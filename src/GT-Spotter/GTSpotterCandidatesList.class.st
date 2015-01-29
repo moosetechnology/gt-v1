@@ -291,11 +291,6 @@ GTSpotterCandidatesList >> removeAllCandidates [
 	self processors linksDo: [ :each | each clear ].
 	self candidates removeAll.
 	self notifyAllCandidatesRemoved
-	
-	
-	
-	
-	
 ]
 
 { #category : #'adding/removing' }
