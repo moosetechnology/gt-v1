@@ -4,18 +4,10 @@ Class {
 	#instVars : [
 		'triangleBrick',
 		'selectedItemBrick',
-		'spotterModel',
-		'selfBounds'
+		'spotterModel'
 	],
 	#category : #'GT-Spotter-UI'
 }
-
-{ #category : #'brick-layout' }
-GTSpotterPreviewArrowBrick >> doLayout [
-	super doLayout.
-	
-	selfBounds := nil.
-]
 
 { #category : #actions }
 GTSpotterPreviewArrowBrick >> hideTriangle [
@@ -33,11 +25,13 @@ GTSpotterPreviewArrowBrick >> initialize [
 
 { #category : #actions }
 GTSpotterPreviewArrowBrick >> moveTo: anItemBrick [
-	|itemBounds delta|
+	|itemBounds delta selfBounds|
 	anItemBrick ifNil: [ ^ self ].
 	
 	itemBounds := anItemBrick globalBounds.
-	delta := ((itemBounds top - self selfBounds top) max: 0) min: (self selfBounds height - self triangleBrick height).
+	selfBounds := self globalBounds.
+	
+	delta := ((itemBounds top - selfBounds top) max: 0) min: (selfBounds height - self triangleBrick height).
 	self triangleBrick brickBounds top = delta ifTrue: [ ^ self ].
 	
 	self triangleBrick translateY: (delta - self triangleBrick brickBounds top).
@@ -71,7 +65,7 @@ GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
 	self brickRoot changed
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-drawing' }
 GTSpotterPreviewArrowBrick >> onDraw: aCanvas [
 	super onDraw: aCanvas.
 	
@@ -116,12 +110,6 @@ GTSpotterPreviewArrowBrick >> selectedItemBrick: aBrick [
 	selectedItemBrick isNotNil & aBrick isNil ifTrue: [ self hideTriangle ].
 	
 	selectedItemBrick := aBrick
-]
-
-{ #category : #accessing }
-GTSpotterPreviewArrowBrick >> selfBounds [
-
-	^ selfBounds ifNil: [ selfBounds := self globalBounds ]
 ]
 
 { #category : #actions }

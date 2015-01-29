@@ -214,7 +214,7 @@ GTSpotterItemBrick >> notifySelected [
 	self stepModel spotter announce: (GTSpotterCandidateSelected new candidateBrick: self)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-structure-events' }
 GTSpotterItemBrick >> onRemoved [
 	super onRemoved.
 	"I must not receive any announcements as soon as i'm removed from dom"
@@ -230,6 +230,7 @@ GTSpotterItemBrick >> onSelectedChanged: ann [
 { #category : #'event handling' }
 GTSpotterItemBrick >> onStepPopped [
 
+	
 	(self stepModel spotter steps last = self stepModel) & self isChecked ifTrue: [
 		self notifySelected ]
 ]
