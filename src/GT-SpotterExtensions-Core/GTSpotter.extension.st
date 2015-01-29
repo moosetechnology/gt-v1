@@ -69,6 +69,7 @@ GTSpotter >> spotterForDirectoriesFor: aStep [
 	processor := aStep listProcessor.
 	processor
 		title: 'Directories';
+		itemIcon: [ GLMUIThemeExtraIcons glamorousFolder ];
 		wantsToDisplayOnEmptyQuery: false;
 		filter: [ :originalQuery :stream | 
 					self
@@ -85,6 +86,7 @@ GTSpotter >> spotterForFilesFor: aStep [
 	processor := aStep listProcessor.
 	processor
 		title: 'Files';
+		itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
 		wantsToDisplayOnEmptyQuery: false;
 		filter: [ :originalQuery :stream | 
 					self
