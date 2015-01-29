@@ -61,6 +61,7 @@ GTChatter class >> reset [
 	self close.
 	uniqueInstance ifNotNil: [ :aChatter |
 		uniqueInstance := nil.
+		weakWindowHolder := nil.
 		aChatter stop ]
 ]
 
