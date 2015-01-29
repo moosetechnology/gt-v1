@@ -9,38 +9,38 @@ GTPPStepToPPDebugger class >> gtActionType [
 	<gtDebuggingAction>
 ]
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> appliesToContext: aContext [
 	self flag: 'A better mechanism for determining if an action is active or not is needed.'.
 	
 	^ self debugger class ~= self debuggerClass
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> debuggerClass [
 	
 	^ GTPPDebugger
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> defaultCategory [
 	
 	^ 'Step to debugger'
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> defaultLabel [ 
 	
 	^ self debuggerClass defaultTitle
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> defaultOrder [
 
 	^ 150
 ]
 
-{ #category : #actions }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> executeAction [
 
 	self session
@@ -54,7 +54,7 @@ GTPPStepToPPDebugger >> executeAction [
 
 ]
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> isPPDebuggerActivePredicate [
 
 	^ self session createPredicateForBlock: [ :aContext |

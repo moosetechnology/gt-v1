@@ -81,7 +81,7 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		from: #stack port: #entity;
 		from: #stack port: #selection;
 		to: #workspace;
-		when: [ :aSession :aContext | (aSession notNil & aContext notNil) and: [ aSession rootParser class inheritsFrom: PPCompositeParser ] ];
+		when: [ :aSession :aContext | (aSession notNil & aContext notNil) ];
 		andShow: [ :aComposite :aSession :aContext | self workspaceIn: aComposite forSession: aSession forContext: aContext ].
 	
 ]
@@ -93,42 +93,45 @@ GTPPDebugger >> debuggingActionsPragmas [
 ]
 
 { #category : #'building presentations' }
-GTPPDebugger >> exampleIn: aComposite forSession: aSession forPoduction: aProduction [
+GTPPDebugger >> exampleIn: aComposite forSession: aSession forParser: parser [
 
 	aComposite text
 		title: 'Example';
 		useExplicitNotNil;
-		display: [ (self production: aProduction from: aSession rootParser class) example ];
+		display: [
+			parser example.
+		];
 		act: [:text | text update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Generate another one'
 ]
 
 { #category : #'building presentations' }
-GTPPDebugger >> firstIn: aComposite forSession: aSession forPoduction: aProduction [
+GTPPDebugger >> firstIn: aComposite forSession: aSession forParser: parser [
 
 	aComposite list
 		title: 'First';
 		useExplicitNotNil;
-		display: [ (self production: aProduction from: aSession rootParser class) firstSet ];
-		format: [ :parser | parser displayName ]
+		display: [ 
+			parser firstSet.
+		];
+		format: [ :p | p displayName ]
 ]
 
 { #category : #'building presentations' }
-GTPPDebugger >> followIn: aComposite forSession: aSession forPoduction: aProduction [
+GTPPDebugger >> followIn: aComposite forSession: aSession forParser: parser [
 	
 	aComposite list
 		title: 'Follow';
 		useExplicitNotNil;
-		format: [ :parser | parser displayName ];
+		format: #displayName;
 		display: [
-			| parser |
-			parser := aSession rootParser class new.
-			parser followSets
-				at: (parser productionAt: aProduction)
-				ifAbsent: [ Array with: nil asParser ] ]
+			| rootParser |
+			rootParser := aSession rootParser.
+			rootParser followSets at: parser ifAbsent: [ #() ].
+		]
 ]
 
 { #category : #'building presentations' }
-GTPPDebugger >> graphIn: aComposite forSession: aSession forPoduction: aProduction [
+GTPPDebugger >> graphIn: aComposite forSession: aSession forParser: parser [
 	
 	aComposite morph
 		title: 'Graph';
@@ -137,7 +140,7 @@ GTPPDebugger >> graphIn: aComposite forSession: aSession forPoduction: aProducti
 			| morph |
 			morph := ScrollPane new.
 			morph color: Color white.
-			morph scroller addMorph: (self production: aProduction from: aSession rootParser class) morphicProduction.
+			morph scroller addMorph: 	parser 	morphicProduction.
 			(morph allMorphs select: [ :each | 
 				each class = StringMorph and: [ each color = Color blue ] ]) do: [ :each |
 					each on: #click send: #execute to: 
@@ -165,15 +168,16 @@ GTPPDebugger >> installStreamActionsFor: aPresentation [
 ]
 
 { #category : #'building presentations' }
-GTPPDebugger >> mapIn: aComposite forSession: aSession forPoduction: aProduction [
-
+GTPPDebugger >> mapIn: aComposite forSession: aSession forParser: parser [
+	((parser isKindOf: PPDelegateParser) 
+		and: [parser name isNil not]) ifFalse: [ ^ self ].
 	self class environment at: #GLMRoassalPresentation ifPresent: [ :cls |
 		aComposite roassal
 			title: 'Map';
 			useExplicitNotNil;
 			painting: [ :view |
 				(self production: #start from: aSession rootParser class)
-					viewAllNamedParsersWithSelection: (Array with: aProduction)
+					viewAllNamedParsersWithSelection: (Array with: parser name)
 					previewing: [:eachParser | self sourceCodeFrom: aSession rootParser class selector: eachParser name ]
 					on: view ] ]	
 
@@ -235,19 +239,33 @@ GTPPDebugger >> progressIn: aComposite [
 			morph ].
 ]
 
-{ #category : #'private utilities' }
-GTPPDebugger >> sourceCodeFrom: class selector: production [
+{ #category : #accessing }
+GTPPDebugger >> selectedObject [
 
-	^ class ultimateSourceCodeAt: (production ifNil: [ #start ]) ifAbsent: [ String new ]
+	^ self selectedContext receiver
+]
+
+{ #category : #'private utilities' }
+GTPPDebugger >> sourceCodeFrom: parser inContext: aPPContext [ 
+	| name root |
+
+	name := parser name.
+	root := aPPContext root.
+	(root isKindOf: PPCompositeParser) ifTrue: [ 
+		name ifNotNil: [ 
+			^ root class ultimateSourceCodeAt: (name ifNil: [ #start ]) ifAbsent: [ String new ]
+		]
+	].
+	^ ''
 ]
 
 { #category : #'building presentations' }
-GTPPDebugger >> sourceIn: aComposite forSession: aSession forPoduction: aProduction [
+GTPPDebugger >> sourceIn: aComposite forSession: aSession forParser: selectedParser [
 
 	aComposite smalltalkCode
 		title: 'Source';
 		useExplicitNotNil;
-		display: [ self sourceCodeFrom: aSession rootParser class selector: aProduction ];
+		display: [ self sourceCodeFrom: selectedParser inContext: self session stream ];
 		smalltalkClass: [ aSession rootParser class ]
 ]
 
@@ -309,17 +327,16 @@ GTPPDebugger >> updateStreamSelectionInterval [
 
 { #category : #'building presentations' }
 GTPPDebugger >> workspaceIn: aComposite forSession: aSession forContext: aContext [
-	| targetParser nameProperty |
-	
+	| targetParser  |
 	targetParser := (aContext locateTopNamedPPParser) 
 		ifNil: [ aSession rootParser ] 
 		ifNotNil: [ :parserContext | parserContext receiver ].
-	nameProperty := targetParser propertyAt: 'name' ifAbsent: [ nil ].
+
 	
-	self sourceIn: aComposite forSession: aSession forPoduction: nameProperty.
-	self graphIn: aComposite forSession: aSession forPoduction: nameProperty.
-	self mapIn: aComposite forSession: aSession forPoduction: nameProperty.
-	self exampleIn: aComposite forSession: aSession forPoduction: nameProperty.
-	self firstIn: aComposite forSession: aSession forPoduction: nameProperty.
-	self followIn: aComposite forSession: aSession forPoduction: nameProperty.
+	self sourceIn: aComposite forSession: aSession forParser: targetParser.
+	self graphIn: aComposite forSession: aSession forParser: targetParser.
+	self mapIn: aComposite forSession: aSession forParser: targetParser.
+	self exampleIn: aComposite forSession: aSession forParser: targetParser.
+	self firstIn: aComposite forSession: aSession forParser: targetParser.
+	self followIn: aComposite forSession: aSession forParser: targetParser.
 ]
