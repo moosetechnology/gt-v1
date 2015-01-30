@@ -201,6 +201,12 @@ GTInspector >> filterByMethods: aCollection [
 		
 ]
 
+{ #category : #accessing }
+GTInspector >> firstPresentation [
+
+	^ self panes first presentations first
+]
+
 { #category : #initialization }
 GTInspector >> initialize [
 	super initialize.
