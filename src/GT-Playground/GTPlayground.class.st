@@ -222,9 +222,23 @@ GTPlayground >> compose [
 			GTPlayBook instance addPageIfInteresting: self entity ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GTPlayground >> inspectorPresentation [
+
+	^ self presentations first 
+]
+
+{ #category : #accessing }
 GTPlayground >> label: aString [
 	"Set the window label to the given string"
 	self title: aString.
 	self update
+]
+
+{ #category : #accessing }
+GTPlayground >> setBindings: aDictionary [
+
+	self inspectorPresentation firstPresentation 
+		variableBindings: [ aDictionary associations ];
+		updateVariableBindings
 ]
