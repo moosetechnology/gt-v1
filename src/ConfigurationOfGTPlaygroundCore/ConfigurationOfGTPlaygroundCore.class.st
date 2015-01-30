@@ -133,6 +133,28 @@ ConfigurationOfGTPlaygroundCore >> baseline20: spec [
 	spec group: 'default' with: #('GT-Playground' ) ].
 ]
 
+{ #category : #baselines }
+ConfigurationOfGTPlaygroundCore >> baseline21: spec [
+	<version: '2.1-baseline'>
+
+	spec for: #'common' do: [
+	spec blessing: #'baseline'.
+	spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
+	
+	spec package: 'GT-Playground' with: [
+			spec requires: #('GTInspectorCore')].
+	spec package: 'GT-Tests-Playground' with: [
+			spec requires: #('GT-Playground')].
+		
+	spec project: 'GTInspectorCore' with: [
+			spec
+				className: #ConfigurationOfGTInspectorCore;
+				versionString: #'development';
+				repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
+	
+	spec group: 'default' with: #('GT-Playground' 'GT-Tests-Playground') ].
+]
+
 { #category : #accessing }
 ConfigurationOfGTPlaygroundCore >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -145,7 +167,7 @@ ConfigurationOfGTPlaygroundCore >> customProjectAttributes [
 ConfigurationOfGTPlaygroundCore >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '2.0-baseline'.
+	spec for: #'common' version: '2.1-baseline'.
 
 ]
 
