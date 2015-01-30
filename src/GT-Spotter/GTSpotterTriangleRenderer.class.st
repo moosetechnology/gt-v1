@@ -66,7 +66,7 @@ GTSpotterTriangleRenderer >> renderLeftTriangle: aBrick on: aCanvas [
 GTSpotterTriangleRenderer >> renderRightTriangle: aBrick on: aCanvas [
 	|a b c width height gap|
 	
-	gap := aBrick theme spotterWidgetThemer previewArrowGapHack.
+	gap := aBrick themer spotterThemer previewArrowGapHack.
 	aCanvas fillRectangle: (aBrick brickBounds withWidth: gap) color: aBrick color.
 	
 	width := aBrick brickBounds width - gap.

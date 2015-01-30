@@ -20,12 +20,6 @@ GTSpotterWidgetDarkThemer >> borderColor [
 	^ self backgroundColor darker
 ]
 
-{ #category : #acessing }
-GTSpotterWidgetDarkThemer >> brickThemer [
-
-	^ GTSpotterBrickDarkThemer default
-]
-
 { #category : #values }
 GTSpotterWidgetDarkThemer >> categoryTitleBackgroundColor [
 

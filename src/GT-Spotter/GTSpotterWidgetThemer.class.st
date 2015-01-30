@@ -113,12 +113,6 @@ GTSpotterWidgetThemer >> breadcrumbTriangleHeight [
 	^ 16
 ]
 
-{ #category : #acessing }
-GTSpotterWidgetThemer >> brickThemer [
-
-	^ GTSpotterBrickThemer default
-]
-
 { #category : #values }
 GTSpotterWidgetThemer >> buttonPressedColor [
 
@@ -423,7 +417,7 @@ GTSpotterWidgetThemer >> previewArrowColor [
 { #category : #values }
 GTSpotterWidgetThemer >> previewArrowGapHack [
 
-	^ self brickThemer scrollbarOffset + self brickThemer scrollbarWidth + self outerBorderWidth + 1"pager bug"
+	^ self themer scrollbarOffset + self themer scrollbarWidth + self outerBorderWidth + 1"pager bug"
 ]
 
 { #category : #values }
