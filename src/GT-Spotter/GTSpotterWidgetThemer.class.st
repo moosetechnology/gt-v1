@@ -6,7 +6,7 @@ ACustomTheme>>spotterWidgetThemer
 "
 Class {
 	#name : #GTSpotterWidgetThemer,
-	#superclass : #Object,
+	#superclass : #GLMBrickThemerModule,
 	#category : #'GT-Spotter-Theme'
 }
 

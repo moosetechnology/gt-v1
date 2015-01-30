@@ -21,7 +21,7 @@ GTSpotterContentsBrick >> dropDownBrick: aBrick [
 	dropDownBrick := aBrick.
 	
 	dropDownBrick pagerModel: self spotterModel pagerModel.
-	self theme spotterWidgetThemer dropDownPaneStyleFor: dropDownBrick.
+	self themer spotterThemer dropDownPaneStyleFor: dropDownBrick.
 	
 	self addBrickBack: dropDownBrick
 ]
@@ -37,7 +37,7 @@ GTSpotterContentsBrick >> headerBrick: aBrick [
 	headerBrick ifNotNil: [self removeBrick: headerBrick].
 	headerBrick := aBrick.
 	
-	self theme spotterWidgetThemer headerStyleFor: headerBrick.
+	self themer spotterThemer headerStyleFor: headerBrick.
 	
 	self addBrickBack: headerBrick
 ]

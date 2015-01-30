@@ -21,7 +21,7 @@ GTSpotterCategoryTitleBrick >> amountBrick: aBrick [
 	amountBrick ifNotNil: [self removeBrick: amountBrick].
 	amountBrick := aBrick.
 	
-	self theme spotterWidgetThemer categoryAmountStyleFor: amountBrick.
+	self themer spotterThemer categoryAmountStyleFor: amountBrick.
 	
 	self addBrickBack: amountBrick
 ]
@@ -49,7 +49,7 @@ GTSpotterCategoryTitleBrick >> nameBrick: aBrick [
 	nameBrick ifNotNil: [self removeBrick: nameBrick].
 	nameBrick := aBrick.
 	
-	self theme spotterWidgetThemer categoryTitleNameStyleFor: nameBrick.
+	self themer spotterThemer categoryTitleNameStyleFor: nameBrick.
 	
 	self addBrickBack: nameBrick
 ]
@@ -93,7 +93,7 @@ GTSpotterCategoryTitleBrick >> onPrepareLayout [
 	super onPrepareLayout.
 	
 	self amountBrick layoutProperties horizontalPercent: 100.
-	self layoutProperties paddingLeft: (self theme spotterWidgetThemer categoryNameMarginLeft).
+	self layoutProperties paddingLeft: (self themer spotterThemer categoryNameMarginLeft).
 	self disable.
 ]
 

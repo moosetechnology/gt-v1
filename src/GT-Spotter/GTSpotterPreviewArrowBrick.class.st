@@ -70,9 +70,9 @@ GTSpotterPreviewArrowBrick >> onDraw: aCanvas [
 	super onDraw: aCanvas.
 	
 		aCanvas
-			fillRectangle: ((self brickBounds withWidth: self theme spotterWidgetThemer outerBorderWidth) translateBy: (self themer scrollbarWidth + self themer scrollbarOffset + 1)@0)
+			fillRectangle: ((self brickBounds withWidth: self themer spotterThemer outerBorderWidth) translateBy: (self themer scrollbarWidth + self themer scrollbarOffset + 1)@0)
 			color: (self spotterModel isPreviewVisible
-				ifTrue: [ self theme spotterWidgetThemer backgroundColor ]
+				ifTrue: [ self themer spotterThemer backgroundColor ]
 				ifFalse: [ Color transparent ])
 	
 	
@@ -115,7 +115,7 @@ GTSpotterPreviewArrowBrick >> selectedItemBrick: aBrick [
 { #category : #actions }
 GTSpotterPreviewArrowBrick >> showTriangle [
 
-	self triangleBrick color: self theme spotterWidgetThemer previewArrowColor.
+	self triangleBrick color: self themer spotterThemer previewArrowColor.
 	self changed
 ]
 
@@ -148,7 +148,7 @@ GTSpotterPreviewArrowBrick >> triangleBrick: aBrick [
 
 	triangleBrick := aBrick.
 	self triangleBrick addUpAction: [ self spotterModel togglePreview ].
-	self theme spotterWidgetThemer spotterPreviewArrowStyleFor: self triangleBrick.
+	self themer spotterThemer spotterPreviewArrowStyleFor: self triangleBrick.
 	self addBrickBack: self triangleBrick
 	
 ]

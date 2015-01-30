@@ -19,7 +19,7 @@ GTSpotterPaneBrick >> arrowBrick [
 GTSpotterPaneBrick >> arrowBrick: aBrick [
 
 	arrowBrick := aBrick.
-	self theme spotterWidgetThemer spotterPreviewArrowContainerStyleFor: self arrowBrick.
+	self themer spotterThemer spotterPreviewArrowContainerStyleFor: self arrowBrick.
 	self addBrickBack: self arrowBrick
 ]
 
@@ -35,7 +35,7 @@ GTSpotterPaneBrick >> contentsBrick: aBrick [
 	contentsBrick ifNotNil: [self removeBrick: contentsBrick].
 	contentsBrick := aBrick.
 		
-	self theme spotterWidgetThemer spotterContentsStyleFor: contentsBrick.
+	self themer spotterThemer spotterContentsStyleFor: contentsBrick.
 
 	self addBrickBack: contentsBrick
 ]
@@ -96,7 +96,7 @@ GTSpotterPaneBrick >> previewBrick: aBrick [
 	previewBrick ifNotNil: [self removeBrick: aBrick].
 	previewBrick := aBrick.
 	
-	self theme spotterWidgetThemer spotterPreviewStyleFor: previewBrick
+	self themer spotterThemer spotterPreviewStyleFor: previewBrick
 ]
 
 { #category : #action }

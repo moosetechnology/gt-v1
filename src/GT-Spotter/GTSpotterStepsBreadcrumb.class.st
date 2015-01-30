@@ -13,7 +13,7 @@ Class {
 GTSpotterStepsBreadcrumb >> addItem: aBrick [
 
 	self items size = 1 ifTrue: [
-		self items first labelBrick layout paddingLeft: self theme spotterWidgetThemer breadcrumbSeparatorWidth / 2 ].
+		self items first labelBrick layout paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
 	self band addBrickBack: aBrick.
 	self items addLast: aBrick
 ]
@@ -22,7 +22,7 @@ GTSpotterStepsBreadcrumb >> addItem: aBrick [
 GTSpotterStepsBreadcrumb >> addSeparator [
 	|separator|
 	separator := self newSeparator.
-	self theme spotterWidgetThemer breadcrumbSeparatorStyleFor: separator.
+	self themer spotterThemer breadcrumbSeparatorStyleFor: separator.
 	self band addBrickBack: separator
 ]
 
@@ -42,7 +42,7 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 			ifFalse: [ |width|
 				width := 0.
 				self items do: [ :each | width := width + each width ].
-				width + ((self items size - 1) * self theme spotterWidgetThemer breadcrumbSeparatorWidth)] ].
+				width + ((self items size - 1) * self themer spotterThemer breadcrumbSeparatorWidth)] ].
 	
 	self band data: 0.
 	self addBrickBack: band.
@@ -51,7 +51,7 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
 	|sWidth bWidth|
-	sWidth := self theme spotterWidgetThemer breadcrumbSeparatorWidth.
+	sWidth := self themer spotterThemer breadcrumbSeparatorWidth.
 	bWidth := self width.
 	
 	"width of other bricks depends from the width of the last one"
@@ -64,7 +64,7 @@ GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
 { #category : #accessing }
 GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 
-	^ self theme spotterWidgetThemer breadcrumbHeight + self theme spotterWidgetThemer breadcrumbTriangleHeight
+	^ self themer spotterThemer breadcrumbHeight + self themer spotterThemer breadcrumbTriangleHeight
 ]
 
 { #category : #'as yet unclassified' }
@@ -202,7 +202,7 @@ GTSpotterStepsBreadcrumb >> popSeparator [
 { #category : #'adding/removing' }
 GTSpotterStepsBreadcrumb >> push: aBrick [
 
-	self theme spotterWidgetThemer breadcrumbItemStyleFor: aBrick.
+	self themer spotterThemer breadcrumbItemStyleFor: aBrick.
 	
 	aBrick width: [ :itemBrick | self calculateItemWidth: itemBrick ].
 	

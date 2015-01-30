@@ -16,7 +16,7 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton ifNotNil: [self removeBrick: closeButton].
 	closeButton := aBrick.
 	
-	self theme spotterWidgetThemer closeButtonStyleFor: closeButton.
+	self themer spotterThemer closeButtonStyleFor: closeButton.
 	
 	closeButton layoutProperties staticWidth: self height.	"to make button being a square"
 	closeButton addUpAction: [ self spotterModel exit ].
@@ -70,7 +70,7 @@ GTSpotterHeaderBrick >> searchField: aMorph [
 	searchField ifNotNil: [self removeBrick: searchField].
 	searchField := aMorph.
 	
-	self theme spotterWidgetThemer searchFieldStyleFor: searchField.
+	self themer spotterThemer searchFieldStyleFor: searchField.
 	
 	searchField takeKeyboardFocus.
 	

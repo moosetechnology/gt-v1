@@ -43,7 +43,7 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	breadcrumbBrick := aBrick.
 	
 	breadcrumbBrick announcer subscribe: GTSpotterBreadcrumbVisibilityChanged send: #onBreadcrumbVisibilityChanged to: self.
-	self theme spotterWidgetThemer breadcrumbStyleFor: breadcrumbBrick.
+	self themer spotterThemer breadcrumbStyleFor: breadcrumbBrick.
 	breadcrumbBrick width: [ self paneBrick contentsBrick width ].
 	self addBrickBack: breadcrumbBrick
 ]
@@ -101,10 +101,10 @@ GTSpotterMorph >> hidePreview [
 GTSpotterMorph >> initialize [
 	super initialize.
 	"setting custom brick themer for the whole spotter"
-	self themer: self theme spotterWidgetThemer brickThemer.
+	self themer: self themer spotterThemer themer.
 	
 	self initializeListeners.
-	self theme spotterWidgetThemer spotterStyleFor: self.
+	self themer spotterThemer spotterStyleFor: self.
 	self breadcrumbBrick: self newBreadcrumbBrick.
 	self paneBrick: self newPaneBrick.
 ]
@@ -173,7 +173,7 @@ GTSpotterMorph >> onBreadcrumbVisibilityChanged [
 GTSpotterMorph >> onHidePreview [
 	|delta|
 	self paneBrick isPreviewShown ifFalse: [ ^ self ].
-	delta := ((self width - ((self width / 100) * (100 - self theme spotterWidgetThemer previewWidthPercent)))@0) negated / 2.
+	delta := ((self width - ((self width / 100) * (100 - self themer spotterThemer previewWidthPercent)))@0) negated / 2.
 	self bounds: (self bounds expandBy: delta).
 	self paneBrick hidePreview.
 	self doLayout
@@ -190,7 +190,7 @@ GTSpotterMorph >> onShowPreview [
 
 	|delta|
 	self paneBrick isPreviewShown ifTrue: [ ^ self ].
-	delta := (((self width * 100) / (100 - self theme spotterWidgetThemer previewWidthPercent) - self width)@0) / 2.
+	delta := (((self width * 100) / (100 - self themer spotterThemer previewWidthPercent) - self width)@0) / 2.
 	self bounds: (self bounds expandBy: delta).
 	self paneBrick showPreview.
 	self doLayout
@@ -225,7 +225,7 @@ GTSpotterMorph >> paneBrick: aBrick [
 	paneBrick ifNotNil: [self removeBrick: paneBrick].
 	paneBrick := aBrick.
 		
-	self theme spotterWidgetThemer spotterPaneStyleFor: paneBrick.
+	self themer spotterThemer spotterPaneStyleFor: paneBrick.
 
 	self addBrickBack: paneBrick
 ]

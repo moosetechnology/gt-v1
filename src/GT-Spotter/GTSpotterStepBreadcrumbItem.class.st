@@ -36,7 +36,7 @@ GTSpotterStepBreadcrumbItem >> labelBrick: aBrick [
 
 	labelBrick := aBrick.
 	
-	self theme spotterWidgetThemer breadcrumbItemLabelStyleFor: self labelBrick.
+	self themer spotterThemer breadcrumbItemLabelStyleFor: self labelBrick.
 	self addBrickBack: self labelBrick
 ]
 
@@ -55,7 +55,7 @@ GTSpotterStepBreadcrumbItem >> newTriangleBrick [
 { #category : #actions }
 GTSpotterStepBreadcrumbItem >> showTriangle [
 
-	self triangleBrick color: self theme spotterWidgetThemer breadcrumbItemBackgroundColor
+	self triangleBrick color: self themer spotterThemer breadcrumbItemBackgroundColor
 ]
 
 { #category : #accessing }
@@ -75,6 +75,6 @@ GTSpotterStepBreadcrumbItem >> triangleBrick: aBrick [
 
 	triangleBrick := aBrick.
 	
-	self theme spotterWidgetThemer breadcrumbItemTriangleStyleFor: self triangleBrick.
+	self themer spotterThemer breadcrumbItemTriangleStyleFor: self triangleBrick.
 	self addBrickBack: self triangleBrick
 ]

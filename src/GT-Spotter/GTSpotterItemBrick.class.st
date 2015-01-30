@@ -22,7 +22,7 @@ GTSpotterItemBrick >> actionbarBrick: aBrick [
 	actionbarBrick ifNotNil: [self removeBrick: actionbarBrick].
 	actionbarBrick := aBrick.
 	
-	self theme spotterWidgetThemer itemActionbarStyleFor: aBrick.
+	self themer spotterThemer itemActionbarStyleFor: aBrick.
 	
 	self addBrickBack: actionbarBrick
 ]
@@ -31,7 +31,7 @@ GTSpotterItemBrick >> actionbarBrick: aBrick [
 GTSpotterItemBrick >> addActActionButton [
 
 	self actionbarBrick addActionButton: (self newActionButtonBrick
-			icon: self theme spotterWidgetThemer iconAct;
+			icon: self themer spotterThemer iconAct;
 			addUpAction: [ self beSelected. self stepModel act ];
 			yourself)
 		
@@ -42,7 +42,7 @@ GTSpotterItemBrick >> addDiveInActionButton [
 		
 	(self stepModel canDiveIn: self candidate) ifTrue: [
 		self actionbarBrick addActionButton: (self newActionButtonBrick
-			icon: self theme spotterWidgetThemer iconDiveIn;
+			icon: self themer spotterThemer iconDiveIn;
 			addUpAction: [ self beSelected. self stepModel diveIn ];
 			yourself)]
 ]
@@ -101,7 +101,7 @@ GTSpotterItemBrick >> handlesMouseDown: evt [
 { #category : #actions }
 GTSpotterItemBrick >> hideActionbar [
 		
-	self theme spotterWidgetThemer itemActionbarInvisibleStyleFor: self actionbarBrick.
+	self themer spotterThemer itemActionbarInvisibleStyleFor: self actionbarBrick.
 	self doLayout.
 ]
 
@@ -128,7 +128,7 @@ GTSpotterItemBrick >> iconBrick: aBrick [
 	iconBrick ifNotNil: [self removeBrick: iconBrick].
 	iconBrick := aBrick.
 	
-	self theme spotterWidgetThemer itemIconStyleFor: iconBrick.
+	self themer spotterThemer itemIconStyleFor: iconBrick.
 	
 	self addBrickBack: iconBrick
 ]
@@ -138,7 +138,7 @@ GTSpotterItemBrick >> initialize [
 	super initialize.
 	self enable.
 	
-	self theme spotterWidgetThemer itemNormalStyleFor: self.
+	self themer spotterThemer itemNormalStyleFor: self.
 	
 	self iconBrick: self newIconBrick.
 	self labelBrick: self newLabelBrick.
@@ -156,7 +156,7 @@ GTSpotterItemBrick >> labelBrick: aBrick [
 	labelBrick ifNotNil: [self removeBrick: labelBrick].
 	labelBrick := aBrick.
 	
-	self theme spotterWidgetThemer itemLabelStyleFor: labelBrick.
+	self themer spotterThemer itemLabelStyleFor: labelBrick.
 	
 	self addBrickBack: labelBrick
 ]
@@ -248,7 +248,7 @@ GTSpotterItemBrick >> onStepPopped [
 { #category : #actions }
 GTSpotterItemBrick >> showActionbar [
 
-	self theme spotterWidgetThemer itemActionbarVisibleStyleFor: self actionbarBrick.
+	self themer spotterThemer itemActionbarVisibleStyleFor: self actionbarBrick.
 	self doLayout.
 ]
 
