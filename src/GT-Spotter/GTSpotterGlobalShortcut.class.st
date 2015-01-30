@@ -31,16 +31,12 @@ GTSpotterGlobalShortcut class >> openGlobalSpotter [
 { #category : #accessing }
 GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 	<example>
-	globalSpotter 
-		ifNotNil: [ globalSpotter delete ].
 		
-	globalSpotter := GTSpotterMorph new
+	GTSpotterMorph new
 		extent: 830@630;
 		spotterModel: GTSpotter new;
 		openInWindowLabeled: 'Spotter Debug Mode';
-		showPreview.
-		
-	^ globalSpotter
+		showPreview
 ]
 
 { #category : #'as yet unclassified' }
