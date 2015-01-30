@@ -592,7 +592,7 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 	aBrick
 		borderColor: self borderColor;
 		borderWidth: self previewBorderWidth;
-		color: Color white.
+		color: self backgroundColor.
 	
 	aBrick layout
 		hPercent: self previewWidthPercent;
