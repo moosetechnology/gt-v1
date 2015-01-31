@@ -53,7 +53,7 @@ GTAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBloc
 	
 	callback := callbackBlock.
 	process := [ |result|
-		anIntegerMilliseconds > 0 ifTrue: [ anIntegerMilliseconds milliseconds wait ].
+		anIntegerMilliseconds > 0 ifTrue: [ anIntegerMilliseconds milliSeconds wait ].
 		result := aBlock valueWithArguments: aCollection.
 		"we use it to pass result from background thread and execute callback block in UI thread"
 		UIManager default defer: [ self complete: result callback: callbackBlock ]
