@@ -21,8 +21,8 @@ Float >> gtInspectorFloatIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Float >> gtInspectorVariableValuePairs [
-	
-	^ OrderedCollection
-		with: '1' -> (self at: 1)
-		with: '2' -> (self at: 2)
+	^ super gtInspectorVariableValuePairs
+		add: '1' -> (self at: 1);
+		add: '2' -> (self at: 2);
+		yourself
 ]
