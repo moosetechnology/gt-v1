@@ -36,8 +36,15 @@ FileReference >> spotterForZipDirectoriesFor: aStep [
 	<spotterOrder: 10>
 	| zipFileSystem |
 	self isZipFile ifFalse: [ ^ self ].
-	zipFileSystem := (FileSystem zip: self) open.
-	^ zipFileSystem workingDirectory spotterForDirectoriesFor: aStep
+	aStep listProcessor
+			allCandidates: [ 
+				zipFileSystem := (FileSystem zip: self) open.
+				zipFileSystem workingDirectory directories ];
+			title: 'Directories';
+			candidatesLimit: Float infinity;
+			itemName: #basename;
+			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
+			matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -45,8 +52,16 @@ FileReference >> spotterForZipFilesFor: aStep [
 	<spotterOrder: 10>
 	| zipFileSystem |
 	self isZipFile ifFalse: [ ^ self ].
-	zipFileSystem := (FileSystem zip: self) open.
-	^ zipFileSystem workingDirectory spotterForFilesFor: aStep
+	aStep listProcessor
+			allCandidates: [ 
+				zipFileSystem := (FileSystem zip: self) open.
+				zipFileSystem workingDirectory files ];
+			title: 'Files';
+			candidatesLimit: Float infinity;
+			itemName: #basename;
+			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
+			matchSubstring
+	
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
