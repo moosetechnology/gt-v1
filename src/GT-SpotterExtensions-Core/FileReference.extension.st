@@ -1,6 +1,11 @@
 Extension { #name : #FileReference }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+FileReference >> isZipFile [
+	^ self isFile and: [ #('zip' 'jar' 'ear' 'war') includes: self extension ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 FileReference >> spotterForDirectoriesFor: aStep [
 	<spotterOrder: 10>
 	^ self isDirectory ifTrue: [
@@ -24,6 +29,24 @@ FileReference >> spotterForFilesFor: aStep [
 			itemName: #basename;
 			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
 			matchSubstring ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+FileReference >> spotterForZipDirectoriesFor: aStep [
+	<spotterOrder: 10>
+	| zipFileSystem |
+	self isZipFile ifFalse: [ ^ self ].
+	zipFileSystem := (FileSystem zip: self) open.
+	^ zipFileSystem workingDirectory spotterForDirectoriesFor: aStep
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+FileReference >> spotterForZipFilesFor: aStep [
+	<spotterOrder: 10>
+	| zipFileSystem |
+	self isZipFile ifFalse: [ ^ self ].
+	zipFileSystem := (FileSystem zip: self) open.
+	^ zipFileSystem workingDirectory spotterForFilesFor: aStep
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
