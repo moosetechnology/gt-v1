@@ -178,3 +178,14 @@ FileReference >> gtInspectorStScriptIn: composite [
 				entitled: 'Save';
 			when: [ self extension = 'st' or: [self extension = 'ph'] ]
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+FileReference >> gtInspectorZipItemsIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	| zipFileSystem |
+	(self isFile and: [ #('zip' 'jar' 'ear' 'war') includes: self extension ])
+		ifFalse: [ ^ self ].
+	zipFileSystem := (FileSystem zip: self) open.
+	(zipFileSystem workingDirectory gtInspectorItemsIn: composite)
+		title: [ self extension ]
+]
