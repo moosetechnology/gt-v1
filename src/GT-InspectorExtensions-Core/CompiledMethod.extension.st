@@ -88,10 +88,10 @@ CompiledMethod >> gtInspectorSourceIn: composite [
 CompiledMethod >> gtInspectorVariableValuePairs [
 	| literalIndex |
 	literalIndex := 0.
-	^ Set new 
-		add: ( 'header' -> self headerDescription );
-		addAll: ( self literals collect: [ :aLiteral | 'literal', ( literalIndex := literalIndex + 1 ) asString -> aLiteral ] );
+	^ OrderedCollection new 
 		add: ( 'all bytecodes' -> self symbolic );
+		add: ( 'header' -> self headerDescription );
+		addAll: ( self literals collect: [ :aLiteral | 'literal ', ( literalIndex := literalIndex + 1 ) asString -> aLiteral ] );
 		yourself
 
 ]
