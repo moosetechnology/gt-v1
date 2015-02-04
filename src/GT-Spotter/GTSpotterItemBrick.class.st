@@ -102,7 +102,6 @@ GTSpotterItemBrick >> handlesMouseDown: evt [
 GTSpotterItemBrick >> hideActionbar [
 		
 	self themer spotterThemer itemActionbarInvisibleStyleFor: self actionbarBrick.
-	self doLayout.
 ]
 
 { #category : #actions }
@@ -249,7 +248,7 @@ GTSpotterItemBrick >> onStepPopped [
 GTSpotterItemBrick >> showActionbar [
 
 	self themer spotterThemer itemActionbarVisibleStyleFor: self actionbarBrick.
-	self doLayout.
+	self owner ifNotNil: [ self doLayoutForce ].
 ]
 
 { #category : #'event handling' }

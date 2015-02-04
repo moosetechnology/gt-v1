@@ -13,7 +13,7 @@ Class {
 GTSpotterStepsBreadcrumb >> addItem: aBrick [
 
 	self items size = 1 ifTrue: [
-		self items first labelBrick layout paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
+		self items first labelBrick paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
 	self band addBrickBack: aBrick.
 	self items addLast: aBrick
 ]
@@ -36,7 +36,7 @@ GTSpotterStepsBreadcrumb >> band [
 GTSpotterStepsBreadcrumb >> band: aBrick [
 
 	band := aBrick.
-	band layoutPolicy: (GLMBrickHorizontalFillLinearLayout new).
+	band layoutPolicy: GLMHorizontalLinearLayout new.
 	band width: [ :bandBrick |
 		self items isEmpty ifTrue: [ 0 ]
 			ifFalse: [ |width|
@@ -69,7 +69,6 @@ GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 
 { #category : #'as yet unclassified' }
 GTSpotterStepsBreadcrumb >> doLayout [
-	super doLayout.
 	
 	self scrollToTheLastOne: false
 ]
@@ -106,7 +105,7 @@ GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
 	self
-		layout: GLMBrickHorizontalFillLinearLayout new;
+		layoutPolicy: GLMHorizontalLinearLayout new;
 		band: self newBand;
 		height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
 	
@@ -178,7 +177,7 @@ GTSpotterStepsBreadcrumb >> pop [
 	self items removeLast.
 	
 	self items size = 1 ifTrue: [
-		self items first labelBrick layout paddingLeft: 0 ].
+		self items first labelBrick paddingLeft: 0 ].
 	
 	self items isEmpty ifFalse: [ self popSeparator ].
 	
@@ -188,7 +187,6 @@ GTSpotterStepsBreadcrumb >> pop [
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
 			self items last showTriangle.
-			super doLayout.
 			self scrollToTheLastOne.
 			self changed ]
 ]
@@ -217,7 +215,6 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 	self items size = 1
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
-			super doLayout.
 			self scrollToTheLastOne.
 			self changed ].
 	

@@ -165,7 +165,6 @@ GTSpotterMorph >> newPaneBrick [
 { #category : #'events-processing' }
 GTSpotterMorph >> onBreadcrumbVisibilityChanged [
 
-	self doLayout.
 	self changed.
 ]
 
@@ -176,7 +175,6 @@ GTSpotterMorph >> onHidePreview [
 	delta := ((self width - ((self width / 100) * (100 - self themer spotterThemer previewWidthPercent)))@0) negated / 2.
 	self bounds: (self bounds expandBy: delta).
 	self paneBrick hidePreview.
-	self doLayout
 ]
 
 { #category : #'events-processing' }
@@ -193,7 +191,6 @@ GTSpotterMorph >> onShowPreview [
 	delta := (((self width * 100) / (100 - self themer spotterThemer previewWidthPercent) - self width)@0) / 2.
 	self bounds: (self bounds expandBy: delta).
 	self paneBrick showPreview.
-	self doLayout
 ]
 
 { #category : #opening }

@@ -20,7 +20,6 @@ GTSpotterResultsBrick >> addCategory: aProcessor [
 	self themer spotterThemer categoryStyleFor: categoryBrick .
 	self addBrickBack: categoryBrick.
 	
-	self doLayout.
 	self changed.
 	
 	^ categoryBrick
@@ -52,7 +51,7 @@ GTSpotterResultsBrick >> categoryMorphOf: aProcessor [
 { #category : #initialization }
 GTSpotterResultsBrick >> initialize [
 	super initialize.
-	
+	self band hSpaceFill.
 	self announcer weak subscribe: GLMBrickScrollPositionChanged send: #onScrolled to: self
 ]
 
@@ -79,7 +78,7 @@ GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
 	
 	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
 
-	self doLayout.
+	self band doLayoutForce.
 	self changed.
 ]
 
@@ -91,7 +90,6 @@ GTSpotterResultsBrick >> onAllCandidatesRemoved [
 	
 	self band fullReleaseCachedState.
 	self band releaseCachedState.
-	self doLayout.
 	self changed.
 	
 ]
@@ -103,7 +101,7 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 		addBrickBack: (self buildItemFor: ann candidateLink in: ann category);
 		setAmountVisible: ((self categoryMorphOf: ann category) submorphs size) all: self waitingText.
 
-	self doLayout.
+	self band doLayoutForce.
 	self changed.
 ]
 
@@ -125,6 +123,11 @@ GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	
 	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
+]
+
+{ #category : #'brick-structure-events' }
+GTSpotterResultsBrick >> onLayouted [
+	super onLayouted.
 ]
 
 { #category : #'brick-structure-events' }

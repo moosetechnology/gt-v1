@@ -17,8 +17,6 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton := aBrick.
 	
 	self themer spotterThemer closeButtonStyleFor: closeButton.
-	
-	closeButton layoutProperties staticWidth: self height.	"to make button being a square"
 	closeButton addUpAction: [ self spotterModel exit ].
 	
 	self addBrickBack: closeButton
@@ -54,8 +52,8 @@ GTSpotterHeaderBrick >> newStepsBand [
 { #category : #'event handling' }
 GTSpotterHeaderBrick >> onCurrentStepChanged [
 
-	self searchField updateTextWith: self spotterModel currentStep query.
-	self searchField moveCursorAtTheEnd
+	self searchField morph updateTextWith: self spotterModel currentStep query.
+	self searchField morph moveCursorAtTheEnd
 ]
 
 { #category : #accessing }
@@ -68,11 +66,11 @@ GTSpotterHeaderBrick >> searchField [
 GTSpotterHeaderBrick >> searchField: aMorph [
 
 	searchField ifNotNil: [self removeBrick: searchField].
-	searchField := aMorph.
+	searchField := aMorph asBrick.
 	
 	self themer spotterThemer searchFieldStyleFor: searchField.
 	
-	searchField takeKeyboardFocus.
+	searchField morph takeKeyboardFocus.
 	
 	self addBrickBack: searchField
 ]
@@ -87,7 +85,7 @@ GTSpotterHeaderBrick >> spotterModel [
 GTSpotterHeaderBrick >> spotterModel: aModel [ 
 
 	spotterModel := aModel.
-	self searchField on: spotterModel.
+	self searchField morph on: spotterModel.
 
 	spotterModel announcer weak subscribe: GTSpotterCurrentStepChanged send: #onCurrentStepChanged to: self.
 ]

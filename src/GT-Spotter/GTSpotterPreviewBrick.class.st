@@ -84,7 +84,6 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 		withArguments: { self newCompositeBrick . anObject }
 		callback: [ :composite |
 			self compositeBrick: composite.
-			self doLayout.
 			self changed ]
 		priority: Processor userBackgroundPriority
 ]
