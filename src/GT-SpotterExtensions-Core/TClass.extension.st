@@ -1,6 +1,16 @@
 Extension { #name : #TClass }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TClass >> spotterActDefault [
+	^ self browse
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TClass >> spotterClassMethodsFor: aStep [
+	^ self explicitRequirement
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TClass >> spotterMethodsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
