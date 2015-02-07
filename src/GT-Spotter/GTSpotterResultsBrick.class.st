@@ -15,6 +15,7 @@ GTSpotterResultsBrick >> addCategory: aProcessor [
 	titleBrick := self newTitleBrick on: self stepModel category: aProcessor.
 	self themer spotterThemer categoryTitleStyleFor: titleBrick.
 	self addBrickBack: titleBrick.
+	titleBrick doLayoutForce.
 	
 	categoryBrick := (self newCategoryBrick on: self stepModel category: aProcessor) titleBrick: titleBrick.
 	self themer spotterThemer categoryStyleFor: categoryBrick .
@@ -78,7 +79,7 @@ GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
 	
 	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
 
-	self band doLayoutForce.
+	categoryMorph doLayoutForce.
 	self changed.
 ]
 
@@ -101,7 +102,7 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 		addBrickBack: (self buildItemFor: ann candidateLink in: ann category);
 		setAmountVisible: ((self categoryMorphOf: ann category) submorphs size) all: self waitingText.
 
-	self band doLayoutForce.
+	(self categoryMorphOf: ann category) doLayoutForce.
 	self changed.
 ]
 

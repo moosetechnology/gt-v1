@@ -43,11 +43,14 @@ GTSpotterWidgetThemer >> breadcrumbItemLabelStyleFor: aBrick [
 		normalColor: self breadcrumbItemBackgroundColor;
 		textColor: self breadcrumbItemTextColor;
 		padding: { 0 . self outerBorderWidth };
-		vSpaceFill
+		vSpaceFill;
+		hSpaceFill
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbItemStyleFor: aBrick [
+
+	aBrick vSpaceFill
 ]
 
 { #category : #values }
@@ -59,9 +62,11 @@ GTSpotterWidgetThemer >> breadcrumbItemTextColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> breadcrumbItemTriangleStyleFor: aBrick [
 
-	aBrick renderer: (GTSpotterTriangleRenderer new orientation: #bottom).
-	"aBrick layout staticHeight: self breadcrumbTriangleHeight."
-	aBrick color: self breadcrumbItemBackgroundColor
+	aBrick
+		renderer: (GTSpotterTriangleRenderer new orientation: #bottom);
+		height: self breadcrumbTriangleHeight;
+		color: self breadcrumbItemBackgroundColor;
+		hSpaceFill
 ]
 
 { #category : #values }
@@ -99,10 +104,10 @@ GTSpotterWidgetThemer >> breadcrumbStyleFor: aBrick [
 	
 	aBrick
 		margin: { 0 . 0 };
-		marginBottom: self breadcrumbTriangleHeight negated.
+		marginBottom: self breadcrumbTriangleHeight negated;
+		height: self breadcrumbHeight.
 		
 	aBrick layout
-		"staticHeight: self breadcrumbHeight;"
 		zIndex: 2.
 ]
 
@@ -157,8 +162,9 @@ GTSpotterWidgetThemer >> categoryNameMarginRight [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryStyleFor: aBrick [
 
+	self flag: 'margin doesn''t work! fix me'.
 	aBrick
-		marginBottom: self categoryMarginBottom;
+		"marginBottom: self categoryMarginBottom;"
 		hSpaceFill
 ]
 
@@ -275,12 +281,6 @@ GTSpotterWidgetThemer >> itemActionSelectedBackgroundColor [
 ]
 
 { #category : #styles }
-GTSpotterWidgetThemer >> itemActionbarInvisibleStyleFor: aBrick [
-
-	"aBrick layoutProperties staticWidth: 0."
-]
-
-{ #category : #styles }
 GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 
 	aBrick layoutPolicy: GLMHorizontalLinearLayout new.
@@ -288,16 +288,8 @@ GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 	aBrick
 		hShrinkWrap;
 		vSpaceFill;
-		marginRight: self outerBorderWidth.
-	
-	self itemActionbarInvisibleStyleFor: aBrick.
-]
-
-{ #category : #styles }
-GTSpotterWidgetThemer >> itemActionbarVisibleStyleFor: aBrick [
-
-	"aBrick layoutProperties
-		staticWidth: [ :actionbar | actionbar subbricks inject: (actionbar layoutProperties horizontalPadding + actionbar layoutProperties horizontalMargin) into: [ :width :each | width + each outerBounds width ] ]."
+		marginRight: self outerBorderWidth;
+		visible: false
 ]
 
 { #category : #values }
@@ -559,7 +551,10 @@ GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 
-	aBrick layout: GLMVerticalLinearLayout new;
+	aBrick
+		layout: GLMVerticalLinearLayout new;
+		vSpaceFill;
+		width: self previewArrowWidth - self previewArrowGapHack;
 		margin: {
 			self headerHeight + self innerBorderWidth + self previewBorderWidth.
 			0.
@@ -567,7 +562,6 @@ GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 			self previewArrowGapHack negated }.
 		
 	aBrick layout
-		"staticWidth: self previewArrowWidth - self previewArrowGapHack;"
 		zIndex: 4.
 ]
 
@@ -575,6 +569,7 @@ GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 GTSpotterWidgetThemer >> spotterPreviewArrowStyleFor: aBrick [
 
 	aBrick
+		hSpaceFill;
 		renderer: (GTSpotterTriangleRenderer new orientation: #right);
 		height: [ (self previewArrowWidth - self previewArrowGapHack ) * 2 ]
 ]
@@ -584,6 +579,7 @@ GTSpotterWidgetThemer >> spotterPreviewCompositeStyleFor: aBrick [
 
 	aBrick
 		hSpaceFill;
+		vSpaceFill;
 		margin: self previewBorderWidth;
 		paddingLeft: self previewPaddingLeft
 ]
@@ -596,6 +592,7 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 		borderWidth: self previewBorderWidth;
 		color: self backgroundColor;
 		hSpaceFill: self previewWidthPercent;
+		vSpaceFill;
 		margin: { self headerHeight + self innerBorderWidth. 0 . 0};
 		marginLeft: (self previewBorderWidth + self previewArrowWidth) negated.
 	

@@ -15,7 +15,8 @@ GTSpotterStepsBreadcrumb >> addItem: aBrick [
 	self items size = 1 ifTrue: [
 		self items first labelBrick paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
 	self band addBrickBack: aBrick.
-	self items addLast: aBrick
+	self items addLast: aBrick.
+	self band doLayoutForce
 ]
 
 { #category : #'adding/removing' }
@@ -37,12 +38,9 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 
 	band := aBrick.
 	band layoutPolicy: GLMHorizontalLinearLayout new.
-	band width: [ :bandBrick |
-		self items isEmpty ifTrue: [ 0 ]
-			ifFalse: [ |width|
-				width := 0.
-				self items do: [ :each | width := width + each width ].
-				width + ((self items size - 1) * self themer spotterThemer breadcrumbSeparatorWidth)] ].
+	band
+		hShrinkWrap;
+		vSpaceFill.
 	
 	self band data: 0.
 	self addBrickBack: band.
@@ -105,9 +103,9 @@ GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
 	self
-		layoutPolicy: GLMHorizontalLinearLayout new;
+		layout: GLMHorizontalLinearLayout new;
 		band: self newBand;
-		height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
+		height: self defaultBreadcrumbHeight
 	
 ]
 
