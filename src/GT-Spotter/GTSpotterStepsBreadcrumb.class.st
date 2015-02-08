@@ -14,9 +14,9 @@ GTSpotterStepsBreadcrumb >> addItem: aBrick [
 
 	self items size = 1 ifTrue: [
 		self items first labelBrick paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
-	self band addBrickBack: aBrick.
+	
 	self items addLast: aBrick.
-	self band doLayoutForce
+	self band addBrickBack: aBrick
 ]
 
 { #category : #'adding/removing' }

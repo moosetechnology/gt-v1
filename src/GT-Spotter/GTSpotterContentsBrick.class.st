@@ -79,7 +79,7 @@ GTSpotterContentsBrick >> onStepAdded [
 GTSpotterContentsBrick >> showDropDownPane [
 
 	self dropDownBrick: self newDropDownMorph.
-	self dropDownBrick morph spotterModel: self spotterModel.
+	self dropDownBrick spotterModel: self spotterModel.
 ]
 
 { #category : #accessing }
