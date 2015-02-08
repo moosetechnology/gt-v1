@@ -194,7 +194,7 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 
 	aBrick
-		layoutPolicy: GLMHorizontalLinearLayout new;
+		useHorizontalLinearLayout;
 		normalColor: self categoryTitleBackgroundColor;
 		height: [ 30 ];
 		hSpaceFill;
@@ -283,9 +283,8 @@ GTSpotterWidgetThemer >> itemActionSelectedBackgroundColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 
-	aBrick layoutPolicy: GLMHorizontalLinearLayout new.
-	
 	aBrick
+		useHorizontalLinearLayout;
 		hShrinkWrap;
 		vSpaceFill;
 		marginRight: self outerBorderWidth;
@@ -447,10 +446,11 @@ GTSpotterWidgetThemer >> previewWidthPercent [
 { #category : #styles }
 GTSpotterWidgetThemer >> resultsPaneStyleFor: aBrick [
 
-	aBrick band layoutPolicy: GLMVerticalLinearLayout new.
-	aBrick hSpaceFill: self resultsPaneWidth.
-	aBrick vSpaceFill.
-	aBrick color: self backgroundColor.
+	aBrick band useVerticalLinearLayout.
+	aBrick
+		hSpaceFill: self resultsPaneWidth;
+		vSpaceFill;
+		color: self backgroundColor.
 ]
 
 { #category : #values }
@@ -520,7 +520,7 @@ GTSpotterWidgetThemer >> searchFieldTextColor [
 GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
 	
 	aBrick
-		layout: GLMVerticalLinearLayout new;
+		useVerticalLinearLayout;
 		borderColor: self borderColor;
 		borderWidth: self outerBorderWidth;
 		color: self borderColor;
@@ -542,8 +542,8 @@ GTSpotterWidgetThemer >> spotterGhostText [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 	
-	aBrick layout: GLMHorizontalLinearLayout new.
 	aBrick
+		useHorizontalLinearLayout;
 		hSpaceFill;
 		vSpaceFill
 ]
@@ -552,7 +552,7 @@ GTSpotterWidgetThemer >> spotterPaneStyleFor: aBrick [
 GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 
 	aBrick
-		layout: GLMVerticalLinearLayout new;
+		useVerticalLinearLayout;
 		vSpaceFill;
 		width: self previewArrowWidth - self previewArrowGapHack;
 		margin: {
@@ -603,7 +603,7 @@ GTSpotterWidgetThemer >> spotterPreviewStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> spotterStyleFor: aBrick [
 
-	aBrick brickRoot layout: GLMVerticalLinearLayout new
+	aBrick brickRoot useVerticalLinearLayout
 ]
 
 { #category : #values }

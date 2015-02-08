@@ -37,8 +37,8 @@ GTSpotterStepsBreadcrumb >> band [
 GTSpotterStepsBreadcrumb >> band: aBrick [
 
 	band := aBrick.
-	band layoutPolicy: GLMHorizontalLinearLayout new.
 	band
+		useHorizontalLinearLayout;
 		hShrinkWrap;
 		vSpaceFill.
 	
@@ -103,7 +103,6 @@ GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
 	self
-		layout: GLMHorizontalLinearLayout new;
 		band: self newBand;
 		height: self defaultBreadcrumbHeight
 	
