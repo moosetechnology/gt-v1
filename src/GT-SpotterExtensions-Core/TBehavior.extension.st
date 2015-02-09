@@ -11,6 +11,16 @@ TBehavior >> spotterClassInstanceVariablesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TBehavior >> spotterCompositionFor: aStep [
+	<spotterOrder: 25>
+	aStep listProcessor
+			title: 'Composing traits';
+			allCandidates: [ self traitComposition allTraits ];
+			itemIcon: #systemIcon;
+			matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterInstanceVariablesFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor
@@ -36,6 +46,16 @@ TBehavior >> spotterSuperclassesFor: aStep [
 	aStep listProcessor
 			title: 'All superclasses';
 			allCandidates: [ self allSuperclasses ];
+			itemIcon: #systemIcon;
+			matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior >> spotterTraitUsersFor: aStep [
+	<spotterOrder: 20>
+	aStep listProcessor
+			title: 'Users';
+			allCandidates: [ self traitUsers asArray ];
 			itemIcon: #systemIcon;
 			matchSubstring
 ]
