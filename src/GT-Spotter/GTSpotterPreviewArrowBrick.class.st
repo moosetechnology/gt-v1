@@ -34,8 +34,9 @@ GTSpotterPreviewArrowBrick >> moveTo: anItemBrick [
 	delta := ((itemBounds top - selfBounds top) max: 0) min: (selfBounds height - self triangleBrick height).
 	self triangleBrick brickBounds top = delta ifTrue: [ ^ self ].
 	
-	self triangleBrick translateY: (delta - self triangleBrick brickBounds top).
-	self changed
+	self triangleBrick marginTop: delta.
+	self triangleBrick doLayoutForce.
+	self owner changed
 	
 ]
 
@@ -53,7 +54,7 @@ GTSpotterPreviewArrowBrick >> onAllCandidatesRemoved [
 
 { #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onCandidateMoved [
-	
+
 	self moveTo: self selectedItemBrick
 ]
 
@@ -61,8 +62,7 @@ GTSpotterPreviewArrowBrick >> onCandidateMoved [
 GTSpotterPreviewArrowBrick >> onCandidateSelected: ann [
 
 	self selectedItemBrick: ann candidateBrick.
-	self moveTo: self selectedItemBrick.
-	self brickRoot changed
+	self moveTo: self selectedItemBrick
 ]
 
 { #category : #'brick-drawing' }

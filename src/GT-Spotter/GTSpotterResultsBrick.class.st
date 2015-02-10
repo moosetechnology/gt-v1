@@ -104,8 +104,7 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidateSelected: ann [
 
-	self scrollTo: ann candidateBrick.
-	self brickRoot changed.
+	self scrollTo: ann candidateBrick
 ]
 
 { #category : #'event handling' }
@@ -119,11 +118,6 @@ GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	
 	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
-]
-
-{ #category : #'brick-structure-events' }
-GTSpotterResultsBrick >> onLayouted [
-	super onLayouted.
 ]
 
 { #category : #'brick-structure-events' }

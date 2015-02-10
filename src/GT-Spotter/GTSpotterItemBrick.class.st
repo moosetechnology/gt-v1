@@ -213,6 +213,13 @@ GTSpotterItemBrick >> notifySelected [
 	self stepModel spotter announce: (GTSpotterCandidateSelected new candidateBrick: self)
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterItemBrick >> onLayouted [
+	super onLayouted.
+	
+	self isChecked ifTrue: [ self stepModel spotter announce: GTSpotterCandidateSelectedMoved new ]
+]
+
 { #category : #'brick-structure-events' }
 GTSpotterItemBrick >> onRemoved [
 	super onRemoved.

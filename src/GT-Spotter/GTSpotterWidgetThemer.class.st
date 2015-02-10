@@ -162,9 +162,8 @@ GTSpotterWidgetThemer >> categoryNameMarginRight [
 { #category : #styles }
 GTSpotterWidgetThemer >> categoryStyleFor: aBrick [
 
-	self flag: 'margin doesn''t work! fix me'.
 	aBrick
-		"marginBottom: self categoryMarginBottom;"
+		marginBottom: self categoryMarginBottom;
 		hSpaceFill
 ]
 
@@ -554,7 +553,7 @@ GTSpotterWidgetThemer >> spotterPreviewArrowContainerStyleFor: aBrick [
 	aBrick
 		useVerticalLinearLayout;
 		vSpaceFill;
-		width: self previewArrowWidth - self previewArrowGapHack;
+		width: self previewArrowWidth;
 		margin: {
 			self headerHeight + self innerBorderWidth + self previewBorderWidth.
 			0.
