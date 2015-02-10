@@ -47,7 +47,6 @@ GTSpotterPaneBrick >> hidePreview [
 
 	self removeBrick: self previewBrick.
 	self contentsBrick layout hSpaceFill.
-	self doLayout.
 	self changed.
 ]
 
@@ -108,8 +107,7 @@ GTSpotterPaneBrick >> showPreview [
 	self previewBrick spotterModel ifNotNil: [
 		self previewBrick updatePreviewWith: self previewBrick spotterModel currentStep selectedCandidate ].
 	
-	self contentsBrick layout horizontalPercent: (100 - self previewBrick layout horizontalPercent).
-	self doLayout.
+	self contentsBrick hSpaceFill: (100 - self previewBrick layout hPercent).
 	self changed.
 ]
 

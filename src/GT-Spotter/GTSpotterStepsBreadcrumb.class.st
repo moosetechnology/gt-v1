@@ -12,10 +12,16 @@ Class {
 { #category : #'adding/removing' }
 GTSpotterStepsBreadcrumb >> addItem: aBrick [
 
+	aBrick width: [ :itemBrick | self calculateItemWidth: itemBrick ].
+	aBrick layout widthDependency: self.
+	
 	self items size = 1 ifTrue: [
-		self items first labelBrick layout paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
+		self items first labelBrick paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
+	
+	self items addLast: aBrick.
 	self band addBrickBack: aBrick.
-	self items addLast: aBrick
+	self items do: [ :b | b wrappedBounds markWidthDirty ].
+	self band doLayoutForce.
 ]
 
 { #category : #'adding/removing' }
@@ -36,13 +42,10 @@ GTSpotterStepsBreadcrumb >> band [
 GTSpotterStepsBreadcrumb >> band: aBrick [
 
 	band := aBrick.
-	band layoutPolicy: (GLMBrickHorizontalFillLinearLayout new).
-	band width: [ :bandBrick |
-		self items isEmpty ifTrue: [ 0 ]
-			ifFalse: [ |width|
-				width := 0.
-				self items do: [ :each | width := width + each width ].
-				width + ((self items size - 1) * self themer spotterThemer breadcrumbSeparatorWidth)] ].
+	band
+		useHorizontalLinearLayout;
+		hShrinkWrap;
+		vSpaceFill.
 	
 	self band data: 0.
 	self addBrickBack: band.
@@ -50,14 +53,21 @@ GTSpotterStepsBreadcrumb >> band: aBrick [
 
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
-	|sWidth bWidth|
+	|sWidth bWidth singleWidth lastWidth|
 	sWidth := self themer spotterThemer breadcrumbSeparatorWidth.
 	bWidth := self width.
+	lastWidth := ((aBrick labelBrick approximateWidth min: (bWidth / 2)) max: ((bWidth - ((self maxNumberOfSteps - 1) * sWidth)) / self maxNumberOfSteps)) floor.
+	singleWidth := ((bWidth - lastWidth - ((self maxNumberOfSteps - 1) * sWidth)) / (self maxNumberOfSteps - 1)) floor.
 	
-	"width of other bricks depends from the width of the last one"
+	"width of other bricks depends on the width of the last one"
 	^ aBrick isLastInOwner
-		ifTrue: [ ((aBrick labelBrick approximateWidth min: (bWidth / 2)) max: ((bWidth - ((self maxNumberOfSteps - 1) * sWidth)) / self maxNumberOfSteps)) floor ]
-		ifFalse: [ ((bWidth - self band lastSubbrick width - ((self maxNumberOfSteps - 1) * sWidth)) / (self maxNumberOfSteps - 1)) floor ]
+		ifTrue: [
+			self items size >= self maxNumberOfSteps ifTrue: [ |fullWidth delta|
+				fullWidth := lastWidth + ((self maxNumberOfSteps - 1) * (sWidth + singleWidth)).
+				delta := bWidth - fullWidth.
+				lastWidth := lastWidth + delta ].
+			lastWidth ]
+		ifFalse: [ singleWidth ]
 	
 ]
 
@@ -65,13 +75,6 @@ GTSpotterStepsBreadcrumb >> calculateItemWidth: aBrick [
 GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 
 	^ self themer spotterThemer breadcrumbHeight + self themer spotterThemer breadcrumbTriangleHeight
-]
-
-{ #category : #'as yet unclassified' }
-GTSpotterStepsBreadcrumb >> doLayout [
-	super doLayout.
-	
-	self scrollToTheLastOne: false
 ]
 
 { #category : #geometry }
@@ -105,11 +108,7 @@ GTSpotterStepsBreadcrumb >> glmAnimateBrickBounds: aValue duration: anInteger ca
 GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
-	self
-		layout: GLMBrickHorizontalFillLinearLayout new;
-		band: self newBand;
-		height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
-	
+	self band: self newBand
 ]
 
 { #category : #testing }
@@ -173,14 +172,14 @@ GTSpotterStepsBreadcrumb >> onStepPopped [
 
 { #category : #'adding/removing' }
 GTSpotterStepsBreadcrumb >> pop [
-
-	self band removeBrick: self items last.
-	self items removeLast.
 	
+	self band removeBrick: self items removeLast.
 	self items size = 1 ifTrue: [
-		self items first labelBrick layout paddingLeft: 0 ].
-	
+		self items first labelBrick paddingLeft: 0 ].
 	self items isEmpty ifFalse: [ self popSeparator ].
+	
+	self items do: [ :b | b wrappedBounds markWidthDirty ].
+	self band doLayoutForce.
 	
 	"optimization. if last item was popped we need to update root to reposition all brick,
 	otherwise only I need to be updated"
@@ -188,7 +187,6 @@ GTSpotterStepsBreadcrumb >> pop [
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
 			self items last showTriangle.
-			super doLayout.
 			self scrollToTheLastOne.
 			self changed ]
 ]
@@ -204,8 +202,6 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 
 	self themer spotterThemer breadcrumbItemStyleFor: aBrick.
 	
-	aBrick width: [ :itemBrick | self calculateItemWidth: itemBrick ].
-	
 	self items isEmpty ifFalse: [
 		self items last hideTriangle.
 		self addSeparator ].
@@ -217,7 +213,6 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 	self items size = 1
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
-			super doLayout.
 			self scrollToTheLastOne.
 			self changed ].
 	
@@ -226,7 +221,7 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> scrollToTheLastOne [
 
-	self scrollToTheLastOne: true
+	"self scrollToTheLastOne: true"
 	
 	
 ]
