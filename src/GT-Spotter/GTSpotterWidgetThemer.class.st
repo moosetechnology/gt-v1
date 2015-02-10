@@ -200,14 +200,14 @@ GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 		hSpaceFill;
 		paddingLeft: self categoryNameMarginLeft.
 	
-	aBrick layoutProperties
-		"floating: #stack;"
-		maxWidthBlock: [ :title |
-			aBrick layoutProperties horizontalPadding + 
+	"aBrick layout
+		floating: #stack;
+		maxWidth: [ :title |
+			aBrick hPadding + 
 			(title nameBrick label textSize x )+ title amountBrick label textSize x +
-			title nameBrick layoutProperties horizontalPadding + title nameBrick layoutProperties horizontalMargin + 
-			title nameBrick label layoutProperties horizontalPadding + title nameBrick label layoutProperties horizontalMargin + 
-			title amountBrick layoutProperties horizontalMargin ]
+			title nameBrick hPadding + title nameBrick hMargin + 
+			title nameBrick label hPadding + title nameBrick label hMargin + 
+			title amountBrick hMargin ]"
 ]
 
 { #category : #styles }
