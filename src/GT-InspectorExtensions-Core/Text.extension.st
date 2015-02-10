@@ -12,3 +12,9 @@ Text >> gtInspectorTextIn: composite [
 		title: 'Text';
 		format: self
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Text class >> simpleExample [
+	<example: 'Simple'>
+	^ 'fourtytwo' asText
+]
