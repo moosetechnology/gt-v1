@@ -6,3 +6,9 @@ Set >> gtInspectorItemsIn: composite [
 	^ (super gtInspectorItemsIn: composite)
 		display: [:set | set asOrderedCollection]
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Set class >> simpleExample [
+	<example: 'Simple'>
+	^ #('fourtytwo' 42) asSet
+]
