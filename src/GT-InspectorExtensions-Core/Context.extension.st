@@ -21,3 +21,9 @@ Context >> gtInspectorVariableValuePairs [
 							('[' , tempName , ']') -> value ]) sort asOrderedCollection.
 		^ tempVariableValuePairs addAll: superVariableValuePairs; yourself
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Context class >> thisContextExample [
+	<example: 'thisContext'>
+	^ thisContext
+]
