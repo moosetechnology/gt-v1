@@ -25,6 +25,14 @@ MessageTally >> gtDisplayOn: aStream [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+MessageTally class >> gtExampleSimplePrintString [
+	<example: 'Simple printString'>
+	^ MessageTally new 
+		spyEvery: 1 on: [10 timesRepeat: [1.23 printString]];
+		yourself
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 MessageTally >> gtInspectorReportIn: composite [
 	<gtInspectorPresentationOrder: 60>
 	^ composite text
