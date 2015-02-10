@@ -41,6 +41,25 @@ GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReference
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterConcreteMethodFor: aStep [
+    <spotterOrder: 30>
+	| processor |
+	processor := aStep listProcessor.
+	processor
+		title: 'Method';
+		filter: [ :originalQuery :stream |
+			| method result |
+			result := OrderedCollection new.
+			[
+				method := Compiler evaluate: originalQuery trimBoth.
+				stream addObject: method inProcessor: processor.
+				result add: method
+			] on: Error do: [  ].
+			result ];
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 	<spotterOrder: 85>
 	aStep listProcessor
