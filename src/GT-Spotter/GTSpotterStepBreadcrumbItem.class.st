@@ -19,7 +19,7 @@ GTSpotterStepBreadcrumbItem >> initialize [
 	super initialize.
 	
 	self
-		useVerticalLinearLayout;
+		layout: GLMBrickVerticalFillProportionalLinearLayout new;
 		labelBrick: self newLabelBrick;
 		triangleBrick: self newTriangleBrick
 	

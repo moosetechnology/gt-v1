@@ -26,6 +26,17 @@ GTSpotterCategoryTitleBrick >> amountBrick: aBrick [
 	self addBrickBack: amountBrick
 ]
 
+{ #category : #layouting }
+GTSpotterCategoryTitleBrick >> doLayout [
+	
+	super doLayout.
+	
+	self amountBrick isDotsAdded ifTrue: [
+		self amountBrick layoutProperties horizontalPercent: 0.
+		self layoutProperties paddingLeft: (((self width - self nameBrick width) / 2) ceiling max: 0).
+		super doLayout ].
+]
+
 { #category : #accessing }
 GTSpotterCategoryTitleBrick >> nameBrick [
 
@@ -75,6 +86,15 @@ GTSpotterCategoryTitleBrick >> onLayoutEvent: aLayoutEvent [
 	super onLayoutEvent: aLayoutEvent.
 	
 	(aLayoutEvent isKindOf: GLMBrickLayoutStacked) ifTrue: [ "self enable" ]
+]
+
+{ #category : #layouting }
+GTSpotterCategoryTitleBrick >> onPrepareLayout [
+	super onPrepareLayout.
+	
+	self amountBrick layoutProperties horizontalPercent: 100.
+	self layoutProperties paddingLeft: (self themer spotterThemer categoryNameMarginLeft).
+	self disable.
 ]
 
 { #category : #accessing }

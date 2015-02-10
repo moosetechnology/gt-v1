@@ -10,7 +10,7 @@ GTSpotterSearchFieldMorph >> extent: aPoint [
 	
 	self owner ifNotNil: [
 		"to center text area"
-		self owner marginTop: (self brickThemer spotterThemer headerHeight - self textArea height) / 2 ]
+		self owner layoutProperties marginTop: (self brickThemer spotterThemer headerHeight - self textArea height) / 2 ]
 ]
 
 { #category : #'as yet unclassified' }

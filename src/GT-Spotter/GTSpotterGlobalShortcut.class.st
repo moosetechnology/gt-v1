@@ -23,7 +23,6 @@ GTSpotterGlobalShortcut class >> openGlobalSpotter [
 	globalSpotter := GTSpotterMorph new
 		extent: (World width / 2.4 @ (World height / 1.6)) asIntegerPoint;
 		spotterModel: GTSpotter new;
-		doLayout;
 		openCenteredInWorld.
 		
 	^ globalSpotter

@@ -16,14 +16,14 @@ GTSpotterContentsBrick >> dropDownBrick [
 
 { #category : #accessing }
 GTSpotterContentsBrick >> dropDownBrick: aBrick [
-	dropDownBrick ifNotNil: [self removeBrick: dropDownBrick].
-	dropDownBrick := aBrick asBrick.
 	
-	dropDownBrick morph pagerModel: self spotterModel pagerModel.
+	dropDownBrick ifNotNil: [self removeBrick: dropDownBrick].
+	dropDownBrick := aBrick.
+	
+	dropDownBrick pagerModel: self spotterModel pagerModel.
 	self themer spotterThemer dropDownPaneStyleFor: dropDownBrick.
 	
 	self addBrickBack: dropDownBrick
-	"aBrick openInWindow"
 ]
 
 { #category : #accessing }
@@ -80,6 +80,7 @@ GTSpotterContentsBrick >> showDropDownPane [
 
 	self dropDownBrick: self newDropDownMorph.
 	self dropDownBrick spotterModel: self spotterModel.
+	self doLayout
 ]
 
 { #category : #accessing }

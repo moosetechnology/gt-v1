@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterDropDownMorph,
-	#superclass : #GLMPagerBrick,
+	#superclass : #GLMPagerMorph,
 	#instVars : [
 		'spotterModel'
 	],

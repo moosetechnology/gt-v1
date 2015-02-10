@@ -13,10 +13,9 @@ Class {
 GTSpotterStepsBreadcrumb >> addItem: aBrick [
 
 	self items size = 1 ifTrue: [
-		self items first labelBrick paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
-	
-	self items addLast: aBrick.
-	self band addBrickBack: aBrick
+		self items first labelBrick layout paddingLeft: self themer spotterThemer breadcrumbSeparatorWidth / 2 ].
+	self band addBrickBack: aBrick.
+	self items addLast: aBrick
 ]
 
 { #category : #'adding/removing' }
@@ -37,10 +36,13 @@ GTSpotterStepsBreadcrumb >> band [
 GTSpotterStepsBreadcrumb >> band: aBrick [
 
 	band := aBrick.
-	band
-		useHorizontalLinearLayout;
-		hShrinkWrap;
-		vSpaceFill.
+	band layoutPolicy: (GLMBrickHorizontalFillLinearLayout new).
+	band width: [ :bandBrick |
+		self items isEmpty ifTrue: [ 0 ]
+			ifFalse: [ |width|
+				width := 0.
+				self items do: [ :each | width := width + each width ].
+				width + ((self items size - 1) * self themer spotterThemer breadcrumbSeparatorWidth)] ].
 	
 	self band data: 0.
 	self addBrickBack: band.
@@ -67,6 +69,7 @@ GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 
 { #category : #'as yet unclassified' }
 GTSpotterStepsBreadcrumb >> doLayout [
+	super doLayout.
 	
 	self scrollToTheLastOne: false
 ]
@@ -103,8 +106,9 @@ GTSpotterStepsBreadcrumb >> initialize [
 	super initialize.
 	
 	self
+		layout: GLMBrickHorizontalFillLinearLayout new;
 		band: self newBand;
-		height: self defaultBreadcrumbHeight
+		height: [ self items isEmpty ifTrue: [ 0 ] ifFalse: [ self defaultBreadcrumbHeight ] ]
 	
 ]
 
@@ -174,7 +178,7 @@ GTSpotterStepsBreadcrumb >> pop [
 	self items removeLast.
 	
 	self items size = 1 ifTrue: [
-		self items first labelBrick paddingLeft: 0 ].
+		self items first labelBrick layout paddingLeft: 0 ].
 	
 	self items isEmpty ifFalse: [ self popSeparator ].
 	
@@ -184,6 +188,7 @@ GTSpotterStepsBreadcrumb >> pop [
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
 			self items last showTriangle.
+			super doLayout.
 			self scrollToTheLastOne.
 			self changed ]
 ]
@@ -212,6 +217,7 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 	self items size = 1
 		ifTrue: [ self notifyBreadcrumbVisibilityChanged ]
 		ifFalse: [
+			super doLayout.
 			self scrollToTheLastOne.
 			self changed ].
 	
