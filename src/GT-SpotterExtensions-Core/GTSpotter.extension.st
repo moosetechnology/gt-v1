@@ -51,9 +51,11 @@ GTSpotter >> spotterConcreteMethodFor: aStep [
 			| method result |
 			result := OrderedCollection new.
 			[
+				Transcript show: originalQuery trimBoth; cr.
 				method := Compiler evaluate: originalQuery trimBoth.
-				stream addObject: method inProcessor: processor.
-				result add: method
+				method class = CompiledMethod ifTrue: [
+					stream addObject: method inProcessor: processor.
+					result add: method ] 
 			] on: Error do: [  ].
 			result ];
 		wantsToDisplayOnEmptyQuery: false
