@@ -43,7 +43,7 @@ GTSpotterPreviewArrowBrick >> moveTo: anItemBrick [
 { #category : #'instance creation' }
 GTSpotterPreviewArrowBrick >> newTriangleBrick [
 
-	^ GLMActionButtonBrick new
+	^ GLMHintableActionButtonBrick new
 ]
 
 { #category : #'event handling' }
@@ -147,7 +147,10 @@ GTSpotterPreviewArrowBrick >> triangleBrick [
 GTSpotterPreviewArrowBrick >> triangleBrick: aBrick [
 
 	triangleBrick := aBrick.
-	self triangleBrick addUpAction: [ self spotterModel togglePreview ].
+	self triangleBrick
+		hintTitle: 'Toggle preview';
+		hintText: '<cmd+p>';
+		addUpAction: [ self spotterModel togglePreview ].
 	self themer spotterThemer spotterPreviewArrowStyleFor: self triangleBrick.
 	self addBrickBack: self triangleBrick
 	

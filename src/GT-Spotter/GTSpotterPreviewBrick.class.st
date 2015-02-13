@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 GTSpotterPreviewBrick >> asyncTask [
 
-	^ asyncTask ifNil: [ asyncTask := GTAsyncTask new ]
+	^ asyncTask ifNil: [ asyncTask := GLMAsyncTask new ]
 ]
 
 { #category : #accessing }

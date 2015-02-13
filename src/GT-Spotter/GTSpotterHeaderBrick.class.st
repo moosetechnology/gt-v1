@@ -17,7 +17,10 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton := aBrick.
 	
 	self themer spotterThemer closeButtonStyleFor: closeButton.
-	closeButton addUpAction: [ self spotterModel exit ].
+	closeButton
+		hintTitle: 'Close Spotter';
+		hintText: '<escape>';
+		addUpAction: [ self spotterModel exit ].
 	
 	self addBrickBack: closeButton
 ]
@@ -34,7 +37,7 @@ GTSpotterHeaderBrick >> initialize [
 { #category : #'instance creation' }
 GTSpotterHeaderBrick >> newCloseButton [
 
-	^ GLMActionButtonBrick new
+	^ GLMHintableActionButtonBrick new
 ]
 
 { #category : #'instance creation' }

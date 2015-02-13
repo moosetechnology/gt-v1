@@ -54,7 +54,7 @@ GTSpotterStep >> announcer [
 { #category : #accessing }
 GTSpotterStep >> asyncTask [
 
-	^ asyncTask ifNil: [ asyncTask := GTAsyncTask new ]
+	^ asyncTask ifNil: [ asyncTask := GLMAsyncTask new ]
 ]
 
 { #category : #actions }

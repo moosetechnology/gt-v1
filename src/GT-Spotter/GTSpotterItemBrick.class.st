@@ -32,6 +32,8 @@ GTSpotterItemBrick >> addActActionButton [
 
 	self actionbarBrick addActionButton: (self newActionButtonBrick
 			icon: self themer spotterThemer iconAct;
+			hintTitle: 'Default action';
+			hintText: '<enter>';
 			addUpAction: [ self beSelected. self stepModel act ];
 			yourself)
 		
@@ -43,6 +45,8 @@ GTSpotterItemBrick >> addDiveInActionButton [
 	(self stepModel canDiveIn: self candidate) ifTrue: [
 		self actionbarBrick addActionButton: (self newActionButtonBrick
 			icon: self themer spotterThemer iconDiveIn;
+			hintTitle: 'Dive in';
+			hintText: '<cmd+right>';
 			addUpAction: [ self beSelected. self stepModel diveIn ];
 			yourself)]
 ]
@@ -183,7 +187,7 @@ GTSpotterItemBrick >> mouseDown: evt [
 { #category : #'instance creation' }
 GTSpotterItemBrick >> newActionButtonBrick [
 
-	^ GLMActionButtonBrick new
+	^ GLMHintableActionButtonBrick new
 ]
 
 { #category : #'instance creation' }
@@ -213,18 +217,11 @@ GTSpotterItemBrick >> notifySelected [
 	self stepModel spotter announce: (GTSpotterCandidateSelected new candidateBrick: self)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-events' }
 GTSpotterItemBrick >> onLayouted [
 	super onLayouted.
 	
 	self isChecked ifTrue: [ self stepModel spotter announce: GTSpotterCandidateSelectedMoved new ]
-]
-
-{ #category : #'brick-structure-events' }
-GTSpotterItemBrick >> onRemoved [
-	super onRemoved.
-	"I must not receive any announcements as soon as i'm removed from dom"
-	self stepModel ifNotNil: [ self stepModel announcer unsubscribe: self ]
 ]
 
 { #category : #'brick-structure-events' }
