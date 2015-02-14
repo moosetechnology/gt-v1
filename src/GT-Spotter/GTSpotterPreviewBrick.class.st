@@ -88,4 +88,5 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 			self compositeBrick: composite.
 			self changed ]
 		priority: Processor userBackgroundPriority
+		delay: 300
 ]

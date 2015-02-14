@@ -26,11 +26,19 @@ Object >> spotterPreviewIn: aComposite inContext: aSpotter [
 				from: self class 
 				to: Object
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
-	pragmas do: [ :eachPragma | 
+				
+	self flag: 'for now we allow only one preview per object. So we create only the top most preview in the ordered list'.
+	pragmas isEmpty ifFalse: [ |eachPragma| eachPragma := pragmas first.
 		(eachPragma selector findTokens: $:) size = 1 
 			ifTrue: [ self perform: eachPragma selector with: aComposite ]. 
 		(eachPragma selector findTokens: $:) size = 2
-			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ]
+			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ].
+	
+	"pragmas do: [ :eachPragma | 
+		(eachPragma selector findTokens: $:) size = 1 
+			ifTrue: [ self perform: eachPragma selector with: aComposite ]. 
+		(eachPragma selector findTokens: $:) size = 2
+			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ]"
 ]
 
 { #category : #'*GT-Spotter' }
