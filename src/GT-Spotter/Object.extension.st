@@ -26,19 +26,16 @@ Object >> spotterPreviewIn: aComposite inContext: aSpotter [
 				from: self class 
 				to: Object
 				sortedUsing: [: x :y | (x argumentAt: 1) < (y argumentAt: 1)].
-				
-	self flag: 'for now we allow only one preview per object. So we create only the top most preview in the ordered list'.
-	pragmas isEmpty ifFalse: [ |eachPragma| eachPragma := pragmas first.
+	"We iterate through all pragmas and execute the corresponding methods
+	to ensure that all possible previews are taken into account.
+	Even though at this moment we only display one preview, we still have to go through
+	all pragmas because it can happen that the method has a guarding if and thus, the actual
+	preview would not be triggered."
+	pragmas do: [ :eachPragma | 
 		(eachPragma selector findTokens: $:) size = 1 
 			ifTrue: [ self perform: eachPragma selector with: aComposite ]. 
 		(eachPragma selector findTokens: $:) size = 2
-			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ].
-	
-	"pragmas do: [ :eachPragma | 
-		(eachPragma selector findTokens: $:) size = 1 
-			ifTrue: [ self perform: eachPragma selector with: aComposite ]. 
-		(eachPragma selector findTokens: $:) size = 2
-			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ]"
+			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ]
 ]
 
 { #category : #'*GT-Spotter' }
