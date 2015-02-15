@@ -3,6 +3,9 @@ Extension { #name : #Collection }
 { #category : #'*GT-SpotterExtensions-Core' }
 Collection >> spotterItemsFor: aStep [
 	<spotterOrder: 10>
+	(self allSatisfy: [ :each | 
+		each class = GTSpotterCandidateLink ])
+		ifFalse: [ ^ self ].
 	^ aStep listProcessor
 		title: 'Items';
 		candidatesLimit: 100;
