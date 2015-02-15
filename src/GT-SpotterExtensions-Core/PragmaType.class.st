@@ -81,3 +81,13 @@ PragmaType >> spotterPragmasFor: aStep [
 		itemName: [ :pragma | pragma method printString , ' ' , pragma asString ];
 		matchSubstring
 ]
+
+{ #category : #'as yet unclassified' }
+PragmaType >> spotterSendersFor: aStep [
+	<spotterOrder: 50>
+	^ aStep listProcessor
+		title: 'Senders';
+		allCandidates: [ (SystemNavigation default allSendersOf: self keyword) 
+									collect: #compiledMethod ];
+		matchSubstring
+]
