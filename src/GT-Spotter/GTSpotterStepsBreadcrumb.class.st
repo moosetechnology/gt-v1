@@ -146,6 +146,13 @@ GTSpotterStepsBreadcrumb >> notifyBreadcrumbVisibilityChanged [
 	self announcer announce: GTSpotterBreadcrumbVisibilityChanged new
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterStepsBreadcrumb >> onChildrenLayouted [
+	super onChildrenLayouted.
+	
+	self scrollToTheLastOne: false
+]
+
 { #category : #'events-processing' }
 GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	|step origin previousStep selectedCandidate|
@@ -173,13 +180,12 @@ GTSpotterStepsBreadcrumb >> onStepPopped [
 { #category : #'adding/removing' }
 GTSpotterStepsBreadcrumb >> pop [
 	
-	self band removeBrick: self items removeLast.
-	self items size = 1 ifTrue: [
-		self items first labelBrick paddingLeft: 0 ].
-	self items isEmpty ifFalse: [ self popSeparator ].
-	
-	self items do: [ :b | b wrappedBounds markWidthDirty ].
-	self band doLayoutForce.
+	self band layoutAfter: [
+		self band removeBrick: self items removeLast.
+		self items size = 1 ifTrue: [
+			self items first labelBrick paddingLeft: 0 ].
+		self items isEmpty ifFalse: [ self popSeparator ].
+		self items do: [ :b | b wrappedBounds markWidthDirty ] ].
 	
 	"optimization. if last item was popped we need to update root to reposition all brick,
 	otherwise only I need to be updated"
@@ -202,11 +208,11 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 
 	self themer spotterThemer breadcrumbItemStyleFor: aBrick.
 	
-	self items isEmpty ifFalse: [
-		self items last hideTriangle.
-		self addSeparator ].
-	
-	self addItem: aBrick.
+	self band layoutAfter: [
+		self items isEmpty ifFalse: [
+			self items last hideTriangle.
+			self addSeparator ].
+		self addItem: aBrick ].
 	
 	"optimization. if first item was added we need to update root to reposition all bricks,
 	otherwise only I need to be updated"
@@ -221,7 +227,7 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> scrollToTheLastOne [
 
-	"self scrollToTheLastOne: true"
+	self scrollToTheLastOne: false
 	
 	
 ]
@@ -239,7 +245,7 @@ GTSpotterStepsBreadcrumb >> scrollToTheLastOne: isAnimated [
 	"all visible, return"
 	(leftDelta = 0  and: [ self items size <= self maxNumberOfSteps ]) ifTrue: [ ^ self ].
 	
-	delta := (self items size <= self maxNumberOfSteps) ifTrue: [leftDelta] ifFalse: [rightDelta].
+	delta := (self items size <= self maxNumberOfSteps) ifTrue: [ leftDelta ] ifFalse: [ rightDelta ].
 	self band data: (self band data + delta).
 
 	isAnimated ifFalse: [ ^ self band translateX: delta ].
