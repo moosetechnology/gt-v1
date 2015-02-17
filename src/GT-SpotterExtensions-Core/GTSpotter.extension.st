@@ -131,6 +131,19 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
+	<spotterOrder: 21>
+	aStep listProcessor
+			allCandidatesProxied: [ Smalltalk allClassesAndTraits select: [ :each | 
+					(each respondsTo: #isMetacelloConfig) 
+						and: [ each isMetacelloConfig
+							and: [ each name beginsWith: 'ConfigurationOf' ] ] ] ];
+			title: 'Metacello Configurations';
+			matchSubstring;
+			itemIcon: #systemIcon
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForPackagesFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor
@@ -164,6 +177,17 @@ GTSpotter >> spotterForPragmasFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForRepositoriesFor: aStep [
+	<spotterOrder: 22>
+	aStep listProcessor
+			allCandidates: [ MCRepositoryGroup default repositories ];
+			title: 'Monticello Repositories';
+			matchSubstring;
+			itemIcon: #systemIcon;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForSlotsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
@@ -172,6 +196,20 @@ GTSpotter >> spotterForSlotsFor: aStep [
 			matchSubstring;
 			itemIcon: #systemIcon;
 			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForTestClassesFor: aStep [
+	<spotterOrder: 20>
+	aStep listProcessor
+			allCandidates: [ TestCase allSubclasses ];
+			title: 'Suites';
+			itemName: [ :item | item name ];
+			itemIcon: #systemIcon;
+			actLogic: [ :item | 
+				" this is an ugly implementaiton - just to demo it "
+				NautilusUI new runTestsOfClass: item notifying: true ];
+			matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -209,6 +247,16 @@ GTSpotter >> spotterImplementorsFor: aStep [
 						processor: processor;
 						behaviors: SystemNavigation default allBehaviors;
 						find ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterMonticelloWorkingCopyAndPackageFor: aStep [
+	<spotterOrder: 21>
+	aStep listProcessor
+		title: 'Monticello';
+		allCandidates: [ MCWorkingCopy allManagers gather: [ :each | 
+				Array with: each with: each package ] ];
+		matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

@@ -24,6 +24,18 @@ RPackage >> spotterExtensionMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+RPackage >> spotterMonticelloWorkingCopyAndPackageFor: aStep [
+	<spotterOrder: 40>
+	aStep listProcessor
+		title: 'Monticello';
+		allCandidates: [ 
+			| mcPackage |
+			mcPackage := self mcPackage.
+			Array with: mcPackage workingCopy with: mcPackage ];
+		matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 RPackage >> spotterPreviewCodeIn: aComposite [
 	<spotterPreview: 10>
 	aComposite list
@@ -40,7 +52,8 @@ RPackage >> spotterTagsFor: aStep [
 	<spotterOrder: 20>
 	self classTags size <= 1 ifTrue: [ ^ self ].
 	aStep listProcessor
-			allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
-			title: 'Tags';
-			matchSubstring
+		title: 'Tags';
+		allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
+		itemName: [ :tag | tag name ];
+		matchSubstring
 ]
