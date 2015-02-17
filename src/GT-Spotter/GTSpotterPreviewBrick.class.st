@@ -28,8 +28,7 @@ GTSpotterPreviewBrick >> compositeBrick: aBrick [
 	compositeBrick := aBrick.
 	self themer spotterThemer spotterPreviewCompositeStyleFor: self compositeBrick.
 	self addBrickBack: self compositeBrick.
-	self compositeBrick doLayoutForce.
-	self compositeBrick changed
+	self doLayoutForce
 ]
 
 { #category : #initialization }
@@ -52,6 +51,12 @@ GTSpotterPreviewBrick >> onCandidateSelected: ann [
 ]
 
 { #category : #'event handling' }
+GTSpotterPreviewBrick >> onStepAdded [
+
+	self removeBrick: self compositeBrick
+]
+
+{ #category : #'event handling' }
 GTSpotterPreviewBrick >> onStepPopped [
 
 	self updatePreviewWith: self spotterModel steps last selectedCandidate
@@ -68,7 +73,9 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 	
 	spotterModel := aSpotter.
 	aSpotter announcer weak subscribe: GTSpotterSelectedCandidateChanged send: #onCandidateSelected: to: self.
-	aSpotter announcer weak subscribe: GTSpotterStepPopped send: #onStepPopped to: self
+	aSpotter announcer weak subscribe: GTSpotterStepPopped send: #onStepPopped to: self.
+	aSpotter announcer weak subscribe: GTSpotterStepAdded send: #onStepAdded to: self
+	
 	
 ]
 
