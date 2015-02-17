@@ -165,7 +165,7 @@ GTSpotterStep >> process: aString [
 		execute: [ :input |
 				self stream removeAllCandidates.
 				[ self relevantProcessorsProcess: input ]
-					on: Exception
+					on: Error
 					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
 		withArguments: { self query }
 		callback: [  ]
