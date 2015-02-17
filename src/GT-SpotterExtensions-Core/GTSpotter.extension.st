@@ -164,6 +164,28 @@ GTSpotter >> spotterForPragmasFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForSlotsFor: aStep [
+	<spotterOrder: 10>
+	aStep listProcessor
+			allCandidates: [ Slot allSubclasses ];
+			title: 'Slots';
+			matchSubstring;
+			itemIcon: #systemIcon;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForTraitsFor: aStep [
+	<spotterOrder: 10>
+	aStep listProcessor
+			allCandidates: [ Smalltalk allTraits ];
+			title: 'Traits';
+			matchSubstring;
+			itemIcon: #systemIcon;
+			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 80>
 	aStep listProcessor
