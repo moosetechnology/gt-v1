@@ -271,6 +271,13 @@ GTSpotter >> popStep [
 				callback: [ self pagerModel popPane: false ] ]
 ]
 
+{ #category : #'actions api' }
+GTSpotter >> popUntil: aStep [
+
+	[ self steps last = aStep ]
+		whileFalse: [ self popStep ]
+]
+
 { #category : #accessing }
 GTSpotter >> previousStep [
 	

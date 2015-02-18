@@ -40,7 +40,7 @@ GTSpotterWidgetThemer >> breadcrumbItemLabelStyleFor: aBrick [
 
 	aBrick
 		textPosition: #center;
-		normalColor: self breadcrumbItemBackgroundColor;
+		color: self breadcrumbItemBackgroundColor;
 		textColor: self breadcrumbItemTextColor;
 		padding: { 0 . self outerBorderWidth };
 		vSpaceFill;
@@ -436,7 +436,7 @@ GTSpotterWidgetThemer >> previewPaddingLeft [
 { #category : #values }
 GTSpotterWidgetThemer >> previewWidthPercent [
 
-	^ 40
+	^ 50
 ]
 
 { #category : #styles }
