@@ -22,6 +22,6 @@ MCPackage >> spotterMonticelloWorkingCopyFor: aStep [
 	aStep listProcessor
 		title: 'Monticello Working Copy';
 		allCandidates: [ Array with: self workingCopy ];
-		itemIcon: #versionControlIcon;
+		itemIcon: [ Smalltalk ui icons iconNamed: #versionControlIcon ];
 		matchSubstring
 ]

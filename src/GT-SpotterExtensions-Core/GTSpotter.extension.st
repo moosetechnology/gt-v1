@@ -1,5 +1,36 @@
 Extension { #name : #GTSpotter }
 
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+GTSpotter >> compileExpression: query on: stream processor: processor [
+	| object result candidates |
+	candidates := OrderedCollection new.
+	(query substrings: ' ') size > 1 ifFalse: [ ^ candidates ].
+	object := [ Compiler evaluate: query ] on: Error do: [ ^ candidates ].
+	object isNumber ifFalse: [
+		stream addObject: object inProcessor: processor.
+		candidates add: object ].
+	result := [ object gtSpotterExpression: { self. processor } ] on: Error do: [ ^ candidates ].
+	object = result ifFalse: [ 
+		stream addObject: result inProcessor: processor.
+		candidates add: result ].
+	^ candidates
+]
+
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+GTSpotter >> evaluateExpression: query on: stream processor: processor [
+	| result candidates |
+	candidates := OrderedCollection new.
+	(Number selectors anySatisfy: [ :selector | 
+		query includesSubstring: selector caseSensitive: true ]) ifFalse: [ ^ candidates ].
+	result := [ Compiler evaluate: query ] on: Error do: [ ^ candidates ].
+	stream addObject: result inProcessor: processor. 
+	candidates add: result. 
+	(result isFraction and: [ result isInteger not ]) ifTrue: [ 
+		stream addObject: result asFloat inProcessor: processor.
+		candidates add: result ].
+	^ candidates
+]
+
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReferencesBlock inProcessor: processor onStream: stream [
 	| prefixMatchers split rootDirectory query fullQuery rest |
@@ -84,6 +115,17 @@ GTSpotter >> spotterForClassesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForCompilerFor: aStep [
+	<spotterOrder: 1>
+	| processor |
+	(processor := aStep listProcessor)
+		title: 'Expressions';
+		filter: [ :query :stream | 
+			self compileExpression: query on: stream processor: processor ];
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForDirectoriesFor: aStep [
 	<spotterOrder: 50>
 	| processor |
@@ -98,6 +140,17 @@ GTSpotter >> spotterForDirectoriesFor: aStep [
 						forReferencesComputedAs: [ :root | root directories ]
 						inProcessor: processor
 						onStream: stream ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForExpressionsFor: aStep [
+	<spotterOrder: 1>
+	| processor |
+	(processor := aStep listProcessor)
+		title: 'Expressions';
+		filter: [ :query :stream | 
+			self evaluateExpression: query on: stream processor: processor ];
+		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -265,7 +318,7 @@ GTSpotter >> spotterMonticelloWorkingCopiesFor: aStep [
 	aStep listProcessor
 		title: 'Monticello Working Copies';
 		allCandidates: [ MCWorkingCopy allManagers ];
-		itemIcon: #versionControlIcon;
+		itemIcon: [ Smalltalk ui icons iconNamed: #versionControlIcon ];
 		matchSubstring
 ]
 
