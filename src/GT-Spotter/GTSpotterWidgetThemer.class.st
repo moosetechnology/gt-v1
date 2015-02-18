@@ -137,7 +137,7 @@ GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 	
 	aBrick
 		vSpaceFill;
-		hSpaceFill;
+		width: #approximateWidth;
 		marginLeft: self categoryNameMarginRight.
 ]
 
@@ -255,6 +255,12 @@ GTSpotterWidgetThemer >> iconAct [
 GTSpotterWidgetThemer >> iconDiveIn [
 
 	^ GLMUIThemeExtraIcons glamorousRight
+]
+
+{ #category : #icons }
+GTSpotterWidgetThemer >> iconDiveInCategory [
+
+	^ GLMUIThemeExtraIcons glamorousMore
 ]
 
 { #category : #values }
