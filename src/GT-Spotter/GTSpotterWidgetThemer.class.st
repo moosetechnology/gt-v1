@@ -442,7 +442,7 @@ GTSpotterWidgetThemer >> previewPaddingLeft [
 { #category : #values }
 GTSpotterWidgetThemer >> previewWidthPercent [
 
-	^ 50
+	^ 40
 ]
 
 { #category : #styles }
