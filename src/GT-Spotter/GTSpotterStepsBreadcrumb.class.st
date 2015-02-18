@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'spotterModel',
 		'items',
-		'band'
+		'band',
+		'animation'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -30,6 +31,12 @@ GTSpotterStepsBreadcrumb >> addSeparator [
 	separator := self newSeparator.
 	self themer spotterThemer breadcrumbSeparatorStyleFor: separator.
 	self band addBrickBack: separator
+]
+
+{ #category : #accessing }
+GTSpotterStepsBreadcrumb >> animation [
+
+	^ animation
 ]
 
 { #category : #accessing }
@@ -80,28 +87,15 @@ GTSpotterStepsBreadcrumb >> defaultBreadcrumbHeight [
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> glmAnimateBrickBounds: aValue duration: anInteger callback: aBlock [
 
-	anInteger <= 0
-		"if duration is zero, move to the left immediately"
-		ifTrue: [ self leftTo: aValue ]
-		ifFalse: [
-			| startTime start currentValue startBounds|
-			currentValue := 0.
-			startBounds := self band brickBounds.
-			startTime := Time millisecondClockValue.
-			start := currentValue.
-			[	| delta translate|
-				[ (delta := Time millisecondClockValue - startTime) < anInteger ] whileTrue: [
-					translate := (aValue - start) * (delta / anInteger) + start.
-					self band brickBounds: (startBounds translateBy: translate@0).
-					self changed.
-					Processor yield
-				].
-				self band brickBounds: (startBounds translateBy: aValue@0).
-				self changed.
-				Processor yield.
-				aBlock ifNotNil: [ aBlock value ].
-			] fork
-		]
+	self animation ifNotNil: #terminate.
+	animation := GLMAnimation new
+		linear;
+		duration: anInteger;
+		from: self band brickBounds left;
+		to: self band brickBounds left + aValue;
+		onCompleted: aBlock;
+		animation: [ :b :v | b changedWith: [ b translateXTo: v asInteger; data: b brickBounds left ] ];
+		animate: self band
 ]
 
 { #category : #initialization }
@@ -146,11 +140,12 @@ GTSpotterStepsBreadcrumb >> notifyBreadcrumbVisibilityChanged [
 	self announcer announce: GTSpotterBreadcrumbVisibilityChanged new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-events' }
 GTSpotterStepsBreadcrumb >> onChildrenLayouted [
 	super onChildrenLayouted.
 	
-	self scrollToTheLastOne: false
+	self band translateXTo: (self band data ifNil: [ 0 ]).
+	self scrollToTheLastOne
 ]
 
 { #category : #'events-processing' }
@@ -226,18 +221,8 @@ GTSpotterStepsBreadcrumb >> push: aBrick [
 
 { #category : #geometry }
 GTSpotterStepsBreadcrumb >> scrollToTheLastOne [
-
-	self scrollToTheLastOne: false
-	
-	
-]
-
-{ #category : #geometry }
-GTSpotterStepsBreadcrumb >> scrollToTheLastOne: isAnimated [
 	|leftDelta rightDelta delta|
 	self items isEmpty ifTrue: [ ^ self ].
-	
-	self band translateX: self band data.
 	
 	rightDelta := self globalBounds right - self band globalBounds right.
 	leftDelta := self globalBounds left - self band globalBounds left.
@@ -246,9 +231,7 @@ GTSpotterStepsBreadcrumb >> scrollToTheLastOne: isAnimated [
 	(leftDelta = 0  and: [ self items size <= self maxNumberOfSteps ]) ifTrue: [ ^ self ].
 	
 	delta := (self items size <= self maxNumberOfSteps) ifTrue: [ leftDelta ] ifFalse: [ rightDelta ].
-	self band data: (self band data + delta).
-
-	isAnimated ifFalse: [ ^ self band translateX: delta ].
+	delta := self band brickBounds left + delta - self band data.
 	
 	self
 		glmAnimateBrickBounds: delta
