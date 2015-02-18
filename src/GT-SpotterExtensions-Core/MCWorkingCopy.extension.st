@@ -1,6 +1,6 @@
 Extension { #name : #MCWorkingCopy }
 
-{ #category : #'*GT-SpotterExtensions-Core' }
+{ #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> allAncestors [
 	^ self versionInfo 
 		ifNotNilDo: [ :versionInfo | versionInfo allAncestors ]
@@ -18,7 +18,7 @@ MCWorkingCopy >> gtDisplayOn: stream [
 		
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core' }
+{ #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> nextAncestors [
 	^ self versionInfo 
 		ifNotNilDo: [ :versionInfo | versionInfo ancestors ]
@@ -62,8 +62,9 @@ MCWorkingCopy >> spotterCommit: workingCopy in: aRepository [
 MCWorkingCopy >> spotterMonticelloPackageFor: aStep [
 	<spotterOrder: 21>
 	aStep listProcessor
-		title: 'Monticello';
+		title: 'Monticello Package';
 		allCandidates: [ Array with: self package ];
+		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
 		matchSubstring
 ]
 
@@ -89,7 +90,7 @@ MCWorkingCopy >> spotterPackageRepositoriesFor: aStep [
 		matchSubstring
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core' }
+{ #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> versionInfo [
 	^ self ancestors 
 		ifNotEmptyDo: [ :list | list first ] 

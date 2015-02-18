@@ -2,6 +2,7 @@ Extension { #name : #AbstractNautilusUI }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 AbstractNautilusUI >> runTestsOfSuite: aSuite notifying: aBoolean [
+	<demoOnly: 'this is very ugly code, a copy from the original implementation, adapted to aSuite'>
 	|  blockToEvaluate result |
 
 	blockToEvaluate := [

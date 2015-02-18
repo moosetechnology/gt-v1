@@ -9,18 +9,19 @@ MCPackage >> gtDisplayOn: aStream [
 MCPackage >> spotterForPackageFor: aStep [
 	<spotterOrder: 2>
 	aStep listProcessor
-			allCandidates: [ Array with: self correspondingRPackage ];
-			title: 'Packages';
-			itemName: [ :package | package name ];
-			itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
-			matchSubstring
+		title: 'Packages';
+		allCandidates: [ Array with: self correspondingRPackage ];
+		itemName: [ :package | package name ];
+		itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
+		matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MCPackage >> spotterMonticelloWorkingCopyFor: aStep [
 	<spotterOrder: 1>
 	aStep listProcessor
-		title: 'Monticello';
+		title: 'Monticello Working Copy';
 		allCandidates: [ Array with: self workingCopy ];
+		itemIcon: #versionControlIcon;
 		matchSubstring
 ]

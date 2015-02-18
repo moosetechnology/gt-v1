@@ -1,13 +1,15 @@
 Extension { #name : #MCVersionInfo }
 
-{ #category : #'*GT-SpotterExtensions-Core' }
+{ #category : #'*GT-SpotterExtensions-Core-private' }
 MCVersionInfo >> allAncestors [
 	^ OrderedCollection streamContents: [ :stream |
-		self allAncestorsDo: [ :versionInfo | stream nextPut: versionInfo ] ]
+		self allAncestorsDo: [ :versionInfo | 
+			stream nextPut: versionInfo ] ]
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core' }
+{ #category : #'*GT-SpotterExtensions-Core-private' }
 MCVersionInfo >> diffAgainstWorkingCopy [
+	<demoOnly: 'this is really ugly, actually monticello should provide all the necessary utilities in order to do such things more conveniently'>
 	| repository workingCopy package workingCopyVersion version | 
 	workingCopy := (MCWorkingCopy allManagers 
 		detect: [ :each | each ancestry hasAncestor: self ]
@@ -15,7 +17,7 @@ MCVersionInfo >> diffAgainstWorkingCopy [
 	workingCopy 
 		ifNotNil: [
 			package := workingCopy package.
-			repository := workingCopy repositoryGroup repositories anyOne .
+			repository := workingCopy repositoryGroup repositories anyOne.
 			workingCopyVersion := repository versionWithInfo: workingCopy versionInfo ifAbsent: [ ^ self halt ].
 			version := repository versionWithInfo: self ifAbsent: [ ^ self halt ].
 			((MCFileRepositoryInspector repository: repository workingCopy: workingCopy) 

@@ -7,12 +7,12 @@ MCRepository >> gtDisplayOn: aStream [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MCRepository >> spotterMonticelloPackagesFor: aStep [
-	<bug>
+	<bug: 'this will not work as spotter terminates the process prematurely - remote filelisting is slow'>
+	<demoOnly>
 	<spotterOrder: 1>
 	aStep listProcessor
 		title: 'packages';
-		allCandidates: [ self allFileNamesOrCache 
-			" THIS WILL NOT WORK AS SPOTTE TERMINATES THE PROCESS PREMATURELY" ];
+		allCandidates: [ self allFileNamesOrCache ];
 		itemName: [ :item | item asString ];
 		matchSubstring
 ]

@@ -134,13 +134,14 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 	<spotterOrder: 21>
 	aStep listProcessor
-			allCandidatesProxied: [ Smalltalk allClassesAndTraits select: [ :each | 
+			title: 'Metacello Configurations';
+			allCandidatesProxied: [ 
+				Smalltalk allClassesAndTraits select: [ :each | 
 					(each respondsTo: #isMetacelloConfig) 
 						and: [ each isMetacelloConfig
 							and: [ each name beginsWith: 'ConfigurationOf' ] ] ] ];
-			title: 'Metacello Configurations';
-			matchSubstring;
-			itemIcon: #systemIcon
+			itemIcon: #systemIcon;
+			matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -180,47 +181,46 @@ GTSpotter >> spotterForPragmasFor: aStep [
 GTSpotter >> spotterForRepositoriesFor: aStep [
 	<spotterOrder: 22>
 	aStep listProcessor
-			allCandidates: [ MCRepositoryGroup default repositories ];
-			title: 'Monticello Repositories';
-			matchSubstring;
-			itemIcon: #systemIcon;
-			wantsToDisplayOnEmptyQuery: false
+		title: 'Monticello Repositories';
+		allCandidates: [ MCRepositoryGroup default repositories ];
+		itemIcon: #systemIcon;
+		wantsToDisplayOnEmptyQuery: false;
+		matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForSlotsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
-			allCandidates: [ Slot allSubclasses ];
-			title: 'Slots';
-			matchSubstring;
-			itemIcon: #systemIcon;
-			wantsToDisplayOnEmptyQuery: false
+		title: 'Slots';
+		allCandidates: [ Slot allSubclasses ];
+		itemIcon: #systemIcon;
+		wantsToDisplayOnEmptyQuery: false;
+		matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForTestClassesFor: aStep [
+	<demoOnly: 'NautilusUI - this is a very ugly implementaiton - just for demo'>
 	<spotterOrder: 20>
 	aStep listProcessor
-			allCandidates: [ TestCase allSubclasses ];
-			title: 'Suites';
-			itemName: [ :item | item name ];
-			itemIcon: #systemIcon;
-			actLogic: [ :item | 
-				" this is an ugly implementaiton - just to demo it "
-				NautilusUI new runTestsOfClass: item notifying: true ];
-			matchSubstring
+		title: 'Suites';
+		allCandidates: [ TestCase allSubclasses ];
+		itemName: [ :item | item name ];
+		itemIcon: #systemIcon;
+		actLogic: [ :item | NautilusUI new runTestsOfClass: item notifying: true ];
+		matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForTraitsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
-			allCandidates: [ Smalltalk allTraits ];
-			title: 'Traits';
-			matchSubstring;
-			itemIcon: #systemIcon;
-			wantsToDisplayOnEmptyQuery: false
+		title: 'Traits';
+		allCandidates: [ Smalltalk allTraits ];
+		itemIcon: #systemIcon;
+		wantsToDisplayOnEmptyQuery: false;
+		matchSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -250,12 +250,22 @@ GTSpotter >> spotterImplementorsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterMonticelloWorkingCopyAndPackageFor: aStep [
-	<spotterOrder: 21>
+GTSpotter >> spotterMonticelloPackagesFor: aStep [
+	<spotterOrder: 22>
 	aStep listProcessor
-		title: 'Monticello';
-		allCandidates: [ MCWorkingCopy allManagers gather: [ :each | 
-				Array with: each with: each package ] ];
+		title: 'Monticello Packages';
+		allCandidates: [ MCWorkingCopy allManagers collect: [ :each | each package ] ];
+		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
+		matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterMonticelloWorkingCopiesFor: aStep [
+	<spotterOrder: 23>
+	aStep listProcessor
+		title: 'Monticello Working Copies';
+		allCandidates: [ MCWorkingCopy allManagers ];
+		itemIcon: #versionControlIcon;
 		matchSubstring
 ]
 

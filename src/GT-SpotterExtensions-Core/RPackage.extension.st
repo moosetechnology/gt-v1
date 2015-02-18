@@ -24,14 +24,22 @@ RPackage >> spotterExtensionMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-RPackage >> spotterMonticelloWorkingCopyAndPackageFor: aStep [
-	<spotterOrder: 40>
+RPackage >> spotterMonticelloPackageFor: aStep [
+	<spotterOrder: 41>
 	aStep listProcessor
-		title: 'Monticello';
-		allCandidates: [ 
-			| mcPackage |
-			mcPackage := self mcPackage.
-			Array with: mcPackage workingCopy with: mcPackage ];
+		title: 'Monticello Package';
+		allCandidates: [ Array with: self mcPackage ];
+		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
+		matchSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+RPackage >> spotterMonticelloWorkingCopyFor: aStep [
+	<spotterOrder: 42>
+	aStep listProcessor
+		title: 'Monticello Working Copy';
+		allCandidates: [ Array with: self mcPackage workingCopy ];
+		itemIcon: #versionControlIcon;
 		matchSubstring
 ]
 
@@ -52,8 +60,7 @@ RPackage >> spotterTagsFor: aStep [
 	<spotterOrder: 20>
 	self classTags size <= 1 ifTrue: [ ^ self ].
 	aStep listProcessor
-		title: 'Tags';
-		allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
-		itemName: [ :tag | tag name ];
-		matchSubstring
+			allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
+			title: 'Tags';
+			matchSubstring
 ]
