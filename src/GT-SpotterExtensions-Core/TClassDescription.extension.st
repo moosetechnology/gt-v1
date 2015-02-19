@@ -7,5 +7,5 @@ TClassDescription >> spotterPackageFor: aStep [
 			title: 'Package';
 			allCandidates: [ {self package} ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]

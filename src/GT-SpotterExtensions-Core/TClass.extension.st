@@ -17,7 +17,7 @@ TClass >> spotterMethodsFor: aStep [
 			title: 'Instance methods';
 			allCandidates: [ self methods ];
 			itemName: [ :method | method selector ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -39,5 +39,5 @@ TClass >> spotterReferenceFor: aStep [
 			title: 'References';
 			allCandidates: [ (SystemNavigation default allReferencesTo: self binding) collect: #compiledMethod ];
 			itemName: [ :method | method gtDisplayString ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]

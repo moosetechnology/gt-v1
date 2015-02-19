@@ -38,5 +38,5 @@ MCVersionInfo >> spotterAncestorsFor: aStep [
 		title: 'Ancestors';
 		allCandidates: [ self allAncestors ];
 		actLogic: [ :aMCVersionInfo | aMCVersionInfo diffAgainstWorkingCopy ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]

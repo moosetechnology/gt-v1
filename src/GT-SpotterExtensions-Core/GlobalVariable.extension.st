@@ -12,7 +12,7 @@ GlobalVariable >> spotterClassFor: aStep [
 			title: 'Class';
 			allCandidates: [ { self value class }];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -22,5 +22,5 @@ GlobalVariable >> spotterReferenceFor: aStep [
 			title: 'References';
 			allCandidates: [ (SystemNavigation default allReferencesTo: self) collect: #compiledMethod ];
 			itemName: [ :method | method gtDisplayString ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]

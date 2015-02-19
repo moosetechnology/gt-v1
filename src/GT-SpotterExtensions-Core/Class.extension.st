@@ -7,5 +7,5 @@ Class >> spotterClassMethodsFor: aStep [
 			title: 'Class methods';
 			allCandidates: [ self class methods ];
 			itemName: [ :method | method selector ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]

@@ -15,7 +15,7 @@ FileReference >> spotterForDirectoriesFor: aStep [
 			candidatesLimit: Float infinity;
 			itemName: #basename;
 			itemIcon: [ GLMUIThemeExtraIcons glamorousFolder ];
-			matchSubstring ]
+			filterUsing: GTFilterSubstring ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -28,7 +28,7 @@ FileReference >> spotterForFilesFor: aStep [
 			candidatesLimit: Float infinity;
 			itemName: #basename;
 			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
-			matchSubstring ]
+			filterUsing: GTFilterSubstring ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -44,7 +44,7 @@ FileReference >> spotterForZipDirectoriesFor: aStep [
 			candidatesLimit: Float infinity;
 			itemName: #basename;
 			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -60,7 +60,7 @@ FileReference >> spotterForZipFilesFor: aStep [
 			candidatesLimit: Float infinity;
 			itemName: #basename;
 			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 	
 ]
 

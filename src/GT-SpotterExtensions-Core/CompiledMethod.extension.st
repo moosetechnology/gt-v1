@@ -12,7 +12,7 @@ CompiledMethod >> spotterForImplementorsFor: aStep [
 			title: 'Implementors';
 			allCandidates: [ self implementors collect: #compiledMethod ];
 			itemName: [ :method | method printString ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -22,7 +22,7 @@ CompiledMethod >> spotterForSendersFor: aStep [
 			title: 'Senders';
 			allCandidates: [ self senders collect: #compiledMethod ];
 			itemName: [ :method | method printString ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

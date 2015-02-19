@@ -11,6 +11,6 @@ Collection >> spotterItemsFor: aStep [
 		candidatesLimit: 100;
 		allCandidates: [ OrderedCollection newFrom: (self collect: [ :each | each copy ])];
 		itemName: [ :each | each renderingProcessor itemNameFor: each value ];
-		matchSubstring;
+		filterUsing: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: true
 ]

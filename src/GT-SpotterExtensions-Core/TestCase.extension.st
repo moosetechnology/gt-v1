@@ -10,7 +10,7 @@ TestCase class >> spotterForSuiteFor: aStep [
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;
 		actLogic: [ :item | NautilusUI new runTestsOfSuite: item notifying: true ];
-		matchSubstring;
+		filterUsing: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: true
 ]
 
@@ -26,6 +26,6 @@ TestCase class >> spotterForSuitesFor: aStep [
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;
 		actLogic: [ :item | NautilusUI new runTestsOfSuite: item notifying: true ];
-		matchSubstring;
+		filterUsing: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: true
 ]

@@ -7,7 +7,7 @@ TBehavior >> spotterCompositionFor: aStep [
 			title: 'Composing traits';
 			allCandidates: [ self traitComposition allTraits ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -17,7 +17,7 @@ TBehavior >> spotterSubclassesFor: aStep [
 			title: 'All subclasses';
 			allCandidates: [ self allSubclasses ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -27,7 +27,7 @@ TBehavior >> spotterSuperclassesFor: aStep [
 			title: 'All superclasses';
 			allCandidates: [ self allSuperclasses ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -37,7 +37,7 @@ TBehavior >> spotterTraitUsersFor: aStep [
 			title: 'Users';
 			allCandidates: [ self traitUsers asArray ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -47,5 +47,5 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 			title: 'Uses Traits';
 			allCandidates: [ self traits asArray ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]

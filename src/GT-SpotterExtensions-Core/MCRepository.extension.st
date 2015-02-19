@@ -14,5 +14,5 @@ MCRepository >> spotterMonticelloPackagesFor: aStep [
 		title: 'packages';
 		allCandidates: [ self allFileNamesOrCache ];
 		itemName: [ :item | item asString ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]

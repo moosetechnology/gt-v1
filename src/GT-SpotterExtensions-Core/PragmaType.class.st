@@ -79,7 +79,7 @@ PragmaType >> spotterPragmasFor: aStep [
 		title: 'Pragmas';
 		allCandidates: [ self pragmas ];
 		itemName: [ :pragma | pragma method printString , ' ' , pragma asString ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'as yet unclassified' }
@@ -89,5 +89,5 @@ PragmaType >> spotterSendersFor: aStep [
 		title: 'Senders';
 		allCandidates: [ (SystemNavigation default allSendersOf: self keyword) 
 									collect: #compiledMethod ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]

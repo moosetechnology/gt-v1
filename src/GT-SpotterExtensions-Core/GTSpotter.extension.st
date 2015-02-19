@@ -99,7 +99,7 @@ GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 			allCandidates: [ MCWorkingCopy allManagers select: #modified ];
 			title: 'Dirty Monticello packages';
 			itemIcon: [ Smalltalk ui icons iconNamed: #dirtyPackageIcon ];
-			matchSubstring;
+			filterUsing: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: true
 ]
 
@@ -109,7 +109,7 @@ GTSpotter >> spotterForClassesFor: aStep [
 	aStep listProcessor
 			allCandidates: [ Smalltalk allClassesAndTraits ];
 			title: 'Classes';
-			matchSubstring;
+			filterUsing: GTFilterSubstring;
 			itemIcon: #systemIcon;
 			wantsToDisplayOnEmptyQuery: false
 ]
@@ -179,7 +179,7 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 				assoc value isTrait not]] ];
 			title: 'Global variables';
 			itemName:[:global | global key ];
-			matchSubstring;
+			filterUsing: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -194,7 +194,7 @@ GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 						and: [ each isMetacelloConfig
 							and: [ each name beginsWith: 'ConfigurationOf' ] ] ] ];
 			itemIcon: #systemIcon;
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -205,7 +205,7 @@ GTSpotter >> spotterForPackagesFor: aStep [
 			title: 'Packages';
 			itemName: [ :package | package name ];
 			itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
-			matchSubstring;
+			filterUsing: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -216,7 +216,7 @@ GTSpotter >> spotterForPlaygroundPagesFor: aStep [
 			allCandidates: [ GTPlayBook instance pages ];
 			title: 'Playground';
 			itemName: [ :page | page content asString contractTo: 100 ];
-			matchSubstring
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -226,7 +226,7 @@ GTSpotter >> spotterForPragmasFor: aStep [
 			allCandidates: [:x | PragmaType all ];
 			title: 'Pragmas';
 			itemName: [ :pragma | pragma keyword ];
-			matchSubstring;
+			filterUsing: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -238,7 +238,7 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 		allCandidates: [ MCRepositoryGroup default repositories ];
 		itemIcon: #systemIcon;
 		wantsToDisplayOnEmptyQuery: false;
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -249,7 +249,7 @@ GTSpotter >> spotterForSlotsFor: aStep [
 		allCandidates: [ Slot allSubclasses ];
 		itemIcon: #systemIcon;
 		wantsToDisplayOnEmptyQuery: false;
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -262,7 +262,7 @@ GTSpotter >> spotterForTestClassesFor: aStep [
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;
 		actLogic: [ :item | NautilusUI new runTestsOfClass: item notifying: true ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -273,7 +273,7 @@ GTSpotter >> spotterForTraitsFor: aStep [
 		allCandidates: [ Smalltalk allTraits ];
 		itemIcon: #systemIcon;
 		wantsToDisplayOnEmptyQuery: false;
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -282,7 +282,7 @@ GTSpotter >> spotterHistoryFor: aStep [
 	aStep listProcessor
 			allCandidates: [:x | self class history select: [ :each | each isNotNil ] ];
 			title: 'History';
-			matchSubstring;
+			filterUsing: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: true
 ]
 
@@ -309,7 +309,7 @@ GTSpotter >> spotterMonticelloPackagesFor: aStep [
 		title: 'Monticello Packages';
 		allCandidates: [ MCWorkingCopy allManagers collect: [ :each | each package ] ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -319,7 +319,7 @@ GTSpotter >> spotterMonticelloWorkingCopiesFor: aStep [
 		title: 'Monticello Working Copies';
 		allCandidates: [ MCWorkingCopy allManagers ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #versionControlIcon ];
-		matchSubstring
+		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
