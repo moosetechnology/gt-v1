@@ -10,7 +10,7 @@ Class {
 	#category : #'GT-Spotter-Processors'
 }
 
-{ #category : #public }
+{ #category : #private }
 GTSpotterProcessor >> actOn: anObject for: aStep [
 	aStep exit.	
 	anObject spotterActDefault.
@@ -22,7 +22,7 @@ GTSpotterProcessor >> allFilteredCandidates [
 	^ allFilteredCandidates ifNil: [ allFilteredCandidates := OrderedCollection new ]
 ]
 
-{ #category : #public }
+{ #category : #private }
 GTSpotterProcessor >> doFilter: aStringQuery on: aStream [
 	"override this method to:
 	- add items to the stream
@@ -30,7 +30,7 @@ GTSpotterProcessor >> doFilter: aStringQuery on: aStream [
 	self subclassResponsibility
 ]
 
-{ #category : #public }
+{ #category : #private }
 GTSpotterProcessor >> filter: aStringQuery on: aStream [
 	
 	allFilteredCandidates := nil.
@@ -41,7 +41,7 @@ GTSpotterProcessor >> filter: aStringQuery on: aStream [
 		withArguments: { self allFilteredCandidates size . self }
 ]
 
-{ #category : #ui }
+{ #category : #private }
 GTSpotterProcessor >> render: anObject [
 	^ GTSpotterItemBrick new
 		icon: (nil);

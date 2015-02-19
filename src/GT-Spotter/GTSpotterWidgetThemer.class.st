@@ -40,7 +40,7 @@ GTSpotterWidgetThemer >> breadcrumbItemLabelStyleFor: aBrick [
 
 	aBrick
 		textPosition: #center;
-		color: self breadcrumbItemBackgroundColor;
+		normalColor: self breadcrumbItemBackgroundColor;
 		textColor: self breadcrumbItemTextColor;
 		padding: { 0 . self outerBorderWidth };
 		vSpaceFill;
@@ -137,7 +137,7 @@ GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 	
 	aBrick
 		vSpaceFill;
-		width: #approximateWidth;
+		hSpaceFill;
 		marginLeft: self categoryNameMarginRight.
 ]
 
@@ -255,12 +255,6 @@ GTSpotterWidgetThemer >> iconAct [
 GTSpotterWidgetThemer >> iconDiveIn [
 
 	^ GLMUIThemeExtraIcons glamorousRight
-]
-
-{ #category : #icons }
-GTSpotterWidgetThemer >> iconDiveInCategory [
-
-	^ GLMUIThemeExtraIcons glamorousMore
 ]
 
 { #category : #values }

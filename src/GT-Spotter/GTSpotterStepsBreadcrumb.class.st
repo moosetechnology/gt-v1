@@ -152,10 +152,7 @@ GTSpotterStepsBreadcrumb >> onChildrenLayouted [
 GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	|step origin previousStep selectedCandidate|
 	
-	self spotterModel steps size <= 1 ifTrue: [
-		^ self push: (GTSpotterStepBreadcrumbItem new
-						text: 'Spotter';
-						stepModel: self spotterModel steps first) ].
+	self spotterModel steps size <= 1 ifTrue: [ ^ self push: (GTSpotterStepBreadcrumbItem new text: 'Spotter') ].
 	
 	step := ann stepModel.
 	previousStep := (step spotter steps at: step spotter steps size - 1).
@@ -163,7 +160,6 @@ GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	origin := step origin.
 	
 	self push: (GTSpotterStepBreadcrumbItem new
-		stepModel: step;
 		text: ((selectedCandidate = origin)
 			ifTrue: [ (previousStep selected renderingProcessor render: selectedCandidate) labelBrick text ]
 			ifFalse: [ (origin isKindOf: Collection) ifTrue: [ previousStep selected processor title ] ifFalse: [ origin gtDisplayString] ]))

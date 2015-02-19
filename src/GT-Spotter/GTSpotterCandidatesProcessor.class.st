@@ -30,14 +30,14 @@ GTSpotterCandidatesProcessor >> candidatesLimit [
 	^ Float infinity
 ]
 
-{ #category : #defaults }
+{ #category : #private }
 GTSpotterCandidatesProcessor >> computeCandidates [
 
 	^ OrderedCollection new
 	
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTSpotterCandidatesProcessor >> doFilter: aStringQuery on: aStream [
 	| mResults|
 	
@@ -60,19 +60,19 @@ GTSpotterCandidatesProcessor >> doFilter: aStringQuery on: aStream [
 	^ mResults
 ]
 
-{ #category : #'filtering/searching' }
+{ #category : #private }
 GTSpotterCandidatesProcessor >> is: anObject matching: aString [
 	"Returns true if anObject matches a provided string, otherwise false.
 	Default implementation matches string representation of an object with passed value"
 	^ anObject asString includesSubstring: aString caseSensitive: false
 ]
 
-{ #category : #'filtering/searching' }
+{ #category : #private }
 GTSpotterCandidatesProcessor >> itemIconFor: anObject [
 	^ nil
 ]
 
-{ #category : #'filtering/searching' }
+{ #category : #private }
 GTSpotterCandidatesProcessor >> itemNameFor: anObject [
 	^ anObject gtDisplayString
 ]
@@ -89,7 +89,7 @@ GTSpotterCandidatesProcessor >> origin: anObject [
 	origin := anObject
 ]
 
-{ #category : #'filtering/searching' }
+{ #category : #private }
 GTSpotterCandidatesProcessor >> render: anObject [
 	^ GTSpotterItemBrick new
 		icon: (self itemIconFor: anObject);
@@ -98,13 +98,14 @@ GTSpotterCandidatesProcessor >> render: anObject [
 
 { #category : #private }
 GTSpotterCandidatesProcessor >> streamAllCandidatesOn: aStream [
+	<bug: '? the matcher methods normally return the trimmed list of matched items not everything (untrimmed)'>
 	aStream
 				addObjects: (self allCandidates first: (self candidatesLimit min: self allCandidates size))
 				inProcessor: self.
 	^ self allCandidates
 ]
 
-{ #category : #'filtering/searching' }
+{ #category : #accessing }
 GTSpotterCandidatesProcessor >> title [
 	^ 'undefined'
 ]
