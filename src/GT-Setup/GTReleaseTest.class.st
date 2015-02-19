@@ -45,7 +45,7 @@ GTReleaseTest >> hasExampleMethod: aClass [
 ]
 
 { #category : #tests }
-GTReleaseTest >> testAllObjectsWithCustomExtensionsHaveAnExample [
+GTReleaseTest >> testAllClassesWithCustomExtensionsHaveAnExample [
 	| classesWithCustomExtensionsAndNoExample |
 	
 	classesWithCustomExtensionsAndNoExample := self allClassesWithCustomExtensions select: [ :aClass |
