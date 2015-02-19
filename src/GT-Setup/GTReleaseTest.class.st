@@ -55,6 +55,6 @@ GTReleaseTest >> testAllClassesWithCustomExtensionsHaveAnExample [
 		assert: classesWithCustomExtensionsAndNoExample isEmpty
 		description: [ String streamContents: [ :s|
 			s 
-				nextPutAll: 'Found classes with custom examples and no extension methods: ';
+				nextPutAll: 'Found classes with custom extensions and no example methods: ';
 				print: classesWithCustomExtensionsAndNoExample ]].
 ]
