@@ -1,12 +1,28 @@
 Class {
 	#name : #GTSpotterStepBreadcrumbItem,
-	#superclass : #GLMBrick,
+	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'labelBrick',
-		'triangleBrick'
+		'triangleBrick',
+		'stepModel'
 	],
 	#category : #'GT-Spotter-UI'
 }
+
+{ #category : #actions }
+GTSpotterStepBreadcrumbItem >> click: evt [
+	super click: evt.
+	
+	self stepModel spotter popUntil: self stepModel.
+	^ true
+]
+
+{ #category : #actions }
+GTSpotterStepBreadcrumbItem >> deselect [
+	
+	self invalidateWith: [
+		self labelBrick label customFont; beRegular ]
+]
 
 { #category : #actions }
 GTSpotterStepBreadcrumbItem >> hideTriangle [
@@ -21,7 +37,8 @@ GTSpotterStepBreadcrumbItem >> initialize [
 	self
 		useVerticalLinearLayout;
 		labelBrick: self newLabelBrick;
-		triangleBrick: self newTriangleBrick
+		triangleBrick: self newTriangleBrick;
+		enable
 	
 ]
 
@@ -53,9 +70,26 @@ GTSpotterStepBreadcrumbItem >> newTriangleBrick [
 ]
 
 { #category : #actions }
+GTSpotterStepBreadcrumbItem >> select [
+	
+	self invalidateWith: [
+		self labelBrick label customFont; beBold ]
+]
+
+{ #category : #actions }
 GTSpotterStepBreadcrumbItem >> showTriangle [
 
 	self triangleBrick color: self themer spotterThemer breadcrumbItemBackgroundColor
+]
+
+{ #category : #accessing }
+GTSpotterStepBreadcrumbItem >> stepModel [
+	^ stepModel
+]
+
+{ #category : #accessing }
+GTSpotterStepBreadcrumbItem >> stepModel: anObject [
+	stepModel := anObject
 ]
 
 { #category : #accessing }
