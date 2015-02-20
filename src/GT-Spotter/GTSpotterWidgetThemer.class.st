@@ -248,19 +248,19 @@ GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 { #category : #icons }
 GTSpotterWidgetThemer >> iconAct [
 
-	^ GLMUIThemeExtraIcons glamorousPlay
+	^ Smalltalk ui icons glamorousAccept
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveIn [
 
-	^ GLMUIThemeExtraIcons glamorousRight
+	^ Smalltalk ui icons glamorousDiveRightIcon
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveInCategory [
 
-	^ GLMUIThemeExtraIcons glamorousMore
+	^ Smalltalk ui icons glamorousDiveAllRightIcon
 ]
 
 { #category : #values }
