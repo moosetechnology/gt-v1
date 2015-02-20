@@ -160,12 +160,14 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 	<spotterOrder: 21>
 	aStep listProcessor
-			title: 'Metacello Configurations';
-			allCandidatesProxied: [ 
-				Smalltalk allClassesAndTraits select: [ :each | 
+			title: 'Metacello configurations';
+			allCandidates: [ 
+				Smalltalk allClasses select: [ :each | 
 					(each respondsTo: #isMetacelloConfig) 
 						and: [ each isMetacelloConfig
-							and: [ each name beginsWith: 'ConfigurationOf' ] ] ] ];
+							and: [ each name beginsWith: 'ConfigurationOf' ] ] ]
+					thenCollect: #project ];
+"			itemName: [ :each | each configuration class ];"
 			itemIcon: #systemIcon;
 			filterUsing: GTFilterSubstring
 ]
@@ -251,26 +253,6 @@ GTSpotter >> spotterImplementorsFor: aStep [
 						processor: processor;
 						behaviors: SystemNavigation default allBehaviors;
 						find ]
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterMonticelloPackagesFor: aStep [
-	<spotterOrder: 22>
-	aStep listProcessor
-		title: 'Monticello Packages';
-		allCandidates: [ MCWorkingCopy allManagers collect: [ :each | each package ] ];
-		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
-		filterUsing: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterMonticelloWorkingCopiesFor: aStep [
-	<spotterOrder: 23>
-	aStep listProcessor
-		title: 'Monticello Working Copies';
-		allCandidates: [ MCWorkingCopy allManagers ];
-		itemIcon: [ Smalltalk ui icons iconNamed: #versionControlIcon ];
-		filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
