@@ -37,15 +37,6 @@ GTSpotterCandidatesListProcessor >> allCandidates: aBlockWithOneArgument [
 	allCandidatesBlock := aBlockWithOneArgument 
 ]
 
-{ #category : #scripting }
-GTSpotterCandidatesListProcessor >> allCandidatesProxied: aBlock [
-	self allCandidates: [ 
-		aBlock value collect: [ :each | 
-			GTSpotterCandidateProxy new 
-				candidate: each; 
-				yourself ] ]
-]
-
 { #category : #accessing }
 GTSpotterCandidatesListProcessor >> candidatesLimit [
 	^ candidatesLimit ifNil: [ 5 ]
