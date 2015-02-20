@@ -1,22 +1,6 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-GTSpotter >> compileExpression: query on: stream processor: processor [
-	| object result candidates |
-	candidates := OrderedCollection new.
-	(query substrings: ' ') size > 1 ifFalse: [ ^ candidates ].
-	object := [ Compiler evaluate: query ] on: Error do: [ ^ candidates ].
-	object isNumber ifFalse: [
-		stream addObject: object inProcessor: processor.
-		candidates add: object ].
-	result := [ object gtSpotterExpression: { self. processor } ] on: Error do: [ ^ candidates ].
-	object = result ifFalse: [ 
-		stream addObject: result inProcessor: processor.
-		candidates add: result ].
-	^ candidates
-]
-
-{ #category : #'*GT-SpotterExtensions-Core-private' }
 GTSpotter >> evaluateExpression: query on: stream processor: processor [
 	| result candidates |
 	candidates := OrderedCollection new.
@@ -115,17 +99,6 @@ GTSpotter >> spotterForClassesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForCompilerFor: aStep [
-	<spotterOrder: 1>
-	| processor |
-	(processor := aStep listProcessor)
-		title: 'Expressions';
-		filter: [ :query :stream | 
-			self compileExpression: query on: stream processor: processor ];
-		wantsToDisplayOnEmptyQuery: false
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForDirectoriesFor: aStep [
 	<spotterOrder: 50>
 	| processor |
@@ -147,7 +120,7 @@ GTSpotter >> spotterForExpressionsFor: aStep [
 	<spotterOrder: 1>
 	| processor |
 	(processor := aStep listProcessor)
-		title: 'Expressions';
+		title: 'Calculator';
 		filter: [ :query :stream | 
 			self evaluateExpression: query on: stream processor: processor ];
 		wantsToDisplayOnEmptyQuery: false
@@ -242,37 +215,15 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForSlotsFor: aStep [
-	<spotterOrder: 10>
-	aStep listProcessor
-		title: 'Slots';
-		allCandidates: [ Slot allSubclasses ];
-		itemIcon: #systemIcon;
-		wantsToDisplayOnEmptyQuery: false;
-		filterUsing: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForTestClassesFor: aStep [
 	<demoOnly: 'NautilusUI - this is a very ugly implementaiton - just for demo'>
 	<spotterOrder: 20>
 	aStep listProcessor
-		title: 'Suites';
+		title: 'Tests';
 		allCandidates: [ TestCase allSubclasses ];
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;
 		actLogic: [ :item | NautilusUI new runTestsOfClass: item notifying: true ];
-		filterUsing: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForTraitsFor: aStep [
-	<spotterOrder: 10>
-	aStep listProcessor
-		title: 'Traits';
-		allCandidates: [ Smalltalk allTraits ];
-		itemIcon: #systemIcon;
-		wantsToDisplayOnEmptyQuery: false;
 		filterUsing: GTFilterSubstring
 ]
 
