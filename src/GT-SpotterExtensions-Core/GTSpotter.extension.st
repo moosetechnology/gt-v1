@@ -167,9 +167,10 @@ GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 						and: [ each isMetacelloConfig
 							and: [ each name beginsWith: 'ConfigurationOf' ] ] ]
 					thenCollect: #project ];
-"			itemName: [ :each | each configuration class ];"
+			itemName: [ :each | each configuration class name ];
 			itemIcon: #systemIcon;
-			filterUsing: GTFilterSubstring
+			filterUsing: GTFilterSubstring;
+			wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -226,17 +227,18 @@ GTSpotter >> spotterForTestClassesFor: aStep [
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;
 		actLogic: [ :item | NautilusUI new runTestsOfClass: item notifying: true ];
-		filterUsing: GTFilterSubstring
+		filterUsing: GTFilterSubstring;
+		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterHistoryFor: aStep [
-	<spotterOrder: 80>
+	<spotterOrder: 8>
 	aStep listProcessor
 			allCandidates: [:x | self class history select: [ :each | each isNotNil ] ];
 			title: 'History';
-			filterUsing: GTFilterSubstring;
-			wantsToDisplayOnEmptyQuery: true
+			itemName: [ :item | item processor itemNameFor: item value ];
+			filterUsing: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

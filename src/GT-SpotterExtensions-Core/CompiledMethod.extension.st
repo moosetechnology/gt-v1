@@ -11,7 +11,6 @@ CompiledMethod >> spotterForImplementorsFor: aStep [
 	aStep listProcessor
 			title: 'Implementors';
 			allCandidates: [ self implementors collect: #compiledMethod ];
-			itemName: [ :method | method printString ];
 			filterUsing: GTFilterSubstring
 ]
 
@@ -21,7 +20,6 @@ CompiledMethod >> spotterForSendersFor: aStep [
 	aStep listProcessor
 			title: 'Senders';
 			allCandidates: [ self senders collect: #compiledMethod ];
-			itemName: [ :method | method printString ];
 			filterUsing: GTFilterSubstring
 ]
 
