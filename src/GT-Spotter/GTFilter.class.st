@@ -32,8 +32,11 @@ GTFilter >> allItems [
 
 { #category : #private }
 GTFilter >> applyFilter [
-	self hasQuery ifFalse: [ ^ self applyFilterWithoutQuery ].
-	self applyFilterWithQuery
+	self hasQuery ifFalse: [ 
+		self applyFilterWithoutQuery.
+		^ self allItems " return the unfiltered items (all) - used for divein (no filtering appied) "  ].
+	self applyFilterWithQuery.
+	^ self items " return the filtered items only "
 ]
 
 { #category : #private }
@@ -43,8 +46,7 @@ GTFilter >> applyFilterOn: aStream query: aQueryString [
 	self query: aQueryString.
 	self items: self defaultItems.
 	self prepareFilter.
-	self applyFilter.
-	^ self items
+	^ self applyFilter
 ]
 
 { #category : #private }
@@ -62,7 +64,8 @@ GTFilter >> applyFilterWithQuery [
 GTFilter >> applyFilterWithoutQuery [
 	self items: (self allItems first: (self itemsLimit min: self allItems size)).
 	self items do: [ :item |
-		self addItem: item ]
+		self addItem: item ].
+	^ self allItems
 ]
 
 { #category : #accessing }
