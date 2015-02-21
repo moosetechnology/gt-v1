@@ -174,6 +174,11 @@ GTSpotter >> getText [
 	^ self text
 ]
 
+{ #category : #printing }
+GTSpotter >> gtDisplayOn: stream [
+	stream nextPutAll: 'Spotter'
+]
+
 { #category : #testing }
 GTSpotter >> hasPreviousStep [
 

@@ -154,7 +154,7 @@ GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	
 	self spotterModel steps size <= 1 ifTrue: [
 		^ self push: (GTSpotterStepBreadcrumbItem new
-						text: 'Spotter';
+						text: self spotterModel steps first origin gtDisplayString;
 						stepModel: self spotterModel steps first) ].
 	
 	step := ann stepModel.
