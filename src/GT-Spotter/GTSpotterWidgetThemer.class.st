@@ -440,6 +440,14 @@ GTSpotterWidgetThemer >> previewPaddingLeft [
 ]
 
 { #category : #values }
+GTSpotterWidgetThemer >> previewPaddingRight [
+
+	^ self previewPaddingLeft
+
+
+]
+
+{ #category : #values }
 GTSpotterWidgetThemer >> previewWidthPercent [
 
 	^ 40
@@ -583,7 +591,8 @@ GTSpotterWidgetThemer >> spotterPreviewCompositeStyleFor: aBrick [
 		hSpaceFill;
 		vSpaceFill;
 		margin: self previewBorderWidth;
-		paddingLeft: self previewPaddingLeft
+		paddingLeft: self previewPaddingLeft;
+		paddingRight: self previewPaddingRight
 ]
 
 { #category : #styles }
