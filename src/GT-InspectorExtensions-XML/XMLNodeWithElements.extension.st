@@ -21,5 +21,6 @@ XMLNodeWithElements >> gtInspectorTreeIn: composite [
 		display: [ { self } ];
 		children: #elements;
 		format: #gtDisplayString;
+		when: [self hasElements];
 		rootsExpanded
 ]
