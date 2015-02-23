@@ -11,6 +11,18 @@ XMLElement >> formForImageEntity: imageEntity [
 ]
 
 { #category : #'*GT-InspectorExtensions-XML' }
+XMLElement >> gtDisplayOn: stream [
+	stream 
+		nextPut: $<;
+		nextPutAll: self name.
+	self attributeNodes
+		do: [:each | 
+			stream space.
+			each gtDisplayOn: stream ].
+	stream nextPut: $>
+]
+
+{ #category : #'*GT-InspectorExtensions-XML' }
 XMLElement >> gtInspectorImageIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 40>
 	|client url|
