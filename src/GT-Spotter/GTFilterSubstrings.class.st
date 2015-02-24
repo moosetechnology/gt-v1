@@ -17,12 +17,14 @@ GTFilterSubstrings >> isMatchedItem: anItem [
 	| itemName |
 	itemName := self itemNameFor: anItem.
 	^ self query allSatisfy: [ :fragment | 
-		itemName includesSubstring: fragment  caseSensitive: self caseSensitive ]
+		itemName includesSubstring: fragment caseSensitive: self caseSensitive ]
 ]
 
 { #category : #private }
-GTFilterSubstrings >> prepareQuery: anObject [
-	^ ((super prepareQuery: anObject) substrings: self separators) asSet asArray
+GTFilterSubstrings >> prepareFilterInContext: aSpotterContext [
+	super prepareFilterInContext: aSpotterContext.
+	
+	self query: (self query substrings: self separators) asSet asArray
 ]
 
 { #category : #accessing }

@@ -23,7 +23,7 @@ GTSpotterProcessor >> allFilteredCandidates [
 ]
 
 { #category : #private }
-GTSpotterProcessor >> doFilter: aStringQuery on: aStream [
+GTSpotterProcessor >> doFilterInContext: aSpotterContext [
 	"override this method to:
 	- add items to the stream
 	- return all found items at the end"
@@ -31,12 +31,12 @@ GTSpotterProcessor >> doFilter: aStringQuery on: aStream [
 ]
 
 { #category : #private }
-GTSpotterProcessor >> filter: aStringQuery on: aStream [
+GTSpotterProcessor >> filterInContext: aSpotterContext [
 	
 	allFilteredCandidates := nil.
-	(aStringQuery notEmpty or: [ self wantsToDisplayOnEmptyQuery ]) ifTrue: [
-		allFilteredCandidates := self doFilter: aStringQuery on: aStream ].
-	aStream 
+	(aSpotterContext notEmpty or: [ self wantsToDisplayOnEmptyQuery ]) ifTrue: [
+		allFilteredCandidates := self doFilterInContext: aSpotterContext ].
+	aSpotterContext stream 
 		performSymbol: #onAmountChanged:in: 
 		withArguments: { self allFilteredCandidates size . self }
 ]

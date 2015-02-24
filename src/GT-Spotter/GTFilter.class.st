@@ -2,84 +2,57 @@ Class {
 	#name : #GTFilter,
 	#superclass : #Object,
 	#instVars : [
-		'model',
-		'originalQuery',
-		'query',
-		'caseSensitive',
-		'stream',
+		'context',
 		'items'
 	],
 	#category : #'GT-Spotter-Filters'
 }
 
-{ #category : #'instance creation' }
-GTFilter class >> model: aModel [
-	^ self new 
-		model: aModel;
-		yourself
+{ #category : #public }
+GTFilter class >> gtFilter [
+	^ self new
 ]
 
 { #category : #'private-model' }
 GTFilter >> addItem: anItem [
-	self stream addObject: anItem inProcessor: self model.
+	self context addItem: anItem
+]
+
+{ #category : #'private-model' }
+GTFilter >> addItems: aCollection [
+	self context addItems: aCollection
 ]
 
 { #category : #'private-model' }
 GTFilter >> allItems [
-	^ self model allCandidates
+	^ self processor allCandidates
 ]
 
 { #category : #private }
 GTFilter >> applyFilter [
-	self hasQuery ifFalse: [ 
-		self applyFilterWithoutQuery.
-		^ self allItems. " return the unfiltered items (all) - used for divein (no filtering appied) "  ].
-	self applyFilterWithQuery.
-	^ self items " return the filtered items only "
+	^ self items
 ]
 
 { #category : #private }
-GTFilter >> applyFilterOn: aStream query: aQueryString [
-	self stream: aStream.
-	self originalQuery: aQueryString.
-	self query: aQueryString.
-	self items: self defaultItems.
-	self prepareFilter.
+GTFilter >> applyFilterInContext: aSpotterContext [
+	self prepareFilterInContext: aSpotterContext.
 	^ self applyFilter
 ]
 
 { #category : #private }
-GTFilter >> applyFilterOn: aStream query: aQueryString error: anException [
+GTFilter >> applyFilterInContext: aSpotterContext error: anException [
 	('[Spotter] Exception in filter <', self class name, '>: ', anException asString) logCr.
 	^ self defaultItems
 ]
 
-{ #category : #private }
-GTFilter >> applyFilterWithQuery [
-	
-]
-
-{ #category : #private }
-GTFilter >> applyFilterWithoutQuery [
-	self items: (self allItems first: (self itemsLimit min: self allItems size)).
-	self items do: [ :item |
-		self addItem: item ].
-	^ self allItems
+{ #category : #accessing }
+GTFilter >> context [
+	^ context
 ]
 
 { #category : #accessing }
-GTFilter >> caseSensitive [
-	^ caseSensitive ifNil: [ caseSensitive := self defaultCaseSensitive ]
-]
-
-{ #category : #accessing }
-GTFilter >> caseSensitive: anObject [
-	caseSensitive := anObject
-]
-
-{ #category : #'accessing-defaults' }
-GTFilter >> defaultCaseSensitive [
-	^ false
+GTFilter >> context: anObject [
+	context := anObject
 ]
 
 { #category : #'accessing-defaults' }
@@ -87,103 +60,50 @@ GTFilter >> defaultItems [
 	^ OrderedCollection new
 ]
 
+{ #category : #public }
+GTFilter >> gtFilter [
+	^ self
+]
+
 { #category : #testing }
 GTFilter >> hasItems [
-	^ self items isEmpty not
-]
-
-{ #category : #testing }
-GTFilter >> hasQuery [
-	^ self query isEmptyOrNil not
-]
-
-{ #category : #testing }
-GTFilter >> isCacheable [
-	^ false
+	^ self items isEmptyOrNil not
 ]
 
 { #category : #'private-model' }
 GTFilter >> itemNameFor: anItem [
-	^ self model itemNameFor: anItem
+	^ self processor itemNameFor: anItem
 ]
 
 { #category : #accessing }
 GTFilter >> items [
-	^ items ifNil: [ items := self defaultItems ]
+	^ items
 ]
 
 { #category : #accessing }
-GTFilter >> items: anObject [
-	items := anObject
+GTFilter >> items: aCollection [
+	items := aCollection
 ]
 
 { #category : #'private-model' }
 GTFilter >> itemsLimit [
-	^ self model candidatesLimit
-]
-
-{ #category : #accessing }
-GTFilter >> model [
-	^ model
-]
-
-{ #category : #accessing }
-GTFilter >> model: anObject [
-	model := anObject
-]
-
-{ #category : #accessing }
-GTFilter >> originalQuery [
-	^ originalQuery
-]
-
-{ #category : #accessing }
-GTFilter >> originalQuery: anObject [
-	originalQuery := anObject
+	^ self processor candidatesLimit
 ]
 
 { #category : #private }
-GTFilter >> prepareFilter [
-	self query: (self prepareQuery: self originalQuery)
+GTFilter >> prepareFilterInContext: aSpotterContext [
+	self context: aSpotterContext.
+	self items: self defaultItems.
 ]
 
-{ #category : #private }
-GTFilter >> prepareQuery: anObject [
-	^ self caseSensitive
-		ifTrue: [ anObject trimBoth ]
-		ifFalse: [ anObject trimBoth asLowercase ]
-]
-
-{ #category : #accessing }
-GTFilter >> query [
-	^ query
-]
-
-{ #category : #accessing }
-GTFilter >> query: anObject [
-	query := anObject
-]
-
-{ #category : #testing }
-GTFilter >> shouldApplyFilterForQuery: aQueryString [
-	<hack: 'try not to prepare the string twice'>
-	^ (self prepareQuery: aQueryString) ~= self query
-]
-
-{ #category : #accessing }
-GTFilter >> stream [
-	^ stream
-]
-
-{ #category : #accessing }
-GTFilter >> stream: anObject [
-	stream := anObject
+{ #category : #'private-model' }
+GTFilter >> processor [
+	^ self context processor
 ]
 
 { #category : #public }
-GTFilter >> value: aQueryString value: aStream [
-	<modifier: #final>
-	^ [ self applyFilterOn: aStream query: aQueryString ]
+GTFilter >> value: aSpotterContext [
+	^ [ self applyFilterInContext: aSpotterContext ]
 		on: Error
-		do: [ :exception | self applyFilterOn: aStream query: aQueryString error: exception ]
+		do: [ :exception | self applyFilterInContext: aSpotterContext error: exception ]
 ]

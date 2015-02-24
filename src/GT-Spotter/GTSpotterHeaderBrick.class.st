@@ -55,7 +55,7 @@ GTSpotterHeaderBrick >> newStepsBand [
 { #category : #'event handling' }
 GTSpotterHeaderBrick >> onCurrentStepChanged [
 
-	self searchField morph updateTextWith: self spotterModel currentStep query.
+	self searchField morph updateTextWith: self spotterModel currentStep context text.
 	self searchField morph moveCursorAtTheEnd
 ]
 

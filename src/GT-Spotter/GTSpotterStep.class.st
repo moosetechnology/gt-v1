@@ -18,24 +18,24 @@ Class {
 		'announcer',
 		'processors',
 		'origin',
-		'query',
+		'context',
 		'selected',
 		'stream',
 		'candidates',
 		'asyncTask',
-		'spotter'
+		'spotter',
+		'isCategorySelected'
 	],
 	#category : #'GT-Spotter-Model'
 }
 
 { #category : #actions }
 GTSpotterStep >> act [
-	
+	|processor|
 	self selected ifNil: [ ^ self ].
-	self spotter
-		historize: self selected;
-		notifyActOn: self selectedCandidate.
-	self selected processor actOn: self selectedCandidate for: self
+	processor := (self candidates getProcessorLinkByCandidateLink: self selected) processor.
+	self spotter historize: self selected.
+	processor actOn: self selectedCandidate for: self.
 
 ]
 
@@ -81,28 +81,41 @@ GTSpotterStep >> candidates [
 		candidates ]
 ]
 
+{ #category : #accessing }
+GTSpotterStep >> context [
+
+	^ context ifNil: [ context := self newContextForQuery: nil ]
+]
+
+{ #category : #accessing }
+GTSpotterStep >> context: aGTSpotterContext [
+
+	context := aGTSpotterContext
+]
+
 { #category : #actions }
 GTSpotterStep >> diveIn [
 	self canDiveInSelectedCandidate ifTrue: [ 
-		self spotter
-			historize: self selected;
-			requestNextStepWith: self selectedCandidate;
-			notifyDiveIn: self selectedCandidate ]
+		self spotter historize: self selected.
+		self spotter requestNextStepWith: self selectedCandidate ]
 ]
 
 { #category : #actions }
 GTSpotterStep >> diveInCategory [
-
-	self spotter
-		requestNextCategoryStepWith: self selected processorLink;
-		notifyDiveInCategory: self selected processor
-	
+	| processorLink |
+	processorLink := (self candidates getProcessorLinkByCandidateLink: self selected).
+	self spotter requestNextStepWith: (processorLink processor allFilteredCandidates collect: [ :each | each asSpotterCandidateLink renderingProcessor: processorLink ])
 ]
 
 { #category : #actions }
 GTSpotterStep >> exit [
-
 	self spotter exit
+]
+
+{ #category : #testing }
+GTSpotterStep >> isCategorySelected [
+
+	^ isCategorySelected ifNil: [ isCategorySelected := Morph new activeHand shiftPressed ]
 ]
 
 { #category : #testing }
@@ -119,11 +132,28 @@ GTSpotterStep >> listProcessor [
 	^ processor
 ]
 
+{ #category : #processing }
+GTSpotterStep >> newContextForQuery: aString [
+	^ GTSpotterContext new 
+		step: self;
+		stream: self stream;
+		text: aString;
+		yourself
+]
+
+{ #category : #notifying }
+GTSpotterStep >> notifyCategorySelectedOrDeselected [
+
+	self isCategorySelected
+		ifTrue: [ self announcer announce: GTSpotterCategorySelected new ]
+		ifFalse: [ self announcer announce: GTSpotterCategoryDeselected new ]
+]
+
 { #category : #notifying }
 GTSpotterStep >> notifySelectedCandidateChanged [
 
 	self announcer announce: (GTSpotterSelectedCandidateChanged new selected: self selectedCandidate).
-	self spotter notifyCandidateSelected: self selectedCandidate
+	self spotter announcer announce: (GTSpotterSelectedCandidateChanged new selected: self selectedCandidate).
 ]
 
 { #category : #accessing }
@@ -146,19 +176,20 @@ GTSpotterStep >> process: aString [
 	empty after spawning new step"
 	
 	"no need to search for the same query"
-	(self query isNotEmpty and: [ aString = self query ]) ifTrue: [ ^ self ].
+	(self context matches: aString) ifTrue: [ ^ self ].
 	
-	self query: (aString ifNil: [ '' ]).
-	"updating timestamp in a stream, to prevent candidates from old process being shown"
+	self context: (self newContextForQuery: aString).
+	
+	" updating timestamp in a stream, to prevent candidates from old process being shown "
 	self stream updateTimestamp.
 	
 	self asyncTask
-		execute: [ :input |
+		execute: [ :aContext |
 				self stream removeAllCandidates.
-				[ self relevantProcessorsProcess: input ]
+				[ self relevantProcessorsProcess: aContext ]
 					on: Error
 					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
-		withArguments: { self query }
+		withArguments: { self context }
 		callback: [  ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200
@@ -184,65 +215,43 @@ GTSpotterStep >> processors: aCollection [
 ]
 
 { #category : #accessing }
-GTSpotterStep >> query [
-
-	^ query ifNil: [ query := '' ]
+GTSpotterStep >> relevantProcessorsProcess: aSpotterContext [
+	self relevantProcessorsProcess: aSpotterContext do: [ :processor | 
+		aSpotterContext processor: processor.
+		processor filterInContext: aSpotterContext ]
 ]
 
 { #category : #accessing }
-GTSpotterStep >> query: aString [
-
-	query := aString
-]
-
-{ #category : #accessing }
-GTSpotterStep >> relevantProcessorsFor: aQueryString do: aBlock [
-	aQueryString substrings 
+GTSpotterStep >> relevantProcessorsProcess: aSpotterContext do: aBlock [
+	aSpotterContext text substrings 
 		detect: [ :each | each beginsWith: '#' ]
 		ifFound: [ :categoryQuery | 
+			| categoryQueryPrefix |
+			aSpotterContext text: (aSpotterContext text copyReplaceAll: categoryQuery with: '').
+			categoryQueryPrefix := categoryQuery allButFirst asLowercase.
 			self processors 
-				select: [ :each | each title beginsWith: categoryQuery allButFirst ]
-				thenDo: [ :processor | 
-					processor 
-						filter: (aQueryString copyReplaceAll: categoryQuery with: '') 
-						on: self stream ] ]
+				select: [ :each | each title asLowercase beginsWith: categoryQueryPrefix ]
+				thenDo: aBlock ]
 		ifNone: [ 
-			self processors do: [ :processor | 
-				processor 
-					filter: aQueryString 
-					on: self stream ]]
-]
-
-{ #category : #accessing }
-GTSpotterStep >> relevantProcessorsProcess: aQueryString [
-	aQueryString substrings 
-		detect: [ :each | each beginsWith: '#' ]
-		ifFound: [ :categoryQuery | 
-			self processors 
-				select: [ :each | each title asLowercase beginsWith: categoryQuery allButFirst asLowercase ]
-				thenDo: [ :processor | 
-					processor 
-						filter: (aQueryString copyReplaceAll: categoryQuery with: '') 
-						on: self stream ] ]
-		ifNone: [ 
-			self processors do: [ :processor | 
-				processor 
-					filter: aQueryString 
-					on: self stream ]]
+			self processors do: aBlock ]
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectFirst [
 	
 	self candidates isEmpty ifTrue: [ ^ self ].
-	self selected: self candidates head
+	
+	selected := self candidates head.
+	self notifySelectedCandidateChanged.
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectNext [
 	
 	self selected ifNil: [ ^ self ].
-	self selected: self selected nextLink
+	
+	selected := self selected nextLink.
+	self notifySelectedCandidateChanged.
 	
 	
 ]
@@ -255,9 +264,11 @@ GTSpotterStep >> selectNextCategory [
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	nextCategory := self candidates nextProcessorLinkOf: currentCategory.
 	
-	self selected: ((currentCategory = nextCategory)
+	selected := (currentCategory = nextCategory)
 		ifTrue: [ nextCategory tailLink ]
-		ifFalse: [ nextCategory headLink ])
+		ifFalse: [ nextCategory headLink ].
+	
+	self notifySelectedCandidateChanged.
 	
 	
 ]
@@ -266,7 +277,9 @@ GTSpotterStep >> selectNextCategory [
 GTSpotterStep >> selectPrevious [
 
 	self selected ifNil: [ ^ self ].
-	self selected: self selected previousLink
+	
+	selected := self selected previousLink.
+	self notifySelectedCandidateChanged.
 ]
 
 { #category : #selecting }
@@ -277,7 +290,11 @@ GTSpotterStep >> selectPreviousCategory [
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	previousCategory := self candidates previousProcessorLinkOf: currentCategory.
 	
-	self selected: previousCategory headLink
+	selected := previousCategory headLink.
+	
+	self notifySelectedCandidateChanged.
+	
+	
 ]
 
 { #category : #accessing }
@@ -289,19 +306,11 @@ GTSpotterStep >> selected [
 			ifFalse: [ self candidates head ] ]
 ]
 
-{ #category : #selecting }
+{ #category : #accessing }
 GTSpotterStep >> selected: aDoubleLink [
 
-	self selected = aDoubleLink ifTrue: [ ^ self ].
-	
-	self spotter
-		after: [
-			selected := aDoubleLink.
-			self notifySelectedCandidateChanged ]
-		do: [ self spotter notifyCategorySelected: self selected processor ]
-		ifTrue: (self selected processor = aDoubleLink processor) not
-	
-	
+	selected := aDoubleLink.
+	self notifySelectedCandidateChanged
 ]
 
 { #category : #accessing }
@@ -318,9 +327,15 @@ GTSpotterStep >> selectedCategory [
 	^ self selected processor
 ]
 
+{ #category : #actions }
+GTSpotterStep >> shiftPressed [
+
+	isCategorySelected := self isCategorySelected not.
+	self notifyCategorySelectedOrDeselected
+]
+
 { #category : #accessing }
 GTSpotterStep >> spotter [
-
 	^ spotter
 ]
 

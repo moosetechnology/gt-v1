@@ -1,5 +1,5 @@
 Class {
-	#name : #GTSpotterCategorySelected,
+	#name : #GTSpotterCategoryDeselected,
 	#superclass : #Announcement,
 	#category : #'GT-Spotter-Announcements'
 }

@@ -8,20 +8,11 @@ Class {
 }
 
 { #category : #private }
-GTFilterRegex >> applyFilterOn: aStream query: aQueryString error: exception [
-	<todo: 'better way to define fallbacks, maybe multiple?'>
-	super applyFilterOn: aStream query: aQueryString error: exception.
+GTFilterRegex >> applyFilterInContext: aSpotterContext error: exception [
+	super applyFilterInContext: aSpotterContext error: exception.
 	^ (GTFilterSubstrings new
-		model: self model;
 		caseSensitive: self caseSensitive;
-		yourself) value: aQueryString value: aStream
-]
-
-{ #category : #'accessing-defaults' }
-GTFilterRegex >> defaultRegex [
-	^ self caseSensitive 
-		ifTrue: [ self query asRegex ] 
-		ifFalse: [ self query asRegexIgnoringCase ]
+		yourself) value: aSpotterContext
 ]
 
 { #category : #private }
@@ -30,15 +21,17 @@ GTFilterRegex >> isMatchedItem: anItem [
 ]
 
 { #category : #private }
-GTFilterRegex >> prepareFilter [
-	super prepareFilter.
+GTFilterRegex >> prepareFilterInContext: aSpotterContext [
+	super prepareFilterInContext: aSpotterContext.
 	
-	self regex: nil.
+	self regex: (self caseSensitive 
+		ifTrue: [ self query asRegex ] 
+		ifFalse: [ self query asRegexIgnoringCase ])
 ]
 
 { #category : #accessing }
 GTFilterRegex >> regex [
-	^ regex ifNil: [ regex := self defaultRegex ]
+	^ regex
 ]
 
 { #category : #accessing }

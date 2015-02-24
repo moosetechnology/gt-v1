@@ -98,9 +98,7 @@ GTSpotter class >> on: anObject [
 
 { #category : #accessing }
 GTSpotter class >> resetHistory [
-	"
-	self resetHistory
-	"
+	"self resetHistory"
 	^ history := nil
 ]
 
@@ -121,25 +119,8 @@ GTSpotter class >> spotterExtendingMethods [
 
 { #category : #'actions api' }
 GTSpotter >> addStep: aStepModel [
-
 	self steps add: aStepModel.
 	self notifyStepAdded: aStepModel
-]
-
-{ #category : #'actions api' }
-GTSpotter >> after: afterBlock do: doBlock ifTrue: conditionBlock [
-	|value|
-	value := conditionBlock brickValue: self.
-	afterBlock brickValue: self.
-	value ifTrue: [ doBlock brickValue: value ]
-]
-
-{ #category : #'actions api' }
-GTSpotter >> after: afterBlock do: doBlock with: withBlock [
-	|value|
-	value := withBlock brickValue: self.
-	afterBlock brickValue: self.
-	doBlock brickValue: value
 ]
 
 { #category : #notifying }
@@ -150,7 +131,6 @@ GTSpotter >> announce: anAnnouncement [
 
 { #category : #accessing }
 GTSpotter >> announcer [
-
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
@@ -173,7 +153,7 @@ GTSpotter >> currentStep: aStepModel [
 { #category : #'actions api' }
 GTSpotter >> exit [
 
-	self notifySpotterExit
+	self announcer announce: (GTSpotterExitAnnouncement new)
 ]
 
 { #category : #accessing }
@@ -196,7 +176,6 @@ GTSpotter >> getText [
 
 { #category : #printing }
 GTSpotter >> gtDisplayOn: stream [
-
 	stream nextPutAll: 'Spotter'
 ]
 
@@ -212,13 +191,12 @@ GTSpotter >> hidePreview [
 	self isPreviewVisible ifFalse: [ ^ self ].
 	isPreviewVisible := false.
 	self class dontShowPreview.
-	self notifyHidePreview
+	self announcer announce: GTSpotterHidePreview new.
 	
 ]
 
 { #category : #'actions api' }
 GTSpotter >> historize: target [
-
 	(target = self or: [ target isNil ])
 		ifFalse: [ 
 			self class history remove: target ifAbsent: [].
@@ -239,7 +217,6 @@ GTSpotter >> isPreviewVisible [
 
 { #category : #protocol }
 GTSpotter >> menu [
-
 	^ nil
 ]
 
@@ -251,77 +228,21 @@ GTSpotter >> newStep [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifyActOn: anObject [
-
-	self announce: (GTSpotterActOn new element: anObject)
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyCandidateSelected: anObject [
-
-	self announce: (GTSpotterSelectedCandidateChanged new selected: anObject)
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyCategorySelected: aProcessor [
-
-	self announce: (GTSpotterCategorySelected new category: aProcessor)
-]
-
-{ #category : #notifying }
 GTSpotter >> notifyCurrentStepChanged [
 
-	self announce: GTSpotterCurrentStepChanged new
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyDiveIn: anObject [
-
-	self announce: (GTSpotterDiveInElement new element: anObject)
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyDiveInCategory: aProcessor [
-
-	self announce: (GTSpotterDiveInCategory new category: aProcessor)
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyDiveOut: anObject [
-
-	self announce: (GTSpotterDiveOut new element: anObject)
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyHidePreview [
-
-	self announce: GTSpotterHidePreview new
-]
-
-{ #category : #notifying }
-GTSpotter >> notifyShowPreview [
-
-	self announce: GTSpotterShowPreview new
-
-	
-]
-
-{ #category : #notifying }
-GTSpotter >> notifySpotterExit [
-
-	self announce: GTSpotterExitAnnouncement new
+	self announcer announce: (GTSpotterCurrentStepChanged new)
 ]
 
 { #category : #notifying }
 GTSpotter >> notifyStepAdded: aStep [
 
-	self announce: (GTSpotterStepAdded new stepModel: aStep)
+	self announcer announce: (GTSpotterStepAdded new stepModel: aStep)
 ]
 
 { #category : #notifying }
 GTSpotter >> notifyStepPopped [
 
-	self announce: GTSpotterStepPopped new
+	self announcer announce: (GTSpotterStepPopped new)
 ]
 
 { #category : #'event handling' }
@@ -346,14 +267,11 @@ GTSpotter >> popStep [
 	"there always should be minimum one step left"
 	(self steps size > 1)
 		ifTrue: [
-			self
-				after: [ self steps removeLast ]
-				do: [ :o | self notifyDiveOut: o ]
-				with: self currentStep origin.
+			self steps removeLast.
 			self notifyStepPopped.
 			"perform pane popping only after we scrolled to the penultimate pane, so user doesn't see blinking"
 			self pagerModel
-				scrollToPane: self steps size
+				scrollToPane: (self steps size)
 				callback: [ self pagerModel popPane: false ] ]
 ]
 
@@ -380,21 +298,10 @@ GTSpotter >> pushStep: stepModel [
 ]
 
 { #category : #'event handling' }
-GTSpotter >> requestNextCategoryStepWith: aProcessorLink [
-	|collection|
-	
-	collection := aProcessorLink processor allFilteredCandidates
-		collect: [ :each | each asSpotterCandidateLink renderingProcessor: aProcessorLink ].
-		
-	self requestNextStepWith: collection
-]
-
-{ #category : #'event handling' }
 GTSpotter >> requestNextStepWith: origin [
-
 	text := ''.
 	self pushStep: (self newStep origin: origin; yourself).
-	self steps last process: nil
+	self steps last process: nil.
 ]
 
 { #category : #'model access' }
@@ -418,7 +325,7 @@ GTSpotter >> showPreview [
 	self isPreviewVisible ifTrue: [ ^ self ].
 	isPreviewVisible := true.
 	self class showPreview.
-	self notifyShowPreview
+	self announcer announce: GTSpotterShowPreview new.
 	
 ]
 

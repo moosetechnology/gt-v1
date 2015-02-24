@@ -1,5 +1,5 @@
 Class {
 	#name : #GTOrderedFilter,
-	#superclass : #GTFilter,
+	#superclass : #GTStringFilter,
 	#category : #'GT-Spotter-Filters'
 }

@@ -10,9 +10,10 @@ GTSpotterProcessorsForExamplesTest >> testEachProcessor [
 		eachClass gtExamples do: [ :exampleToTest |
 			self 
 				shouldnt: [
-					GTSpotterStep new 
+					| step |
+					(step := GTSpotterStep new)
 						spotter: GTSpotter new;
 						origin: exampleToTest result;
-						relevantProcessorsProcess: 'a'] 
+						relevantProcessorsProcess: (step newContextForQuery: 'a') ] 
 				raise: Error ] ]
 ]

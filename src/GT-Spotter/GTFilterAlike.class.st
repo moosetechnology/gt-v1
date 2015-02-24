@@ -12,18 +12,21 @@ Class {
 GTFilterAlike >> applyFilterWithQuery [
 	| allItemsPrepocessed allItemsPrepocessedAndSorted alikeMatches otherMatches upper lower |
 	alikeMatches := OrderedCollection  new.
-	otherMatches := OrderedCollection new.				
+	otherMatches := OrderedCollection new.	
+	" calculate the <similarity> of all items and throw away everything that is below the lower threshold (irrelevant) "			
 	allItemsPrepocessed := OrderedCollection streamContents: [ :allItems | 
 		lower := self lowerThreshold * query size.
 		self allItems do: [ :each | 
 			| weight |
 			(weight :=  (self itemNameFor: each) alike: self query) > lower ifTrue: [
 				allItems nextPut: (Array with: weight with: each) ] ] ].
+	" sort all items using <similarity> "
+	allItemsPrepocessedAndSorted := allItemsPrepocessed asSortedCollection: [ :a :b | a first > b first ].
+	" calculate the upper threshold "
 	upper := allItemsPrepocessed isEmpty 
 		ifTrue: [ self upperThreshold ]
-		ifFalse: [
-			allItemsPrepocessedAndSorted := allItemsPrepocessed asSortedCollection: [ :a :b | a first > b first ].
-			(allItemsPrepocessedAndSorted collect: [ :each | each first ]) median " try an adaptive threshold (slow) " ].
+		ifFalse: [ (allItemsPrepocessedAndSorted collect: [ :each | each first ]) median " try an adaptive threshold (slow if not presorted) " ].
+	" stream all items based on upper and lower threshold "
 	allItemsPrepocessedAndSorted do: [ :each | 
 		each first >= upper 
 			ifTrue: [
@@ -31,6 +34,7 @@ GTFilterAlike >> applyFilterWithQuery [
 				alikeMatches size > self itemsLimit ifFalse: [ 
 					self addItem: each ] ]
 			ifFalse:[ otherMatches add: each last ] ].
+	" push less relevant matches onto the result "
 	(alikeMatches size < self itemsLimit) ifTrue: [ 
 		(otherMatches first: ((self itemsLimit - alikeMatches size) min: otherMatches size)) do: [ :each |
 			self addItem: each ] ].

@@ -13,6 +13,12 @@ Object >> asSpotterProcessorLink [
 ]
 
 { #category : #'*GT-Spotter' }
+Object >> gtFilter [
+	^ GTFilterBlock gtFilter
+		
+]
+
+{ #category : #'*GT-Spotter' }
 Object >> spotterActDefault [
 	^ self inspect
 ]

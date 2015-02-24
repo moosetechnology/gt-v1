@@ -195,10 +195,9 @@ GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 	aBrick
 		useHorizontalLinearLayout;
 		normalColor: self categoryTitleBackgroundColor;
-		height: 30;
+		height: [ 30 ];
 		hSpaceFill;
-		paddingLeft: self categoryNameMarginLeft;
-		with: [ :b | b layout floating: #stack ]
+		paddingLeft: self categoryNameMarginLeft.
 	
 	"aBrick layout
 		floating: #stack;
@@ -457,11 +456,11 @@ GTSpotterWidgetThemer >> previewWidthPercent [
 { #category : #styles }
 GTSpotterWidgetThemer >> resultsPaneStyleFor: aBrick [
 
+	aBrick band useVerticalLinearLayout.
 	aBrick
 		hSpaceFill: self resultsPaneWidth;
 		vSpaceFill;
-		color: self backgroundColor;
-		with: [ :b | b band layout: GTSpotterStackedLayout new ]
+		color: self backgroundColor.
 ]
 
 { #category : #values }
