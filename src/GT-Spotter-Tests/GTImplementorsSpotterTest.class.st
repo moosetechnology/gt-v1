@@ -30,7 +30,11 @@ GTImplementorsSpotterTest >> assertIncludes: aMethod [
 { #category : #helpers }
 GTImplementorsSpotterTest >> assertSpotterFinds: anObject withQuery: aQuery restrictingTo: behaviors [ 
 	context := self contextWithQuery: aQuery.
-	spotter := GTImplementorsSpotter new context: context; behaviors: behaviors; yourself.
+	spotter := GTImplementorsSpotter new 
+		behaviors: behaviors; 
+		limit: 5; 
+		context: context; 
+		yourself.
 	self assertFinds: anObject
 ]
 
