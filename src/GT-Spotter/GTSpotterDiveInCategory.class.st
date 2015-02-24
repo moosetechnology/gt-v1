@@ -1,5 +1,5 @@
 Class {
-	#name : #GTSpotterCategorySelected,
+	#name : #GTSpotterDiveInCategory,
 	#superclass : #Announcement,
 	#instVars : [
 		'category'
@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-GTSpotterCategorySelected >> category [
+GTSpotterDiveInCategory >> category [
 	^ category
 ]
 
 { #category : #accessing }
-GTSpotterCategorySelected >> category: anObject [
+GTSpotterDiveInCategory >> category: anObject [
 	category := anObject
 ]

@@ -75,6 +75,11 @@ GTSpotterContext >> isEmpty [
 		or: [ self text isEmpty ]
 ]
 
+{ #category : #public }
+GTSpotterContext >> itemsLimit [
+	^ self processor candidatesLimit
+]
+
 { #category : #testing }
 GTSpotterContext >> matches: aString [
 	^ self isEmpty not

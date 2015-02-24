@@ -87,7 +87,7 @@ GTFilter >> items: aCollection [
 
 { #category : #'private-model' }
 GTFilter >> itemsLimit [
-	^ self processor candidatesLimit
+	^ self context itemsLimit
 ]
 
 { #category : #private }

@@ -43,13 +43,13 @@ GTFilterAlike >> applyFilterWithQuery [
 
 { #category : #'accessing-defaults' }
 GTFilterAlike >> defaultLowerThreshold [
-	<magicNumber: 0.33 description: 'lower threshold: to cut off the large irrelevent chunk before sorting/filtering is appplied' author: 'StefanReichhart'>
+	" lower threshold: to cut off the large irrelevent chunk before sorting/filtering is appplied "
 	^ 0.33
 ]
 
 { #category : #'accessing-defaults' }
 GTFilterAlike >> defaultUpperThreshold [
-	<magicNumber: 0.45 description: 'upper threshold: to keep a reasonably sized set of interesting matches' author: 'StefanReichhart'>
+	" upper threshold: to keep a reasonably sized set of interesting matches "
 	^ 0.45
 ]
 

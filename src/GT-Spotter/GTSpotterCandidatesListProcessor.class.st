@@ -39,8 +39,7 @@ GTSpotterCandidatesListProcessor >> allCandidates: aBlockWithOneArgument [
 
 { #category : #accessing }
 GTSpotterCandidatesListProcessor >> candidatesLimit [
-	<magicNumber: 5 description: 'default size of candidates' author: '?'>
-	^ candidatesLimit ifNil: [ 5 ]
+	^ candidatesLimit ifNil: [ self defaultCandidatesLimit ]
 ]
 
 { #category : #accessing }
@@ -51,6 +50,11 @@ GTSpotterCandidatesListProcessor >> candidatesLimit: anInteger [
 { #category : #private }
 GTSpotterCandidatesListProcessor >> computeCandidates [
 	^ allCandidatesBlock cull: self origin
+]
+
+{ #category : #'accessing-defaults' }
+GTSpotterCandidatesListProcessor >> defaultCandidatesLimit [
+	^ 5
 ]
 
 { #category : #private }
