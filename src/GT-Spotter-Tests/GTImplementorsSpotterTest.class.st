@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'stream',
 		'processor',
-		'spotter'
+		'spotter',
+		'context'
 	],
 	#category : #'GT-Spotter-Tests'
 }
@@ -28,8 +29,22 @@ GTImplementorsSpotterTest >> assertIncludes: aMethod [
 
 { #category : #helpers }
 GTImplementorsSpotterTest >> assertSpotterFinds: anObject withQuery: aQuery restrictingTo: behaviors [ 
-	spotter := GTImplementorsSpotter new query: aQuery; behaviors: behaviors; yourself.
+	context := self contextWithQuery: aQuery.
+	spotter := GTImplementorsSpotter new context: context; behaviors: behaviors; yourself.
 	self assertFinds: anObject
+]
+
+{ #category : #helpers }
+GTImplementorsSpotterTest >> contextWithQuery: aString [
+	^ GTSpotterContext new 
+		text: aString;
+		stream: stream;
+		yourself
+]
+
+{ #category : #helpers }
+GTImplementorsSpotterTest >> contextWithoutQuery [
+	^ self contextWithQuery: nil
 ]
 
 { #category : #helpers }
@@ -40,13 +55,13 @@ GTImplementorsSpotterTest >> denyIncludes: aMethod [
 { #category : #helpers }
 GTImplementorsSpotterTest >> findWithQuery: aQuery [
 	self resetStream.
-	spotter find: aQuery
+	spotter find: (self contextWithQuery: aQuery)
 ]
 
 { #category : #helpers }
 GTImplementorsSpotterTest >> resetStream [
 	stream := GTSpotterStreamMock new.
-	spotter stream: stream
+	context ifNotNil: [ context stream: stream ]
 ]
 
 { #category : #tests }
