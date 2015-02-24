@@ -98,7 +98,9 @@ GTSpotter class >> on: anObject [
 
 { #category : #accessing }
 GTSpotter class >> resetHistory [
-	"self resetHistory"
+	"
+	self resetHistory
+	"
 	^ history := nil
 ]
 
@@ -266,9 +268,11 @@ GTSpotter >> popStep [
 
 	"there always should be minimum one step left"
 	(self steps size > 1)
-		ifTrue: [
+		ifTrue: [ |origin|
+			origin := self currentStep origin.
 			self steps removeLast.
 			self notifyStepPopped.
+			self announcer announce: (GTSpotterDiveOut new element: origin).
 			"perform pane popping only after we scrolled to the penultimate pane, so user doesn't see blinking"
 			self pagerModel
 				scrollToPane: (self steps size)
@@ -301,7 +305,7 @@ GTSpotter >> pushStep: stepModel [
 GTSpotter >> requestNextStepWith: origin [
 	text := ''.
 	self pushStep: (self newStep origin: origin; yourself).
-	self steps last process: nil.
+	self steps last process: nil
 ]
 
 { #category : #'model access' }

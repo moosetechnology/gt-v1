@@ -50,6 +50,12 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 ]
 
 { #category : #actions }
+GTSpotterMorph >> closeSpotter [
+
+	self autoHide ifTrue: [ self delete ]
+]
+
+{ #category : #actions }
 GTSpotterMorph >> diveIn [
 
 	self spotterModel isEmpty ifFalse: [ 
@@ -70,18 +76,12 @@ GTSpotterMorph >> diveOut [
 	self spotterModel popStep
 ]
 
-{ #category : #actions }
-GTSpotterMorph >> escapePressed [
-
-	self autoHide ifTrue: [ self delete ]
-]
-
 { #category : #'events-processing' }
 GTSpotterMorph >> handleListenEvent: anEvent [
 		
 	anEvent type = #mouseDown ifTrue: [ 
 		((self fullBoundsInWorld containsPoint: anEvent position) not and: [ self autoHide ])
-			ifTrue: [ self delete ] ].
+			ifTrue: [ self spotterModel exit ] ].
 		
 	anEvent type = #keyDown ifTrue: [
 		anEvent keyValue = 56 ifTrue: [ self shiftPressed ]	]
@@ -117,8 +117,8 @@ GTSpotterMorph >> initializeListeners [
 	
 	Morph announcer weak on: MorphLostFocus send: #onLostFocus: to: self.
 	
-	self bindKeyCombination: Character escape toAction: [ self escapePressed ].
-	self bindKeyCombination: $w command toAction: [ self escapePressed ].
+	self bindKeyCombination: Character escape toAction: [ self spotterModel exit ].
+	self bindKeyCombination: $w command toAction: [ self spotterModel exit ].
 	self bindKeyCombination: $p command toAction: [ self togglePreview ].
 	
 	self bindKeyCombination: Character arrowUp toAction: [ self selectPreviousCandidate ].
@@ -286,7 +286,7 @@ GTSpotterMorph >> spotterModel: aSpotter [
 
 	spotterModel := aSpotter.
 	
-	spotterModel announcer weak subscribe: GTSpotterExitAnnouncement send: #escapePressed to: self.
+	spotterModel announcer weak subscribe: GTSpotterExitAnnouncement send: #closeSpotter to: self.
 	spotterModel announcer weak subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
 	spotterModel announcer weak subscribe: GTSpotterHidePreview send: #onHidePreview to: self.
 	

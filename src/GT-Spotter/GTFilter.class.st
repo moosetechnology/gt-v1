@@ -2,12 +2,13 @@ Class {
 	#name : #GTFilter,
 	#superclass : #Object,
 	#instVars : [
+		'caseSensitive',
+		'items',
 		'model',
 		'originalQuery',
 		'query',
-		'caseSensitive',
-		'stream',
-		'items'
+		'serializedItemsCache',
+		'stream'
 	],
 	#category : #'GT-Spotter-Filters'
 }
@@ -33,7 +34,7 @@ GTFilter >> allItems [
 GTFilter >> applyFilter [
 	self hasQuery ifFalse: [ 
 		self applyFilterWithoutQuery.
-		^ self allItems. " return the unfiltered items (all) - used for divein (no filtering appied) "  ].
+		^ self allItems " return the unfiltered items (all) - used for divein (no filtering appied) "  ].
 	self applyFilterWithQuery.
 	^ self items " return the filtered items only "
 ]
@@ -78,6 +79,11 @@ GTFilter >> caseSensitive: anObject [
 ]
 
 { #category : #'accessing-defaults' }
+GTFilter >> defaultCache [
+	^ Dictionary new
+]
+
+{ #category : #'accessing-defaults' }
 GTFilter >> defaultCaseSensitive [
 	^ false
 ]
@@ -104,7 +110,10 @@ GTFilter >> isCacheable [
 
 { #category : #'private-model' }
 GTFilter >> itemNameFor: anItem [
-	^ self model itemNameFor: anItem
+	<critical: 'is a dictionary safe to cache any object to its string?'>
+	^ self serializedItemsCache 
+		at: anItem 
+		ifAbsentPut: [ self model itemNameFor: anItem ]
 ]
 
 { #category : #accessing }
@@ -164,10 +173,14 @@ GTFilter >> query: anObject [
 	query := anObject
 ]
 
+{ #category : #accessing }
+GTFilter >> serializedItemsCache [
+	^ serializedItemsCache ifNil: [ serializedItemsCache := self defaultCache ]
+]
+
 { #category : #testing }
 GTFilter >> shouldApplyFilterForQuery: aQueryString [
-	<hack: 'try not to prepare the string twice'>
-	^ (self prepareQuery: aQueryString) ~= self query
+	^ true
 ]
 
 { #category : #accessing }

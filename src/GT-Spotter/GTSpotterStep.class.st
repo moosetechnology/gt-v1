@@ -35,6 +35,7 @@ GTSpotterStep >> act [
 	self selected ifNil: [ ^ self ].
 	processor := (self candidates getProcessorLinkByCandidateLink: self selected) processor.
 	self spotter historize: self selected.
+	self spotter announcer announce: (GTSpotterActOn new element: self selectedCandidate).
 	processor actOn: self selectedCandidate for: self.
 
 ]
@@ -85,14 +86,17 @@ GTSpotterStep >> candidates [
 GTSpotterStep >> diveIn [
 	self canDiveInSelectedCandidate ifTrue: [ 
 		self spotter historize: self selected.
-		self spotter requestNextStepWith: self selectedCandidate ]
+		self spotter requestNextStepWith: self selectedCandidate.
+		self spotter announcer announce: (GTSpotterDiveInElement new element: self selectedCandidate) ]
 ]
 
 { #category : #actions }
 GTSpotterStep >> diveInCategory [
 	| processorLink |
 	processorLink := (self candidates getProcessorLinkByCandidateLink: self selected).
-	self spotter requestNextStepWith: (processorLink processor allFilteredCandidates collect: [ :each | each asSpotterCandidateLink renderingProcessor: processorLink ])
+	self spotter requestNextStepWith: (processorLink processor allFilteredCandidates collect: [ :each | each asSpotterCandidateLink renderingProcessor: processorLink ]).
+	self spotter announcer announce: (GTSpotterDiveInCategory new category: processorLink processor)
+	
 ]
 
 { #category : #actions }
