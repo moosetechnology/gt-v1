@@ -9,6 +9,9 @@ GTSpotter >> spotterRoassalExamplesFor: aStep [
 			title: 'Roassal Examples';
 			itemName: [ :example | example selector ];
 			itemIcon: [ :example | [example iconForm] on: Error do: [ Form extent: 16@16  ] ];
-			matchSubstringByQueryParts;
+			filter: (GTFilterBlock new 
+				matcher: [ :item :context |
+					item matchesQuery: (context cacheAt: #queryForRoassalExamples ifAbsentPut: [ context textLowercase splitOn: ' ' ]) ];
+				yourself);
 			wantsToDisplayOnEmptyQuery: false
 ]

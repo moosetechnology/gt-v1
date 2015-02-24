@@ -8,6 +8,6 @@ RTView >> spotterElementsFor: aStep [
 		candidatesLimit: 100;
 		allCandidates: [ self elements ];
 		itemName: [ :each | each model gtDisplayString ];
-		filterUsing: GTFilterSubstring;
+		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: true
 ]
