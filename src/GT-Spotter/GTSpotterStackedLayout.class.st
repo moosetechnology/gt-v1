@@ -107,8 +107,8 @@ GTSpotterStackedLayout >> isVisible: aBrick in: aRectangle [
 { #category : #'as yet unclassified' }
 GTSpotterStackedLayout >> layout: aBrick in: newBounds [
 	
-	super layout: aBrick in: newBounds.
-	^ self layoutStacked: aBrick in: newBounds
+	^ super layout: aBrick in: newBounds.
+	"^ self layoutStacked: aBrick in: newBounds"
 ]
 
 { #category : #'as yet unclassified' }

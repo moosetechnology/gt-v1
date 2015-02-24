@@ -1,6 +1,6 @@
 Class {
 	#name : #GTFilterAlike,
-	#superclass : #GTCacheableFilter,
+	#superclass : #GTOrderedFilter,
 	#instVars : [
 		'lowerThreshold',
 		'upperThreshold'

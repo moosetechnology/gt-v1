@@ -1,6 +1,6 @@
 Class {
 	#name : #GTFilterRegex,
-	#superclass : #GTCacheableFilter,
+	#superclass : #GTUnorderedFilter,
 	#instVars : [
 		'regex'
 	],
@@ -8,21 +8,13 @@ Class {
 }
 
 { #category : #private }
-GTFilterRegex >> applyFilterWithQuery [
-	| regexMatches otherMatches |
-	regexMatches := OrderedCollection  new.
-	otherMatches := OrderedCollection new.
-	self allItems do: [ :each | 
-		(regex matches: (self itemNameFor: each))
-				ifTrue: [ 
-						regexMatches add: each.
-						regexMatches size > self itemsLimit ifFalse: [ 
-							self addItem: each ]]
-				ifFalse: [ otherMatches add: each ] ].
-	(regexMatches size < self itemsLimit) ifTrue: [ 
-		(otherMatches first: ((self itemsLimit - regexMatches size) min: otherMatches size)) do: [ :each |
-			self addItem: each ] ].
-	self items: regexMatches , otherMatches
+GTFilterRegex >> applyFilterOn: aStream query: aQueryString error: exception [
+	<todo: 'better way to define fallbacks, maybe multiple?'>
+	super applyFilterOn: aStream query: aQueryString error: exception.
+	^ (GTFilterSubstrings new
+		model: self model;
+		caseSensitive: self caseSensitive;
+		yourself) value: aQueryString value: aStream
 ]
 
 { #category : #'accessing-defaults' }
@@ -30,6 +22,11 @@ GTFilterRegex >> defaultRegex [
 	^ self caseSensitive 
 		ifTrue: [ self query asRegex ] 
 		ifFalse: [ self query asRegexIgnoringCase ]
+]
+
+{ #category : #private }
+GTFilterRegex >> isMatchedItem: anItem [
+	^ self regex matches: (self itemNameFor: anItem)
 ]
 
 { #category : #private }
