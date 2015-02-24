@@ -30,12 +30,12 @@ Class {
 
 { #category : #actions }
 GTSpotterStep >> act [
-	|processor|
+	
 	self selected ifNil: [ ^ self ].
-	processor := (self candidates getProcessorLinkByCandidateLink: self selected) processor.
-	self spotter historize: self selected.
-	self spotter announcer announce: (GTSpotterActOn new element: self selectedCandidate).
-	processor actOn: self selectedCandidate for: self.
+	self spotter
+		historize: self selected;
+		notifyActOn: self selectedCandidate.
+	self selected processor actOn: self selectedCandidate for: self
 
 ]
 
@@ -84,22 +84,24 @@ GTSpotterStep >> candidates [
 { #category : #actions }
 GTSpotterStep >> diveIn [
 	self canDiveInSelectedCandidate ifTrue: [ 
-		self spotter historize: self selected.
-		self spotter requestNextStepWith: self selectedCandidate.
-		self spotter announcer announce: (GTSpotterDiveInElement new element: self selectedCandidate) ]
+		self spotter
+			historize: self selected;
+			requestNextStepWith: self selectedCandidate;
+			notifyDiveIn: self selectedCandidate ]
 ]
 
 { #category : #actions }
 GTSpotterStep >> diveInCategory [
-	| processorLink |
-	processorLink := (self candidates getProcessorLinkByCandidateLink: self selected).
-	self spotter requestNextStepWith: (processorLink processor allFilteredCandidates collect: [ :each | each asSpotterCandidateLink renderingProcessor: processorLink ]).
-	self spotter announcer announce: (GTSpotterDiveInCategory new category: processorLink processor)
+
+	self spotter
+		requestNextCategoryStepWith: self selected processorLink;
+		notifyDiveInCategory: self selected processor
 	
 ]
 
 { #category : #actions }
 GTSpotterStep >> exit [
+
 	self spotter exit
 ]
 
@@ -121,7 +123,7 @@ GTSpotterStep >> listProcessor [
 GTSpotterStep >> notifySelectedCandidateChanged [
 
 	self announcer announce: (GTSpotterSelectedCandidateChanged new selected: self selectedCandidate).
-	self spotter announcer announce: (GTSpotterSelectedCandidateChanged new selected: self selectedCandidate).
+	self spotter notifyCandidateSelected: self selectedCandidate
 ]
 
 { #category : #accessing }
@@ -289,13 +291,17 @@ GTSpotterStep >> selected [
 
 { #category : #selecting }
 GTSpotterStep >> selected: aDoubleLink [
-	|categoryChanged|
+
 	self selected = aDoubleLink ifTrue: [ ^ self ].
-	categoryChanged := (selected processor = aDoubleLink processor) not.
-	selected := aDoubleLink.
-	self notifySelectedCandidateChanged.
 	
-	categoryChanged ifTrue: [ self spotter announcer announce: (GTSpotterCategorySelected new category: selected processor) ]
+	self spotter
+		after: [
+			selected := aDoubleLink.
+			self notifySelectedCandidateChanged ]
+		do: [ self spotter notifyCategorySelected: self selected processor ]
+		ifTrue: (self selected processor = aDoubleLink processor) not
+	
+	
 ]
 
 { #category : #accessing }
@@ -314,6 +320,7 @@ GTSpotterStep >> selectedCategory [
 
 { #category : #accessing }
 GTSpotterStep >> spotter [
+
 	^ spotter
 ]
 
