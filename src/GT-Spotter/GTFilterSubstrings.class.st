@@ -1,31 +1,11 @@
 Class {
 	#name : #GTFilterSubstrings,
-	#superclass : #GTCacheableFilter,
+	#superclass : #GTUnorderedFilter,
 	#instVars : [
 		'separators'
 	],
 	#category : #'GT-Spotter-Filters'
 }
-
-{ #category : #private }
-GTFilterSubstrings >> applyFilterWithQuery [
-	| matches otherMatches |
-	matches := OrderedCollection  new.
-	otherMatches := OrderedCollection new.
-	self allItems do: [ :each | 
-		| itemName |
-		itemName := self itemNameFor: each.
-		(self query allSatisfy: [ :fragment | itemName includesSubstring: fragment  caseSensitive: self caseSensitive ])
-				ifTrue: [ 
-						matches add: each.
-						matches size > self itemsLimit ifFalse: [ 
-							self addItem: each ] ]
-				ifFalse: [ otherMatches add: each ] ].
-	(matches size < self itemsLimit) ifTrue: [ 
-		(otherMatches first: ((self itemsLimit - matches size) min: otherMatches size)) do: [ :each |
-			self addItem: each ] ].
-	self items: matches , otherMatches 
-]
 
 { #category : #'accessing-defaults' }
 GTFilterSubstrings >> defaultSeparators [
@@ -33,8 +13,16 @@ GTFilterSubstrings >> defaultSeparators [
 ]
 
 { #category : #private }
+GTFilterSubstrings >> isMatchedItem: anItem [
+	| itemName |
+	itemName := self itemNameFor: anItem.
+	^ self query allSatisfy: [ :fragment | 
+		itemName includesSubstring: fragment  caseSensitive: self caseSensitive ]
+]
+
+{ #category : #private }
 GTFilterSubstrings >> prepareQuery: anObject [
-	^ (super prepareQuery: anObject) substrings: self separators
+	^ ((super prepareQuery: anObject) substrings: self separators) asSet asArray
 ]
 
 { #category : #accessing }

@@ -18,7 +18,7 @@ GTSpotterGlobalShortcut class >> isGlobalCategory [
 { #category : #accessing }
 GTSpotterGlobalShortcut class >> openGlobalSpotter [
 	globalSpotter 
-		ifNotNil: [ globalSpotter spotterModel exit ].
+		ifNotNil: [ globalSpotter delete ].
 		
 	globalSpotter := GTSpotterMorph new
 		extent: (World width / 2.4 @ (World height / 1.6)) asIntegerPoint;
@@ -38,14 +38,6 @@ GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 		spotterModel: GTSpotter new;
 		openInWindowLabeled: 'Spotter Debug Mode';
 		showPreview
-]
-
-{ #category : #accessing }
-GTSpotterGlobalShortcut class >> reset [
-	"
-	self reset
-	"
-	globalSpotter := nil
 ]
 
 { #category : #'as yet unclassified' }

@@ -98,9 +98,7 @@ GTSpotter class >> on: anObject [
 
 { #category : #accessing }
 GTSpotter class >> resetHistory [
-	"
-	self resetHistory
-	"
+	"self resetHistory"
 	^ history := nil
 ]
 
