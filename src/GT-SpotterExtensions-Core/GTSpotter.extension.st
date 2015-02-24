@@ -23,7 +23,6 @@ GTSpotter >> evaluateExpressionInContext: aSpotterContext [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileReferencesBlock [
-	<magicNumber: 5 description: 'default size of candidates' author: '?'>
 	| prefixMatchers split rootDirectory query fullQuery rest |
 	fullQuery := aSpotterContext textLowercase.
 	split := fullQuery piecesCutWhere: [ :a :b | a = FileSystem disk delimiter ].
@@ -43,7 +42,7 @@ GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileRefer
 	query isEmpty ifTrue: [ 
 		| all |
 		all := fileReferencesBlock value: rootDirectory.
-		(all first: (all size min: 5)) do: [:reference | aSpotterContext addItem: reference ].
+		(all first: (all size min: aSpotterContext itemsLimit)) do: [:reference | aSpotterContext addItem: reference ].
 		^ all  ].
 	prefixMatchers := OrderedCollection new.
 	rest := OrderedCollection new.
@@ -54,11 +53,11 @@ GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileRefer
 				index = 1 
 					ifTrue: [ 
 						prefixMatchers add: reference.
-						prefixMatchers size > 5
+						prefixMatchers size > aSpotterContext itemsLimit
 							ifFalse: [ aSpotterContext addItem: reference ] ]
 					ifFalse: [ rest add: reference ] ] ].
-	prefixMatchers size < 5
-		ifTrue: [ (rest first: (5 - prefixMatchers size min: rest size)) do: [ :each | aSpotterContext addItem: each ] ].
+	prefixMatchers size < aSpotterContext itemsLimit
+		ifTrue: [ (rest first: (aSpotterContext itemsLimit - prefixMatchers size min: rest size)) do: [ :each | aSpotterContext addItem: each ] ].
 	^ prefixMatchers , rest
 ]
 

@@ -5,7 +5,7 @@ TestCase class >> spotterForSuiteFor: aStep [
 	<demoyOnly: 'NautilusUI - this is an ugly implementaiton - just to demo it'>
 	<spotterOrder: 1>
 	aStep listProcessor
-		title: 'Suite';
+		title: 'Tests';
 		allCandidates: [ Array with: self suite ];
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;

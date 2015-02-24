@@ -10,8 +10,18 @@ Class {
 }
 
 { #category : #accessing }
+GTImplementorsSpotter >> behaviors [
+	^ behaviors
+]
+
+{ #category : #accessing }
 GTImplementorsSpotter >> behaviors: aCollection [ 
 	behaviors := aCollection
+]
+
+{ #category : #accessing }
+GTImplementorsSpotter >> context [
+	^ context
 ]
 
 { #category : #accessing }
@@ -38,11 +48,11 @@ GTImplementorsSpotter >> find [
 									index = 1
 										ifTrue: [ 
 											prefixMatchers add: method.
-											prefixMatchers size > limit
+											prefixMatchers size > self limit
 												ifFalse: [ context addItem: method ] ]
 										ifFalse: [ rest add: method ] ] ] ].
-			prefixMatchers size < limit
-				ifTrue: [ (rest first: (limit - prefixMatchers size min: rest size)) do: [ :each | 
+			prefixMatchers size < self limit
+				ifTrue: [ (rest first: (self limit - prefixMatchers size min: rest size)) do: [ :each | 
 						context addItem: each ] ] ].
 	^ prefixMatchers , rest 
 ]
@@ -53,11 +63,9 @@ GTImplementorsSpotter >> find: aSpotterContext [
 	self find
 ]
 
-{ #category : #initialization }
-GTImplementorsSpotter >> initialize [
-	<magicNumber: 5 description: 'default size of candidates' author: '?'>
-	super initialize.
-	limit := 5
+{ #category : #accessing }
+GTImplementorsSpotter >> limit [
+	^ limit ifNil: [ self context itemsLimit ]
 ]
 
 { #category : #accessing }
