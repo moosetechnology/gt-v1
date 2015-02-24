@@ -234,7 +234,7 @@ GTSpotter >> spotterForTestClassesFor: aStep [
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 8>
 	aStep listProcessor
-			allCandidates: [:x | self class history select: [ :each | each isNotNil ] ];
+			allCandidates: [:x | self class history asArray select: [ :each | each isNotNil and: [ each value isNotNil ] ] ];
 			title: 'History';
 			itemName: [ :item | 
 				item class = GTSpotterProcessorLink 
