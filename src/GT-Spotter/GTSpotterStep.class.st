@@ -23,8 +23,7 @@ Class {
 		'stream',
 		'candidates',
 		'asyncTask',
-		'spotter',
-		'isCategorySelected'
+		'spotter'
 	],
 	#category : #'GT-Spotter-Model'
 }
@@ -105,12 +104,6 @@ GTSpotterStep >> exit [
 ]
 
 { #category : #testing }
-GTSpotterStep >> isCategorySelected [
-
-	^ isCategorySelected ifNil: [ isCategorySelected := Morph new activeHand shiftPressed ]
-]
-
-{ #category : #testing }
 GTSpotterStep >> isEmpty [
 
 	^ self candidates isEmpty
@@ -122,14 +115,6 @@ GTSpotterStep >> listProcessor [
 	processor := GTSpotterCandidatesListProcessor new.
 	self addProcessor: processor.
 	^ processor
-]
-
-{ #category : #notifying }
-GTSpotterStep >> notifyCategorySelectedOrDeselected [
-
-	self isCategorySelected
-		ifTrue: [ self announcer announce: GTSpotterCategorySelected new ]
-		ifFalse: [ self announcer announce: GTSpotterCategoryDeselected new ]
 ]
 
 { #category : #notifying }
@@ -248,18 +233,14 @@ GTSpotterStep >> relevantProcessorsProcess: aQueryString [
 GTSpotterStep >> selectFirst [
 	
 	self candidates isEmpty ifTrue: [ ^ self ].
-	
-	selected := self candidates head.
-	self notifySelectedCandidateChanged.
+	self selected: self candidates head
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectNext [
 	
 	self selected ifNil: [ ^ self ].
-	
-	selected := self selected nextLink.
-	self notifySelectedCandidateChanged.
+	self selected: self selected nextLink
 	
 	
 ]
@@ -272,11 +253,9 @@ GTSpotterStep >> selectNextCategory [
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	nextCategory := self candidates nextProcessorLinkOf: currentCategory.
 	
-	selected := (currentCategory = nextCategory)
+	self selected: ((currentCategory = nextCategory)
 		ifTrue: [ nextCategory tailLink ]
-		ifFalse: [ nextCategory headLink ].
-	
-	self notifySelectedCandidateChanged.
+		ifFalse: [ nextCategory headLink ])
 	
 	
 ]
@@ -285,9 +264,7 @@ GTSpotterStep >> selectNextCategory [
 GTSpotterStep >> selectPrevious [
 
 	self selected ifNil: [ ^ self ].
-	
-	selected := self selected previousLink.
-	self notifySelectedCandidateChanged.
+	self selected: self selected previousLink
 ]
 
 { #category : #selecting }
@@ -298,11 +275,7 @@ GTSpotterStep >> selectPreviousCategory [
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	previousCategory := self candidates previousProcessorLinkOf: currentCategory.
 	
-	selected := previousCategory headLink.
-	
-	self notifySelectedCandidateChanged.
-	
-	
+	self selected: previousCategory headLink
 ]
 
 { #category : #accessing }
@@ -314,11 +287,15 @@ GTSpotterStep >> selected [
 			ifFalse: [ self candidates head ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #selecting }
 GTSpotterStep >> selected: aDoubleLink [
-
+	|categoryChanged|
+	self selected = aDoubleLink ifTrue: [ ^ self ].
+	categoryChanged := (selected processor = aDoubleLink processor) not.
 	selected := aDoubleLink.
-	self notifySelectedCandidateChanged
+	self notifySelectedCandidateChanged.
+	
+	categoryChanged ifTrue: [ self spotter announcer announce: (GTSpotterCategorySelected new category: selected processor) ]
 ]
 
 { #category : #accessing }
@@ -333,13 +310,6 @@ GTSpotterStep >> selectedCandidate [
 GTSpotterStep >> selectedCategory [
 
 	^ self selected processor
-]
-
-{ #category : #actions }
-GTSpotterStep >> shiftPressed [
-
-	isCategorySelected := self isCategorySelected not.
-	self notifyCategorySelectedOrDeselected
 ]
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Class {
 	#name : #GTFilterSubstring,
-	#superclass : #GTOrderedFilter,
+	#superclass : #GTCacheableFilter,
 	#category : #'GT-Spotter-Filters'
 }
 

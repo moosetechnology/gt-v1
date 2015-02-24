@@ -81,10 +81,7 @@ GTSpotterMorph >> handleListenEvent: anEvent [
 		
 	anEvent type = #mouseDown ifTrue: [ 
 		((self fullBoundsInWorld containsPoint: anEvent position) not and: [ self autoHide ])
-			ifTrue: [ self spotterModel exit ] ].
-		
-	anEvent type = #keyDown ifTrue: [
-		anEvent keyValue = 56 ifTrue: [ self shiftPressed ]	]
+			ifTrue: [ self spotterModel exit ] ]
 ]
 
 { #category : #'event handling' }
@@ -260,13 +257,6 @@ GTSpotterMorph >> selectPreviousCategory [
 	self spotterModel isEmpty
 		ifFalse: [ self spotterModel currentStep selectPreviousCategory ]
 	
-]
-
-{ #category : #actions }
-GTSpotterMorph >> shiftPressed [
-
-	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep shiftPressed ]
 ]
 
 { #category : #actions }
