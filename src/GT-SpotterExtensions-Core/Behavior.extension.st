@@ -7,7 +7,7 @@ Behavior >> spotterClassInstanceVariablesFor: aStep [
 			title: 'Class instance variables';
 			allCandidates: [ self class layout allSlots ];
 			itemName: [:each | each name asString];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -17,5 +17,5 @@ Behavior >> spotterInstanceVariablesFor: aStep [
 			title: 'Instance variables';
 			allCandidates: [ self layout allSlots ];
 			itemName: [:each | each name asString];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]

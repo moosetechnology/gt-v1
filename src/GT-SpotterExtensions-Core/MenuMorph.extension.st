@@ -23,5 +23,5 @@ MenuMorph >> spotterItemsFor: aStep [
 		actLogic: [ :item | item hasSubMenu 
 					ifTrue: [ aStep diveIn ] 
 					ifFalse: [ item spotterActDefault. aStep exit ] ];
-		filterUsing: GTFilterSubstring 
+		filter: GTFilterSubstring 
 ]

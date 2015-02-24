@@ -2,11 +2,9 @@ Class {
 	#name : #GTImplementorsSpotter,
 	#superclass : #Object,
 	#instVars : [
-		'query',
-		'stream',
-		'processor',
 		'behaviors',
-		'limit'
+		'limit',
+		'context'
 	],
 	#category : #'GT-SpotterExtensions-Core'
 }
@@ -16,18 +14,23 @@ GTImplementorsSpotter >> behaviors: aCollection [
 	behaviors := aCollection
 ]
 
+{ #category : #accessing }
+GTImplementorsSpotter >> context: aSpotterContext [ 
+	context := aSpotterContext
+]
+
 { #category : #action }
 GTImplementorsSpotter >> find [
 	| prefixMatchers rest |
 	prefixMatchers := OrderedCollection new.
 	rest := OrderedCollection new.
-	query isEmpty ifFalse: [ 
+	context isEmpty ifFalse: [ 
 			behaviors
 				do: [ :class | 
 					class
 						selectorsDo: [ :selector | 
 							| index |
-							index := selector findString: query startingAt: 1 caseSensitive: false.
+							index := selector findString: context textTrimmed startingAt: 1 caseSensitive: false.
 							index >= 1
 								ifTrue: [ 
 									| method |
@@ -36,22 +39,23 @@ GTImplementorsSpotter >> find [
 										ifTrue: [ 
 											prefixMatchers add: method.
 											prefixMatchers size > limit
-												ifFalse: [ stream addObject: method inProcessor: processor ] ]
+												ifFalse: [ context addItem: method ] ]
 										ifFalse: [ rest add: method ] ] ] ].
 			prefixMatchers size < limit
 				ifTrue: [ (rest first: (limit - prefixMatchers size min: rest size)) do: [ :each | 
-						stream addObject: each inProcessor: processor ] ] ].
+						context addItem: each ] ] ].
 	^ prefixMatchers , rest 
 ]
 
 { #category : #action }
-GTImplementorsSpotter >> find: aString [ 
-	query := aString.
+GTImplementorsSpotter >> find: aSpotterContext [ 
+	context := aSpotterContext.
 	self find
 ]
 
 { #category : #initialization }
 GTImplementorsSpotter >> initialize [
+	<magicNumber: 5 description: 'default size of candidates' author: '?'>
 	super initialize.
 	limit := 5
 ]
@@ -59,19 +63,4 @@ GTImplementorsSpotter >> initialize [
 { #category : #accessing }
 GTImplementorsSpotter >> limit: aNumber [
 	limit := aNumber
-]
-
-{ #category : #accessing }
-GTImplementorsSpotter >> processor: aProcessor [
-	processor := aProcessor
-]
-
-{ #category : #accessing }
-GTImplementorsSpotter >> query: aString [ 
-	query := aString
-]
-
-{ #category : #accessing }
-GTImplementorsSpotter >> stream: aGTSpotterStream [
-	stream := aGTSpotterStream
 ]

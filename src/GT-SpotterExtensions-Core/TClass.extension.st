@@ -12,7 +12,7 @@ TClass >> spotterClassMethodsFor: aStep [
 			title: 'Class methods';
 			allCandidates: [ self classSide methods ];
 			itemName: [ :method | method selector ];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -22,7 +22,7 @@ TClass >> spotterMethodsFor: aStep [
 			title: 'Instance methods';
 			allCandidates: [ self methods ];
 			itemName: [ :method | method selector ];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -44,7 +44,7 @@ TClass >> spotterReferenceFor: aStep [
 			title: 'References';
 			allCandidates: [ (SystemNavigation default allReferencesTo: self binding) collect: #compiledMethod ];
 			itemName: [ :method | method gtDisplayString ];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -53,7 +53,7 @@ TClass >> spotterSuperClassMethodsFor: aStep [
 	aStep listProcessor
 			title: 'Super class methods';
 			allCandidates: [ self classSide allMethods reject: [ :each | each methodClass = self ] ];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -62,5 +62,5 @@ TClass >> spotterSuperMethodsFor: aStep [
 	aStep listProcessor
 			title: 'Super instance methods';
 			allCandidates: [ self allMethods reject: [ :each | each methodClass = self ] ];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]

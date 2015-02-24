@@ -33,7 +33,7 @@ MCWorkingCopy >> spotterAllRepositoriesFor: aStep [
 		allCandidates: [ MCRepositoryGroup default repositories \ self repositoryGroup repositories ];
 		itemName: [ :item | item description ];
 		actLogic: [ :item | self spotterCommit: self in: item ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -43,7 +43,7 @@ MCWorkingCopy >> spotterAncestorsFor: aStep [
 		title: 'Ancestors';
 		allCandidates: [ self allAncestors ];
 		actLogic: [ :aMCVersionInfo | aMCVersionInfo diffAgainstWorkingCopy ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -65,7 +65,7 @@ MCWorkingCopy >> spotterMonticelloPackageFor: aStep [
 		title: 'Monticello Package';
 		allCandidates: [ Array with: self package ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -76,7 +76,7 @@ MCWorkingCopy >> spotterPackageFor: aStep [
 		allCandidates: [ Array with: self package correspondingRPackage ];
 		itemName: [ :item | item name ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -87,7 +87,7 @@ MCWorkingCopy >> spotterPackageRepositoriesFor: aStep [
 		allCandidates: [ self repositoryGroup repositories ];
 		itemName: [ :item | item description ];
 		actLogic: [ :item | self spotterCommit: self in: item ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }

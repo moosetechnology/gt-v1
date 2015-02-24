@@ -11,7 +11,7 @@ RPackage >> spotterClassesFor: aStep [
 	aStep listProcessor
 			allCandidates: [ self definedClasses sorted: [ :a :b | a name < b name ] ];
 			title: 'Classes';
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -20,7 +20,7 @@ RPackage >> spotterExtensionMethodsFor: aStep [
 	aStep listProcessor
 			allCandidates: [ self extensionMethods ];
 			title: 'Extension Methods';
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -30,7 +30,7 @@ RPackage >> spotterMonticelloPackageFor: aStep [
 		title: 'Monticello Package';
 		allCandidates: [ Array with: self mcPackage ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -40,7 +40,7 @@ RPackage >> spotterMonticelloWorkingCopyFor: aStep [
 		title: 'Monticello Working Copy';
 		allCandidates: [ Array with: self mcPackage workingCopy ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #versionControlIcon ];
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -62,5 +62,5 @@ RPackage >> spotterTagsFor: aStep [
 	aStep listProcessor
 			allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
 			title: 'Tags';
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]

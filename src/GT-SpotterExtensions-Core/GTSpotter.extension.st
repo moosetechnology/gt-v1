@@ -1,24 +1,31 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-GTSpotter >> evaluateExpression: query on: stream processor: processor [
+GTSpotter >> evaluateExpressionInContext: aSpotterContext [
+	" only allow arithmethic selectors to be evaluated - otherwise this may have some severe side-effects "
 	| result candidates |
 	candidates := OrderedCollection new.
+	" filter allowed selectors "
 	(Number selectors anySatisfy: [ :selector | 
-		query includesSubstring: selector caseSensitive: true ]) ifFalse: [ ^ candidates ].
-	result := [ Compiler evaluate: query ] on: Error do: [ ^ candidates ].
-	stream addObject: result inProcessor: processor. 
+		aSpotterContext textTrimmed includesSubstring: selector caseSensitive: true ]) ifFalse: [ ^ candidates ].
+	" perform the selector "
+	result := [ Compiler evaluate: aSpotterContext textTrimmed ] 
+		on: Error 
+		do: [ ^ candidates ].
+	aSpotterContext addItem: result.
 	candidates add: result. 
-	(result isFraction and: [ result isInteger not ]) ifTrue: [ 
-		stream addObject: result asFloat inProcessor: processor.
+	" if the result is not readable as float, append the float as well "
+	(result isFraction and: [ result isInteger not ]) ifTrue: [
+		aSpotterContext addItem: result asFloat.
 		candidates add: result ].
 	^ candidates
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReferencesBlock inProcessor: processor onStream: stream [
+GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileReferencesBlock [
+	<magicNumber: 5 description: 'default size of candidates' author: '?'>
 	| prefixMatchers split rootDirectory query fullQuery rest |
-	fullQuery := originalQuery trimBoth asLowercase.
+	fullQuery := aSpotterContext textLowercase.
 	split := fullQuery piecesCutWhere: [ :a :b | a = FileSystem disk delimiter ].
 	split size < 1
 		ifTrue: [ 
@@ -36,7 +43,7 @@ GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReference
 	query isEmpty ifTrue: [ 
 		| all |
 		all := fileReferencesBlock value: rootDirectory.
-		(all first: (all size min: 5)) do: [:reference | stream addObject: reference inProcessor: processor].
+		(all first: (all size min: 5)) do: [:reference | aSpotterContext addItem: reference ].
 		^ all  ].
 	prefixMatchers := OrderedCollection new.
 	rest := OrderedCollection new.
@@ -48,28 +55,26 @@ GTSpotter >> filterByQuery: originalQuery forReferencesComputedAs: fileReference
 					ifTrue: [ 
 						prefixMatchers add: reference.
 						prefixMatchers size > 5
-							ifFalse: [ stream addObject: reference inProcessor: processor ] ]
+							ifFalse: [ aSpotterContext addItem: reference ] ]
 					ifFalse: [ rest add: reference ] ] ].
 	prefixMatchers size < 5
-		ifTrue: [ (rest first: (5 - prefixMatchers size min: rest size)) do: [ :each | stream addObject: each inProcessor: processor ] ].
+		ifTrue: [ (rest first: (5 - prefixMatchers size min: rest size)) do: [ :each | aSpotterContext addItem: each ] ].
 	^ prefixMatchers , rest
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterConcreteMethodFor: aStep [
     <spotterOrder: 30>
-	| processor |
-	processor := aStep listProcessor.
-	processor
+	^ aStep listProcessor
 		title: 'Method';
-		filter: [ :originalQuery :stream |
+		filter: [ :context |
 			| method result |
 			result := OrderedCollection new.
 			[
-				Transcript show: originalQuery trimBoth; cr.
-				method := Compiler evaluate: originalQuery trimBoth.
+				Transcript show: context textTrimmed; cr.
+				method := Compiler evaluate: context textTrimmed.
 				method class = CompiledMethod ifTrue: [
-					stream addObject: method inProcessor: processor.
+					context addItem: method.
 					result add: method ] 
 			] on: Error do: [  ].
 			result ];
@@ -83,7 +88,7 @@ GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 			allCandidates: [ MCWorkingCopy allManagers select: #modified ];
 			title: 'Dirty Monticello packages';
 			itemIcon: [ Smalltalk ui icons iconNamed: #dirtyPackageIcon ];
-			filterUsing: GTFilterSubstring;
+			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: true
 ]
 
@@ -93,7 +98,7 @@ GTSpotter >> spotterForClassesFor: aStep [
 	aStep listProcessor
 			allCandidates: [ Smalltalk allClassesAndTraits ];
 			title: 'Classes';
-			filterUsing: GTFilterSubstring;
+			filter: GTFilterSubstring;
 			itemIcon: #systemIcon;
 			wantsToDisplayOnEmptyQuery: false
 ]
@@ -107,12 +112,10 @@ GTSpotter >> spotterForDirectoriesFor: aStep [
 		title: 'Directories';
 		itemIcon: [ GLMUIThemeExtraIcons glamorousFolder ];
 		wantsToDisplayOnEmptyQuery: false;
-		filter: [ :originalQuery :stream | 
-					self
-						filterByQuery: originalQuery
-						forReferencesComputedAs: [ :root | root directories ]
-						inProcessor: processor
-						onStream: stream ]
+		filter: [ :context | 
+			self
+				filterInContext: context
+				forReferencesComputedAs: [ :root | root directories ] ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -121,8 +124,7 @@ GTSpotter >> spotterForExpressionsFor: aStep [
 	| processor |
 	(processor := aStep listProcessor)
 		title: 'Calculator';
-		filter: [ :query :stream | 
-			self evaluateExpression: query on: stream processor: processor ];
+		filter: [ :context | self evaluateExpressionInContext: context ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -135,12 +137,10 @@ GTSpotter >> spotterForFilesFor: aStep [
 		title: 'Files';
 		itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
 		wantsToDisplayOnEmptyQuery: false;
-		filter: [ :originalQuery :stream | 
-					self
-						filterByQuery: originalQuery
-						forReferencesComputedAs: [ :root | root files ]
-						inProcessor: processor
-						onStream: stream ]
+		filter: [ :context | 
+			self
+				filterInContext: context
+				forReferencesComputedAs: [ :root | root files ] ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -152,7 +152,7 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 				assoc value isTrait not]] ];
 			title: 'Global variables';
 			itemName:[:global | global key ];
-			filterUsing: GTFilterSubstring;
+			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -169,7 +169,7 @@ GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 					thenCollect: #project ];
 			itemName: [ :each | each configuration class name ];
 			itemIcon: #systemIcon;
-			filterUsing: GTFilterSubstring;
+			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -181,7 +181,7 @@ GTSpotter >> spotterForPackagesFor: aStep [
 			title: 'Packages';
 			itemName: [ :package | package name ];
 			itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
-			filterUsing: GTFilterSubstring;
+			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -192,7 +192,7 @@ GTSpotter >> spotterForPlaygroundPagesFor: aStep [
 			allCandidates: [ GTPlayBook instance pages ];
 			title: 'Playground';
 			itemName: [ :page | page content asString contractTo: 100 ];
-			filterUsing: GTFilterSubstring
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -202,7 +202,7 @@ GTSpotter >> spotterForPragmasFor: aStep [
 			allCandidates: [:x | PragmaType all ];
 			title: 'Pragmas';
 			itemName: [ :pragma | pragma keyword ];
-			filterUsing: GTFilterSubstring;
+			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -214,7 +214,7 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 		allCandidates: [ MCRepositoryGroup default repositories ];
 		itemIcon: #systemIcon;
 		wantsToDisplayOnEmptyQuery: false;
-		filterUsing: GTFilterSubstring
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -227,7 +227,7 @@ GTSpotter >> spotterForTestClassesFor: aStep [
 		itemName: [ :item | item name ];
 		itemIcon: #systemIcon;
 		actLogic: [ :item | NautilusUI new runTestsOfClass: item notifying: true ];
-		filterUsing: GTFilterSubstring;
+		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -237,45 +237,41 @@ GTSpotter >> spotterHistoryFor: aStep [
 	aStep listProcessor
 			allCandidates: [:x | self class history select: [ :each | each isNotNil ] ];
 			title: 'History';
-			itemName: [ :item | item processor itemNameFor: item value ];
-			filterUsing: GTFilterSubstring
+			itemName: [ :item | 
+				item class = GTSpotterProcessorLink 
+					ifTrue: [ item processor itemNameFor: item value ] " HACK: this triggers a recursion ! ... but processor is undefined for aCandidate "
+					ifFalse: [ item gtDisplayString ] ];
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterImplementorsFor: aStep [
 	<spotterOrder: 30>
-	| processor |
-	processor := aStep listProcessor.
-	processor
+	aStep listProcessor
 		title: 'Implementors';
-		filter: [ :originalQuery :stream | 
-					GTImplementorsSpotter new
-						query: originalQuery;
-						stream: stream;
-						processor: processor;
-						behaviors: SystemNavigation default allBehaviors;
-						find ]
+		filter: [ :context | 
+			GTImplementorsSpotter new
+				context: context;
+				behaviors: SystemNavigation default allBehaviors;
+				find ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterStfxFor: aStep [
 	<spotterOrder: 30>
-	| processor |
-	processor := aStep listProcessor.
-	processor 
+	^ aStep listProcessor
 		title: 'ws.stfx.eu';
-		filter: [ :originalQuery :stream |
+		filter: [ :context |
 			| aCollection query |
 			aCollection := OrderedCollection  new.
-			query := originalQuery trimBoth.
+			query := context textTrimmed.
 			(query beginsWith: 'http://ws.stfx.eu') ifTrue: [ 
 				[| string page |
 				string := GTUrlProvider new get: query.
 				page := GTPlayPage new content: string.
-				stream addObject: page inProcessor: processor.
+				context addItem: page.
 				aCollection add: page] on: Error do: [ "nothing" ] ].
-			aCollection ].
-	^ processor
+			aCollection ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
