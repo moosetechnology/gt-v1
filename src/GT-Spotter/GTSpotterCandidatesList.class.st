@@ -128,13 +128,6 @@ GTSpotterCandidatesList >> getProcessorLinkByCandidateLink: aCandidateLink [
 	^ aCandidateLink processorLink
 ]
 
-{ #category : #testing }
-GTSpotterCandidatesList >> hasOnlyOneItem [
-
-	self isEmpty ifTrue: [ ^ self ].
-	^ self head = self tail
-]
-
 { #category : #candidates }
 GTSpotterCandidatesList >> head [
 

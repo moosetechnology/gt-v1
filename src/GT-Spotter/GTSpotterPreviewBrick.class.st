@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'compositeBrick',
 		'spotterModel',
-		'asyncTask',
-		'previewObject'
+		'asyncTask'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -30,12 +29,6 @@ GTSpotterPreviewBrick >> compositeBrick: aBrick [
 	self themer spotterThemer spotterPreviewCompositeStyleFor: self compositeBrick.
 	self addBrickBack: self compositeBrick.
 	self doLayoutForce
-]
-
-{ #category : #initialization }
-GTSpotterPreviewBrick >> defaultNotAvailableText [
-
-	^ 'Preview is not available :('
 ]
 
 { #category : #initialization }
@@ -88,17 +81,12 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 
 { #category : #updating }
 GTSpotterPreviewBrick >> updatePreviewWith: anObject [
-	
+
 	self spotterModel isPreviewVisible ifFalse: [ ^ self ].
-	
-	previewObject = anObject ifTrue: [ ^ self ].
-	previewObject := anObject.
-	
-	previewObject ifNil: [ ^ self updatePreviewWithEmpty ].
 	
 	self asyncTask
 		execute: [ :composite :entity |
-				[ entity spotterPreviewIn: composite inContext: self spotterModel ]
+				[ anObject spotterPreviewIn: composite inContext: self spotterModel ]
 					on: Exception
 					do: [ composite removeAllBricks ].
 				 composite ]
@@ -107,24 +95,5 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 			self compositeBrick: composite.
 			self changed ]
 		priority: Processor userBackgroundPriority
-		delay: 50
-]
-
-{ #category : #updating }
-GTSpotterPreviewBrick >> updatePreviewWithEmpty [
-
-	self removeAllBricks.
-	self asyncTask
-		execute: [ | emptyBrick |
-			emptyBrick := GLMLabelBrick new
-				text: self defaultNotAvailableText;
-				textPosition: #center;
-				textColor: Color lightGray;
-					with: [ :b | b label
-					customFont;
-					fontSize: 14 ] ]
-		withArguments: {  }
-		callback: [ :brick | self compositeBrick: brick ]
-		priority: Processor userBackgroundPriority
-		delay: 50
+		delay: 300
 ]
