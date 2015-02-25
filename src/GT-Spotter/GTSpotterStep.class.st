@@ -280,9 +280,12 @@ GTSpotterStep >> selectPreviousCategory [
 GTSpotterStep >> selected [
 
 	^ selected ifNil: [
-		selected := self candidates isEmpty
-			ifTrue: [ nil ]
-			ifFalse: [ self candidates head ] ]
+		selected := (self candidates isEmpty
+			ifTrue: [ ^ nil ]
+			ifFalse: [ self candidates head ]).
+		self notifySelectedCandidateChanged.
+		self spotter notifyCategorySelected: self selected processor.
+		selected ]
 ]
 
 { #category : #selecting }

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'compositeBrick',
 		'spotterModel',
-		'asyncTask'
+		'asyncTask',
+		'previewObject'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -84,9 +85,12 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 
 	self spotterModel isPreviewVisible ifFalse: [ ^ self ].
 	
+	previewObject = anObject ifTrue: [ ^ self ].
+	previewObject := anObject.
+	
 	self asyncTask
 		execute: [ :composite :entity |
-				[ anObject spotterPreviewIn: composite inContext: self spotterModel ]
+				[ entity spotterPreviewIn: composite inContext: self spotterModel ]
 					on: Exception
 					do: [ composite removeAllBricks ].
 				 composite ]
@@ -95,5 +99,5 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 			self compositeBrick: composite.
 			self changed ]
 		priority: Processor userBackgroundPriority
-		delay: 300
+		delay: 50
 ]
