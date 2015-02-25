@@ -33,6 +33,12 @@ GTSpotterPreviewBrick >> compositeBrick: aBrick [
 ]
 
 { #category : #initialization }
+GTSpotterPreviewBrick >> defaultNotAvailableText [
+
+	^ 'Preview is not available :('
+]
+
+{ #category : #initialization }
 GTSpotterPreviewBrick >> initialize [
 	super initialize.
 	
@@ -88,7 +94,7 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 	previewObject = anObject ifTrue: [ ^ self ].
 	previewObject := anObject.
 	
-	previewObject ifNil: [ ^ self removeBrick: self compositeBrick ].
+	previewObject ifNil: [ ^ self updatePreviewWithEmpty ].
 	
 	self asyncTask
 		execute: [ :composite :entity |
@@ -100,6 +106,25 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 		callback: [ :composite |
 			self compositeBrick: composite.
 			self changed ]
+		priority: Processor userBackgroundPriority
+		delay: 50
+]
+
+{ #category : #updating }
+GTSpotterPreviewBrick >> updatePreviewWithEmpty [
+
+	self removeAllBricks.
+	self asyncTask
+		execute: [ | emptyBrick |
+			emptyBrick := GLMLabelBrick new
+				text: self defaultNotAvailableText;
+				textPosition: #center;
+				textColor: Color lightGray;
+					with: [ :b | b label
+					customFont;
+					fontSize: 14 ] ]
+		withArguments: {  }
+		callback: [ :brick | self compositeBrick: brick ]
 		priority: Processor userBackgroundPriority
 		delay: 50
 ]
