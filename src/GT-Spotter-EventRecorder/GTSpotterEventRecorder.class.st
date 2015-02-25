@@ -2,7 +2,12 @@ Class {
 	#name : #GTSpotterEventRecorder,
 	#superclass : #Object,
 	#instVars : [
-		'recordedData'
+		'recordedData',
+		'mutex',
+		'proxy',
+		'process',
+		'deliveryDelay',
+		'shouldDeliver'
 	],
 	#classVars : [
 		'SaveDataOnImageQuit'
@@ -47,19 +52,30 @@ GTSpotterEventRecorder class >> saveDataOnImageQuit: aBoolean [
 GTSpotterEventRecorder class >> shutDown: quitting [
 
 	(quitting not or: [self saveDataOnImageQuit not]) ifTrue: [ ^ self ].
-	self instance initiateDataDelivery.
+	self instance lastDataDelivery.
+]
+
+{ #category : #converting }
+GTSpotterEventRecorder >> compressedContents: aRecordedData [
+	^ (self dataAsBinaryStream: aRecordedData) originalContents "zipped"
 ]
 
 { #category : #converting }
 GTSpotterEventRecorder >> dataAsBinaryStream [
+	^ self dataAsBinaryStream: recordedData
+]
+
+{ #category : #converting }
+GTSpotterEventRecorder >> dataAsBinaryStream: aRecordedData [
 	| stream serializer |
 	
 	stream := ByteArray new writeStream binary.
 	serializer := FLSerializer newDefault.
 	serializer at: #hash putAdditionalObject: SmalltalkImage current imageName hash. 
+	serializer at: #sessionCreationTime putAdditionalObject: SmalltalkImage current session creationTime. 
 	serializer 
 		stream: stream.
-	serializer serialize: recordedData.
+	serializer serialize: aRecordedData.
 	^ stream
 ]
 
@@ -80,7 +96,21 @@ GTSpotterEventRecorder >> eventClassNameFor: aSpotterAnnouncementClass [
 GTSpotterEventRecorder >> initialize [
 	super initialize.
 	
-	recordedData := OrderedCollection new.
+	recordedData := self newRecordedData.
+	proxy := self newProxy.
+	mutex := Mutex new.
+	self initializeDeliveryProcess.
+]
+
+{ #category : #initialization }
+GTSpotterEventRecorder >> initializeDeliveryProcess [
+	process := [ [ self shouldDeliver ] whileTrue: [ 
+						self sendChunk.
+						deliveryDelay := self standardDuration asDelay.
+						deliveryDelay wait.
+						deliveryDelay := nil. ] ] 
+		forkAt: Processor userBackgroundPriority 
+		named: self className, ' regular delivery process'
 ]
 
 { #category : #delivery }
@@ -106,10 +136,36 @@ GTSpotterEventRecorder >> initiateDataDelivery [
 
 ]
 
+{ #category : #delivery }
+GTSpotterEventRecorder >> lastDataDelivery [
+	self sendChunk.
+]
+
 { #category : #initialization }
 GTSpotterEventRecorder >> linkToSpotter: aSpotterModel [
 
 	aSpotterModel announcer when: Announcement send: #recordAccouncement: to: self
+]
+
+{ #category : #'instance creation' }
+GTSpotterEventRecorder >> newProxy [
+	| newProxy |
+	newProxy := RAProxy new.
+	newProxy url: self remoteURL.
+	newProxy useAutoConnection.
+	newProxy useRetryStrategy sendEvery: self standardDuration.
+	newProxy useSilentBroker.
+	^ newProxy
+]
+
+{ #category : #'instance creation' }
+GTSpotterEventRecorder >> newRecordedData [
+	^ OrderedCollection new
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterEventRecorder >> proxy [
+	^ proxy
 ]
 
 { #category : #events }
@@ -135,11 +191,39 @@ GTSpotterEventRecorder >> recordSpotterOpenEvent [
 
 { #category : #accessing }
 GTSpotterEventRecorder >> remoteURL [
-	^ 'http://127.0.0.1:1828'
+	^ GTSpotterEventRecorderSettings url
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> sendChunk [
+	| oldRecordedData |
+	mutex critical: [ 
+		recordedData ifEmpty: [ ^ self ].
+		oldRecordedData := recordedData.
+		recordedData := self newRecordedData ].
+	self proxy announce: (GTSpotterRecorderDataAnnouncement data: ((self dataAsBinaryStream: oldRecordedData) originalContents))
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorder >> shouldDeliver [
+	^ shouldDeliver ifNil: [ shouldDeliver := true ]
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorder >> standardDuration [
+	^ 5 minutes
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> stopDelivering [
+	mutex critical: [ 
+		shouldDeliver := false.
+		deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal ] ]
 ]
 
 { #category : #events }
 GTSpotterEventRecorder >> storeEvent: anEvent [
-
-	recordedData add: anEvent asRecordedData
+	mutex critical: [ 
+		recordedData add: anEvent asRecordedData.
+		process isTerminated ifTrue: [ self initializeDeliveryProcess ] ]
 ]
