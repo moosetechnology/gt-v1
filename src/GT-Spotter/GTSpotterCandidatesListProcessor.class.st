@@ -74,6 +74,11 @@ GTSpotterCandidatesListProcessor >> filterInContext: aSpotterContext [
 		do: [ :e | ('[Spotter] Exception in processor <', self title asString, '>: ', e asString) logCr ]
 ]
 
+{ #category : #compatibility }
+GTSpotterCandidatesListProcessor >> filterUsing: aFilter [
+	self filter: aFilter
+]
+
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> itemIcon: aBlockWithOneArgument [
 	itemIconBlock := aBlockWithOneArgument
@@ -96,6 +101,38 @@ GTSpotterCandidatesListProcessor >> itemNameFor: anObject [
 	^ itemNameBlock isNil
 		ifTrue: [ super itemNameFor: anObject ]
 		ifFalse: [ itemNameBlock cull: anObject ]
+]
+
+{ #category : #convenience }
+GTSpotterCandidatesListProcessor >> match: aBlockWithTwoArguments [
+	self filter: (GTFilterBlock new 
+		matcher: aBlockWithTwoArguments;
+		yourself)
+]
+
+{ #category : #convenience }
+GTSpotterCandidatesListProcessor >> matchAlike [
+	self filter: GTFilterAlike
+]
+
+{ #category : #convenience }
+GTSpotterCandidatesListProcessor >> matchRegex [
+	self filter: GTFilterRegex
+]
+
+{ #category : #convenience }
+GTSpotterCandidatesListProcessor >> matchString [
+	self filter: GTFilterStringMatch
+]
+
+{ #category : #convenience }
+GTSpotterCandidatesListProcessor >> matchSubstring [
+	self filter: GTFilterSubstring
+]
+
+{ #category : #convenience }
+GTSpotterCandidatesListProcessor >> matchSubstrings [
+	self filter: GTFilterSubstrings
 ]
 
 { #category : #accessing }

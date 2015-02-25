@@ -55,6 +55,11 @@ GTSpotterMorph >> closeSpotter [
 	self autoHide ifTrue: [ self delete ]
 ]
 
+{ #category : #'accessing-defaults' }
+GTSpotterMorph >> defaultLabel [
+	^ 'Spotter'
+]
+
 { #category : #actions }
 GTSpotterMorph >> diveIn [
 
