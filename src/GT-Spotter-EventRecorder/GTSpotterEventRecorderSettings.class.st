@@ -2,8 +2,8 @@ Class {
 	#name : #GTSpotterEventRecorderSettings,
 	#superclass : #Object,
 	#instVars : [
+		'uuid',
 		'url',
-		'includeDeveloperName',
 		'rememberSettings',
 		'sendUsageData',
 		'sendSearchQuery'
@@ -18,7 +18,8 @@ Class {
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> deletePreferences [
 	"self deletePreferences"
-	self preferences ensureDelete
+	[ self preferences ensureDelete ]
+	on: PrimitiveFailed, FileSystemError do: [ "ignore" ]
 ]
 
 { #category : #'reflective operations' }
@@ -30,15 +31,17 @@ GTSpotterEventRecorderSettings class >> doesNotUnderstand: aMessage [
 { #category : #'class initialization' }
 GTSpotterEventRecorderSettings class >> initialize [
 	super initialize.
+	Smalltalk addToStartUpList: self.
 	self loadPreferences.
 ]
 
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> loadPreferences [
 	"self loadPreferences"
-	self preferences exists ifFalse: [ ^ self ].
-	self preferences readStreamDo: [ :aStream |
-		[ uniqueInstance := STON fromStream: aStream ] on: STONReaderError do: [ "ignore" ] ]
+	self preferences exists ifFalse: [ ^ self savePreferences ].
+	[ self preferences readStreamDo: [ :aStream |
+			uniqueInstance := STON fromStream: aStream ] ] 
+		on: Error, STONReaderError, FileSystemError do: [ "ignore" ] 
 ]
 
 { #category : #origins }
@@ -46,35 +49,19 @@ GTSpotterEventRecorderSettings class >> preferences [
 	^ FileLocator preferences / 'org.pharo.gt.spotter.event.recorder.txt' 
 ]
 
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> reset [
+	"self reset"
+	uniqueInstance := nil
+]
+
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> savePreferences [
 	"self savePreferences"
-	self preferences writeStreamDo: [ :aStream |
-		STON put: self uniqueInstance onStreamPretty: aStream ]
-]
-
-{ #category : #settings }
-GTSpotterEventRecorderSettings class >> settingsOnIncludeDeveloperName: aBuilder [ 
-	<systemsettings>
-	
-	(aBuilder setting: #includeDeveloperName)
-		parent: #gt;
-		target: self;
-		description: 'Include developer name.' translated;
-		label: 'Include developer name'
-
-]
-
-{ #category : #settings }
-GTSpotterEventRecorderSettings class >> settingsOnRememberSettings: aBuilder [ 
-	<systemsettings>
-	
-	(aBuilder setting: #rememberSettings)
-		parent: #gt;
-		target: self;
-		description: 'Remember settings between images.' translated;
-		label: 'Remember settings between images'
-
+	self deletePreferences.
+	[ self preferences writeStreamDo: [ :aStream |
+			STON put: self uniqueInstance onStreamPretty: aStream ] ]
+		on: STONWriterError, FileSystemError do: [ "ignore" ]
 ]
 
 { #category : #settings }
@@ -113,38 +100,32 @@ GTSpotterEventRecorderSettings class >> settingsOnUrl: aBuilder [
 
 ]
 
+{ #category : #'system startup' }
+GTSpotterEventRecorderSettings class >> startUp: resuming [
+	self loadPreferences
+]
+
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
 ]
 
 { #category : #accessing }
-GTSpotterEventRecorderSettings >> includeDeveloperName [
-	^ includeDeveloperName ifNil: [ includeDeveloperName := false ]
+GTSpotterEventRecorderSettings class >> uuid [
+	"self uuid"
+	^ self uniqueInstance uuid
 ]
 
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> includeDeveloperName: aBoolean [
-	includeDeveloperName := aBoolean.
-	self save.
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> rememberSettings [
-	^ rememberSettings ifNil: [ rememberSettings := true ]
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> rememberSettings: aBoolean [
-	rememberSettings := aBoolean.
-	self save.
+{ #category : #initialization }
+GTSpotterEventRecorderSettings >> initialize [
+	super initialize.
+	uuid := UUID new.
+	
 ]
 
 { #category : #actions }
 GTSpotterEventRecorderSettings >> save [
-	self rememberSettings 
-		ifTrue: [ self class savePreferences ]
-		ifFalse: [ self class deletePreferences ]
+	self class savePreferences
 ]
 
 { #category : #accessing }
@@ -188,4 +169,9 @@ GTSpotterEventRecorderSettings >> url [
 GTSpotterEventRecorderSettings >> url: aZnUrl [
 	url := aZnUrl ifNotNil: [ aZnUrl asZnUrl ].
 	self save.
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> uuid [
+	^ uuid
 ]
