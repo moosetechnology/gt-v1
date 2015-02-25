@@ -55,9 +55,14 @@ GTSpotterEventRecorder class >> shutDown: quitting [
 	self instance lastDataDelivery.
 ]
 
-{ #category : #converting }
-GTSpotterEventRecorder >> compressedContents: aRecordedData [
-	^ (self dataAsBinaryStream: aRecordedData) originalContents "zipped"
+{ #category : #delivery }
+GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
+	^ GTSpotterRecorderDataAnnouncement new
+			data: (self dataAsBinaryStream: oldRecordedData) originalContents;
+			timestamp: DateAndTime now;
+			imageHash: SmalltalkImage current imageName hash;
+			sessionCreationTime: SmalltalkImage current session creationTime;
+			yourself
 ]
 
 { #category : #converting }
@@ -71,8 +76,6 @@ GTSpotterEventRecorder >> dataAsBinaryStream: aRecordedData [
 	
 	stream := ByteArray new writeStream binary.
 	serializer := FLSerializer newDefault.
-	serializer at: #hash putAdditionalObject: SmalltalkImage current imageName hash. 
-	serializer at: #sessionCreationTime putAdditionalObject: SmalltalkImage current session creationTime. 
 	serializer 
 		stream: stream.
 	serializer serialize: aRecordedData.
@@ -115,7 +118,7 @@ GTSpotterEventRecorder >> initializeDeliveryProcess [
 
 { #category : #delivery }
 GTSpotterEventRecorder >> initiateDataDelivery [
-
+	"To be deleted"
 	UIManager default informUserDuring: [ :bar |
   	[ ^ (ZnClient new
 			beOneShot;
@@ -138,13 +141,17 @@ GTSpotterEventRecorder >> initiateDataDelivery [
 
 { #category : #delivery }
 GTSpotterEventRecorder >> lastDataDelivery [
+	"Maybe we could do nothing. 
+	The data can be send next time or never.
+	Otherwise I have to wait for sometime. To send it to server.
+	Now it is async-operation."
 	self sendChunk.
 ]
 
 { #category : #initialization }
 GTSpotterEventRecorder >> linkToSpotter: aSpotterModel [
 
-	aSpotterModel announcer when: Announcement send: #recordAccouncement: to: self
+	aSpotterModel announcer weak when: Announcement send: #recordAccouncement: to: self
 ]
 
 { #category : #'instance creation' }
@@ -163,7 +170,7 @@ GTSpotterEventRecorder >> newRecordedData [
 	^ OrderedCollection new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterEventRecorder >> proxy [
 	^ proxy
 ]
@@ -197,11 +204,12 @@ GTSpotterEventRecorder >> remoteURL [
 { #category : #delivery }
 GTSpotterEventRecorder >> sendChunk [
 	| oldRecordedData |
-	mutex critical: [ 
-		recordedData ifEmpty: [ ^ self ].
-		oldRecordedData := recordedData.
-		recordedData := self newRecordedData ].
-	self proxy announce: (GTSpotterRecorderDataAnnouncement data: ((self dataAsBinaryStream: oldRecordedData) originalContents))
+	mutex
+		critical: [ 
+			recordedData ifEmpty: [ ^ self ].
+			oldRecordedData := recordedData.
+			recordedData := self newRecordedData ].
+	self proxy announce: (self announcementFrom: oldRecordedData)
 ]
 
 { #category : #accessing }

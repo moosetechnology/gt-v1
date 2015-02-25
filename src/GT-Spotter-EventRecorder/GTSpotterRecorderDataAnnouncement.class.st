@@ -2,15 +2,13 @@ Class {
 	#name : #GTSpotterRecorderDataAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
-		'data'
+		'data',
+		'imageHash',
+		'sessionCreationTime',
+		'timestamp'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
-
-{ #category : #'instance creation' }
-GTSpotterRecorderDataAnnouncement class >> data: aByteArray [ 
-	^ self new data: aByteArray; yourself
-]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> data [
@@ -20,4 +18,34 @@ GTSpotterRecorderDataAnnouncement >> data [
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> data: aByteArray [ 
 	data := aByteArray
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> imageHash [
+	^ imageHash
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> imageHash: anObject [
+	imageHash := anObject
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> sessionCreationTime [
+	^ sessionCreationTime
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> sessionCreationTime: anObject [
+	sessionCreationTime := anObject
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> timestamp [
+	^ timestamp
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> timestamp: anObject [
+	timestamp := anObject
 ]
