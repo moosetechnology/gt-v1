@@ -82,11 +82,13 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 
 { #category : #updating }
 GTSpotterPreviewBrick >> updatePreviewWith: anObject [
-
+	
 	self spotterModel isPreviewVisible ifFalse: [ ^ self ].
 	
 	previewObject = anObject ifTrue: [ ^ self ].
 	previewObject := anObject.
+	
+	previewObject ifNil: [ ^ self removeBrick: self compositeBrick ].
 	
 	self asyncTask
 		execute: [ :composite :entity |
