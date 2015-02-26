@@ -591,8 +591,7 @@ GTSpotterWidgetThemer >> spotterPreviewCompositeStyleFor: aBrick [
 		hSpaceFill;
 		vSpaceFill;
 		margin: self previewBorderWidth;
-		paddingLeft: self previewPaddingLeft;
-		paddingRight: self previewPaddingRight
+		paddingLeft: self previewPaddingLeft
 ]
 
 { #category : #styles }
