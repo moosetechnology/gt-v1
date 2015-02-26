@@ -60,7 +60,8 @@ GTSpotterPreviewBrick >> onCandidateSelected: ann [
 { #category : #'event handling' }
 GTSpotterPreviewBrick >> onStepAdded [
 
-	self removeBrick: self compositeBrick
+	previewObject := nil.
+	self updatePreviewWithLoading
 ]
 
 { #category : #'event handling' }
@@ -88,13 +89,15 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 
 { #category : #updating }
 GTSpotterPreviewBrick >> updatePreviewWith: anObject [
-	
+	|wasNil|
 	self spotterModel isPreviewVisible ifFalse: [ ^ self ].
 	
+	wasNil := previewObject isNil.
 	previewObject = anObject ifTrue: [ ^ self ].
 	previewObject := anObject.
 	
 	previewObject ifNil: [ ^ self updatePreviewWithEmpty ].
+	wasNil ifTrue: [ self updatePreviewWithLoading ].
 	
 	self asyncTask
 		execute: [ :composite :entity |
@@ -127,4 +130,17 @@ GTSpotterPreviewBrick >> updatePreviewWithEmpty [
 		callback: [ :brick | self compositeBrick: brick ]
 		priority: Processor userBackgroundPriority
 		delay: 50
+]
+
+{ #category : #updating }
+GTSpotterPreviewBrick >> updatePreviewWithLoading [
+
+	self compositeBrick: (
+		GLMLabelBrick new
+			text: 'Loading...';
+			textPosition: #center;
+			textColor: Color lightGray;
+				with: [ :b | b label
+				customFont;
+				fontSize: 14 ])
 ]
