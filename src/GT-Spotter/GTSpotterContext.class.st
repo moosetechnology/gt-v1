@@ -20,8 +20,8 @@ GTSpotterContext >> addItem: anObject [
 
 { #category : #public }
 GTSpotterContext >> addItems: aCollection [
-	aCollection do: [ :each |
-		self addItem: each ]
+
+	self stream addObjects: aCollection inProcessor: self processor
 ]
 
 { #category : #accessing }

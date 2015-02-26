@@ -25,8 +25,7 @@ GTStringFilter >> applyFilterWithQuery [
 { #category : #private }
 GTStringFilter >> applyFilterWithoutQuery [
 	self items: (self allItems first: (self itemsLimit min: self allItems size)).
-	self items do: [ :item |
-		self addItem: item ]
+	self addItems: self items
 ]
 
 { #category : #accessing }
