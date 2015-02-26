@@ -9,21 +9,11 @@ Class {
 		'deliveryQueue',
 		'shouldDeliver'
 	],
-	#classVars : [
-		'SaveDataOnImageQuit'
-	],
 	#classInstVars : [
 		'instance'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
-
-{ #category : #'class initialization' }
-GTSpotterEventRecorder class >> initialize [
-	
-	Smalltalk 
-		addToShutDownList: self
-]
 
 { #category : #accessing }
 GTSpotterEventRecorder class >> instance [
@@ -36,25 +26,6 @@ GTSpotterEventRecorder class >> reset [
 	instance := nil
 ]
 
-{ #category : #preferences }
-GTSpotterEventRecorder class >> saveDataOnImageQuit [
-
-	^ SaveDataOnImageQuit ifNil: [ true ]
-]
-
-{ #category : #preferences }
-GTSpotterEventRecorder class >> saveDataOnImageQuit: aBoolean [
-
-	SaveDataOnImageQuit := aBoolean
-]
-
-{ #category : #'system startup' }
-GTSpotterEventRecorder class >> shutDown: quitting [
-
-	(quitting not or: [self saveDataOnImageQuit not]) ifTrue: [ ^ self ].
-	self instance lastDataDelivery.
-]
-
 { #category : #delivery }
 GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 	^ GTSpotterRecorderDataAnnouncement new
@@ -64,7 +35,7 @@ GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 			sessionCreationTime: SmalltalkImage current session creationTime;
 			imageVersion: SystemVersion current version;
 			latestUpdate: SystemVersion current highestUpdate;
-			computerUUID: GTSpotterEventRecorderSettings uuid;
+			computerUUID: GTSpotterEventRecorderSettings uniqueInstance computerUUID;
 			yourself
 ]
 

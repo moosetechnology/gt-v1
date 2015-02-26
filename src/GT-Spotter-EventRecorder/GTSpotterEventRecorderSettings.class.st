@@ -2,11 +2,11 @@ Class {
 	#name : #GTSpotterEventRecorderSettings,
 	#superclass : #Object,
 	#instVars : [
-		'uuid',
 		'url',
 		'rememberSettings',
 		'sendUsageData',
-		'sendSearchQuery'
+		'sendSearchQuery',
+		'computerUUID'
 	],
 	#classInstVars : [
 		'url',
@@ -39,14 +39,13 @@ GTSpotterEventRecorderSettings class >> initialize [
 GTSpotterEventRecorderSettings class >> loadPreferences [
 	"self loadPreferences"
 	self preferences exists ifFalse: [ ^ self savePreferences ].
-	[ self preferences readStreamDo: [ :aStream |
-			uniqueInstance := STON fromStream: aStream ] ] 
-		on: Error, STONReaderError, FileSystemError do: [ "ignore" ] 
+	[ FLMaterializer materializationFromFileNamed: self preferences ] 
+		on: Error do: [ "ignore" ]
 ]
 
 { #category : #origins }
 GTSpotterEventRecorderSettings class >> preferences [
-	^ FileLocator preferences / 'org.pharo.gt.spotter.event.recorder.txt' 
+	^ FileLocator preferences / 'org.pharo.gt.spotter.event.recorder.fuel' 
 ]
 
 { #category : #accessing }
@@ -59,9 +58,8 @@ GTSpotterEventRecorderSettings class >> reset [
 GTSpotterEventRecorderSettings class >> savePreferences [
 	"self savePreferences"
 	self deletePreferences.
-	[ self preferences writeStreamDo: [ :aStream |
-			STON put: self uniqueInstance onStreamPretty: aStream ] ]
-		on: STONWriterError, FileSystemError do: [ "ignore" ]
+	[ FLSerializer serialize: self uniqueInstance toFileNamed: self preferences ]
+		on: Error do: [ "ignore" ]
 ]
 
 { #category : #settings }
@@ -111,15 +109,14 @@ GTSpotterEventRecorderSettings class >> uniqueInstance [
 ]
 
 { #category : #accessing }
-GTSpotterEventRecorderSettings class >> uuid [
-	"self uuid"
-	^ self uniqueInstance uuid
+GTSpotterEventRecorderSettings >> computerUUID [
+	^ computerUUID
 ]
 
 { #category : #initialization }
 GTSpotterEventRecorderSettings >> initialize [
 	super initialize.
-	uuid := UUID new.
+	computerUUID := UUID new.
 	
 ]
 
@@ -169,9 +166,4 @@ GTSpotterEventRecorderSettings >> url [
 GTSpotterEventRecorderSettings >> url: aZnUrl [
 	url := aZnUrl ifNotNil: [ aZnUrl asZnUrl ].
 	self save.
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> uuid [
-	^ uuid
 ]
