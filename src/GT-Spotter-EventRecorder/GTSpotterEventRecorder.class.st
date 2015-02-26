@@ -62,6 +62,9 @@ GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 			timestamp: DateAndTime now;
 			imageHash: SmalltalkImage current imageName hash;
 			sessionCreationTime: SmalltalkImage current session creationTime;
+			imageVersion: SystemVersion current version;
+			latestUpdate: SystemVersion current highestUpdate;
+			computerUUID: GTSpotterEventRecorderSettings uuid;
 			yourself
 ]
 
@@ -226,7 +229,7 @@ GTSpotterEventRecorder >> shouldDeliver [
 
 { #category : #accessing }
 GTSpotterEventRecorder >> standardDuration [
-	^ 5 minutes
+	^ 20 minutes
 ]
 
 { #category : #delivery }
