@@ -39,6 +39,11 @@ GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 			yourself
 ]
 
+{ #category : #testing }
+GTSpotterEventRecorder >> canSendUsageData [
+	^ GTSpotterEventRecorderSettings uniqueInstance sendUsageData
+]
+
 { #category : #converting }
 GTSpotterEventRecorder >> dataAsBinaryStream [
 	^ self dataAsBinaryStream: recordedData
@@ -142,11 +147,6 @@ GTSpotterEventRecorder >> linkToSpotter: aSpotterModel [
 	aSpotterModel announcer weak when: Announcement send: #recordAccouncement: to: self
 ]
 
-{ #category : #'instance creation' }
-GTSpotterEventRecorder >> newRecordedData [
-	^ WaitfreeQueue new
-]
-
 { #category : #delivery }
 GTSpotterEventRecorder >> prepareDeliveryData [
 	| toBeDeliveredData toBeDeliveredAnnouncement |
@@ -161,6 +161,8 @@ GTSpotterEventRecorder >> prepareDeliveryData [
 GTSpotterEventRecorder >> recordAccouncement: anAnnouncement [
 	| recorderEventClassName |
 
+	self canSendUsageData ifFalse: [ ^ self ].
+
 	recorderEventClassName := self eventClassNameFor: anAnnouncement class.
 	(Smalltalk hasClassNamed: recorderEventClassName) ifFalse: [ ^ false ].
 	
@@ -174,6 +176,8 @@ GTSpotterEventRecorder >> recordAccouncement: anAnnouncement [
 
 { #category : #events }
 GTSpotterEventRecorder >> recordSpotterOpenEvent [
+
+	self canSendUsageData ifFalse: [ ^ self ].
 
 	self storeEvent: GTSpotterRecorderOpenEvent new
 ]

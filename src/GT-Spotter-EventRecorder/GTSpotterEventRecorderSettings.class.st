@@ -5,7 +5,8 @@ Class {
 		'url',
 		'sendUsageData',
 		'sendSearchQuery',
-		'computerUUID'
+		'computerUUID',
+		'userAnsweredAgreement'
 	],
 	#classInstVars : [
 		'url',
@@ -116,6 +117,13 @@ GTSpotterEventRecorderSettings >> computerUUID [
 	^ computerUUID
 ]
 
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> hasUserAnsweredAgreement [
+	"True means that he has already answered question about sending anonymous data
+	and we do not need to ask him/her again."
+	^ userAnsweredAgreement ifNil: [ userAnsweredAgreement := false ]
+]
+
 { #category : #initialization }
 GTSpotterEventRecorderSettings >> initialize [
 	super initialize.
@@ -141,12 +149,18 @@ GTSpotterEventRecorderSettings >> sendSearchQuery: aBoolean [
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendUsageData [
-	^ sendUsageData ifNil: [ sendUsageData := true ]
+	^ sendUsageData ifNil: [ sendUsageData := false ]
 ]
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendUsageData: aBoolean [
 	sendUsageData := aBoolean.
+	self save.
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> setUserAnsweredAgreement [
+	userAnsweredAgreement := true.
 	self save.
 ]
 
