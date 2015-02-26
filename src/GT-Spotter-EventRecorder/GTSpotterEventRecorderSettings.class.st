@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'url',
-		'rememberSettings',
 		'sendUsageData',
 		'sendSearchQuery',
 		'computerUUID'
@@ -19,7 +18,7 @@ Class {
 GTSpotterEventRecorderSettings class >> deletePreferences [
 	"self deletePreferences"
 	[ self preferences ensureDelete ]
-	on: PrimitiveFailed, FileSystemError do: [ "ignore" ]
+	on: Error do: [ "ignore" ]
 ]
 
 { #category : #'reflective operations' }
@@ -38,9 +37,13 @@ GTSpotterEventRecorderSettings class >> initialize [
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> loadPreferences [
 	"self loadPreferences"
+	| newInstance |
 	self preferences exists ifFalse: [ ^ self savePreferences ].
-	[ FLMaterializer materializationFromFileNamed: self preferences ] 
-		on: Error do: [ "ignore" ]
+	[ 
+		newInstance := FLMaterializer materializationFromFileNamed: self preferences.
+		newInstance computerUUID = self uniqueInstance computerUUID
+			ifFalse: [ uniqueInstance := newInstance ]
+	] on: Error do: [ self savePreferences ]
 ]
 
 { #category : #origins }
