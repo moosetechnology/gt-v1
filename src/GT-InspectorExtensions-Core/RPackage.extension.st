@@ -1,6 +1,12 @@
 Extension { #name : #RPackage }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+RPackage class >> exampleEmpty [
+	<example: 'Empty package'>
+	^ self named: 'Empty'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 RPackage >> gtInspectorDefinedClassesIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite list
