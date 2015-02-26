@@ -4,17 +4,17 @@ Class {
 	#instVars : [
 		'server'
 	],
-	#category : #'GT-Spotter-EventRecorder-Server'
+	#category : #'GT-Spotter-EventRecorder-Server-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterRecorderServer class >> start [
 
-	(ZnServer startDefaultOn: 1828)
+	(ZnServer startDefaultOn: 8080)
 		delegate: GTSpotterRecorderServerDelegate new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterRecorderServer class >> stop [
 
 	ZnServer stopDefault
