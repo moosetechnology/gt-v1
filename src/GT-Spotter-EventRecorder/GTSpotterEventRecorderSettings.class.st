@@ -162,7 +162,7 @@ GTSpotterEventRecorderSettings >> stringUrl: aUrlString [
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> url [
-	^ url ifNil: [ url := 'ws://gc.dcc.uchile.cl.:8855' asZnUrl ]
+	^ url ifNil: [ url := 'http://gc.dcc.uchile.cl.:8080/gt/events' asZnUrl ]
 ]
 
 { #category : #accessing }

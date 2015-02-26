@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'recordedData',
 		'mutex',
-		'proxy',
 		'process',
 		'deliveryDelay',
+		'deliveryQueue',
 		'shouldDeliver'
 	],
 	#classVars : [
@@ -58,7 +58,7 @@ GTSpotterEventRecorder class >> shutDown: quitting [
 { #category : #delivery }
 GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 	^ GTSpotterRecorderDataAnnouncement new
-			data: (self dataAsBinaryStream: oldRecordedData) originalContents;
+			data: (self serialize: oldRecordedData);
 			timestamp: DateAndTime now;
 			imageHash: SmalltalkImage current imageName hash;
 			sessionCreationTime: SmalltalkImage current session creationTime;
@@ -82,6 +82,42 @@ GTSpotterEventRecorder >> dataAsBinaryStream: aRecordedData [
 	^ stream
 ]
 
+{ #category : #delivery }
+GTSpotterEventRecorder >> deliverAndSignalProgress: aBoolean [
+	self 
+		prepareDeliveryData;
+		deliverDataAndSignalProgress: aBoolean.
+
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> deliverData: aByteArray signalProgress: aBoolean [
+	^ (ZnClient new
+			beOneShot;
+			timeout: 5;
+			signalProgress: aBoolean;
+			numberOfRetries: 3;
+  			retryDelay: 2;
+			url: self remoteURL;
+			enforceHttpSuccess: true;
+			ifFail: [ :exception | deliveryQueue nextPut: aByteArray ];
+			entity: (ZnByteArrayEntity bytes: aByteArray);
+			put;
+			response)
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> deliverDataAndSignalProgress: aBoolean [
+	deliveryQueue flush: [ :eachByteArray |
+		self deliverData: eachByteArray signalProgress: aBoolean ]
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> deliverNow [
+	"for testing purpose"
+	deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal. "aDelay unschedule." ]
+]
+
 { #category : #accessing }
 GTSpotterEventRecorder >> eventClassNameFor: aSpotterAnnouncementClass [
 
@@ -99,8 +135,8 @@ GTSpotterEventRecorder >> eventClassNameFor: aSpotterAnnouncementClass [
 GTSpotterEventRecorder >> initialize [
 	super initialize.
 	
-	recordedData := self newRecordedData.
-	proxy := self newProxy.
+	recordedData := WaitfreeQueue new.
+	deliveryQueue := WaitfreeQueue new.
 	mutex := Mutex new.
 	self initializeDeliveryProcess.
 ]
@@ -108,7 +144,7 @@ GTSpotterEventRecorder >> initialize [
 { #category : #initialization }
 GTSpotterEventRecorder >> initializeDeliveryProcess [
 	process := [ [ self shouldDeliver ] whileTrue: [ 
-						self sendChunk.
+						self deliverAndSignalProgress: false.
 						deliveryDelay := self standardDuration asDelay.
 						deliveryDelay wait.
 						deliveryDelay := nil. ] ] 
@@ -117,35 +153,14 @@ GTSpotterEventRecorder >> initializeDeliveryProcess [
 ]
 
 { #category : #delivery }
-GTSpotterEventRecorder >> initiateDataDelivery [
-	"To be deleted"
-	UIManager default informUserDuring: [ :bar |
-  	[ ^ (ZnClient new
-			beOneShot;
-			timeout: 5;
-			signalProgress: true;
-			numberOfRetries: 3;
-  			retryDelay: 2;
-			url: self remoteURL;
-			enforceHttpSuccess: true;
-			ifFail: [ :exception |   ];
-			entity: (ZnByteArrayEntity bytes: self dataAsBinaryStream originalContents);
-			put;
-			response) ]
-    on: HTTPProgress 
-    do: [ :progress |  
-		progress isEmpty ifFalse: [ bar current: progress percentage ].
-      progress resume ] ]
-
-]
-
-{ #category : #delivery }
 GTSpotterEventRecorder >> lastDataDelivery [
-	"Maybe we could do nothing. 
-	The data can be send next time or never.
-	Otherwise I have to wait for sometime. To send it to server.
-	Now it is async-operation."
-	self sendChunk.
+	UIManager default informUserDuring: [ :bar |
+	  	[ self deliverAndSignalProgress: true ]
+	    on: HTTPProgress 
+	    do: [ :progress |  
+			progress isEmpty ifFalse: [ bar current: progress percentage ].
+	      progress resume ] ]
+
 ]
 
 { #category : #initialization }
@@ -155,24 +170,18 @@ GTSpotterEventRecorder >> linkToSpotter: aSpotterModel [
 ]
 
 { #category : #'instance creation' }
-GTSpotterEventRecorder >> newProxy [
-	| newProxy |
-	newProxy := RAProxy new.
-	newProxy url: self remoteURL.
-	newProxy useAutoConnection.
-	newProxy useRetryStrategy sendEvery: self standardDuration.
-	newProxy useSilentBroker.
-	^ newProxy
-]
-
-{ #category : #'instance creation' }
 GTSpotterEventRecorder >> newRecordedData [
-	^ OrderedCollection new
+	^ WaitfreeQueue new
 ]
 
-{ #category : #accessing }
-GTSpotterEventRecorder >> proxy [
-	^ proxy
+{ #category : #delivery }
+GTSpotterEventRecorder >> prepareDeliveryData [
+	| toBeDeliveredData toBeDeliveredAnnouncement |
+	recordedData isEmpty ifTrue: [ ^ self ].
+	toBeDeliveredData := OrderedCollection new.
+	recordedData flush: [ :eachRecord | toBeDeliveredData addLast: eachRecord ].
+	toBeDeliveredAnnouncement := self serializedAnnouncementFrom: toBeDeliveredData.
+	deliveryQueue nextPut: toBeDeliveredAnnouncement.
 ]
 
 { #category : #events }
@@ -201,15 +210,14 @@ GTSpotterEventRecorder >> remoteURL [
 	^ GTSpotterEventRecorderSettings url
 ]
 
+{ #category : #converting }
+GTSpotterEventRecorder >> serialize: anObject [
+	^ FLSerializer serializeToByteArray: anObject
+]
+
 { #category : #delivery }
-GTSpotterEventRecorder >> sendChunk [
-	| oldRecordedData |
-	mutex
-		critical: [ 
-			recordedData ifEmpty: [ ^ self ].
-			oldRecordedData := recordedData.
-			recordedData := self newRecordedData ].
-	self proxy announce: (self announcementFrom: oldRecordedData)
+GTSpotterEventRecorder >> serializedAnnouncementFrom: oldRecordedData [
+	^ self serialize: (self announcementFrom: oldRecordedData)
 ]
 
 { #category : #accessing }
@@ -231,7 +239,7 @@ GTSpotterEventRecorder >> stopDelivering [
 
 { #category : #events }
 GTSpotterEventRecorder >> storeEvent: anEvent [
+	recordedData nextPut: anEvent asRecordedData.
 	mutex critical: [ 
-		recordedData add: anEvent asRecordedData.
 		process isTerminated ifTrue: [ self initializeDeliveryProcess ] ]
 ]
