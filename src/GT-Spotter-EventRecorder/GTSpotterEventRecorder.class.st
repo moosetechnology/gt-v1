@@ -96,8 +96,7 @@ GTSpotterEventRecorder >> deliverData: aByteArray signalProgress: aBoolean [
 			beOneShot;
 			timeout: 5;
 			signalProgress: aBoolean;
-			numberOfRetries: 3;
-  			retryDelay: 2;
+			numberOfRetries: 0;
 			url: self remoteURL;
 			enforceHttpSuccess: true;
 			ifFail: [ :exception | deliveryQueue nextPut: aByteArray ];
