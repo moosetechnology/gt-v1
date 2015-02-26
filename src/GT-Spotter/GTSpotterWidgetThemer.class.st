@@ -197,8 +197,7 @@ GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 		normalColor: self categoryTitleBackgroundColor;
 		height: 30;
 		hSpaceFill;
-		paddingLeft: self categoryNameMarginLeft;
-		with: [ :b | b layout floating: #stack ]
+		paddingLeft: self categoryNameMarginLeft
 	
 	"aBrick layout
 		floating: #stack;

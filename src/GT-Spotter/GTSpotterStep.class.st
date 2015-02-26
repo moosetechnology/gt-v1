@@ -76,8 +76,9 @@ GTSpotterStep >> candidates [
 
 	^ candidates ifNil: [
 		candidates := GTSpotterCandidatesList new.
-		candidates announcer weak subscribe: GTSpotterCandidateAdded do: [ self selectFirst ].
+		candidates announcer weak subscribe: GTSpotterCandidateAdded do: [ self candidates hasOnlyOneItem ifTrue: [ self selectFirst ] ].
 		candidates announcer weak subscribe: GTSpotterAllCandidatesAdded do: [ self selectFirst ].
+		candidates announcer weak subscribe: GTSpotterAllCandidatesRemoved do: [ self selected: nil ].
 		candidates ]
 ]
 
@@ -141,10 +142,12 @@ GTSpotterStep >> newContextForQuery: aString [
 ]
 
 { #category : #notifying }
-GTSpotterStep >> notifySelectedCandidateChanged [
-
-	self announcer announce: (GTSpotterSelectedCandidateChanged new selected: self selectedCandidate).
-	self spotter notifyCandidateSelected: self selectedCandidate
+GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink [
+	|candidate|
+	
+	candidate := aDoubleLink ifNotNil: [ :o | o value ].
+	self announcer announce: (GTSpotterSelectedCandidateChanged new selected: candidate).
+	self spotter notifyCandidateSelected: candidate
 ]
 
 { #category : #accessing }
@@ -280,22 +283,29 @@ GTSpotterStep >> selectPreviousCategory [
 GTSpotterStep >> selected [
 
 	^ selected ifNil: [
-		selected := self candidates isEmpty
-			ifTrue: [ nil ]
-			ifFalse: [ self candidates head ] ]
+		selected := (self candidates isEmpty
+			ifTrue: [ ^ nil ]
+			ifFalse: [ self candidates head ]).
+		self notifySelectedCandidateChanged: selected.
+		selected ifNotNil: [ self spotter notifyCategorySelected: self selected processor ].
+		selected ]
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selected: aDoubleLink [
-
+	
 	self selected = aDoubleLink ifTrue: [ ^ self ].
 	
 	self spotter
 		after: [
 			selected := aDoubleLink.
-			self notifySelectedCandidateChanged ]
+			self notifySelectedCandidateChanged: selected ]
 		do: [ self spotter notifyCategorySelected: self selected processor ]
-		ifTrue: (self selected processor = aDoubleLink processor) not
+		ifTrue: [ aDoubleLink
+			ifNotNil: [ self selected
+				ifNotNil: [ (self selected processor = aDoubleLink processor) not ]
+				ifNil: [ true ] ]
+			ifNil: [ false ] ]
 	
 	
 ]

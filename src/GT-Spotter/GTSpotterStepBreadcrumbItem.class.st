@@ -95,7 +95,8 @@ GTSpotterStepBreadcrumbItem >> stepModel: anObject [
 { #category : #accessing }
 GTSpotterStepBreadcrumbItem >> text: aString [
 
-	self labelBrick text: aString
+	self labelBrick text: aString.
+	self doLayoutForce
 ]
 
 { #category : #accessing }

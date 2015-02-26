@@ -134,6 +134,8 @@ GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 	
 	self onCandidateSelected.
 	
+	self nameBrick wrappedBounds markWidthDirty.
+	self nameBrick label wrappedBounds markWidthDirty.
 	self doLayoutForce.
 
 	^ self
@@ -141,7 +143,8 @@ GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 
 { #category : #'event-handling' }
 GTSpotterCategoryTitleBrick >> onCandidateSelected [
-
+	
+	self stepModel selected ifNil: [ ^ self ].
 	self stepModel selectedCategory = self categoryProcessor
 		ifTrue: [ self showActionbar ]
 		ifFalse: [ self hideActionbar ]
