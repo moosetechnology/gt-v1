@@ -62,5 +62,6 @@ RPackage >> spotterTagsFor: aStep [
 	aStep listProcessor
 			allCandidates: [ self classTags sorted: [ :a :b | a name < b name ] ];
 			title: 'Tags';
+			itemName: [ :item | item name ];
 			filter: GTFilterSubstring
 ]

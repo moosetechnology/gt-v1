@@ -6,12 +6,14 @@ GTSpotter >> evaluateExpressionInContext: aSpotterContext [
 	| result candidates |
 	candidates := OrderedCollection new.
 	" filter allowed selectors "
-	(Number selectors anySatisfy: [ :selector | 
-		aSpotterContext textTrimmed includesSubstring: selector caseSensitive: true ]) ifFalse: [ ^ candidates ].
+	(Number withAllSubclasses anySatisfy: [ :class |
+		class selectors anySatisfy: [ :selector | 
+			aSpotterContext textTrimmed includesSubstring: selector caseSensitive: true ] ]) ifFalse: [ ^ candidates ].
 	" perform the selector "
 	result := [ Compiler evaluate: aSpotterContext textTrimmed ] 
 		on: Error 
 		do: [ ^ candidates ].
+	result isNumber ifFalse: [ ^ candidates ].
 	aSpotterContext addItem: result.
 	candidates add: result. 
 	" if the result is not readable as float, append the float as well "
@@ -159,7 +161,7 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 	<spotterOrder: 21>
 	aStep listProcessor
-			title: 'Metacello configurations';
+			title: 'Metacello Configurations';
 			allCandidates: [ 
 				Smalltalk allClasses select: [ :each | 
 					(each respondsTo: #isMetacelloConfig) 
@@ -167,7 +169,7 @@ GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 							and: [ each name beginsWith: 'ConfigurationOf' ] ] ]
 					thenCollect: #project ];
 			itemName: [ :each | each configuration class name ];
-			itemIcon: #systemIcon;
+			itemIcon: [ Smalltalk ui icons iconNamed: #configIcon ];
 			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
 ]
