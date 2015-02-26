@@ -9,13 +9,13 @@ Class {
 
 { #category : #accessing }
 GTSpotterRecorderServer class >> start [
-
+	"self start"
 	(ZnServer startDefaultOn: 8080)
 		delegate: GTSpotterRecorderServerDelegate new
 ]
 
 { #category : #accessing }
 GTSpotterRecorderServer class >> stop [
-
+	"self stop"
 	ZnServer stopDefault
 ]

@@ -52,7 +52,7 @@ GTSpotterRecorderServerDelegate >> handleRequest: request [
 { #category : #initialization }
 GTSpotterRecorderServerDelegate >> initialize [
 	super initialize.
-	storage := GTSpotterRecorderObjectToFileStorage on: 'gt/evets' asFileReference.
+	storage := GTSpotterRecorderObjectToFileStorage on: 'gt/events' asFileReference.
 	prefix := #().
 ]
 
