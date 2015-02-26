@@ -7,25 +7,6 @@ MCVersionInfo >> allAncestors [
 			stream nextPut: versionInfo ] ]
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core-private' }
-MCVersionInfo >> diffAgainstWorkingCopy [
-	<demoOnly: 'this is really ugly, actually monticello should provide all the necessary utilities in order to do such things more conveniently'>
-	| repository workingCopy package workingCopyVersion version | 
-	workingCopy := (MCWorkingCopy allManagers 
-		detect: [ :each | each ancestry hasAncestor: self ]
-		ifNone: [ nil ]).
-	workingCopy 
-		ifNotNil: [
-			package := workingCopy package.
-			repository := workingCopy repositoryGroup repositories anyOne.
-			workingCopyVersion := repository versionWithInfo: workingCopy versionInfo ifAbsent: [ ^ self halt ].
-			version := repository versionWithInfo: self ifAbsent: [ ^ self halt ].
-			((MCFileRepositoryInspector repository: repository workingCopy: workingCopy) 
-				version: version;
-				yourself) changes ] 
-		ifNil: [ self halt ]
-]
-
 { #category : #'*GT-SpotterExtensions-Core' }
 MCVersionInfo >> gtDisplayOn: stream [
 	stream nextPutAll: self name
@@ -37,6 +18,5 @@ MCVersionInfo >> spotterAncestorsFor: aStep [
 	aStep listProcessor
 		title: 'Ancestors';
 		allCandidates: [ self allAncestors ];
-		actLogic: [ :aMCVersionInfo | aMCVersionInfo diffAgainstWorkingCopy ];
 		filter: GTFilterSubstring
 ]

@@ -42,7 +42,6 @@ MCWorkingCopy >> spotterAncestorsFor: aStep [
 	aStep listProcessor
 		title: 'Ancestors';
 		allCandidates: [ self allAncestors ];
-		actLogic: [ :aMCVersionInfo | aMCVersionInfo diffAgainstWorkingCopy ];
 		filter: GTFilterSubstring
 ]
 
