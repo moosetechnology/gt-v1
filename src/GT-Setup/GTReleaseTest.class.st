@@ -7,27 +7,17 @@ Class {
 { #category : #accessing }
 GTReleaseTest >> allClassesWithCustomExtensions [
 
-	^ self allClassesWithSpotterExtensions asSet, self allClassesWithInspectorExtensions asSet
+	^ (self allClassesWithPragma: #spotterOrder:) asSet , 
+	(self allClassesWithPragma: #gtInspectorPresentationOrder:) 
 ]
 
 { #category : #accessing }
-GTReleaseTest >> allClassesWithInspectorExtensions [
-
-	^ Object withAllSubclasses select: [ :eachClass |
-		 (Pragma 
-				allNamed: #gtInspectorPresentationOrder: 
-				from: eachClass 
-				to: eachClass) notEmpty ]
-]
-
-{ #category : #accessing }
-GTReleaseTest >> allClassesWithSpotterExtensions [
-
-	^ Object withAllSubclasses select: [ :eachClass |
-		 (Pragma 
-				allNamed: #spotterOrder: 
-				from: eachClass 
-				to: eachClass) notEmpty ]
+GTReleaseTest >> allClassesWithPragma: pragmaSymbol [
+	^ Object withAllSubclasses
+		select: [ :eachClass | 
+			"we reject the meta classes because they do not need examples"
+			eachClass = eachClass theNonMetaClass and: [
+				(Pragma allNamed: pragmaSymbol from: eachClass to: eachClass) notEmpty ] ]
 ]
 
 { #category : #tests }
