@@ -142,6 +142,13 @@ GTSpotterStep >> newContextForQuery: aString [
 ]
 
 { #category : #notifying }
+GTSpotterStep >> notifyContextChanged: aSpotterContext [
+	self announcer announce: (GTSpotterContextChanged new 
+		context: aSpotterContext; 
+		yourself)
+]
+
+{ #category : #notifying }
 GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink [
 	|candidate|
 	
@@ -179,6 +186,7 @@ GTSpotterStep >> process: aString [
 	
 	self asyncTask
 		execute: [ :aContext |
+				self notifyContextChanged: aContext.
 				self stream removeAllCandidates.
 				[ self relevantProcessorsProcess: aContext ]
 					on: Error
