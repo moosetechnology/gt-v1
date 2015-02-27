@@ -10,16 +10,6 @@ Class {
 	#category : #'GT-Spotter-Theme'
 }
 
-{ #category : #styles }
-GTSpotterWidgetThemer >> agreementButtonStyleFor: aBrick [
-
-	aBrick
-		vSpaceFill;
-		width: [ :m | m height ];
-		normalImage: GLMUIThemeExtraIcons glamorousBrowse";
-		pressedColor: self buttonPressedColor"
-]
-
 { #category : #values }
 GTSpotterWidgetThemer >> backgroundColor [
 	"used as background color for all panes"

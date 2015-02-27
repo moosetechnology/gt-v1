@@ -143,7 +143,7 @@ GTSpotterStep >> newContextForQuery: aString [
 
 { #category : #notifying }
 GTSpotterStep >> notifyContextChanged: aSpotterContext [
-	self announcer announce: (GTSpotterContextChanged new 
+	self spotter announce: (GTSpotterContextChanged new 
 		context: aSpotterContext; 
 		yourself)
 ]
@@ -192,7 +192,7 @@ GTSpotterStep >> process: aString [
 					on: Error
 					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
 		withArguments: { self context }
-		callback: [  ]
+		callback: [ self spotter announce: GTSpotterSearchFinished new ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200
 ]
