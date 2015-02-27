@@ -245,9 +245,12 @@ GTSpotterEventRecorder >> standardDuration [
 
 { #category : #delivery }
 GTSpotterEventRecorder >> stopDelivering [
-	mutex critical: [ 
+	^ mutex critical: [ | oldProcess |
 		shouldDeliver := false.
-		deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal ] ]
+		deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal ].
+		oldProcess := process.
+		process := nil.
+		oldProcess ]
 ]
 
 { #category : #events }
