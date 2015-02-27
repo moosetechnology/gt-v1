@@ -191,7 +191,6 @@ GTSpotterEventRecorderSettings >> sendSearchQuery [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendSearchQuery: aBoolean [
 	sendSearchQuery := aBoolean.
-	self save.
 ]
 
 { #category : #accessing }
@@ -202,11 +201,9 @@ GTSpotterEventRecorderSettings >> sendUsageData [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendUsageData: aBoolean [
 	sendUsageData := aBoolean.
-	self save.
 ]
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> setUserAnsweredAgreement [
 	userAnsweredAgreement := true.
-	self save.
 ]
