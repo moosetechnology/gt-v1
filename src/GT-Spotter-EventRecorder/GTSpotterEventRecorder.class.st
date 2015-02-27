@@ -46,6 +46,13 @@ Class {
 }
 
 { #category : #accessing }
+GTSpotterEventRecorder class >> cleanUp [
+	"Stop and remove the process for sending usage data. Delete all recorder that from the queue."
+	
+	self flag: 'To implement'
+]
+
+{ #category : #accessing }
 GTSpotterEventRecorder class >> instance [
 
 	^ instance ifNil: [ instance := self new ]
