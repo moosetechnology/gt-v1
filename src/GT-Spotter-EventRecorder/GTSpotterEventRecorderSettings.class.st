@@ -28,10 +28,9 @@ Class {
 	#name : #GTSpotterEventRecorderSettings,
 	#superclass : #Object,
 	#instVars : [
-		'url',
-		'sendUsageData',
-		'sendSearchQuery',
 		'computerUUID',
+		'sendSearchQuery',
+		'sendUsageData',
 		'userAnsweredAgreement'
 	],
 	#classInstVars : [
@@ -58,6 +57,7 @@ GTSpotterEventRecorderSettings class >> doesNotUnderstand: aMessage [
 GTSpotterEventRecorderSettings class >> initialize [
 	super initialize.
 	Smalltalk addToStartUpList: self.
+	self preferences exists ifFalse: [ self reset ].
 	self loadPreferences.
 ]
 
@@ -134,8 +134,29 @@ GTSpotterEventRecorderSettings class >> startUp: resuming [
 ]
 
 { #category : #accessing }
+GTSpotterEventRecorderSettings class >> stringUrl [
+	^ self url asString
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> stringUrl: aUrlString [
+	^ self url: aUrlString
+]
+
+{ #category : #accessing }
 GTSpotterEventRecorderSettings class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> url [
+	^ url ifNil: [ url := 'http://gc.dcc.uchile.cl.:8080/gt/events' asZnUrl ]
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> url: aZnUrl [
+	url := aZnUrl ifNotNil: [ aZnUrl asZnUrl ].
+	self save.
 ]
 
 { #category : #accessing }
@@ -187,26 +208,5 @@ GTSpotterEventRecorderSettings >> sendUsageData: aBoolean [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> setUserAnsweredAgreement [
 	userAnsweredAgreement := true.
-	self save.
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> stringUrl [
-	^ self url asString
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> stringUrl: aUrlString [
-	^ self url: aUrlString
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> url [
-	^ url ifNil: [ url := 'http://gc.dcc.uchile.cl.:8080/gt/events' asZnUrl ]
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> url: aZnUrl [
-	url := aZnUrl ifNotNil: [ aZnUrl asZnUrl ].
 	self save.
 ]

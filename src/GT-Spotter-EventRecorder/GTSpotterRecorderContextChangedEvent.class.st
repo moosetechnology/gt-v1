@@ -1,3 +1,13 @@
+"
+A GTSpotterRecorderContextChangedEvent stores current query written in Spotter input field.
+
+Instance Variables
+	text:		<String>
+
+text
+	- query writen in Spotter input field
+
+"
 Class {
 	#name : #GTSpotterRecorderContextChangedEvent,
 	#superclass : #GTSpotterRecorderEvent,
@@ -9,5 +19,6 @@ Class {
 
 { #category : #initialization }
 GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
+	GTSpotterEventRecorderSettings uniqueInstance sendSearchQuery ifFalse: [ ^ self ].
 	text := anAnnouncement text
 ]
