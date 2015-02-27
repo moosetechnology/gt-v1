@@ -159,7 +159,7 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
-	<spotterOrder: 21>
+	<spotterOrder: 86>
 	aStep listProcessor
 			title: 'Metacello Configurations';
 			allCandidates: [ 
@@ -209,7 +209,7 @@ GTSpotter >> spotterForPragmasFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForRepositoriesFor: aStep [
-	<spotterOrder: 22>
+	<spotterOrder: 87>
 	aStep listProcessor
 		title: 'Monticello Repositories';
 		allCandidates: [ MCRepositoryGroup default repositories ];

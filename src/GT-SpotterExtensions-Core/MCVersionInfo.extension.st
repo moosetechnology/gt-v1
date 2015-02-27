@@ -2,9 +2,18 @@ Extension { #name : #MCVersionInfo }
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
 MCVersionInfo >> allAncestors [
-	^ OrderedCollection streamContents: [ :stream |
-		self allAncestorsDo: [ :versionInfo | 
-			stream nextPut: versionInfo ] ]
+	^ (self allAncestorsTo: OrderedCollection new)
+		sort: [ :a :b | a timeStamp >= b timeStamp ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+MCVersionInfo >> allAncestorsTo: aCollection [
+	self ancestors do: [ :versionInfo | 
+		" do not add/process ancestry-branches which have already been added/processed "
+		(aCollection includes: versionInfo) ifFalse: [ 
+			aCollection add: versionInfo.
+			versionInfo allAncestorsTo: aCollection ] ].
+	^ aCollection
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
