@@ -85,10 +85,6 @@ GTSpotterHeaderBrick >> openAgreementFor: aBrick [
 	^ GLMPopupDialogBrick new
 			addContentBrick: (
 				GLMPrivacyAgreementBrick new
-					padding: 2;
-					borderColor: Color lightGray;
-					borderWidth: 2;
-					margin: 10;
 					width: 400;
 					vShrinkWrap;
 					applicationName: 'Spotter';
