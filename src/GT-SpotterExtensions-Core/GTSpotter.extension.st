@@ -45,7 +45,7 @@ GTSpotter >> evaluateExpressionInContext: aSpotterContext [
 	^ candidates
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core' }
+{ #category : #'*GT-SpotterExtensions-Core-private' }
 GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileReferencesBlock [
 	| prefixMatchers split rootDirectory query fullQuery rest |
 	fullQuery := aSpotterContext textLowercase.
