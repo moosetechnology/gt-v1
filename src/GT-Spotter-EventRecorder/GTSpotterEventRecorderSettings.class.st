@@ -1,3 +1,29 @@
+"
+A GTSpotterEventRecorderSettings manages  user preferences related to  sending usage data.
+
+Instance Variables
+	computerUUID:		<Object>
+	sendSearchQuery:		<Object>
+	sendUsageData:		<Object>
+	url:		<Object>
+	userAnsweredAgreement:		<Object>
+
+computerUUID
+	- xxxxx
+
+sendSearchQuery
+	- xxxxx
+
+sendUsageData
+	- xxxxx
+
+url
+	- xxxxx
+
+userAnsweredAgreement
+	- xxxxx
+
+"
 Class {
 	#name : #GTSpotterEventRecorderSettings,
 	#superclass : #Object,

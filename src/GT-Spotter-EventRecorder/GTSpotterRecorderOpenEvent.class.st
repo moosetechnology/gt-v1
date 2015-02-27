@@ -1,3 +1,13 @@
+"
+A GTSpotterRecorderOpenEvent  models the action of  opening Spotter.
+
+Instance Variables
+	timestamp:		<Object>
+
+timestamp
+	- xxxxx
+
+"
 Class {
 	#name : #GTSpotterRecorderOpenEvent,
 	#superclass : #GTSpotterRecorderEvent,
@@ -7,13 +17,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder'
 }
 
-{ #category : #'as yet unclassified' }
-GTSpotterRecorderOpenEvent >> asRecordedData [
-
-	^ self
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTSpotterRecorderOpenEvent >> initialize [
 	super initialize.
 	

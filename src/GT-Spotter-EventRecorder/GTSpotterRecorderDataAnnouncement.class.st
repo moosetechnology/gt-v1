@@ -1,3 +1,37 @@
+"
+A GTSpotterRecorderDataAnnouncement is an announcement that  groups  all  usage data  that is send over the network. 
+
+Instance Variables
+	computerUUID:		<Object>
+	data:		<Object>
+	imageHash:		<Object>
+	imageVersion:		<Object>
+	latestUpdate:		<Object>
+	sessionCreationTime:		<Object>
+	timestamp:		<Object>
+
+computerUUID
+	- xxxxx
+
+data
+	- xxxxx
+
+imageHash
+	- xxxxx
+
+imageVersion
+	- xxxxx
+
+latestUpdate
+	- xxxxx
+
+sessionCreationTime
+	- xxxxx
+
+timestamp
+	- xxxxx
+
+"
 Class {
 	#name : #GTSpotterRecorderDataAnnouncement,
 	#superclass : #Announcement,

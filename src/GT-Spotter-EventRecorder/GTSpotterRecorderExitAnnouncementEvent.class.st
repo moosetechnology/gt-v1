@@ -1,3 +1,13 @@
+"
+A GTSpotterRecorderExitAnnouncementEvent  models the action of  exiting Spotter. 
+
+Instance Variables
+	timestamp:		<Object>
+
+timestamp
+	- xxxxx
+
+"
 Class {
 	#name : #GTSpotterRecorderExitAnnouncementEvent,
 	#superclass : #GTSpotterRecorderEvent,
@@ -7,13 +17,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder'
 }
 
-{ #category : #'as yet unclassified' }
-GTSpotterRecorderExitAnnouncementEvent >> asRecordedData [
-
-	^ self
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTSpotterRecorderExitAnnouncementEvent >> initialize [
 	super initialize.
 	

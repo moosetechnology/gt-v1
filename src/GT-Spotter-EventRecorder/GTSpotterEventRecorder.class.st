@@ -1,3 +1,33 @@
+"
+A GTSpotterEventRecorder provides the main functionality for recording and sending usage data in Spotter.
+
+Instance Variables
+	deliveryDelay:		<Object>
+	deliveryQueue:		<Object>
+	mutex:		<Object>
+	process:		<Object>
+	recordedData:		<Object>
+	shouldDeliver:		<Object>
+
+deliveryDelay
+	- xxxxx
+
+deliveryQueue
+	- xxxxx
+
+mutex
+	- xxxxx
+
+process
+	- xxxxx
+
+recordedData
+	- xxxxx
+
+shouldDeliver
+	- xxxxx
+
+"
 Class {
 	#name : #GTSpotterEventRecorder,
 	#superclass : #Object,
