@@ -14,10 +14,11 @@ Class {
 GTSpotterWidgetThemer >> agreementButtonStyleFor: aBrick [
 
 	aBrick
-		vSpaceFill;
-		width: [ :m | m height ];
-		normalImage: GLMUIThemeExtraIcons glamorousBrowse";
-		pressedColor: self buttonPressedColor"
+		height: 50;
+		width: 100;
+		normalImage: 'asMorph' asBrick imageForm;
+		hAlign: #right
+		"pressedColor: self buttonPressedColor"
 ]
 
 { #category : #values }
