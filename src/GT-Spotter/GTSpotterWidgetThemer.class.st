@@ -14,11 +14,17 @@ Class {
 GTSpotterWidgetThemer >> agreementButtonStyleFor: aBrick [
 
 	aBrick
-		height: 50;
-		width: 100;
-		normalImage: 'asMorph' asBrick imageForm;
-		hAlign: #right
-		"pressedColor: self buttonPressedColor"
+		enable;
+		familyName: 'Bitmap DejaVu Sans';
+		padding: self outerBorderWidth + self settingsLabelPadding;
+		paddingTop: self settingsLabelPadding;
+		with: [ :b | b label
+			padding: 1;
+			customFont;
+			beBold ];
+		color: (self borderColor alpha: 0.9);
+		textColor: self settingsLabelTextColor;
+		marginRight: self previewArrowWidth - self previewArrowGapHack
 ]
 
 { #category : #values }
@@ -535,6 +541,24 @@ GTSpotterWidgetThemer >> searchFieldStyleFor: aBrick [
 GTSpotterWidgetThemer >> searchFieldTextColor [
 	
 	^ Color black
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> settingsLabelPadding [
+
+	^ 4
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> settingsLabelSelectedTextColor [
+
+	^ Color black
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> settingsLabelTextColor [
+
+	^ Color white
 ]
 
 { #category : #styles }

@@ -27,7 +27,10 @@ GTSpotterMorph >> agreementButton: aBrick [
 	
 	self themer spotterThemer agreementButtonStyleFor: agreementButton.
 	agreementButton
-		addHoverAction: [ :b | self openAgreementFor: b ].
+		text: 'Settings';
+		with: [ :b  | b
+			when: #onMouseHover do: [ b textColor: self themer spotterThemer settingsLabelSelectedTextColor. self openAgreementFor: b ];
+			when: #onMouseUnhover do: [ b textColor: self themer spotterThemer settingsLabelTextColor ] ].
 	
 	self addBrickBack: agreementButton
 ]
@@ -170,7 +173,7 @@ GTSpotterMorph >> initializeListeners [
 
 { #category : #'as yet unclassified' }
 GTSpotterMorph >> newAgreementButton [
-	^ GLMActionButtonBrick new
+	^ GLMLabelBrick new
 ]
 
 { #category : #'instance creation' }
