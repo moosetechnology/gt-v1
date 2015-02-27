@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTSpotterRecorderCategorySelectedEvent class >> eventCode [
-
-	^ 3
-]
-
-{ #category : #'as yet unclassified' }
 GTSpotterRecorderCategorySelectedEvent >> asRecordedData [
 
 	^ self

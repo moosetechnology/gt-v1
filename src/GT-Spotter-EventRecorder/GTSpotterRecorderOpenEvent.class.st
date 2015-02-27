@@ -8,12 +8,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GTSpotterRecorderOpenEvent class >> eventCode [
-
-	^ 9
-]
-
-{ #category : #'as yet unclassified' }
 GTSpotterRecorderOpenEvent >> asRecordedData [
 
 	^ self

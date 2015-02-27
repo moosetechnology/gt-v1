@@ -216,7 +216,7 @@ GTSpotterEventRecorder >> stopDelivering [
 
 { #category : #events }
 GTSpotterEventRecorder >> storeEvent: anEvent [
-	recordedData nextPut: anEvent asRecordedData.
+	recordedData nextPut: anEvent.
 	mutex critical: [ 
 		process isTerminated ifTrue: [ self initializeDeliveryProcess ] ]
 ]
