@@ -153,7 +153,6 @@ GTSpotterEventRecorder >> initialize [
 	recordedData := WaitfreeQueue new.
 	deliveryQueue := WaitfreeQueue new.
 	mutex := Mutex new.
-	self initializeDeliveryProcess.
 ]
 
 { #category : #initialization }
@@ -255,5 +254,5 @@ GTSpotterEventRecorder >> stopDelivering [
 GTSpotterEventRecorder >> storeEvent: anEvent [
 	recordedData nextPut: anEvent.
 	mutex critical: [ 
-		process isTerminated ifTrue: [ self initializeDeliveryProcess ] ]
+		(process isNil or: [ process isTerminated ]) ifTrue: [ self initializeDeliveryProcess ] ]
 ]
