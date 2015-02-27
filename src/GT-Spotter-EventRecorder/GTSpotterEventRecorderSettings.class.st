@@ -57,7 +57,6 @@ GTSpotterEventRecorderSettings class >> doesNotUnderstand: aMessage [
 GTSpotterEventRecorderSettings class >> initialize [
 	super initialize.
 	Smalltalk addToStartUpList: self.
-	self preferences exists ifFalse: [ self reset ].
 	self loadPreferences.
 ]
 
@@ -65,12 +64,20 @@ GTSpotterEventRecorderSettings class >> initialize [
 GTSpotterEventRecorderSettings class >> loadPreferences [
 	"self loadPreferences"
 	| newInstance |
-	self preferences exists ifFalse: [ ^ self savePreferences ].
+	self preferences exists ifFalse: [ 
+		"This is a new computer, so we define new computer UUID.
+		User still has to agree about sending data if it is not has been done yet."
+		^ self savePreferences ].
 	[ 
 		newInstance := FLMaterializer materializationFromFileNamed: self preferences.
+		"If UUIDs are different, it is likely different user and we should use
+		localy stored settings. If the UUIDs are same, we keep settings of the image."
 		newInstance computerUUID = self uniqueInstance computerUUID
 			ifFalse: [ uniqueInstance := newInstance ]
-	] on: Error do: [ self savePreferences ]
+	] on: Error do: [ 
+		"Preferences likely contains a different settings version, so we store the actual one.
+		We should keep the preferences as stable as possible."
+		self savePreferences ]
 ]
 
 { #category : #origins }
@@ -93,30 +100,6 @@ GTSpotterEventRecorderSettings class >> savePreferences [
 ]
 
 { #category : #settings }
-GTSpotterEventRecorderSettings class >> settingsOnSendSearchQuery: aBuilder [ 
-	<systemsettings>
-	
-	(aBuilder setting: #sendSearchQuery)
-		parent: #gt;
-		target: self;
-		description: 'Spotter: Send search query and selected search results' translated;
-		label: 'Spotter: Send search query and selected search results'
-
-]
-
-{ #category : #settings }
-GTSpotterEventRecorderSettings class >> settingsOnSendUsageData: aBuilder [ 
-	<systemsettings>
-	
-	(aBuilder setting: #sendUsageData)
-		parent: #gt;
-		target: self;
-		description: 'Send basic anonymous usage data.' translated;
-		label: 'Send basic anonymous usage data'
-
-]
-
-{ #category : #settings }
 GTSpotterEventRecorderSettings class >> settingsOnUrl: aBuilder [ 
 	<systemsettings>
 	
@@ -130,7 +113,11 @@ GTSpotterEventRecorderSettings class >> settingsOnUrl: aBuilder [
 
 { #category : #'system startup' }
 GTSpotterEventRecorderSettings class >> startUp: resuming [
-	self loadPreferences
+	"We reset image preferences, because this is likely 
+	a newly downloaded image or different user
+	and he/she should agree about sending data."
+	self preferences exists ifFalse: [ self reset ].
+	self loadPreferences.
 ]
 
 { #category : #accessing }
