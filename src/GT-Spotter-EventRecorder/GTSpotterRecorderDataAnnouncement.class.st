@@ -99,7 +99,7 @@ GTSpotterRecorderDataAnnouncement >> latestUpdate: anObject [
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> materializedData [
-	^ self data ifNotNil: [ :aData | GTSpotterEventRecorder materialize: aData ]
+	^ self data ifNotNil: [ :aData | FLMaterializer materializeFromByteArray: aData ]
 ]
 
 { #category : #accessing }
