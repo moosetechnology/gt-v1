@@ -63,13 +63,14 @@ GTSpotterEventRecorderSettings class >> initialize [
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> loadPreferences [
 	"self loadPreferences"
-	| newInstance |
+	| dictionary newInstance |
 	self preferences exists ifFalse: [ 
 		"This is a new computer, so we define new computer UUID.
 		User still has to agree about sending data if it is not has been done yet."
 		^ self savePreferences ].
 	[ 
-		newInstance := FLMaterializer materializationFromFileNamed: self preferences.
+		dictionary := self new dictionary: (FLMaterializer materializeFromFileNamed: self preferences).
+		newInstance := self new dictionary: dictionary.
 		"If UUIDs are different, it is likely different user and we should use
 		localy stored settings. If the UUIDs are same, we keep settings of the image."
 		newInstance computerUUID = self uniqueInstance computerUUID
@@ -95,7 +96,7 @@ GTSpotterEventRecorderSettings class >> reset [
 GTSpotterEventRecorderSettings class >> savePreferences [
 	"self savePreferences"
 	self deletePreferences.
-	[ FLSerializer serialize: self uniqueInstance toFileNamed: self preferences ]
+	[ FLSerializer serialize: self uniqueInstance dictionary toFileNamed: self preferences ]
 		on: Error do: [ "ignore" ]
 ]
 
@@ -149,6 +150,28 @@ GTSpotterEventRecorderSettings class >> url: aZnUrl [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> computerUUID [
 	^ computerUUID
+]
+
+{ #category : #converting }
+GTSpotterEventRecorderSettings >> dictionary [
+	| dictionary |
+	dictionary := Dictionary new: self class instSize.
+	1 to: self class instSize do: [ :index |
+		dictionary 
+			at: (self class instVarNameForIndex: index)
+			put: (self instVarAt: index)
+	].
+	^ dictionary
+]
+
+{ #category : #converting }
+GTSpotterEventRecorderSettings >> dictionary: aCollection [ 
+	aCollection keysAndValuesDo: [ :key :value | | instVarIndex |
+		instVarIndex := self class instVarIndexFor: key.
+		instVarIndex isZero ifFalse: [ 
+			self instVarAt: instVarIndex put: value
+		]
+	]
 ]
 
 { #category : #initialization }
