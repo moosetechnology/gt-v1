@@ -29,7 +29,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'computerUUID',
-		'sendSearchQuery',
 		'sendUsageData',
 		'persistSettings'
 	],
@@ -196,17 +195,6 @@ GTSpotterEventRecorderSettings >> persistSettings: aBoolean [
 GTSpotterEventRecorderSettings >> save [
 	self persistSettings ifFalse: [ ^ self ].
 	self class savePreferences
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> sendSearchQuery [
-	^ sendSearchQuery ifNil: [ sendSearchQuery := false ]
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> sendSearchQuery: aBoolean [
-	sendSearchQuery := aBoolean.
-	self save.
 ]
 
 { #category : #accessing }
