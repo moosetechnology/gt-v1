@@ -14,8 +14,7 @@ Class {
 	#instVars : [
 		'text',
 		'querySize',
-		'isRefinement',
-		'timestamp'
+		'isRefinement'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
@@ -36,5 +35,4 @@ GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderContextChangedEvent >> initialize [
 	super initialize.
 	isRefinement := false.
-	timestamp := Time now asDateAndTime asUnixTime 
 ]
