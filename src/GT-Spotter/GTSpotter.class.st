@@ -276,9 +276,11 @@ GTSpotter >> notifyCategorySelected: aProcessor [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifyContextChanged: aSpotterContext [
+GTSpotter >> notifyContextChangedTo: aSpotterContext from: aPreviousSpotterContext [
 
-	self announce: (GTSpotterContextChanged new context: aSpotterContext)
+	self announce: (GTSpotterContextChanged new 
+		context: aSpotterContext;
+		previousContext: aPreviousSpotterContext)
 ]
 
 { #category : #notifying }

@@ -3,7 +3,7 @@ Class {
 	#superclass : #Announcement,
 	#instVars : [
 		'context',
-		'previousQuery'
+		'previousContext'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
@@ -18,20 +18,21 @@ GTSpotterContextChanged >> context: anObject [
 	context := anObject
 ]
 
-{ #category : #initialization }
-GTSpotterContextChanged >> initialize [
-	super initialize.
-	previousQuery := ''.
+{ #category : #accessing }
+GTSpotterContextChanged >> previousContext [
+	^ previousContext
 ]
 
 { #category : #accessing }
+GTSpotterContextChanged >> previousContext: anObject [
+	previousContext := anObject
+]
+
+{ #category : #'accessing-dynamic' }
 GTSpotterContextChanged >> previousQuery [
-	^ previousQuery
-]
-
-{ #category : #accessing }
-GTSpotterContextChanged >> previousQuery: aText [
-	previousQuery := aText
+	^ self previousContext 
+		ifNil: [ '' ] 
+		ifNotNil: [ :aContext | aContext text ] 
 ]
 
 { #category : #'accessing-dynamic' }

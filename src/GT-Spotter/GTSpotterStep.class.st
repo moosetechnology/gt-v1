@@ -164,6 +164,7 @@ GTSpotterStep >> origin: anObject [
 
 { #category : #processing }
 GTSpotterStep >> process: aString [
+	| previousContext |
 	"I do not accept empty queries or the same queries as before.
 	If nil is passed, than an empty string will be processed. This approach is used to
 	destinguish when user deletes last character in the search and when search field became
@@ -171,20 +172,20 @@ GTSpotterStep >> process: aString [
 	
 	"no need to search for the same query"
 	(self context matches: aString) ifTrue: [ ^ self ].
-	
+	previousContext := self context.
 	self context: (self newContextForQuery: aString).
 	
 	" updating timestamp in a stream, to prevent candidates from old process being shown "
 	self stream updateTimestamp.
 	
 	self asyncTask
-		execute: [ :aContext |
-				self spotter notifyContextChanged: aContext.
+		execute: [ :aContext :aPreviousContext |
+				self spotter notifyContextChangedTo: aContext from: aPreviousContext.
 				self stream removeAllCandidates.
 				[ self relevantProcessorsProcess: aContext ]
 					on: Error
 					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
-		withArguments: { self context }
+		withArguments: { self context. previousContext }
 		callback: [ self spotter notifySearchFinishedFor: aString ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200
