@@ -262,6 +262,42 @@ GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 		height: self headerHeight
 ]
 
+{ #category : #styles }
+GTSpotterWidgetThemer >> hintHideStyleFor: aBrick [
+
+	aBrick ifNil: [ ^ self ].
+	(aBrick valueOfProperty: #brickSpotterIsReveal ifAbsent: [ false ])
+		ifFalse: [ ^ self ].
+	aBrick setProperty: #brickSpotterIsReveal toValue: false.
+	
+	(aBrick hasProperty: #brickSpotterBackupColor)
+		ifTrue: [ aBrick color: (aBrick valueOfProperty: #brickSpotterBackupColor) ].
+		
+	(aBrick hasProperty: #brickSpotterBackupBorder)
+		ifTrue: [ aBrick border: (aBrick valueOfProperty: #brickSpotterBackupBorder) ].
+		
+	aBrick changed
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> hintRevealStyleFor: aBrick [
+	
+	aBrick ifNil: [ ^ self ].
+	(aBrick valueOfProperty: #brickSpotterIsReveal ifAbsent: [ false ])
+		ifTrue: [ ^ self ].
+	
+	aBrick setProperty: #brickSpotterBackupColor toValue: aBrick color.
+	aBrick setProperty: #brickSpotterBackupBorder toValue: aBrick border.
+	aBrick setProperty: #brickSpotterIsReveal toValue: true.
+	
+	aBrick color: self themer popupHelpThemer backgroundColor.
+	aBrick border: GLMBrickBorder new.
+	aBrick borderColor: (self themer popupHelpThemer borderColor alpha: 0.6).
+	aBrick borderWidth: self themer popupHelpThemer borderWidth.
+	
+	aBrick changed
+]
+
 { #category : #icons }
 GTSpotterWidgetThemer >> iconAct [
 
@@ -292,6 +328,7 @@ GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 	aBrick
 		width: [ (self itemHeight / 1.1) floor ];
 		vSpaceFill;
+		margin: #(0 1);
 		pressedColor: self itemActionSelectedBackgroundColor;
 		padding: { 0 . self outerBorderWidth }
 ]

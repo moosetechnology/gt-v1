@@ -13,7 +13,8 @@ Class {
 		'currentStep',
 		'pagerModel',
 		'text',
-		'isPreviewVisible'
+		'isPreviewVisible',
+		'isShiftPressed'
 	],
 	#classInstVars : [
 		'history',
@@ -237,6 +238,12 @@ GTSpotter >> isPreviewVisible [
 	^ isPreviewVisible ifNil: [ isPreviewVisible := false ]
 ]
 
+{ #category : #accessing }
+GTSpotter >> isShiftPressed [
+
+	^ isShiftPressed ifNil: [ isShiftPressed := true ]
+]
+
 { #category : #protocol }
 GTSpotter >> menu [
 
@@ -269,6 +276,12 @@ GTSpotter >> notifyCategorySelected: aProcessor [
 ]
 
 { #category : #notifying }
+GTSpotter >> notifyContextChanged: aSpotterContext [
+
+	self announce: (GTSpotterContextChanged new context: aSpotterContext)
+]
+
+{ #category : #notifying }
 GTSpotter >> notifyCurrentStepChanged [
 
 	self announce: GTSpotterCurrentStepChanged new
@@ -293,9 +306,27 @@ GTSpotter >> notifyDiveOut: anObject [
 ]
 
 { #category : #notifying }
+GTSpotter >> notifyHideHints [
+
+	self announce: GTSpotterHideHints new
+]
+
+{ #category : #notifying }
 GTSpotter >> notifyHidePreview [
 
 	self announce: GTSpotterHidePreview new
+]
+
+{ #category : #notifying }
+GTSpotter >> notifyRevealHints [
+
+	self announce: GTSpotterRevealHints new
+]
+
+{ #category : #notifying }
+GTSpotter >> notifySearchFinishedFor: aString [
+
+	self announce: (GTSpotterSearchFinished new query: aString)
 ]
 
 { #category : #notifying }
@@ -410,6 +441,18 @@ GTSpotter >> setText: aText from: aView [
 	
 	text := aText asString asText.
 	^ true
+]
+
+{ #category : #'actions api' }
+GTSpotter >> shiftPressed: aBoolean [
+
+	self isShiftPressed = aBoolean ifTrue: [ ^ self ].
+	isShiftPressed := aBoolean.
+	self isShiftPressed
+		ifTrue: [ self notifyRevealHints ]
+		ifFalse: [ self notifyHideHints ]
+
+	
 ]
 
 { #category : #'actions api' }

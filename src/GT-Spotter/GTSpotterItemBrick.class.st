@@ -27,40 +27,10 @@ GTSpotterItemBrick >> actionbarBrick: aBrick [
 	self addBrickBack: actionbarBrick
 ]
 
-{ #category : #adding }
-GTSpotterItemBrick >> addActActionButton [
-
-	self actionbarBrick addActionButton: (self newActionButtonBrick
-			icon: self themer spotterThemer iconAct;
-			hintTitle: 'Default action';
-			hintText: '<enter>';
-			addUpAction: [ self beSelected. self stepModel act ];
-			yourself)
-		
-]
-
-{ #category : #adding }
-GTSpotterItemBrick >> addDiveInActionButton [
-		
-	(self stepModel canDiveIn: self candidate) ifTrue: [
-		self actionbarBrick addActionButton: (self newActionButtonBrick
-			icon: self themer spotterThemer iconDiveIn;
-			hintTitle: 'Dive in';
-			hintText: '<cmd+right>';
-			addUpAction: [ self beSelected. self stepModel diveIn ];
-			yourself)]
-]
-
 { #category : #actions }
 GTSpotterItemBrick >> beSelected [
 	self stepModel selected: self candidateLink
 	
-]
-
-{ #category : #accessing }
-GTSpotterItemBrick >> candidate [
-
-	^ candidateLink value
 ]
 
 { #category : #accessing }
@@ -72,7 +42,9 @@ GTSpotterItemBrick >> candidateLink [
 { #category : #accessing }
 GTSpotterItemBrick >> candidateLink: aDoubleLink [ 
 
-	candidateLink := aDoubleLink
+	candidateLink := aDoubleLink.
+	
+	self actionbarBrick candidateLink: self candidateLink
 ]
 
 { #category : #'event handling' }
@@ -184,12 +156,6 @@ GTSpotterItemBrick >> mouseDown: evt [
 ]
 
 { #category : #'instance creation' }
-GTSpotterItemBrick >> newActionButtonBrick [
-
-	^ GLMHintableActionButtonBrick new
-]
-
-{ #category : #'instance creation' }
 GTSpotterItemBrick >> newActionbarBrick [
 
 	^ GTSpotterItemActionbarBrick new
@@ -273,9 +239,9 @@ GTSpotterItemBrick >> stepModel: aModel [
 	stepModel announcer weak subscribe: GTSpotterSelectedCandidateChanged send: #onSelectedChanged: to: self.
 	stepModel spotter announcer weak subscribe: GTSpotterStepPopped send: #onStepPopped to: self.
 	
+	self actionbarBrick stepModel: aModel.
+	
 	self
-		addActActionButton;
-		addDiveInActionButton;
 		highlightQuery;
 		checkOrUncheck.
 ]

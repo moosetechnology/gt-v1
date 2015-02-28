@@ -142,13 +142,6 @@ GTSpotterStep >> newContextForQuery: aString [
 ]
 
 { #category : #notifying }
-GTSpotterStep >> notifyContextChanged: aSpotterContext [
-	self spotter announce: (GTSpotterContextChanged new 
-		context: aSpotterContext; 
-		yourself)
-]
-
-{ #category : #notifying }
 GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink [
 	|candidate|
 	
@@ -186,13 +179,13 @@ GTSpotterStep >> process: aString [
 	
 	self asyncTask
 		execute: [ :aContext |
-				self notifyContextChanged: aContext.
+				self spotter notifyContextChanged: aContext.
 				self stream removeAllCandidates.
 				[ self relevantProcessorsProcess: aContext ]
 					on: Error
 					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
 		withArguments: { self context }
-		callback: [ self spotter announce: GTSpotterSearchFinished new ]
+		callback: [ self spotter notifySearchFinishedFor: aString ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200
 ]

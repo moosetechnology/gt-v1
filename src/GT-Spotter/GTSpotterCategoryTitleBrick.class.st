@@ -6,7 +6,8 @@ Class {
 		'amountBrick',
 		'actionbarBrick',
 		'stepModel',
-		'categoryProcessor'
+		'categoryProcessor',
+		'diveInButton'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -27,10 +28,9 @@ GTSpotterCategoryTitleBrick >> actionbarBrick: anObject [
 
 { #category : #adding }
 GTSpotterCategoryTitleBrick >> addDiveInButton [
-	|button|
 	
-	button := self newActionbarButton.
-	button
+	diveInButton := self newActionbarButton.
+	self diveInButton
 		icon: self themer spotterThemer iconDiveInCategory;
 		pressedColor: (self themer spotterThemer itemActionSelectedBackgroundColor alpha: 0.5);
 		addUpAction: [ self stepModel diveInCategory ];
@@ -38,7 +38,7 @@ GTSpotterCategoryTitleBrick >> addDiveInButton [
 		hintTitle: 'Show all';
 		hintText: '<cmd+shift+right>'.
 		
-	self pushActionButton: button.
+	self pushActionButton: self diveInButton
 	
 ]
 
@@ -67,6 +67,11 @@ GTSpotterCategoryTitleBrick >> categoryProcessor [
 { #category : #accessing }
 GTSpotterCategoryTitleBrick >> categoryProcessor: anObject [
 	categoryProcessor := anObject
+]
+
+{ #category : #accessing }
+GTSpotterCategoryTitleBrick >> diveInButton [
+	^ diveInButton
 ]
 
 { #category : #actions }
@@ -150,11 +155,25 @@ GTSpotterCategoryTitleBrick >> onCandidateSelected [
 		ifFalse: [ self hideActionbar ]
 ]
 
+{ #category : #'event-handling' }
+GTSpotterCategoryTitleBrick >> onHideHints [
+
+	(self hasSubbrick: self actionbarBrick) ifFalse: [ ^ self ].
+	self themer spotterThemer hintHideStyleFor: self diveInButton
+]
+
 { #category : #layouting }
 GTSpotterCategoryTitleBrick >> onLayoutEvent: aLayoutEvent [
 	super onLayoutEvent: aLayoutEvent.
 	
 	(aLayoutEvent isKindOf: GLMBrickLayoutStacked) ifTrue: [ "self enable" ]
+]
+
+{ #category : #'event-handling' }
+GTSpotterCategoryTitleBrick >> onRevealHints [
+
+	(self hasSubbrick: self actionbarBrick) ifFalse: [ ^ self ].
+	self themer spotterThemer hintRevealStyleFor: self diveInButton
 ]
 
 { #category : #adding }
@@ -164,7 +183,10 @@ GTSpotterCategoryTitleBrick >> pushActionButton: aButton [
 		width: [ :b | b icon width * 1.5 ];
 		vSpaceFill.
 		
-	self actionbarBrick addBrickBack: aButton
+	self actionbarBrick addBrickBack: aButton.
+	
+	self stepModel spotter isShiftPressed
+		ifTrue: [ self themer spotterThemer hintRevealStyleFor: aButton ]
 ]
 
 { #category : #accessing }
@@ -180,7 +202,8 @@ GTSpotterCategoryTitleBrick >> setAmountVisible: visible all: all [
 GTSpotterCategoryTitleBrick >> showActionbar [
 
 	(self hasSubbrick: self actionbarBrick) ifFalse: [ 
-		self addBrickBack: self actionbarBrick ]
+		self addBrickBack: self actionbarBrick.
+		self toggleHints ]
 ]
 
 { #category : #accessing }
@@ -193,6 +216,16 @@ GTSpotterCategoryTitleBrick >> stepModel [
 GTSpotterCategoryTitleBrick >> stepModel: anObject [
 	stepModel := anObject.
 	
-	self stepModel announcer weak
-		on: GTSpotterSelectedCandidateChanged send: #onCandidateSelected to: self
+	self stepModel announcer weak on: GTSpotterSelectedCandidateChanged send: #onCandidateSelected to: self.
+	self stepModel spotter announcer weak subscribe: GTSpotterRevealHints send: #onRevealHints to: self.
+	self stepModel spotter announcer weak subscribe: GTSpotterHideHints send: #onHideHints to: self.
+]
+
+{ #category : #actions }
+GTSpotterCategoryTitleBrick >> toggleHints [
+
+	(self hasSubbrick: self actionbarBrick) ifFalse: [ ^ self ].
+	self stepModel spotter isShiftPressed
+		ifTrue: [ self onRevealHints ]
+		ifFalse: [ self onHideHints ]
 ]
