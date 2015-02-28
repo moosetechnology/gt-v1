@@ -6,7 +6,8 @@ Class {
 		'searchField',
 		'closeButton',
 		'spotterModel',
-		'agreementButton'
+		'agreementButton',
+		'settingsButton'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -31,6 +32,7 @@ GTSpotterHeaderBrick >> initialize [
 	super initialize.
 	
 	self searchField: self newSearchField.
+	self settingsButton: self newSettingsButton.
 	self closeButton: self newCloseButton.
 	
 ]
@@ -45,6 +47,12 @@ GTSpotterHeaderBrick >> newCloseButton [
 GTSpotterHeaderBrick >> newSearchField [
 
 	^ GTSpotterSearchFieldMorph new
+]
+
+{ #category : #'instance creation' }
+GTSpotterHeaderBrick >> newSettingsButton [
+
+	^ GLMHintableActionButtonBrick new
 ]
 
 { #category : #'instance creation' }
@@ -77,6 +85,21 @@ GTSpotterHeaderBrick >> searchField: aMorph [
 	searchField morph takeKeyboardFocus.
 	
 	self addBrickBack: searchField
+]
+
+{ #category : #accessing }
+GTSpotterHeaderBrick >> settingsButton: aBrick [
+
+	settingsButton ifNotNil: [self removeBrick: settingsButton].
+	settingsButton := aBrick.
+	
+	self themer spotterThemer settingsButtonStyleFor: settingsButton.
+	settingsButton
+		hintTitle: 'Settings';
+		hintText: 'Shows the settings UI';
+		addUpAction: [ self spotterModel exit ].
+	
+	self addBrickBack: settingsButton
 ]
 
 { #category : #accessing }

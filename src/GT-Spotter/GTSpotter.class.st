@@ -284,6 +284,14 @@ GTSpotter >> notifyContextChangedFrom: aPreviousContext to: aCurrentContext [
 ]
 
 { #category : #notifying }
+GTSpotter >> notifyContextChangedTo: aSpotterContext from: aPreviousSpotterContext [
+
+	self announce: (GTSpotterContextChanged new 
+		context: aSpotterContext;
+		previousContext: aPreviousSpotterContext)
+]
+
+{ #category : #notifying }
 GTSpotter >> notifyCurrentStepChanged [
 
 	self announce: GTSpotterCurrentStepChanged new

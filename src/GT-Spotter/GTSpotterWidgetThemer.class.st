@@ -580,6 +580,16 @@ GTSpotterWidgetThemer >> searchFieldTextColor [
 	^ Color black
 ]
 
+{ #category : #styles }
+GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
+
+	aBrick
+		vSpaceFill;
+		width: [ :m | m height ];
+		normalImage: Smalltalk ui icons glamorousPreferences;
+		pressedColor: self buttonPressedColor
+]
+
 { #category : #values }
 GTSpotterWidgetThemer >> settingsLabelPadding [
 
