@@ -19,6 +19,7 @@ Class {
 		'processors',
 		'origin',
 		'context',
+		'previousContext',
 		'selected',
 		'stream',
 		'candidates',
@@ -90,7 +91,7 @@ GTSpotterStep >> context [
 
 { #category : #accessing }
 GTSpotterStep >> context: aGTSpotterContext [
-
+	previousContext := context.
 	context := aGTSpotterContext
 ]
 
@@ -162,9 +163,20 @@ GTSpotterStep >> origin: anObject [
 	origin := anObject
 ]
 
+{ #category : #accessing }
+GTSpotterStep >> previousContext [
+
+	^ previousContext
+]
+
+{ #category : #accessing }
+GTSpotterStep >> previousContext: aGTSpotterContext [
+
+	previousContext := aGTSpotterContext
+]
+
 { #category : #processing }
 GTSpotterStep >> process: aString [
-	| previousContext |
 	"I do not accept empty queries or the same queries as before.
 	If nil is passed, than an empty string will be processed. This approach is used to
 	destinguish when user deletes last character in the search and when search field became
@@ -172,20 +184,20 @@ GTSpotterStep >> process: aString [
 	
 	"no need to search for the same query"
 	(self context matches: aString) ifTrue: [ ^ self ].
-	previousContext := self context.
+	
 	self context: (self newContextForQuery: aString).
 	
 	" updating timestamp in a stream, to prevent candidates from old process being shown "
 	self stream updateTimestamp.
 	
 	self asyncTask
-		execute: [ :aContext :aPreviousContext |
-				self spotter notifyContextChangedTo: aContext from: aPreviousContext.
+		execute: [ :aCurrentContext :aPreviousContext |
+				self spotter notifyContextChangedFrom: aPreviousContext to: aCurrentContext.
 				self stream removeAllCandidates.
-				[ self relevantProcessorsProcess: aContext ]
+				[ self relevantProcessorsProcess: aCurrentContext ]
 					on: Error
 					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
-		withArguments: { self context. previousContext }
+		withArguments: { self context. self previousContext }
 		callback: [ self spotter notifySearchFinishedFor: aString ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200

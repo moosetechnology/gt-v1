@@ -2,40 +2,53 @@ Class {
 	#name : #GTSpotterContextChanged,
 	#superclass : #Announcement,
 	#instVars : [
-		'context',
-		'previousContext'
+		'previous',
+		'current'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
 
-{ #category : #accessing }
+{ #category : #compatibility }
 GTSpotterContextChanged >> context [
-	^ context
+	^ self current
+]
+
+{ #category : #compatibility }
+GTSpotterContextChanged >> context: aSpotterContext [
+	self current: aSpotterContext
 ]
 
 { #category : #accessing }
-GTSpotterContextChanged >> context: anObject [
-	context := anObject
+GTSpotterContextChanged >> current [
+	^ current
 ]
 
 { #category : #accessing }
-GTSpotterContextChanged >> previousContext [
-	^ previousContext
-]
-
-{ #category : #accessing }
-GTSpotterContextChanged >> previousContext: anObject [
-	previousContext := anObject
+GTSpotterContextChanged >> current: anObject [
+	current := anObject
 ]
 
 { #category : #'accessing-dynamic' }
-GTSpotterContextChanged >> previousQuery [
-	^ self previousContext 
-		ifNil: [ '' ] 
-		ifNotNil: [ :aContext | aContext text ] 
+GTSpotterContextChanged >> currentText [
+	^ self currentContext ifNotNil: [ self currentContext text ]
+]
+
+{ #category : #accessing }
+GTSpotterContextChanged >> previous [
+	^ previous
+]
+
+{ #category : #accessing }
+GTSpotterContextChanged >> previous: anObject [
+	previous := anObject
 ]
 
 { #category : #'accessing-dynamic' }
+GTSpotterContextChanged >> previousText [
+	^ self previousContext ifNotNil: [ self previousContext text ]
+]
+
+{ #category : #compatibility }
 GTSpotterContextChanged >> text [
-	^ self context ifNotNil: [ self context text ]
+	^ self currentText
 ]
