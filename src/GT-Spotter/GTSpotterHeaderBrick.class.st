@@ -76,22 +76,6 @@ GTSpotterHeaderBrick >> openSettingsFor: aBrick [
 					width: 400;
 					padding: #(5 10);
 					vShrinkWrap;
-					applicationName: 'Spotter';
-					buttonText: 'Save';
-					buttonAction: [ self inform: 'You have agreed.' ];
-					checkboxAction: [ :boolean | 
-						self inform: 'Send anonymous data set to ', boolean asString ];
-					"with: [ :brick |
-						brick advancedOption
-							text: 'Include search query and selected search results';
-							action: [ :boolean | 
-								self inform: 'Include search query set to ', boolean asString ].
-						brick advancedOption
-							text: 'Include developer name';
-							uncheck;
-							action: [ :boolean | 
-								self inform: 'Include developer name set to ', boolean asString ].
-						];					"
 					yourself);
 			openBelowFor: aBrick
 ]
