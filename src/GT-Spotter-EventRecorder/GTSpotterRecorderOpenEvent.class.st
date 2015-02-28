@@ -11,5 +11,15 @@ timestamp
 Class {
 	#name : #GTSpotterRecorderOpenEvent,
 	#superclass : #GTSpotterRecorderEvent,
+	#instVars : [
+		'timestamp'
+	],
 	#category : #'GT-Spotter-EventRecorder'
 }
+
+{ #category : #initialization }
+GTSpotterRecorderOpenEvent >> initialize [
+	super initialize.
+	
+	timestamp := Time now asDateAndTime asUnixTime 
+]

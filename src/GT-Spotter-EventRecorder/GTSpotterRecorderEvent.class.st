@@ -5,9 +5,6 @@ GTSpotterRecorderEvent is the root class for representing usage data generated b
 Class {
 	#name : #GTSpotterRecorderEvent,
 	#superclass : #Object,
-	#instVars : [
-		'timestamp'
-	],
 	#category : #'GT-Spotter-EventRecorder'
 }
 
@@ -21,11 +18,4 @@ GTSpotterRecorderEvent class >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 	
-]
-
-{ #category : #initialization }
-GTSpotterRecorderEvent >> initialize [
-	super initialize.
-	
-	timestamp := Time now asDateAndTime asUnixTime 
 ]

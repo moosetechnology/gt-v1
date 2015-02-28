@@ -49,11 +49,7 @@ Class {
 GTSpotterEventRecorder class >> cleanUp [
 	"Stop and remove the process for sending usage data. Delete all recorder that from the queue."
 	
-	instance ifNotNil: [ 
-		instance stopDelivering ifNotNil: [ :aProcess | 
-			[ aProcess terminate ] on: Error do: [ "ignore error" ] ].
-		instance := nil ]
-
+	self flag: 'To implement'
 ]
 
 { #category : #accessing }
@@ -78,6 +74,17 @@ GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 			latestUpdate: SystemVersion current highestUpdate;
 			computerUUID: GTSpotterEventRecorderSettings uniqueInstance computerUUID;
 			yourself
+]
+
+{ #category : #events }
+GTSpotterEventRecorder >> buildAndStoreEventFrom: anAnnouncement withType: aClass [
+
+	self storeEvent: (aClass fromAnnouncement: anAnnouncement)
+
+	
+ 	
+		
+
 ]
 
 { #category : #testing }
@@ -199,14 +206,33 @@ GTSpotterEventRecorder >> prepareDeliveryData [
 
 { #category : #events }
 GTSpotterEventRecorder >> recordAccouncement: anAnnouncement [
-	| recorderEventClassName |
 
 	self canSendUsageData ifFalse: [ ^ self ].
 
-	recorderEventClassName := self eventClassNameFor: anAnnouncement class.
+	"recorderEventClassName := self eventClassNameFor: anAnnouncement class.
 	(Smalltalk hasClassNamed: recorderEventClassName) ifFalse: [ ^ false ].
+	self storeEvent: (recorderEventClassName asClass fromAnnouncement: anAnnouncement)"
 	
-	self storeEvent: (recorderEventClassName asClass fromAnnouncement: anAnnouncement)
+	anAnnouncement class == GTSpotterActOn ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderActOnEvent ].
+	
+	anAnnouncement class == GTSpotterCategorySelected ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderCategorySelectedEvent ].
+	
+	anAnnouncement class == GTSpotterContextChanged ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderContextChangedEvent ].
+	
+	anAnnouncement class == GTSpotterDiveInCategory ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderDiveInCategoryEvent ].
+	
+	anAnnouncement class == GTSpotterDiveInElement ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderDiveInElementEvent ].
+	
+	anAnnouncement class == GTSpotterDiveOut ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderDiveOutEvent ].
+	
+	anAnnouncement class == GTSpotterExitAnnouncement ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderExitAnnouncementEvent ].
+	
+	anAnnouncement class == GTSpotterHidePreview ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderHidePreviewEvent ].
+	
+	anAnnouncement class == GTSpotterSelectedCandidateChanged ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderSelectedCandidateChangedEvent ].
+	
+	anAnnouncement class == GTSpotterShowPreview ifTrue: [ ^self buildAndStoreEventFrom: anAnnouncement withType: GTSpotterRecorderShowPreviewEvent ].
+	
 
 	
  	
