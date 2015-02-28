@@ -49,7 +49,11 @@ Class {
 GTSpotterEventRecorder class >> cleanUp [
 	"Stop and remove the process for sending usage data. Delete all recorder that from the queue."
 	
-	self flag: 'To implement'
+	instance ifNotNil: [ 
+		instance stopDelivering ifNotNil: [ :aProcess | 
+			[ aProcess terminate ] on: Error do: [ "ignore error" ] ].
+		instance := nil ]
+
 ]
 
 { #category : #accessing }
