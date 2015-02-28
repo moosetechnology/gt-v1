@@ -93,7 +93,7 @@ GTSpotterHeaderBrick >> openSettingsFor: aBrick [
 								self inform: 'Include developer name set to ', boolean asString ].
 						];					"
 					yourself);
-			openFor: aBrick
+			openBelowFor: aBrick
 ]
 
 { #category : #accessing }
