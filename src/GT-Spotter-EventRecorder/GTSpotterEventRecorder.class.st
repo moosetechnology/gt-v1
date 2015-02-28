@@ -74,6 +74,19 @@ GTSpotterEventRecorder class >> materialize: aByteArray [
 	^ materialization root.
 ]
 
+{ #category : #converting }
+GTSpotterEventRecorder class >> materializeObjectsFromDirectory: aFileReference [
+	"self materializeObjectsFromDirectory: './gt/events/' asFileReference"
+	^ aFileReference allFiles collect: [ :eachFile |
+		self materializeObjectsFromFile: eachFile ]  
+]
+
+{ #category : #converting }
+GTSpotterEventRecorder class >> materializeObjectsFromFile: aFileReference [ 
+	"self materializeObjectsFromFile: './gt/events/' asFileReference allFiles any"
+	^ self materialize: (aFileReference binaryReadStreamDo: #contents)
+]
+
 { #category : #accessing }
 GTSpotterEventRecorder class >> reset [
 	instance := nil
@@ -85,11 +98,17 @@ GTSpotterEventRecorder class >> serialize: anObject [
 	stream := ByteArray new writeStream binary. 
 	gzstream := GZipWriteStream on: stream.
 	serializer := FLSerializer newDefault.
+	serializer at: #recorderVersion putAdditionalObject: self version.
 	serializer stream: gzstream.
 	serializer serialize: anObject.
 	gzstream close.
 	stream close.
 	^ stream contents.
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorder class >> version [
+	^ 1
 ]
 
 { #category : #converting }
@@ -102,6 +121,7 @@ GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 			imageVersion: SystemVersion current version;
 			latestUpdate: SystemVersion current highestUpdate;
 			computerUUID: GTSpotterEventRecorderSettings uniqueInstance computerUUID;
+			eventRecorderVersion: GTSpotterEventRecorder version;
 			yourself
 ]
 
@@ -153,7 +173,7 @@ GTSpotterEventRecorder >> deliverDataAndSignalProgress: aBoolean [
 { #category : #delivery }
 GTSpotterEventRecorder >> deliverNow [
 	"for testing purpose"
-	deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal. "aDelay unschedule." ]
+	deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal. aDelay unschedule. ]
 ]
 
 { #category : #accessing }
@@ -219,10 +239,6 @@ GTSpotterEventRecorder >> materializedAnnouncementFrom: aByteArray [
 { #category : #delivery }
 GTSpotterEventRecorder >> prepareDeliveryData [
 	| toBeDeliveredData toBeDeliveredAnnouncement |
-	GTSpotterEventRecorderSettings uniqueInstance sendUsageData ifFalse: [ 
-		recordedData removeAll.
-		deliveryQueue removeAll.
-		^ self ].
 	recordedData isEmpty ifTrue: [ ^ self ].
 	toBeDeliveredData := OrderedCollection new.
 	recordedData flush: [ :eachRecord | toBeDeliveredData addLast: eachRecord ].

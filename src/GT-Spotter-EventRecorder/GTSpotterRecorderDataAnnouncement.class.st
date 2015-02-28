@@ -38,6 +38,7 @@ Class {
 	#instVars : [
 		'computerUUID',
 		'data',
+		'eventRecorderVersion',
 		'imageHash',
 		'imageVersion',
 		'latestUpdate',
@@ -65,6 +66,16 @@ GTSpotterRecorderDataAnnouncement >> data [
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> data: aByteArray [ 
 	data := aByteArray
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> eventRecorderVersion [
+	^ eventRecorderVersion
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> eventRecorderVersion: anObject [
+	eventRecorderVersion := anObject
 ]
 
 { #category : #accessing }
