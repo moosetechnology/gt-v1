@@ -282,6 +282,9 @@ GTSpotterWidgetThemer >> hintHideStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> hintRevealStyleFor: aBrick [
 	
+	SmalltalkImage current vm interpreterSourceDate < 2015 asYear 
+		ifTrue: [ ^ self ].
+	
 	aBrick ifNil: [ ^ self ].
 	(aBrick valueOfProperty: #brickSpotterIsReveal ifAbsent: [ false ])
 		ifTrue: [ ^ self ].
