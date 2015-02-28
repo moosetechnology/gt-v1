@@ -11,7 +11,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTSpotterRecorderSearchFinishedEvent >> fromAnnouncement: anAnnouncement [
 
 	querySize := anAnnouncement query ifNil: [ 0 ]  ifNotNil: [ :aString | aString size]
