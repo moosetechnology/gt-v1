@@ -69,6 +69,12 @@ GTSpotterContext >> defaultTextTrimmed [
 	^ self text trimBoth
 ]
 
+{ #category : #comparing }
+GTSpotterContext >> equals: aContext [
+	aContext ifNil: [ ^ false ].
+   ^ self matches: aContext text
+]
+
 { #category : #testing }
 GTSpotterContext >> isEmpty [
 	^ self text isNil

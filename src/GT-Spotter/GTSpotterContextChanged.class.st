@@ -30,7 +30,7 @@ GTSpotterContextChanged >> current: anObject [
 
 { #category : #'accessing-dynamic' }
 GTSpotterContextChanged >> currentText [
-	^ self current ifNotNil: [ self current text ]
+	^ self current ifNil: [''] ifNotNil: [ self current text ]
 ]
 
 { #category : #accessing }
@@ -45,7 +45,7 @@ GTSpotterContextChanged >> previous: anObject [
 
 { #category : #'accessing-dynamic' }
 GTSpotterContextChanged >> previousText [
-	^ self previous ifNotNil: [ self previous text ]
+	^ self previous ifNil: ['']  ifNotNil: [ self previous text ]
 ]
 
 { #category : #compatibility }
