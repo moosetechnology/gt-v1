@@ -24,12 +24,12 @@ Class {
 GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
 
 	GTSpotterEventRecorderSettings uniqueInstance sendSearchQuery 
-		ifTrue: [ text := anAnnouncement text. ^ self ].
-	querySize := anAnnouncement text size.
-	anAnnouncement previousQuery size == 0 ifTrue: [ ^ self ].
-	isRefinement := (anAnnouncement text size > anAnnouncement previousQuery size 
-		ifTrue: [ anAnnouncement text asString beginsWith: anAnnouncement previousQuery asString]
-		ifFalse: [ anAnnouncement previousQuery asString beginsWith: anAnnouncement text asString ]).
+		ifTrue: [ text := anAnnouncement currentText. ^ self ].
+	querySize := anAnnouncement currentText size.
+	anAnnouncement previousText size == 0 ifTrue: [ ^ self ].
+	isRefinement := (anAnnouncement currentText size > anAnnouncement previousText size 
+		ifTrue: [ anAnnouncement currentText beginsWith: anAnnouncement previousText]
+		ifFalse: [ anAnnouncement previousText beginsWith: anAnnouncement currentText ]).
 ]
 
 { #category : #initialization }
