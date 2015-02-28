@@ -233,6 +233,7 @@ GTSpotterMorph >> openAgreementFor: aBrick [
 			addContentBrick: (
 				GLMPrivacyAgreementBrick new
 					width: 400;
+					padding: #(5 10);
 					vShrinkWrap;
 					applicationName: 'Spotter';
 					buttonText: 'Save';
