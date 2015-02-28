@@ -10,5 +10,5 @@ Class {
 { #category : #'as yet unclassified' }
 GTSpotterRecorderSearchFinishedEvent >> fromAnnouncement: anAnnouncement [
 
-	querySize := anAnnouncement query size
+	querySize := anAnnouncement query ifNil: [ '' ]  ifNotNil: [ :aString | aString size]
 ]
