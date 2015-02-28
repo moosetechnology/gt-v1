@@ -6,8 +6,7 @@ Class {
 		'breadcrumbBrick',
 		'paneBrick',
 		'spotterModel',
-		'autoHide',
-		'agreementButton'
+		'autoHide'
 	],
 	#category : #'GT-Spotter-UI'
 }

@@ -6,7 +6,6 @@ Class {
 		'searchField',
 		'closeButton',
 		'spotterModel',
-		'agreementButton',
 		'settingsButton'
 	],
 	#category : #'GT-Spotter-UI'
