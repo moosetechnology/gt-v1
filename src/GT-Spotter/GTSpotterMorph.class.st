@@ -86,7 +86,7 @@ GTSpotterMorph >> handleListenEvent: anEvent [
 		
 	anEvent type = #mouseDown ifTrue: [ 
 		((self fullBoundsInWorld containsPoint: anEvent position) not and: [ self autoHide ])
-			ifTrue: [ self spotterModel exit ] ].
+			ifTrue: [ self spotterModel ifNotNil: [ :aModel | aModel exit ] ] ].
 		
 	anEvent type = #keyDown ifTrue: [ 
 		anEvent keyValue = 56
