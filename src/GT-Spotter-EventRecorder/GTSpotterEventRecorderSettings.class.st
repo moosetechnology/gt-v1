@@ -31,7 +31,7 @@ Class {
 		'computerUUID',
 		'sendSearchQuery',
 		'sendUsageData',
-		'userAnsweredAgreement'
+		'persistSettings'
 	],
 	#classInstVars : [
 		'url',
@@ -151,13 +151,6 @@ GTSpotterEventRecorderSettings >> computerUUID [
 	^ computerUUID
 ]
 
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> hasUserAnsweredAgreement [
-	"True means that he has already answered question about sending anonymous data
-	and we do not need to ask him/her again."
-	^ userAnsweredAgreement ifNil: [ userAnsweredAgreement := false ]
-]
-
 { #category : #initialization }
 GTSpotterEventRecorderSettings >> initialize [
 	super initialize.
@@ -165,8 +158,20 @@ GTSpotterEventRecorderSettings >> initialize [
 	
 ]
 
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> persistSettings [
+	^ persistSettings ifNil: [ persistSettings := false ]
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> persistSettings: aBoolean [
+	persistSettings := aBoolean.
+	self save.
+]
+
 { #category : #actions }
 GTSpotterEventRecorderSettings >> save [
+	self persistSettings ifFalse: [ ^ self ].
 	self class savePreferences
 ]
 
@@ -178,6 +183,7 @@ GTSpotterEventRecorderSettings >> sendSearchQuery [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendSearchQuery: aBoolean [
 	sendSearchQuery := aBoolean.
+	self save.
 ]
 
 { #category : #accessing }
@@ -188,9 +194,5 @@ GTSpotterEventRecorderSettings >> sendUsageData [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendUsageData: aBoolean [
 	sendUsageData := aBoolean.
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> setUserAnsweredAgreement [
-	userAnsweredAgreement := true.
+	self save.
 ]
