@@ -62,12 +62,37 @@ GTSpotterEventRecorder class >> instance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
+{ #category : #converting }
+GTSpotterEventRecorder class >> materialize: aByteArray [
+	| materializer stream gzstream materialization |
+	stream := aByteArray readStream. 
+	gzstream := GZipReadStream on: stream.
+	materializer := FLMaterializer newDefault.
+	materialization := materializer materializeFrom: gzstream.
+	gzstream close.
+	stream close.
+	^ materialization root.
+]
+
 { #category : #accessing }
 GTSpotterEventRecorder class >> reset [
 	instance := nil
 ]
 
-{ #category : #delivery }
+{ #category : #converting }
+GTSpotterEventRecorder class >> serialize: anObject [
+	| serializer stream gzstream |
+	stream := ByteArray new writeStream binary. 
+	gzstream := GZipWriteStream on: stream.
+	serializer := FLSerializer newDefault.
+	serializer stream: gzstream.
+	serializer serialize: anObject.
+	gzstream close.
+	stream close.
+	^ stream contents.
+]
+
+{ #category : #converting }
 GTSpotterEventRecorder >> announcementFrom: oldRecordedData [
 	^ GTSpotterRecorderDataAnnouncement new
 			data: (self serialize: oldRecordedData);
@@ -94,23 +119,6 @@ GTSpotterEventRecorder >> buildAndStoreEventFrom: anAnnouncement withType: aClas
 { #category : #testing }
 GTSpotterEventRecorder >> canSendUsageData [
 	^ GTSpotterEventRecorderSettings uniqueInstance sendUsageData
-]
-
-{ #category : #converting }
-GTSpotterEventRecorder >> dataAsBinaryStream [
-	^ self dataAsBinaryStream: recordedData
-]
-
-{ #category : #converting }
-GTSpotterEventRecorder >> dataAsBinaryStream: aRecordedData [
-	| stream serializer |
-	
-	stream := ByteArray new writeStream binary.
-	serializer := FLSerializer newDefault.
-	serializer 
-		stream: stream.
-	serializer serialize: aRecordedData.
-	^ stream
 ]
 
 { #category : #delivery }
@@ -198,6 +206,16 @@ GTSpotterEventRecorder >> linkToSpotter: aSpotterModel [
 	aSpotterModel announcer weak when: Announcement send: #recordAccouncement: to: self
 ]
 
+{ #category : #converting }
+GTSpotterEventRecorder >> materialize: aByteArray [
+	^ self class materialize: aByteArray
+]
+
+{ #category : #converting }
+GTSpotterEventRecorder >> materializedAnnouncementFrom: aByteArray [ 
+	^ self materialize: aByteArray
+]
+
 { #category : #delivery }
 GTSpotterEventRecorder >> prepareDeliveryData [
 	| toBeDeliveredData toBeDeliveredAnnouncement |
@@ -261,10 +279,10 @@ GTSpotterEventRecorder >> remoteURL [
 
 { #category : #converting }
 GTSpotterEventRecorder >> serialize: anObject [
-	^ FLSerializer serializeToByteArray: anObject
+	^ self class serialize: anObject
 ]
 
-{ #category : #delivery }
+{ #category : #converting }
 GTSpotterEventRecorder >> serializedAnnouncementFrom: oldRecordedData [
 	^ self serialize: (self announcementFrom: oldRecordedData)
 ]
