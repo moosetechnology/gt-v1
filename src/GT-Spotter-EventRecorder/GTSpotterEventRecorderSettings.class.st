@@ -29,8 +29,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'computerUUID',
-		'sendUsageData',
-		'persistSettings'
+		'sendUsageData'
 	],
 	#classInstVars : [
 		'url',
@@ -51,7 +50,7 @@ GTSpotterEventRecorderSettings class >> defaultSaveUserDataPreferenceStatus [
 		sendUsageDataValue ifNil: [ ^ 'unspecified' ].
 		^ sendUsageDataValue 
 			ifTrue: [ 'send anonyous usage data' ]
-			ifFalse: [ 'do not send anonymous usage data' ]
+			ifFalse: [ 'do not send anonyous usage data' ]
 	] on: Error do: [ 
 		^ 'error reading settings file' ]
 ]
@@ -160,7 +159,8 @@ GTSpotterEventRecorderSettings class >> url [
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> url: aZnUrl [
 	url := aZnUrl ifNotNil: [ aZnUrl asZnUrl ].
-	self save.
+	self flag:'Not clear why save is called in this method'.
+	"self save."
 ]
 
 { #category : #accessing }
@@ -197,20 +197,13 @@ GTSpotterEventRecorderSettings >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GTSpotterEventRecorderSettings >> persistSettings [
-	^ persistSettings ifNil: [ persistSettings := false ]
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> persistSettings: aBoolean [
-	persistSettings := aBoolean.
 	self save.
 ]
 
 { #category : #actions }
 GTSpotterEventRecorderSettings >> save [
-	self persistSettings ifFalse: [ ^ self ].
 	self class savePreferences
 ]
 
@@ -222,5 +215,4 @@ GTSpotterEventRecorderSettings >> sendUsageData [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> sendUsageData: aBoolean [
 	sendUsageData := aBoolean.
-	self save.
 ]
