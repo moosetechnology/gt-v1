@@ -51,7 +51,7 @@ GTSpotterEventRecorderSettings class >> defaultSaveUserDataPreferenceStatus [
 		sendUsageDataValue ifNil: [ ^ 'unspecified' ].
 		^ sendUsageDataValue 
 			ifTrue: [ 'send anonyous usage data' ]
-			ifFalse: [ 'do not send anonyous usage data' ]
+			ifFalse: [ 'do not send anonymous usage data' ]
 	] on: Error do: [ 
 		^ 'error reading settings file' ]
 ]
