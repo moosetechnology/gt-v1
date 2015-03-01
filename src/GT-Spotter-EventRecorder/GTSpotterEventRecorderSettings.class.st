@@ -68,7 +68,7 @@ GTSpotterEventRecorderSettings class >> loadPreferences [
 		User still has to agree about sending data if it is not has been done yet."
 		^ self savePreferences ].
 	[ 
-		dictionary := self new dictionary: (FLMaterializer materializeFromFileNamed: self preferences).
+		dictionary := FLMaterializer materializeFromFileNamed: self preferences.
 		newInstance := self new dictionary: dictionary.
 		"If UUIDs are different, it is likely different user and we should use
 		localy stored settings. If the UUIDs are same, we keep settings of the image."
