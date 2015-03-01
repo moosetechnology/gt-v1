@@ -39,20 +39,17 @@ Class {
 }
 
 { #category : #accessing }
-GTSpotterEventRecorderSettings class >> defaultSaveUserDataPreferenceStatus [
+GTSpotterEventRecorderSettings class >> defaultSaveUserDataPreference [
 	|dictionary sendUsageDataValue |
 
-	self preferences exists ifFalse: [ ^ 'unspecified' ].
-	
+	self preferences exists ifFalse: [ ^ nil ].
 	[ 
 		dictionary := FLMaterializer materializeFromFileNamed: self preferences.
-		sendUsageDataValue := dictionary at:#sendUsageData ifAbsent: [ ^ 'unspecified' ].
-		sendUsageDataValue ifNil: [ ^ 'unspecified' ].
+		sendUsageDataValue := dictionary at:#sendUsageData ifAbsent: [ ^ nil ].
+		sendUsageDataValue ifNil: [ ^ nil ].
 		^ sendUsageDataValue 
-			ifTrue: [ 'send anonyous usage data' ]
-			ifFalse: [ 'do not send anonyous usage data' ]
 	] on: Error do: [ 
-		^ 'error reading settings file' ]
+		^ nil]
 ]
 
 { #category : #'load and saving' }
