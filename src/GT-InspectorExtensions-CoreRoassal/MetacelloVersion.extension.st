@@ -12,5 +12,5 @@ MetacelloVersion >> gtInspectorProjectMapIn: composite [
 			view 
 				edgesFrom: #yourself 
 				toAll: [:each | each projects collect: #version].
-			view horizontalDominanceTreeLayout ]
+			view horizontalDominanceTreeLayout layered ]
 ]
