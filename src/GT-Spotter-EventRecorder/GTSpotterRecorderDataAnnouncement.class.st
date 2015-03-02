@@ -1,5 +1,5 @@
 "
-A GTSpotterRecorderDataAnnouncement is an announcement that  groups  all  usage data  that is send over the network. 
+A GTSpotterRecorderDataAnnouncement is an announcement that  groups  all  usage data  that is send over the network.  Appart from the actual recorded data in includes some meta-data about the image and the UUID of the computer.
 
 Instance Variables
 	computerUUID:		<Object>
