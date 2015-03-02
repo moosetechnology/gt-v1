@@ -73,7 +73,7 @@ GTSpotterHeaderBrick >> openSettingsFor: aBrick [
 	^ GLMPopupDialogBrick new
 			addContentBrick: (
 				GLMPrivacyAgreementBrick new
-					width: 400;
+					width: 465;
 					padding: #(5 10);
 					vShrinkWrap;
 					yourself);
