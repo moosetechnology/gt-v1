@@ -631,7 +631,7 @@ GTSpotterWidgetThemer >> spotterContentsStyleFor: aBrick [
 { #category : #values }
 GTSpotterWidgetThemer >> spotterGhostText [
 
-	^ 'Spotter search'
+	^ 'Search'
 ]
 
 { #category : #styles }
