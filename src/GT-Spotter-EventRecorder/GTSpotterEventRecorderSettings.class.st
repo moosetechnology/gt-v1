@@ -13,8 +13,8 @@ A GTSpotterEventRecorderSettings manages  user preferences related to  sending u
 - the default setting can only be changed from the Agreement UI accessible from the Spotter settings.
 
 This mechanism has the following implications:
-- as long as there is no default setting stored a setting has to be stored in every image manually
-- if there is a default setting stored whenever opening a new image without an explicit setting the default setting becames is saved in the image.
+- as long as there is no default setting explicitly set a setting has to be set in every image manually
+- if there is a default setting stored, whenever opening a new image without an explicit setting the default setting  is saved in the image.
 
 Hence, changing the default setting later on will not change the existing setting in any existing images. It will only apply to new images.
 Also copying an image from one computer to another resets it's settings to the default settings of the destination computer.
