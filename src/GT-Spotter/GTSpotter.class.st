@@ -449,10 +449,11 @@ GTSpotter >> setText: aText from: aView [
 GTSpotter >> shiftPressed: aBoolean [
 
 	self isShiftPressed = aBoolean ifTrue: [ ^ self ].
+	
 	isShiftPressed := aBoolean.
-
+	
 	SmalltalkImage current vm interpreterSourceDate < 2015 asYear 
-		ifTrue: [ ^ self ].
+		ifTrue: [ ^ isShiftPressed := false ].
 
 	self isShiftPressed
 		ifTrue: [ self notifyRevealHints ]

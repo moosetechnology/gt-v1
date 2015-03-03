@@ -89,9 +89,8 @@ GTSpotterMorph >> handleListenEvent: anEvent [
 			ifTrue: [ self spotterModel ifNotNil: [ :aModel | aModel exit ] ] ].
 		
 	anEvent type = #keyDown ifTrue: [ 
-		anEvent keyValue = 56
-			ifTrue: [ self spotterModel ifNotNil: [ :s | s shiftPressed: (
-					anEvent shiftPressed | ( self spotterModel isShiftPressed not ) ) ] ] ].
+		self spotterModel
+			ifNotNil: [ :s | s shiftPressed: (InputEventSensor default anyModifierKeyPressed not & InputEventSensor default shiftPressed) ] ].
 ]
 
 { #category : #'event handling' }
