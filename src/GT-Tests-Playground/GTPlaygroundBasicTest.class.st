@@ -17,7 +17,9 @@ GTPlaygroundBasicTest >> setUp [
 { #category : #running }
 GTPlaygroundBasicTest >> tearDown [
 
-	window ifNotNil: [ window delete ]
+	window ifNotNil: [ window delete ].
+	window := nil.
+	playground := nil
 ]
 
 { #category : #running }
