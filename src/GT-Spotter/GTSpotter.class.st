@@ -23,6 +23,11 @@ Class {
 	#category : #'GT-Spotter-Model'
 }
 
+{ #category : #cleanup }
+GTSpotter class >> cleanUp [
+    self resetHistory
+]
+
 { #category : #accessing }
 GTSpotter class >> dontShowPreview [
 
