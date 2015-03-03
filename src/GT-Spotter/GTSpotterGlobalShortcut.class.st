@@ -12,8 +12,7 @@ Class {
 
 { #category : #cleanup }
 GTSpotterGlobalShortcut class >> cleanUp [
-	super 	cleanUp.
-	globalSpotter := nil
+	self reset
 ]
 
 { #category : #testing }
