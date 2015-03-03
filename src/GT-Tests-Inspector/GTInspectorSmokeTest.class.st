@@ -25,7 +25,8 @@ GTInspectorSmokeTest >> setUp [
 
 { #category : #running }
 GTInspectorSmokeTest >> tearDown [ 
-	windows do: [ :each | each delete ]
+	windows do: [ :each | each delete ].
+	windows := nil
 ]
 
 { #category : #tests }

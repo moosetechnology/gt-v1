@@ -14,7 +14,8 @@ GTInspectorExamplesTest >> setUp [
 
 { #category : #running }
 GTInspectorExamplesTest >> tearDown [ 
-	windows do: [ :each | each delete ]
+	windows do: [ :each | each delete ].
+	windows := nil
 ]
 
 { #category : #tests }
