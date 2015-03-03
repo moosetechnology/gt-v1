@@ -266,6 +266,20 @@ GTSpotterWidgetThemer >> headerStyleFor: aBrick [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> hintHideArrowStyleFor: aBrick [
+
+	aBrick ifNil: [ ^ self ].
+	(aBrick valueOfProperty: #brickSpotterIsReveal ifAbsent: [ false ])
+		ifFalse: [ ^ self ].
+	aBrick setProperty: #brickSpotterIsReveal toValue: false.
+	
+	(aBrick hasProperty: #brickSpotterBackupColor)
+		ifTrue: [ aBrick color: (aBrick valueOfProperty: #brickSpotterBackupColor) ].
+		
+	aBrick changed
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> hintHideStyleFor: aBrick [
 
 	aBrick ifNil: [ ^ self ].
@@ -279,6 +293,24 @@ GTSpotterWidgetThemer >> hintHideStyleFor: aBrick [
 	(aBrick hasProperty: #brickSpotterBackupBorder)
 		ifTrue: [ aBrick border: (aBrick valueOfProperty: #brickSpotterBackupBorder) ].
 		
+	aBrick changed
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> hintRevealArrowStyleFor: aBrick [
+	
+	SmalltalkImage current vm interpreterSourceDate < 2015 asYear 
+		ifTrue: [ ^ self ].
+	
+	aBrick ifNil: [ ^ self ].
+	(aBrick valueOfProperty: #brickSpotterIsReveal ifAbsent: [ false ])
+		ifTrue: [ ^ self ].
+	
+	aBrick setProperty: #brickSpotterBackupColor toValue: aBrick color.
+	aBrick setProperty: #brickSpotterIsReveal toValue: true.
+	
+	aBrick color: self themer popupHelpThemer backgroundColor.
+	
 	aBrick changed
 ]
 
@@ -352,7 +384,7 @@ GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 		useHorizontalLinearLayout;
 		hShrinkWrap;
 		vSpaceFill;
-		marginRight: self outerBorderWidth;
+		marginRight: self outerBorderWidth + 2;
 		visible: false
 ]
 
@@ -592,8 +624,8 @@ GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
 	aBrick
 		vSpaceFill;
 		width: [ :m | m height ];
-		marginTop: 10;
-		marginBottom: 10;
+		margin: #(10 0);
+		marginRight: 2;
 		normalImage: Smalltalk ui icons glamorousPreferences;
 		pressedColor: self buttonPressedColor
 ]

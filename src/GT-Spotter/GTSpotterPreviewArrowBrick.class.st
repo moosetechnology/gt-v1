@@ -79,9 +79,21 @@ GTSpotterPreviewArrowBrick >> onDraw: aCanvas [
 ]
 
 { #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onHideHints [
+
+	self themer spotterThemer hintHideArrowStyleFor: self triangleBrick
+]
+
+{ #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onHidePreview [
 
 	self changed
+]
+
+{ #category : #'event handling' }
+GTSpotterPreviewArrowBrick >> onRevealHints [
+
+	self themer spotterThemer hintRevealArrowStyleFor: self triangleBrick
 ]
 
 { #category : #'event handling' }
@@ -134,7 +146,10 @@ GTSpotterPreviewArrowBrick >> spotterModel: aSpotterModel [
 	self spotterModel announcer weak subscribe: GTSpotterCandidateSelectedMoved send: #onCandidateMoved to: self.
 	self spotterModel announcer weak subscribe: GTSpotterStepAdded send: #onStepAdded to: self.
 	self spotterModel announcer weak subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
-	self spotterModel announcer weak subscribe: GTSpotterHidePreview send: #onHidePreview to: self
+	self spotterModel announcer weak subscribe: GTSpotterHidePreview send: #onHidePreview to: self.
+	
+	self spotterModel announcer weak subscribe: GTSpotterRevealHints send: #onRevealHints to: self.
+	self spotterModel announcer weak subscribe: GTSpotterHideHints send: #onHideHints to: self.
 ]
 
 { #category : #accessing }

@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : #accessing }
+GTSpotterHeaderBrick >> closeButton [
+
+	^ closeButton
+]
+
+{ #category : #accessing }
 GTSpotterHeaderBrick >> closeButton: aBrick [
 
 	closeButton ifNotNil: [self removeBrick: closeButton].
@@ -67,6 +73,20 @@ GTSpotterHeaderBrick >> onCurrentStepChanged [
 	self searchField morph moveCursorAtTheEnd
 ]
 
+{ #category : #'event handling' }
+GTSpotterHeaderBrick >> onHideHints [
+
+	self themer spotterThemer hintHideStyleFor: self settingsButton.
+	self themer spotterThemer hintHideStyleFor: self closeButton.
+]
+
+{ #category : #'event handling' }
+GTSpotterHeaderBrick >> onRevealHints [
+
+	self themer spotterThemer hintRevealStyleFor: self settingsButton.
+	self themer spotterThemer hintRevealStyleFor: self closeButton
+]
+
 { #category : #accessing }
 GTSpotterHeaderBrick >> openSettingsFor: aBrick [
 
@@ -102,6 +122,12 @@ GTSpotterHeaderBrick >> searchField: aMorph [
 ]
 
 { #category : #accessing }
+GTSpotterHeaderBrick >> settingsButton [
+
+	^ settingsButton
+]
+
+{ #category : #accessing }
 GTSpotterHeaderBrick >> settingsButton: aBrick [
 
 	settingsButton ifNotNil: [self removeBrick: settingsButton].
@@ -129,4 +155,7 @@ GTSpotterHeaderBrick >> spotterModel: aModel [
 	self searchField morph on: spotterModel.
 
 	spotterModel announcer weak subscribe: GTSpotterCurrentStepChanged send: #onCurrentStepChanged to: self.
+	
+	self spotterModel announcer weak subscribe: GTSpotterRevealHints send: #onRevealHints to: self.
+	self spotterModel announcer weak subscribe: GTSpotterHideHints send: #onHideHints to: self.
 ]
