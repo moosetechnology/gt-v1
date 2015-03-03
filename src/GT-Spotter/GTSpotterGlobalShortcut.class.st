@@ -10,6 +10,12 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
+{ #category : #cleanup }
+GTSpotterGlobalShortcut class >> cleanUp [
+	super 	cleanUp.
+	globalSpotter := nil
+]
+
 { #category : #testing }
 GTSpotterGlobalShortcut class >> isGlobalCategory [
 	^ true
