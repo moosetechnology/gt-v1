@@ -77,7 +77,9 @@ GTSpotterHeaderBrick >> openSettingsFor: aBrick [
 					padding: #(5 10);
 					vShrinkWrap;
 					yourself);
-			openBelowFor: aBrick
+			with: [ :b | b contentBrick ];
+			openBelowFor: aBrick;
+			beRightToLeftWithOffset: 50
 ]
 
 { #category : #accessing }
