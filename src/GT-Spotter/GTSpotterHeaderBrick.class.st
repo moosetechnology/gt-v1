@@ -37,7 +37,8 @@ GTSpotterHeaderBrick >> initialize [
 	super initialize.
 	
 	self searchField: self newSearchField.
-	self settingsButton: self newSettingsButton.
+	#GTSpotterEventRecorderSettings asClassIfPresent: [ 
+		self settingsButton: self newSettingsButton ].
 	self closeButton: self newCloseButton.
 	
 ]
