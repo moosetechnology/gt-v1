@@ -24,3 +24,8 @@ XMLNodeWithElements >> gtInspectorTreeIn: composite [
 		when: [self hasElements];
 		rootsExpanded
 ]
+
+{ #category : #'*GT-InspectorExtensions-XML' }
+XMLNodeWithElements >> gtName [
+	^ ''
+]

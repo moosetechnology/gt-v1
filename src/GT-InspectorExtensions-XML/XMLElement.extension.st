@@ -47,3 +47,8 @@ XMLElement >> gtInspectorImageIn: composite inContext: aGTInspector [
       				entity)];
 		when: [ self name = 'img' and: [(self attributeNodes attributeValueAt: 'src') notNil]]
 ]
+
+{ #category : #'*GT-InspectorExtensions-XML' }
+XMLElement >> gtName [
+	^ self localName
+]
