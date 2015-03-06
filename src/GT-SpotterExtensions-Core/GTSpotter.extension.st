@@ -45,7 +45,7 @@ GTSpotter >> evaluateExpressionInContext: aSpotterContext [
 	^ candidates
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core-private' }
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileReferencesBlock [
 	| prefixMatchers split rootDirectory query fullQuery rest |
 	fullQuery := aSpotterContext textLowercase.
@@ -167,6 +167,18 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 			itemName:[:global | global key ];
 			filter: GTFilterSubstring;
 			wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForHelpTopicFor: aStep [
+	<spotterOrder: 200>
+	aStep listProcessor 
+			allCandidates: [ SystemHelp asHelpTopic gtAllSubtopics ];
+			title: 'Help topics';
+			itemName: [ :helpTopic | helpTopic title ];
+			itemIcon: [ :helpTopic | helpTopic gtTopicIcon ];
+			matchSubstrings;
+			wantsToDisplayOnEmptyQuery: true
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

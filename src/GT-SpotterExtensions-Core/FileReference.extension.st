@@ -43,7 +43,7 @@ FileReference >> spotterForZipDirectoriesFor: aStep [
 			title: 'Directories';
 			candidatesLimit: Float infinity;
 			itemName: #basename;
-			itemIcon: [ GLMUIThemeExtraIcons glamorousFolder ];
+			itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
 			filter: GTFilterSubstring
 ]
 
