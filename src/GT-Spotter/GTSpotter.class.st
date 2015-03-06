@@ -331,9 +331,12 @@ GTSpotter >> notifyRevealHints [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifySearchFinishedFor: aString [
+GTSpotter >> notifySearchFinishedFor: aString processors: aCollectionOfProcessors [
 
-	self announce: (GTSpotterSearchFinished new query: aString)
+	self announce: (GTSpotterSearchFinished new 
+								query: aString;
+								processors: aCollectionOfProcessors;
+								yourself)
 ]
 
 { #category : #notifying }

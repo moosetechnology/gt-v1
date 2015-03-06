@@ -186,7 +186,7 @@ GTSpotterStep >> process: aString [
 		withArguments: { self context. }
 		callback: [
 			lastSearchContext := self context. 
-			self spotter notifySearchFinishedFor: aString]
+			self spotter notifySearchFinishedFor: aString processors: self processors ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200
 ]
