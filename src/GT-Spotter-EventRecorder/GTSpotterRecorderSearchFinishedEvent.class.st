@@ -6,13 +6,17 @@ Class {
 	#name : #GTSpotterRecorderSearchFinishedEvent,
 	#superclass : #GTSpotterRecorderEvent,
 	#instVars : [
-		'query'
+		'query',
+		'processors'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
 
 { #category : #initialization }
 GTSpotterRecorderSearchFinishedEvent >> fromAnnouncement: anAnnouncement [
-	anAnnouncement query ifNil: [ ^ self ].
 	query := self textInfoFrom: anAnnouncement query.
+	processors := (anAnnouncement processors flatCollect: [ :eachProcessor |
+		Array 
+			with: eachProcessor title
+			with: eachProcessor allFilteredCandidates size ]) asArray
 ]

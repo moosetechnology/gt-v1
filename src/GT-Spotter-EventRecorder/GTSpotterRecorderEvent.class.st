@@ -38,11 +38,12 @@ GTSpotterRecorderEvent >> settings [
 { #category : #accessing }
 GTSpotterRecorderEvent >> textInfoFrom: aString [
 	| strings hashes sizes specials |
+	aString isNil ifTrue: [ ^ nil ].
 	aString size isZero ifTrue: [ ^ nil ].
-	strings := aString findTokens: Character separators.
+	strings := aString substrings.
 	hashes := strings collect: [ :each | each hash bitXor: self settings secretUUID hash ] as: Array.
 	sizes := strings collect: #size as: Array.
-	specials := strings collect: [ :each | ((each beginsWith: '#') and: [ each size = 2 ])
+	specials := strings collect: [ :each | (each beginsWith: '#')
 															ifTrue: [ each ]
 															ifFalse: [ nil ] ] as: Array.
 	^ Array with: hashes with: sizes with: specials 
