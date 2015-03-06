@@ -68,7 +68,7 @@ GTSpotterEventRecorder class >> cleanUp [
 
 { #category : #accessing }
 GTSpotterEventRecorder class >> instance [
-
+	"self instance"
 	^ instance ifNil: [ instance := self new ]
 ]
 

@@ -12,8 +12,9 @@ Class {
 	#name : #GTSpotterRecorderContextChangedEvent,
 	#superclass : #GTSpotterRecorderEvent,
 	#instVars : [
-		'querySize',
-		'isRefinement'
+		'isRefinement',
+		'currentTextInfo',
+		'previousTextInfo'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
@@ -21,8 +22,9 @@ Class {
 { #category : #initialization }
 GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
 
-	querySize := anAnnouncement currentText size.
+	currentTextInfo := self textInfoFrom: anAnnouncement currentText.
 	anAnnouncement previousText size == 0 ifTrue: [ ^ self ].
+	previousTextInfo := self textInfoFrom: anAnnouncement previousText.
 	isRefinement := (anAnnouncement currentText size > anAnnouncement previousText size 
 		ifTrue: [ anAnnouncement currentText beginsWith: anAnnouncement previousText]
 		ifFalse: [ anAnnouncement previousText beginsWith: anAnnouncement currentText ]).

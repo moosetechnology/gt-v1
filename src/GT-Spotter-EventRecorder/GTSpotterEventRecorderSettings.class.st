@@ -47,6 +47,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'computerUUID',
+		'secretUUID',
 		'sendUsageData'
 	],
 	#classInstVars : [
@@ -163,6 +164,7 @@ GTSpotterEventRecorderSettings class >> stringUrl: aUrlString [
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> uniqueInstance [
+	"self uniqueInstance"
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
 ]
 
@@ -209,7 +211,7 @@ GTSpotterEventRecorderSettings >> dictionary: aCollection [
 GTSpotterEventRecorderSettings >> initialize [
 	super initialize.
 	computerUUID := UUID new.
-	
+	secretUUID := UUID new.
 ]
 
 { #category : #actions }
@@ -220,6 +222,11 @@ GTSpotterEventRecorderSettings >> persistSettings [
 { #category : #actions }
 GTSpotterEventRecorderSettings >> save [
 	self class savePreferences
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> secretUUID [
+	^ secretUUID
 ]
 
 { #category : #accessing }

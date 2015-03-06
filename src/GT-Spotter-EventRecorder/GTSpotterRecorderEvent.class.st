@@ -29,3 +29,21 @@ GTSpotterRecorderEvent >> initialize [
 	
 	timestamp := Time now asDateAndTime asUnixTime 
 ]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> settings [
+	^ GTSpotterEventRecorderSettings uniqueInstance
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> textInfoFrom: aString [
+	| strings hashes sizes specials |
+	aString size isZero ifTrue: [ ^ nil ].
+	strings := aString findTokens: Character separators.
+	hashes := strings collect: [ :each | each hash bitXor: self settings secretUUID hash ] as: Array.
+	sizes := strings collect: #size as: Array.
+	specials := strings collect: [ :each | ((each beginsWith: '#') and: [ each size = 2 ])
+															ifTrue: [ each ]
+															ifFalse: [ nil ] ] as: Array.
+	^ Array with: hashes with: sizes with: specials 
+]

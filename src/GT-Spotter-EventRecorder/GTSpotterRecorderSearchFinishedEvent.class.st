@@ -6,13 +6,13 @@ Class {
 	#name : #GTSpotterRecorderSearchFinishedEvent,
 	#superclass : #GTSpotterRecorderEvent,
 	#instVars : [
-		'querySize'
+		'query'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
 
 { #category : #initialization }
 GTSpotterRecorderSearchFinishedEvent >> fromAnnouncement: anAnnouncement [
-
-	querySize := anAnnouncement query ifNil: [ 0 ]  ifNotNil: [ :aString | aString size]
+	anAnnouncement query ifNil: [ ^ self ].
+	query := self textInfoFrom: anAnnouncement query.
 ]
