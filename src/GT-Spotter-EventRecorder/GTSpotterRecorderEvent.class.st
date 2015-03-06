@@ -44,7 +44,7 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 	hashes := strings collect: [ :each | each hash bitXor: self settings secretUUID hash ] as: Array.
 	sizes := strings collect: #size as: Array.
 	specials := strings collect: [ :each | (each beginsWith: '#')
-															ifTrue: [ each ]
+															ifTrue: [ each size]
 															ifFalse: [ nil ] ] as: Array.
 	^ Array with: hashes with: sizes with: specials 
 ]
