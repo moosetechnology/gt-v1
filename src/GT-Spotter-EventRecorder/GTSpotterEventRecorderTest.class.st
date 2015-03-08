@@ -10,19 +10,19 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterEventRecorderTest >> recordedData [
 	^ GTSpotterRecorderEvent allSubclasses collect: #new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 GTSpotterEventRecorderTest >> setUp [
 	super setUp.
 	recorder := GTSpotterEventRecorder new.
 	recorder stopDelivering.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTSpotterEventRecorderTest >> testSerializedAnnouncementFrom [
 	| byteArray announcement |
 	byteArray := recorder serializedAnnouncementFrom: self recordedData.
