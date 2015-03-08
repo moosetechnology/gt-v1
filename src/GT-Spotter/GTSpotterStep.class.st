@@ -162,6 +162,16 @@ GTSpotterStep >> origin: anObject [
 	origin := anObject
 ]
 
+{ #category : #accessing }
+GTSpotterStep >> previousProcessorFrom: aCollection [
+	aCollection do: [ :each | 
+		each processor ifNotNil: [ ^ each processor ] ]. " we assume they are all identical "
+	^ GTSpotterProcessor new
+		title: 'Items';
+		filter: GTFilterSubstring;
+		yourself
+]
+
 { #category : #processing }
 GTSpotterStep >> process: aString [
 	"I do not accept empty queries or the same queries as before.

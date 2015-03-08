@@ -62,6 +62,11 @@ GTSpotterCandidatesListProcessor >> doFilterInContext: aSpotterContext [
 	^ filterBlock gtFilter value: aSpotterContext
 ]
 
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> filter [
+	^ filterBlock
+]
+
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> filter: aBlockWithOneArgument [
 	filterBlock := aBlockWithOneArgument 
@@ -89,6 +94,11 @@ GTSpotterCandidatesListProcessor >> itemIconFor: anObject [
 	^ itemIconBlock isNil
 		ifTrue: [ super itemIconFor: anObject ]
 		ifFalse: [ itemIconBlock cull: anObject ]
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> itemName [
+	^ itemNameBlock
 ]
 
 { #category : #scripting }
