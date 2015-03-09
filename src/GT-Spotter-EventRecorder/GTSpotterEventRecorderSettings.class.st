@@ -106,6 +106,8 @@ GTSpotterEventRecorderSettings class >> loadPreferences [
 		localy stored settings. If the UUIDs are same, we keep settings of the image."
 		newInstance computerUUID = self uniqueInstance computerUUID
 			ifFalse: [ uniqueInstance := newInstance ]
+			ifTrue: [ self uniqueInstance secretUUID: newInstance secretUUID ].
+		self saveMissingAttributes: self uniqueInstance dictionary comparingWithOld: dictionary.
 	] on: Error do: [ 
 		"Preferences likely contains a different settings version, so we store the actual one.
 		We should keep the preferences as stable as possible."
@@ -124,10 +126,30 @@ GTSpotterEventRecorderSettings class >> reset [
 ]
 
 { #category : #'load and saving' }
+GTSpotterEventRecorderSettings class >> saveMissingAttributes: imageDictionary comparingWithOld: diskDictionary [
+	"It saves to the disk items that are included in imageDictionary,
+	but are missing in diskDictionary. Useful when a new version of the event
+	recorder adds new configuration values that should be saved too."
+	| difference newDiskDictionary |
+	difference := imageDictionary keys difference: diskDictionary keys.
+	difference ifEmpty: [ ^ self ].
+	newDiskDictionary := diskDictionary copy.
+	difference do: [ :eachKey |
+		newDiskDictionary at: eachKey put: (imageDictionary at: eachKey) ].
+	self savePreferences: newDiskDictionary.
+]
+
+{ #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> savePreferences [
 	"self savePreferences"
+	self savePreferences: self uniqueInstance dictionary.
+]
+
+{ #category : #'load and saving' }
+GTSpotterEventRecorderSettings class >> savePreferences: aDictionary [
+	"self savePreferences: Dictionary new."
 	self deletePreferences.
-	[ FLSerializer serialize: self uniqueInstance dictionary toFileNamed: self preferences ]
+	[ FLSerializer serialize: aDictionary toFileNamed: self preferences ]
 		on: Error do: [ "ignore" ]
 ]
 
@@ -227,6 +249,11 @@ GTSpotterEventRecorderSettings >> save [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> secretUUID [
 	^ secretUUID
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings >> secretUUID: anUUID [
+	secretUUID := anUUID
 ]
 
 { #category : #accessing }
