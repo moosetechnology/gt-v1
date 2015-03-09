@@ -170,18 +170,6 @@ GTSpotter >> spotterForGlobalVarsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForHelpTopicFor: aStep [
-	<spotterOrder: 200>
-	aStep listProcessor 
-			allCandidates: [ SystemHelp asHelpTopic gtAllSubtopics ];
-			title: 'Help topics';
-			itemName: [ :helpTopic | helpTopic title ];
-			itemIcon: [ :helpTopic | helpTopic gtTopicIcon ];
-			matchSubstrings;
-			wantsToDisplayOnEmptyQuery: true
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 	<spotterOrder: 86>
 	aStep listProcessor
