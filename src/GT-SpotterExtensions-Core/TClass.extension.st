@@ -6,6 +6,15 @@ TClass >> spotterActDefault [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TClass >> spotterAllInstancesFor: aStep [
+	<spotterOrder: 100>
+	aStep listProcessor
+		title: 'All instances';
+		allCandidates: [ self allInstances ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TClass >> spotterClassMethodsFor: aStep [
 	<spotterOrder: 15>
 	aStep listProcessor
