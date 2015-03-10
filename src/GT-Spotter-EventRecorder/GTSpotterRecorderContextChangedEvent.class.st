@@ -16,7 +16,7 @@ Class {
 		'currentTextInfo',
 		'previousTextInfo'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
 { #category : #initialization }

@@ -19,7 +19,7 @@ Class {
 		'categoryLabel',
 		'elementCount'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
 { #category : #initialization }

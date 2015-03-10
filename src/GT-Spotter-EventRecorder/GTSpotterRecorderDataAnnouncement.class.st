@@ -45,7 +45,7 @@ Class {
 		'sessionCreationTime',
 		'timestamp'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Announcements'
 }
 
 { #category : #accessing }

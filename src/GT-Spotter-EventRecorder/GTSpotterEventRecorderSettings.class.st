@@ -55,7 +55,7 @@ Class {
 		'sendUsageData',
 		'announcer'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Settings'
 }
 
 { #category : #accessing }

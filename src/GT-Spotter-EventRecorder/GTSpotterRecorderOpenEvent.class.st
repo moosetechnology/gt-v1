@@ -11,5 +11,5 @@ timestamp
 Class {
 	#name : #GTSpotterRecorderOpenEvent,
 	#superclass : #GTSpotterRecorderEvent,
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Events'
 }

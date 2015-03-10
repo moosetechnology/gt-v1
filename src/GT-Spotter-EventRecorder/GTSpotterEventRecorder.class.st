@@ -52,7 +52,7 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Base'
 }
 
 { #category : #accessing }

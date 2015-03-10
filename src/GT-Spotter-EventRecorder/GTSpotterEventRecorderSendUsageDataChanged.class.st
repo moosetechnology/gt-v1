@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'newValue'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Announcements'
 }
 
 { #category : #accessing }

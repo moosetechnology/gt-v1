@@ -8,7 +8,7 @@ Class {
 	#instVars : [
 		'timestamp'
 	],
-	#category : #'GT-Spotter-EventRecorder'
+	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
 { #category : #'instance creation' }
