@@ -22,5 +22,6 @@ FileReference >> gtInspectorGroupedFilesIn: composite [
 			builder 
 				topValue: [ :each | (each value sumNumbers: metric) / 1000000 ] 
 				titled: 'Total size in MB'];
+		send: #value;
 		when: [self isDirectory and: [self hasChildren]]
 ]
