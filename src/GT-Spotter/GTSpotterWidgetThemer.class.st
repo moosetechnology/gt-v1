@@ -619,6 +619,14 @@ GTSpotterWidgetThemer >> searchFieldTextColor [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> settingsButtonIconStyleFor: aBrick state: aBoolean [
+	aBoolean
+		ifTrue: [ aBrick normalImage: Smalltalk ui icons glamorousCloudIcon ]
+		ifFalse: [ aBrick normalImage: Smalltalk ui icons glamorousCloudPausedIcon ].
+	aBrick changed.
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
 
 	aBrick
@@ -626,8 +634,16 @@ GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
 		width: [ :m | m height ];
 		margin: #(10 0);
 		marginRight: 2;
-		normalImage: Smalltalk ui icons glamorousCloudIcon;
-		pressedColor: self buttonPressedColor
+		normalImage: Smalltalk ui icons glamorousPreferences;
+		pressedColor: self buttonPressedColor.
+	
+	#GTSpotterEventRecorderSettings asClassIfPresent: [ :aClass | 
+		self settingsButtonIconStyleFor: aBrick state: aClass sendUsageData.
+		aClass announcer
+			when: #GTSpotterEventRecorderSendUsageDataChanged asClass
+			do: [ :announcement |
+				self settingsButtonIconStyleFor: aBrick state: announcement newValue ]
+			for: aBrick ].
 ]
 
 { #category : #values }
