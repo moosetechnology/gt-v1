@@ -626,7 +626,7 @@ GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
 		width: [ :m | m height ];
 		margin: #(10 0);
 		marginRight: 2;
-		normalImage: Smalltalk ui icons glamorousPreferences;
+		normalImage: Smalltalk ui icons glamorousCloudIcon;
 		pressedColor: self buttonPressedColor
 ]
 
