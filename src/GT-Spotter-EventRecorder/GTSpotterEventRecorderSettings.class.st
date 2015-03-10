@@ -47,12 +47,12 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'computerUUID',
-		'secretUUID',
-		'sendUsageData'
+		'secretUUID'
 	],
 	#classInstVars : [
+		'uniqueInstance',
 		'url',
-		'uniqueInstance'
+		'sendUsageData'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
@@ -60,15 +60,15 @@ Class {
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> defaultSaveUserDataPreference [
 	|dictionary sendUsageDataValue |
-
+	self flag: 'It is going to be removed, isn''t it?'.
 	self preferences exists ifFalse: [ ^ nil ].
 	[ 
 		dictionary := FLMaterializer materializeFromFileNamed: self preferences.
-		sendUsageDataValue := dictionary at:#sendUsageData ifAbsent: [ ^ nil ].
+		sendUsageDataValue := dictionary at: #sendUsageData ifAbsent: [ ^ nil ].
 		sendUsageDataValue ifNil: [ ^ nil ].
 		^ sendUsageDataValue 
 	] on: Error do: [ 
-		^ nil]
+		^ nil ]
 ]
 
 { #category : #'load and saving' }
@@ -153,6 +153,28 @@ GTSpotterEventRecorderSettings class >> savePreferences: aDictionary [
 		on: Error do: [ "ignore" ]
 ]
 
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> sendUsageData [
+	^ sendUsageData ifNil: [ sendUsageData := false ]
+]
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> sendUsageData: aBoolean [
+	sendUsageData := aBoolean.
+]
+
+{ #category : #settings }
+GTSpotterEventRecorderSettings class >> settingsOnSendUsageData: aBuilder [ 
+	<systemsettings>
+	
+	(aBuilder setting: #sendUsageData)
+		parent: #gt;
+		target: self;
+		description: 'If checked, annonymous usage data are regularly send to Event Recorder Server.' translated;
+		label: 'Send annonymous usage data'
+
+]
+
 { #category : #settings }
 GTSpotterEventRecorderSettings class >> settingsOnUrl: aBuilder [ 
 	<systemsettings>
@@ -198,8 +220,6 @@ GTSpotterEventRecorderSettings class >> url [
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> url: aZnUrl [
 	url := aZnUrl ifNotNil: [ aZnUrl asZnUrl ].
-	self flag:'Not clear why save is called in this method'.
-	"self save."
 ]
 
 { #category : #accessing }
@@ -254,14 +274,4 @@ GTSpotterEventRecorderSettings >> secretUUID [
 { #category : #accessing }
 GTSpotterEventRecorderSettings >> secretUUID: anUUID [
 	secretUUID := anUUID
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> sendUsageData [
-	^ sendUsageData ifNil: [ sendUsageData := false ]
-]
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings >> sendUsageData: aBoolean [
-	sendUsageData := aBoolean.
 ]

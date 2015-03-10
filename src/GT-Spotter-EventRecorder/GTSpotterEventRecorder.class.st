@@ -148,7 +148,7 @@ GTSpotterEventRecorder >> buildAndStoreEventFrom: anAnnouncement withType: aClas
 
 { #category : #testing }
 GTSpotterEventRecorder >> canSendUsageData [
-	^ GTSpotterEventRecorderSettings uniqueInstance sendUsageData
+	^ GTSpotterEventRecorderSettings sendUsageData
 ]
 
 { #category : #delivery }
@@ -258,7 +258,7 @@ GTSpotterEventRecorder >> materializedAnnouncementFrom: aByteArray [
 { #category : #delivery }
 GTSpotterEventRecorder >> prepareDeliveryData [
 	| toBeDeliveredData toBeDeliveredAnnouncement |
-	GTSpotterEventRecorderSettings uniqueInstance sendUsageData ifFalse: [ 
+	self canSendUsageData ifFalse: [ 
 		recordedData removeAll.
 		deliveryQueue removeAll.
 		^ self ].
