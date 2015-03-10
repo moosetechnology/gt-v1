@@ -52,10 +52,25 @@ Class {
 	#classInstVars : [
 		'uniqueInstance',
 		'url',
-		'sendUsageData'
+		'sendUsageData',
+		'announcer'
 	],
 	#category : #'GT-Spotter-EventRecorder'
 }
+
+{ #category : #accessing }
+GTSpotterEventRecorderSettings class >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #cleanup }
+GTSpotterEventRecorderSettings class >> cleanUp [
+	"Clean announcer, unique instance, and settings."
+	
+	self reset.
+	announcer := nil.
+	sendUsageData := nil.
+]
 
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> deletePreferences [
@@ -152,6 +167,7 @@ GTSpotterEventRecorderSettings class >> sendUsageData [
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> sendUsageData: aBoolean [
 	sendUsageData := aBoolean.
+	self announcer announce: (GTSpotterEventRecorderSendUsageDataChanged new newValue: aBoolean; yourself)
 ]
 
 { #category : #settings }
