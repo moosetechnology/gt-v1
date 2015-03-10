@@ -57,20 +57,6 @@ Class {
 	#category : #'GT-Spotter-EventRecorder'
 }
 
-{ #category : #accessing }
-GTSpotterEventRecorderSettings class >> defaultSaveUserDataPreference [
-	|dictionary sendUsageDataValue |
-	self flag: 'It is going to be removed, isn''t it?'.
-	self preferences exists ifFalse: [ ^ nil ].
-	[ 
-		dictionary := FLMaterializer materializeFromFileNamed: self preferences.
-		sendUsageDataValue := dictionary at: #sendUsageData ifAbsent: [ ^ nil ].
-		sendUsageDataValue ifNil: [ ^ nil ].
-		^ sendUsageDataValue 
-	] on: Error do: [ 
-		^ nil ]
-]
-
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> deletePreferences [
 	"self deletePreferences"
@@ -112,6 +98,11 @@ GTSpotterEventRecorderSettings class >> loadPreferences [
 		"Preferences likely contains a different settings version, so we store the actual one.
 		We should keep the preferences as stable as possible."
 		self savePreferences ]
+]
+
+{ #category : #'load and saving' }
+GTSpotterEventRecorderSettings class >> persistSettings [
+	SettingBrowser new exportSettings
 ]
 
 { #category : #origins }
@@ -254,11 +245,6 @@ GTSpotterEventRecorderSettings >> initialize [
 	super initialize.
 	computerUUID := UUID new.
 	secretUUID := UUID new.
-]
-
-{ #category : #actions }
-GTSpotterEventRecorderSettings >> persistSettings [
-	self save.
 ]
 
 { #category : #actions }
