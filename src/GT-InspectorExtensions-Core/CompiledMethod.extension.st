@@ -17,23 +17,16 @@ CompiledMethod >> gtInspectorASTIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorBytecodeIn: composite [
-	<gtInspectorPresentationOrder: 30> 
-	^ (GTBytecodeBrowser new treeIn: composite)
-		title: 'Bytecode'
+	<gtInspectorPresentationOrder: 40> 
+	composite text 
+		title: 'Bytecode';
+		display: [ self symbolic ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorBytesIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	"It makes no sense to view me as a collection of bytes"
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-CompiledMethod >> gtInspectorHeaderIn: composite [
-	<gtInspectorPresentationOrder: 40> 
-	composite text 
-		title: 'Header';
-		display: [ self headerDescription ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -93,13 +86,12 @@ CompiledMethod >> gtInspectorSourceIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorVariableValuePairs [
-	| literalIndex values |
+	| literalIndex |
 	literalIndex := 0.
-	values := OrderedCollection new.
-	values addAll: (self literals collect: [ :aLiteral | 'literal', ( literalIndex := literalIndex + 1 ) asString -> aLiteral ]).
-	self initialPC to: self size do: [ :index |
-		values add:  ('bc ', index asString) ->  (self at: index)].
-	^values.
-	
+	^ OrderedCollection new 
+		add: ( 'all bytecodes' -> self symbolic );
+		add: ( 'header' -> self headerDescription );
+		addAll: ( self literals collect: [ :aLiteral | 'literal ', ( literalIndex := literalIndex + 1 ) asString -> aLiteral ] );
+		yourself
 
 ]
