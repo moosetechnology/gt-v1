@@ -176,6 +176,16 @@ GTSpotter >> currentStep: aStepModel [
 	self notifyCurrentStepChanged
 ]
 
+{ #category : #'accessing-defaults' }
+GTSpotter >> defaultPagerModel [
+	^ GLMPagerModel new
+]
+
+{ #category : #'accessing-defaults' }
+GTSpotter >> defaultStep [
+	^ GTSpotterStep new
+]
+
 { #category : #'actions api' }
 GTSpotter >> exit [
 
@@ -258,7 +268,7 @@ GTSpotter >> menu [
 { #category : #'instance creation' }
 GTSpotter >> newStep [
 
-	^ GTSpotterStep new 
+	^ self defaultStep
 		spotter: self
 ]
 
@@ -376,7 +386,7 @@ GTSpotter >> onPagePopped [
 GTSpotter >> pagerModel [
 
 	^ pagerModel ifNil: [
-		pagerModel := GLMPagerModel new defaultNumberOfVisiblePages: 1.
+		pagerModel := self defaultPagerModel defaultNumberOfVisiblePages: 1.
 		pagerModel announcer subscribe: GLMPagePoped send: #onPagePopped to: self.
 		pagerModel ]
 ]

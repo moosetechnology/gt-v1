@@ -55,7 +55,7 @@ GTSpotterStep >> announcer [
 { #category : #accessing }
 GTSpotterStep >> asyncTask [
 
-	^ asyncTask ifNil: [ asyncTask := GLMAsyncTask new ]
+	^ asyncTask ifNil: [ asyncTask := self defaultTask ]
 ]
 
 { #category : #actions }
@@ -92,6 +92,16 @@ GTSpotterStep >> context [
 { #category : #accessing }
 GTSpotterStep >> context: aGTSpotterContext [
 	context := aGTSpotterContext
+]
+
+{ #category : #'accessing-defaults' }
+GTSpotterStep >> defaultStream [
+	^ GTSpotterUIThreadStream new
+]
+
+{ #category : #'accessing-defaults' }
+GTSpotterStep >> defaultTask [
+	^ GLMAsyncTask new
 ]
 
 { #category : #actions }
@@ -351,7 +361,7 @@ GTSpotterStep >> spotter: aSpotter [
 GTSpotterStep >> stream [
 
 	^ stream ifNil: [
-		stream := GTSpotterUIThreadStream new.
+		stream := self defaultStream.
 		stream
 			onAddedSelector: #addCandidate:in:;
 			onRemoveSelector: #removeAllCandidatesOf:;
