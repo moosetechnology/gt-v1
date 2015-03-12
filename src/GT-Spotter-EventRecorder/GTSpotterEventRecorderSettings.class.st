@@ -87,7 +87,6 @@ GTSpotterEventRecorderSettings class >> doesNotUnderstand: aMessage [
 
 { #category : #'class initialization' }
 GTSpotterEventRecorderSettings class >> initialize [
-	super initialize.
 	Smalltalk addToStartUpList: self.
 	self loadPreferences.
 ]
