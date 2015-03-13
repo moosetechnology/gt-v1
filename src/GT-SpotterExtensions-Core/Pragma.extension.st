@@ -4,3 +4,9 @@ Extension { #name : #Pragma }
 Pragma >> spotterActDefault [
     ^ self method browse
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+Pragma >> spotterPreviewIn: composite [
+	<spotterPreview: 10>
+   self method spotterPreviewCodeIn: composite
+]

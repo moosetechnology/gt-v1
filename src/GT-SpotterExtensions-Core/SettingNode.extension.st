@@ -9,3 +9,10 @@ SettingNode >> spotterLabel [
 		ifFalse: [ self parentNode spotterLabel , '/', label ]
 		
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+SettingNode >> spotterPreviewIn: composite [
+	<spotterPreview: 0>
+	composite custom: 
+		self settingDeclaration inputWidget asBrick
+]
