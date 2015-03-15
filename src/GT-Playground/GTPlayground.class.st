@@ -166,6 +166,11 @@ GTPlayground class >> taskbarIcon [
 	^ Smalltalk ui icons iconNamed: #workspaceIcon
 ]
 
+{ #category : #'instance creation' }
+GTPlayground class >> title [
+	^ 'Playground'
+]
+
 { #category : #accessing }
 GTPlayground >> acceptAction: anAction [
 	"acceptAction := anAction."
