@@ -10,7 +10,7 @@ RBProgramNode >> gtInspectorSourceCodeIn: composite [
 		smalltalkClass: [ self parents first methodClass ]; 
 		initialize: [ :presentation | 
 			presentation selectionInterval: self sourceInterval ];
-		act: [ self method compiledMethod browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
+		act: [ self methodNode method compiledMethod browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
