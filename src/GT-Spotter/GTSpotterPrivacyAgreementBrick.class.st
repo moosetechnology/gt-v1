@@ -80,19 +80,18 @@ GTSpotterPrivacyAgreementBrick >> newTitleBrick [
 { #category : #actions }
 GTSpotterPrivacyAgreementBrick >> openSettingsBrowser [
 
-	(SettingBrowser new 
+	SettingBrowser new 
 		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection; 
 		expandAll;
-		open) position: self owner owner positionInWorld.
-	self owner owner closeSpotter.
+		open.
 ]
 
 { #category : #accessing }
 GTSpotterPrivacyAgreementBrick >> privacyMessage [
 
 	^ self sendUsageData 
-		ifTrue: [ 'You are sending anonymous usage data to help us improve spotter. Thanks!' ]
-		ifFalse: 	['Would you like to send anonymous usage data to help us improve Spotter?']
+		ifTrue: [ 'You are sending anonymous usage data to help us improve Spotter. Thanks!' ]
+		ifFalse: 	['No usage data is being sent. Would you like to send anonymous usage data to help us improve Spotter?']
 ]
 
 { #category : #preferences }

@@ -548,24 +548,29 @@ GTSpotterWidgetThemer >> previewWidthPercent [
 { #category : #values }
 GTSpotterWidgetThemer >> privacyAgreementIsNotSendingDataColor [
 
-	^ Color red
+	^ Color paleRed
 ]
 
 { #category : #values }
 GTSpotterWidgetThemer >> privacyAgreementIsSendingDataColor [
 
-	^ Color green
+	^ Color paleGreen
 ]
 
 { #category : #styles }
 GTSpotterWidgetThemer >> privacyAgreementStyleFor: anAgreementBrick [
 
-	anAgreementBrick sendUsageData 
-		ifTrue: [ anAgreementBrick color: self privacyAgreementIsSendingDataColor. ]
-		ifFalse: [ anAgreementBrick color: self privacyAgreementIsNotSendingDataColor. ].
-	anAgreementBrick borderColor: self borderColor;
+	| color |
+	color := anAgreementBrick sendUsageData 
+		ifTrue: [ self privacyAgreementIsSendingDataColor. ]
+		ifFalse: [ self privacyAgreementIsNotSendingDataColor. ].
+	anAgreementBrick messageBrick morph 
+		font: StandardFonts defaultFont.
+	anAgreementBrick
+		color: color;
+		borderColor: color darker;
 		borderWidth: self outerBorderWidth;
-		marginTop: -1 * self outerBorderWidth.
+		marginTop: 0
 ]
 
 { #category : #styles }
