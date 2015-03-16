@@ -21,7 +21,26 @@ GTSpotterRecorderServerDelegate >> generateNewKey [
 ]
 
 { #category : #'request handling' }
+GTSpotterRecorderServerDelegate >> handleGetDataRequest: request [ 
+	^ ZnResponse ok: (ZnEntity text: 'TBD')
+]
+
+{ #category : #'request handling' }
+GTSpotterRecorderServerDelegate >> handleGetInfoRequest: request [ 
+	^ ZnResponse ok: (ZnEntity text: (
+		GTSpotterEventInfo new 
+			directory: self storage directory;
+			get))
+]
+
+{ #category : #'request handling' }
 GTSpotterRecorderServerDelegate >> handleGetRequest: request [
+
+	(request uri segments endsWith: #('gt' 'events' 'info')) 
+		ifTrue: [ ^ self handleGetInfoRequest: request ].
+
+	(request uri segments endsWith: #('gt' 'events' 'data')) 
+		ifTrue: [ ^ self handleGetDataRequest: request ].
 
 	^ ZnResponse ok: (ZnEntity text: 'OK')
 	
