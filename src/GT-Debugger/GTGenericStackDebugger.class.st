@@ -93,14 +93,29 @@ GTGenericStackDebugger class >> filterDoItSelectors [
 	^ false
 ]
 
+{ #category : #'accessing - ancient preference selectors' }
+GTGenericStackDebugger class >> filterDoItSelectors: aBoolean [
+	self flag: 'just for backward compatibility'
+]
+
 { #category : #'settings api' }
 GTGenericStackDebugger class >> filterKernelClasses [
 	^ false
 ]
 
+{ #category : #'accessing - ancient preference selectors' }
+GTGenericStackDebugger class >> filterKernelClasses: aBoolean [
+	self flag: 'just for backward compatibility'
+]
+
 { #category : #'settings api' }
 GTGenericStackDebugger class >> filterNilSelectors [
 	^ false
+]
+
+{ #category : #'accessing - ancient preference selectors' }
+GTGenericStackDebugger class >> filterNilSelectors: aBoolean [ 
+	self flag: 'just for backward compatibility'
 ]
 
 { #category : #testing }
