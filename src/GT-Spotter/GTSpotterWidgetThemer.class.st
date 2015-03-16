@@ -664,14 +664,6 @@ GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
 		marginRight: 2;
 		normalImage: Smalltalk ui icons glamorousPreferences;
 		pressedColor: self buttonPressedColor.
-	
-	#GTSpotterEventRecorderSettings asClassIfPresent: [ :aClass | 
-		self settingsButtonIconStyleFor: aBrick state: aClass sendUsageData.
-		aClass announcer
-			when: #GTSpotterEventRecorderSendUsageDataChanged asClass
-			do: [ :announcement |
-				self settingsButtonIconStyleFor: aBrick state: announcement newValue ]
-			for: aBrick ].
 ]
 
 { #category : #values }
