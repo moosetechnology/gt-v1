@@ -4,6 +4,7 @@ Extension { #name : #Collection }
 Collection >> spotterItemsFor: aStep [
 	<spotterOrder: 10>
 	| processor |
+	self isEmpty ifTrue: [ ^ self ].
 	(self allSatisfy: [ :each | 
 		each class = GTSpotterCandidateLink ])
 		ifFalse: [ ^ self ].
