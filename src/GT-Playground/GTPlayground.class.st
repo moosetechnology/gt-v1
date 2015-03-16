@@ -206,7 +206,7 @@ GTPlayground >> codeIn: a [
 			label 
 			"to make label take maximal only necessary space"
 			maxWidth: [ label approximateWidth ];
-			textLogic: [ 'Updated ', (DateAndTime now - page modificationTime) gtPlaygroundHumanReadableString  ];
+			textLogic: [ 'Modified ', (DateAndTime now - page modificationTime) gtPlaygroundHumanReadableString  ];
 			hSpaceFill;
 			vSpaceFill;
 			marginLeft: 5;
