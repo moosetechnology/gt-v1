@@ -7,8 +7,9 @@ Class {
 	#name : #GTPlayPage,
 	#superclass : #Object,
 	#instVars : [
-		'title',
-		'content'
+		'content',
+		'modificationTime',
+		'title'
 	],
 	#category : #'GT-Playground'
 }
@@ -36,6 +37,7 @@ GTPlayPage >> content [
 
 { #category : #accessing }
 GTPlayPage >> content: aString [
+	self modificationTime: DateAndTime now.
 	content := aString.
 	aString isEmpty 
 		ifTrue: [ self fileReference ensureDelete ]
@@ -69,7 +71,17 @@ GTPlayPage >> gtInspectorContentIn: composite [
 { #category : #accessing }
 GTPlayPage >> initialize [
 	content := ''.
-	title := (DateAndTime now asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
+	modificationTime := DateAndTime now
+]
+
+{ #category : #accessing }
+GTPlayPage >> modificationTime [
+	^ modificationTime
+]
+
+{ #category : #accessing }
+GTPlayPage >> modificationTime: anObject [
+	modificationTime := anObject
 ]
 
 { #category : #accessing }
@@ -92,10 +104,5 @@ GTPlayPage >> silentContent: aString [
 
 { #category : #accessing }
 GTPlayPage >> title [
-	^ title
-]
-
-{ #category : #accessing }
-GTPlayPage >> title: anObject [
-	title := anObject
+	^ (modificationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
 ]
