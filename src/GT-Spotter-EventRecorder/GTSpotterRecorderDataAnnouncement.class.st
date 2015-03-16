@@ -36,76 +36,84 @@ Class {
 	#name : #GTSpotterRecorderDataAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
-		'computerUUID',
-		'data',
-		'eventRecorderVersion',
-		'imageHash',
-		'imageVersion',
-		'latestUpdate',
-		'sessionCreationTime',
-		'timestamp'
+		'dictionary'
 	],
 	#category : #'GT-Spotter-EventRecorder-Announcements'
 }
 
 { #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> at: key [
+	^ self dictionary at: key ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> at: key put: value [
+	^ self dictionary at: key put: value
+]
+
+{ #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> computerUUID [
-	^ computerUUID
+	^ self at: #computerUUID
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> computerUUID: anObject [
-	computerUUID := anObject
+	self at: #computerUUID put: anObject
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> data [
-	^ data
+	^ self at: #data
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> data: aByteArray [ 
-	data := aByteArray
+	self at: #data put: aByteArray
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> dictionary [
+	^ dictionary ifNil: [ dictionary := Dictionary new ]
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> eventRecorderVersion [
-	^ eventRecorderVersion
+	^ self at: #eventRecorderVersion
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> eventRecorderVersion: anObject [
-	eventRecorderVersion := anObject
+	self at: #eventRecorderVersion put: anObject
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> imageHash [
-	^ imageHash
+	^ self at: #imageHash
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> imageHash: anObject [
-	imageHash := anObject
+	self at: #imageHash put: anObject
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> imageVersion [
-	^ imageVersion
+	^ self at: #imageVersion
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> imageVersion: anObject [
-	imageVersion := anObject
+	self at: #imageVersion put: anObject
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> latestUpdate [
-	^ latestUpdate
+	^ self at: #latestUpdate
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> latestUpdate: anObject [
-	latestUpdate := anObject
+	self at: #latestUpdate put: anObject
 ]
 
 { #category : #accessing }
@@ -115,20 +123,20 @@ GTSpotterRecorderDataAnnouncement >> materializedData [
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> sessionCreationTime [
-	^ sessionCreationTime
+	^ self at: #sessionCreationTime
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> sessionCreationTime: anObject [
-	sessionCreationTime := anObject
+	self at: #sessionCreationTime put: anObject
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> timestamp [
-	^ timestamp
+	^ self at: #timestamp
 ]
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> timestamp: anObject [
-	timestamp := anObject
+	self at: #timestamp put: anObject
 ]

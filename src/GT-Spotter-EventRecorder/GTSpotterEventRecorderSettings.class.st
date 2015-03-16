@@ -52,16 +52,10 @@ Class {
 	#classInstVars : [
 		'uniqueInstance',
 		'url',
-		'sendUsageData',
-		'announcer'
+		'sendUsageData'
 	],
 	#category : #'GT-Spotter-EventRecorder-Settings'
 }
-
-{ #category : #accessing }
-GTSpotterEventRecorderSettings class >> announcer [
-	^ announcer ifNil: [ announcer := Announcer new ]
-]
 
 { #category : #cleanup }
 GTSpotterEventRecorderSettings class >> cleanUp [
@@ -165,8 +159,7 @@ GTSpotterEventRecorderSettings class >> sendUsageData [
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> sendUsageData: aBoolean [
-	sendUsageData := aBoolean.
-	self announcer announce: (GTSpotterEventRecorderSendUsageDataChanged new newValue: aBoolean; yourself)
+	sendUsageData := aBoolean
 ]
 
 { #category : #settings }
