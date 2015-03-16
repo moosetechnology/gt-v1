@@ -90,7 +90,7 @@ GTSpotterPrivacyAgreementBrick >> openSettingsBrowser [
 GTSpotterPrivacyAgreementBrick >> privacyMessage [
 
 	^ self sendUsageData 
-		ifTrue: [ 'You are sending anonymou usage data to help us improve spotter. Thanks!' ]
+		ifTrue: [ 'You are sending anonymous usage data to help us improve spotter. Thanks!' ]
 		ifFalse: 	['Would you like to send anonymous usage data to help us improve Spotter?']
 ]
 
