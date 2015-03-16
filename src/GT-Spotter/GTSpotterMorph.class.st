@@ -7,7 +7,7 @@ Class {
 		'paneBrick',
 		'spotterModel',
 		'autoHide',
-		'privacyAgreementBrick'
+		'privacyAgreementNotificationBrick'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -117,7 +117,7 @@ GTSpotterMorph >> initialize [
 	self breadcrumbBrick: self newBreadcrumbBrick.
 	self paneBrick: self newPaneBrick.
 	#GTSpotterEventRecorderSettings asClassIfPresent: [ 
-		GTSpotterGlobalShortcut hasCachedGlobalSpotter ifFalse: [ self privacyAgreementBrick: self newPrivacyAgreementBrick ] ].
+		GTSpotterGlobalShortcut hasCachedGlobalSpotter ifFalse: [ self privacyAgreementNotificationBrick: self newPrivacyAgreementNotificationBrick ] ].
 	
 	
 	
@@ -177,9 +177,9 @@ GTSpotterMorph >> newPaneBrick [
 ]
 
 { #category : #'instance creation' }
-GTSpotterMorph >> newPrivacyAgreementBrick [
+GTSpotterMorph >> newPrivacyAgreementNotificationBrick [
 
-	^ GTSpotterPrivacyAgreementBrick new
+	^ GTSpotterPrivacyAgreementNotificationBrick new
 ]
 
 { #category : #'events-processing' }
@@ -250,22 +250,22 @@ GTSpotterMorph >> paneBrick: aBrick [
 ]
 
 { #category : #accessing }
-GTSpotterMorph >> privacyAgreementBrick [
-	^ privacyAgreementBrick
+GTSpotterMorph >> privacyAgreementNotificationBrick [
+	^ privacyAgreementNotificationBrick
 ]
 
 { #category : #accessing }
-GTSpotterMorph >> privacyAgreementBrick: aBrick [
+GTSpotterMorph >> privacyAgreementNotificationBrick: aBrick [
 	
-	privacyAgreementBrick ifNotNil: [self removeBrick: privacyAgreementBrick].
-	privacyAgreementBrick := aBrick.
+	privacyAgreementNotificationBrick ifNotNil: [self removeBrick: privacyAgreementNotificationBrick].
+	privacyAgreementNotificationBrick := aBrick.
 	
-	self themer spotterThemer privacyAgreementStyleFor: privacyAgreementBrick.
-	privacyAgreementBrick width: [ self width - (self paneBrick isPreviewShown 
+	self themer spotterThemer privacyAgreementNotificationStyleFor: privacyAgreementNotificationBrick.
+	privacyAgreementNotificationBrick width: [ self width - (self paneBrick isPreviewShown 
 			ifFalse: [self themer spotterThemer previewArrowWidth - (2*self themer spotterThemer previewBorderWidth)] 
 			ifTrue: [0])].
 	
-	self addBrickBack: privacyAgreementBrick
+	self addBrickBack: privacyAgreementNotificationBrick
 ]
 
 { #category : #actions }

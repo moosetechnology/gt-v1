@@ -1,10 +1,7 @@
 Class {
-	#name : #GTSpotterPrivacyAgreementBrick,
+	#name : #GTSpotterPrivacyAgreementNotificationBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
-		'basicAgreeCheckboxBrick',
-		'defaultSettingsInfoBrick',
-		'saveDefaultSettingsButtonBrick',
 		'messageBrick',
 		'settingsButtonBrick'
 	],
@@ -12,13 +9,13 @@ Class {
 }
 
 { #category : #examples }
-GTSpotterPrivacyAgreementBrick class >> example [
+GTSpotterPrivacyAgreementNotificationBrick class >> example [
 	<example: 'Simple agreement'>
 	^ self new
 ]
 
 { #category : #examples }
-GTSpotterPrivacyAgreementBrick class >> exampleOpen [
+GTSpotterPrivacyAgreementNotificationBrick class >> exampleOpen [
 
 	(GLMBrick new
 		hSpaceFill;
@@ -38,7 +35,7 @@ GTSpotterPrivacyAgreementBrick class >> exampleOpen [
 ]
 
 { #category : #initialization }
-GTSpotterPrivacyAgreementBrick >> initialize [
+GTSpotterPrivacyAgreementNotificationBrick >> initialize [
 	super initialize.
 	
 	self useHorizontalLinearLayout.
@@ -49,12 +46,12 @@ GTSpotterPrivacyAgreementBrick >> initialize [
 ]
 
 { #category : #accessing }
-GTSpotterPrivacyAgreementBrick >> messageBrick [
+GTSpotterPrivacyAgreementNotificationBrick >> messageBrick [
 	^ messageBrick
 ]
 
 { #category : #accessing }
-GTSpotterPrivacyAgreementBrick >> messageBrick: anObject [
+GTSpotterPrivacyAgreementNotificationBrick >> messageBrick: anObject [
 
 	messageBrick := anObject.
 	self messageBrick
@@ -66,19 +63,19 @@ GTSpotterPrivacyAgreementBrick >> messageBrick: anObject [
 ]
 
 { #category : #'instance creation' }
-GTSpotterPrivacyAgreementBrick >> newButtonBrick [
+GTSpotterPrivacyAgreementNotificationBrick >> newButtonBrick [
 
 	^ GLMButtonBrick new
 ]
 
 { #category : #'instance creation' }
-GTSpotterPrivacyAgreementBrick >> newTitleBrick [
+GTSpotterPrivacyAgreementNotificationBrick >> newTitleBrick [
 
 	^ GLMRubTextAreaBrick new
 ]
 
 { #category : #actions }
-GTSpotterPrivacyAgreementBrick >> openSettingsBrowser [
+GTSpotterPrivacyAgreementNotificationBrick >> openSettingsUI [
 
 	(SettingBrowser new 
 		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection; 
@@ -88,7 +85,7 @@ GTSpotterPrivacyAgreementBrick >> openSettingsBrowser [
 ]
 
 { #category : #accessing }
-GTSpotterPrivacyAgreementBrick >> privacyMessage [
+GTSpotterPrivacyAgreementNotificationBrick >> privacyMessage [
 
 	^ self sendUsageData 
 		ifTrue: [ 'You are sending anonymous usage data to help us improve Spotter. Thanks!' ]
@@ -96,39 +93,39 @@ GTSpotterPrivacyAgreementBrick >> privacyMessage [
 ]
 
 { #category : #preferences }
-GTSpotterPrivacyAgreementBrick >> sendUsageData [
+GTSpotterPrivacyAgreementNotificationBrick >> sendUsageData [
 	| settingsClass |
 	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
 	^ settingsClass sendUsageData
 ]
 
 { #category : #preferences }
-GTSpotterPrivacyAgreementBrick >> sendUsageData: aBoolean [
+GTSpotterPrivacyAgreementNotificationBrick >> sendUsageData: aBoolean [
 	| settingsClass |
 	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
 	^ settingsClass sendUsageData: aBoolean
 ]
 
 { #category : #accessing }
-GTSpotterPrivacyAgreementBrick >> settingsButtonBrick [
+GTSpotterPrivacyAgreementNotificationBrick >> settingsButtonBrick [
 	^ settingsButtonBrick
 ]
 
 { #category : #accessing }
-GTSpotterPrivacyAgreementBrick >> settingsButtonBrick: anObject [
+GTSpotterPrivacyAgreementNotificationBrick >> settingsButtonBrick: anObject [
 	settingsButtonBrick := anObject.
 	
 	self settingsButtonBrick
 		text: self settingsButtonLabel;
 		hShrinkWrap;
 		margin:10;
-		when: #onClicked do: [ self openSettingsBrowser ].
+		when: #onClicked do: [ self openSettingsUI ].
 	
 	self addBrickBack: self settingsButtonBrick
 ]
 
 { #category : #accessing }
-GTSpotterPrivacyAgreementBrick >> settingsButtonLabel [
+GTSpotterPrivacyAgreementNotificationBrick >> settingsButtonLabel [
 	
 	^ self sendUsageData 
 		ifTrue: [ 'Change preferences' ]

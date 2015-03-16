@@ -558,15 +558,15 @@ GTSpotterWidgetThemer >> privacyAgreementIsSendingDataColor [
 ]
 
 { #category : #styles }
-GTSpotterWidgetThemer >> privacyAgreementStyleFor: anAgreementBrick [
+GTSpotterWidgetThemer >> privacyAgreementNotificationStyleFor: aBrick [
 
 	| color |
-	color := anAgreementBrick sendUsageData 
+	color := aBrick sendUsageData 
 		ifTrue: [ self privacyAgreementIsSendingDataColor. ]
 		ifFalse: [ self privacyAgreementIsNotSendingDataColor. ].
-	anAgreementBrick messageBrick morph 
+	aBrick messageBrick morph 
 		font: StandardFonts defaultFont.
-	anAgreementBrick
+	aBrick
 		color: color;
 		borderColor: color darker;
 		borderWidth: self outerBorderWidth;
