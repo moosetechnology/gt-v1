@@ -90,11 +90,13 @@ GTSpotterHeaderBrick >> onRevealHints [
 
 { #category : #accessing }
 GTSpotterHeaderBrick >> openSettingsBrowserFor: aBrick [
-
-	(SettingBrowser new 
-		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection; 
-		expandAll;
-		open) position: self owner owner owner positionInWorld.
+	| settingsBrowser window |
+	settingsBrowser := SettingBrowser new 
+		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection;
+		yourself.
+	window := settingsBrowser open.
+	window position: Display extent - window extent // 2.
+	settingsBrowser expandAll.
 	self spotterModel exit.
 ]
 
