@@ -89,6 +89,15 @@ GTSpotterHeaderBrick >> onRevealHints [
 ]
 
 { #category : #accessing }
+GTSpotterHeaderBrick >> openSettingsBrowserFor: aBrick [
+
+	SettingBrowser new 
+		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection; 
+		open; 
+      expandAll.
+]
+
+{ #category : #accessing }
 GTSpotterHeaderBrick >> openSettingsFor: aBrick [
 
 	^ GLMPopupDialogBrick new
@@ -138,7 +147,7 @@ GTSpotterHeaderBrick >> settingsButton: aBrick [
 	settingsButton
 		hintTitle: 'Settings';
 		hintText: 'Shows the settings UI';
-		addUpAction: [ self openSettingsFor: settingsButton ].
+		addUpAction: [ self openSettingsBrowserFor: settingsButton ].
 	
 	self addBrickBack: settingsButton
 ]

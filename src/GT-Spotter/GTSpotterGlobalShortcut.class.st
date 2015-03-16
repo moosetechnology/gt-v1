@@ -16,6 +16,12 @@ GTSpotterGlobalShortcut class >> cleanUp [
 ]
 
 { #category : #testing }
+GTSpotterGlobalShortcut class >> hasCachedGlobalSpotter [
+
+	^ globalSpotter notNil
+]
+
+{ #category : #testing }
 GTSpotterGlobalShortcut class >> isGlobalCategory [
 	^ true
 ]

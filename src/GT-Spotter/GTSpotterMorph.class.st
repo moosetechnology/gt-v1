@@ -6,7 +6,8 @@ Class {
 		'breadcrumbBrick',
 		'paneBrick',
 		'spotterModel',
-		'autoHide'
+		'autoHide',
+		'privacyAgreementBrick'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -112,8 +113,14 @@ GTSpotterMorph >> initialize [
 	
 	self initializeListeners.
 	self themer spotterThemer spotterStyleFor: self.
+	
 	self breadcrumbBrick: self newBreadcrumbBrick.
-	self paneBrick: self newPaneBrick
+	self paneBrick: self newPaneBrick.
+	#GTSpotterEventRecorderSettings asClassIfPresent: [ 
+		GTSpotterGlobalShortcut hasCachedGlobalSpotter ifFalse: [ self privacyAgreementBrick: self newPrivacyAgreementBrick ] ].
+	
+	
+	
 ]
 
 { #category : #initialize }
@@ -167,6 +174,12 @@ GTSpotterMorph >> newBreadcrumbBrick [
 GTSpotterMorph >> newPaneBrick [
 
 	^ GTSpotterPaneBrick new
+]
+
+{ #category : #'instance creation' }
+GTSpotterMorph >> newPrivacyAgreementBrick [
+
+	^ GTSpotterPrivacyAgreementBrick new
 ]
 
 { #category : #'events-processing' }
@@ -234,6 +247,25 @@ GTSpotterMorph >> paneBrick: aBrick [
 	self themer spotterThemer spotterPaneStyleFor: paneBrick.
 
 	self addBrickBack: paneBrick
+]
+
+{ #category : #accessing }
+GTSpotterMorph >> privacyAgreementBrick [
+	^ privacyAgreementBrick
+]
+
+{ #category : #accessing }
+GTSpotterMorph >> privacyAgreementBrick: aBrick [
+	
+	privacyAgreementBrick ifNotNil: [self removeBrick: privacyAgreementBrick].
+	privacyAgreementBrick := aBrick.
+	
+	self themer spotterThemer privacyAgreementStyleFor: privacyAgreementBrick.
+	privacyAgreementBrick width: [ self width - (self paneBrick isPreviewShown 
+			ifFalse: [self themer spotterThemer previewArrowWidth - (2*self themer spotterThemer previewBorderWidth)] 
+			ifTrue: [0])].
+	
+	self addBrickBack: privacyAgreementBrick
 ]
 
 { #category : #actions }

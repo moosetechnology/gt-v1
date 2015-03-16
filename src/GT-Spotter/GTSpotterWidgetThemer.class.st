@@ -545,6 +545,29 @@ GTSpotterWidgetThemer >> previewWidthPercent [
 	^ 40
 ]
 
+{ #category : #values }
+GTSpotterWidgetThemer >> privacyAgreementIsNotSendingDataColor [
+
+	^ Color red
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> privacyAgreementIsSendingDataColor [
+
+	^ Color green
+]
+
+{ #category : #styles }
+GTSpotterWidgetThemer >> privacyAgreementStyleFor: anAgreementBrick [
+
+	anAgreementBrick sendUsageData 
+		ifTrue: [ anAgreementBrick color: self privacyAgreementIsSendingDataColor. ]
+		ifFalse: [ anAgreementBrick color: self privacyAgreementIsNotSendingDataColor. ].
+	anAgreementBrick borderColor: self borderColor;
+		borderWidth: self outerBorderWidth;
+		marginTop: -1 * self outerBorderWidth.
+]
+
 { #category : #styles }
 GTSpotterWidgetThemer >> resultsPaneStyleFor: aBrick [
 
@@ -621,8 +644,8 @@ GTSpotterWidgetThemer >> searchFieldTextColor [
 { #category : #styles }
 GTSpotterWidgetThemer >> settingsButtonIconStyleFor: aBrick state: aBoolean [
 	aBoolean
-		ifTrue: [ aBrick normalImage: Smalltalk ui icons glamorousCloudIcon ]
-		ifFalse: [ aBrick normalImage: Smalltalk ui icons glamorousCloudPausedIcon ].
+		ifTrue: [ aBrick normalImage: Smalltalk ui icons glamorousPreferences ]
+		ifFalse: [ aBrick normalImage: Smalltalk ui icons glamorousPreferences ].
 	aBrick changed.
 ]
 
