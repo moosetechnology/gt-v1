@@ -80,10 +80,11 @@ GTSpotterPrivacyAgreementBrick >> newTitleBrick [
 { #category : #actions }
 GTSpotterPrivacyAgreementBrick >> openSettingsBrowser [
 
-	SettingBrowser new 
+	(SettingBrowser new 
 		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection; 
 		expandAll;
-		open.
+		open) position: self owner owner positionInWorld.
+	self owner owner closeSpotter.
 ]
 
 { #category : #accessing }
