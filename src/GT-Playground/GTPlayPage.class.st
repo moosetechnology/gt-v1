@@ -7,9 +7,10 @@ Class {
 	#name : #GTPlayPage,
 	#superclass : #Object,
 	#instVars : [
+		'title',
 		'content',
 		'modificationTime',
-		'title'
+		'fileReference'
 	],
 	#category : #'GT-Playground'
 }
@@ -50,7 +51,7 @@ GTPlayPage >> content: aString [
 { #category : #accessing }
 GTPlayPage >> fileReference [
 
-	^ self cacheDirectory / (self title, '.ph')
+	^ fileReference ifNil: [ fileReference := self cacheDirectory / (self title, '.ph')]
 ]
 
 { #category : #ui }
