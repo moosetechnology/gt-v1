@@ -58,7 +58,9 @@ GTSpotterRecorderServerDelegateTest >> testHandleGetData [
 	self assert: client isSuccess.
 	contents := client response contents.
 	self assert: contents equals: data.
-	self assert: (client response headers at: 'content-disposition') isString.
+	self 
+		assert: (client response headers at: 'content-disposition') 
+		equals: 'attachment; filename=file.bin'.
 ]
 
 { #category : #tests }
