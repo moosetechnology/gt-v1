@@ -501,7 +501,7 @@ GTSpotterWidgetThemer >> previewArrowColor [
 { #category : #values }
 GTSpotterWidgetThemer >> previewArrowGapHack [
 
-	^ self themer scrollbarOffset + self themer scrollbarWidth + self outerBorderWidth + 1"pager bug"
+	^ self themer scrollbarOffset + self themer scrollbarWidth + self outerBorderWidth + 2"pager bug"
 ]
 
 { #category : #values }
