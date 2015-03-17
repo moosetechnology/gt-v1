@@ -62,7 +62,6 @@ GTSpotterEventRecorderSettings class >> cleanUp [
 	"Clean announcer, unique instance, and settings."
 	
 	self reset.
-	announcer := nil.
 	sendUsageData := nil.
 ]
 
