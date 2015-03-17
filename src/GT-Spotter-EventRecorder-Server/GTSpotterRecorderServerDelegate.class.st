@@ -57,6 +57,8 @@ GTSpotterRecorderServerDelegate >> handleGetDataRequest: request fromFile: filen
 			(response := ZnResponse ok: entity) 
 				headers at: 'Modification-Date' put: (ZnUtils httpDate: time) ]
 		ifFalse: [ response := ZnResponse notModified ].
+	response headers
+		at: 'content-disposition' put:  'attachment; filename=''', file basename asString, ''''.
 	^ response
 ]
 
