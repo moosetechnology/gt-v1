@@ -107,7 +107,7 @@ GTSpotterRecorderServerDelegate >> handleRequest: request [
 GTSpotterRecorderServerDelegate >> initialize [
 	super initialize.
 	storage := GTSpotterRecorderObjectToFileStorage on: FileLocator home / 'gt' / 'events'.
-	compressedEventFile := FileLocator home / 'public_html' / 'gt-events.tar.gz'.
+	compressedEventFile := FileLocator home / 'public_html' / 'gt-events.tgz'.
 	prefix := #().
 ]
 
