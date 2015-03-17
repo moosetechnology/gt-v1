@@ -169,7 +169,7 @@ GTSpotterEventRecorderSettings class >> settingsOnSendUsageData: aBuilder [
 	(aBuilder setting: #sendUsageData)
 		parent: #gt;
 		target: self;
-		description: 'If checked, annonymous usage data are regularly send to Event Recorder Server.' translated;
+		description: 'If checked, annonymous usage data is collected and regularly send to a remote server. Only information about how you use the GTools is collected (e.g., open, close, select, enter search query, dive in result). No method names, class names or any other piece of code is collected.' translated;
 		label: 'Send annonymous usage data'
 
 ]
