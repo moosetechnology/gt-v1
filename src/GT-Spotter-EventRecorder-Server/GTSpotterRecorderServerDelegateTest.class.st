@@ -64,6 +64,41 @@ GTSpotterRecorderServerDelegateTest >> testHandleGetData [
 ]
 
 { #category : #tests }
+GTSpotterRecorderServerDelegateTest >> testHandleGetFromEvents [
+	| contents |
+	client
+		path: '/gt/events/';
+		get.
+	self assert: client isSuccess.
+	contents := client response contents.
+	self assert: contents isString.
+	self assert: contents equals: 'OK'.
+]
+
+{ #category : #tests }
+GTSpotterRecorderServerDelegateTest >> testHandleGetFromGT [
+	| contents |
+	client
+		path: '/gt';
+		get.
+	self assert: client isSuccess.
+	contents := client response contents.
+	self assert: contents isString.
+	self assert: contents equals: 'OK'.
+]
+
+{ #category : #tests }
+GTSpotterRecorderServerDelegateTest >> testHandleGetFromRoot [
+	| contents |
+	client
+		get.
+	self assert: client isSuccess.
+	contents := client response contents.
+	self assert: contents isString.
+	self assert: contents equals: 'OK'.
+]
+
+{ #category : #tests }
 GTSpotterRecorderServerDelegateTest >> testHandleGetInfo [
 	| contents |
 	client

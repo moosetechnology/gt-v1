@@ -74,6 +74,9 @@ GTSpotterRecorderServerDelegate >> handleGetInfoRequest: request [
 { #category : #'request handling' }
 GTSpotterRecorderServerDelegate >> handleGetRequest: request [
 
+	request uri segments isNil
+		ifTrue: [ ^ ZnResponse ok: (ZnEntity text: 'OK') ].
+
 	(request uri segments endsWith: #('gt' 'events' 'info')) 
 		ifTrue: [ ^ self handleGetInfoRequest: request ].
 
