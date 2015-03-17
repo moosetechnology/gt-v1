@@ -38,7 +38,7 @@ GTSpotterRecorderServerDelegate >> handleGetDataRequest: request [
 
 { #category : #'request handling' }
 GTSpotterRecorderServerDelegate >> handleGetDataRequest: request fromFile: filename [
-	| file entry size time mimeType fileStream entity response modified |
+	| file entry size time entity response modified |
 	file := filename asFileReference.
 	entry := file entry.
 	size := entry size.
@@ -48,8 +48,9 @@ GTSpotterRecorderServerDelegate >> handleGetDataRequest: request fromFile: filen
 		at: 'If-Modified-Since'
 		ifPresent: [ modified := time > (ZnUtils parseHttpDate: (request headers at: 'If-Modified-Since')) ].
 	modified
-		ifTrue: [ 
-			mimeType := ZnMimeType forFilenameExtension: file extension.
+		ifTrue: [ | extension mimeType fileStream |
+			extension := (file basename endsWith: '.tar.gz') ifTrue: [ 'tgz' ] ifFalse: [ file extension ].
+			mimeType := ZnMimeType forFilenameExtension: extension.
 			fileStream := file readStream.
 			fileStream binary.
 			(entity := ZnStreamingEntity type: mimeType length: size) 
@@ -109,7 +110,7 @@ GTSpotterRecorderServerDelegate >> handleRequest: request [
 GTSpotterRecorderServerDelegate >> initialize [
 	super initialize.
 	storage := GTSpotterRecorderObjectToFileStorage on: FileLocator home / 'gt' / 'events'.
-	compressedEventFile := FileLocator home / 'public_html' / 'gt-events.tgz'.
+	compressedEventFile := FileLocator home / 'public_html' / 'gt-events.tar.gz'.
 	prefix := #().
 ]
 
