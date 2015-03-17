@@ -199,7 +199,7 @@ GTSpotterEventRecorder >> eventClassNameFor: aSpotterAnnouncementClass [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #delivery }
 GTSpotterEventRecorder >> flushRecordedData [
 	"For debugging purpose only. Remember that those data will not be published."
 	| collection |
