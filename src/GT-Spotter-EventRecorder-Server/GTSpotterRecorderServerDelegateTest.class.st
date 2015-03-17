@@ -16,7 +16,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Server-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 GTSpotterRecorderServerDelegateTest >> setUp [
 	super setUp.
 	fileSystem := FileSystem memory.
@@ -34,7 +34,7 @@ GTSpotterRecorderServerDelegateTest >> setUp [
 		yourself.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 GTSpotterRecorderServerDelegateTest >> tearDown [
 	client close.
 	server stop.
@@ -43,19 +43,24 @@ GTSpotterRecorderServerDelegateTest >> tearDown [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTSpotterRecorderServerDelegateTest >> testHandleGetData [
-	| contents |
+	| contents file  |
+	file := fileSystem workingDirectory / 'file.bin'.
+	data := #[ 1 2 3 4 ].
+	file ensureDelete.
+	file writeStreamDo: [ :aStream |
+		data do: [ :each | aStream nextPut: each ] ].
+	delegate compressedEventFile: file.
 	client
 		path: '/gt/events/data';
 		get.
 	self assert: client isSuccess.
 	contents := client response contents.
-	self assert: contents isString.
-	self assert: contents equals: 'TBD'.
+	self assert: contents equals: data.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTSpotterRecorderServerDelegateTest >> testHandleGetInfo [
 	| contents |
 	client
@@ -67,7 +72,7 @@ GTSpotterRecorderServerDelegateTest >> testHandleGetInfo [
 	self deny: contents = 'OK'.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GTSpotterRecorderServerDelegateTest >> testHandlePut [
 	data := #[1 2 3 4].
 	client
