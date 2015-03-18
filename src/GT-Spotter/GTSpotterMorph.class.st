@@ -117,7 +117,7 @@ GTSpotterMorph >> initialize [
 	self breadcrumbBrick: self newBreadcrumbBrick.
 	self paneBrick: self newPaneBrick.
 	#GTSpotterEventRecorderSettings asClassIfPresent: [ 
-		GTSpotterGlobalShortcut hasCachedGlobalSpotter ifFalse: [ self privacyAgreementNotificationBrick: self newPrivacyAgreementNotificationBrick ] ].
+		GTSpotter wasOpened ifFalse: [ self privacyAgreementNotificationBrick: self newPrivacyAgreementNotificationBrick ] ].
 	
 	
 	

@@ -18,14 +18,16 @@ Class {
 	],
 	#classInstVars : [
 		'history',
-		'isPreviewVisible'
+		'isPreviewVisible',
+		'wasOpened'
 	],
 	#category : #'GT-Spotter-Model'
 }
 
 { #category : #cleanup }
 GTSpotter class >> cleanUp [
-    self resetHistory
+    self resetHistory.
+	wasOpened := false
 ]
 
 { #category : #accessing }
@@ -90,10 +92,16 @@ GTSpotter class >> history [
 	^ history ifNil: [ history := WeakOrderedCollection new ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 GTSpotter class >> isPreviewVisible [
 
 	^ isPreviewVisible ifNil: [ isPreviewVisible := false ]
+]
+
+{ #category : #accessing }
+GTSpotter class >> markOpened [
+
+	wasOpened := true
 ]
 
 { #category : #'instance creation' }
@@ -123,6 +131,12 @@ GTSpotter class >> spotterExtendingMethods [
 			(Pragma allNamed: #spotterOrder: in: each) 
 				collect: [ :p | p method asRingDefinition ] ])
 		sorted
+]
+
+{ #category : #testing }
+GTSpotter class >> wasOpened [
+
+	^ wasOpened ifNil: [ false ]
 ]
 
 { #category : #'actions api' }
