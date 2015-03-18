@@ -89,35 +89,9 @@ GTSpotterHeaderBrick >> onRevealHints [
 ]
 
 { #category : #accessing }
-GTSpotterHeaderBrick >> openSettingsBrowserFor: aBrick [
-	| settingsBrowser window node nodePath |
-	settingsBrowser := SettingBrowser new 
-		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection;
-		yourself.
-	window := settingsBrowser open.
-	window position: Display extent - window extent // 2.
-	settingsBrowser expandAll.
-	node := settingsBrowser treeHolder nodeNamed: #sendUsageData.
-	nodePath := Array 
-		with: (settingsBrowser treeHolder nodeNamed: node parentName)
-		with: node.
-	settingsBrowser selection: (MorphTreeMorphSingleSelection new selectedNodePath: nodePath).
+GTSpotterHeaderBrick >> openSettingsBrowser [
+	GTSpotterPrivacyAgreementNotificationBrick openSettingsBrowser.
 	self spotterModel exit.
-]
-
-{ #category : #accessing }
-GTSpotterHeaderBrick >> openSettingsFor: aBrick [
-
-	^ GLMPopupDialogBrick new
-			addContentBrick: (
-				GLMPrivacyAgreementBrick new
-					width: 250;
-					padding: #(5 10);
-					vShrinkWrap;
-					yourself);
-			with: [ :b | b contentBrick ];
-			openBelowFor: aBrick;
-			beRightToLeftWithOffset: 50
 ]
 
 { #category : #accessing }
@@ -155,7 +129,7 @@ GTSpotterHeaderBrick >> settingsButton: aBrick [
 	settingsButton
 		hintTitle: 'Settings';
 		hintText: 'Shows the settings UI';
-		addUpAction: [ self openSettingsBrowserFor: settingsButton ].
+		addUpAction: [ self openSettingsBrowser ].
 	
 	self addBrickBack: settingsButton
 ]

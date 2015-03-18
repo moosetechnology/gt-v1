@@ -34,6 +34,22 @@ GTSpotterPrivacyAgreementNotificationBrick class >> exampleOpen [
 			extent: 600@400
 ]
 
+{ #category : #utils }
+GTSpotterPrivacyAgreementNotificationBrick class >> openSettingsBrowser [
+	| settingsBrowser window node nodePath |
+	settingsBrowser := SettingBrowser new 
+		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection;
+		yourself.
+	window := settingsBrowser open.
+	window position: Display extent - window extent // 2.
+	settingsBrowser expandAll.
+	node := settingsBrowser treeHolder nodeNamed: #sendUsageData.
+	nodePath := Array 
+		with: (settingsBrowser treeHolder nodeNamed: node parentName)
+		with: node.
+	settingsBrowser selection: (MorphTreeMorphSingleSelection new selectedNodePath: nodePath).
+]
+
 { #category : #initialization }
 GTSpotterPrivacyAgreementNotificationBrick >> initialize [
 	super initialize.
@@ -75,14 +91,8 @@ GTSpotterPrivacyAgreementNotificationBrick >> newTitleBrick [
 ]
 
 { #category : #actions }
-GTSpotterPrivacyAgreementNotificationBrick >> openSettingsUI [
-	| settingsBrowser window |
-	settingsBrowser := SettingBrowser new 
-		changePackageSet: (RPackage organizer packageNamed: 'GT-Spotter-EventRecorder') asOrderedCollection;
-		yourself.
-	window := settingsBrowser open.
-	window position: Display extent - window extent // 2.
-	settingsBrowser expandAll.
+GTSpotterPrivacyAgreementNotificationBrick >> openSettingsBrowser [
+	self class openSettingsBrowser.
 	self owner owner closeSpotter.
 ]
 
@@ -121,7 +131,7 @@ GTSpotterPrivacyAgreementNotificationBrick >> settingsButtonBrick: anObject [
 		text: self settingsButtonLabel;
 		hShrinkWrap;
 		margin:10;
-		when: #onClicked do: [ self openSettingsUI ].
+		when: #onClicked do: [ self openSettingsBrowser ].
 	
 	self addBrickBack: self settingsButtonBrick
 ]
