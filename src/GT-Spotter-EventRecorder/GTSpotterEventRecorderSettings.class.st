@@ -78,10 +78,11 @@ GTSpotterEventRecorderSettings class >> doesNotUnderstand: aMessage [
 	^ self uniqueInstance perform: aMessage selector withEnoughArguments: aMessage arguments
 ]
 
-{ #category : #'class initialization' }
-GTSpotterEventRecorderSettings class >> initialize [
-	Smalltalk addToStartUpList: self.
-	self loadPreferences.
+{ #category : #'load and saving' }
+GTSpotterEventRecorderSettings class >> ensureComputerID [
+
+	self loadPreferences
+	
 ]
 
 { #category : #'load and saving' }
@@ -158,7 +159,7 @@ GTSpotterEventRecorderSettings class >> sendUsageData [
 
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> sendUsageData: aBoolean [
-	sendUsageData := aBoolean
+	sendUsageData := aBoolean.
 ]
 
 { #category : #settings }
@@ -183,15 +184,6 @@ GTSpotterEventRecorderSettings class >> settingsOnUrl: aBuilder [
 		description: 'The url for the Spotter Event Recorder server.' translated;
 		label: 'Spotter Event Recorder URL address'
 
-]
-
-{ #category : #'system startup' }
-GTSpotterEventRecorderSettings class >> startUp: resuming [
-	"We reset image preferences, because this is likely 
-	a newly downloaded image or different user
-	and he/she should agree about sending data."
-	self preferences exists ifFalse: [ self reset ].
-	self loadPreferences.
 ]
 
 { #category : #accessing }
@@ -252,11 +244,6 @@ GTSpotterEventRecorderSettings >> initialize [
 	super initialize.
 	computerUUID := UUID new.
 	secretUUID := UUID new.
-]
-
-{ #category : #actions }
-GTSpotterEventRecorderSettings >> save [
-	self class savePreferences
 ]
 
 { #category : #accessing }
