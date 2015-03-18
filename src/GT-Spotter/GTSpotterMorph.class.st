@@ -123,7 +123,7 @@ GTSpotterMorph >> initialize [
 	
 ]
 
-{ #category : #initialization }
+{ #category : #initialize }
 GTSpotterMorph >> initializeListeners [
 
 	self activeHand addEventListener: self.
@@ -221,7 +221,7 @@ GTSpotterMorph >> openInWindowLabeled: aString inWorld: aWorld [
 	^ super openInWindowLabeled: aString inWorld: aWorld
 ]
 
-{ #category : #initialization }
+{ #category : #initialize }
 GTSpotterMorph >> outOfWorld: aWorld [
 	super outOfWorld: aWorld.
 	self unsubscribeListeners.
@@ -352,7 +352,7 @@ GTSpotterMorph >> togglePreview [
 	self spotterModel togglePreview
 ]
 
-{ #category : #initialization }
+{ #category : #initialize }
 GTSpotterMorph >> unsubscribeListeners [
 
 	self activeHand removeEventListener: self.

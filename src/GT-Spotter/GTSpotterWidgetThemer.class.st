@@ -149,6 +149,7 @@ GTSpotterWidgetThemer >> categoryAmountStyleFor: aBrick [
 		color: self titleBackgroundColor.
 	
 	aBrick label
+		fontSize: self titleFontSize;
 		familyName: self titleFamilyName.
 	
 	aBrick
@@ -200,6 +201,7 @@ GTSpotterWidgetThemer >> categoryTitleNameStyleFor: aBrick [
 		color: self titleBackgroundColor.
 	
 	aBrick label
+		fontSize: self titleFontSize;
 		familyName: self titleFamilyName.
 	
 ]
@@ -393,9 +395,15 @@ GTSpotterWidgetThemer >> itemFamilyName [
 ]
 
 { #category : #values }
+GTSpotterWidgetThemer >> itemFontSize [
+
+	^ 9
+]
+
+{ #category : #values }
 GTSpotterWidgetThemer >> itemHeight [
 
-	^  16 + Smalltalk ui theme labelFont height
+	^ 30
 ]
 
 { #category : #values }
@@ -439,6 +447,7 @@ GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 
 	aBrick label
 		familyName: self itemFamilyName;
+		fontSize: self itemFontSize;
 		textColor: self itemTextColor;
 		highlightingLogic: [ :aCanvas :aRectangle | |bounds|
 			"because font calculates text width wrong"
@@ -501,7 +510,7 @@ GTSpotterWidgetThemer >> previewArrowColor [
 { #category : #values }
 GTSpotterWidgetThemer >> previewArrowGapHack [
 
-	^ self themer scrollbarOffset + self themer scrollbarWidth + self outerBorderWidth + 2"pager bug"
+	^ self themer scrollbarOffset + self themer scrollbarWidth + self outerBorderWidth + 1"pager bug"
 ]
 
 { #category : #values }
@@ -774,6 +783,12 @@ GTSpotterWidgetThemer >> titleBackgroundColor [
 { #category : #values }
 GTSpotterWidgetThemer >> titleFamilyName [
 	^ 'Open Sans'.
+]
+
+{ #category : #values }
+GTSpotterWidgetThemer >> titleFontSize [
+
+	^ 9
 ]
 
 { #category : #values }
