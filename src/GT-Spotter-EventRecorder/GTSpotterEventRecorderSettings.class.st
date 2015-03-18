@@ -72,12 +72,6 @@ GTSpotterEventRecorderSettings class >> deletePreferences [
 	on: Error do: [ "ignore" ]
 ]
 
-{ #category : #'reflective operations' }
-GTSpotterEventRecorderSettings class >> doesNotUnderstand: aMessage [ 
-	"delegate all settings to the unique instance"
-	^ self uniqueInstance perform: aMessage selector withEnoughArguments: aMessage arguments
-]
-
 { #category : #'load and saving' }
 GTSpotterEventRecorderSettings class >> ensureComputerID [
 
