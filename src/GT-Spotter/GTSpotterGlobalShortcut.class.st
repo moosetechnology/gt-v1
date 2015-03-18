@@ -65,18 +65,6 @@ GTSpotterGlobalShortcut class >> reset [
 	globalSpotter := nil
 ]
 
-{ #category : #menu }
-GTSpotterGlobalShortcut class >> spotterMenuOn: aBuilder [ 
-	"I build a menu"
-	<worldMenu>
-	(aBuilder item: #Spotter)
-		action: [self openGlobalSpotter];
-		order: 0.05;
-		parent: #Tools;
-		help: 'Looking for something ?';
-		icon: GLMUIThemeExtraIcons glamorousSearch.	
-]
-
 { #category : #'as yet unclassified' }
 GTSpotterGlobalShortcut >> keymapToggle [
 	"KMRepository reset"
