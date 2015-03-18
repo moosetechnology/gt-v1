@@ -555,8 +555,7 @@ GTSpotterWidgetThemer >> privacyAgreementNotificationStyleFor: aBrick [
 	color := aBrick sendUsageData 
 		ifTrue: [ self privacyAgreementIsSendingDataColor. ]
 		ifFalse: [ self privacyAgreementIsNotSendingDataColor. ].
-	aBrick messageBrick morph 
-		font: StandardFonts defaultFont.
+	aBrick messageBrick rubricTextFamilyName: StandardFonts defaultFont familyName.
 	aBrick
 		color: color;
 		borderColor: color darker;
