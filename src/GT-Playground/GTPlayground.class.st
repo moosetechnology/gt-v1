@@ -248,6 +248,12 @@ GTPlayground >> compose [
 ]
 
 { #category : #accessing }
+GTPlayground >> currentBindings [ 
+
+	^ self inspectorPresentation firstPresentation currentBindings
+]
+
+{ #category : #accessing }
 GTPlayground >> inspectorPresentation [
 
 	^ self presentations first 
@@ -260,7 +266,13 @@ GTPlayground >> label: aString [
 	self update
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
+GTPlayground >> resetBindings [
+
+	^ self inspectorPresentation firstPresentation resetBindings
+]
+
+{ #category : #actions }
 GTPlayground >> setBindings: aDictionary [
 
 	self inspectorPresentation firstPresentation 
