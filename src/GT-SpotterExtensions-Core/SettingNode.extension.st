@@ -24,6 +24,10 @@ SettingNode >> spotterLabel [
 { #category : #'*GT-SpotterExtensions-Core' }
 SettingNode >> spotterPreviewIn: composite [
 	<spotterPreview: 0>
-	composite custom: 
-		self settingDeclaration inputWidget asBrick
+	
+	composite custom: (
+				(self settingDeclaration inputWidget asBrick)
+						hSpaceFill;
+						vSpaceFill;
+						yourself)
 ]
