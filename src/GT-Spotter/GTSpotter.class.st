@@ -270,7 +270,7 @@ GTSpotter >> isPreviewVisible [
 { #category : #accessing }
 GTSpotter >> isShiftPressed [
 
-	^ isShiftPressed ifNil: [ isShiftPressed := true ]
+	^ isShiftPressed ifNil: [ isShiftPressed := false ]
 ]
 
 { #category : #protocol }
