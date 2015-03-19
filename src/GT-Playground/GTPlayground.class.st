@@ -202,7 +202,7 @@ GTPlayground >> codeIn: a [
 	^ a pharoPlayground
 		title: [ :page | 
 			| label |
-			label := GLMLiveStringBrick new.
+			label := GLMLiveLabelBrick new.
 			label 
 			"to make label take maximal only necessary space"
 			maxWidth: [ label approximateWidth ];
