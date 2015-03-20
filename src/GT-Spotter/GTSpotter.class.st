@@ -327,9 +327,11 @@ GTSpotter >> notifyDiveIn: anObject [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifyDiveInCategory: aProcessor [
+GTSpotter >> notifyDiveInCategory: aProcessor for: anEventType [
 
-	self announce: (GTSpotterDiveInCategory new category: aProcessor)
+	self announce: (GTSpotterDiveInCategory new 
+		category: aProcessor;
+		eventType: anEventType)
 ]
 
 { #category : #notifying }
