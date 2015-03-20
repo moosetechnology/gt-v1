@@ -17,3 +17,24 @@ Collection >> spotterItemsFor: aStep [
 		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: true
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+Collection >> spotterSelectFor: aStep [
+	<spotterOrder: 40>
+	aStep listProcessor
+		title: 'Expression selection';
+		filter: [ :context | 
+			[
+				| result |
+				Transcript show: self; cr.
+				Transcript show: context text; cr.
+				result := self select: [ :each |
+					Smalltalk compiler 
+						evaluate: '| each | each := self. ', context text 
+						for: each 
+						logged: false ].
+				Transcript show: result; cr.
+				context addItems: result.
+				result
+			] on: Error do: [ #() ] ]
+]
