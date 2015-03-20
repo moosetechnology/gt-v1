@@ -243,6 +243,13 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForSettingsFor: aStep [
+	<spotterOrder: 100>
+	(SettingTree new acceptableKeywords: SettingBrowser settingsKeywords)
+		spotterForSettingsFor: aStep
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForTestClassesFor: aStep [
 	<demoOnly: 'NautilusUI - this is a very ugly implementaiton - just for demo'>
 	<spotterOrder: 20>
