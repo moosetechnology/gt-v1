@@ -134,12 +134,12 @@ GTSpotterMorph >> initializeListeners [
 	self bindKeyCombination: $w command toAction: [ self spotterModel exit ].
 	self bindKeyCombination: $p command toAction: [ self togglePreview ].
 	
-	self bindKeyCombination: Character arrowUp toAction: [ self selectPreviousCandidate ].
-	self bindKeyCombination: Character arrowDown toAction: [ self selectNextCandidate ].
-	self bindKeyCombination: Character arrowUp command toAction: [ self selectPreviousCandidate ].
-	self bindKeyCombination: Character arrowDown command toAction: [ self selectNextCandidate ].
-	self bindKeyCombination: Character arrowUp shift toAction: [ self selectPreviousCandidate ].
-	self bindKeyCombination: Character arrowDown shift toAction: [ self selectNextCandidate ].
+	self bindKeyCombination: Character arrowUp toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
+	self bindKeyCombination: Character arrowDown toAction: [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
+	self bindKeyCombination: Character arrowUp command toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
+	self bindKeyCombination: Character arrowDown command toAction: [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
+	self bindKeyCombination: Character arrowUp shift toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
+	self bindKeyCombination: Character arrowDown shift toAction: [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
 	
 	self bindKeyCombination: Character arrowUp command shift toAction: [ self selectPreviousCategory ].
 	self bindKeyCombination: Character arrowDown command shift toAction: [ self selectNextCategory ].
@@ -269,10 +269,10 @@ GTSpotterMorph >> privacyAgreementNotificationBrick: aBrick [
 ]
 
 { #category : #actions }
-GTSpotterMorph >> selectNextCandidate [
+GTSpotterMorph >> selectNextCandidateDueTo: anEventType [
 
 	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep selectNext ]
+		ifFalse: [ self spotterModel currentStep selectNextDueTo: anEventType ]
 	
 ]
 
@@ -285,10 +285,10 @@ GTSpotterMorph >> selectNextCategory [
 ]
 
 { #category : #actions }
-GTSpotterMorph >> selectPreviousCandidate [
+GTSpotterMorph >> selectPreviousCandidateDueTo: anEventType [
 
 	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep selectPrevious ]
+		ifFalse: [ self spotterModel currentStep selectPreviousDueTo: anEventType ]
 	
 ]
 

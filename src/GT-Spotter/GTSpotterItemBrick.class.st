@@ -222,7 +222,7 @@ GTSpotterItemBrick >> showActionbar [
 { #category : #'event handling' }
 GTSpotterItemBrick >> singleClick: evt [
 
-	self beSelected
+	self stepModel selected: self candidateLink dueTo: #singleClick
 ]
 
 { #category : #accessing }

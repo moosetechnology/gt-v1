@@ -295,9 +295,11 @@ GTSpotter >> notifyActOn: anObject for: anEventType [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifyCandidateSelected: anObject [
+GTSpotter >> notifyCandidateSelected: anObject for: anEventType [
 
-	self announce: (GTSpotterSelectedCandidateChanged new selected: anObject)
+	self announce: (GTSpotterSelectedCandidateChanged new 
+		selected: anObject;
+		eventType: anEventType)
 ]
 
 { #category : #notifying }

@@ -157,11 +157,17 @@ GTSpotterStep >> newContextForQuery: aString [
 
 { #category : #notifying }
 GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink [
+	
+	^ self notifySelectedCandidateChanged: aDoubleLink for: #unknown
+]
+
+{ #category : #notifying }
+GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink for: anEventType [
 	|candidate|
 	
 	candidate := aDoubleLink ifNotNil: [ :o | o value ].
 	self announcer announce: (GTSpotterSelectedCandidateChanged new selected: candidate).
-	self spotter notifyCandidateSelected: candidate
+	self spotter notifyCandidateSelected: candidate for: anEventType
 ]
 
 { #category : #accessing }
@@ -264,15 +270,6 @@ GTSpotterStep >> selectFirst [
 ]
 
 { #category : #selecting }
-GTSpotterStep >> selectNext [
-	
-	self selected ifNil: [ ^ self ].
-	self selected: self selected nextLink
-	
-	
-]
-
-{ #category : #selecting }
 GTSpotterStep >> selectNextCategory [
 	|currentCategory nextCategory|
 	self selected ifNil: [ ^ self ].
@@ -288,10 +285,12 @@ GTSpotterStep >> selectNextCategory [
 ]
 
 { #category : #selecting }
-GTSpotterStep >> selectPrevious [
-
+GTSpotterStep >> selectNextDueTo: anEventType [
+	
 	self selected ifNil: [ ^ self ].
-	self selected: self selected previousLink
+	self selected: self selected nextLink dueTo: anEventType
+	
+	
 ]
 
 { #category : #selecting }
@@ -303,6 +302,13 @@ GTSpotterStep >> selectPreviousCategory [
 	previousCategory := self candidates previousProcessorLinkOf: currentCategory.
 	
 	self selected: previousCategory headLink
+]
+
+{ #category : #selecting }
+GTSpotterStep >> selectPreviousDueTo: anEventType [
+
+	self selected ifNil: [ ^ self ].
+	self selected: self selected previousLink dueTo: anEventType
 ]
 
 { #category : #accessing }
@@ -320,12 +326,20 @@ GTSpotterStep >> selected [
 { #category : #selecting }
 GTSpotterStep >> selected: aDoubleLink [
 	
+	^ self selected: aDoubleLink dueTo: #unknown
+	
+	
+]
+
+{ #category : #selecting }
+GTSpotterStep >> selected: aDoubleLink dueTo: anEvenType [
+	
 	self selected = aDoubleLink ifTrue: [ ^ self ].
 	
 	self spotter
 		after: [
 			selected := aDoubleLink.
-			self notifySelectedCandidateChanged: selected ]
+			self notifySelectedCandidateChanged: selected for: anEvenType]
 		do: [ self spotter notifyCategorySelected: self selected processor ]
 		ifTrue: [ aDoubleLink
 			ifNotNil: [ self selected
