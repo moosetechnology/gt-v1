@@ -5,7 +5,8 @@ Class {
 	#name : #GTSpotterProcessor,
 	#superclass : #Object,
 	#instVars : [
-		'allFilteredCandidates'
+		'allFilteredCandidates',
+		'actionBlock'
 	],
 	#category : #'GT-Spotter-Processors'
 }
@@ -13,8 +14,14 @@ Class {
 { #category : #private }
 GTSpotterProcessor >> actOn: anObject for: aStep [
 	aStep exit.	
-	anObject spotterActDefault.
+	actionBlock cull: anObject
 
+]
+
+{ #category : #accessing }
+GTSpotterProcessor >> actionBlock: aBlock [
+
+	actionBlock := aBlock
 ]
 
 { #category : #public }
@@ -39,6 +46,13 @@ GTSpotterProcessor >> filterInContext: aSpotterContext [
 	aSpotterContext stream 
 		performSymbol: #onAmountChanged:in: 
 		withArguments: { self allFilteredCandidates size . self }
+]
+
+{ #category : #initialization }
+GTSpotterProcessor >> initialize [
+	super initialize.
+	
+	actionBlock := [  :targetObject | targetObject spotterActDefault ]
 ]
 
 { #category : #private }
