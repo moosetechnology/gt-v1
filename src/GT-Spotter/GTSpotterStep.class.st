@@ -109,6 +109,13 @@ GTSpotterStep >> diveIn [
 ]
 
 { #category : #actions }
+GTSpotterStep >> diveInCategory [
+
+	^ self diveInCategoryDueTo: #unknown
+	
+]
+
+{ #category : #actions }
 GTSpotterStep >> diveInCategoryDueTo: anEventType [
 
 	self spotter
