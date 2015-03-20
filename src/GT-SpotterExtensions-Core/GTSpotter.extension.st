@@ -245,8 +245,11 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForSettingsFor: aStep [
 	<spotterOrder: 100>
-	(SettingTree new acceptableKeywords: SettingBrowser settingsKeywords)
-		spotterForSettingsFor: aStep
+	aStep listProcessor
+		title: 'Settings';
+		allCandidates: [ (SettingTree new acceptableKeywords: SettingBrowser settingsKeywords) nodeList ];
+		itemName: [ :each | each spotterLabel ];
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
