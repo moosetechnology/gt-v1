@@ -2,7 +2,8 @@ Class {
 	#name : #GTSpotterActOn,
 	#superclass : #Announcement,
 	#instVars : [
-		'element'
+		'element',
+		'event'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
@@ -15,4 +16,16 @@ GTSpotterActOn >> element [
 { #category : #accessing }
 GTSpotterActOn >> element: anObject [
 	element := anObject
+]
+
+{ #category : #accessing }
+GTSpotterActOn >> event [
+
+	^ event
+]
+
+{ #category : #accessing }
+GTSpotterActOn >> event: anEvent [
+
+	event := anEvent
 ]

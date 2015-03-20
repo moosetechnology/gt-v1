@@ -30,12 +30,11 @@ Class {
 }
 
 { #category : #actions }
-GTSpotterStep >> act [
-	
+GTSpotterStep >> act: anEvent [
 	self selected ifNil: [ ^ self ].
 	self spotter
 		historize: self selected;
-		notifyActOn: self selectedCandidate.
+		notifyActOn: self selectedCandidate from: anEvent.
 	self selected processor actOn: self selectedCandidate for: self
 
 ]

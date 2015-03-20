@@ -66,7 +66,7 @@ GTSpotterItemBrick >> checkOrUncheck [
 { #category : #'event handling' }
 GTSpotterItemBrick >> doubleClick: evt [
 
-	self stepModel act
+	self stepModel act: #doubleClick
 ]
 
 { #category : #'event handling' }
