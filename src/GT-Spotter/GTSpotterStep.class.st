@@ -109,7 +109,7 @@ GTSpotterStep >> diveIn [
 ]
 
 { #category : #actions }
-GTSpotterStep >> diveInCategory: anEventType [
+GTSpotterStep >> diveInCategoryDueTo: anEventType [
 
 	self spotter
 		requestNextCategoryStepWith: self selected processorLink;

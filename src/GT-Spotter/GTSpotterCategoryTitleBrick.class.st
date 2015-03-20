@@ -33,7 +33,7 @@ GTSpotterCategoryTitleBrick >> addDiveInButton [
 	self diveInButton
 		icon: self themer spotterThemer iconDiveInCategory;
 		pressedColor: (self themer spotterThemer itemActionSelectedBackgroundColor alpha: 0.5);
-		addUpAction: [ self stepModel diveInCategory: #actionButton ];
+		addUpAction: [ self stepModel diveInCategoryDueTo: #actionButton ];
 		beHelp;
 		hintTitle: 'Show all';
 		hintText: '<cmd+shift+right>'.

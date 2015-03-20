@@ -62,10 +62,10 @@ GTSpotterMorph >> defaultLabel [
 ]
 
 { #category : #actions }
-GTSpotterMorph >> diveInCategory: anEventType [
+GTSpotterMorph >> diveInCategoryDueTo: anEventType [
 
 	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep isEmpty ifFalse: [ self spotterModel currentStep diveInCategory: anEventType ] ]
+		ifFalse: [ self spotterModel currentStep isEmpty ifFalse: [ self spotterModel currentStep diveInCategoryDueTo: anEventType ] ]
 ]
 
 { #category : #actions }
@@ -147,7 +147,7 @@ GTSpotterMorph >> initializeListeners [
 	self bindKeyCombination: Character arrowRight command toAction: [ self diveInDueTo: #keyPressed ].
 	self bindKeyCombination: Character arrowLeft command toAction: [ self diveOut ].
 
-	self bindKeyCombination: Character arrowRight command shift toAction: [ self diveInCategory: #keyPressed ].
+	self bindKeyCombination: Character arrowRight command shift toAction: [ self diveInCategoryDueTo: #keyPressed ].
 	self bindKeyCombination: Character arrowLeft command shift toAction: [ self diveOut ].
 	
 	self bindKeyCombination: Character arrowUp alt toAction: [ self stepScrollPageUp ].
