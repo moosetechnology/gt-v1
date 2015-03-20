@@ -28,6 +28,7 @@ SettingNode >> spotterPreviewIn: composite [
 	composite custom: (
 				(self settingDeclaration inputWidget asBrick)
 						hSpaceFill;
-						vSpaceFill;
+						vShrinkWrap;
+						vAlign: #center;
 						yourself)
 ]
