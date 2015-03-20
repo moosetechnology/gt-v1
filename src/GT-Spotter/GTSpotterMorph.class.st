@@ -13,10 +13,10 @@ Class {
 }
 
 { #category : #actions }
-GTSpotterMorph >> act: anEventType [
+GTSpotterMorph >> actDueTo: anEventType [
 	self spotterModel isEmpty ifTrue: [ ^self ].
 	self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
-	self spotterModel currentStep act: anEventType
+	self spotterModel currentStep actDueTo: anEventType
 ]
 
 { #category : #accessing }
@@ -157,7 +157,7 @@ GTSpotterMorph >> initializeListeners [
 	
 	self 
 		bindKeyCombination: Character cr asKeyCombination 
-		toAction: [ self act: #keyPressed ].
+		toAction: [ self actDueTo: #keyPressed ].
 		
 	self 
 		bindKeyCombination: $p command shift 

@@ -30,7 +30,7 @@ Class {
 }
 
 { #category : #actions }
-GTSpotterStep >> act: anEventType [
+GTSpotterStep >> actDueTo: anEventType [
 	self selected ifNil: [ ^ self ].
 	self spotter
 		historize: self selected;

@@ -22,7 +22,7 @@ GTSpotterItemActionbarBrick >> addActActionButton [
 			icon: self themer spotterThemer iconAct;
 			hintTitle: 'Default action';
 			hintText: '<enter>';
-			addUpAction: [ self owner beSelected. self stepModel act: #actionButton ];
+			addUpAction: [ self owner beSelected. self stepModel actDueTo: #actionButton ];
 			yourself).
 
 	self addActionButton: actOnButton.
