@@ -321,9 +321,11 @@ GTSpotter >> notifyCurrentStepChanged [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifyDiveIn: anObject [
+GTSpotter >> notifyDiveIn: anObject for: anEventType [
 
-	self announce: (GTSpotterDiveInElement new element: anObject)
+	self announce: (GTSpotterDiveInElement new 
+		element: anObject;
+		eventType: anEventType )
 ]
 
 { #category : #notifying }

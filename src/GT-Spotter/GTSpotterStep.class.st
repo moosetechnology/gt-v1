@@ -105,11 +105,16 @@ GTSpotterStep >> defaultTask [
 
 { #category : #actions }
 GTSpotterStep >> diveIn [
+	self diveIn: #undefined
+]
+
+{ #category : #actions }
+GTSpotterStep >> diveIn: anEventType [
 	self canDiveInSelectedCandidate ifTrue: [ 
 		self spotter
 			historize: self selected;
 			requestNextStepWith: self selectedCandidate;
-			notifyDiveIn: self selectedCandidate ]
+			notifyDiveIn: self selectedCandidate for: anEventType ]
 ]
 
 { #category : #actions }

@@ -2,7 +2,8 @@ Class {
 	#name : #GTSpotterDiveInElement,
 	#superclass : #Announcement,
 	#instVars : [
-		'element'
+		'element',
+		'eventType'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
@@ -15,4 +16,14 @@ GTSpotterDiveInElement >> element [
 { #category : #accessing }
 GTSpotterDiveInElement >> element: anObject [
 	element := anObject
+]
+
+{ #category : #accessing }
+GTSpotterDiveInElement >> eventType [
+	^ eventType
+]
+
+{ #category : #accessing }
+GTSpotterDiveInElement >> eventType: anObject [
+	eventType := anObject
 ]
