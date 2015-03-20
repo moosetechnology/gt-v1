@@ -27,7 +27,7 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton
 		hintTitle: 'Close Spotter';
 		hintText: '<escape>';
-		addUpAction: [ self spotterModel exit ].
+		addUpAction: [ self spotterModel exitDueTo: #actionButton ].
 	
 	self addBrickBack: closeButton
 ]

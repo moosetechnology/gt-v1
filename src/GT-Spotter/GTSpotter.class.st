@@ -203,7 +203,13 @@ GTSpotter >> defaultStep [
 { #category : #'actions api' }
 GTSpotter >> exit [
 
-	self notifySpotterExit
+	self exitDueTo: #unknown
+]
+
+{ #category : #'actions api' }
+GTSpotter >> exitDueTo: anEventType [
+
+	self notifySpotterExitFor: anEventType
 ]
 
 { #category : #accessing }
@@ -380,9 +386,10 @@ GTSpotter >> notifyShowPreview [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifySpotterExit [
+GTSpotter >> notifySpotterExitFor: anEventType [
 
-	self announce: GTSpotterExitAnnouncement new
+	self announce: (GTSpotterExitAnnouncement new
+		eventType: anEventType)
 ]
 
 { #category : #notifying }

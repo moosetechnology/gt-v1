@@ -87,7 +87,7 @@ GTSpotterMorph >> handleListenEvent: anEvent [
 		
 	anEvent type = #mouseDown ifTrue: [ 
 		((self fullBoundsInWorld containsPoint: anEvent position) not and: [ self autoHide ])
-			ifTrue: [ self spotterModel ifNotNil: [ :aModel | aModel exit ] ] ].
+			ifTrue: [ self spotterModel ifNotNil: [ :aModel | aModel exitDueTo: #mouseDown ] ] ].
 		
 	anEvent type = #keyDown ifTrue: [ 
 		self spotterModel
@@ -130,8 +130,8 @@ GTSpotterMorph >> initializeListeners [
 	
 	Morph announcer weak on: MorphLostFocus send: #onLostFocus: to: self.
 	
-	self bindKeyCombination: Character escape toAction: [ self spotterModel exit ].
-	self bindKeyCombination: $w command toAction: [ self spotterModel exit ].
+	self bindKeyCombination: Character escape toAction: [ self spotterModel exitDueTo: #keyPressedEscape ].
+	self bindKeyCombination: $w command toAction: [ self spotterModel exitDueTo: #keyPressedW ].
 	self bindKeyCombination: $p command toAction: [ self togglePreview ].
 	
 	self bindKeyCombination: Character arrowUp toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
