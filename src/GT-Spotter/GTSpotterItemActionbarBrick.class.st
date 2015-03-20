@@ -47,7 +47,7 @@ GTSpotterItemActionbarBrick >> addDiveInActionButton [
 			icon: self themer spotterThemer iconDiveIn;
 			hintTitle: 'Dive in';
 			hintText: '<cmd+right>';
-			addUpAction: [ self owner beSelected. self stepModel diveIn: #actionButton ];
+			addUpAction: [ self owner beSelected. self stepModel diveInDueTo: #actionButton ];
 			yourself).
 		
 		self addActionButton: diveInButton ]

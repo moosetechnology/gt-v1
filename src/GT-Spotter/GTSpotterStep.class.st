@@ -105,16 +105,7 @@ GTSpotterStep >> defaultTask [
 
 { #category : #actions }
 GTSpotterStep >> diveIn [
-	self diveIn: #undefined
-]
-
-{ #category : #actions }
-GTSpotterStep >> diveIn: anEventType [
-	self canDiveInSelectedCandidate ifTrue: [ 
-		self spotter
-			historize: self selected;
-			requestNextStepWith: self selectedCandidate;
-			notifyDiveIn: self selectedCandidate for: anEventType ]
+	self diveInDueTo: #undefined
 ]
 
 { #category : #actions }
@@ -124,6 +115,15 @@ GTSpotterStep >> diveInCategory: anEventType [
 		requestNextCategoryStepWith: self selected processorLink;
 		notifyDiveInCategory: self selected processor for: anEventType
 	
+]
+
+{ #category : #actions }
+GTSpotterStep >> diveInDueTo: anEventType [
+	self canDiveInSelectedCandidate ifTrue: [ 
+		self spotter
+			historize: self selected;
+			requestNextStepWith: self selectedCandidate;
+			notifyDiveIn: self selectedCandidate for: anEventType ]
 ]
 
 { #category : #actions }
