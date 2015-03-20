@@ -3,7 +3,7 @@ Class {
 	#superclass : #Announcement,
 	#instVars : [
 		'element',
-		'event'
+		'eventType'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
@@ -19,13 +19,11 @@ GTSpotterActOn >> element: anObject [
 ]
 
 { #category : #accessing }
-GTSpotterActOn >> event [
-
-	^ event
+GTSpotterActOn >> eventType [
+	^ eventType
 ]
 
 { #category : #accessing }
-GTSpotterActOn >> event: anEvent [
-
-	event := anEvent
+GTSpotterActOn >> eventType: anObject [
+	eventType := anObject
 ]

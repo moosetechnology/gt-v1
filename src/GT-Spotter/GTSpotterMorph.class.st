@@ -13,10 +13,10 @@ Class {
 }
 
 { #category : #actions }
-GTSpotterMorph >> act: anEvent [
+GTSpotterMorph >> act: anEventType [
 	self spotterModel isEmpty ifTrue: [ ^self ].
 	self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
-	self spotterModel currentStep act: anEvent
+	self spotterModel currentStep act: anEventType
 ]
 
 { #category : #accessing }

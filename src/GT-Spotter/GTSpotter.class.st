@@ -287,11 +287,11 @@ GTSpotter >> newStep [
 ]
 
 { #category : #notifying }
-GTSpotter >> notifyActOn: anObject from: anEvent [
+GTSpotter >> notifyActOn: anObject for: anEventType [
 
 	self announce: (GTSpotterActOn new 
 		element: anObject;
-		event: anEvent)
+		eventType: anEventType)
 ]
 
 { #category : #notifying }
