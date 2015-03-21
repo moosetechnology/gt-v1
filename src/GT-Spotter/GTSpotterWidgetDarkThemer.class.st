@@ -21,12 +21,6 @@ GTSpotterWidgetDarkThemer >> borderColor [
 ]
 
 { #category : #values }
-GTSpotterWidgetDarkThemer >> categoryTitleBackgroundColor [
-
-	^ self backgroundColor alpha: 0.95
-]
-
-{ #category : #values }
 GTSpotterWidgetDarkThemer >> itemActionSelectedBackgroundColor [
 
 	^ self itemSelectedBackgroundColor slightlyDarker
