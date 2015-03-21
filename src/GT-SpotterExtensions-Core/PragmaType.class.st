@@ -32,6 +32,12 @@ PragmaType class >> all [
 			pragmas: association value ] 
 ]
 
+{ #category : #examples }
+PragmaType class >> exampleAnyOne [
+	<example>
+	^ self all anyOne
+]
+
 { #category : #ui }
 PragmaType >> gtInspectorPragmasIn: composite [
 	<gtInspectorPresentationOrder: 40>
