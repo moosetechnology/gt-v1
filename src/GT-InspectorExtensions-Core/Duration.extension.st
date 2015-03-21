@@ -1,6 +1,24 @@
 Extension { #name : #Duration }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Duration class >> exampleOneDay [
+	<example>
+	^ self days: 1
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Duration class >> exampleOneHour [
+	<example>
+	^ self hours: 1
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Duration class >> exampleOneMinute [
+	<example>
+	^ self minutes: 1
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Duration >> gtInspectorDetailsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
