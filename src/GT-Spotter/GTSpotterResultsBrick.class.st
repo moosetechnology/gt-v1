@@ -104,7 +104,9 @@ GTSpotterResultsBrick >> onCandidateAdded: ann [
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidateSelected: ann [
 
-	self scrollTo: ann candidateBrick
+	self scrollTo: (ann candidateBrick candidateLink isFirst
+		ifTrue: [ (self categoryMorphOf: ann candidateBrick candidateLink processor) subbrickBefore ]
+		ifFalse: [ ann candidateBrick ])
 ]
 
 { #category : #'event handling' }

@@ -37,6 +37,12 @@ GTSpotterCandidateLink >> copy [
 	^ link
 ]
 
+{ #category : #testing }
+GTSpotterCandidateLink >> isFirst [
+
+	^ (self previousLink processorLink = self processorLink) not
+]
+
 { #category : #private }
 GTSpotterCandidateLink >> privateProcessorLink: aLink [
 
