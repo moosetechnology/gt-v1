@@ -201,7 +201,8 @@ GTPlayground >> actionsForPreviousContents [
 GTPlayground >> codeIn: a [
 	^ a pharoPlayground
 		title: [ :page | 
-			| label |
+			| label hPadding|
+			hPadding := 5.
 			label := GLMEditableLabelBrick new.
 			label text: 'Untitled'.
 			"below I define custom child-to-parent width dependencies to update tab's width
@@ -214,13 +215,14 @@ GTPlayground >> codeIn: a [
 			label layout widthDependency: [ label owner ].
 			"label's width depends on width of rubric edit field"
 			label editBrick layout widthDependency: [ label ].
+			label editBrick rubricBackgroundColor: label themer rubricBackgroundColor.
+			label editBrick margins: (hPadding@0 corner: hPadding@0).
+			label labelBrick margin: { 0 . hPadding + 2 . 0 . hPadding }.
 			label
 				when: #onAccepted do: [ label text logCr ];
 				"to make label take maximal only necessary space"
 				maxWidth: [ label approximateWidth ];
-				"textLogic: [ 'Modified ', (DateAndTime now - page modificationTime) gtPlaygroundHumanReadableString  ];"
-				"top = 0, right = left = 5, bottom = 1"
-				margin: #(0 5 1) ];
+				margin: #(1 0) ];
 		format: [ :page | page content ];
 		act: [ :text :page |
 				text selectionInterval: (1 to: text text size).
