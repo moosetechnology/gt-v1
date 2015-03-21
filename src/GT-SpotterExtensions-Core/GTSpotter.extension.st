@@ -303,7 +303,7 @@ GTSpotter >> spotterStfxFor: aStep [
 			(query beginsWith: 'http://ws.stfx.eu') ifTrue: [ 
 				[| string page |
 				string := GTUrlProvider new get: query.
-				page := GTPlayPage new content: string.
+				page := GTPlayPage new saveContent: string.
 				context addItem: page.
 				aCollection add: page] on: Error do: [ "nothing" ] ].
 			aCollection ]
