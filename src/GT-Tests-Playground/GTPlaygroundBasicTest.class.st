@@ -30,7 +30,7 @@ GTPlaygroundBasicTest >> testAccessBindings [
 	expectedBindings add: (WorkspaceVariable key: #a value: 1).
 	expectedBindings add: (WorkspaceVariable key: #b value: 2).
 		
-	window := playground openOn: (GTPlayPage new content: 'a:=1. b:=a+1').
+	window := playground openOn: (GTPlayPage new saveContent: 'a:=1. b:=a+1').
 	playground inspectorPresentation firstPresentation selectLine.
 	playground inspectorPresentation firstPresentation evaluateSelection.
 		
@@ -44,7 +44,7 @@ GTPlaygroundBasicTest >> testAccessBindings [
 GTPlaygroundBasicTest >> testResetBindings [
 	|obtainedBindings|
 
-	window := playground openOn: (GTPlayPage new content: 'number+1').
+	window := playground openOn: (GTPlayPage new saveContent: 'number+1').
 	playground 
 		setBindings: { #number -> 2 } asDictionary.
 		
@@ -62,7 +62,7 @@ GTPlaygroundBasicTest >> testResetBindings [
 GTPlaygroundBasicTest >> testSettingBindings [
 	|obtainedResult|
 	obtainedResult:=nil.
-	window := playground openOn: (GTPlayPage new content: 'number+1').
+	window := playground openOn: (GTPlayPage new saveContent: 'number+1').
 	playground 
 		setBindings: { #number -> 2 } asDictionary.
 	playground inspectorPresentation firstPresentation selectLine.
