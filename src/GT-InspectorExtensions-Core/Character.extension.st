@@ -1,6 +1,18 @@
 Extension { #name : #Character }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Character class >> exampleA [
+	<example>
+	^ $A
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Character class >> exampleSpace [
+	<example>
+	^ self space
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Character >> gtInspectorCharacterIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
