@@ -63,13 +63,15 @@ GTPlayBook class >> initialize [
 	Smalltalk addToStartUpList: self
 ]
 
-{ #category : #initializing }
+{ #category : #private }
 GTPlayBook class >> initializeDirectories [
-	" recreate the cached file reference, init with setting if there is any and it is valid "
+	" Recreate the cached file reference, init with setting if there is any and it is valid. This has to be failure/error-proof since it is performed during startup "
 	" self initializeDirectories "
 	cacheDirectory := nil.
 	customDirectory isNil 
 		ifTrue: [ ^ self ].
+	customDirectory class = FileReference
+		ifFalse: [ ^ self ].
 	customDirectory exists 
 		ifFalse: [ [ customDirectory ensureCreateDirectory ] on: PrimitiveFailed do: [ ^ self ] ].
 	cacheDirectory := customDirectory
@@ -84,6 +86,13 @@ GTPlayBook class >> instance [
 GTPlayBook class >> reset [
 	
 	instance := nil
+]
+
+{ #category : #private }
+GTPlayBook class >> resetDirectories [
+	" self resetDirectories "
+	cacheDirectory := nil.
+	customDirectory := nil
 ]
 
 { #category : #initializing }
