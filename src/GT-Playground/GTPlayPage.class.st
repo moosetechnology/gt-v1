@@ -8,12 +8,10 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'content',
-		'creationTime',
 		'fileName',
-		'fileReference',
+		'creationTime',
 		'modificationTime',
-		'publishUrl',
-		'title'
+		'publishUrl'
 	],
 	#category : #'GT-Playground'
 }
