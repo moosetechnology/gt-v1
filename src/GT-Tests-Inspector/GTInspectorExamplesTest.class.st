@@ -7,6 +7,25 @@ Class {
 	#category : #'GT-Tests-Inspector'
 }
 
+{ #category : #tests }
+GTInspectorExamplesTest >> checkAllPresentationsOf: exampleToTest [
+	| browser window pragmas |
+	pragmas := Pragma allNamed: #gtInspectorPresentationOrder: from: exampleToTest class to: Object.
+	^ pragmas
+		do: [ :eachPragma | 
+			browser := GLMWrapper new.
+			[browser
+				show: [ :composite | 
+					(eachPragma selector findTokens: $:) size = 1
+						ifTrue: [ exampleToTest perform: eachPragma selector with: composite ].
+					(eachPragma selector findTokens: $:) size = 2
+						ifTrue: [ exampleToTest perform: eachPragma selector with: composite with: browser ] ].
+			window := browser openOn: exampleToTest] 
+				on: Error 
+				do: [ self fail: eachPragma asString ].
+			window ifNotNil: [ window delete ] ]
+]
+
 { #category : #running }
 GTInspectorExamplesTest >> setUp [ 
 	windows := OrderedCollection new
@@ -19,23 +38,11 @@ GTInspectorExamplesTest >> tearDown [
 ]
 
 { #category : #tests }
-GTInspectorExamplesTest >> testEachPresentation [
+GTInspectorExamplesTest >> testAllExamples [
+	Object withAllSubclassesDo: [ :eachClass | eachClass gtExamples do: [ :exampleToTest | self checkAllPresentationsOf: exampleToTest ] ]
+]
 
-	| pragmas window browser |
-
-	Object withAllSubclassesDo: [ :eachClass |
-		eachClass gtExamples do: [ :exampleToTest |
-			pragmas := Pragma 
-						allNamed: #gtInspectorPresentationOrder: 
-						from: exampleToTest class 
-						to: Object.
-			pragmas do: [ :eachPragma | 
-				browser := GLMWrapper new 
-					show: [:composite | 
-						(eachPragma selector findTokens: $:) size = 1 
-							ifTrue: [ exampleToTest perform: eachPragma selector with: composite ]. 
-						(eachPragma selector findTokens: $:) size = 2
-							ifTrue: [ exampleToTest perform: eachPragma selector with: composite with: browser ]].
-				window := browser openOn: exampleToTest.
-				windows add: window ] ] ]
+{ #category : #tests }
+GTInspectorExamplesTest >> testGlobals [
+	{ Smalltalk . RBMessageNode . Trait . TClass . TBehavior . GTInspector . Object . Class . CompiledMethod } do: [ :each | self checkAllPresentationsOf: each ]
 ]
