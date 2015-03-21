@@ -4,6 +4,12 @@ Class {
 	#category : #'GT-Spotter-Theme'
 }
 
+{ #category : #'brick-rubric' }
+GTSpotterBrickDarkThemer >> rubricBackgroundColor [
+
+	^ self spotterThemer backgroundColor
+]
+
 { #category : #'brick-scrollbar' }
 GTSpotterBrickDarkThemer >> scrollbarColor [
 
@@ -13,5 +19,5 @@ GTSpotterBrickDarkThemer >> scrollbarColor [
 { #category : #'brick-scrollpane' }
 GTSpotterBrickDarkThemer >> scrollpaneBackgroundColor [
 
-	^ Color r: 0.3 g: 0.3 b: 0.3
+	^ self spotterThemer backgroundColor
 ]
