@@ -14,7 +14,8 @@ Class {
 		'instance'
 	],
 	#classInstVars : [
-		'cacheDirectory'
+		'cacheDirectory',
+		'customDirectory'
 	],
 	#category : #'GT-Playground'
 }
@@ -22,21 +23,33 @@ Class {
 { #category : #accessing }
 GTPlayBook class >> cacheDirectory [
 	^ cacheDirectory 
-		ifNil: [cacheDirectory := self defaultCacheDirectory]
+		ifNil: [ cacheDirectory := self defaultCacheDirectory ]
 		ifNotNil: [ cacheDirectory exists 
 			ifTrue: [ cacheDirectory ]
-			ifFalse: [ cacheDirectory := self defaultCacheDirectory ] ]
+			" the directory may be renamed/removed/moved at runtime - always fallback to the default directory "
+			ifFalse: [ cacheDirectory := self defaultCacheDirectory ] ] 
 ]
 
 { #category : #accessing }
-GTPlayBook class >> cacheDirectory: aString [ 
-	cacheDirectory := aString asFileReference
+GTPlayBook class >> cacheDirectory: aStringOrFileReference [
+	cacheDirectory := aStringOrFileReference ifNotNil: [ aStringOrFileReference asFileReference ].
 ]
 
 { #category : #protocol }
 GTPlayBook class >> cleanUp [
 	
 	instance := nil
+]
+
+{ #category : #accessing }
+GTPlayBook class >> customDirectory [
+	^ customDirectory
+]
+
+{ #category : #accessing }
+GTPlayBook class >> customDirectory: aStringOrFileReference [
+	customDirectory := aStringOrFileReference ifNotNil: [ aStringOrFileReference asFileReference ].
+	self initializeDirectories. " ugly side-effect, but we can't avoid it "
 ]
 
 { #category : #'accessing-defaults' }
@@ -48,6 +61,18 @@ GTPlayBook class >> defaultCacheDirectory [
 GTPlayBook class >> initialize [
 	" we have to make sure the cached references are up-to-date after the image starts up "
 	Smalltalk addToStartUpList: self
+]
+
+{ #category : #initializing }
+GTPlayBook class >> initializeDirectories [
+	" recreate the cached file reference, init with setting if there is any and it is valid "
+	" self initializeDirectories "
+	cacheDirectory := nil.
+	customDirectory isNil 
+		ifTrue: [ ^ self ].
+	customDirectory exists 
+		ifFalse: [ [ customDirectory ensureCreateDirectory ] on: PrimitiveFailed do: [ ^ self ] ].
+	cacheDirectory := customDirectory
 ]
 
 { #category : #accessing }
@@ -63,12 +88,12 @@ GTPlayBook class >> reset [
 
 { #category : #initializing }
 GTPlayBook class >> startUp [
-	cacheDirectory := nil.
+	self initializeDirectories
 ]
 
 { #category : #initializing }
 GTPlayBook class >> startUp: resuming [
-	cacheDirectory := nil.
+	self initializeDirectories
 ]
 
 { #category : #actions }
