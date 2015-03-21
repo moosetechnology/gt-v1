@@ -45,12 +45,6 @@ GTSpotterWidgetDarkThemer >> itemSelectedBackgroundColor [
 ]
 
 { #category : #values }
-GTSpotterWidgetDarkThemer >> itemTextColor [
-
-	^ Color white slightlyDarker
-]
-
-{ #category : #values }
 GTSpotterWidgetDarkThemer >> searchFieldCursorColor [
 
 	^ Color white alpha: 0.5

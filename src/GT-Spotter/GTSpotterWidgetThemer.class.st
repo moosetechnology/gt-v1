@@ -387,12 +387,6 @@ GTSpotterWidgetThemer >> itemActionbarStyleFor: aBrick [
 ]
 
 { #category : #values }
-GTSpotterWidgetThemer >> itemFamilyName [
-
-	^ 'Open Sans'
-]
-
-{ #category : #values }
 GTSpotterWidgetThemer >> itemHeight [
 
 	^  16 + Smalltalk ui theme labelFont height
@@ -438,8 +432,6 @@ GTSpotterWidgetThemer >> itemIconStyleFor: aBrick [
 GTSpotterWidgetThemer >> itemLabelStyleFor: aBrick [
 
 	aBrick label
-		familyName: self itemFamilyName;
-		textColor: self itemTextColor;
 		highlightingLogic: [ :aCanvas :aRectangle | |bounds|
 			"because font calculates text width wrong"
 			bounds := aRectangle translateBy: (-3@0).
@@ -478,12 +470,6 @@ GTSpotterWidgetThemer >> itemSelectedBackgroundColor [
 GTSpotterWidgetThemer >> itemSelectedStyleFor: aBrick [
 
 	aBrick color: self itemSelectedBackgroundColor
-]
-
-{ #category : #values }
-GTSpotterWidgetThemer >> itemTextColor [
-
-	^ Color black
 ]
 
 { #category : #values }
