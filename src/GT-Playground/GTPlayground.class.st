@@ -224,7 +224,7 @@ GTPlayground >> codeIn: a [
 			label labelBrick margin: { 0 . hPadding + 2. 0 . hPadding }.
 			label
 				"to make label take maximal only necessary space"
-				maxWidth: [ label approximateWidth ];
+				maxWidth: [ label approximateWidth + label owner hPadding];
 				margin: #(1 0) ];
 		format: [ :page | page content ];
 		act: [ :text :page |
