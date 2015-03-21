@@ -37,6 +37,12 @@ GTSpotter class >> dontShowPreview [
 ]
 
 { #category : #example }
+GTSpotter class >> exampleBasic [
+	<example>
+	^ self new
+]
+
+{ #category : #example }
 GTSpotter class >> exampleInWindow [
 	
 	^ GTSpotterMorph new
