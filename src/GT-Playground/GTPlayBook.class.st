@@ -7,7 +7,8 @@ Class {
 	#name : #GTPlayBook,
 	#superclass : #Object,
 	#instVars : [
-		'pages'
+		'pages',
+		'pagesLimit'
 	],
 	#classVars : [
 		'instance'
@@ -20,11 +21,7 @@ Class {
 
 { #category : #accessing }
 GTPlayBook class >> cacheDirectory [
-	^ cacheDirectory 
-		ifNil: [cacheDirectory := self defaultCacheDirectory]
-		ifNotNil: [ cacheDirectory exists 
-			ifTrue: [ cacheDirectory ]
-			ifFalse: [ cacheDirectory := self defaultCacheDirectory ] ]
+	^ cacheDirectory ifNil: [ cacheDirectory := self defaultCacheDirectory ]
 ]
 
 { #category : #accessing }
@@ -38,9 +35,15 @@ GTPlayBook class >> cleanUp [
 	instance := nil
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-defaults' }
 GTPlayBook class >> defaultCacheDirectory [
 	^ 'play-cache/' asFileReference ensureCreateDirectory
+]
+
+{ #category : #initializing }
+GTPlayBook class >> initialize [
+	" we have to make sure the cached references are up-to-date after the image starts up "
+	Smalltalk addToStartUpList: self
 ]
 
 { #category : #accessing }
@@ -54,15 +57,53 @@ GTPlayBook class >> reset [
 	instance := nil
 ]
 
-{ #category : #accessing }
+{ #category : #initializing }
+GTPlayBook class >> startUp [
+	cacheDirectory := nil.
+]
+
+{ #category : #initializing }
+GTPlayBook class >> startUp: resuming [
+	cacheDirectory := nil.
+]
+
+{ #category : #actions }
 GTPlayBook >> addPage: aPage [
 	self pages addFirst: aPage
 ]
 
-{ #category : #accessing }
+{ #category : #actions }
 GTPlayBook >> addPageIfInteresting: aPage [
-	aPage content asString trimBoth isEmpty ifTrue: [ ^ self ].
+	aPage isInteresting ifFalse: [ ^ self ].
 	self addPage: aPage
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayBook >> allFiles [
+	^ self class cacheDirectory files select: [ :each | 
+		each extension = GTPlayPage fileExtension ]
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayBook >> allFilesSorted [
+	^ self allFiles sorted: [ :a :b | 
+		a modificationTime > b modificationTime ]
+]
+
+{ #category : #'accessing-defaults' }
+GTPlayBook >> defaultPages [
+	^ OrderedCollection new
+]
+
+{ #category : #'accessing-defaults' }
+GTPlayBook >> defaultPagesLimit [
+	" page list in ui might get too long / holding too many object might decrease performance "
+	^ 100
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayBook >> files [
+	^ self allFilesSorted takeFirst: self pagesLimit
 ]
 
 { #category : #ui }
@@ -72,28 +113,23 @@ GTPlayBook >> gtPagesIn: composite [
 		title: 'Pages';
 		display: [ self pages ];
 		format: #gtDisplayString;
-		filterOn: [ :text :each | text match: each content]
+		filterOn: [ :text :each | text match: each content ]
 ]
 
-{ #category : #accessing }
+{ #category : #initializing }
 GTPlayBook >> initialize [
-	|files|
-	files := ((self class cacheDirectory files 
-		select: [ :each | each extension = 'ph' ])) 
-		sorted: [:a :b | a modificationTime > b modificationTime ].
-	files size > 100 ifTrue: [files := files first: 100]. 
-	pages := OrderedCollection new.
-	files do: [ :each | 
-		[ pages add: (GTPlayPage new 
-						silentContent: (each readStreamDo: #contents); 
-						modificationTime: each modificationTime) ]
+	self flag: 'error handling'.
+	
+	self pages: self defaultPages.
+	self files do: [ :each | 
+		[ self pages add: (GTPlayPage fromFileReference: each) ] " bypass "
 			on: Error 
-			do: [  ] ]
+			do: [ " unhandled exceptions are bad design - we should handle it somehow " ] ]
 ]
 
 { #category : #accessing }
 GTPlayBook >> pages [
-	^ pages
+	^ pages ifNil: [ pages := self defaultPages ]
 ]
 
 { #category : #accessing }
@@ -102,6 +138,22 @@ GTPlayBook >> pages: anObject [
 ]
 
 { #category : #accessing }
+GTPlayBook >> pagesLimit [
+	^ pagesLimit ifNil: [ self defaultPagesLimit ]
+]
+
+{ #category : #accessing }
+GTPlayBook >> pagesLimit: anObject [
+	pagesLimit := anObject
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayBook >> pagesSorted [
+	^ self pages sorted: [ :a :b | 
+		a modificationTime > b modificationTime ]
+]
+
+{ #category : #actions }
 GTPlayBook >> removePage: aPage [
-	self pages remove: aPage
+	self pages remove: aPage ifAbsent: [ " ignore if aPage is not registered " ]
 ]

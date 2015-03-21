@@ -41,7 +41,7 @@ GTPlayground class >> edit: aString label: aLabel [
 	"self halt"
 
 	page := GTPlayPage new
-		content: aString;
+		saveContent: aString;
 		title: aLabel;
 		yourself.
 		
@@ -81,7 +81,7 @@ GTPlayground class >> openContents: aString [
 	| page |
 	
 	page := GTPlayPage new
-		content: aString;
+		saveContent: aString;
 		yourself.
 	^ self new 
 		openOn: page;
@@ -95,7 +95,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 	| page |
 
 	page := GTPlayPage new
-		content: aString;
+		saveContent: aString;
 		title: aLabel;
 		yourself.
 	^ self new openOn: page
@@ -192,7 +192,7 @@ GTPlayground >> actionsForPreviousContents [
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);
 				action: [ :text | 
-					text entity content: each content.
+					text entity saveContent: each content.
 					text update ];
 				yourself ]
 ]
@@ -202,25 +202,15 @@ GTPlayground >> codeIn: a [
 	^ a pharoPlayground
 		title: [ :page | 
 			| label |
-			label := GLMEditableLabelBrick new.
-			label text: 'Untitled'.
-			"below I define custom child-to-parent width dependencies to update tab's width
-			when input is changed by the user. It is neccessary, because tab's width
-			is set to fillSpace and it doesn't update automatically, as it doesn't depend
-			on children, e.g. editable label. Editable label's width is set to fillSpace too,
-			se we need to define two up-level dependencies"
-			
-			"tab's width should depend on label (maxWidth is dynamic)"
-			label layout widthDependency: [ label owner ].
-			"label's width depends on width of rubric edit field"
-			label editBrick layout widthDependency: [ label ].
-			label
-				when: #onAccepted do: [ label text logCr ];
-				"to make label take maximal only necessary space"
-				maxWidth: [ label approximateWidth ];
-				"textLogic: [ 'Modified ', (DateAndTime now - page modificationTime) gtPlaygroundHumanReadableString  ];"
-				"top = 0, right = left = 5, bottom = 1"
-				margin: #(0 5 1) ];
+			label := GLMLiveLabelBrick new.
+			label 
+			"to make label take maximal only necessary space"
+			maxWidth: [ label approximateWidth ];
+			textLogic: [ 'Modified ', (DateAndTime now - page modificationTime) gtPlaygroundHumanReadableString  ];
+			hSpaceFill;
+			vSpaceFill;
+			marginLeft: 5;
+			marginRight: 5 ];
 		format: [ :page | page content ];
 		act: [ :text :page |
 				text selectionInterval: (1 to: text text size).
@@ -230,11 +220,11 @@ GTPlayground >> codeIn: a [
 			entitled: 'Do it all and go';
 		installGoAction;
 		installDefaultSelectionActions;
-		act: [ :text :page | page publishUrl ]
+		act: [ :text :page | page publish ]
 			icon: GLMUIThemeExtraIcons glamorousSaveToUrl
 			entitled: 'Remote publish';
 		dynamicActions: [ self actionsForPreviousContents ];
-		onChangeOfPort: #text act: [ :text :page | page content: text text ]
+		onChangeOfPort: #text act: [ :text :page | page saveContent: text text ]
 ]
 
 { #category : #building }
@@ -253,7 +243,7 @@ GTPlayground >> compose [
 			We need a better mechanism from Glamour to help 
 			us keep the model in sync"
 			self entity
-					content: self first panes first presentations first text.
+					saveContent: self first panes first presentations first text.
 			GTPlayBook instance addPageIfInteresting: self entity ]
 ]
 
