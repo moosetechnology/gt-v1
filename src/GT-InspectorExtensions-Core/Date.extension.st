@@ -1,6 +1,12 @@
 Extension { #name : #Date }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Date class >> exampleToday [
+	<example: 'Today'>
+	^ self today
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Date >> gtInspectorDetailsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
