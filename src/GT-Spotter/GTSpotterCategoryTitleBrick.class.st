@@ -176,6 +176,15 @@ GTSpotterCategoryTitleBrick >> onRevealHints [
 	self themer spotterThemer hintRevealStyleFor: self diveInButton
 ]
 
+{ #category : #'brick-properties-events' }
+GTSpotterCategoryTitleBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer categoryTitleWidgetStyleFor: self.
+	self themer spotterThemer categoryAmountStyleFor: self amountBrick.
+	self themer spotterThemer categoryTitleNameStyleFor: self nameBrick.
+]
+
 { #category : #adding }
 GTSpotterCategoryTitleBrick >> pushActionButton: aButton [
 

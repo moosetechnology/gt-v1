@@ -213,6 +213,13 @@ GTSpotterItemBrick >> onStepPopped [
 		self notifySelected ]
 ]
 
+{ #category : #'brick-properties-events' }
+GTSpotterItemBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer itemNormalWidgetStyleFor: self
+]
+
 { #category : #actions }
 GTSpotterItemBrick >> showActionbar [
 

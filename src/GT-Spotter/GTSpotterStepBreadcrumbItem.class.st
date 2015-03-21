@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'labelBrick',
 		'triangleBrick',
-		'stepModel'
+		'stepModel',
+		'isTriangleVisible'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -27,7 +28,8 @@ GTSpotterStepBreadcrumbItem >> deselect [
 { #category : #actions }
 GTSpotterStepBreadcrumbItem >> hideTriangle [
 
-	self triangleBrick color: Color transparent
+	isTriangleVisible := false.
+	self themer spotterThemer breadcrumbItemTriangleWidgetStyleFor: self triangleBrick
 ]
 
 { #category : #initialization }
@@ -40,6 +42,12 @@ GTSpotterStepBreadcrumbItem >> initialize [
 		triangleBrick: self newTriangleBrick;
 		enable
 	
+]
+
+{ #category : #testing }
+GTSpotterStepBreadcrumbItem >> isTriangleVisible [
+
+	^ isTriangleVisible ifNil: [ isTriangleVisible := true ]
 ]
 
 { #category : #accessing }
@@ -69,6 +77,14 @@ GTSpotterStepBreadcrumbItem >> newTriangleBrick [
 	^ GLMBrick new
 ]
 
+{ #category : #'brick-properties-events' }
+GTSpotterStepBreadcrumbItem >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer breadcrumbItemLabelWidgetStyleFor: self labelBrick.
+	self themer spotterThemer breadcrumbItemTriangleWidgetStyleFor: self triangleBrick
+]
+
 { #category : #actions }
 GTSpotterStepBreadcrumbItem >> select [
 	
@@ -79,7 +95,8 @@ GTSpotterStepBreadcrumbItem >> select [
 { #category : #actions }
 GTSpotterStepBreadcrumbItem >> showTriangle [
 
-	self triangleBrick color: self themer spotterThemer breadcrumbItemBackgroundColor
+	isTriangleVisible := true.
+	self themer spotterThemer breadcrumbItemTriangleWidgetStyleFor: self triangleBrick
 ]
 
 { #category : #accessing }

@@ -77,6 +77,13 @@ GTSpotterContentsBrick >> onStepAdded [
 	self showDropDownPane
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterContentsBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer spotterContentsWidgetStyleFor: self
+]
+
 { #category : #actions }
 GTSpotterContentsBrick >> showDropDownPane [
 

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'triangleBrick',
 		'selectedItemBrick',
-		'spotterModel'
+		'spotterModel',
+		'isTriangleVisible'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -12,7 +13,8 @@ Class {
 { #category : #actions }
 GTSpotterPreviewArrowBrick >> hideTriangle [
 
-	self triangleBrick color: Color transparent.
+	isTriangleVisible := false.
+	self themer spotterThemer spotterPreviewArrowWidgetStyleFor: self triangleBrick.
 	self changed
 ]
 
@@ -21,6 +23,12 @@ GTSpotterPreviewArrowBrick >> initialize [
 	super initialize.
 	
 	self triangleBrick: self newTriangleBrick
+]
+
+{ #category : #testing }
+GTSpotterPreviewArrowBrick >> isTriangleVisible [
+
+	^ isTriangleVisible ifNil: [ isTriangleVisible := true ]
 ]
 
 { #category : #actions }
@@ -109,6 +117,13 @@ GTSpotterPreviewArrowBrick >> onStepAdded [
 	self spotterModel steps last candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterPreviewArrowBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer spotterPreviewArrowWidgetStyleFor: self triangleBrick
+]
+
 { #category : #accessing }
 GTSpotterPreviewArrowBrick >> selectedItemBrick [
 	
@@ -127,7 +142,8 @@ GTSpotterPreviewArrowBrick >> selectedItemBrick: aBrick [
 { #category : #actions }
 GTSpotterPreviewArrowBrick >> showTriangle [
 
-	self triangleBrick color: self themer spotterThemer previewArrowColor.
+	isTriangleVisible := true.
+	self themer spotterThemer spotterPreviewArrowWidgetStyleFor: self triangleBrick.
 	self changed
 ]
 

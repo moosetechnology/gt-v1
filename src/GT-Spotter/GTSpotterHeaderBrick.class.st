@@ -24,6 +24,8 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton := aBrick.
 	
 	self themer spotterThemer closeButtonStyleFor: closeButton.
+	self themer spotterThemer closeButtonWidgetStyleFor: closeButton.
+	
 	closeButton
 		hintTitle: 'Close Spotter';
 		hintText: '<escape>';
@@ -88,6 +90,16 @@ GTSpotterHeaderBrick >> onRevealHints [
 	self themer spotterThemer hintRevealStyleFor: self closeButton
 ]
 
+{ #category : #'brick-properties-events' }
+GTSpotterHeaderBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer headerWidgetStyleFor: self.
+	self themer spotterThemer closeButtonWidgetStyleFor: self closeButton.
+	self themer spotterThemer searchFieldWidgetStyleFor: self searchField.
+	self themer spotterThemer settingsButtonWidgetStyleFor: self settingsButton.
+]
+
 { #category : #accessing }
 GTSpotterHeaderBrick >> openSettingsBrowser [
 	GTSpotterPrivacyAgreementNotificationBrick openSettingsBrowser.
@@ -126,6 +138,7 @@ GTSpotterHeaderBrick >> settingsButton: aBrick [
 	settingsButton := aBrick.
 	
 	self themer spotterThemer settingsButtonStyleFor: settingsButton.
+	self themer spotterThemer settingsButtonWidgetStyleFor: settingsButton.
 	settingsButton
 		hintTitle: 'Settings';
 		hintText: 'Shows the settings UI';

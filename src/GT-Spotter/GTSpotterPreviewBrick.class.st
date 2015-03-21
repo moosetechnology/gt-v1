@@ -71,6 +71,13 @@ GTSpotterPreviewBrick >> onStepPopped [
 ]
 
 { #category : #accessing }
+GTSpotterPreviewBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self themer spotterThemer spotterPreviewWidgetStyleFor: self
+]
+
+{ #category : #accessing }
 GTSpotterPreviewBrick >> spotterModel [
 
 	^ spotterModel

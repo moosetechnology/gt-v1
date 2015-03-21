@@ -32,6 +32,7 @@ GTSpotterItemActionbarBrick >> addActActionButton [
 GTSpotterItemActionbarBrick >> addActionButton: anActionButton [
 
 	self themer spotterThemer itemActionButtonStyleFor: anActionButton.
+	self themer spotterThemer itemActionButtonWidgetStyleFor: anActionButton.
 		
 	self addBrickBack: anActionButton.
 	
@@ -94,6 +95,13 @@ GTSpotterItemActionbarBrick >> onRevealHints [
 	self visible ifFalse: [ ^ self ].
 	self themer spotterThemer hintRevealStyleFor: self diveInButton.
 	self themer spotterThemer hintRevealStyleFor: self actOnButton
+]
+
+{ #category : #'brick-properties-events' }
+GTSpotterItemActionbarBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self subbricks do: [ :each | self themer spotterThemer itemActionButtonWidgetStyleFor: each ]
 ]
 
 { #category : #accessing }

@@ -30,6 +30,7 @@ GTSpotterStepsBreadcrumb >> addSeparator [
 	|separator|
 	separator := self newSeparator.
 	self themer spotterThemer breadcrumbSeparatorStyleFor: separator.
+	self themer spotterThemer breadcrumbSeparatorWidgetStyleFor: separator.
 	self band addBrickBack: separator
 ]
 
@@ -174,6 +175,13 @@ GTSpotterStepsBreadcrumb >> onStepPopped [
 
 	self pop
 	
+]
+
+{ #category : #'brick-properties-events' }
+GTSpotterStepsBreadcrumb >> onThemerChanged [
+	super onThemerChanged.
+	
+	self band subbricks withIndexDo: [ :each :index | index even ifTrue: [ self themer spotterThemer breadcrumbSeparatorWidgetStyleFor: each ] ]
 ]
 
 { #category : #'adding/removing' }
