@@ -105,6 +105,5 @@ GTExample >> title [
 
 { #category : #accessing }
 GTExample >> title: aString [
-
 	title := aString
 ]
