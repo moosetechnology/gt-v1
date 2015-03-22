@@ -93,6 +93,12 @@ GTPlayBook class >> ensureDistinctDirectory: aStringOrFileReference [
 		do: [ nil ]
 ]
 
+{ #category : #examples }
+GTPlayBook class >> gtExampleEmpty [
+	<example: 'Empty'>
+	^ self new
+]
+
 { #category : #initializing }
 GTPlayBook class >> initialize [
 	" we have to make sure the cached references are up-to-date after the image starts up "

@@ -204,7 +204,11 @@ GTPlayground >> codeIn: a [
 			| label hPadding|
 			hPadding := 5.
 			label := GLMEditableLabelBrick new.
-			label text: 'Untitled'.
+			label
+				text: 'Untitled';
+				when: #onAccepted do: [ label text logCr ];
+				cancelOnEscape;
+				cancelOnFocusLost.
 			"below I define custom child-to-parent width dependencies to update tab's width
 			when input is changed by the user. It is neccessary, because tab's width
 			is set to fillSpace and it doesn't update automatically, as it doesn't depend
@@ -217,11 +221,10 @@ GTPlayground >> codeIn: a [
 			label editBrick layout widthDependency: [ label ].
 			label editBrick rubricBackgroundColor: label themer rubricBackgroundColor.
 			label editBrick margins: (hPadding@0 corner: hPadding@0).
-			label labelBrick margin: { 0 . hPadding + 2 . 0 . hPadding }.
+			label labelBrick margin: { 0 . hPadding + 2. 0 . hPadding }.
 			label
-				when: #onAccepted do: [ label text logCr ];
 				"to make label take maximal only necessary space"
-				maxWidth: [ label approximateWidth ];
+				maxWidth: [ label approximateWidth + label owner hPadding];
 				margin: #(1 0) ];
 		format: [ :page | page content ];
 		act: [ :text :page |

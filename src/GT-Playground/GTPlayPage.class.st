@@ -63,6 +63,12 @@ GTPlayPage class >> fromFileReference: aFileReference [
 		yourself
 ]
 
+{ #category : #examples }
+GTPlayPage class >> gtExampleEmpty [
+	<example: 'Empty'>
+	^ self new
+]
+
 { #category : #'compatibility-tools' }
 GTPlayPage >> acceptContents: aStringOrtext [
 
