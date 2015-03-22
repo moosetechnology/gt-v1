@@ -1,6 +1,18 @@
 Extension { #name : #Collection }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Collection class >> exampleEmptyArray [
+	<example>
+	^ #()
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Collection class >> exampleOrderedCollectionWithOneElement [
+	<example>
+	^ #(42) asOrderedCollection
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Collection >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 0>  
 	^ (composite list)
