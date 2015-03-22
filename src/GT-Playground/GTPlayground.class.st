@@ -209,7 +209,7 @@ GTPlayground >> codeIn: a [
 				with: [ :label | label when: #onAccepted do: [ label text logCr ] ];
 				cancelOnEscape;
 				cancelOnFocusLost;
-				margin: #(1 0);
+				with: [ :b | b margin: { b themer focusedBorderWidth . 0 } ];
 				with: [ :b | b editBrick
 					hShrinkWrap;
 					rubricBackgroundColor: b themer rubricBackgroundColor;
