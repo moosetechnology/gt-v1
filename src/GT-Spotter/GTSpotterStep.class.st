@@ -192,7 +192,7 @@ GTSpotterStep >> origin: anObject [
 { #category : #accessing }
 GTSpotterStep >> previousProcessorFrom: aCollection [
 	aCollection do: [ :each | 
-		each processor ifNotNil: [ ^ each processor ] ]. " we assume they are all identical "
+		each asSpotterCandidateLink processor ifNotNil: [ ^ each processor ] ]. " we assume they are all identical "
 	^ GTSpotterCandidatesListProcessor new
 		title: 'Items';
 		filter: GTFilterSubstring;
