@@ -20,22 +20,38 @@ Class {
 	#category : #'GT-Playground'
 }
 
+{ #category : #private }
+GTPlayBook class >> basicEnsureDistinctDirectory: aStringOrFileReference [
+	" Ensure aStringOrFileReference is either nil or a valid file-reference object distinct from the default one.
+	  Do not create any directory on disk yet - the first access to any directory will handle that.
+	  #asFileReference and #absolutePath may raise anError! "
+	
+	| fileReference |
+	fileReference := aStringOrFileReference asFileReference.
+	^ fileReference absolutePath = self defaultDirectory absolutePath
+		ifTrue: [ nil ]
+		ifFalse: [ fileReference ]
+		
+	" Background: The behavior of the default directory is being relative to the image. Therefore the default file-reference is relative to the image. If the image is moved/copied around the file-reference will stay relative to the image. We assume this is the expected behavior for the default directory. Therefore we prevent the user from setting that value as an absolute file-reference, since an absolute file-reference would behave differently when an image is moved/copied around. "
+]
+
 { #category : #accessing }
 GTPlayBook class >> cacheDirectory [
-	^ cacheDirectory 
-		ifNil: [ cacheDirectory := self defaultCacheDirectory ]
-		ifNotNil: [ cacheDirectory exists 
-			ifTrue: [ cacheDirectory ]
-			" the directory may be renamed/removed/moved at runtime - always fallback to the default directory "
-			ifFalse: [ cacheDirectory := self defaultCacheDirectory ] ] 
+	" lazy initialize the cache and always ensure its existence - especially while the image is running "
+	
+	cacheDirectory ifNil: [ cacheDirectory := self defaultCacheDirectory ].
+	^ cacheDirectory exists
+		ifTrue: [ cacheDirectory ]
+		ifFalse: [ cacheDirectory ensureCreateDirectory ]
 ]
 
 { #category : #accessing }
 GTPlayBook class >> cacheDirectory: aStringOrFileReference [
-	cacheDirectory := aStringOrFileReference ifNotNil: [ aStringOrFileReference asFileReference ].
+
+	cacheDirectory := self ensureDistinctDirectory: aStringOrFileReference
 ]
 
-{ #category : #protocol }
+{ #category : #private }
 GTPlayBook class >> cleanUp [
 	
 	instance := nil
@@ -43,44 +59,45 @@ GTPlayBook class >> cleanUp [
 
 { #category : #accessing }
 GTPlayBook class >> customDirectory [
-	^ customDirectory
+	" the settings-browser will hang if this method returns nil or an object not being aFileReference " 
+	
+	^ customDirectory ifNil: [ self defaultCustomDirectory ]
 ]
 
 { #category : #accessing }
 GTPlayBook class >> customDirectory: aStringOrFileReference [
-	customDirectory := aStringOrFileReference ifNotNil: [ aStringOrFileReference asFileReference ].
-	self initializeDirectories. " ugly side-effect, but we can't avoid it "
+
+	customDirectory := self ensureDistinctDirectory: aStringOrFileReference.
+	cacheDirectory := nil.
 ]
 
 { #category : #'accessing-defaults' }
 GTPlayBook class >> defaultCacheDirectory [
-	^ 'play-cache/' asFileReference ensureCreateDirectory
+	^ customDirectory ifNil: [ self defaultDirectory ]
 ]
 
-{ #category : #examples }
-GTPlayBook class >> gtExampleEmpty [
-	<example: 'Empty'>
-	^ self new
+{ #category : #'accessing-defaults' }
+GTPlayBook class >> defaultCustomDirectory [
+	^ self defaultDirectory
+]
+
+{ #category : #'accessing-defaults' }
+GTPlayBook class >> defaultDirectory [
+	^ 'play-cache/' asFileReference
+]
+
+{ #category : #private }
+GTPlayBook class >> ensureDistinctDirectory: aStringOrFileReference [
+	^ [ self basicEnsureDistinctDirectory: aStringOrFileReference ]
+		on: Error
+		do: [ nil ]
 ]
 
 { #category : #initializing }
 GTPlayBook class >> initialize [
 	" we have to make sure the cached references are up-to-date after the image starts up "
+	
 	Smalltalk addToStartUpList: self
-]
-
-{ #category : #private }
-GTPlayBook class >> initializeDirectories [
-	" Recreate the cached file reference, init with setting if there is any and it is valid. This has to be failure/error-proof since it is performed during startup "
-	" self initializeDirectories "
-	cacheDirectory := nil.
-	customDirectory isNil 
-		ifTrue: [ ^ self ].
-	customDirectory class = FileReference
-		ifFalse: [ ^ self ].
-	customDirectory exists 
-		ifFalse: [ [ customDirectory ensureCreateDirectory ] on: PrimitiveFailed do: [ ^ self ] ].
-	cacheDirectory := customDirectory
 ]
 
 { #category : #accessing }
@@ -88,7 +105,7 @@ GTPlayBook class >> instance [
 	^ instance ifNil: [ instance := self new ]
 ]
 
-{ #category : #protocol }
+{ #category : #private }
 GTPlayBook class >> reset [
 	
 	instance := nil
@@ -96,19 +113,21 @@ GTPlayBook class >> reset [
 
 { #category : #private }
 GTPlayBook class >> resetDirectories [
-	" self resetDirectories "
+
 	cacheDirectory := nil.
 	customDirectory := nil
 ]
 
 { #category : #initializing }
 GTPlayBook class >> startUp [
-	self initializeDirectories
+
+	cacheDirectory := nil.
 ]
 
 { #category : #initializing }
 GTPlayBook class >> startUp: resuming [
-	self initializeDirectories
+
+	cacheDirectory := nil.
 ]
 
 { #category : #actions }
