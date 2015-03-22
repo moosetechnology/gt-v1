@@ -201,31 +201,24 @@ GTPlayground >> actionsForPreviousContents [
 GTPlayground >> codeIn: a [
 	^ a pharoPlayground
 		title: [ :page | 
-			| label hPadding|
+			| hPadding |
 			hPadding := 5.
-			label := GLMEditableLabelBrick new.
-			label
+			GLMEditableLabelBrick new
+				hSpaceFill;
 				text: 'Untitled';
-				when: #onAccepted do: [ label text logCr ];
+				with: [ :label | label when: #onAccepted do: [ label text logCr ] ];
 				cancelOnEscape;
-				cancelOnFocusLost.
-			"below I define custom child-to-parent width dependencies to update tab's width
-			when input is changed by the user. It is neccessary, because tab's width
-			is set to fillSpace and it doesn't update automatically, as it doesn't depend
-			on children, e.g. editable label. Editable label's width is set to fillSpace too,
-			se we need to define two up-level dependencies"
-			
-			"tab's width should depend on label (maxWidth is dynamic)"
-			label layout widthDependency: [ label owner ].
-			"label's width depends on width of rubric edit field"
-			label editBrick layout widthDependency: [ label ].
-			label editBrick rubricBackgroundColor: label themer rubricBackgroundColor.
-			label editBrick margins: (hPadding@0 corner: hPadding@0).
-			label labelBrick margin: { 0 . hPadding + 2. 0 . hPadding }.
-			label
-				"to make label take maximal only necessary space"
-				maxWidth: [ label approximateWidth + label owner hPadding];
-				margin: #(1 0) ];
+				cancelOnFocusLost;
+				margin: #(1 0);
+				with: [ :b | b editBrick
+					hShrinkWrap;
+					rubricBackgroundColor: b themer rubricBackgroundColor;
+					margins: (hPadding@0 corner: hPadding@0) ];
+				with: [ :b | b maxWidth: [ b approximateWidth + b owner hPadding] ];
+				with: [ :b | b labelBrick margin: { 0 . hPadding + 2. 0 . hPadding } ];
+				with: [ :b | b layout widthDependency: [ b owner ] ];
+				with: [ :b | b editBrick layout widthDependency: [ b ] ];
+				yourself ];
 		format: [ :page | page content ];
 		act: [ :text :page |
 				text selectionInterval: (1 to: text text size).
