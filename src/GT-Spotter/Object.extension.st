@@ -41,7 +41,8 @@ Object >> spotterPreviewIn: aComposite inContext: aSpotter [
 		(eachPragma selector findTokens: $:) size = 1 
 			ifTrue: [ self perform: eachPragma selector with: aComposite ]. 
 		(eachPragma selector findTokens: $:) size = 2
-			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ] ]
+			ifTrue: [ self perform: eachPragma selector with: aComposite with: aSpotter ].
+		aComposite hasSubbricks ifTrue: [ ^ self ]]
 ]
 
 { #category : #'*GT-Spotter' }
