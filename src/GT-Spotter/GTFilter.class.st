@@ -60,6 +60,11 @@ GTFilter >> defaultItems [
 	^ OrderedCollection new
 ]
 
+{ #category : #'private-model' }
+GTFilter >> exceptionHandler [
+	^ GTCurrentSpotterExceptionHandler value
+]
+
 { #category : #public }
 GTFilter >> gtFilter [
 	^ self
@@ -101,9 +106,18 @@ GTFilter >> processor [
 	^ self context processor
 ]
 
+{ #category : #'private-model' }
+GTFilter >> step [
+	^ self context step
+]
+
 { #category : #public }
 GTFilter >> value: aSpotterContext [
+
 	^ [ self applyFilterInContext: aSpotterContext ]
 		on: Error
-		do: [ :exception | self applyFilterInContext: aSpotterContext error: exception ]
+		do: [ :exception | 
+			self exceptionHandler 
+				handleException: exception 
+				do: [ self applyFilterInContext: aSpotterContext error: exception ] ]
 ]

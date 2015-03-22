@@ -23,15 +23,7 @@ GTSpotterProcessor >> allFilteredCandidates [
 ]
 
 { #category : #private }
-GTSpotterProcessor >> doFilterInContext: aSpotterContext [
-	"override this method to:
-	- add items to the stream
-	- return all found items at the end"
-	self subclassResponsibility
-]
-
-{ #category : #private }
-GTSpotterProcessor >> filterInContext: aSpotterContext [
+GTSpotterProcessor >> basicFilterInContext: aSpotterContext [
 	
 	allFilteredCandidates := nil.
 	(aSpotterContext notEmpty or: [ self wantsToDisplayOnEmptyQuery ]) ifTrue: [
@@ -39,6 +31,29 @@ GTSpotterProcessor >> filterInContext: aSpotterContext [
 	aSpotterContext stream 
 		performSymbol: #onAmountChanged:in: 
 		withArguments: { self allFilteredCandidates size . self }
+]
+
+{ #category : #private }
+GTSpotterProcessor >> doFilterInContext: aSpotterContext [
+	"override this method to:
+	- add items to the stream
+	- return all found items at the end"
+	self subclassResponsibility
+]
+
+{ #category : #'accessing-dynamic' }
+GTSpotterProcessor >> exceptionHandler [
+	^ GTCurrentSpotterExceptionHandler value
+]
+
+{ #category : #private }
+GTSpotterProcessor >> filterInContext: aSpotterContext [
+	[ self basicFilterInContext: aSpotterContext ]
+		on: Error 
+		do: [ :exception | 
+			self exceptionHandler 
+				handleException: exception 
+				do: [ ('[Spotter] Exception in processor <', self title asString, '>: ', exception asString) logCr ] ]
 ]
 
 { #category : #private }

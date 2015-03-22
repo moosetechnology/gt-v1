@@ -75,6 +75,11 @@ GTSpotterContext >> equals: aContext [
    ^ self matches: aContext text
 ]
 
+{ #category : #public }
+GTSpotterContext >> exceptionHandler [
+	^ GTCurrentSpotterExceptionHandler value
+]
+
 { #category : #testing }
 GTSpotterContext >> isEmpty [
 	^ self text isNil
@@ -105,6 +110,11 @@ GTSpotterContext >> processor [
 { #category : #accessing }
 GTSpotterContext >> processor: anObject [
 	processor := anObject
+]
+
+{ #category : #'accessing-dynamic' }
+GTSpotterContext >> spotter [
+	^ self step spotter
 ]
 
 { #category : #accessing }

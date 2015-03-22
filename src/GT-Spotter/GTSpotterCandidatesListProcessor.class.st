@@ -72,13 +72,6 @@ GTSpotterCandidatesListProcessor >> filter: aBlockWithOneArgument [
 	filterBlock := aBlockWithOneArgument 
 ]
 
-{ #category : #private }
-GTSpotterCandidatesListProcessor >> filterInContext: aSpotterContext [
-	[ super filterInContext: aSpotterContext ]
-		on: Error 
-		do: [ :e | ('[Spotter] Exception in processor <', self title asString, '>: ', e asString) logCr ]
-]
-
 { #category : #compatibility }
 GTSpotterCandidatesListProcessor >> filterUsing: aFilter [
 	self filter: aFilter
