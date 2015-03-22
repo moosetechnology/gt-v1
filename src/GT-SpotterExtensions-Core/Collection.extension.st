@@ -23,14 +23,11 @@ Collection >> spotterSelectFor: aStep [
 		filter: [ :context | 
 			[
 				| result |
-				Transcript show: self; cr.
-				Transcript show: context text; cr.
 				result := self select: [ :each |
 					Smalltalk compiler 
 						evaluate: '| each | each := self. ', context text 
-						for: each 
+						for: each asSpotterCandidateLink value 
 						logged: false ].
-				Transcript show: result; cr.
 				context addItems: result.
 				result
 			] on: Error do: [ #() ] ]
