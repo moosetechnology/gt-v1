@@ -1,6 +1,11 @@
 Extension { #name : #Symbol }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Symbol class >> exampleFourtyTwo [
+	^ #fourtyTwo
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Symbol >> gtInspectorImplementorsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite list 
