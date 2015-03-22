@@ -22,7 +22,7 @@ GTSpotterItemActionbarBrick >> addActActionButton [
 			icon: self themer spotterThemer iconAct;
 			hintTitle: 'Default action';
 			hintText: '<enter>';
-			addUpAction: [ self owner beSelected. self stepModel actDueTo: #actionButton ];
+			action: [ self owner beSelected. self stepModel actDueTo: #actionButton ];
 			yourself).
 
 	self addActionButton: actOnButton.
@@ -48,7 +48,7 @@ GTSpotterItemActionbarBrick >> addDiveInActionButton [
 			icon: self themer spotterThemer iconDiveIn;
 			hintTitle: 'Dive in';
 			hintText: '<cmd+right>';
-			addUpAction: [ self owner beSelected. self stepModel diveInDueTo: #actionButton ];
+			action: [ self owner beSelected. self stepModel diveInDueTo: #actionButton ];
 			yourself).
 		
 		self addActionButton: diveInButton ]

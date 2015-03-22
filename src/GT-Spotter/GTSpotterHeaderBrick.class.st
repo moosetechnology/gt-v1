@@ -29,7 +29,7 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton
 		hintTitle: 'Close Spotter';
 		hintText: '<escape>';
-		addUpAction: [ self spotterModel exitDueTo: #actionButton ].
+		action: [ self spotterModel exitDueTo: #actionButton ].
 	
 	self addBrickBack: closeButton
 ]
@@ -142,7 +142,7 @@ GTSpotterHeaderBrick >> settingsButton: aBrick [
 	settingsButton
 		hintTitle: 'Settings';
 		hintText: 'Shows the settings UI';
-		addUpAction: [ self openSettingsBrowser ].
+		action: [ self openSettingsBrowser ].
 	
 	self addBrickBack: settingsButton
 ]
