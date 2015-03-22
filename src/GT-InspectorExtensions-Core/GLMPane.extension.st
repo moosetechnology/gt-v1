@@ -1,6 +1,12 @@
 Extension { #name : #GLMPane }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+GLMPane class >> exampleBasic [
+	<example>
+	^ self named: 'Basic'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 GLMPane >> gtInspectorPortsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
