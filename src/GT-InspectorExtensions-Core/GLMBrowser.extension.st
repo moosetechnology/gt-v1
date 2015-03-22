@@ -1,6 +1,12 @@
 Extension { #name : #GLMBrowser }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+GLMBrowser class >> exampleBasic [
+	<example>
+	^ GLMWrapper new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 GLMBrowser >> gtInspectorBrowserIn: composite [
 	<gtInspectorPresentationOrder: 40>  
 	^ (composite wrapper with: [ :w |
