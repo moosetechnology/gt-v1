@@ -50,7 +50,11 @@ GTSpotterTest >> testInitialText [
 
 { #category : #tests }
 GTSpotterTest >> testInstanceCreation [
-	self shouldnt: [ spotter := GTSpotter new ] raise: Error.
+	self shouldnt: [ spotter := GTMockSpotter new ] raise: Error.
+	self shouldnt: [ 
+		spotter := GTMockSpotter new
+			exceptionHandler: GTSpotterDebuggingExceptionHandler new;
+			yourself ] raise: Error.
 	
 	self assert: spotter notNil.
 	self assert: spotter steps isEmpty.
