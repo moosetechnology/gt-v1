@@ -181,8 +181,8 @@ GTSpotterCategoryTitleBrick >> onThemerChanged [
 	super onThemerChanged.
 	
 	self themer spotterThemer categoryTitleWidgetStyleFor: self.
-	self themer spotterThemer categoryAmountStyleFor: self amountBrick.
-	self themer spotterThemer categoryTitleNameStyleFor: self nameBrick.
+	self themer spotterThemer categoryAmountWidgetStyleFor: self amountBrick.
+	self themer spotterThemer categoryTitleNameWidgetStyleFor: self nameBrick.
 ]
 
 { #category : #adding }

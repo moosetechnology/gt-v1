@@ -23,8 +23,8 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	closeButton ifNotNil: [self removeBrick: closeButton].
 	closeButton := aBrick.
 	
-	self themer spotterThemer closeButtonStyleFor: closeButton.
 	self themer spotterThemer closeButtonWidgetStyleFor: closeButton.
+	self themer spotterThemer closeButtonStyleFor: closeButton.
 	
 	closeButton
 		hintTitle: 'Close Spotter';
@@ -97,7 +97,7 @@ GTSpotterHeaderBrick >> onThemerChanged [
 	self themer spotterThemer headerWidgetStyleFor: self.
 	self themer spotterThemer closeButtonWidgetStyleFor: self closeButton.
 	self themer spotterThemer searchFieldWidgetStyleFor: self searchField.
-	self themer spotterThemer settingsButtonWidgetStyleFor: self settingsButton.
+	self themer spotterThemer settingsButtonWidgetStyleFor: self settingsButton
 ]
 
 { #category : #accessing }
@@ -137,8 +137,9 @@ GTSpotterHeaderBrick >> settingsButton: aBrick [
 	settingsButton ifNotNil: [self removeBrick: settingsButton].
 	settingsButton := aBrick.
 	
-	self themer spotterThemer settingsButtonStyleFor: settingsButton.
 	self themer spotterThemer settingsButtonWidgetStyleFor: settingsButton.
+	self themer spotterThemer settingsButtonStyleFor: settingsButton.
+	
 	settingsButton
 		hintTitle: 'Settings';
 		hintText: 'Shows the settings UI';

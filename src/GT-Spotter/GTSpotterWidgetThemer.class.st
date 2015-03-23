@@ -253,9 +253,8 @@ GTSpotterWidgetThemer >> closeButtonStyleFor: aBrick [
 	aBrick
 		vSpaceFill;
 		width: [ :m | m height ];
-		marginTop: 10;
-		marginBottom: 10;
-		marginRight: 10
+		margin: 10;
+		marginLeft: 0
 ]
 
 { #category : #'styles-widget' }
@@ -829,5 +828,5 @@ GTSpotterWidgetThemer >> titleMarginLeft [
 { #category : #values }
 GTSpotterWidgetThemer >> titleTextColor [
 
-	^ self titleBackgroundColor muchDarker
+	^ self themer textLightColor
 ]
