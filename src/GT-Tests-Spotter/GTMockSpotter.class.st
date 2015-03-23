@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'accessing-defaults' }
+GTMockSpotter >> defaultExceptionHandler [
+	^ GTSpotterDebuggingExceptionHandler new
+]
+
+{ #category : #'accessing-defaults' }
 GTMockSpotter >> defaultPagerModel [
 	^ GLMMockPagerModel new
 ]
