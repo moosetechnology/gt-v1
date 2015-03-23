@@ -40,3 +40,8 @@ CompiledMethod >> spotterPreviewCodeIn: aComposite [
 		
 	self flag: 'move "entity: self" somewhere else, maybe'
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+CompiledMethod >> spotterSelectFor: aStep [
+	" ignore :) "
+]
