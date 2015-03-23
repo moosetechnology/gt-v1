@@ -14,7 +14,8 @@ Class {
 		'pagerModel',
 		'text',
 		'isPreviewVisible',
-		'isShiftPressed'
+		'isShiftPressed',
+		'exceptionHandler'
 	],
 	#classInstVars : [
 		'history',
@@ -197,6 +198,11 @@ GTSpotter >> currentStep: aStepModel [
 ]
 
 { #category : #'accessing-defaults' }
+GTSpotter >> defaultExceptionHandler [
+	^ GTSpotterDeploymentExceptionHandler new
+]
+
+{ #category : #'accessing-defaults' }
 GTSpotter >> defaultPagerModel [
 	^ GLMPagerModel new
 ]
@@ -204,6 +210,16 @@ GTSpotter >> defaultPagerModel [
 { #category : #'accessing-defaults' }
 GTSpotter >> defaultStep [
 	^ GTSpotterStep new
+]
+
+{ #category : #accessing }
+GTSpotter >> exceptionHandler [
+	^ exceptionHandler ifNil: [ exceptionHandler := self defaultExceptionHandler ]
+]
+
+{ #category : #accessing }
+GTSpotter >> exceptionHandler: anObject [
+	exceptionHandler := anObject
 ]
 
 { #category : #'actions api' }
@@ -240,6 +256,11 @@ GTSpotter >> getText [
 GTSpotter >> gtDisplayOn: stream [
 
 	stream nextPutAll: 'Spotter'
+]
+
+{ #category : #'event handling' }
+GTSpotter >> handleExceptionsDuring: aBlock [
+	self exceptionHandler handleExceptionsDuring: aBlock
 ]
 
 { #category : #testing }
