@@ -1,12 +1,34 @@
 Extension { #name : #TBehavior }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TBehavior >> spotterClassInstanceVariablesFor: aStep [
+	<spotterOrder: 25>
+	self isTrait ifTrue: [ ^ self ].
+	aStep listProcessor
+			title: 'Class instance variables';
+			allCandidates: [ self class layout allSlots ];
+			itemName: [:each | each name asString];
+			filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterCompositionFor: aStep [
 	<spotterOrder: 25>
 	aStep listProcessor
 			title: 'Composing traits';
 			allCandidates: [ self traitComposition allTraits ];
 			itemIcon: #systemIcon;
+			filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior >> spotterInstanceVariablesFor: aStep [
+	<spotterOrder: 20>
+	self isTrait ifTrue: [ ^ self ].
+	aStep listProcessor
+			title: 'Instance variables';
+			allCandidates: [ self layout allSlots ];
+			itemName: [:each | each name asString];
 			filter: GTFilterSubstring
 ]
 
