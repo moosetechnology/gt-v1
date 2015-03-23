@@ -4,31 +4,28 @@ Extension { #name : #Collection }
 Collection >> spotterItemsFor: aStep [
 	<spotterOrder: 10>
 	| processor |
-	self isEmpty ifTrue: [ ^ self ].
+	self ifEmpty: [ ^ self ].
 	processor := aStep previousProcessorFrom: self.
 	^ aStep listProcessor
 		title: processor title;
 		candidatesLimit: 100;
-		allCandidates: [ OrderedCollection newFrom: (self collect: [ :each | each asSpotterCandidateLink value])];
+		items: [ OrderedCollection newFrom: (self collect: [ :each | each asSpotterCandidateLink value]) ];
 		itemName: processor itemName;
-		filter: GTFilterSubstring;
+		itemFilterName: processor itemFilterName;
+		filter: processor filter gtListFilter;
 		wantsToDisplayOnEmptyQuery: true
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 Collection >> spotterSelectFor: aStep [
 	<spotterOrder: 40>
+	self flag: #specialFilter.
 	aStep listProcessor
 		title: 'Expression selection';
-		filter: [ :context | 
-			[
-				| result |
-				result := self select: [ :each |
-					Smalltalk compiler 
+		filter: GTNullFilter item: [ :filter :context |
+			self do: [ :each |
+				[ (Smalltalk compiler 
 						evaluate: '| each | each := self. ', context text 
-						for: each asSpotterCandidateLink value 
-						logged: false ].
-				context addItems: result.
-				result
-			] on: Error do: [ #() ] ]
+						for: each asSpotterCandidateLink value
+						logged: false) ifTrue: [ filter value: each ]  ] on: Error do: [ " ignore this item, continue with the next one " ] ] ]
 ]

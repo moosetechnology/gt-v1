@@ -23,66 +23,44 @@ GTSpotter >> concreteMethodsInContext: aContext [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-GTSpotter >> evaluateExpressionInContext: aSpotterContext [
+GTSpotter >> evaluateExpressionInContext: aSpotterContext usingFilter: filter [
 	" only allow arithmethic selectors to be evaluated - otherwise this may have some severe side-effects "
-	| result candidates |
-	candidates := OrderedCollection new.
+	| result |
 	" filter allowed selectors "
 	(Number withAllSubclasses anySatisfy: [ :class |
 		class selectors anySatisfy: [ :selector | 
-			aSpotterContext textTrimmed includesSubstring: selector caseSensitive: true ] ]) ifFalse: [ ^ candidates ].
+			aSpotterContext textTrimmed includesSubstring: selector caseSensitive: true ] ]) ifFalse: [ ^ self ].
 	" perform the selector "
 	result := [ Compiler evaluate: aSpotterContext textTrimmed ] 
 		on: Error 
-		do: [ ^ candidates ].
-	result isNumber ifFalse: [ ^ candidates ].
-	aSpotterContext addItem: result.
-	candidates add: result. 
+		do: [ ^ self ].
+	result isNumber ifFalse: [ ^ self ].
+	filter value: result. 
 	" if the result is not readable as float, append the float as well "
 	(result isFraction and: [ result isInteger not ]) ifTrue: [
-		aSpotterContext addItem: result asFloat.
-		candidates add: result ].
-	^ candidates
+		filter value: result asFloat ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-GTSpotter >> filterInContext: aSpotterContext forReferencesComputedAs: fileReferencesBlock [
-	| prefixMatchers split rootDirectory query fullQuery rest |
-	fullQuery := aSpotterContext textLowercase.
-	split := fullQuery piecesCutWhere: [ :a :b | a = FileSystem disk delimiter ].
+GTSpotter >> fileReferencesBy: aSelector inContext: aSpotterContext usingFilter: aBlock [
+	| split rootDirectory query |
+	split := aSpotterContext textLowercase piecesCutWhere: [ :a :b | a = FileSystem disk delimiter ].
 	split size < 1
 		ifTrue: [ 
-			query := fullQuery.
+			query := aSpotterContext textLowercase.
 			rootDirectory := FileSystem workingDirectory ]
 		ifFalse: [ 
 			(split last last = FileSystem disk delimiter)
 				ifTrue: [ 
 					query := ''.
-					rootDirectory := fullQuery asFileReference ]
+					rootDirectory := aSpotterContext textLowercase asFileReference ]
 				ifFalse: [ 
 					query := split last.
 					rootDirectory := ('' join: split allButLast) asFileReference ] ].
-	rootDirectory exists ifFalse: [ ^ OrderedCollection new ].
-	query isEmpty ifTrue: [ 
-		| all |
-		all := fileReferencesBlock value: rootDirectory.
-		(all first: (all size min: aSpotterContext itemsLimit)) do: [:reference | aSpotterContext addItem: reference ].
-		^ all  ].
-	prefixMatchers := OrderedCollection new.
-	rest := OrderedCollection new.
-	(fileReferencesBlock value: rootDirectory) do: [ :reference | 
-			| index |
-			index := reference basename findString: query startingAt: 1 caseSensitive: false.
-			index >= 1 ifTrue: [ 
-				index = 1 
-					ifTrue: [ 
-						prefixMatchers add: reference.
-						prefixMatchers size > aSpotterContext itemsLimit
-							ifFalse: [ aSpotterContext addItem: reference ] ]
-					ifFalse: [ rest add: reference ] ] ].
-	prefixMatchers size < aSpotterContext itemsLimit
-		ifTrue: [ (rest first: (aSpotterContext itemsLimit - prefixMatchers size min: rest size)) do: [ :each | aSpotterContext addItem: each ] ].
-	^ prefixMatchers , rest
+	rootDirectory exists ifFalse: [ ^ self ].
+	" hack: see senders of #queryForFileReference "
+	aSpotterContext cacheAt: #queryForFileReference put: query.
+	(rootDirectory perform: aSelector) do: aBlock
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -119,41 +97,38 @@ GTSpotter >> spotterForClassesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForDirectoriesFor: aStep [
 	<spotterOrder: 50>
-	| processor |
-	processor := aStep listProcessor.
-	processor
+	self flag: #specialFilter.
+	aStep listProcessor
 		title: 'Directories';
 		itemIcon: [ GLMUIThemeExtraIcons glamorousFolder ];
-		wantsToDisplayOnEmptyQuery: false;
-		filter: [ :context | 
-			self
-				filterInContext: context
-				forReferencesComputedAs: [ :root | root directories ] ]
+		itemFilterName: [ :reference | reference basename ];
+		filter: GTFilterFileReference item: [ :filter :context | 
+			self fileReferencesBy: #directories inContext: context usingFilter: filter ];
+		wantsToDisplayOnEmptyQuery: false	
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForExpressionsFor: aStep [
 	<spotterOrder: 1>
-	| processor |
-	(processor := aStep listProcessor)
+	self flag: #specialFilter.
+	aStep listProcessor
 		title: 'Calculator';
-		filter: [ :context | self evaluateExpressionInContext: context ];
+		filter: GTNullFilter item: [ :filter :context | 
+			self evaluateExpressionInContext: context usingFilter: filter ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForFilesFor: aStep [
 	<spotterOrder: 40>
-	| processor |
-	processor := aStep listProcessor.
-	processor
+	self flag: #specialFilter.
+	aStep listProcessor
 		title: 'Files';
 		itemIcon: [ GLMUIThemeExtraIcons glamorousBrowse ];
-		wantsToDisplayOnEmptyQuery: false;
-		filter: [ :context | 
-			self
-				filterInContext: context
-				forReferencesComputedAs: [ :root | root files ] ]
+		itemFilterName: [ :reference | reference basename ];
+		filter: GTFilterFileReference item: [ :filter :context | 
+			self fileReferencesBy: #files inContext: context usingFilter: filter ];
+		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -214,7 +189,7 @@ GTSpotter >> spotterForPackagesFor: aStep [
 GTSpotter >> spotterForPlaygroundPagesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
-			allCandidates: [ GTPlayBook instance pages ];
+			allCandidates: [ GTPlayBook instance pagesSorted ];
 			title: 'Playground';
 			itemName: [ :page | page content asString contractTo: 100 ];
 			filter: GTFilterSubstring
@@ -224,7 +199,7 @@ GTSpotter >> spotterForPlaygroundPagesFor: aStep [
 GTSpotter >> spotterForPragmasFor: aStep [
 	<spotterOrder: 40>
 	aStep listProcessor 
-			allCandidates: [:x | PragmaType all ];
+			allCandidates: [ PragmaType all ];
 			title: 'Pragmas';
 			itemName: [ :pragma | pragma keyword ];
 			filter: GTFilterSubstring;
@@ -270,7 +245,7 @@ GTSpotter >> spotterForTestClassesFor: aStep [
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 8>
 	aStep listProcessor
-			allCandidates: [:x | self class history asArray select: [ :each | each isNotNil and: [ each value isNotNil ] ] ];
+			allCandidates: [ self class history asArray select: [ :each | each isNotNil and: [ each value isNotNil ] ] ];
 			title: 'History';
 			itemName: [ :item | 
 				item class = GTSpotterProcessorLink 
@@ -282,31 +257,23 @@ GTSpotter >> spotterHistoryFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterImplementorsFor: aStep [
 	<spotterOrder: 30>
+	self flag: #specialFilter.
 	aStep listProcessor
 		title: 'Implementors';
-		filter: [ :context | 
-			GTImplementorsSpotter new
-				context: context;
-				behaviors: SystemNavigation default allBehaviors;
-				find ]
+		itemFilterName: [ :method | method selector asString ];	
+		filter: GTFilterSubstring item: [ :filter :context | 
+			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterStfxFor: aStep [
 	<spotterOrder: 30>
+	self flag: #specialFilter.
 	^ aStep listProcessor
 		title: 'ws.stfx.eu';
-		filter: [ :context |
-			| aCollection query |
-			aCollection := OrderedCollection  new.
-			query := context textTrimmed.
-			(query beginsWith: 'http://ws.stfx.eu') ifTrue: [ 
-				[| string page |
-				string := GTUrlProvider new get: query.
-				page := GTPlayPage new saveContent: string.
-				context addItem: page.
-				aCollection add: page] on: Error do: [ "nothing" ] ].
-			aCollection ]
+		filter: GTNullFilter item: [ :filter :context | 
+			(context textTrimmed beginsWith: 'http://ws.stfx.eu')
+				ifTrue: [ GTPlayPage loadFromPublishUrl: context textTrimmed thenDo: filter ] ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
