@@ -14,10 +14,9 @@ Class {
 
 { #category : #actions }
 GTSpotterMorph >> actDueTo: anEventType [
-	self spotterModelDo: [
-		self spotterModel isEmpty ifTrue: [ ^self ].
-		self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
-		self spotterModel currentStep actDueTo: anEventType ]
+	self spotterModel isEmpty ifTrue: [ ^self ].
+	self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
+	self spotterModel currentStep actDueTo: anEventType
 ]
 
 { #category : #accessing }
@@ -65,25 +64,22 @@ GTSpotterMorph >> defaultLabel [
 { #category : #actions }
 GTSpotterMorph >> diveInCategoryDueTo: anEventType [
 
-	self spotterModelDo: [
-		self spotterModel isEmpty
-			ifFalse: [ self spotterModel currentStep isEmpty 
-				ifFalse: [ self spotterModel currentStep diveInCategoryDueTo: anEventType ] ] ]
+	self spotterModel isEmpty
+		ifFalse: [ self spotterModel currentStep isEmpty ifFalse: [ self spotterModel currentStep diveInCategoryDueTo: anEventType ] ]
 ]
 
 { #category : #actions }
 GTSpotterMorph >> diveInDueTo: anEventType [
 
-	self spotterModelDo: [
-		self spotterModel isEmpty ifFalse: [ 
-			self spotterModel currentStep isEmpty ifFalse: [ 
-				self spotterModel currentStep diveInDueTo: anEventType ] ] ]
+	self spotterModel isEmpty ifFalse: [ 
+		self spotterModel currentStep isEmpty ifFalse: [ 
+			self spotterModel currentStep diveInDueTo: anEventType ] ]
 ]
 
 { #category : #actions }
 GTSpotterMorph >> diveOut [
-	self spotterModelDo: [ 
-		self spotterModel popStep ]
+
+	self spotterModel popStep
 ]
 
 { #category : #'events-processing' }
@@ -336,11 +332,6 @@ GTSpotterMorph >> spotterModel: aSpotter [
 	
 	
 	
-]
-
-{ #category : #private }
-GTSpotterMorph >> spotterModelDo: aBlock [
-	self spotterModel handleExceptionsDuring: aBlock
 ]
 
 { #category : #actions }

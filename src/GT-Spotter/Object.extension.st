@@ -19,6 +19,21 @@ Object >> gtFilter [
 ]
 
 { #category : #'*GT-Spotter' }
+Object >> gtIterator [
+	^ Error signal: 'This is not a spotter iterator'
+]
+
+{ #category : #'*GT-Spotter' }
+Object >> gtListFilter [
+	^ GTFilterSubstring new
+]
+
+{ #category : #'*GT-Spotter' }
+Object >> hasDynamicItems [
+	^ false
+]
+
+{ #category : #'*GT-Spotter' }
 Object >> spotterActDefault [
 	^ self inspect
 ]
@@ -79,8 +94,6 @@ Object >> spotterProcessorsFor: aSpotterStep pragma: aPragma [
 	" if there is a problem with the definition of one or more processors, let the other processors continue to work "
 	 [ self perform: aPragma selector with: aSpotterStep ]
 		on: Error 
-		do: [ :exception | 
-			aSpotterStep exceptionHandler
-				handleException: exception
-				do: [ 	('[Spotter] Exception while collecting processors for <', self class name, '>: ', exception asString) logCr ] ]
+		do: [ :exception | 			
+			('[Spotter] Exception while collecting processors for <', self class name, '>: ', exception asString) logCr ] 
 ]

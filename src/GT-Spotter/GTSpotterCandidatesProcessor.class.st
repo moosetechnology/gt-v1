@@ -17,29 +17,43 @@ GTSpotterCandidatesProcessor class >> on: anObject [
 	^ self new origin: anObject
 ]
 
-{ #category : #accessing }
-GTSpotterCandidatesProcessor >> allCandidates [
-
-	^ allCandidates ifNil: [ allCandidates := self computeCandidates copy ].
+{ #category : #compatibility }
+GTSpotterCandidatesProcessor >> allCandidatesIn: aContext [
+	^ self allItemsIn: aContext
 ]
 
-{ #category : #accessing }
+{ #category : #public }
+GTSpotterCandidatesProcessor >> allItemsIn: aContext [
+
+	^ allCandidates ifNil: [ allCandidates := (self computeAllItemsIn: aContext) copy ].
+]
+
+{ #category : #compatibility }
 GTSpotterCandidatesProcessor >> candidatesLimit [
-	"Return the maximal number of elements that can be found during search.
-	Default implementation returns infinity, so the number of element is not limited."
-	^ Float infinity
+	^ self itemsLimit
 ]
 
 { #category : #private }
-GTSpotterCandidatesProcessor >> computeCandidates [
+GTSpotterCandidatesProcessor >> computeAllItemsIn: aContext [
 
 	^ OrderedCollection new
 	
 ]
 
+{ #category : #compatibility }
+GTSpotterCandidatesProcessor >> computeCandidatesIn: aContext [
+
+	^ self computeAllItemsIn: aContext
+]
+
 { #category : #private }
 GTSpotterCandidatesProcessor >> doFilterInContext: aSpotterContext [
 	^ GTFilterBlock gtFilter value: aSpotterContext
+]
+
+{ #category : #private }
+GTSpotterCandidatesProcessor >> itemFilterNameFor: anObject [
+	^ self itemNameFor: anObject
 ]
 
 { #category : #private }
@@ -50,6 +64,13 @@ GTSpotterCandidatesProcessor >> itemIconFor: anObject [
 { #category : #private }
 GTSpotterCandidatesProcessor >> itemNameFor: anObject [
 	^ anObject gtDisplayString
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesProcessor >> itemsLimit [
+	"Return the maximal number of elements that can be found during search.
+	Default implementation returns infinity, so the number of element is not limited."
+	^ Float infinity
 ]
 
 { #category : #accessing }
@@ -65,18 +86,17 @@ GTSpotterCandidatesProcessor >> origin: anObject [
 ]
 
 { #category : #private }
+GTSpotterCandidatesProcessor >> prepareProcessorInContext: aContext [
+	super prepareProcessorInContext: aContext.
+	
+	self hasDynamicItems ifTrue: [ allCandidates := nil ]
+]
+
+{ #category : #private }
 GTSpotterCandidatesProcessor >> render: anObject [
 	^ GTSpotterItemBrick new
 		icon: (self itemIconFor: anObject);
 		text: (self itemNameFor: anObject)
-]
-
-{ #category : #private }
-GTSpotterCandidatesProcessor >> streamAllCandidatesOn: aStream [
-	aStream
-		addObjects: (self allCandidates first: (self candidatesLimit min: self allCandidates size))
-		inProcessor: self.
-	^ self allCandidates
 ]
 
 { #category : #accessing }

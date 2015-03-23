@@ -23,17 +23,6 @@ GTSpotterProcessor >> allFilteredCandidates [
 ]
 
 { #category : #private }
-GTSpotterProcessor >> basicFilterInContext: aSpotterContext [
-	
-	allFilteredCandidates := nil.
-	(aSpotterContext notEmpty or: [ self wantsToDisplayOnEmptyQuery ]) ifTrue: [
-		allFilteredCandidates := self doFilterInContext: aSpotterContext ].
-	aSpotterContext stream 
-		performSymbol: #onAmountChanged:in: 
-		withArguments: { self allFilteredCandidates size . self }
-]
-
-{ #category : #private }
 GTSpotterProcessor >> doFilterInContext: aSpotterContext [
 	"override this method to:
 	- add items to the stream
@@ -41,19 +30,20 @@ GTSpotterProcessor >> doFilterInContext: aSpotterContext [
 	self subclassResponsibility
 ]
 
-{ #category : #'accessing-dynamic' }
-GTSpotterProcessor >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value
+{ #category : #private }
+GTSpotterProcessor >> filterInContext: aSpotterContext [
+	
+	self prepareProcessorInContext: aSpotterContext.
+	(self shouldFilterInContext: aSpotterContext) ifTrue: [
+		allFilteredCandidates := self doFilterInContext: aSpotterContext ].
+	aSpotterContext stream 
+		performSymbol: #onAmountChanged:in: 
+		withArguments: { self allFilteredCandidates size . self }
 ]
 
 { #category : #private }
-GTSpotterProcessor >> filterInContext: aSpotterContext [
-	[ self basicFilterInContext: aSpotterContext ]
-		on: Error 
-		do: [ :exception | 
-			self exceptionHandler 
-				handleException: exception 
-				do: [ ('[Spotter] Exception in processor <', self title asString, '>: ', exception asString) logCr ] ]
+GTSpotterProcessor >> prepareProcessorInContext: aContext [
+	allFilteredCandidates := nil
 ]
 
 { #category : #private }
@@ -63,12 +53,18 @@ GTSpotterProcessor >> render: anObject [
 		text: (anObject gtDisplayString)
 ]
 
+{ #category : #testing }
+GTSpotterProcessor >> shouldFilterInContext: aSpotterContext [
+	^ aSpotterContext notEmpty 
+		or: [ self wantsToDisplayOnEmptyQuery ]
+]
+
 { #category : #accessing }
 GTSpotterProcessor >> title [
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 GTSpotterProcessor >> wantsToDisplayOnEmptyQuery [
 	^ true
 ]

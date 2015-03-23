@@ -49,6 +49,11 @@ GTSpotterContext >> cacheAt: aSymbol ifAbsentPut: aBlock [
 	^ self cache at: aSymbol ifAbsentPut: aBlock
 ]
 
+{ #category : #public }
+GTSpotterContext >> cacheAt: aSymbol put: anObject [
+	^ self cache at: aSymbol put: anObject
+]
+
 { #category : #'accessing-defaults' }
 GTSpotterContext >> defaultCache [
 	^ IdentityDictionary new 
@@ -75,11 +80,6 @@ GTSpotterContext >> equals: aContext [
    ^ self matches: aContext text
 ]
 
-{ #category : #public }
-GTSpotterContext >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value
-]
-
 { #category : #testing }
 GTSpotterContext >> isEmpty [
 	^ self text isNil
@@ -88,7 +88,7 @@ GTSpotterContext >> isEmpty [
 
 { #category : #public }
 GTSpotterContext >> itemsLimit [
-	^ self processor candidatesLimit
+	^ self processor itemsLimit
 ]
 
 { #category : #testing }
@@ -112,9 +112,9 @@ GTSpotterContext >> processor: anObject [
 	processor := anObject
 ]
 
-{ #category : #'accessing-dynamic' }
-GTSpotterContext >> spotter [
-	^ self step spotter
+{ #category : #public }
+GTSpotterContext >> removeCacheAt: aSymbol [
+	^ self cache removeKey: aSymbol ifAbsent: [ nil ]
 ]
 
 { #category : #accessing }

@@ -17,7 +17,7 @@ GTFilterRegex >> applyFilterInContext: aSpotterContext error: exception [
 
 { #category : #private }
 GTFilterRegex >> isMatchedItem: anItem [
-	^ self regex matches: (self itemNameFor: anItem)
+	^ self regex matches: (self itemFilterNameFor: anItem)
 ]
 
 { #category : #private }

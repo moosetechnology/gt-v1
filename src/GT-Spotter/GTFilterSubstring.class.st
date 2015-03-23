@@ -9,9 +9,9 @@ GTFilterSubstring >> applyFilterWithQuery [
 	| prefixMatches otherMatches |
 	prefixMatches := OrderedCollection  new.
 	otherMatches := OrderedCollection new.
-	self allItems do: [ :each | 
+	self allItemsDo: [ :each | 
 		| index |
-		index := (self itemNameFor: each) findString: self query startingAt: 1 caseSensitive: self caseSensitive.
+		index := self indexForItem: each.
 		index >= 1 ifTrue: [
 			index = 1 
 				ifTrue: [ 
@@ -23,4 +23,14 @@ GTFilterSubstring >> applyFilterWithQuery [
 		(otherMatches first: ((self itemsLimit - prefixMatches size) min: otherMatches size)) do: [ :each |
 			self addItem: each ] ].
 	self items: prefixMatches , otherMatches
+]
+
+{ #category : #private }
+GTFilterSubstring >> indexForItem: each [
+	^ (self itemFilterNameFor: each) findString: (self queryForItem: each) startingAt: 1 caseSensitive: self caseSensitive
+]
+
+{ #category : #private }
+GTFilterSubstring >> queryForItem: each [
+	^ self query
 ]

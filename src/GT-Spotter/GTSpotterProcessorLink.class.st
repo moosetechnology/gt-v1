@@ -56,7 +56,7 @@ GTSpotterProcessorLink >> isEmpty [
 { #category : #testing }
 GTSpotterProcessorLink >> isFull [
 
-	^ self size = self processor candidatesLimit
+	^ self size = self processor itemsLimit
 ]
 
 { #category : #accessing }

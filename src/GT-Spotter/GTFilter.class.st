@@ -13,6 +13,11 @@ GTFilter class >> gtFilter [
 	^ self new
 ]
 
+{ #category : #public }
+GTFilter class >> gtListFilter [
+	^ self new
+]
+
 { #category : #'private-model' }
 GTFilter >> addItem: anItem [
 	self context addItem: anItem
@@ -25,7 +30,12 @@ GTFilter >> addItems: aCollection [
 
 { #category : #'private-model' }
 GTFilter >> allItems [
-	^ self processor allCandidates
+	^ self processor allItemsIn: self context
+]
+
+{ #category : #'private-model' }
+GTFilter >> allItemsDo: aBlock [
+	self allItems do: aBlock
 ]
 
 { #category : #private }
@@ -60,13 +70,13 @@ GTFilter >> defaultItems [
 	^ OrderedCollection new
 ]
 
-{ #category : #'private-model' }
-GTFilter >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value
+{ #category : #public }
+GTFilter >> gtFilter [
+	^ self
 ]
 
 { #category : #public }
-GTFilter >> gtFilter [
+GTFilter >> gtListFilter [
 	^ self
 ]
 
@@ -76,8 +86,8 @@ GTFilter >> hasItems [
 ]
 
 { #category : #'private-model' }
-GTFilter >> itemNameFor: anItem [
-	^ self processor itemNameFor: anItem
+GTFilter >> itemFilterNameFor: anItem [
+	^ self processor itemFilterNameFor: anItem
 ]
 
 { #category : #accessing }
@@ -106,18 +116,9 @@ GTFilter >> processor [
 	^ self context processor
 ]
 
-{ #category : #'private-model' }
-GTFilter >> step [
-	^ self context step
-]
-
 { #category : #public }
 GTFilter >> value: aSpotterContext [
-
 	^ [ self applyFilterInContext: aSpotterContext ]
 		on: Error
-		do: [ :exception | 
-			self exceptionHandler 
-				handleException: exception 
-				do: [ self applyFilterInContext: aSpotterContext error: exception ] ]
+		do: [ :exception | self applyFilterInContext: aSpotterContext error: exception ]
 ]

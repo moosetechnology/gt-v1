@@ -57,28 +57,6 @@ GTSpotterStep >> asyncTask [
 	^ asyncTask ifNil: [ asyncTask := self defaultTask ]
 ]
 
-{ #category : #private }
-GTSpotterStep >> basicRelevantProcessorsProcess: aSpotterContext [
-	self basicRelevantProcessorsProcess: aSpotterContext do: [ :processor | 
-		aSpotterContext processor: processor.
-		processor filterInContext: aSpotterContext ]
-]
-
-{ #category : #private }
-GTSpotterStep >> basicRelevantProcessorsProcess: aSpotterContext do: aBlock [
-	aSpotterContext text substrings 
-		detect: [ :each | each beginsWith: '#' ]
-		ifFound: [ :categoryQuery | 
-			| categoryQueryPrefix |
-			aSpotterContext text: (aSpotterContext text copyReplaceAll: categoryQuery with: '').
-			categoryQueryPrefix := categoryQuery allButFirst asLowercase.
-			self processors 
-				select: [ :each | each title asLowercase beginsWith: categoryQueryPrefix ]
-				thenDo: aBlock ]
-		ifNone: [ 
-			self processors do: aBlock ]
-]
-
 { #category : #actions }
 GTSpotterStep >> canDiveIn: aCandidate [
 	| newFakeStep |
@@ -153,12 +131,6 @@ GTSpotterStep >> diveInDueTo: anEventType [
 			historize: self selected;
 			requestNextStepWith: self selectedCandidate;
 			notifyDiveIn: self selectedCandidate for: anEventType ]
-]
-
-{ #category : #'accessing-dynamic' }
-GTSpotterStep >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value ifNil: [ self spotter exceptionHandler ]
-	" #ifNil: is necessary because the sender chain of #spotterProcessorsFor:pragma: may have multiple callees outside of the exception handler (async) ... so we have to provide a global but yet easy fallback "
 ]
 
 { #category : #actions }
@@ -244,20 +216,16 @@ GTSpotterStep >> process: aString [
 	self asyncTask
 		execute: [ :aCurrentContext |
 			self spotter notifyContextChangedFrom: lastSearchContext to: self context.
-			self processContext: aCurrentContext ]
+				self stream removeAllCandidates.
+				[ self relevantProcessorsProcess: aCurrentContext ]
+					on: Error
+					do: [ :e | ('[Spotter] Exception in process: ', e asString) logCr ] ]
 		withArguments: { self context. }
 		callback: [
 			lastSearchContext := self context. 
 			self spotter notifySearchFinishedFor: aString processors: self processors ]
 		"added small delay before actual searching. It makes spotter faster :)"
 		delay: 200
-]
-
-{ #category : #processing }
-GTSpotterStep >> processContext: aSpotterContext [
-	self spotter handleExceptionsDuring: [ 
-		self stream removeAllCandidates.
-		self relevantProcessorsProcess: aSpotterContext  ]
 ]
 
 { #category : #accessing }
@@ -279,14 +247,26 @@ GTSpotterStep >> processors: aCollection [
 	processors := aCollection
 ]
 
-{ #category : #private }
+{ #category : #'private-processors' }
 GTSpotterStep >> relevantProcessorsProcess: aSpotterContext [
-	[ self basicRelevantProcessorsProcess: aSpotterContext ]
-		on: Error
-		do: [ :exception | 
-			self exceptionHandler 
-				handleException: exception 
-				do: [ ('[Spotter] Exception in process: ', exception asString) logCr ] ]
+	self relevantProcessorsProcess: aSpotterContext do: [ :processor | 
+		aSpotterContext processor: processor.
+		processor filterInContext: aSpotterContext ]
+]
+
+{ #category : #'private-processors' }
+GTSpotterStep >> relevantProcessorsProcess: aSpotterContext do: aBlock [
+	aSpotterContext text substrings 
+		detect: [ :each | each beginsWith: '#' ]
+		ifFound: [ :categoryQuery | 
+			| categoryQueryPrefix |
+			aSpotterContext text: (aSpotterContext text copyReplaceAll: categoryQuery with: '').
+			categoryQueryPrefix := categoryQuery allButFirst asLowercase.
+			self processors 
+				select: [ :each | each title asLowercase beginsWith: categoryQueryPrefix ]
+				thenDo: aBlock ]
+		ifNone: [ 
+			self processors do: aBlock ]
 ]
 
 { #category : #selecting }

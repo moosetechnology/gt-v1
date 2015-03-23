@@ -13,7 +13,8 @@ Class {
 		'itemIconBlock',
 		'actBlock',
 		'wantsToDisplayOnEmptyQuery',
-		'filterBlock'
+		'filterBlock',
+		'itemFilterNameBlock'
 	],
 	#category : #'GT-Spotter-Processors'
 }
@@ -24,7 +25,7 @@ GTSpotterCandidatesListProcessor >> actLogic: aBlockWithTwoArguments [
 	actBlock := aBlockWithTwoArguments
 ]
 
-{ #category : #scripting }
+{ #category : #private }
 GTSpotterCandidatesListProcessor >> actOn: anObject for: aStep [
 	
 	actBlock
@@ -32,28 +33,28 @@ GTSpotterCandidatesListProcessor >> actOn: anObject for: aStep [
 		ifNotNil: [ actBlock cull: anObject cull: aStep ]
 ]
 
-{ #category : #scripting }
+{ #category : #compatibility }
 GTSpotterCandidatesListProcessor >> allCandidates: aBlockWithOneArgument [
-	allCandidatesBlock := aBlockWithOneArgument 
+	self items: aBlockWithOneArgument
 ]
 
-{ #category : #accessing }
-GTSpotterCandidatesListProcessor >> candidatesLimit [
-	^ candidatesLimit ifNil: [ self defaultCandidatesLimit ]
-]
-
-{ #category : #accessing }
+{ #category : #compatibility }
 GTSpotterCandidatesListProcessor >> candidatesLimit: anInteger [
-	candidatesLimit := anInteger
+	self itemsLimit: anInteger
 ]
 
 { #category : #private }
-GTSpotterCandidatesListProcessor >> computeCandidates [
-	^ allCandidatesBlock cull: self origin
+GTSpotterCandidatesListProcessor >> computeAllItemsIn: aContext [
+	^ allCandidatesBlock cull: aContext
+]
+
+{ #category : #compatibility }
+GTSpotterCandidatesListProcessor >> defaultCandidatesLimit [
+	^ self defaultItemsLimit
 ]
 
 { #category : #'accessing-defaults' }
-GTSpotterCandidatesListProcessor >> defaultCandidatesLimit [
+GTSpotterCandidatesListProcessor >> defaultItemsLimit [
 	^ 5
 ]
 
@@ -68,13 +69,42 @@ GTSpotterCandidatesListProcessor >> filter [
 ]
 
 { #category : #scripting }
-GTSpotterCandidatesListProcessor >> filter: aBlockWithOneArgument [
-	filterBlock := aBlockWithOneArgument 
+GTSpotterCandidatesListProcessor >> filter: aGTFilterOrBlockWithOneArgument [
+	filterBlock := aGTFilterOrBlockWithOneArgument 
+]
+
+{ #category : #scripting }
+GTSpotterCandidatesListProcessor >> filter: aGTFilter item: aGTSpotterIterator [ 
+	self filter: aGTFilter.
+	self items: aGTSpotterIterator gtIterator.
+	
 ]
 
 { #category : #compatibility }
 GTSpotterCandidatesListProcessor >> filterUsing: aFilter [
 	self filter: aFilter
+]
+
+{ #category : #testing }
+GTSpotterCandidatesListProcessor >> hasDynamicItems [
+	^ allCandidatesBlock hasDynamicItems
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> itemFilterName [
+	^ itemFilterNameBlock
+]
+
+{ #category : #scripting }
+GTSpotterCandidatesListProcessor >> itemFilterName: aBlockWithOneArgument [
+	itemFilterNameBlock := aBlockWithOneArgument
+]
+
+{ #category : #private }
+GTSpotterCandidatesListProcessor >> itemFilterNameFor: anObject [
+	^ itemFilterNameBlock isNil
+		ifTrue: [ super itemFilterNameFor: anObject ]
+		ifFalse: [ itemFilterNameBlock cull: anObject ]
 ]
 
 { #category : #scripting }
@@ -106,34 +136,49 @@ GTSpotterCandidatesListProcessor >> itemNameFor: anObject [
 		ifFalse: [ itemNameBlock cull: anObject ]
 ]
 
-{ #category : #convenience }
+{ #category : #scripting }
+GTSpotterCandidatesListProcessor >> items: aBlock [
+	allCandidatesBlock := aBlock
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> itemsLimit [
+	^ candidatesLimit ifNil: [ self defaultItemsLimit ]
+]
+
+{ #category : #scripting }
+GTSpotterCandidatesListProcessor >> itemsLimit: anInteger [
+	candidatesLimit := anInteger
+]
+
+{ #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> match: aBlockWithTwoArguments [
 	self filter: (GTFilterBlock new 
 		matcher: aBlockWithTwoArguments;
 		yourself)
 ]
 
-{ #category : #convenience }
+{ #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> matchAlike [
 	self filter: GTFilterAlike
 ]
 
-{ #category : #convenience }
+{ #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> matchRegex [
 	self filter: GTFilterRegex
 ]
 
-{ #category : #convenience }
+{ #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> matchString [
 	self filter: GTFilterStringMatch
 ]
 
-{ #category : #convenience }
+{ #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> matchSubstring [
 	self filter: GTFilterSubstring
 ]
 
-{ #category : #convenience }
+{ #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> matchSubstrings [
 	self filter: GTFilterSubstrings
 ]
@@ -148,7 +193,7 @@ GTSpotterCandidatesListProcessor >> title: aString [
 	title := aString
 ]
 
-{ #category : #scripting }
+{ #category : #accessing }
 GTSpotterCandidatesListProcessor >> wantsToDisplayOnEmptyQuery [
 	^ wantsToDisplayOnEmptyQuery ifNil: [ super wantsToDisplayOnEmptyQuery ]
 ]
