@@ -6,7 +6,8 @@ Class {
 	#name : #GTSpotterRecorderEvent,
 	#superclass : #Object,
 	#instVars : [
-		'timestamp'
+		'timestamp',
+		'info'
 	],
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
@@ -23,10 +24,38 @@ GTSpotterRecorderEvent >> fromAnnouncement: anAnnouncement [
 	
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderEvent >> hashForText: aString [
+	^ aString hash bitXor: self settings secretUUID hash
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> infoAt: key [
+	^ self infoAt: key ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> infoAt: key ifAbsent: absentBlock [
+	info ifNil: [ ^ absentBlock value].
+	^ info at: key ifAbsent: absentBlock
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> infoAt: key put: value [
+	info ifNil: [ info := Dictionary new ].
+	^ info at: key put: value
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> infoAt: key putHashForText: valueString [ 
+	^ self 
+		infoAt: key 
+		put: (self hashForText: valueString)
+]
+
 { #category : #initialization }
 GTSpotterRecorderEvent >> initialize [
 	super initialize.
-	
 	timestamp := Time now asDateAndTime asUnixTime 
 ]
 
@@ -41,7 +70,7 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 	aString isNil ifTrue: [ ^ nil ].
 	aString size isZero ifTrue: [ ^ nil ].
 	strings := aString substrings.
-	hashes := strings collect: [ :each | each hash bitXor: self settings secretUUID hash ] as: Array.
+	hashes := strings collect: [ :each | self hashForText: each ] as: Array.
 	sizes := strings collect: #size as: Array.
 	specials := strings collect: [ :each | each beginsWith: '#' ] as: Array.
 	^ Array with: hashes with: sizes with: specials 
