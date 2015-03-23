@@ -27,5 +27,6 @@ Collection >> spotterSelectFor: aStep [
 				[ (Smalltalk compiler 
 						evaluate: '| each | each := self. ', context text 
 						for: each asSpotterCandidateLink value
-						logged: false) ifTrue: [ filter value: each ]  ] on: Error do: [ " ignore this item, continue with the next one " ] ] ]
+						notifying: nil
+						logged: false) ifTrue: [ filter value: each ]  ] on: Exception do: [ " ignore this item, continue with the next one " ] ] ]
 ]
