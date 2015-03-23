@@ -77,7 +77,7 @@ GTSpotterContentsBrick >> onStepAdded [
 	self showDropDownPane
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-properties-events' }
 GTSpotterContentsBrick >> onThemerChanged [
 	super onThemerChanged.
 	
