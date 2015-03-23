@@ -265,6 +265,7 @@ GTSpotterMorph >> privacyAgreementNotificationBrick: aBrick [
 	privacyAgreementNotificationBrick := aBrick.
 	
 	self themer spotterThemer privacyAgreementNotificationStyleFor: privacyAgreementNotificationBrick.
+	privacyAgreementNotificationBrick layout widthDependency: self.
 	privacyAgreementNotificationBrick width: [ self width - (self paneBrick isPreviewShown 
 			ifFalse: [self themer spotterThemer previewArrowWidth - (2*self themer spotterThemer previewBorderWidth)] 
 			ifTrue: [0])].
