@@ -103,6 +103,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
 		shouldValidate: false;
+		wantsSteps: true;
 		children: [ :assoc | assoc key = 'self'
 			ifTrue: [ #() ]
 			ifFalse: [ self variableValuePairsFor: assoc value ] ];
