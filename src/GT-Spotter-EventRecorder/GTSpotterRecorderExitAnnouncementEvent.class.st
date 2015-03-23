@@ -14,6 +14,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #testing }
+GTSpotterRecorderExitAnnouncementEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
+	^ anAnnouncement eventType = #unknown
+]
+
 { #category : #initialization }
 GTSpotterRecorderExitAnnouncementEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.
