@@ -187,7 +187,7 @@ GTPlayground >> acceptContents: aString [
 
 { #category : #building }
 GTPlayground >> actionsForPreviousContents [
-	^ GTPlayBook instance pages
+	^ GTPlayBook instance pagesSorted
 		collect: [ :each | 
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);

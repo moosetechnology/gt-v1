@@ -11,10 +11,18 @@ Class {
 		'fileName',
 		'creationTime',
 		'modificationTime',
-		'publishUrl'
+		'publishedUrl'
 	],
 	#category : #'GT-Playground'
 }
+
+{ #category : #private }
+GTPlayPage class >> basicLoadFromPublishUrl: aString [
+	^ GTPlayPage new 
+		publishedUrl: aString;
+		saveContent: (GTUrlProvider new get: aString)
+		yourself
+]
 
 { #category : #'instance creation' }
 GTPlayPage class >> creationTimeFrom: aFileReference [
@@ -69,6 +77,21 @@ GTPlayPage class >> gtExampleEmpty [
 	^ self new
 ]
 
+{ #category : #'instance creation' }
+GTPlayPage class >> loadFromPublishUrl: aString [
+	^ [ self basicLoadFromPublishUrl: aString ] 
+		on: Error 
+		do: [ nil ]
+]
+
+{ #category : #'instance creation' }
+GTPlayPage class >> loadFromPublishUrl: aString thenDo: aBlock [
+	| page |
+	page := self loadFromPublishUrl: aString.
+	page ifNotNil: [ aBlock value: page ].
+	^ page
+]
+
 { #category : #'compatibility-tools' }
 GTPlayPage >> acceptContents: aStringOrtext [
 
@@ -89,7 +112,7 @@ GTPlayPage >> cacheDirectory [
 { #category : #accessing }
 GTPlayPage >> content [
 	" lazy for better backward/forward-compatibility "
-	^ content ifNil: [ content := self defaultContent ]
+	^ content ifNil: [ self defaultContent ]
 ]
 
 { #category : #accessing }
@@ -132,6 +155,11 @@ GTPlayPage >> defaultFileName [
 { #category : #'accessing-defaults' }
 GTPlayPage >> defaultModificationTime [
 	^ self creationTime
+]
+
+{ #category : #'accessing-defaults' }
+GTPlayPage >> defaultPublishedUrl [
+	^ ''
 ]
 
 { #category : #'accessing-defaults' }
@@ -217,18 +245,18 @@ GTPlayPage >> publish [
     self content ifEmpty: [ 
         self inform: 'Nothing was published because the playground is empty'.
         ^ self ].
-    Clipboard clipboardText: (publishUrl := (GTUrlProvider new post: self contentString) asString).
-    self inform: publishUrl , ' was published and the url was copied to clipboard'
+    Clipboard clipboardText: (publishedUrl := (GTUrlProvider new post: self contentString) asString).
+    self inform: publishedUrl , ' was published and the url was copied to clipboard'
 ]
 
 { #category : #accessing }
-GTPlayPage >> publishUrl [
-	^ publishUrl
+GTPlayPage >> publishedUrl [
+	^ publishedUrl ifNil: [ self defaultPublishedUrl ]
 ]
 
 { #category : #accessing }
-GTPlayPage >> publishUrl: anObject [
-	publishUrl := anObject
+GTPlayPage >> publishedUrl: anObject [
+	publishedUrl := anObject
 ]
 
 { #category : #actions }
