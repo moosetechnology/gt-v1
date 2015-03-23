@@ -12,10 +12,8 @@ GTSpotterProcessorsForExamplesTest >> testEachProcessor [
 				shouldnt: [
 					| step |
 					(step := GTSpotterStep new)
-						spotter: (GTSpotter new
-							exceptionHandler: GTSpotterDebuggingExceptionHandler new; " we want to know whether one of the processors is raising an exception "
-							yourself);
+						spotter: GTSpotter new;
 						origin: exampleToTest result;
-						processContext: (step newContextForQuery: 'a') ] 
+						relevantProcessorsProcess: (step newContextForQuery: 'a') ] 
 				raise: Error ] ]
 ]
