@@ -58,6 +58,13 @@ GTSpotterPreviewBrick >> onCandidateSelected: ann [
 ]
 
 { #category : #'event handling' }
+GTSpotterPreviewBrick >> onSearchFinished [
+
+	self spotterModel currentStep candidates isEmpty
+		ifTrue: [ self updatePreviewWithEmpty ]
+]
+
+{ #category : #'event handling' }
 GTSpotterPreviewBrick >> onStepAdded [
 
 	previewObject := nil.
@@ -89,7 +96,8 @@ GTSpotterPreviewBrick >> spotterModel: aSpotter [
 	spotterModel := aSpotter.
 	aSpotter announcer weak subscribe: GTSpotterSelectedCandidateChanged send: #onCandidateSelected: to: self.
 	aSpotter announcer weak subscribe: GTSpotterStepPopped send: #onStepPopped to: self.
-	aSpotter announcer weak subscribe: GTSpotterStepAdded send: #onStepAdded to: self
+	aSpotter announcer weak subscribe: GTSpotterStepAdded send: #onStepAdded to: self.
+	aSpotter announcer weak subscribe: GTSpotterSearchFinished send: #onSearchFinished to: self.
 	
 	
 ]
@@ -102,7 +110,6 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 	wasNil := previewObject isNil.
 	previewObject = anObject ifTrue: [ ^ self ].
 	previewObject := anObject.
-	
 	previewObject ifNil: [ ^ self updatePreviewWithEmpty ].
 	wasNil ifTrue: [ self updatePreviewWithLoading ].
 	

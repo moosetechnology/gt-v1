@@ -82,7 +82,7 @@ GTSpotterUIThreadStream >> timestamp: anObject [
 	timestamp := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 GTSpotterUIThreadStream >> updateTimestamp [
 
 	self timestamp: Time microsecondClockValue
