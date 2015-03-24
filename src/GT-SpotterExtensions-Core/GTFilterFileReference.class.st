@@ -14,5 +14,5 @@ GTFilterFileReference >> indexForItem: each [
 { #category : #accessing }
 GTFilterFileReference >> queryForItem: each [
 	" hack: see senders of #queryForFileReference "
-	^ self context cacheAt: #queryForFileReference ifAbsent: [ self query ]
+	^ self context cacheAt: #queryForFileReference ifAbsent: [ query ] " performance optimization "
 ]

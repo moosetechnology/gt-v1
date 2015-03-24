@@ -11,6 +11,7 @@ Collection >> spotterItemsFor: aStep [
 		candidatesLimit: 100;
 		items: [ OrderedCollection newFrom: (self collect: [ :each | each asSpotterCandidateLink value]) ];
 		itemName: processor itemName;
+		itemIcon: processor itemIcon;
 		itemFilterName: processor itemFilterName;
 		filter: processor filter gtListFilter;
 		wantsToDisplayOnEmptyQuery: true
@@ -24,9 +25,10 @@ Collection >> spotterSelectFor: aStep [
 		title: 'Expression selection';
 		filter: GTNullFilter item: [ :filter :context |
 			self do: [ :each |
-				[ (Smalltalk compiler 
+				Smalltalk compiler silentlyDo: [
+					(Smalltalk compiler
 						evaluate: '| each | each := self. ', context text 
 						for: each asSpotterCandidateLink value
 						notifying: nil
-						logged: false) ifTrue: [ filter value: each ]  ] on: Error do: [ " ignore this item, continue with the next one " ] ] ]
+						logged: false) ifTrue: [ filter value: each ] ] ] ]
 ]
