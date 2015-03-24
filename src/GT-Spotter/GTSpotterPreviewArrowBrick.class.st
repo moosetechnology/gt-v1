@@ -28,7 +28,7 @@ GTSpotterPreviewArrowBrick >> initialize [
 { #category : #testing }
 GTSpotterPreviewArrowBrick >> isTriangleVisible [
 
-	^ isTriangleVisible ifNil: [ isTriangleVisible := true ]
+	^ isTriangleVisible ifNil: [ isTriangleVisible := false ]
 ]
 
 { #category : #actions }
