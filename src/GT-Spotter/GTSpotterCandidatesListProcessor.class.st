@@ -107,6 +107,11 @@ GTSpotterCandidatesListProcessor >> itemFilterNameFor: anObject [
 		ifFalse: [ itemFilterNameBlock cull: anObject ]
 ]
 
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> itemIcon [
+	^ itemIconBlock
+]
+
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> itemIcon: aBlockWithOneArgument [
 	itemIconBlock := aBlockWithOneArgument

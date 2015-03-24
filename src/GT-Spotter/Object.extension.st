@@ -39,6 +39,12 @@ Object >> spotterActDefault [
 ]
 
 { #category : #'*GT-Spotter' }
+Object >> spotterActDefault: aStep [
+	aStep exit.
+	self spotterActDefault
+]
+
+{ #category : #'*GT-Spotter' }
 Object >> spotterPreviewIn: aComposite inContext: aSpotter [
 
 	| pragmas |

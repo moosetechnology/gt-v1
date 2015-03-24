@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'context',
-		'items'
+		'items',
+		'streamed'
 	],
 	#category : #'GT-Spotter-Filters'
 }
@@ -70,6 +71,11 @@ GTFilter >> defaultItems [
 	^ OrderedCollection new
 ]
 
+{ #category : #'accessing-defaults' }
+GTFilter >> defaultStreamed [
+	^ true
+]
+
 { #category : #'private-model' }
 GTFilter >> exceptionHandler [
 	^ GTCurrentSpotterExceptionHandler value
@@ -124,6 +130,16 @@ GTFilter >> processor [
 { #category : #'private-model' }
 GTFilter >> step [
 	^ self context step
+]
+
+{ #category : #accessing }
+GTFilter >> streamed [
+	^ streamed ifNil: [ streamed := self defaultStreamed ]
+]
+
+{ #category : #accessing }
+GTFilter >> streamed: anObject [
+	streamed := anObject
 ]
 
 { #category : #public }

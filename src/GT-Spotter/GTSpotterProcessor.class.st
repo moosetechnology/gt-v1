@@ -10,11 +10,9 @@ Class {
 	#category : #'GT-Spotter-Processors'
 }
 
-{ #category : #private }
+{ #category : #public }
 GTSpotterProcessor >> actOn: anObject for: aStep [
-	aStep exit.	
-	anObject spotterActDefault.
-
+	anObject spotterActDefault: aStep
 ]
 
 { #category : #public }

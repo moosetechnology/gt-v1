@@ -24,13 +24,25 @@ GTStringFilter >> applyFilterWithQuery [
 
 { #category : #private }
 GTStringFilter >> applyFilterWithoutQuery [
-	self items: (self allItems first: (self itemsLimit min: self allItems size)).
-	self addItems: self items
+	" WARNING: this is not a copy of GTNullFilter>>#applyFilterWithoutQuery !!! "
+	self streamed 
+		ifTrue: [
+			" this will be more responsive (faster) for very large collections and/or expensive filters "
+			| reducedItems |
+			self items: (reducedItems := OrderedCollection new).
+			self allItems withIndexDo: [ :each :index |
+				index <= self itemsLimit ifTrue: [ 
+					reducedItems add: each.
+					self addItem: each ] ] ]
+		ifFalse: [
+			" this will be much much faster for small collections and/or very quick filters " 
+			self items: (self allItems first: (self itemsLimit min: self allItems size)).
+			self addItems: self items ]
 ]
 
 { #category : #accessing }
 GTStringFilter >> caseSensitive [
-	^ caseSensitive ifNil: [ caseSensitive := self defaultCaseSensitive ]
+	^ caseSensitive
 ]
 
 { #category : #accessing }
@@ -52,7 +64,8 @@ GTStringFilter >> hasQuery [
 GTStringFilter >> prepareFilterInContext: aSpotterContext [
 	super prepareFilterInContext: aSpotterContext.
 	
-	self query: (self caseSensitive
+	caseSensitive ifNil: [ caseSensitive := self defaultCaseSensitive ]. " performance optimization "
+	self query: (caseSensitive " performance optimization "
 		ifTrue: [ self context textTrimmed ]
 		ifFalse: [ self context textLowercase ])
 ]

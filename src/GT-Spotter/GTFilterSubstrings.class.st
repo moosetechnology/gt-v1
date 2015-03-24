@@ -16,7 +16,7 @@ GTFilterSubstrings >> defaultSeparators [
 GTFilterSubstrings >> isMatchedItem: anItem [
 	| itemName |
 	itemName := self itemFilterNameFor: anItem.
-	^ self query allSatisfy: [ :fragment | 
+	^ query allSatisfy: [ :fragment | 
 		itemName includesSubstring: fragment caseSensitive: self caseSensitive ]
 ]
 
@@ -24,12 +24,13 @@ GTFilterSubstrings >> isMatchedItem: anItem [
 GTFilterSubstrings >> prepareFilterInContext: aSpotterContext [
 	super prepareFilterInContext: aSpotterContext.
 	
+	separators ifNil: [  separators := self defaultSeparators  ]. " performance optimization "
 	self query: (self query substrings: self separators) asSet asArray
 ]
 
 { #category : #accessing }
 GTFilterSubstrings >> separators [
-	^ separators ifNil: [ separators := self defaultSeparators ]
+	^ separators
 ]
 
 { #category : #accessing }

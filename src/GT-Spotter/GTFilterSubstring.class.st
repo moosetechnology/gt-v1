@@ -32,5 +32,5 @@ GTFilterSubstring >> indexForItem: each [
 
 { #category : #private }
 GTFilterSubstring >> queryForItem: each [
-	^ self query
+	^ query " performance optimization "
 ]

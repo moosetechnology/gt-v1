@@ -6,5 +6,5 @@ Class {
 
 { #category : #private }
 GTFilterStringMatch >> isMatchedItem: anItem [
-	^ self query match: (self itemFilterNameFor: anItem)
+	^ query match: (self itemFilterNameFor: anItem)
 ]
