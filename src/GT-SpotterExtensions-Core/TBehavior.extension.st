@@ -22,6 +22,17 @@ TBehavior >> spotterCompositionFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TBehavior >> spotterCriticsFor: aStep [
+	<spotterOrder: 90>
+	aStep listProcessor
+		title: 'Critics';
+		items: [ GTCritics forClass: self ];
+		itemName: [ :item | item title ];
+		itemIcon: [ Smalltalk ui icons smallWarningIcon  ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterInstanceVariablesFor: aStep [
 	<spotterOrder: 20>
 	self isTrait ifTrue: [ ^ self ].

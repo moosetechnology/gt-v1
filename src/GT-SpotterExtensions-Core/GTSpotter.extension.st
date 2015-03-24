@@ -64,6 +64,18 @@ GTSpotter >> fileReferencesBy: aSelector inContext: aSpotterContext usingFilter:
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterClipboardFor: aStep [
+	<spotterOrder: 90>
+	^ aStep listProcessor
+		title: 'Clipboard';
+		items: [ { Clipboard default } ];
+		itemName: [ :item | item clipboardText asString ];
+		filter: GTFilterSubstrings;
+		actLogic: [ :item | item clipboardText asString inspect ];
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterConcreteMethodFor: aStep [
     <spotterOrder: 30>
 	^ aStep listProcessor

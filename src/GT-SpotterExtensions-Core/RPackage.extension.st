@@ -15,6 +15,17 @@ RPackage >> spotterClassesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+RPackage >> spotterCriticsFor: aStep [
+	<spotterOrder: 90>
+	aStep listProcessor
+		title: 'Critics';
+		items: [ { GTCritics onPackage: self } ];
+		itemName: [ :item | item title ];
+		itemIcon: [ Smalltalk ui icons smallWarningIcon  ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 RPackage >> spotterExtensionMethodsFor: aStep [
 	<spotterOrder: 30>
 	aStep listProcessor
