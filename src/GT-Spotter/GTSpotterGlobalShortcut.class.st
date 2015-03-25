@@ -4,16 +4,8 @@ KMRepository reset
 Class {
 	#name : #GTSpotterGlobalShortcut,
 	#superclass : #KMCategory,
-	#classInstVars : [
-		'globalSpotter'
-	],
 	#category : #'GT-Spotter-UI'
 }
-
-{ #category : #cleanup }
-GTSpotterGlobalShortcut class >> cleanUp [
-	self reset
-]
 
 { #category : #testing }
 GTSpotterGlobalShortcut class >> isGlobalCategory [
@@ -22,9 +14,7 @@ GTSpotterGlobalShortcut class >> isGlobalCategory [
 
 { #category : #accessing }
 GTSpotterGlobalShortcut class >> openGlobalSpotter [
-	|spotterModel|
-	globalSpotter 
-		ifNotNil: [ globalSpotter spotterModel exit ].
+	|spotterModel globalSpotter|
 		
 	spotterModel := GTSpotter new.
 	(Smalltalk hasClassNamed: #GTSpotterEventRecorder) ifTrue: [ 
@@ -50,14 +40,6 @@ GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 		spotterModel: GTSpotter new;
 		openInWindowLabeled: 'Spotter Debug Mode';
 		showPreview
-]
-
-{ #category : #accessing }
-GTSpotterGlobalShortcut class >> reset [
-	"
-	self reset
-	"
-	globalSpotter := nil
 ]
 
 { #category : #'as yet unclassified' }
