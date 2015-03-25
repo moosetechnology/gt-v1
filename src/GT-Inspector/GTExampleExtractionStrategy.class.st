@@ -61,13 +61,13 @@ GTExampleExtractionStrategy >> exampleClass [
 { #category : #accessing }
 GTExampleExtractionStrategy >> exampleDependencyPragma [
 
-	^ #exampleFrom:
+	^ #gtExampleFrom:
 ]
 
 { #category : #accessing }
 GTExampleExtractionStrategy >> examplePragmas [
 
-	^ #(example example:)
+	^ #(gtExample gtExample:)
 ]
 
 { #category : #'example creation' }
