@@ -220,7 +220,7 @@ GTPlayground >> codeIn: a [
 { #category : #building }
 GTPlayground >> compose [
 	self title: self defaultPlaygroundTitle.
-	self extraWindowAction.
+	self extraWindowActions.
 	self custom:
 			(GTInspector new
 				noTitle; 
@@ -249,7 +249,7 @@ GTPlayground >> defaultPlaygroundTitle [
 ]
 
 { #category : #building }
-GTPlayground >> extraWindowAction [
+GTPlayground >> extraWindowActions [
 
 	self flag: 'commented for now'
 	"self act: [ self openCommand ] entitled: 'Open...'.
