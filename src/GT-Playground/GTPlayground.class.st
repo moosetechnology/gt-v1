@@ -20,7 +20,9 @@ Class {
 	#name : #GTPlayground,
 	#superclass : #GLMCompositePresentation,
 	#classVars : [
-		'GTPlaygroundEnabledStatus'
+		'GTPlaygroundEnabledStatus',
+		'PreferredExtent',
+		'RememberPreferredExtent'
 	],
 	#category : #'GT-Playground'
 }
@@ -70,7 +72,7 @@ GTPlayground class >> open [
 	"self open"
 	| page |
 	page := GTPlayPage new.
-	^ self new openOn: page
+	^ self openOn: page
 ]
 
 { #category : #'instance creation' }
@@ -83,9 +85,7 @@ GTPlayground class >> openContents: aString [
 	page := GTPlayPage new
 		saveContent: aString;
 		yourself.
-	^ self new 
-		openOn: page;
-		yourself
+	^ self openOn: page
 ]
 
 { #category : #'instance creation' }
@@ -98,7 +98,7 @@ GTPlayground class >> openContents: aString label: aLabel [
 		saveContent: aString;
 		title: aLabel;
 		yourself.
-	^ self new openOn: page
+	^ self openOn: page
 ]
 
 { #category : #'compatibility-tools' }
@@ -108,7 +108,37 @@ GTPlayground class >> openLabel: aLabel [
 	page := GTPlayPage new
 		title: aLabel;
 		yourself.
-	^ self new openOn: page
+	^ self openOn: page
+]
+
+{ #category : #settings }
+GTPlayground class >> preferredExtent [
+	^ PreferredExtent ifNil: [ PreferredExtent := 600@400 ]
+]
+
+{ #category : #settings }
+GTPlayground class >> preferredExtent: aPoint [
+	PreferredExtent := aPoint
+]
+
+{ #category : #settings }
+GTPlayground class >> preferredHeight [
+	^ self preferredExtent y
+]
+
+{ #category : #settings }
+GTPlayground class >> preferredHeight: aHeight [
+	self preferredExtent setX: self preferredExtent x setY: aHeight
+]
+
+{ #category : #settings }
+GTPlayground class >> preferredWidth [
+	^ self preferredExtent x
+]
+
+{ #category : #settings }
+GTPlayground class >> preferredWidth: aWidth [
+	self preferredExtent setX: aWidth setY: self preferredExtent y
 ]
 
 { #category : #'tools registry' }
@@ -126,6 +156,16 @@ GTPlayground class >> registerToolsOn: registry [
 ]
 
 { #category : #settings }
+GTPlayground class >> rememberPreferredExtent [
+	^ RememberPreferredExtent ifNil: [ RememberPreferredExtent := true ]
+]
+
+{ #category : #settings }
+GTPlayground class >> rememberPreferredExtent: aBoolean [
+	^ RememberPreferredExtent := aBoolean
+]
+
+{ #category : #settings }
 GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
 	| oldStatus |
 	
@@ -137,6 +177,12 @@ GTPlayground class >> setGTPlaygroundEnabledStatus: aBoolean [
 			ifFalse: [ Workspace registerToolsOn: Smalltalk tools ] ]
 	
 	
+]
+
+{ #category : #settings }
+GTPlayground class >> setPreferredExtentIfWanted: anExtent [
+	self rememberPreferredExtent ifTrue: [ 
+		self preferredExtent: anExtent ]
 ]
 
 { #category : #settings }
@@ -155,7 +201,31 @@ GTPlayground class >> settingsOn: aBuilder [
 		type: #Directory;
 		target: GTPlayBook;
 		description: 'The path to the local Playground cache that stores all Playground scripts in ph files' translated;
-		label: 'Local Playground cache directory'
+		label: 'Local Playground cache directory'.
+	(aBuilder setting: #GTPlaygroundPreferredWidth)
+		target: self;
+		parent: #gt;
+		getSelector: #preferredWidth;
+		setSelector: #preferredWidth:; 
+		label: 'Playground width';
+		description: 'The preferred width of new Playground windows'.
+	(aBuilder setting: #GTPlaygroundPreferredHeight)
+		target: self;
+		parent: #gt;
+		getSelector: #preferredHeight;
+		setSelector: #preferredHeight:; 
+		label: 'Playground height';
+		description: 'The preferred height of new Playground windows'.
+	(aBuilder setting: #GTPlaygroundRememberPreferredExtent)
+		target: self;
+		parent: #gt;
+		getSelector: #rememberPreferredExtent;
+		setSelector: #rememberPreferredExtent:; 
+		label: 'Remember extent of Playground';
+		description: 'Enable or disable remembering of the extent of Playground windows on resize. When the preference is true, resizing a Playground window will affect the preferred width and height of future Playground windows'.
+	
+
+
 
 ]
 
@@ -299,6 +369,16 @@ GTPlayground >> openCommand [
 		self snippetTitle: aPage title.
 		self replaceContentWithPage: aPage.
 		self update ]
+]
+
+{ #category : #'scripting opening' }
+GTPlayground >> openOn: aPage [
+	| window |
+	window := super openOn: aPage.
+	window extent: self class preferredExtent.
+	window when: WindowResizing do: [ 
+		self class setPreferredExtentIfWanted: window extent ].
+	^ window
 ]
 
 { #category : #private }
