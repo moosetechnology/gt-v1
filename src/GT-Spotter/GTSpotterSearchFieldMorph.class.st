@@ -13,11 +13,11 @@ GTSpotterSearchFieldMorph >> extent: aPoint [
 		self owner marginTop: (self brickThemer spotterThemer headerHeight - self textArea height) / 2 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterSearchFieldMorph >> getMenuSelector: aSymbol [
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GTSpotterSearchFieldMorph >> moveCursorAtTheEnd [
 
 	self moveCursorToIndex: (self text size + 1)

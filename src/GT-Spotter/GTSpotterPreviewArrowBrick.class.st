@@ -117,7 +117,7 @@ GTSpotterPreviewArrowBrick >> onStepAdded [
 	self spotterModel steps last candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-properties-events' }
 GTSpotterPreviewArrowBrick >> onThemerChanged [
 	super onThemerChanged.
 	

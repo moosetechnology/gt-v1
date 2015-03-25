@@ -9,7 +9,7 @@ GTSpotterSearchFieldScrollPane >> drawKeyboardFocusOn: aCanvas [
 	"empty to remove focus border"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scrollbars }
 GTSpotterSearchFieldScrollPane >> hScrollbarInterval [
 	"Answer the computed size of the thumb of the horizontal scrollbar."
 	self scrollTarget width = 0 ifTrue: [ ^ 0 ].

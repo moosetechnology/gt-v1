@@ -7,12 +7,12 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterStackedLayout >> allowedBounds [
 	^ allowedBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterStackedLayout >> allowedBounds: anObject [
 	allowedBounds := anObject
 ]
@@ -62,49 +62,49 @@ GTSpotterStackedLayout >> increaseZindex: aBrick [
 	aBrick layoutProperties zIndex: 2.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isAbove: aBrick [
 
 	^ aBrick globalOuterBounds origin <= self allowedBounds origin
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isAbove: aBrick in: aRectangle [
 
 	^ aBrick globalOuterBounds origin <= aRectangle origin
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isFullyVisible: aBrick [
 	
 	^ self allowedBounds containsRect: aBrick globalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isFullyVisible: aBrick in: aRectangle [
 	
 	^ aRectangle containsRect: aBrick globalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isPartiallyVisibleAbove: aBrick [
 
 	^ (self isFullyVisible: aBrick) not & (self isAbove: aBrick)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isVisible: aBrick [
 	
 	^ self allowedBounds containsRect: aBrick globalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterStackedLayout >> isVisible: aBrick in: aRectangle [
 	
 	^ aRectangle intersects: aBrick globalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 GTSpotterStackedLayout >> layout: aBrick in: newBounds [
 	
 	^ super layout: aBrick in: newBounds.

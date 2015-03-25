@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTSpotterDropDownMorph >> buildPane: aStepModel [
 	|pane|
 	

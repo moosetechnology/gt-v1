@@ -42,7 +42,7 @@ GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 		showPreview
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #shortcuts }
 GTSpotterGlobalShortcut >> keymapToggle [
 	"KMRepository reset"
 	<shortcut>
@@ -51,7 +51,7 @@ GTSpotterGlobalShortcut >> keymapToggle [
 			action: [ self class openGlobalSpotter spotterModel shiftPressed: true ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #shortcuts }
 GTSpotterGlobalShortcut >> keymapToggleDebug [
 	"KMRepository reset"
 	"<shortcut>"
@@ -60,7 +60,7 @@ GTSpotterGlobalShortcut >> keymapToggleDebug [
 			action: [ self class openGlobalSpotterDebug ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterGlobalShortcut >> openGlobalSpotter [
 	
 ]
