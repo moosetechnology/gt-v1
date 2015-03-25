@@ -3,7 +3,7 @@ Extension { #name : #SequenceableCollection }
 { #category : #'*GT-InspectorExtensions-Core' }
 SequenceableCollection >> gtInspectorItemsIn: composite [
 	^ composite table
-		title: [ :anObject | anObject size asString, ' items' ];
+		title: 'Items';
 		display: [ :aCollection | (1 to: self size) collect: [ :index | index -> (self at: index) ] ];
 		beMultiple;
 		searchOn: [:text :each | 

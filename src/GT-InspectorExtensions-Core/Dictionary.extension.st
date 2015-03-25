@@ -37,7 +37,7 @@ Dictionary class >> gtExampleTwoElementsDictionaryFrom: aDictionary [
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
-		title: [ :anObject | self size asString, ' items' ];
+		title: 'Items';
 		display: [ self associations ];
 		children: [ :each | 
 			(each value isDictionary) 

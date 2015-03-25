@@ -3,7 +3,7 @@ Extension { #name : #OrderedDictionary }
 { #category : #'*GT-InspectorExtensions-Core' }
 OrderedDictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
-		title: [ :anObject | self size asString, ' items' ];
+		title: 'Items';
 		display: [ self associations ];
 		children: [ :each | 
 			(each value isDictionary) 
