@@ -13,6 +13,17 @@ Collection class >> exampleOrderedCollectionWithOneElement [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Collection >> gtDisplayOn: s [
+	self printNameOn: s.
+	s 
+		space;
+		nextPut: $[;
+		nextPutAll: self size asString;
+		nextPutAll: (self size = 1 ifTrue: [' item'] ifFalse: [ ' items' ]);
+		nextPut: $]
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Collection >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 0>  
 	^ (composite list)
