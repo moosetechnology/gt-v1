@@ -7,6 +7,7 @@ Class {
 	#name : #GTPlayPage,
 	#superclass : #Object,
 	#instVars : [
+		'title',
 		'content',
 		'fileName',
 		'creationTime',
@@ -63,7 +64,7 @@ GTPlayPage class >> fileExtension [
 
 { #category : #'instance creation' }
 GTPlayPage class >> fromFileReference: aFileReference [
-	^ GTPlayPage new 
+	^ self new 
 		fileName: aFileReference basename;
 		content: (aFileReference readStreamDo: #contents); 
 		creationTime: (self creationTimeFrom: aFileReference);
@@ -165,6 +166,12 @@ GTPlayPage >> defaultPublishedUrl [
 { #category : #'accessing-defaults' }
 GTPlayPage >> defaultTimestamp [
 	^ DateAndTime now
+]
+
+{ #category : #'accessing-defaults' }
+GTPlayPage >> defaultTitle [
+	^ 'Untitled'
+	"^ (self creationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'"
 ]
 
 { #category : #private }
@@ -281,7 +288,12 @@ GTPlayPage >> silentContent: aStringOrtext [
 
 { #category : #'accessing-dynamic' }
 GTPlayPage >> title [
-	^ (self creationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
+	^ title ifNil: [ self defaultTitle ]
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayPage >> title: aString [
+	title := aString
 ]
 
 { #category : #private }

@@ -200,25 +200,7 @@ GTPlayground >> actionsForPreviousContents [
 { #category : #building }
 GTPlayground >> codeIn: a [
 	^ a pharoPlayground
-		title: [ :page | 
-			| hPadding |
-			hPadding := 5.
-			GLMEditableLabelBrick new
-				hSpaceFill;
-				text: 'Untitled';
-				with: [ :label | label when: #onAccepted do: [ label text logCr ] ];
-				cancelOnEscape;
-				cancelOnFocusLost;
-				with: [ :b | b margin: { b themer focusedBorderWidth . 0 } ];
-				with: [ :b | b editBrick
-					hShrinkWrap;
-					rubricBackgroundColor: b themer rubricBackgroundColor;
-					margins: (hPadding@0 corner: hPadding@0) ];
-				with: [ :b | b maxWidth: [ b approximateWidth + b owner hPadding] ];
-				with: [ :b | b labelBrick margin: { 0 . hPadding + 2. 0 . hPadding } ];
-				with: [ :b | b layout widthDependency: [ b owner ] ];
-				with: [ :b | b editBrick layout widthDependency: [ b ] ];
-				yourself ];
+		title: [ self newEditableLabelMorph ];
 		format: [ :page | page content ];
 		act: [ :text :page |
 				text selectionInterval: (1 to: text text size).
@@ -237,9 +219,9 @@ GTPlayground >> codeIn: a [
 
 { #category : #building }
 GTPlayground >> compose [
-	self
-		title: 'Playground';
-		custom:
+	self title: self defaultPlaygroundTitle.
+	self extraWindowAction.
+	self custom:
 			(GTInspector new
 				noTitle; 
 				noActions;
@@ -255,13 +237,26 @@ GTPlayground >> compose [
 			GTPlayBook instance addPageIfInteresting: self entity ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-dynamic' }
 GTPlayground >> currentBindings [ 
 
 	^ self inspectorPresentation firstPresentation currentBindings
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing-defaults' }
+GTPlayground >> defaultPlaygroundTitle [
+	^ 'Playground'
+]
+
+{ #category : #building }
+GTPlayground >> extraWindowAction [
+
+	self flag: 'commented for now'
+	"self act: [ self openCommand ] entitled: 'Open...'.
+	self act: [ self saveAsCommand ] entitled: 'Save as...'."
+]
+
+{ #category : #'accessing-dynamic' }
 GTPlayground >> inspectorPresentation [
 
 	^ self presentations first 
@@ -274,10 +269,59 @@ GTPlayground >> label: aString [
 	self update
 ]
 
+{ #category : #building }
+GTPlayground >> newEditableLabelMorph [
+	| hPadding |
+	
+	hPadding := 5.
+	^ GLMEditableLabelBrick new
+		hSpaceFill;
+		text: self snippetTitle;
+		with: [ :label | label when: #onAccepted do: [ self snippetTitle: label text ] ];
+		cancelOnEscape;
+		cancelOnFocusLost;
+		with: [ :b | b margin: { b themer focusedBorderWidth . 0 } ];
+		with: [ :b | b editBrick
+			hShrinkWrap;
+			rubricBackgroundColor: b themer rubricBackgroundColor;
+			margins: (hPadding@0 corner: hPadding@0) ];
+		with: [ :b | b maxWidth: [ b approximateWidth + b owner hPadding] ];
+		with: [ :b | b labelBrick margin: { 0 . hPadding + 2. 0 . hPadding } ];
+		with: [ :b | b layout widthDependency: [ b owner ] ];
+		with: [ :b | b editBrick layout widthDependency: [ b ] ];
+		yourself 
+]
+
+{ #category : #private }
+GTPlayground >> openCommand [
+
+	GTExternalPlayPage fromFileReference ifNotNil: [ :aPage | 
+		self snippetTitle: aPage title.
+		self replaceContentWithPage: aPage.
+		self update ]
+]
+
+{ #category : #private }
+GTPlayground >> replaceContentWithPage: aPage [
+
+	GTPlayBook instance addPageIfInteresting: self entity.
+	self entity: aPage 
+]
+
 { #category : #actions }
 GTPlayground >> resetBindings [
 
 	^ self inspectorPresentation firstPresentation resetBindings
+]
+
+{ #category : #private }
+GTPlayground >> saveAsCommand [
+
+	(GTExternalPlayPage 
+		externalPageForContent: self entity content
+		withPossibleTitles: {self snippetTitle. self title}) ifNotNil: [ :aPage |
+			self snippetTitle: aPage title.
+			self replaceContentWithPage: aPage ]
 ]
 
 { #category : #actions }
@@ -286,4 +330,29 @@ GTPlayground >> setBindings: aDictionary [
 	self inspectorPresentation firstPresentation 
 		variableBindings: [ aDictionary associations ];
 		updateVariableBindings
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayground >> snippetPresentation [ 
+
+	^ self inspectorPresentation firstPresentation
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayground >> snippetTitle [
+
+	^ self entity title
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayground >> snippetTitle: aString [
+
+	self entity title: aString
+]
+
+{ #category : #actions }
+GTPlayground >> updateSnipetTitleTo: aString [
+
+	self snippetTitle: aString.
+	self update
 ]

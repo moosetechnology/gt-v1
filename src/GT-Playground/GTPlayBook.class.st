@@ -10,10 +10,8 @@ Class {
 		'pages',
 		'pagesLimit'
 	],
-	#classVars : [
-		'instance'
-	],
 	#classInstVars : [
+		'instance',
 		'cacheDirectory',
 		'customDirectory'
 	],
@@ -54,7 +52,7 @@ GTPlayBook class >> cacheDirectory: aStringOrFileReference [
 { #category : #private }
 GTPlayBook class >> cleanUp [
 	
-	instance := nil
+	self reset
 ]
 
 { #category : #accessing }
