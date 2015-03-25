@@ -163,6 +163,7 @@ GTInspector >> closeActionFor: aPresentation [
 { #category : #building }
 GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
+	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	self act: [:b | b presentationFilter ifNotNil: [ :filter | filter changeFilterRequestFor: b] ] entitled: 'Filter presentations'.
 	self pager with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
