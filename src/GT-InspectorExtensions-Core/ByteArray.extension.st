@@ -2,7 +2,7 @@ Extension { #name : #ByteArray }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ByteArray class >> gtExampleSimple [
-	<example>
+	<gtExample>
 	^ #[2r1010 8r333 16rFF]
 ]
 

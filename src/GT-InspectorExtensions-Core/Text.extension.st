@@ -15,6 +15,6 @@ Text >> gtInspectorTextIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Text class >> simpleExample [
-	<example: 'Simple'>
+	<gtExample: 'Simple'>
 	^ 'fourtytwo' asText
 ]

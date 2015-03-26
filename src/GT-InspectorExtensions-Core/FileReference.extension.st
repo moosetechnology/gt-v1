@@ -7,7 +7,7 @@ FileReference >> gtDisplayOn: stream [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExampleDirectory [
-	<example>
+	<gtExample>
 	| directory subDirectory |
 	directory := FileSystem memory workingDirectory / 'directory'.
 	directory createDirectory.
@@ -20,7 +20,7 @@ FileReference class >> gtExampleDirectory [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExampleGif [
-	<example>
+	<gtExample>
 	^ FileSystem memory workingDirectory / 'pharoicon.gif' 
 		writeStreamDo: [ :stream |
 			GIFReadWriter 
@@ -31,7 +31,7 @@ FileReference class >> gtExampleGif [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExamplePng [
-	<example>
+	<gtExample>
 	^ FileSystem memory workingDirectory / 'pharoicon.png' 
 		writeStreamDo: [ :stream |
 			PNGReadWriter 
@@ -42,7 +42,7 @@ FileReference class >> gtExamplePng [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExampleText [
-	<example>
+	<gtExample>
 	^ FileSystem memory workingDirectory / 'sample.txt' 
 		writeStreamDo: [ :stream |
 			stream nextPutAll: self comment ];

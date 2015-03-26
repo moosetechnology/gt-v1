@@ -7,6 +7,6 @@ Bitmap >> gtInspectorItemsIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Bitmap class >> iconBitsExample [
-	<example: 'Icon bits'>
+	<gtExample: 'Icon bits'>
 	^ ThemeIcons current pharoIcon bits
 ]

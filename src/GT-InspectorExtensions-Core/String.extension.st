@@ -2,7 +2,7 @@ Extension { #name : #String }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 String class >> gtInspectorFourtyTwo [
-	<example>
+	<gtExample>
 	^ '42'
 ]
 

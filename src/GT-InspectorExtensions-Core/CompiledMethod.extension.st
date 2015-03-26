@@ -7,7 +7,7 @@ CompiledMethod >> gtDisplayOn: aStream [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod class >> gtExampleSimple [
-	<example>
+	<gtExample>
 	^ self class>>#gtExampleSimple
 ]
 

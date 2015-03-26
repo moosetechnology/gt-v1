@@ -26,7 +26,7 @@ MessageTally >> gtDisplayOn: aStream [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 MessageTally class >> gtExampleSimplePrintString [
-	<example: 'Simple printString'>
+	<gtExample: 'Simple printString'>
 	^ MessageTally new 
 		spyEvery: 1 on: [10 timesRepeat: [1.23 printString]];
 		yourself

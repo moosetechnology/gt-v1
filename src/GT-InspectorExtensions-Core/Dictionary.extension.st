@@ -2,15 +2,15 @@ Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary class >> gtExampleEmptyDictionary [
-	<example: 'Empty dictionary'>
+	<gtExample: 'Empty dictionary'>
 
 	^ Dictionary new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary class >> gtExampleOneElementDictionaryFrom: anEmptyDictionary [
-	<example: 'One element dictionary'>
-	<exampleFrom: #gtExampleEmptyDictionary>
+	<gtExample: 'One element dictionary'>
+	<gtExampleFrom: #gtExampleEmptyDictionary>
 	
 	anEmptyDictionary at: 4 put: 2.
 	^ anEmptyDictionary
@@ -18,8 +18,8 @@ Dictionary class >> gtExampleOneElementDictionaryFrom: anEmptyDictionary [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary class >> gtExampleRemoveElementFrom: anEmptyDictionary [
-	<example: 'Remove element'>
-	<exampleFrom: #gtExampleOneElementDictionaryFrom:>
+	<gtExample: 'Remove element'>
+	<gtExampleFrom: #gtExampleOneElementDictionaryFrom:>
 	
 	anEmptyDictionary removeKey: 4.
 	^ anEmptyDictionary
@@ -27,8 +27,8 @@ Dictionary class >> gtExampleRemoveElementFrom: anEmptyDictionary [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary class >> gtExampleTwoElementsDictionaryFrom: aDictionary [
-	<example: 'Two elements dictionary'>
-	<exampleFrom: #gtExampleOneElementDictionaryFrom:>
+	<gtExample: 'Two elements dictionary'>
+	<gtExampleFrom: #gtExampleOneElementDictionaryFrom:>
 	
 	aDictionary at: #fourty put: 'two'.
 	^ aDictionary

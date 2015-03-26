@@ -2,7 +2,7 @@ Extension { #name : #GLMPresentation }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 GLMPresentation class >> exampleBasic [
-	<example>
+	<gtExample>
 	^ self new
 ]
 

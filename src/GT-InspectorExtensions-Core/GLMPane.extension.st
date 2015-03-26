@@ -2,7 +2,7 @@ Extension { #name : #GLMPane }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 GLMPane class >> exampleBasic [
-	<example>
+	<gtExample>
 	^ self named: 'Basic'
 ]
 

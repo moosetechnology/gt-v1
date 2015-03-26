@@ -9,6 +9,6 @@ Set >> gtInspectorItemsIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Set class >> simpleExample [
-	<example: 'Simple'>
+	<gtExample: 'Simple'>
 	^ #('fourtytwo' 42) asSet
 ]

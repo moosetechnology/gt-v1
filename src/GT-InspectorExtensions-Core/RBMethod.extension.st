@@ -2,6 +2,6 @@ Extension { #name : #RBMethod }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RBMethod class >> thisMethodExample [
-	<example: 'This method'>
+	<gtExample: 'This method'>
 	^ RBMethod class>>#thisMethodExample
 ]

@@ -2,13 +2,13 @@ Extension { #name : #Collection }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Collection class >> exampleEmptyArray [
-	<example>
+	<gtExample>
 	^ #()
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Collection class >> exampleOrderedCollectionWithOneElement [
-	<example>
+	<gtExample>
 	^ #(42) asOrderedCollection
 ]
 

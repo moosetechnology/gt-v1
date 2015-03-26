@@ -2,7 +2,7 @@ Extension { #name : #Time }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Time class >> exampleNow [
-	<example: 'Now'>
+	<gtExample: 'Now'>
 	^ self now
 ]
 

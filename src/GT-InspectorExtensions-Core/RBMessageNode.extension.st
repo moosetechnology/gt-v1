@@ -2,7 +2,7 @@ Extension { #name : #RBMessageNode }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RBMessageNode class >> exampleAddition [
-	<example>
+	<gtExample>
 	^ RBMessageNode 
 				receiver: (RBVariableNode named: 'self')
 				selector: #+

@@ -2,13 +2,13 @@ Extension { #name : #Character }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Character class >> exampleA [
-	<example>
+	<gtExample>
 	^ $A
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Character class >> exampleSpace [
-	<example>
+	<gtExample>
 	^ self space
 ]
 

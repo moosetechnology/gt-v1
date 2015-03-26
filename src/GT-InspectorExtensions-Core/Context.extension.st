@@ -24,6 +24,6 @@ Context >> gtInspectorVariableValuePairs [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Context class >> thisContextExample [
-	<example: 'thisContext'>
+	<gtExample: 'thisContext'>
 	^ thisContext
 ]
