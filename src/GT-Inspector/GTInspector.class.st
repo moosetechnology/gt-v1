@@ -17,7 +17,9 @@ Class {
 	],
 	#classVars : [
 		'GTInspectorEnabledStatus',
-		'GTNumberOfInspectorPanes'
+		'GTNumberOfInspectorPanes',
+		'PreferredExtent',
+		'RememberPreferredExtent'
 	],
 	#category : #'GT-Inspector'
 }
@@ -26,6 +28,34 @@ Class {
 GTInspector class >> explore: anObject [ 
 	self openOn: anObject.
 	^ anObject
+]
+
+{ #category : #settings }
+GTInspector class >> extentSettingsOn: aBuilder [ 
+	<systemsettings>
+	
+	(aBuilder setting: #GTInspectorPreferredWidth)
+		target: self;
+		parent: #gt;
+		getSelector: #preferredWidth;
+		setSelector: #preferredWidth:; 
+		label: 'Inspector width';
+		description: 'The preferred width of new Inspector windows'.
+	(aBuilder setting: #GTInspectorPreferredHeight)
+		target: self;
+		parent: #gt;
+		getSelector: #preferredHeight;
+		setSelector: #preferredHeight:; 
+		label: 'Inspector height';
+		description: 'The preferred height of new Inspector windows'.
+	(aBuilder setting: #GTInspectorRememberPreferredExtent)
+		target: self;
+		parent: #gt;
+		getSelector: #rememberPreferredExtent;
+		setSelector: #rememberPreferredExtent:; 
+		label: 'Remember extent of Inspector';
+		description: 'Enable or disable remembering of the extent of Inspector windows on resize. When the preference is true, resizing a Inspector window will affect the preferred width and height of future Inspector windows'
+
 ]
 
 { #category : #inspecting }
@@ -95,6 +125,36 @@ GTInspector class >> openOn: anObject [
 	^ self new openOn: anObject
 ]
 
+{ #category : #settings }
+GTInspector class >> preferredExtent [
+	^ PreferredExtent ifNil: [ PreferredExtent := 600@400 ]
+]
+
+{ #category : #settings }
+GTInspector class >> preferredExtent: aPoint [
+	PreferredExtent := aPoint
+]
+
+{ #category : #settings }
+GTInspector class >> preferredHeight [
+	^ self preferredExtent y
+]
+
+{ #category : #settings }
+GTInspector class >> preferredHeight: aHeight [
+	self preferredExtent setX: self preferredExtent x setY: aHeight
+]
+
+{ #category : #settings }
+GTInspector class >> preferredWidth [
+	^ self preferredExtent x
+]
+
+{ #category : #settings }
+GTInspector class >> preferredWidth: aWidth [
+	self preferredExtent setX: aWidth setY: self preferredExtent y
+]
+
 { #category : #'tools registry' }
 GTInspector class >> register [
 
@@ -110,6 +170,16 @@ GTInspector class >> registerToolsOn: registry [
 ]
 
 { #category : #settings }
+GTInspector class >> rememberPreferredExtent [
+	^ RememberPreferredExtent ifNil: [ RememberPreferredExtent := true ]
+]
+
+{ #category : #settings }
+GTInspector class >> rememberPreferredExtent: aBoolean [
+	^ RememberPreferredExtent := aBoolean
+]
+
+{ #category : #settings }
 GTInspector class >> setGTInspectorEnabledStatus: aBoolean [
 	| oldStatus |
 	
@@ -121,6 +191,12 @@ GTInspector class >> setGTInspectorEnabledStatus: aBoolean [
 			ifFalse: [ EyeInspector registerToolsOn: Smalltalk tools ] ]
 	
 	
+]
+
+{ #category : #settings }
+GTInspector class >> setPreferredExtentIfWanted: anExtent [
+	self rememberPreferredExtent ifTrue: [ 
+		self preferredExtent: anExtent ]
 ]
 
 { #category : #settings }
@@ -222,6 +298,16 @@ GTInspector >> initialize [
 GTInspector >> openExplorerFor: anObject [
 	"this method is needed for compatibility with ObjectExplorer"
 	self openOn: anObject
+]
+
+{ #category : #'scripting opening' }
+GTInspector >> openOn: aPage [
+	| window |
+	window := super openOn: aPage.
+	window extent: self class preferredExtent.
+	window when: WindowResizing do: [ 
+		self class setPreferredExtentIfWanted: window extent ].
+	^ window
 ]
 
 { #category : #accessing }
