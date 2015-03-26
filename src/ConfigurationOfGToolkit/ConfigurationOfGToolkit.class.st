@@ -995,7 +995,7 @@ ConfigurationOfGToolkit >> baseline022: aSpec [
 	aSpec for: #'common' do: [
 		aSpec
 			blessing: #'baseline';
-			description: 'GT-Release-Tests';
+			description: 'GT-Tests-Release';
 			author: 'AndreiChis';
 			timestamp: '2015-03-25';
 			repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
@@ -1022,7 +1022,7 @@ ConfigurationOfGToolkit >> baseline022: aSpec [
 			package: 'Glamour-Morphic-Theme' with: [
 				aSpec
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
-			package: 'GT-Release-Tests'.
+			package: 'GT-Tests-Release'.
 			
 		aSpec
 			project: 'AnnouncerCentricDebugger' with: [
@@ -1062,7 +1062,7 @@ ConfigurationOfGToolkit >> baseline022: aSpec [
 					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
 			
 		aSpec
-			group: 'Tests' with: #('GT-Release-Tests');
+			group: 'Tests' with: #('GT-Tests-Release');
 			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
 			group: 'default' with: #( 'GT-Setup' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests') ]
 ]
