@@ -343,8 +343,8 @@ GTPlayground >> newEditableLabelMorph [
 	hPadding := 5.
 	^ GLMEditableLabelBrick new
 		hSpaceFill;
-		text: self snippetTitle;
-		with: [ :label | label when: #onAccepted do: [ self snippetTitle: label text ] ];
+		text: self entity title;
+		with: [ :label | label when: #onAccepted do: [ self entity title: label text ] ];
 		cancelOnEscape;
 		cancelOnFocusLost;
 		with: [ :b | b margin: { b themer focusedBorderWidth . 0 } ];
@@ -381,29 +381,4 @@ GTPlayground >> setBindings: aDictionary [
 	self inspectorPresentation firstPresentation 
 		variableBindings: [ aDictionary associations ];
 		updateVariableBindings
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayground >> snippetPresentation [ 
-
-	^ self inspectorPresentation firstPresentation
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayground >> snippetTitle [
-
-	^ self entity title
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayground >> snippetTitle: aString [
-
-	self entity title: aString
-]
-
-{ #category : #actions }
-GTPlayground >> updateSnipetTitleTo: aString [
-
-	self snippetTitle: aString.
-	self update
 ]
