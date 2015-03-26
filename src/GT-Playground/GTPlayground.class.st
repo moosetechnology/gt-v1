@@ -290,7 +290,6 @@ GTPlayground >> codeIn: a [
 { #category : #building }
 GTPlayground >> compose [
 	self title: self defaultPlaygroundTitle.
-	self extraWindowActions.
 	self custom:
 			(GTInspector new
 				noTitle; 
@@ -316,14 +315,6 @@ GTPlayground >> currentBindings [
 { #category : #'accessing-defaults' }
 GTPlayground >> defaultPlaygroundTitle [
 	^ 'Playground'
-]
-
-{ #category : #building }
-GTPlayground >> extraWindowActions [
-
-	self flag: 'commented for now'
-	"self act: [ self openCommand ] entitled: 'Open...'.
-	self act: [ self saveAsCommand ] entitled: 'Save as...'."
 ]
 
 { #category : #'accessing-dynamic' }
@@ -362,15 +353,6 @@ GTPlayground >> newEditableLabelMorph [
 		yourself 
 ]
 
-{ #category : #private }
-GTPlayground >> openCommand [
-
-	GTExternalPlayPage fromFileReference ifNotNil: [ :aPage | 
-		self snippetTitle: aPage title.
-		self replaceContentWithPage: aPage.
-		self update ]
-]
-
 { #category : #'scripting opening' }
 GTPlayground >> openOn: aPage [
 	| window |
@@ -381,27 +363,10 @@ GTPlayground >> openOn: aPage [
 	^ window
 ]
 
-{ #category : #private }
-GTPlayground >> replaceContentWithPage: aPage [
-
-	GTPlayBook instance addPageIfInteresting: self entity.
-	self entity: aPage 
-]
-
 { #category : #actions }
 GTPlayground >> resetBindings [
 
 	^ self inspectorPresentation firstPresentation resetBindings
-]
-
-{ #category : #private }
-GTPlayground >> saveAsCommand [
-
-	(GTExternalPlayPage 
-		externalPageForContent: self entity content
-		withPossibleTitles: {self snippetTitle. self title}) ifNotNil: [ :aPage |
-			self snippetTitle: aPage title.
-			self replaceContentWithPage: aPage ]
 ]
 
 { #category : #actions }
