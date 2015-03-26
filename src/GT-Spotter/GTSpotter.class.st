@@ -39,7 +39,7 @@ GTSpotter class >> dontShowPreview [
 
 { #category : #example }
 GTSpotter class >> exampleBasic [
-	<example>
+	<gtExample>
 	^ self new
 ]
 

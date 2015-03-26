@@ -10,7 +10,7 @@ Class {
 
 { #category : #examples }
 GTSpotterPrivacyAgreementNotificationBrick class >> example [
-	<example: 'Simple agreement'>
+	<gtExample: 'Simple agreement'>
 	^ self new
 ]
 
