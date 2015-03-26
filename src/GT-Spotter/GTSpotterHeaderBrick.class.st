@@ -54,7 +54,7 @@ GTSpotterHeaderBrick >> newCloseButton [
 { #category : #'instance creation' }
 GTSpotterHeaderBrick >> newSearchField [
 
-	^ GTSpotterSearchFieldMorph new
+	^ GLMRubTextFieldBrick new
 ]
 
 { #category : #'instance creation' }
@@ -113,10 +113,9 @@ GTSpotterHeaderBrick >> searchField [
 ]
 
 { #category : #accessing }
-GTSpotterHeaderBrick >> searchField: aMorph [
+GTSpotterHeaderBrick >> searchField: aBrick [
 
-	searchField ifNotNil: [self removeBrick: searchField].
-	searchField := aMorph asBrick.
+	searchField := aBrick.
 	
 	self themer spotterThemer searchFieldStyleFor: searchField.
 	
