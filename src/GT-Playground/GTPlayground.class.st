@@ -296,6 +296,8 @@ GTPlayground >> codeIn: a [
 { #category : #building }
 GTPlayground >> compose [
 	self title: self defaultPlaygroundTitle.
+	self act: [ :browser | browser currentBindings inspect ] entitled: 'Inspect variables'.
+	self act: [ :browser | browser resetBindings ] entitled: 'Reset variables'.
 	self custom:
 			(GTInspector new
 				noTitle; 
