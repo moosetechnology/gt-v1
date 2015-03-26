@@ -14,22 +14,22 @@ GTSpotterGlobalShortcut class >> isGlobalCategory [
 
 { #category : #accessing }
 GTSpotterGlobalShortcut class >> openGlobalSpotter [
-	|spotterModel globalSpotter|
+	| spotterModel |
 		
+	self reset.
 	spotterModel := GTSpotter new.
 	(Smalltalk hasClassNamed: #GTSpotterEventRecorder) ifTrue: [ 
 		#GTSpotterEventRecorder asClass instance 
 			perform: #linkToSpotter: with: spotterModel;
 			perform: #recordSpotterOpenEvent ] .
 	
-	globalSpotter := GTSpotterMorph new
+	GTSpotterMorph new
 		extent: (World width / 2.4 @ (World height / 1.6)) asIntegerPoint;
 		spotterModel: spotterModel;
 		doLayout;
 		openCenteredInWorld.
 		
 	spotterModel class markOpened.
-	^ globalSpotter
 ]
 
 { #category : #accessing }
@@ -42,13 +42,19 @@ GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 		showPreview
 ]
 
+{ #category : #cleanup }
+GTSpotterGlobalShortcut class >> reset [
+	
+	(World findA: GTSpotterMorph) ifNotNil: [ :aSpotterMorph | aSpotterMorph spotterModel exit ]
+]
+
 { #category : #shortcuts }
 GTSpotterGlobalShortcut >> keymapToggle [
 	"KMRepository reset"
 	<shortcut>
 	^ KMKeymap
 			shortcut: Character cr shift
-			action: [ self class openGlobalSpotter spotterModel shiftPressed: true ]
+			action: [ self class openGlobalSpotter ]
 ]
 
 { #category : #shortcuts }
