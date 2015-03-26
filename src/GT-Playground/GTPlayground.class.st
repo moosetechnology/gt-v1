@@ -62,6 +62,37 @@ GTPlayground class >> examplePlaygroundWithBindings [
 ]
 
 { #category : #settings }
+GTPlayground class >> extentSettingsOn: aBuilder [ 
+	<systemsettings>
+	
+	(aBuilder setting: #GTPlaygroundPreferredWidth)
+		target: self;
+		parent: #gt;
+		getSelector: #preferredWidth;
+		setSelector: #preferredWidth:; 
+		label: 'Playground width';
+		description: 'The preferred width of new Playground windows'.
+	(aBuilder setting: #GTPlaygroundPreferredHeight)
+		target: self;
+		parent: #gt;
+		getSelector: #preferredHeight;
+		setSelector: #preferredHeight:; 
+		label: 'Playground height';
+		description: 'The preferred height of new Playground windows'.
+	(aBuilder setting: #GTPlaygroundRememberPreferredExtent)
+		target: self;
+		parent: #gt;
+		getSelector: #rememberPreferredExtent;
+		setSelector: #rememberPreferredExtent:; 
+		label: 'Remember extent of Playground';
+		description: 'Enable or disable remembering of the extent of Playground windows on resize. When the preference is true, resizing a Playground window will affect the preferred width and height of future Playground windows'.
+	
+
+
+
+]
+
+{ #category : #settings }
 GTPlayground class >> isGTPlaygroundEnabled [
 
 	^ GTPlaygroundEnabledStatus ifNil: [ GTPlaygroundEnabledStatus := Smalltalk tools workspace = self ]
@@ -201,32 +232,7 @@ GTPlayground class >> settingsOn: aBuilder [
 		type: #Directory;
 		target: GTPlayBook;
 		description: 'The path to the local Playground cache that stores all Playground scripts in ph files' translated;
-		label: 'Local Playground cache directory'.
-	(aBuilder setting: #GTPlaygroundPreferredWidth)
-		target: self;
-		parent: #gt;
-		getSelector: #preferredWidth;
-		setSelector: #preferredWidth:; 
-		label: 'Playground width';
-		description: 'The preferred width of new Playground windows'.
-	(aBuilder setting: #GTPlaygroundPreferredHeight)
-		target: self;
-		parent: #gt;
-		getSelector: #preferredHeight;
-		setSelector: #preferredHeight:; 
-		label: 'Playground height';
-		description: 'The preferred height of new Playground windows'.
-	(aBuilder setting: #GTPlaygroundRememberPreferredExtent)
-		target: self;
-		parent: #gt;
-		getSelector: #rememberPreferredExtent;
-		setSelector: #rememberPreferredExtent:; 
-		label: 'Remember extent of Playground';
-		description: 'Enable or disable remembering of the extent of Playground windows on resize. When the preference is true, resizing a Playground window will affect the preferred width and height of future Playground windows'.
-	
-
-
-
+		label: 'Local Playground cache directory'
 ]
 
 { #category : #'tools registry' }
