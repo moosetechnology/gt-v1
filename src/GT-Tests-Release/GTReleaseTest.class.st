@@ -7,8 +7,8 @@ Class {
 { #category : #accessing }
 GTReleaseTest >> allClassesWithCustomExtensions [
 
-	^ (self allClassesWithPragma: #spotterOrder:) asSet , 
-	(self allClassesWithPragma: #gtInspectorPresentationOrder:) 
+	^ self pragmasForCustomExtensions asSet flatCollect: [ :pragma | 
+		self allClassesWithPragma: pragma ]
 ]
 
 { #category : #accessing }
@@ -20,18 +20,47 @@ GTReleaseTest >> allClassesWithPragma: pragmaSymbol [
 				(Pragma allNamed: pragmaSymbol from: eachClass to: eachClass) notEmpty ] ]
 ]
 
-{ #category : #tests }
+{ #category : #testing }
 GTReleaseTest >> hasExampleMethod: aClass [
 
-	^ ((Pragma 
-		allNamed: #gtExample 
-		from: aClass class
-		to: aClass class),
-	(Pragma 
-		allNamed: #gtExample: 
-		from: aClass class
-		to: aClass class)) notEmpty
-		
+	^ self pragmasForExamples anySatisfy: [ :pragma | 
+		(Pragma 
+			allNamed: pragma
+			from: aClass class
+			to: aClass class) notEmpty ]
+]
+
+{ #category : #accessing }
+GTReleaseTest >> pragmasForCustomExtensions [
+	^ #( #spotterOrder: #gtInspectorPresentationOrder: )
+]
+
+{ #category : #accessing }
+GTReleaseTest >> pragmasForExamples [
+	^ #( #gtExample #gtExample: )
+]
+
+{ #category : #testing }
+GTReleaseTest >> shouldIgnoreExampleMethod: aClass [
+	self flag: 'TODO: how to proceed with special cases of examples? still implement them ? in which package ? we should only iterate over examples which actually belong to the namespace of GT. We shouldnt handle <missing> examples in outside packages. This exception list is temporary only'.
+	^ #(
+		GTSpotterExceptionMock1 " GTSpotterExceptionMock* are special extensions only used for testing faulty conditions/examples. They should be ignored in this test. "
+		GTSpotterExceptionMock2 
+		GTSpotterExceptionMock3 
+		GTSpotterExceptionMock4 
+		GTSpotterExceptionMock5
+		LiteralVariable  " OpalTools "
+		IRInstruction  " OpalTools "
+		IRMethod  " OpalTools "
+		IRSequence  " OpalTools "
+		LiteralValue  " OpalTools "
+		OCAbstractScope 	" OpalTools "
+		PPFailure " PetitGui "
+		PPParser " PetitGui "
+		PPParserDebuggerResult " PetitGui "
+		ReflectiveMethod " Reflectivity (model!?) "
+		SymbolicBytecode " OpalTools (model!?) "
+	 ) anySatisfy: [ :each | each = aClass name ]
 ]
 
 { #category : #tests }
@@ -39,7 +68,8 @@ GTReleaseTest >> testAllClassesWithCustomExtensionsHaveAnExample [
 	| classesWithCustomExtensionsAndNoExample |
 	
 	classesWithCustomExtensionsAndNoExample := self allClassesWithCustomExtensions select: [ :aClass |
-		(self hasExampleMethod: aClass) not ].
+		(self hasExampleMethod: aClass) not
+			and: [ (self shouldIgnoreExampleMethod: aClass) not ] ].
 	
 	self 
 		assert: classesWithCustomExtensionsAndNoExample isEmpty
