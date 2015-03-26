@@ -23,6 +23,42 @@ GTCritics class >> forClass: aClass [
 		self onClass: aClass all: subs }
 ]
 
+{ #category : #'accessing-examples' }
+GTCritics class >> gtExampleClass [
+	<gtExample: 'Critics on class'>
+	^ GTCritics onClass: GTCritics
+]
+
+{ #category : #'accessing-examples' }
+GTCritics class >> gtExampleMethod [
+	<gtExample: 'Critics on method only'>
+	^ GTCritics onMethod: (GTCritics class >> #exampleMethod)
+]
+
+{ #category : #'accessing-examples' }
+GTCritics class >> gtExamplePackage [
+	<gtExample: 'Critics on package'>
+	^ GTCritics onPackage: (RPackageOrganizer default packageOf: GTCritics)
+]
+
+{ #category : #'accessing-examples' }
+GTCritics class >> gtExampleSubcasses [
+	<gtExample: 'Critics on subclasses only'>
+	^ GTCritics onSubclasses: GTFilter
+]
+
+{ #category : #'accessing-examples' }
+GTCritics class >> gtExampleWithSubcasses [
+	<gtExample: 'Critics with subclasses'>
+	^ GTCritics onWithSubclasses: GTFilter
+]
+
+{ #category : #'accessing-examples' }
+GTCritics class >> gtExamples [
+	" The examples in this class are too expensive for the build-job. We ignore them. Nevertheless they will work. "
+	^ #()
+]
+
 { #category : #public }
 GTCritics class >> onClass: aClass [
 	^ self new 
@@ -157,6 +193,7 @@ GTCritics >> spotterActDefault [
 
 { #category : #private }
 GTCritics >> spotterActDefault: aStep [
+	self flag: #refactoringViolationForSpotterActDefault:.
 	self spotterActDefault
 ]
 

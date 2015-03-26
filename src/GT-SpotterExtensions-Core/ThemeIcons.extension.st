@@ -1,8 +1,15 @@
 Extension { #name : #ThemeIcons }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+ThemeIcons class >> gtExampleThemeIcons [
+	<gtExample: 'Icon Theme'>
+	^ Smalltalk ui icons
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 ThemeIcons >> spotterForIconsFor: aStep [
 	<spotterOrder: 10>
+	self flag: #maybeRewriteForDirectStreaming.
 	aStep listProcessor
 		title: 'Icons';
 		allCandidates: [ 

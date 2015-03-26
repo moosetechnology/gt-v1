@@ -18,6 +18,13 @@ MCWorkingCopy >> gtDisplayOn: stream [
 		
 ]
 
+{ #category : #'*GT-SpotterExtensions-Core' }
+MCWorkingCopy class >> gtExampleWorkingCopy [
+	<gtExample: 'Metacello working-copy'>
+	^ (RPackageOrganizer default packageOf: GTSpotter) mcPackage 
+		ifNotNilDo: [ :mcp | mcp workingCopy ]
+]
+
 { #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> nextAncestors [
 	^ self versionInfo 
@@ -39,6 +46,7 @@ MCWorkingCopy >> spotterAllRepositoriesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 MCWorkingCopy >> spotterAncestorsFor: aStep [
 	<spotterOrder: 2>
+	self flag: #maybeRewriteForDirectStreaming.
 	aStep listProcessor
 		title: 'Ancestors';
 		allCandidates: [ self allAncestors ];
@@ -70,9 +78,12 @@ MCWorkingCopy >> spotterMonticelloPackageFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 MCWorkingCopy >> spotterPackageFor: aStep [
 	<spotterOrder: 21>
+	self flag: #maybeRewriteForDirectStreaming.
 	aStep listProcessor
 		title: 'Packages';
-		allCandidates: [ Array with: self package correspondingRPackage ];
+		allCandidates: [ self package correspondingRPackage 
+			ifNotNilDo: [ :rpackage | { rpackage } ] 
+			ifNil: [ { } ] ];
 		itemName: [ :item | item name ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
 		filter: GTFilterSubstring

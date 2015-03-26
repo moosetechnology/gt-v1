@@ -1,6 +1,12 @@
 Extension { #name : #SettingNode }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+SettingNode class >> exampleSettingNode [
+	<gtExample: 'Settings node'>
+	^ SettingTree exampleSettingTree nodeList anyOne
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 SettingNode >> spotterForSettingsFor: aStep [
 	<spotterOrder: 0>
 	self allChildren isEmpty ifTrue: [ ^ self ].

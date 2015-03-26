@@ -1,6 +1,20 @@
 Extension { #name : #MenuItemMorph }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+MenuItemMorph class >> gtExampleMenuItemMorphWithSubitems [
+	<gtExample: 'Menu item with subitems'>
+	^ World worldMenu items 
+		detect: [ :each | each contents = 'System' ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+MenuItemMorph class >> gtExampleMenuItemMorphWithoutSubitems [
+	<gtExample: 'Menu item without subitems'>
+	^ World worldMenu items 
+		detect: [ :each | each contents = 'System Browser' ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 MenuItemMorph >> spotterActDefault [
 	self doButtonAction
 ]

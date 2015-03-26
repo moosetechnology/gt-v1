@@ -12,8 +12,16 @@ MenuMorph >> allItems [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+MenuMorph class >> gtExampleMenuMorph [
+	<gtExample>
+	^ self example
+	
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 MenuMorph >> spotterItemsFor: aStep [
 	<spotterOrder: 10>
+	self flag: #refactoringViolationForSpotterActDefault:.
 	^ aStep listProcessor 
 		title: 'Items';
 		candidatesLimit: Float infinity;

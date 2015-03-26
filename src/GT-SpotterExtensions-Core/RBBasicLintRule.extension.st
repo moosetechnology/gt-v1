@@ -1,6 +1,22 @@
 Extension { #name : #RBBasicLintRule }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+RBBasicLintRule class >> gtExampleLintRuleWithResult [
+	<gtExampl: 'Lint rule with result'>
+	| rule |
+	(rule :=RBLongMethodsRule new) result 
+		addClass: RBBasicLintRule selector: #gtExampleLintRuleWithResult;
+		addClass: RBBasicLintRule selector: #gtExampleLintRuleWithoutResult.
+	^ rule
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+RBBasicLintRule class >> gtExampleLintRuleWithoutResult [
+	<gtExample: 'Lint rule without result'>
+	^ RBLongMethodsRule new
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 RBBasicLintRule >> hasCriticsResults [
 	^ self class isVisible 
 		and: [ self isTransformationRule not
@@ -10,6 +26,7 @@ RBBasicLintRule >> hasCriticsResults [
 { #category : #'*GT-SpotterExtensions-Core' }
 RBBasicLintRule >> spotterActDefault [
 	" #withClassesFixedForNautilus: Nautilus UI cannot browse a metaclass if the class is not within the environment. The checkbox is only a show/hide-toggle between class and metaclass. Previous browsers could do that. Not an RB problem, but we have to fix it there. "
+	self flag: #refactoringViolationForSpotterActDefault:.
 	self hasCriticsResults ifFalse: [ ^ super spotterActDefault ].
 	(self result withClassesFixedForNautilus browse) ui title: self name
 ]

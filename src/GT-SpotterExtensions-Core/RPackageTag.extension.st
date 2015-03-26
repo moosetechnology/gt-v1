@@ -1,6 +1,12 @@
 Extension { #name : #RPackageTag }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+RPackageTag class >> gtExamplePackageTag [
+	<gtExample: 'Tag'>
+	^ (RPackageOrganizer default packageOf: GTSpotter) classTags anyOne
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 RPackageTag >> spotterClassesFor: aStep [
 	<spotterOrder: 20>
 	aStep listProcessor

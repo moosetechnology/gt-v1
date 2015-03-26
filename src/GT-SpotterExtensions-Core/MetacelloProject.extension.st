@@ -1,8 +1,15 @@
 Extension { #name : #MetacelloProject }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+MetacelloProject class >> gtExampleMetacelloProject [
+	<gtExample: 'Metacello project'>
+	^ ConfigurationOfGTSpotter project
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 MetacelloProject >> spotterForVersionsFor: aStep [
 	<spotterOrder: 1>
+	self flag: #maybeRewriteForDirectStreaming.
 	aStep listProcessor
 		title: 'Versions';
 		allCandidates: [

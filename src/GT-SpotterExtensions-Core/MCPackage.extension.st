@@ -6,6 +6,20 @@ MCPackage >> gtDisplayOn: aStream [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+MCPackage class >> gtExampleNoPackage [
+	<gtExample: 'Metacello package without corresponding RPackage'>
+	^ MCPackage named: 'No-correspondingRPackage-For-This-MCPackage'
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+MCPackage class >> gtExamplePackage [
+	<gtExample: 'Metacello package with corresponding RPackage'>
+	MCWorkingCopy allManagers do: [ :each | 
+		each packageName = 'GT-SpotterExtensions-Core' ifTrue: [ ^ each package ] ].
+	^ nil
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 MCPackage >> spotterForPackageFor: aStep [
 	<spotterOrder: 2>
 	aStep listProcessor

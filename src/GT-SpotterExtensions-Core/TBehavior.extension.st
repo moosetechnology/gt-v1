@@ -1,6 +1,54 @@
 Extension { #name : #TBehavior }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleAllSubclasses [
+	<gtExample: 'All Subclasses'>
+	^ Object
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleClassVariables [
+	<gtExample: 'Class Variables'>
+	^ Behavior
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleCritics [
+	<gtExample: 'Critics'>
+	^ GTCritics forClass: GTCritics
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleInstanceVariables [
+	<gtExample: 'Instance Variables'>
+	^ ClassDescription
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleSuperclasses [
+	<gtExample: 'Superclasses'>
+	^ Metaclass
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleTraitComposition [
+	<gtExample: 'Trait Composition'>
+	^ Class
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleTraitUsers [
+	<gtExample: 'Trait Users'>
+	^ TBehavior
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior classSide >> gtExampleTraits [
+	<gtExample: 'Traits'>
+	^ Class
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterClassInstanceVariablesFor: aStep [
 	<spotterOrder: 25>
 	self isTrait ifTrue: [ ^ self ].
@@ -28,7 +76,7 @@ TBehavior >> spotterCriticsFor: aStep [
 		title: 'Critics';
 		items: [ GTCritics forClass: self ];
 		itemName: [ :item | item title ];
-		itemIcon: [ Smalltalk ui icons smallWarningIcon  ];
+		itemIcon: [ Smalltalk ui icons smallWarningIcon ];
 		filter: GTFilterSubstring
 ]
 
@@ -66,6 +114,7 @@ TBehavior >> spotterSuperclassesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterTraitUsersFor: aStep [
 	<spotterOrder: 20>
+	self isTrait ifFalse: [ ^ self ].
 	aStep listProcessor
 			title: 'Users';
 			allCandidates: [ self traitUsers asArray ];

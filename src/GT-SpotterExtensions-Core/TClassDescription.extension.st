@@ -1,6 +1,12 @@
 Extension { #name : #TClassDescription }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+TClassDescription classSide >> gtExamplePackage [
+	<gtExample: 'Package'>
+	^ TClassDescription
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 TClassDescription >> spotterPackageFor: aStep [
 	<spotterOrder: 50>
 	aStep listProcessor

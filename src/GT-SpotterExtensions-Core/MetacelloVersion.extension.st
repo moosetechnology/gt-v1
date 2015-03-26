@@ -1,6 +1,12 @@
 Extension { #name : #MetacelloVersion }
 
 { #category : #'*GT-SpotterExtensions-Core' }
+MetacelloVersion class >> gtExampleMetacelloVersion [
+	<gtExample: 'Metacello Version'>
+	^ ConfigurationOfGTSpotter project version: #development
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 MetacelloVersion >> spotterForGroupsFor: aStep [
 	<spotterOrder: 2>
 	aStep listProcessor
