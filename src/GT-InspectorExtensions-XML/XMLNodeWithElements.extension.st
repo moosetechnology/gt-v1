@@ -6,6 +6,12 @@ XMLNodeWithElements >> gtDisplayOn: stream [
 ]
 
 { #category : #'*GT-InspectorExtensions-XML' }
+XMLNodeWithElements classSide >> gtExampleXmlNode [
+	<gtExample>
+	^ XMLDocument gtExampleXmlNode nodes
+]
+
+{ #category : #'*GT-InspectorExtensions-XML' }
 XMLNodeWithElements >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite text 

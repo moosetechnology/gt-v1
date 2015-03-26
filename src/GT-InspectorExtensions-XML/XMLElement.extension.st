@@ -23,6 +23,12 @@ XMLElement >> gtDisplayOn: stream [
 ]
 
 { #category : #'*GT-InspectorExtensions-XML' }
+XMLElement classSide >> gtExampleXmlNode [
+	<gtExample>
+	^ XMLDocument gtExampleXmlNode nodes firstElement 
+]
+
+{ #category : #'*GT-InspectorExtensions-XML' }
 XMLElement >> gtInspectorImageIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 40>
 	|client url|
