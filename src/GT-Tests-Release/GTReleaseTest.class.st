@@ -24,11 +24,11 @@ GTReleaseTest >> allClassesWithPragma: pragmaSymbol [
 GTReleaseTest >> hasExampleMethod: aClass [
 
 	^ ((Pragma 
-		allNamed: #example 
+		allNamed: #gtExample 
 		from: aClass class
 		to: aClass class),
 	(Pragma 
-		allNamed: #example: 
+		allNamed: #gtExample: 
 		from: aClass class
 		to: aClass class)) notEmpty
 		
