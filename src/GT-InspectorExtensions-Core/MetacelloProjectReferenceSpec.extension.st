@@ -1,6 +1,12 @@
 Extension { #name : #MetacelloProjectReferenceSpec }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+MetacelloProjectReferenceSpec class >> gtExampleProjectReferenceSpec [
+	<gtExample: 'Metacello project reference'>
+	^ (ConfigurationOfGTInspector project version: #development) projects anyOne
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 MetacelloProjectReferenceSpec >> gtInspectorProjectsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite list 

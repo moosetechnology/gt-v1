@@ -1,6 +1,12 @@
 Extension { #name : #RGMethodDefinition }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+RGMethodDefinition class >> gtExampleMethod [
+	<gtExample: 'RMethodDefinition'>
+	^ (GTInspector class >> #gtInspectorExtensionsIn:) asRingDefinition
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 RGMethodDefinition >> gtInspectorImplementorsIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	composite list 
