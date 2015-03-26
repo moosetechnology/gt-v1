@@ -34,7 +34,7 @@ PragmaType class >> all [
 
 { #category : #examples }
 PragmaType class >> exampleAnyOne [
-	<example>
+	<gtExample>
 	^ self all anyOne
 ]
 
