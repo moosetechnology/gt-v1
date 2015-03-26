@@ -74,7 +74,7 @@ GTPlayPage class >> fromFileReference: aFileReference [
 
 { #category : #examples }
 GTPlayPage class >> gtExampleEmpty [
-	<example: 'Empty'>
+	<gtExample: 'Empty'>
 	^ self new
 ]
 

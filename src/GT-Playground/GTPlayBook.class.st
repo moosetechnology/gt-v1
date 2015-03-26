@@ -93,7 +93,7 @@ GTPlayBook class >> ensureDistinctDirectory: aStringOrFileReference [
 
 { #category : #examples }
 GTPlayBook class >> gtExampleEmpty [
-	<example: 'Empty'>
+	<gtExample: 'Empty'>
 	^ self new
 ]
 
