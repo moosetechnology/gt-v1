@@ -1,6 +1,18 @@
 Extension { #name : #Announcer }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Announcer class >> gtExampleEmptyAnnouncer [
+	<gtExample: 'Empty Announcer'>
+	^ Announcer new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Announcer class >> gtExampleSystemAnnouncer [
+	<gtExample: 'System Announcer'>
+	^ SystemAnnouncer uniqueInstance
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Announcer >> gtInspectorAnnouncementsIn: composite context: aGTContext [
 	<gtInspectorPresentationOrder: 40>
 	| recordedAnnouncements messageSend |

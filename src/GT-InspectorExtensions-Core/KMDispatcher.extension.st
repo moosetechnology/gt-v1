@@ -1,6 +1,24 @@
 Extension { #name : #KMDispatcher }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+KMDispatcher class >> gtExampleDispatcherWithTarget [
+	<gtExample: 'Dispatcher with target'>
+	^ KMDispatcher target: Morph new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+KMDispatcher class >> gtExampleDispatcherWithTargetAndShortcuts [
+	<gtExample: 'Dispatcher with target and shortcuts'>
+	^ BorderedMorph new kmDispatcher
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+KMDispatcher class >> gtExampleEmptyDispatcher [
+	<gtExample: 'Empty dispatcher'>
+	^ KMDispatcher new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite table 
