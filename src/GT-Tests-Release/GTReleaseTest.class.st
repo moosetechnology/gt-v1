@@ -78,7 +78,7 @@ GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: 
 GTReleaseTest >> testAllMissingExternalExamples [
 	self assertIncludesPackages: nil
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
-		ignoredClasses: nil
+		ignoredClasses: { " abstract -> " Slot }
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing external examples'
@@ -88,7 +88,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 GTReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
-		ignoredClasses: { Slot. " abstract -> " RTAbstractExample. ZnMessage. " faulty test mocks -> " GTSpotterExceptionMock1. GTSpotterExceptionMock2. GTSpotterExceptionMock3. GTSpotterExceptionMock4. GTSpotterExceptionMock5. }
+		ignoredClasses: { " abstract -> " ComposableModel. RTAbstractExample. Slot. ZnMessage. " faulty test mocks -> " GTSpotterExceptionMock1. GTSpotterExceptionMock2. GTSpotterExceptionMock3. GTSpotterExceptionMock4. GTSpotterExceptionMock5. }
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing internal examples'
@@ -98,7 +98,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 GTReleaseTest >> testMissingGTInspectorExamples [
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
-		ignoredClasses: { Slot. " abstract -> " RTAbstractExample. ZnMessage  }
+		ignoredClasses: { " abstract -> " ComposableModel. RTAbstractExample. ZnMessage  }
 		pragmas: #( #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'Missing examples for GTInspector'
@@ -108,7 +108,7 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 GTReleaseTest >> testMissingGTSpotterExamples [
 	self assertIncludesPackages: { 'GT-Spotter' }
 		excludedPackages: nil
-		ignoredClasses: { Slot }
+		ignoredClasses: { " abstract -> " Slot }
 		pragmas: #( #spotterOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'Missing examples for GTSpotter'
