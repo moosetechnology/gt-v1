@@ -39,10 +39,14 @@ GTInspectorExamplesTest >> tearDown [
 
 { #category : #tests }
 GTInspectorExamplesTest >> testAllExamples [
-	Object withAllSubclassesDo: [ :eachClass | eachClass gtExamples do: [ :exampleToTest | self checkAllPresentationsOf: exampleToTest ] ]
+	Object withAllSubclasses 
+		do: [ :eachClass | eachClass gtExamples do: [ :exampleToTest | self checkAllPresentationsOf: exampleToTest ] ]
+		displayingProgress: 'Testing GTInspector examples (#testAllExamples)'
 ]
 
 { #category : #tests }
 GTInspectorExamplesTest >> testGlobals [
-	{ Smalltalk . RBMessageNode . Trait . TClass . TBehavior . GTInspector . Object . Class . CompiledMethod } do: [ :each | self checkAllPresentationsOf: each ]
+	{ Smalltalk . RBMessageNode . Trait . TClass . TBehavior . GTInspector . Object . Class . CompiledMethod } 
+		do: [ :each | self checkAllPresentationsOf: each ]
+		displayingProgress: 'Testing GTInspector globals (#testGlobals)'
 ]
