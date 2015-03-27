@@ -1,7 +1,7 @@
 Extension { #name : #TRCanvas }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-TRCanvas classSide >> gtExample [
+TRCanvas classSide >> gtExampleArc [
 	<gtExample: 'Example arc'>
 	^ TRCanvasExample new arc
 ]
