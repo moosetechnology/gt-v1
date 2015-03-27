@@ -3,7 +3,7 @@ Extension { #name : #Announcer }
 { #category : #'*GT-InspectorExtensions-Core' }
 Announcer class >> gtExampleEmptyAnnouncer [
 	<gtExample: 'Empty Announcer'>
-	^ Announcer new
+	^ self new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }

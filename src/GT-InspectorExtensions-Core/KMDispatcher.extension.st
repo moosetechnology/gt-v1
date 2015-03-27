@@ -3,7 +3,7 @@ Extension { #name : #KMDispatcher }
 { #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher class >> gtExampleDispatcherWithTarget [
 	<gtExample: 'Dispatcher with target'>
-	^ KMDispatcher target: Morph new
+	^ self target: Morph new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -15,7 +15,7 @@ KMDispatcher class >> gtExampleDispatcherWithTargetAndShortcuts [
 { #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher class >> gtExampleEmptyDispatcher [
 	<gtExample: 'Empty dispatcher'>
-	^ KMDispatcher new
+	^ self new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }

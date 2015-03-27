@@ -3,19 +3,19 @@ Extension { #name : #ZnMimePart }
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnMimePart class >> gtExampleEmptyField [
 	<gtExample: 'Empty field'>
-	^ ZnMimePart fieldName: 'value' value: ''
+	^ self fieldName: 'value' value: ''
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnMimePart class >> gtExampleField [
 	<gtExample: 'Field'>
-	^ ZnMimePart fieldName: 'message' value: 'hello world'
+	^ self fieldName: 'message' value: 'hello world'
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnMimePart class >> gtExampleFile [
 	<gtExample: 'File'>
-	^ ZnMimePart 
+	^ self 
 		fieldName: 'file' 
 		fileName: 'message.txt' 
 		entity: (ZnEntity text: 'Hello World')

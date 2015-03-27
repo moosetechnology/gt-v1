@@ -13,7 +13,7 @@ KMKeymap >> gtDisplayOn: aStream [
 { #category : #'*GT-InspectorExtensions-Core' }
 KMKeymap class >> gtExampleKeymapA [
 	<gtExample: 'Keymap: a'>
-	^ KMKeymap 
+	^ self 
 		named: #a 
 		shortcut: $a asKeyCombination
 		action: [ ]
@@ -22,7 +22,7 @@ KMKeymap class >> gtExampleKeymapA [
 { #category : #'*GT-InspectorExtensions-Core' }
 KMKeymap class >> gtExampleKeymapFOO [
 	<gtExample: 'Keymap: FOO'>
-	^ KMKeymap 
+	^ self 
 		named: #Foo
 		shortcut: $F asKeyCombination, $O asKeyCombination, $O asKeyCombination
 		action: [ ]
