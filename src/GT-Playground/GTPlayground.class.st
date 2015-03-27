@@ -290,31 +290,10 @@ GTPlayground >> codeIn: a [
 			icon: GLMUIThemeExtraIcons glamorousSaveToUrl
 			entitled: 'Remote publish';
 		addAction: 
-			((GLMPopupAction new) 
-				action: [ :text :page :popup |
-					|adaptor|
-					adaptor := GLMBrickListAdaptor new on: self currentBindings associations.
-					adaptor morphAtLogic: [ :index | self newBindingRowFor: (adaptor origin at: index) ].
-					popup contentBrick paddingTop: 0; paddingBottom: 0.
-					popup doNotHideUnhover.
-					GLMFallbackScrollListBrick new
-						scrollpaneBackgroundColor: Color transparent;
-						emptyBrick: (GLMLabelBrick new
-							text: 'No bindings';
-							hSpaceFill;
-							padding: #(15 10);
-							textPosition: #center;
-							textColor: Color gray;
-							fontSize: 13;
-							yourself);
-						adaptor: adaptor;
-						height: [ :b | b band height ];
-						maxHeight: 300;
-						width: 300
-					
-				]; 
+			(GLMPopupAction new
+				action: [ :text :page :popup | self newBindingsListIn: popup ]; 
 				icon: GLMUIThemeExtraIcons glamorousBrowse;
-				title: 'bindings';
+				title: 'Bindings';
 				yourself);
 		dynamicActions: [ self actionsForPreviousContents ];
 		onChangeOfPort: #text act: [ :text :page | page saveContent: text text ]
@@ -347,6 +326,12 @@ GTPlayground >> currentBindings [
 	^ self inspectorPresentation firstPresentation currentBindings
 ]
 
+{ #category : #'accessing-dynamic' }
+GTPlayground >> currentBindingsSorted [
+
+	^ self currentBindings associations asSortedCollection: [ :first :second | first key < second key ]
+]
+
 { #category : #'accessing-defaults' }
 GTPlayground >> defaultPlaygroundTitle [
 	^ 'Playground'
@@ -366,65 +351,54 @@ GTPlayground >> label: aString [
 ]
 
 { #category : #building }
-GTPlayground >> newBindingRowFor: anAssociation [
-	|row name value action|
+GTPlayground >> newActionButtonIn: aPopup [
+	|margin padding|
+	margin := aPopup themer bindingThemer padding + aPopup themer bindingThemer borderWidth.
+	padding := (margin / 2) rounded.
 	
-	row := GLMInteractableBrick new.
-	row
-		enable;
-		selectedColor: (Color veryVeryLightGray alpha: 0.5);
-		vShrinkWrap;
-		hSpaceFill;
-		padding: #( 5 0 6 0 );
-		borderColor: Color veryLightGray;
-		borderWidth: #( 0 0 1 0).
-		
-	name := GLMLabelBrick new.
-	name
-		hSpaceFill: 50;
-		vShrinkWrap;
-		textPosition: #leftCenter;
-		vAlign: #center;
-		padding: #(0 5);
-		textColor: Color gray;
-		borderColor: Color veryVeryLightGray;
-		borderWidth: #(0 0 0 0);
-		text: anAssociation key.
-		
-	value := GLMLabelBrick new.
-	value
-		hSpaceFill: 50;
-		vShrinkWrap;
-		textPosition: #leftCenter;
-		vAlign: #center;
-		borderColor: Color veryVeryLightGray;
-		borderWidth: #(0 0 0 0);
-		padding: #(0 5);
-		text: anAssociation value asString.
-		
-	action := GLMHintableActionButtonBrick new.
-	action
-		padding: #(3 3);
-		margin: #(0 3);
-		marginRight: 6;
+	^ GLMHintableActionButtonBrick new
+		padding: padding;
+		margin: {0 . padding};
+		marginRight: margin;
 		hShrinkWrap;
-		pressedColor: Color veryVeryLightGray;
-		icon: GLMUIThemeExtraIcons glamorousClose;
-		hintTitle: 'Remove binding';
-		action: [
-			|bindings|
-			bindings := self currentBindings copy.
-			bindings removeKey: anAssociation key ifAbsent: [ ].
-			self setBindings: bindings.
-			row owner scrollpane adaptor on: bindings associations.
-			row owner scrollpane invalidate ];
-		hintText: 'will completely unassign variable'.
-		
-	row addAllBricks: { name . value . action }.
-	
-	^ row
-		
+		pressedColor: aPopup themer buttonPressedColor
+]
 
+{ #category : #building }
+GTPlayground >> newBindingLabelIn: aPopup [
+
+	^ GLMLabelBrick new
+		hSpaceFill: 50;
+		vShrinkWrap;
+		textPosition: #leftCenter;
+		vAlign: #center;
+		padding: { 0 . aPopup themer bindingThemer padding }
+]
+
+{ #category : #building }
+GTPlayground >> newBindingRow: anAssociation for: aCollection in: aPopup [
+
+	^ (self newRowIn: aPopup)
+		borderWidth: { 0 . 0 . aCollection last == anAssociation ifTrue: [ 0 ] ifFalse: [ aPopup themer bindingThemer borderWidth ] . 0 };
+		addAllBricks: {
+			(self newBindingLabelIn: aPopup)
+				textColor: aPopup themer textLightColor;
+				text: anAssociation key.
+			(self newBindingLabelIn: aPopup)
+				text: anAssociation value asString.
+			self newRemoveButtonFor: anAssociation in: aPopup };
+		yourself
+]
+
+{ #category : #building }
+GTPlayground >> newBindingsListIn: aPopup [
+
+	^ GLMFallbackScrollListBrick new
+			emptyBrick: (self newEmptyTextIn: aPopup);
+			model: (self newListModelIn: aPopup);
+			height: [ :b | b band height ];
+			maxHeight: 300;
+			width: 300
 ]
 
 { #category : #building }
@@ -450,6 +424,59 @@ GTPlayground >> newEditableLabelMorph [
 		yourself 
 ]
 
+{ #category : #building }
+GTPlayground >> newEmptyTextIn: aPopup [
+
+	^ GLMLabelBrick new
+			text: 'No bindings';
+			hSpaceFill;
+			textPosition: #center;
+			padding: aPopup themer bindingThemer emptyTextPadding;
+			textColor: aPopup themer bindingThemer emptyTextColor;
+			fontSize: aPopup themer bindingThemer emptyTextFontSize;
+			yourself
+]
+
+{ #category : #building }
+GTPlayground >> newListModelIn: aPopup [
+
+	|model|
+	model := GLMBrickListModel new
+		on: self currentBindingsSorted.
+	model
+		morphAtLogic: [ :index | self newBindingRow: (model origin at: index) for: model origin in: aPopup ].
+	^ model
+]
+
+{ #category : #building }
+GTPlayground >> newRemoveButtonFor: anAssociation in: aPopup [
+
+	^ (self newActionButtonIn: aPopup)
+		hintTitle: 'Remove binding';
+		hintText: 'will unassign variable';
+		icon: aPopup themer bindingThemer removeIcon;
+		action: [ : b |
+			b owner disable.
+			GLMAnimation swipeLeft
+				onCompleted: [
+					self removeBinding: anAssociation.
+					b owner owner scrollpane adaptor on: self currentBindingsSorted.
+					b owner owner scrollpane invalidate ];
+				animate: b owner ]
+]
+
+{ #category : #building }
+GTPlayground >> newRowIn: aPopup [
+
+	^ GLMInteractableBrick new
+		enable;
+		selectedColor: (Color veryVeryLightGray alpha: 0.5);
+		vShrinkWrap;
+		hSpaceFill;
+		padding: { aPopup themer bindingThemer padding . 0 . aPopup themer bindingThemer padding + aPopup themer bindingThemer borderWidth };
+		borderColor: aPopup themer bindingThemer borderColor
+]
+
 { #category : #'scripting opening' }
 GTPlayground >> openOn: aPage [
 	| window |
@@ -458,6 +485,15 @@ GTPlayground >> openOn: aPage [
 	window when: WindowResizing do: [ 
 		self class setPreferredExtentIfWanted: window extent ].
 	^ window
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayground >> removeBinding: anAssociation [
+
+	|bindings|
+	bindings := self currentBindings copy.
+	bindings removeKey: anAssociation key ifAbsent: [ ].
+	self setBindings: bindings.
 ]
 
 { #category : #actions }
