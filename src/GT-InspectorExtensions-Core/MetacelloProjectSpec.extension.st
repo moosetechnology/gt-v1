@@ -3,7 +3,7 @@ Extension { #name : #MetacelloProjectSpec }
 { #category : #'*GT-InspectorExtensions-Core' }
 MetacelloProjectSpec class >> gtExampleMetacelloSpec [
 	<gtExample: 'Metacello project reference'>
-	^ (ConfigurationOfGTInspector project version: #development) projects anyOne
+	^ (ConfigurationOfGTInspectorCore project version: #development) projects anyOne
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
