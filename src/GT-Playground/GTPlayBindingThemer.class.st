@@ -45,3 +45,9 @@ GTPlayBindingThemer >> removeIcon [
 
 	^ GLMUIThemeExtraIcons glamorousRemove
 ]
+
+{ #category : #rows }
+GTPlayBindingThemer >> selectedColor [
+
+	^ Color veryVeryLightGray alpha: 0.5
+]

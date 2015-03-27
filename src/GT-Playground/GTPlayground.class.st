@@ -470,7 +470,7 @@ GTPlayground >> newRowIn: aPopup [
 
 	^ GLMInteractableBrick new
 		enable;
-		selectedColor: (Color veryVeryLightGray alpha: 0.5);
+		selectedColor: aPopup themer bindingThemer selectedColor;
 		vShrinkWrap;
 		hSpaceFill;
 		padding: { aPopup themer bindingThemer padding . 0 . aPopup themer bindingThemer padding + aPopup themer bindingThemer borderWidth };
