@@ -21,12 +21,6 @@ GTCachedCritics class >> cache [
 	^ cache ifNil: [ cache := self new ]
 ]
 
-{ #category : #cleanup }
-GTCachedCritics class >> cleanUp [
-	self reset.
-	cache := nil
-]
-
 { #category : #public }
 GTCachedCritics class >> reset [
 	cache ifNotNil: [ cache reset ].

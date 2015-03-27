@@ -1,36 +1,6 @@
 Extension { #name : #TClass }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass classSide >> gtExampleAllInstances [
-	<gtExample: 'All instances'>
-	^ OrderedCollection allInstances
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TClass classSide >> gtExampleClassMethods [
-	<gtExample: 'Class-side methods'>
-	^ Object class
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TClass classSide >> gtExampleReferences [
-	<gtExample: 'References'>
-	^ Smalltalk
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TClass classSide >> gtExampleSuperClassMethods [
-	<gtExample: 'Super class methods'>
-	^ SortedCollection class
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TClass classSide >> gtExampleSuperMethods [
-	<gtExample: 'Super methods'>
-	^ SortedCollection
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 TClass >> spotterActDefault [
 	^ self browse
 ]
