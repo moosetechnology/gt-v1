@@ -6,17 +6,28 @@ Class {
 
 { #category : #private }
 GTReleaseTest >> assertIncludesPackages: includedPackageNames excludedPackages: excludedPackageNames ignoredClasses: ignoredClasses pragmas: pragmas examples: examples description: aString [
-	| packages missingExamples missingExamplesWithoutIgnoredClasses |
+	| packages missingExamples missingExamplesWithoutIgnoredClasses obsoleteIgnoredClasses |
 	
+	" gather all packages that should be checked "
 	packages := self includesPackages: includedPackageNames excludedPackages: excludedPackageNames.
 	
+	" check the given packages and filter out some classes "
 	missingExamples := self packages: packages pragmas: pragmas examples: examples.
 	missingExamplesWithoutIgnoredClasses := self missingExamples: missingExamples withoutIgnoredClasses: ignoredClasses.
 	
-	self assert: missingExamplesWithoutIgnoredClasses isEmpty description: [ 
-		String streamContents: [ :stream |
-			stream nextPutAll: (aString ifNil: [ 'Found missing examples in' ]); nextPutAll: ': '.
-			(missingExamplesWithoutIgnoredClasses keys sorted: [ :a :b | a name < b name ]) printOn: stream ] ]
+	" check for missing examples - ignore some classes "
+	self assert: missingExamplesWithoutIgnoredClasses isEmpty 
+		description: [ 
+			String streamContents: [ :stream |
+				stream nextPutAll: (aString ifNil: [ 'Found missing examples in' ]); nextPutAll: ': '.
+				(missingExamplesWithoutIgnoredClasses keys sorted: [ :a :b | a name < b name ]) printOn: stream ] ].
+	
+	" check for ignored examples which are provided - those should no longer be ignored "
+	self assert: (obsoleteIgnoredClasses := ignoredClasses difference: missingExamples keys) isEmpty 
+		description: [ 
+			String streamContents: [ :stream |
+				stream nextPutAll: 'Examples found. Test should no longer ignore these classes: '.
+				(obsoleteIgnoredClasses sorted: [ :a :b | a name < b name ]) printOn: stream ] ]
 ]
 
 { #category : #private }
@@ -77,7 +88,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 GTReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
-		ignoredClasses: { GTSpotterExceptionMock1. GTSpotterExceptionMock2. GTSpotterExceptionMock3. GTSpotterExceptionMock4. GTSpotterExceptionMock5 }
+		ignoredClasses: { Slot. " abstract -> " RTAbstractExample. ZnMessage. " faulty test mocks -> " GTSpotterExceptionMock1. GTSpotterExceptionMock2. GTSpotterExceptionMock3. GTSpotterExceptionMock4. GTSpotterExceptionMock5. }
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing internal examples'
@@ -87,7 +98,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 GTReleaseTest >> testMissingGTInspectorExamples [
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
-		ignoredClasses: nil
+		ignoredClasses: { Slot. " abstract -> " RTAbstractExample. ZnMessage  }
 		pragmas: #( #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'Missing examples for GTInspector'
@@ -97,7 +108,7 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 GTReleaseTest >> testMissingGTSpotterExamples [
 	self assertIncludesPackages: { 'GT-Spotter' }
 		excludedPackages: nil
-		ignoredClasses: nil
+		ignoredClasses: { Slot }
 		pragmas: #( #spotterOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'Missing examples for GTSpotter'
