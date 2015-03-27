@@ -22,6 +22,21 @@ RTExampleSelection >> gtDisplaySourceIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTExampleSelection classSide >> gtExampleAtRandom [
+	<gtExample: 'Random example'>
+	^ RTAbstractExample subclasses atRandom new gtExamples atRandom
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTExampleSelection classSide >> gtExampleFlags [
+	<gtExample: 'Example flags'>
+	^ RTExampleSelection new 
+		exampleObject: RTComposedShapeExample new; 
+		selector: #exampleFlags;
+		yourself
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTExampleSelection >> gtInspectorViewIn: composite [
 	<gtInspectorPresentationOrder: -10>
 	composite roassal2
