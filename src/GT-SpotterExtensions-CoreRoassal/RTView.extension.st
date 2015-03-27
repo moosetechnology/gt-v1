@@ -3,7 +3,7 @@ Extension { #name : #RTView }
 { #category : #'*GT-SpotterExtensions-CoreRoassal' }
 RTView classSide >> gtExampleEmptyView [
 	<gtExample: 'Empty View'>
-	^ RTView new
+	^ self new
 ]
 
 { #category : #'*GT-SpotterExtensions-CoreRoassal' }
