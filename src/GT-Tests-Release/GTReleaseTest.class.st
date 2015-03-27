@@ -4,77 +4,101 @@ Class {
 	#category : #'GT-Tests-Release'
 }
 
-{ #category : #accessing }
-GTReleaseTest >> allClassesWithCustomExtensions [
-
-	^ self pragmasForCustomExtensions asSet flatCollect: [ :pragma | 
-		self allClassesWithPragma: pragma ]
+{ #category : #private }
+GTReleaseTest >> assertIncludesPackages: includedPackageNames excludedPackages: excludedPackageNames ignoredClasses: ignoredClasses pragmas: pragmas examples: examples description: aString [
+	| packages missingExamples missingExamplesWithoutIgnoredClasses |
+	
+	packages := self includesPackages: includedPackageNames excludedPackages: excludedPackageNames.
+	
+	missingExamples := self packages: packages pragmas: pragmas examples: examples.
+	missingExamplesWithoutIgnoredClasses := self missingExamples: missingExamples withoutIgnoredClasses: ignoredClasses.
+	
+	self assert: missingExamplesWithoutIgnoredClasses isEmpty description: [ 
+		String streamContents: [ :stream |
+			stream nextPutAll: (aString ifNil: [ 'Found missing examples in' ]); nextPutAll: ': '.
+			(missingExamplesWithoutIgnoredClasses keys sorted: [ :a :b | a name < b name ]) printOn: stream ] ]
 ]
 
-{ #category : #accessing }
-GTReleaseTest >> allClassesWithPragma: pragmaSymbol [
-	^ Object withAllSubclasses
-		select: [ :eachClass | 
-			"we reject the meta classes because they do not need examples"
-			eachClass = eachClass theNonMetaClass and: [
-				(Pragma allNamed: pragmaSymbol from: eachClass to: eachClass) notEmpty ] ]
+{ #category : #private }
+GTReleaseTest >> includesPackages: includedPackageNames excludedPackages: excludedPackageNames [
+	| packages |
+	packages := OrderedCollection new.
+	(RPackageOrganizer default packages 
+		sorted: [ :a :b | a packageName < b packageName ]) 
+		do: [ :package |
+			((includedPackageNames isEmptyOrNil
+				or: [ includedPackageNames anySatisfy: [ :packageName | package packageName asLowercase beginsWith: packageName asLowercase ] ])
+					and: [ excludedPackageNames isEmptyOrNil
+						or: [ excludedPackageNames noneSatisfy: [ :packageName | package packageName asLowercase beginsWith: packageName asLowercase ] ] ])
+							ifTrue: [ packages add: package ] ].
+	^ packages
 ]
 
-{ #category : #testing }
-GTReleaseTest >> hasExampleMethod: aClass [
-
-	^ self pragmasForExamples anySatisfy: [ :pragma | 
-		(Pragma 
-			allNamed: pragma
-			from: aClass class
-			to: aClass class) notEmpty ]
+{ #category : #private }
+GTReleaseTest >> missingExamples: missingExamples withoutIgnoredClasses: classes [
+	| missingExamplesWithoutIgnoredClasses |
+	classes isEmptyOrNil ifTrue: [ ^ missingExamples ].
+	missingExamplesWithoutIgnoredClasses := missingExamples copy.
+	classes do: [ :class | missingExamplesWithoutIgnoredClasses removeKey: class ifAbsent: [  ] ].
+	^ missingExamplesWithoutIgnoredClasses
 ]
 
-{ #category : #accessing }
-GTReleaseTest >> pragmasForCustomExtensions [
-	^ #( #spotterOrder: #gtInspectorPresentationOrder: )
-]
-
-{ #category : #accessing }
-GTReleaseTest >> pragmasForExamples [
-	^ #( #gtExample #gtExample: )
-]
-
-{ #category : #testing }
-GTReleaseTest >> shouldIgnoreExampleMethod: aClass [
-	self flag: 'TODO: how to proceed with special cases of examples? still implement them ? in which package ? we should only iterate over examples which actually belong to the namespace of GT. We shouldnt handle <missing> examples in outside packages. This exception list is temporary only'.
-	^ #(
-		GTSpotterExceptionMock1 " GTSpotterExceptionMock* are special extensions only used for testing faulty conditions/examples. They should be ignored in this test. "
-		GTSpotterExceptionMock2 
-		GTSpotterExceptionMock3 
-		GTSpotterExceptionMock4 
-		GTSpotterExceptionMock5
-		LiteralVariable  " OpalTools "
-		IRInstruction  " OpalTools "
-		IRMethod  " OpalTools "
-		IRSequence  " OpalTools "
-		LiteralValue  " OpalTools "
-		OCAbstractScope 	" OpalTools "
-		PPFailure " PetitGui "
-		PPParser " PetitGui "
-		PPParserDebuggerResult " PetitGui "
-		ReflectiveMethod " Reflectivity (model!?) "
-		SymbolicBytecode " OpalTools (model!?) "
-	 ) anySatisfy: [ :each | each = aClass name ]
+{ #category : #private }
+GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: examplePragmas [
+	| missingExamples |
+	missingExamples := Dictionary new.
+	packages do: [ :package |
+		package classes do: [ :class |
+			class theNonMetaClass = class ifTrue: [ " we are only interested in classes "
+				| methodsRequiringExamples |
+				methodsRequiringExamples := pragmasRequiringExamples flatCollect: [ :each | Pragma allNamed: each in: class ].
+				methodsRequiringExamples ifNotEmpty: [ " example required "
+					| exampleMethods |
+					exampleMethods := examplePragmas flatCollect: [ :each | Pragma allNamed: each in: class theMetaClass ].
+					exampleMethods ifEmpty: [ " something is missing - check which package would require the example "
+						(methodsRequiringExamples anySatisfy: [ :pragma | (packages includes: pragma method package) ]) ifTrue: [ 
+							missingExamples 
+								at: class 
+								put: (methodsRequiringExamples collect: [ :pragma | pragma method ]) ] ] ] ] ] ].
+	^ missingExamples
 ]
 
 { #category : #tests }
-GTReleaseTest >> testAllClassesWithCustomExtensionsHaveAnExample [
-	| classesWithCustomExtensionsAndNoExample |
-	
-	classesWithCustomExtensionsAndNoExample := self allClassesWithCustomExtensions select: [ :aClass |
-		(self hasExampleMethod: aClass) not
-			and: [ (self shouldIgnoreExampleMethod: aClass) not ] ].
-	
-	self 
-		assert: classesWithCustomExtensionsAndNoExample isEmpty
-		description: [ String streamContents: [ :s|
-			s 
-				nextPutAll: 'Found classes with custom extensions and no example methods: ';
-				print: classesWithCustomExtensionsAndNoExample ]].
+GTReleaseTest >> testAllMissingExternalExamples [
+	self assertIncludesPackages: nil
+		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
+		ignoredClasses: nil
+		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
+		examples: #( #gtExample #gtExample: )
+		description: 'All missing external examples'
+]
+
+{ #category : #tests }
+GTReleaseTest >> testAllMissingInternalExamples [
+	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
+		excludedPackages: nil
+		ignoredClasses: { GTSpotterExceptionMock1. GTSpotterExceptionMock2. GTSpotterExceptionMock3. GTSpotterExceptionMock4. GTSpotterExceptionMock5 }
+		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
+		examples: #( #gtExample #gtExample: )
+		description: 'All missing internal examples'
+]
+
+{ #category : #tests }
+GTReleaseTest >> testMissingGTInspectorExamples [
+	self assertIncludesPackages: { 'GT-Inspector' }
+		excludedPackages: nil
+		ignoredClasses: nil
+		pragmas: #( #gtInspectorPresentationOrder: )
+		examples: #( #gtExample #gtExample: )
+		description: 'Missing examples for GTInspector'
+]
+
+{ #category : #tests }
+GTReleaseTest >> testMissingGTSpotterExamples [
+	self assertIncludesPackages: { 'GT-Spotter' }
+		excludedPackages: nil
+		ignoredClasses: nil
+		pragmas: #( #spotterOrder: )
+		examples: #( #gtExample #gtExample: )
+		description: 'Missing examples for GTSpotter'
 ]
