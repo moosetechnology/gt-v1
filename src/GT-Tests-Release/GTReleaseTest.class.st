@@ -78,7 +78,9 @@ GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: 
 GTReleaseTest >> testAllMissingExternalExamples [
 	self assertIncludesPackages: nil
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
-		ignoredClasses: { " abstract -> " Slot }
+		ignoredClasses: { 
+			Slot. " abstract "
+		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing external examples'
@@ -88,7 +90,18 @@ GTReleaseTest >> testAllMissingExternalExamples [
 GTReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
-		ignoredClasses: { " abstract -> " ComposableModel. RTAbstractExample. Slot. ZnMessage. " faulty test mocks -> " GTSpotterExceptionMock1. GTSpotterExceptionMock2. GTSpotterExceptionMock3. GTSpotterExceptionMock4. GTSpotterExceptionMock5. }
+		ignoredClasses: {
+			ComposableModel. " abstract superclass "	
+			GTSpotterExceptionMock1. " counter-example "
+			GTSpotterExceptionMock2. " counter-example "
+			GTSpotterExceptionMock3. " counter-example "
+			GTSpotterExceptionMock4. " counter-example "
+			GTSpotterExceptionMock5. " counter-example "
+			RTAbstractExample.  " abstract factory for collecting examples "
+			Slot. " abstract "
+			TClass. " spotter/processor tests would be ulimatively slow "
+			ZnMessage. " abstract factory & superclass / subclasses provide examples "
+		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing internal examples'
@@ -98,7 +111,12 @@ GTReleaseTest >> testAllMissingInternalExamples [
 GTReleaseTest >> testMissingGTInspectorExamples [
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
-		ignoredClasses: { " abstract -> " ComposableModel. RTAbstractExample. ZnMessage  }
+		ignoredClasses: {
+			ComposableModel. " abstract superclass "
+			RTAbstractExample.  " abstract factory for collecting examples "
+			TClass. " spotter/processor tests would be ulimatively slow "
+			ZnMessage. " abstract factory & superclass / subclasses provide examples "
+		}
 		pragmas: #( #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'Missing examples for GTInspector'
@@ -108,8 +126,17 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 GTReleaseTest >> testMissingGTSpotterExamples [
 	self assertIncludesPackages: { 'GT-Spotter' }
 		excludedPackages: nil
-		ignoredClasses: { " abstract -> " Slot }
+		ignoredClasses: { 
+			Slot. " abstract "
+			TClass. " spotter/processor tests would be ulimatively slow "
+		}
 		pragmas: #( #spotterOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'Missing examples for GTSpotter'
+]
+
+{ #category : #tests }
+GTReleaseTest >> testMissingTests [
+	self flag: 'maybe enhance the following abstract classes (generic extension may work for most/all subclasses). Most/all subclasses would be examples. Intermediate classes are not tagged as abstract - not distinguishable - #allSubclasses doesn^t work. Announcer. Canvas. ComposableModel OCAbstractScope. RTView. TRCanvas. IRInstruction. Slot. Slot/Inspector is buggy'.
+	self flag: 'find a solution to provide examples for TClass + MooseModel but still have usable tests / examples in both classes will slow down tests tremendously'
 ]
