@@ -1,30 +1,6 @@
 Extension { #name : #TClass }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-TClass classSide >> gtExampleComment [
-	<gtExample: 'Class comment'>
-	^ Symbol
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-TClass classSide >> gtExampleMethods [
-	<gtExample: 'Ring methods sorted'>
-	^ ByteString
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-TClass classSide >> gtExampleReferencedIn [
-	<gtExample: 'References to'>
-	^ OrderedCollection
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-TClass classSide >> gtExampleReferencedOut [
-	<gtExample: 'References from'>
-	^ OrderedCollection
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 TClass >> gtInspectorAllReferencesIn: composite [
 	"This provides a list of all methods provided by the current class"
 	<gtInspectorPresentationOrder: 20>
