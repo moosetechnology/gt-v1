@@ -1,9 +1,9 @@
 Extension { #name : #CPDiverging }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-CPDiverging classSide >> gtExample [
+CPDiverging classSide >> gtExampleColorPalette [
 	<gtExample: 'Colors: diverging scheme'>
-	^ CPDiverging new
+	^ self new
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }

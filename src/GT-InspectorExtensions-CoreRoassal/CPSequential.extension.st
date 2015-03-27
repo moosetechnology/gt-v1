@@ -1,9 +1,9 @@
 Extension { #name : #CPSequential }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-CPSequential classSide >> gtExample [
+CPSequential classSide >> gtExampleColorPalette [
 	<gtExample: 'Colors: sequential scheme'>
-	^ CPSequential new
+	^ self new
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
