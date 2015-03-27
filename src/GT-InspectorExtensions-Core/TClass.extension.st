@@ -7,6 +7,12 @@ TClass classSide >> gtExampleComment [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+TClass classSide >> gtExampleMethods [
+	<gtExample: 'Ring methods sorted'>
+	^ ByteString
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 TClass classSide >> gtExampleReferencedIn [
 	<gtExample: 'References to'>
 	^ OrderedCollection
