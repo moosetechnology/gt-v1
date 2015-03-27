@@ -289,6 +289,33 @@ GTPlayground >> codeIn: a [
 		act: [ :text :page | page publish ]
 			icon: GLMUIThemeExtraIcons glamorousSaveToUrl
 			entitled: 'Remote publish';
+		addAction: 
+			((GLMPopupAction new) 
+				action: [ :text :page :popup |
+					|adaptor|
+					adaptor := GLMBrickListAdaptor new on: self currentBindings associations.
+					adaptor morphAtLogic: [ :index | self newBindingRowFor: (adaptor origin at: index) ].
+					popup contentBrick paddingTop: 0; paddingBottom: 0.
+					popup doNotHideUnhover.
+					GLMFallbackScrollListBrick new
+						scrollpaneBackgroundColor: Color transparent;
+						emptyBrick: (GLMLabelBrick new
+							text: 'No bindings';
+							hSpaceFill;
+							padding: #(15 10);
+							textPosition: #center;
+							textColor: Color gray;
+							fontSize: 13;
+							yourself);
+						adaptor: adaptor;
+						height: [ :b | b band height ];
+						maxHeight: 300;
+						width: 300
+					
+				]; 
+				icon: GLMUIThemeExtraIcons glamorousBrowse;
+				title: 'bindings';
+				yourself);
 		dynamicActions: [ self actionsForPreviousContents ];
 		onChangeOfPort: #text act: [ :text :page | page saveContent: text text ]
 ]
@@ -336,6 +363,68 @@ GTPlayground >> label: aString [
 	"Set the window label to the given string"
 	self title: aString.
 	self update
+]
+
+{ #category : #building }
+GTPlayground >> newBindingRowFor: anAssociation [
+	|row name value action|
+	
+	row := GLMInteractableBrick new.
+	row
+		enable;
+		selectedColor: (Color veryVeryLightGray alpha: 0.5);
+		vShrinkWrap;
+		hSpaceFill;
+		padding: #( 5 0 6 0 );
+		borderColor: Color veryLightGray;
+		borderWidth: #( 0 0 1 0).
+		
+	name := GLMLabelBrick new.
+	name
+		hSpaceFill: 50;
+		vShrinkWrap;
+		textPosition: #leftCenter;
+		vAlign: #center;
+		padding: #(0 5);
+		textColor: Color gray;
+		borderColor: Color veryVeryLightGray;
+		borderWidth: #(0 0 0 0);
+		text: anAssociation key.
+		
+	value := GLMLabelBrick new.
+	value
+		hSpaceFill: 50;
+		vShrinkWrap;
+		textPosition: #leftCenter;
+		vAlign: #center;
+		borderColor: Color veryVeryLightGray;
+		borderWidth: #(0 0 0 0);
+		padding: #(0 5);
+		text: anAssociation value asString.
+		
+	action := GLMHintableActionButtonBrick new.
+	action
+		padding: #(3 3);
+		margin: #(0 3);
+		marginRight: 6;
+		hShrinkWrap;
+		pressedColor: Color veryVeryLightGray;
+		icon: GLMUIThemeExtraIcons glamorousClose;
+		hintTitle: 'Remove binding';
+		action: [
+			|bindings|
+			bindings := self currentBindings copy.
+			bindings removeKey: anAssociation key ifAbsent: [ ].
+			self setBindings: bindings.
+			row owner scrollpane adaptor on: bindings associations.
+			row owner scrollpane invalidate ];
+		hintText: 'will completely unassign variable'.
+		
+	row addAllBricks: { name . value . action }.
+	
+	^ row
+		
+
 ]
 
 { #category : #building }
