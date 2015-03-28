@@ -19,6 +19,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #accessing }
+GTSpotterRecorderContextChangedEvent >> currentTextInfo [
+	^ currentTextInfo
+]
+
 { #category : #initialization }
 GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
 
@@ -30,8 +35,28 @@ GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
 		ifFalse: [ anAnnouncement previousText beginsWith: anAnnouncement currentText ]).
 ]
 
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderContextChangedEvent >> gtInspectorItems [
+	^ OrderedCollection new
+			add: (#isRefinement -> self isRefinement);
+			add: (#currentTextInfo -> self currentTextInfo);
+			add: (#previousTextInfo -> self previousTextInfo);
+			addAll: super gtInspectorItems;
+			yourself
+]
+
 { #category : #initialization }
 GTSpotterRecorderContextChangedEvent >> initialize [
 	super initialize.
 	isRefinement := false.
+]
+
+{ #category : #accessing }
+GTSpotterRecorderContextChangedEvent >> isRefinement [
+	^ isRefinement
+]
+
+{ #category : #accessing }
+GTSpotterRecorderContextChangedEvent >> previousTextInfo [
+	^ previousTextInfo
 ]

@@ -8,6 +8,21 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #accessing }
+GTSpotterRecorderSelectedCandidateChangedEvent >> elementName [
+	^ self infoAt: #elementName
+]
+
+{ #category : #accessing }
+GTSpotterRecorderSelectedCandidateChangedEvent >> elementType [
+	^ self infoAt: #elementType
+]
+
+{ #category : #accessing }
+GTSpotterRecorderSelectedCandidateChangedEvent >> eventType [
+	^ self infoAt: #eventType
+]
+
 { #category : #initialization }
 GTSpotterRecorderSelectedCandidateChangedEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.

@@ -24,6 +24,13 @@ GTSpotterRecorderEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
 ]
 
 { #category : #accessing }
+GTSpotterRecorderEvent >> associations [
+	^ info 
+			ifNil: [ #() ]
+			ifNotNil: [ info associations ]
+]
+
+{ #category : #accessing }
 GTSpotterRecorderEvent >> computerUUID [
 	^ self infoAt: #computerUUID
 ]
@@ -32,6 +39,31 @@ GTSpotterRecorderEvent >> computerUUID [
 GTSpotterRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 	
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderEvent >> gtInspectorItems [
+	^ OrderedCollection
+		 with: (#eventTimestamp -> self timestamp) withAll: self associations
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderEvent >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: -1>  
+	^ (composite table)
+		title: 'Items';
+		display: [ :anEvent | anEvent gtInspectorItems ];
+		children: [ :each | 
+			(each value isDictionary) 
+				ifTrue: [ each value associations ] 
+				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
+						ifTrue: [ each value collectWithIndex: [:x :i | i -> x ] ]
+						ifFalse: [ #() ] ] ];
+		column: 'Key' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
+		column: 'Value' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+		showOnly: 50
 ]
 
 { #category : #accessing }
@@ -84,4 +116,9 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 	sizes := strings collect: #size as: Array.
 	specials := strings collect: [ :each | each beginsWith: '#' ] as: Array.
 	^ Array with: hashes with: sizes with: specials 
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> timestamp [
+	^ timestamp
 ]

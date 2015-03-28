@@ -19,6 +19,11 @@ GTSpotterRecorderExitAnnouncementEvent class >> shouldIgnoreAnnouncement: anAnno
 	^ anAnnouncement eventType = #unknown
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderExitAnnouncementEvent >> eventType [
+	^ self infoAt: #eventType
+]
+
 { #category : #initialization }
 GTSpotterRecorderExitAnnouncementEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.

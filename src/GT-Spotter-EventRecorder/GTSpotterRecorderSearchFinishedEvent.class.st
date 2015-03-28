@@ -20,3 +20,22 @@ GTSpotterRecorderSearchFinishedEvent >> fromAnnouncement: anAnnouncement [
 			with: eachProcessor title
 			with: eachProcessor allFilteredCandidates size ]) asArray
 ]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderSearchFinishedEvent >> gtInspectorItems [
+	^ OrderedCollection new
+			add: (#query -> self query);
+			add: (#processors -> self processors);
+			addAll: super gtInspectorItems;
+			yourself
+]
+
+{ #category : #accessing }
+GTSpotterRecorderSearchFinishedEvent >> processors [
+	^ processors
+]
+
+{ #category : #accessing }
+GTSpotterRecorderSearchFinishedEvent >> query [
+	^ query
+]

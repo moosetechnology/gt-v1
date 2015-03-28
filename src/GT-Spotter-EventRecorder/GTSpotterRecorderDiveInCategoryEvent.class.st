@@ -8,6 +8,21 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #accessing }
+GTSpotterRecorderDiveInCategoryEvent >> allFilteredCandidates [
+	^ self infoAt: #allFilteredCandidates
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDiveInCategoryEvent >> categoryTitle [
+	^ self infoAt: #categoryTitle
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDiveInCategoryEvent >> eventType [
+	^ self infoAt: #eventType
+]
+
 { #category : #initialization }
 GTSpotterRecorderDiveInCategoryEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.

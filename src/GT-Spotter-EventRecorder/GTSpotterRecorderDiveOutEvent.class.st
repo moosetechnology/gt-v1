@@ -8,6 +8,16 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #accessing }
+GTSpotterRecorderDiveOutEvent >> elementName [
+	^ self infoAt: #elementName
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDiveOutEvent >> elementType [
+	^ self infoAt: #elementType
+]
+
 { #category : #initialization }
 GTSpotterRecorderDiveOutEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.

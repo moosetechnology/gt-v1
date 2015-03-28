@@ -41,7 +41,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Announcements'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 GTSpotterRecorderDataAnnouncement >> addInfoFor: aGTSpotterRecorderEvent [ 
 	dictionary keysAndValuesDo: [ :key :value |
 		key = #data ifFalse: [ 

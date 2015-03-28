@@ -22,9 +22,28 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #accessing }
+GTSpotterRecorderCategorySelectedEvent >> categoryLabel [
+	^ categoryLabel
+]
+
+{ #category : #accessing }
+GTSpotterRecorderCategorySelectedEvent >> elementCount [
+	^ elementCount
+]
+
 { #category : #initialization }
 GTSpotterRecorderCategorySelectedEvent >> fromAnnouncement: anAnnouncement [
 
 	categoryLabel := anAnnouncement category title.
 	elementCount := anAnnouncement category allFilteredCandidates size.
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderCategorySelectedEvent >> gtInspectorItems [
+	^ OrderedCollection new
+			add: (#categoryLabel -> self categoryLabel);
+			add: (#elementCount -> self elementCount);
+			addAll: super gtInspectorItems;
+			yourself
 ]
