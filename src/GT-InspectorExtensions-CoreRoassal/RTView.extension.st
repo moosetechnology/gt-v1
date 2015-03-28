@@ -1,6 +1,12 @@
 Extension { #name : #RTView }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTView classSide >> gtExampleEmptyView [
+	<gtExample: 'Empty view'>
+	^ self new
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTView >> gtInspectorElementsHierarchyIn: composite [
 	<gtInspectorPresentationOrder: 20>
 	composite table 
