@@ -1,6 +1,11 @@
 Extension { #name : #String }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+String >> gtDisplayOn: aStream [
+	self printOn: aStream.
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 String class >> gtInspectorFourtyTwo [
 	<gtExample>
 	^ '42'
