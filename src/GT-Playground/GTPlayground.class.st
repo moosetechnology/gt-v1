@@ -287,12 +287,12 @@ GTPlayground >> codeIn: a [
 		installGoAction;
 		installDefaultSelectionActions;
 		act: [ :text :page | page publish ]
-			icon: GLMUIThemeExtraIcons glamorousSaveToUrl
+			icon: ThemeIcons current glamorousSaveToUrl
 			entitled: 'Remote publish';
 		addAction: 
 			(GLMPopupAction new
 				action: [ :text :page :popup | self newBindingsListIn: popup ]; 
-				icon: GLMUIThemeExtraIcons glamorousBrowse;
+				icon: ThemeIcons current glamorousTable;
 				title: 'Bindings';
 				yourself);
 		dynamicActions: [ self actionsForPreviousContents ];
@@ -302,8 +302,6 @@ GTPlayground >> codeIn: a [
 { #category : #building }
 GTPlayground >> compose [
 	self title: self defaultPlaygroundTitle.
-	self act: [ :browser | browser currentBindings inspect ] entitled: 'Inspect variables'.
-	self act: [ :browser | browser resetBindings ] entitled: 'Reset variables'.
 	self custom:
 			(GTInspector new
 				noTitle; 
