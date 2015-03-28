@@ -23,6 +23,11 @@ GTSpotterRecorderEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
 	^ false
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderEvent >> computerUUID [
+	^ self infoAt: #computerUUID
+]
+
 { #category : #initialization }
 GTSpotterRecorderEvent >> fromAnnouncement: anAnnouncement [
 

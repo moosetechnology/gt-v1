@@ -41,6 +41,13 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Announcements'
 }
 
+{ #category : #'as yet unclassified' }
+GTSpotterRecorderDataAnnouncement >> addInfoFor: aGTSpotterRecorderEvent [ 
+	dictionary keysAndValuesDo: [ :key :value |
+		key = #data ifFalse: [ 
+			aGTSpotterRecorderEvent infoAt: key put: value ] ]
+]
+
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> at: key [
 	^ self dictionary at: key ifAbsent: [ nil ]
@@ -84,6 +91,14 @@ GTSpotterRecorderDataAnnouncement >> eventRecorderVersion [
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> eventRecorderVersion: anObject [
 	self at: #eventRecorderVersion put: anObject
+]
+
+{ #category : #accessing }
+GTSpotterRecorderDataAnnouncement >> events [
+	| events |
+	events := self materializedData.
+	events do: [ :each | self addInfoFor: each ].
+	^ events
 ]
 
 { #category : #accessing }
