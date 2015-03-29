@@ -193,10 +193,8 @@ GTSpotterEventRecorderSettings class >> stringUrl: aUrlString [
 { #category : #accessing }
 GTSpotterEventRecorderSettings class >> uniqueInstance [
 	"self uniqueInstance"
-	uniqueInstance ifNil: [ 
-			uniqueInstance := self new.
-			self ensureComputerID. ].
-	^ uniqueInstance.
+	^ uniqueInstance ifNil: [ 
+			uniqueInstance := self new ].
 ]
 
 { #category : #accessing }
