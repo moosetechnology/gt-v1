@@ -13,3 +13,8 @@ Class {
 	#superclass : #GTSpotterRecorderEvent,
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
+
+{ #category : #testing }
+GTSpotterRecorderOpenEvent >> isOpen [
+	^ true
+]

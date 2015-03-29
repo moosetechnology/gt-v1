@@ -23,7 +23,7 @@ GTSpotterRecorderEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #converting }
 GTSpotterRecorderEvent >> associations [
 	^ info 
 			ifNil: [ #() ]
@@ -51,7 +51,7 @@ GTSpotterRecorderEvent >> gtInspectorItems [
 GTSpotterRecorderEvent >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: -1>  
 	^ (composite table)
-		title: 'Items';
+		title: 'Info';
 		display: [ :anEvent | anEvent gtInspectorItems ];
 		children: [ :each | 
 			(each value isDictionary) 
@@ -101,6 +101,16 @@ GTSpotterRecorderEvent >> initialize [
 	timestamp := Time now asDateAndTime asUnixTime 
 ]
 
+{ #category : #testing }
+GTSpotterRecorderEvent >> isExit [
+	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isOpen [
+	^ false
+]
+
 { #category : #accessing }
 GTSpotterRecorderEvent >> settings [
 	^ GTSpotterEventRecorderSettings uniqueInstance
@@ -120,5 +130,6 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 
 { #category : #accessing }
 GTSpotterRecorderEvent >> timestamp [
-	^ timestamp
+	^ timestamp ifNotNil: [ :aTimestamp |
+			DateAndTime fromUnixTime: aTimestamp ]
 ]

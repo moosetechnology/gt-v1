@@ -48,6 +48,13 @@ GTSpotterRecorderDataAnnouncement >> addInfoFor: aGTSpotterRecorderEvent [
 			aGTSpotterRecorderEvent infoAt: key put: value ] ]
 ]
 
+{ #category : #converting }
+GTSpotterRecorderDataAnnouncement >> associations [
+	^ dictionary 
+			ifNil: [ #() ]
+			ifNotNil: [ dictionary associations ]
+]
+
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> at: key [
 	^ self dictionary at: key ifAbsent: [ nil ]
@@ -99,6 +106,30 @@ GTSpotterRecorderDataAnnouncement >> events [
 	events := self materializedData.
 	events do: [ :each | self addInfoFor: each ].
 	^ events
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderDataAnnouncement >> gtInspectorItems [
+	^ OrderedCollection withAll: self associations
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterRecorderDataAnnouncement >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: -1>  
+	^ (composite table)
+		title: 'Info';
+		display: [ :anEvent | anEvent gtInspectorItems ];
+		children: [ :each | 
+			(each value isDictionary) 
+				ifTrue: [ each value associations ] 
+				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
+						ifTrue: [ each value collectWithIndex: [:x :i | i -> x ] ]
+						ifFalse: [ #() ] ] ];
+		column: 'Key' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
+		column: 'Value' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+		showOnly: 50
 ]
 
 { #category : #accessing }
