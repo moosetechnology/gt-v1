@@ -47,7 +47,8 @@ Class {
 		'process',
 		'deliveryDelay',
 		'deliveryQueue',
-		'shouldDeliver'
+		'shouldDeliver',
+		'postponedData'
 	],
 	#classInstVars : [
 		'instance'
@@ -187,6 +188,12 @@ GTSpotterEventRecorder >> deliverNow [
 	deliveryDelay ifNotNil: [ :aDelay | aDelay delaySemaphore signal. aDelay unschedule. ]
 ]
 
+{ #category : #delivery }
+GTSpotterEventRecorder >> deliveryQueue [
+	"for testing purpose only"
+	^ deliveryQueue
+]
+
 { #category : #accessing }
 GTSpotterEventRecorder >> eventClassNameFor: aSpotterAnnouncementClass [
 
@@ -257,16 +264,46 @@ GTSpotterEventRecorder >> materializedAnnouncementFrom: aByteArray [
 ]
 
 { #category : #delivery }
+GTSpotterEventRecorder >> newCollectionWithPostponedData [
+	^ postponedData 
+			ifNil: [ OrderedCollection new ]
+			ifNotNil: [ :aCollection | postponedData := nil. aCollection ]
+	
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> postponeSomeData: aCollection [ 
+	| lastExitIndex |
+	lastExitIndex := aCollection findLast: [ :each | each isExit ].
+	lastExitIndex = aCollection size ifTrue: [ ^ aCollection ].
+	postponedData := aCollection copyFrom: lastExitIndex + 1 to: aCollection size.
+	^ aCollection first: lastExitIndex.
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> postponedData [
+	"For testing/debugging purpose."
+	^ postponedData
+]
+
+{ #category : #delivery }
 GTSpotterEventRecorder >> prepareDeliveryData [
-	| toBeDeliveredData toBeDeliveredAnnouncement |
 	self canSendUsageData ifFalse: [ 
 		recordedData removeAll.
 		deliveryQueue removeAll.
+		postponedData := nil.
 		^ self ].
 	recordedData isEmpty ifTrue: [ ^ self ].
 	GTSpotterEventRecorderSettings ensureComputerID.
-	toBeDeliveredData := OrderedCollection new.
-	recordedData flush: [ :eachRecord | toBeDeliveredData addLast: eachRecord ].
+	self primitivePrepareDeliveryData
+]
+
+{ #category : #delivery }
+GTSpotterEventRecorder >> primitivePrepareDeliveryData [
+	| likelyDeliveredData toBeDeliveredData toBeDeliveredAnnouncement |
+	likelyDeliveredData := self newCollectionWithPostponedData.
+	recordedData flush: [ :eachRecord | likelyDeliveredData addLast: eachRecord ].
+	toBeDeliveredData := self postponeSomeData: likelyDeliveredData.
 	toBeDeliveredAnnouncement := self serializedAnnouncementFrom: toBeDeliveredData.
 	deliveryQueue nextPut: toBeDeliveredAnnouncement.
 ]
@@ -315,6 +352,12 @@ GTSpotterEventRecorder >> recordSpotterOpenEvent [
 	self canSendUsageData ifFalse: [ ^ self ].
 
 	self storeEvent: GTSpotterRecorderOpenEvent new
+]
+
+{ #category : #events }
+GTSpotterEventRecorder >> recordedData [
+	"For testing purpose only."
+	^ recordedData
 ]
 
 { #category : #accessing }
