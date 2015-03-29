@@ -7,3 +7,8 @@ Class {
 	#superclass : #GTSpotterRecorderEvent,
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
+
+{ #category : #'as yet unclassified' }
+GTSpotterRecorderShowPreviewEvent >> isShowPreview [
+	^ true
+]

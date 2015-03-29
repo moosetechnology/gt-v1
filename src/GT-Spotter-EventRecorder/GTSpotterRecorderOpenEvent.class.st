@@ -15,6 +15,6 @@ Class {
 }
 
 { #category : #testing }
-GTSpotterRecorderOpenEvent >> isOpen [
+GTSpotterRecorderOpenEvent >> isOpenSpotter [
 	^ true
 ]

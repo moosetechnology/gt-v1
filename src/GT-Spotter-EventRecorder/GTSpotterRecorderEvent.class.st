@@ -23,6 +23,11 @@ GTSpotterRecorderEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
 	^ false
 ]
 
+{ #category : #'accessing - announcement info' }
+GTSpotterRecorderEvent >> announcementTimestamp [
+	^ self infoAt: #timestamp
+]
+
 { #category : #converting }
 GTSpotterRecorderEvent >> associations [
 	^ info 
@@ -30,9 +35,19 @@ GTSpotterRecorderEvent >> associations [
 			ifNotNil: [ info associations ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - announcement info' }
 GTSpotterRecorderEvent >> computerUUID [
 	^ self infoAt: #computerUUID
+]
+
+{ #category : #'accessing - announcement info' }
+GTSpotterRecorderEvent >> eventRecorderVersion [
+	^ self infoAt: #eventRecorderVersion
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> eventTimestamp [
+	^ self timestamp
 ]
 
 { #category : #initialization }
@@ -71,6 +86,16 @@ GTSpotterRecorderEvent >> hashForText: aString [
 	^ aString hash bitXor: self settings secretUUID hash
 ]
 
+{ #category : #'accessing - announcement info' }
+GTSpotterRecorderEvent >> imageHash [
+	^ self infoAt: #imageHash
+]
+
+{ #category : #'accessing - announcement info' }
+GTSpotterRecorderEvent >> imageVersion [
+	^ self infoAt: #imageVersion
+]
+
 { #category : #accessing }
 GTSpotterRecorderEvent >> infoAt: key [
 	^ self infoAt: key ifAbsent: [ nil ]
@@ -102,13 +127,33 @@ GTSpotterRecorderEvent >> initialize [
 ]
 
 { #category : #testing }
-GTSpotterRecorderEvent >> isExit [
+GTSpotterRecorderEvent >> isCloseSpotter [
 	^ false
 ]
 
 { #category : #testing }
-GTSpotterRecorderEvent >> isOpen [
+GTSpotterRecorderEvent >> isHidePreview [
 	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isOpenSpotter [
+	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isShowPreview [
+	^ false
+]
+
+{ #category : #'accessing - announcement info' }
+GTSpotterRecorderEvent >> latestUpdate [
+	^ self infoAt: #latestUpdate
+]
+
+{ #category : #'accessing - announcement info' }
+GTSpotterRecorderEvent >> sessionCreationTime [
+	^ self infoAt: #sessionCreationTime
 ]
 
 { #category : #accessing }
@@ -131,5 +176,9 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 { #category : #accessing }
 GTSpotterRecorderEvent >> timestamp [
 	^ timestamp ifNotNil: [ :aTimestamp |
-			DateAndTime fromUnixTime: aTimestamp ]
+			(DateAndTime fromUnixTime: aTimestamp)
+				translateTo: (
+					self announcementTimestamp 
+						ifNotNil: [ :t | t offset]
+						ifNil: [ 0 ]) ] 
 ]

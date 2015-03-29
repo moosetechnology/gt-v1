@@ -33,6 +33,6 @@ GTSpotterRecorderExitAnnouncementEvent >> fromAnnouncement: anAnnouncement [
 ]
 
 { #category : #testing }
-GTSpotterRecorderExitAnnouncementEvent >> isExit [
+GTSpotterRecorderExitAnnouncementEvent >> isCloseSpotter [
 	^ true
 ]
