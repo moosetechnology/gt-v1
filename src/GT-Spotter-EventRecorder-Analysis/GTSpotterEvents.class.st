@@ -4,53 +4,94 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
-{ #category : #'instance creation' }
-GTSpotterEvents class >> fromDirectory: aFileReference [
-	"self fromDirectory: './gt/events/' asFileReference"
-	^ self 
-		withAll: (GTSpotterEventRecorder materializeObjectsFromDirectory: aFileReference)
+{ #category : #accessing }
+GTSpotterEvents >> duration [
+	^ self stop - self start
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterEvents >> durationView [
+	| b ds |
+	b := RTGrapher new.
+	b extent: 500 @ 100.
+	ds := RTStackedDataSet new.
+	ds points: self sessions.
+	ds x: #timestamp.
+	ds y: [ :c | c duration asSeconds ].
+	ds dotShape rectangle color: Color green.
+	ds barShape color: Color blue; width: 10.
+	b add: ds.
+	b axisX.
+	b axisY.
+	b axisYWithNumberOfTicks: 4.
+	b build.
+	^ b view.
+	
 ]
 
 { #category : #accessing }
-GTSpotterEvents >> developerUUIDs [
-	^ #( 	'58d42da6-c993-4ad1-8624-5fd628793610' 
-			'4483f704-6909-45d7-9367-869a5850c3e8'
-			'52fe7c39-9c98-4fa7-a883-a8b2cabe84db'
-			'69202c73-b32f-4968-aaf1-0666d421ea57'
-		)
+GTSpotterEvents >> filter [
+	^ GTSpotterFilter executeOn: self copy
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterEvents >> gtInspectorDurationViewIn: composite [
+	<gtInspectorPresentationOrder: 5>
+	composite roassal2
+		title: 'Duration';
+		initializeView: [ self durationView ]
+		
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterEvents >> gtInspectorSessionsIn: composite [
+	<gtInspectorPresentationOrder: -2>  
+	^ (composite table)
+		title: 'Sessions';
+		display: [ :anEvent | anEvent sessions ];
+		column: 'Duration' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each value duration ];
+		column: 'Events' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each value size ];
+		showOnly: 50
 ]
 
 { #category : #enumerating }
-GTSpotterEvents >> developers [
-	^ self select: [ :each | self developerUUIDs includes: each computerUUID  ]
-]
-
-{ #category : #enumerating }
-GTSpotterEvents >> events [
-	^ self flatCollect: #events
+GTSpotterEvents >> sessions [
+	| borders pairs openOrExit |
+	borders := self withIndexCollect: [ :event :index |
+		(event isExit or: [ event isOpen ]) 
+				ifTrue: [ index -> event ]
+				ifFalse: [ nil ]
+		 ].
+	borders := borders select: [ :each | each notNil ].
+	pairs := OrderedCollection new.
+	openOrExit := #open.
+	borders do: [ :eachAssociation |
+		(openOrExit = #open) 
+			ifTrue: [ 
+				eachAssociation value isOpen ifTrue: [ 
+					pairs addLast: eachAssociation. 
+					openOrExit := #exit ] ]
+			ifFalse: [ 
+				eachAssociation value isExit ifTrue: [ 
+					pairs at: (pairs size) put: (pairs last) -> eachAssociation. 
+					openOrExit := #open ] ]
+		 ].
+	openOrExit = #exit ifTrue: [ pairs removeLast ].
+	^ pairs collect: [ :eachPair | | open exit |
+		open := eachPair key.
+		exit := eachPair value.
+		self copyFrom: open key to: exit key.
+		 ] as: GTSpotterSessions.
 ]
 
 { #category : #accessing }
-GTSpotterEvents >> numberOfComputers [
-	^ self perComputer size
+GTSpotterEvents >> start [
+	^ self first timestamp
 ]
 
-{ #category : #enumerating }
-GTSpotterEvents >> perComputer [
-	^ self groupedBy: #computerUUID
-]
-
-{ #category : #sorting }
-GTSpotterEvents >> sortByTimestamp [
-	^ self sort: [ :a :b | a timestamp < b timestamp ]
-]
-
-{ #category : #enumerating }
-GTSpotterEvents >> users [
-	^ self select: [ :each | (self developerUUIDs includes: each computerUUID) not ]
-]
-
-{ #category : #enumerating }
-GTSpotterEvents >> withoutEmptyComputerUUID [
-	^ self select: [ :each | each computerUUID notNil and: [ (each computerUUID = 'nil') not ] ]
+{ #category : #accessing }
+GTSpotterEvents >> stop [
+	^ self last timestamp
 ]
