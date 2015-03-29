@@ -132,6 +132,16 @@ GTSpotterRecorderEvent >> isCloseSpotter [
 ]
 
 { #category : #testing }
+GTSpotterRecorderEvent >> isDiveIn [
+	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isDiveOut [
+	^ false
+]
+
+{ #category : #testing }
 GTSpotterRecorderEvent >> isHidePreview [
 	^ false
 ]
@@ -143,6 +153,11 @@ GTSpotterRecorderEvent >> isOpenSpotter [
 
 { #category : #testing }
 GTSpotterRecorderEvent >> isShowPreview [
+	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isUserSelection [
 	^ false
 ]
 

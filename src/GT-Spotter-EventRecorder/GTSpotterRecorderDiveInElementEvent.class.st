@@ -31,3 +31,8 @@ GTSpotterRecorderDiveInElementEvent >> fromAnnouncement: anAnnouncement [
 	self infoAt: #elementType putHashForText: anAnnouncement element class name asString.
 
 ]
+
+{ #category : #testing }
+GTSpotterRecorderDiveInElementEvent >> isDiveIn [
+	^ true
+]

@@ -31,3 +31,8 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> fromAnnouncement: anAnnounceme
 	self infoAt: #elementType putHashForText: anAnnouncement selected class name asString.
 
 ]
+
+{ #category : #testing }
+GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelection [
+	^ self eventType notNil and: [ (self eventType = #unknown) not ]
+]

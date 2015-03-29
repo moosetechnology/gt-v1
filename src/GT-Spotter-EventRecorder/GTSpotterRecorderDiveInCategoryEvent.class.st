@@ -30,3 +30,8 @@ GTSpotterRecorderDiveInCategoryEvent >> fromAnnouncement: anAnnouncement [
 	self infoAt: #categoryTitle put: anAnnouncement category title.
 	self infoAt: #allFilteredCandidates put: anAnnouncement category allFilteredCandidates size.
 ]
+
+{ #category : #testing }
+GTSpotterRecorderDiveInCategoryEvent >> isDiveIn [
+	^ true
+]
