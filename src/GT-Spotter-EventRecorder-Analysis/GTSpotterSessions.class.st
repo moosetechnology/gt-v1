@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTSpotterSessions >> durationView [
 	| b ds |
 	b := RTGrapher new.
@@ -24,7 +24,7 @@ GTSpotterSessions >> durationView [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTSpotterSessions >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2

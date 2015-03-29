@@ -1,29 +1,28 @@
 Class {
 	#name : #GTSpotterEvents,
-	#superclass : #OrderedCollection,
+	#superclass : #GTSpotterEventCollection,
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
-{ #category : #accessing }
-GTSpotterEvents >> duration [
-	^ self stop - self start
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTSpotterEvents >> durationView [
-	| b ds |
+	| sessions b ds |
 	b := RTGrapher new.
 	b extent: 500 @ 100.
+	sessions := self sessions.
+	sessions ifEmpty: [ ^ b view ].
 	ds := RTStackedDataSet new.
+	ds interaction highlight.
 	ds points: self sessions.
-	ds x: #timestamp.
+	ds barShape 
+			color: [ :obj | obj isWithPreview 
+				ifTrue: [ Color green alpha: 0.3 ]
+				ifFalse: [ Color blue alpha: 0.3 ] ]; 
+			width: 10.
 	ds y: [ :c | c duration asSeconds ].
-	ds dotShape rectangle color: Color green.
-	ds barShape color: Color blue; width: 10.
 	b add: ds.
-	b axisX.
+	b axisX noTick; noLabel.
 	b axisY.
-	b axisYWithNumberOfTicks: 4.
 	b build.
 	^ b view.
 	
@@ -34,7 +33,7 @@ GTSpotterEvents >> filter [
 	^ GTSpotterFilter executeOn: self copy
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTSpotterEvents >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2
@@ -43,24 +42,35 @@ GTSpotterEvents >> gtInspectorDurationViewIn: composite [
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTSpotterEvents >> gtInspectorSessionsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Sessions';
 		display: [ :anEvent | anEvent sessions ];
+		column: 'Start' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each start ];
 		column: 'Duration' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each value duration ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ];
 		column: 'Events' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each value size ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ];
+		column: 'Preview' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each withPreviewSymbol ];
+		column: 'Image Hashes' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHashes size ];
 		showOnly: 50
+]
+
+{ #category : #accessing }
+GTSpotterEvents >> imageHashes [
+	self shouldBeImplemented.
 ]
 
 { #category : #enumerating }
 GTSpotterEvents >> sessions [
 	| borders pairs openOrExit |
 	borders := self withIndexCollect: [ :event :index |
-		(event isExit or: [ event isOpen ]) 
+		(event isCloseSpotter or: [ event isOpenSpotter ]) 
 				ifTrue: [ index -> event ]
 				ifFalse: [ nil ]
 		 ].
@@ -70,11 +80,11 @@ GTSpotterEvents >> sessions [
 	borders do: [ :eachAssociation |
 		(openOrExit = #open) 
 			ifTrue: [ 
-				eachAssociation value isOpen ifTrue: [ 
+				eachAssociation value isOpenSpotter ifTrue: [ 
 					pairs addLast: eachAssociation. 
 					openOrExit := #exit ] ]
 			ifFalse: [ 
-				eachAssociation value isExit ifTrue: [ 
+				eachAssociation value isCloseSpotter ifTrue: [ 
 					pairs at: (pairs size) put: (pairs last) -> eachAssociation. 
 					openOrExit := #open ] ]
 		 ].
@@ -82,16 +92,6 @@ GTSpotterEvents >> sessions [
 	^ pairs collect: [ :eachPair | | open exit |
 		open := eachPair key.
 		exit := eachPair value.
-		self copyFrom: open key to: exit key.
+		GTSpotterSession withAll: (self copyFrom: open key to: exit key).
 		 ] as: GTSpotterSessions.
-]
-
-{ #category : #accessing }
-GTSpotterEvents >> start [
-	^ self first timestamp
-]
-
-{ #category : #accessing }
-GTSpotterEvents >> stop [
-	^ self last timestamp
 ]

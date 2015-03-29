@@ -47,7 +47,7 @@ GTSpotterAnnouncements >> numberOfComputers [
 
 { #category : #enumerating }
 GTSpotterAnnouncements >> perComputer [
-	^ self groupedBy: #computerUUID
+	^ (self groupedBy: #computerUUID) as: GTSpotterComputers
 ]
 
 { #category : #sorting }
