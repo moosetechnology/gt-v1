@@ -13,6 +13,7 @@ GTSpotterEvents >> durationView [
 	sessions ifEmpty: [ ^ b view ].
 	ds := RTStackedDataSet new.
 	ds interaction highlight.
+	ds interaction popup text: [ :obj | obj sessionPopupText ].
 	ds points: self sessions.
 	ds barShape 
 			color: [ :obj | obj isWithPreview 

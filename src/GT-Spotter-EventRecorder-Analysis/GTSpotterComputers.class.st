@@ -4,20 +4,20 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTSpotterComputers >> gtInspectorSessionsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Computers';
 		display: [ :aComputer | aComputer ];
 		column: 'Start' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each start ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each start ] width: 155;
 		column: 'Duration' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ] width: 67;
 		column: 'Events' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ] width: 50;
 		column: 'Sessions' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessions size ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessions size ] width: 50;
 		showOnly: 50
 ]
 

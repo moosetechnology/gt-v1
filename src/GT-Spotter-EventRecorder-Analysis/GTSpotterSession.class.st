@@ -11,13 +11,13 @@ GTSpotterSession >> gtInspectorSessionsIn: composite [
 		title: 'Events';
 		display: [ :aSession | aSession ];
 		column: 'Object' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each ] width: 300;
 		column: 'Image Hash' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHash ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHash ] width: 75;
 		column: 'Time' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each timestamp ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each timestamp ] width: 155;
 		column: 'Session Creation Time' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;
 		showOnly: 50
 ]
 
