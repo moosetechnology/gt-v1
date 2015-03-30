@@ -18,6 +18,8 @@ GTSpotterSession >> gtInspectorSessionsIn: composite [
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each timestamp ] width: 155;
 		column: 'Session Creation Time' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;
+		withSmalltalkSearch;
+		helpMessage: 'Given your INPUT, it executes: self select: [:each | INPUT ]';
 		showOnly: 50
 ]
 
@@ -30,6 +32,12 @@ GTSpotterSession >> imageHashes [
 GTSpotterSession >> isWithPreview [
 	^ (self contains: #isShowPreview) and: [ 
 			(self contains: #isHidePreview) not ]
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterSession >> searchStrings [
+	^ ((self select: #isContextChanged)
+			flatCollect: #currentTextHashes as: Bag)
 ]
 
 { #category : #accessing }

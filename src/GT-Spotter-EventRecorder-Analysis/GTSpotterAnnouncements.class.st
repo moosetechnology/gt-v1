@@ -11,6 +11,19 @@ GTSpotterAnnouncements class >> fromDirectory: aFileReference [
 		withAll: (GTSpotterEventRecorder materializeObjectsFromDirectory: aFileReference)
 ]
 
+{ #category : #'instance creation' }
+GTSpotterAnnouncements class >> fromLocalDirectory [
+	^ self fromDirectory: './gt/events/' asFileReference
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterAnnouncements class >> sessions [
+	"self sessions"
+	^ self fromLocalDirectory 
+			withoutEmptyComputerUUID
+				sessionsPerComputer
+]
+
 { #category : #accessing }
 GTSpotterAnnouncements >> developerUUIDs [
 	^ #( 	'58d42da6-c993-4ad1-8624-5fd628793610' 
@@ -23,6 +36,11 @@ GTSpotterAnnouncements >> developerUUIDs [
 { #category : #enumerating }
 GTSpotterAnnouncements >> developers [
 	^ self select: [ :each | self developerUUIDs includes: each computerUUID  ]
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterAnnouncements >> duration [
+	^ 0 seconds
 ]
 
 { #category : #enumerating }
@@ -47,12 +65,33 @@ GTSpotterAnnouncements >> numberOfComputers [
 
 { #category : #enumerating }
 GTSpotterAnnouncements >> perComputer [
-	^ (self groupedBy: #computerUUID) as: GTSpotterComputers
+	^ (self groupedBy: #computerUUID) as: GTSpotterAnnouncements
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterAnnouncements >> sessions [
+	^ (self flatCollect: #materializedData as: GTSpotterEvents) sessions
+]
+
+{ #category : #enumerating }
+GTSpotterAnnouncements >> sessionsPerComputer [
+	| group computers |
+	group := self perComputer.
+	computers := group collect: [ :eachComputer |
+		eachComputer sortByTimestamp.
+		eachComputer sessions as: GTSpotterComputer.
+	] as: GTSpotterComputers.
+	^ computers select: #notEmpty
 ]
 
 { #category : #sorting }
 GTSpotterAnnouncements >> sortByTimestamp [
 	^ self sort: [ :a :b | a timestamp < b timestamp ]
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterAnnouncements >> start [
+	^ DateAndTime now
 ]
 
 { #category : #enumerating }

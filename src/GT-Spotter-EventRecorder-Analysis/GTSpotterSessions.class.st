@@ -1,39 +1,32 @@
 Class {
 	#name : #GTSpotterSessions,
 	#superclass : #OrderedCollection,
+	#traits : 'TGTSpotterDurationView',
+	#classTraits : 'TGTSpotterDurationView classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
-{ #category : #'gt-inspector-extension' }
-GTSpotterSessions >> durationView [
-	| b ds |
-	b := RTGrapher new.
-	b extent: 500 @ 100.
-	ds := RTStackedDataSet new.
-	ds points: self.
-	ds x: #timestamp.
-	ds y: [ :c | c duration asSeconds ].
-	ds dotShape rectangle color: Color green.
-	ds barShape color: Color blue; width: 10.
-	b add: ds.
-	b axisX.
-	b axisY.
-	b axisYWithNumberOfTicks: 4.
-	b build.
-	^ b view.
-	
-]
-
-{ #category : #'gt-inspector-extension' }
-GTSpotterSessions >> gtInspectorDurationViewIn: composite [
-	<gtInspectorPresentationOrder: 5>
-	composite roassal2
-		title: 'Duration';
-		initializeView: [ self durationView ]
-		
+{ #category : #'as yet unclassified' }
+GTSpotterSessions >> duration [
+	^ self stop - self start
 ]
 
 { #category : #helpers }
 GTSpotterSessions >> numberOfEvents [
 	^ self sum: #size
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterSessions >> sessions [
+	^ self
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterSessions >> start [
+	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterSessions >> stop [
+	^ (self detectMax: #stop)  ifNil: [ 0 ] ifNotNil: [ :obj | obj stop ]
 ]
