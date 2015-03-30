@@ -170,8 +170,7 @@ GTPlayPage >> defaultTimestamp [
 
 { #category : #'accessing-defaults' }
 GTPlayPage >> defaultTitle [
-	^ 'Untitled'
-	"^ (self creationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'"
+	^ (self creationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
 ]
 
 { #category : #private }

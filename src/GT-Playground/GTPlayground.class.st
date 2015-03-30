@@ -277,8 +277,8 @@ GTPlayground >> actionsForPreviousContents [
 GTPlayground >> codeIn: a [
 	^ a pharoPlayground
 		title: [ GTPlaygroundEditableTabLabel new
-			text: self entity title;
-			when: #accepted do: [ :text | self entity title: text ];
+			text: 'Untitled';
+			when: #accepted do: [ :text | "self entity title: text" ];
 			yourself ];
 		format: [ :page | page content ];
 		act: [ :text :page |
