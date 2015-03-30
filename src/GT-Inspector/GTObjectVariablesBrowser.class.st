@@ -103,7 +103,7 @@ GTObjectVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
 		shouldValidate: false;
-		allowExplicitSelectionChange: false;
+		allowsRecursiveSearch: false;
 		wantsSteps: true;
 		children: [ :assoc | assoc key = 'self'
 			ifTrue: [ #() ]
