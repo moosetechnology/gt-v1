@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Playground'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTPlaygroundBindingsList >> initialize [
 	super initialize.
 	
