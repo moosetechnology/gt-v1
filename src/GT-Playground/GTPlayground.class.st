@@ -291,7 +291,10 @@ GTPlayground >> codeIn: a [
 			entitled: 'Remote publish';
 		addAction: 
 			(GLMPopupAction new
-				action: [ :text :page :popup | self newBindingsListIn: popup ]; 
+				action: [ :text :page :popup | GTPlaygroundBindingsList new
+					on: self currentBindingsSorted;
+					when: #bindingRemoved do: [ :binding | self removeBinding: binding ];
+					yourself ]; 
 				icon: ThemeIcons current glamorousTable;
 				title: 'Bindings';
 				yourself);
@@ -349,57 +352,6 @@ GTPlayground >> label: aString [
 ]
 
 { #category : #building }
-GTPlayground >> newActionButtonIn: aPopup [
-	|margin padding|
-	margin := aPopup themer bindingThemer padding + aPopup themer bindingThemer borderWidth.
-	padding := (margin / 2) rounded.
-	
-	^ GLMHintableActionButtonBrick new
-		padding: padding;
-		margin: {0 . padding};
-		marginRight: margin;
-		hShrinkWrap;
-		pressedColor: aPopup themer buttonPressedColor
-]
-
-{ #category : #building }
-GTPlayground >> newBindingLabelIn: aPopup [
-
-	^ GLMLabelBrick new
-		hSpaceFill: 50;
-		vShrinkWrap;
-		textPosition: #leftCenter;
-		vAlign: #center;
-		padding: { 0 . aPopup themer bindingThemer padding }
-]
-
-{ #category : #building }
-GTPlayground >> newBindingRow: anAssociation for: aCollection in: aPopup [
-
-	^ (self newRowIn: aPopup)
-		borderWidth: { 0 . 0 . aCollection last == anAssociation ifTrue: [ 0 ] ifFalse: [ aPopup themer bindingThemer borderWidth ] . 0 };
-		addAllBricks: {
-			(self newBindingLabelIn: aPopup)
-				textColor: aPopup themer textLightColor;
-				text: anAssociation key.
-			(self newBindingLabelIn: aPopup)
-				text: anAssociation value asString.
-			self newRemoveButtonFor: anAssociation in: aPopup };
-		yourself
-]
-
-{ #category : #building }
-GTPlayground >> newBindingsListIn: aPopup [
-
-	^ GLMFallbackScrollListBrick new
-			emptyBrick: (self newEmptyTextIn: aPopup);
-			model: (self newListModelIn: aPopup);
-			height: [ :b | b band height ];
-			maxHeight: 300;
-			width: 300
-]
-
-{ #category : #building }
 GTPlayground >> newEditableLabelMorph [
 	| hPadding |
 	
@@ -420,59 +372,6 @@ GTPlayground >> newEditableLabelMorph [
 		with: [ :b | b layout widthDependency: [ b owner ] ];
 		with: [ :b | b editBrick layout widthDependency: [ b ] ];
 		yourself 
-]
-
-{ #category : #building }
-GTPlayground >> newEmptyTextIn: aPopup [
-
-	^ GLMLabelBrick new
-			text: 'No bindings';
-			hSpaceFill;
-			textPosition: #center;
-			padding: aPopup themer bindingThemer emptyTextPadding;
-			textColor: aPopup themer bindingThemer emptyTextColor;
-			fontSize: aPopup themer bindingThemer emptyTextFontSize;
-			yourself
-]
-
-{ #category : #building }
-GTPlayground >> newListModelIn: aPopup [
-
-	|model|
-	model := GLMBrickListModel new
-		on: self currentBindingsSorted.
-	model
-		morphAtLogic: [ :index | self newBindingRow: (model origin at: index) for: model origin in: aPopup ].
-	^ model
-]
-
-{ #category : #building }
-GTPlayground >> newRemoveButtonFor: anAssociation in: aPopup [
-
-	^ (self newActionButtonIn: aPopup)
-		hintTitle: 'Remove binding';
-		hintText: 'will unassign variable';
-		icon: aPopup themer bindingThemer removeIcon;
-		action: [ : b |
-			b owner disable.
-			GLMAnimation swipeLeft
-				onCompleted: [
-					self removeBinding: anAssociation.
-					b owner owner scrollpane adaptor on: self currentBindingsSorted.
-					b owner owner scrollpane invalidate ];
-				animate: b owner ]
-]
-
-{ #category : #building }
-GTPlayground >> newRowIn: aPopup [
-
-	^ GLMInteractableBrick new
-		enable;
-		selectedColor: aPopup themer bindingThemer selectedColor;
-		vShrinkWrap;
-		hSpaceFill;
-		padding: { aPopup themer bindingThemer padding . 0 . aPopup themer bindingThemer padding + aPopup themer bindingThemer borderWidth };
-		borderColor: aPopup themer bindingThemer borderColor
 ]
 
 { #category : #'scripting opening' }
