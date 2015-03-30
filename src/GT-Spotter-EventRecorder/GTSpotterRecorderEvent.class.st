@@ -132,6 +132,11 @@ GTSpotterRecorderEvent >> initialize [
 	timestamp := Time now asDateAndTime asUnixTime 
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterRecorderEvent >> isCategorySelection [
+	^ false
+]
+
 { #category : #testing }
 GTSpotterRecorderEvent >> isCloseSpotter [
 	^ false

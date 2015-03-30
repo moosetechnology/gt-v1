@@ -52,3 +52,8 @@ GTSpotterRecorderCategorySelectedEvent >> gtInspectorItems [
 			addAll: super gtInspectorItems;
 			yourself
 ]
+
+{ #category : #'as yet unclassified' }
+GTSpotterRecorderCategorySelectedEvent >> isCategorySelection [
+	^ true
+]
