@@ -16,7 +16,7 @@ GTSpotterAnnouncements class >> fromLocalDirectory [
 	^ self fromDirectory: './gt/events/' asFileReference
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #helpers }
 GTSpotterAnnouncements class >> sessions [
 	"self sessions"
 	^ self fromLocalDirectory 

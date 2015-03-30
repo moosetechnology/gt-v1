@@ -34,7 +34,7 @@ GTSpotterSession >> isWithPreview [
 			(self contains: #isHidePreview) not ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTSpotterSession >> searchStrings [
 	^ ((self select: #isContextChanged)
 			flatCollect: #currentTextHashes as: Bag)
