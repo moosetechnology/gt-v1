@@ -32,6 +32,11 @@ GTSpotterRecorderCategorySelectedEvent >> elementCount [
 	^ elementCount
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderCategorySelectedEvent >> elementCountOrZero [
+	^ self elementCount ifNil: [ 0 ]
+]
+
 { #category : #initialization }
 GTSpotterRecorderCategorySelectedEvent >> fromAnnouncement: anAnnouncement [
 

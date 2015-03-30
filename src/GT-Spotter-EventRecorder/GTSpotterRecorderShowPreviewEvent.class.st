@@ -8,7 +8,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterRecorderShowPreviewEvent >> isShowPreview [
 	^ true
 ]

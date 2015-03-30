@@ -12,6 +12,13 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #accessing }
+GTSpotterRecorderSearchFinishedEvent >> categories [
+	^ self processors 
+			ifNotNil: [ :aCollection | aCollection select: #isString ]
+			ifNil: [ #() ]
+]
+
 { #category : #initialization }
 GTSpotterRecorderSearchFinishedEvent >> fromAnnouncement: anAnnouncement [
 	query := self textInfoFrom: anAnnouncement query.
@@ -33,6 +40,13 @@ GTSpotterRecorderSearchFinishedEvent >> gtInspectorItems [
 { #category : #testing }
 GTSpotterRecorderSearchFinishedEvent >> isSearchFinished [
 	^ self query notNil
+]
+
+{ #category : #accessing }
+GTSpotterRecorderSearchFinishedEvent >> items [
+	^ self processors 
+			ifNotNil: [ :aCollection | aCollection select: #isNumber ]
+			ifNil: [ #() ]
 ]
 
 { #category : #accessing }
