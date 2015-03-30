@@ -14,11 +14,6 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
-{ #category : #testing }
-GTSpotterRecorderExitAnnouncementEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
-	^ anAnnouncement eventType = #unknown
-]
-
 { #category : #accessing }
 GTSpotterRecorderExitAnnouncementEvent >> eventType [
 	^ self infoAt: #eventType

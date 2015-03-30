@@ -18,11 +18,6 @@ GTSpotterRecorderEvent class >> fromAnnouncement: anAnnouncement [
 	^ self new fromAnnouncement: anAnnouncement
 ]
 
-{ #category : #testing }
-GTSpotterRecorderEvent class >> shouldIgnoreAnnouncement: anAnnouncement [
-	^ false
-]
-
 { #category : #'accessing - announcement info' }
 GTSpotterRecorderEvent >> announcementTimestamp [
 	^ self infoAt: #timestamp
