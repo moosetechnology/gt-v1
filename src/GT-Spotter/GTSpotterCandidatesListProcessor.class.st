@@ -19,6 +19,11 @@ Class {
 	#category : #'GT-Spotter-Processors'
 }
 
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> actLogic [
+	^ actBlock
+]
+
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> actLogic: aBlockWithTwoArguments [
 
