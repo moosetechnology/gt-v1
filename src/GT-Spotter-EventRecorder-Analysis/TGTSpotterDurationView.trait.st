@@ -5,15 +5,14 @@ Trait {
 
 { #category : #'gt-inspector-extension' }
 TGTSpotterDurationView >> durationView [
-	| sessions b ds |
+	| b ds |
 	b := RTGrapher new.
 	b extent: 500 @ 100.
-	sessions := self sessions.
-	sessions ifEmpty: [ ^ b view ].
+	self ifEmpty: [ ^ b view ].
 	ds := RTStackedDataSet new.
 	ds interaction highlight.
 	ds interaction popup text: [ :obj | obj sessionPopupText ].
-	ds points: self sessions.
+	ds points: self.
 	ds barShape 
 			color: [ :obj | obj isWithPreview 
 				ifTrue: [ Color green alpha: 0.3 ]

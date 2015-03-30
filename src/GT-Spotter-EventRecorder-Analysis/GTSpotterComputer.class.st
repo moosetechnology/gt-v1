@@ -6,12 +6,22 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
+{ #category : #helpers }
+GTSpotterComputer >> avgNumberOfDivesIn [
+	^ (self sum: #numberOfDivesIn) / self size
+]
+
+{ #category : #helpers }
+GTSpotterComputer >> avgNumberOfDivesOut [
+	^ (self sum: #numberOfDivesOut) / self size
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterComputer >> gtInspectorSessionsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Sessions';
-		display: [ :anEvent | anEvent sessions ];
+		display: [ :aComputer | aComputer ];
 		column: 'Start' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each start ] width: 155;
 		column: 'Duration' 
@@ -45,33 +55,48 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		showOnly: 50
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #helpers }
+GTSpotterComputer >> numberOfDivesIn [
+	^ self sum: #numberOfDivesIn
+]
+
+{ #category : #helpers }
+GTSpotterComputer >> numberOfDivesOut [
+	^ self sum: #numberOfDivesOut
+]
+
+{ #category : #helpers }
 GTSpotterComputer >> numberOfEvents [
 	^ self sum: #size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #helpers }
 GTSpotterComputer >> numberOfPreviews [
 	^ self sessionsWithPreview size
 ]
 
-{ #category : #'as yet unclassified' }
-GTSpotterComputer >> sessions [
-	^ self
+{ #category : #enumerating }
+GTSpotterComputer >> sessionsWithNumberOfInputsGreaterThen: anInteger [
+	^ self select: [ :each | each numberOfContextChanged > anInteger ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
+GTSpotterComputer >> sessionsWithNumberOfInputsGreaterThenOne [
+	^ self sessionsWithNumberOfInputsGreaterThen: 1
+]
+
+{ #category : #enumerating }
 GTSpotterComputer >> sessionsWithPreview [
 	^ self select: #isWithPreview
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterComputer >> start [
 	self ifEmpty: [ ^ 0 ].
 	^ self first start
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterComputer >> stop [
 	self ifEmpty: [ ^ 0 ].
 	^ self first stop

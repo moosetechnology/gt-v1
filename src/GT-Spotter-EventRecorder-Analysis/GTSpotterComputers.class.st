@@ -17,7 +17,7 @@ GTSpotterComputers >> gtInspectorSessionsIn: composite [
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ] 
 			width: 67;
 		column: 'Sessions' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessions size ] 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ] 
 			width: 60;
 		column: 'Events' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfEvents ] 
@@ -25,10 +25,22 @@ GTSpotterComputers >> gtInspectorSessionsIn: composite [
 		column: 'Previews' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfPreviews ] 
 			width: 50;
+		column: 'Dives In' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesIn ]
+			width: 53;
+		column: 'Dives Out' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesOut ]
+			width: 63;
+		column: 'Avg. D-In' 
+			evaluated: [ :each | (each avgNumberOfDivesIn printShowingDecimalPlaces: 2)]
+			width: 60;
+		column: 'Avg. D-Out' 
+			evaluated: [ :each | (each avgNumberOfDivesOut printShowingDecimalPlaces: 2) ]
+			width: 60;
 		showOnly: 50
 ]
 
 { #category : #enumerating }
 GTSpotterComputers >> sessions [
-	^ self flatCollect: #sessions as: GTSpotterSessions
+	^ self flatCollect: #yourself as: GTSpotterSessions
 ]
