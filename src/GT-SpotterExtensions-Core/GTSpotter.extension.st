@@ -237,8 +237,7 @@ GTSpotter >> spotterForSettingsFor: aStep [
 		title: 'Settings';
 		allCandidates: [ (SettingTree new acceptableKeywords: SettingBrowser settingsKeywords) nodeList ];
 		itemName: [ :each | each spotterLabel ];
-		filter: GTFilterSubstring;
-		wantsToDisplayOnEmptyQuery: false
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -262,8 +261,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 		title: 'Implementors';
 		itemFilterName: [ :method | method selector asString ];	
 		filter: GTFilterSubstring item: [ :filter :context | 
-			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
-		wantsToDisplayOnEmptyQuery: false
+			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
