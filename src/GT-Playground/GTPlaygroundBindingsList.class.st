@@ -10,8 +10,8 @@ GTPlaygroundBindingsList >> initialize [
 	
 	self
 		emptyBrick: self newEmptyText;
-		height: [ :b | b band height ];
 		maxHeight: 300;
+		height: [ :b | b band height ];
 		width: 300
 ]
 
@@ -51,6 +51,8 @@ GTPlaygroundBindingsList >> newBindingRow: anAssociation in: aCollection [
 				text: anAssociation key.
 			self newBindingLabel
 				text: anAssociation value asString.
+			self newInspectButtonFor: anAssociation.
+			self newGoButtonFor: anAssociation.
 			self newRemoveButtonFor: anAssociation };
 		yourself
 ]
@@ -69,9 +71,30 @@ GTPlaygroundBindingsList >> newEmptyText [
 ]
 
 { #category : #'instance creation' }
+GTPlaygroundBindingsList >> newGoButtonFor: anAssociation [
+
+	^ self newActionButton
+		hintTitle: 'Go';
+		hintText: 'open new pane to the right';
+		icon: self themer bindingThemer goIcon;
+		action: [ : b | self remove. self announce: #go event: anAssociation. ]
+]
+
+{ #category : #'instance creation' }
+GTPlaygroundBindingsList >> newInspectButtonFor: anAssociation [
+
+	^ self newActionButton
+		hintTitle: 'Inspect';
+		hintText: 'will open inspector window';
+		icon: self themer bindingThemer inspectIcon;
+		action: [ : b | self remove. self announce: #inspect event: anAssociation. ]
+]
+
+{ #category : #'instance creation' }
 GTPlaygroundBindingsList >> newRemoveButtonFor: anAssociation [
 
 	^ self newActionButton
+		beError;
 		hintTitle: 'Remove binding';
 		hintText: 'will unassign variable';
 		icon: self themer bindingThemer removeIcon;
@@ -105,4 +128,18 @@ GTPlaygroundBindingsList >> on: aBindingsCollection [
 	model
 		morphAtLogic: [ :index | self newBindingRow: (model origin at: index) in: model origin ].
 	self model: model
+]
+
+{ #category : #'brick-properties-events' }
+GTPlaygroundBindingsList >> onThemerChanged [
+	super onThemerChanged.
+	
+	self doLayoutForce
+]
+
+{ #category : #actions }
+GTPlaygroundBindingsList >> remove [
+
+	(self ownerThatIsA:  GLMFoundationBrick)
+		ifNotNil: [ :o | o delete ]
 ]

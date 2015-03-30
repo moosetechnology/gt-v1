@@ -292,11 +292,13 @@ GTPlayground >> codeIn: a [
 		act: [ :text :page | page publish ]
 			icon: ThemeIcons current glamorousSaveToUrl
 			entitled: 'Remote publish';
-		addAction: 
+		addAction:
 			(GLMPopupAction new
 				action: [ :text :page :popup | GTPlaygroundBindingsList new
 					on: self currentBindingsSorted;
 					when: #bindingRemoved do: [ :binding | self removeBinding: binding ];
+					when: #inspect do: [ :binding | binding value inspect ];
+					when: #go do: [ :binding | text selection: binding value ];
 					yourself ]; 
 				icon: ThemeIcons current glamorousTable;
 				title: 'Bindings';

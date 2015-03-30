@@ -34,6 +34,18 @@ GTPlayBindingThemer >> emptyTextPadding [
 	^ 15
 ]
 
+{ #category : #icons }
+GTPlayBindingThemer >> goIcon [
+
+	^ GLMUIThemeExtraIcons glamorousGo
+]
+
+{ #category : #icons }
+GTPlayBindingThemer >> inspectIcon [
+
+	^ GLMUIThemeExtraIcons glamorousInspect
+]
+
 { #category : #rows }
 GTPlayBindingThemer >> padding [
 
