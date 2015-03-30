@@ -34,15 +34,15 @@ GTSpotterSession >> isWithPreview [
 			(self contains: #isHidePreview) not ]
 ]
 
+{ #category : #accessing }
+GTSpotterSession >> previewString [
+	^ self isWithPreview
+		ifTrue: [ 'yes' ]
+		ifFalse: [ 'no' ]
+]
+
 { #category : #enumerating }
 GTSpotterSession >> searchStrings [
 	^ ((self select: #isContextChanged)
 			flatCollect: #currentTextHashes as: Bag)
-]
-
-{ #category : #accessing }
-GTSpotterSession >> withPreviewSymbol [
-	^ self isWithPreview
-		ifTrue: [ 'yes' ]
-		ifFalse: [ 'no' ]
 ]

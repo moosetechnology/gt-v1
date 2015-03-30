@@ -38,24 +38,9 @@ GTSpotterAnnouncements >> developers [
 	^ self select: [ :each | self developerUUIDs includes: each computerUUID  ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterAnnouncements >> duration [
 	^ 0 seconds
-]
-
-{ #category : #enumerating }
-GTSpotterAnnouncements >> events [
-	^ self flatCollect: #events as: GTSpotterEvents.
-]
-
-{ #category : #enumerating }
-GTSpotterAnnouncements >> eventsPerComputer [
-	| group |
-	group := self perComputer.
-	^ group collect: [ :eachComputer |
-		eachComputer sortByTimestamp.
-		eachComputer events.
-	]
 ]
 
 { #category : #accessing }
@@ -68,9 +53,10 @@ GTSpotterAnnouncements >> perComputer [
 	^ (self groupedBy: #computerUUID) as: GTSpotterAnnouncements
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTSpotterAnnouncements >> sessions [
-	^ (self flatCollect: #materializedData as: GTSpotterEvents) sessions
+	^ GTSpotterSessionsBuilder fromEvents: (
+			self flatCollect: #materializedData as: OrderedCollection)
 ]
 
 { #category : #enumerating }
@@ -89,7 +75,7 @@ GTSpotterAnnouncements >> sortByTimestamp [
 	^ self sort: [ :a :b | a timestamp < b timestamp ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterAnnouncements >> start [
 	^ DateAndTime now
 ]

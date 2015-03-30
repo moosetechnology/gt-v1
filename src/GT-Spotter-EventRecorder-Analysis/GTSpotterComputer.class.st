@@ -19,7 +19,7 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		column: 'Events' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ] width: 50;
 		column: 'Preview' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each withPreviewSymbol ]
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each previewString ]
 			width: 57;
 		column: 'Inputs' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfContextChanged ]
