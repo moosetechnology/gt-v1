@@ -11,7 +11,7 @@ GTSpotterSession >> gtInspectorSessionsIn: composite [
 		title: 'Events';
 		display: [ :aSession | aSession ];
 		column: 'Object' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each ] width: 300;
+			evaluated: [ :each | each asEventAnalysisString ] width: 300;
 		column: 'Image Hash' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHash ] width: 75;
 		column: 'Time' 

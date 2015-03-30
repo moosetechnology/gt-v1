@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputers >> gtInspectorSessionsIn: composite [
+GTSpotterComputers >> gtInspectorComputersIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Computers';
@@ -24,7 +24,7 @@ GTSpotterComputers >> gtInspectorSessionsIn: composite [
 			width: 50;
 		column: 'Previews' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfPreviews ] 
-			width: 50;
+			width: 60;
 		column: 'Dives In' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesIn ]
 			width: 53;
@@ -43,4 +43,14 @@ GTSpotterComputers >> gtInspectorSessionsIn: composite [
 { #category : #enumerating }
 GTSpotterComputers >> sessions [
 	^ self flatCollect: #yourself as: GTSpotterSessions
+]
+
+{ #category : #enumerating }
+GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThen: anInteger [
+	^ self collect: [ :each | each copy sessionsWithNumberOfInputsGreaterThen: anInteger ]
+]
+
+{ #category : #enumerating }
+GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThenOne [
+	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]

@@ -8,11 +8,13 @@ Class {
 
 { #category : #helpers }
 GTSpotterComputer >> avgNumberOfDivesIn [
+	self ifEmpty: [ ^ 0 ].
 	^ (self sum: #numberOfDivesIn) / self size
 ]
 
 { #category : #helpers }
 GTSpotterComputer >> avgNumberOfDivesOut [
+	self ifEmpty: [ ^ 0 ].
 	^ (self sum: #numberOfDivesOut) / self size
 ]
 
@@ -57,16 +59,19 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 
 { #category : #helpers }
 GTSpotterComputer >> numberOfDivesIn [
-	^ self sum: #numberOfDivesIn
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #numberOfDivesIn	
 ]
 
 { #category : #helpers }
 GTSpotterComputer >> numberOfDivesOut [
+	self ifEmpty: [ ^ 0 ].
 	^ self sum: #numberOfDivesOut
 ]
 
 { #category : #helpers }
 GTSpotterComputer >> numberOfEvents [
+	self ifEmpty: [ ^ 0 ].
 	^ self sum: #size
 ]
 

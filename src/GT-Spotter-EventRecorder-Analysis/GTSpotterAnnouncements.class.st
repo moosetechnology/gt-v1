@@ -4,6 +4,13 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis'
 }
 
+{ #category : #helpers }
+GTSpotterAnnouncements class >> default [
+	"self default"
+	^ self sessions
+				sessionsWithNumberOfInputsGreaterThenOne
+]
+
 { #category : #'instance creation' }
 GTSpotterAnnouncements class >> fromDirectory: aFileReference [
 	"self fromDirectory: './gt/events/' asFileReference"
