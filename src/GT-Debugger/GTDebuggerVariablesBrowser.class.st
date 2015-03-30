@@ -59,7 +59,7 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 	^ composite table
 		showOnly: 50;
 		shouldValidate: false;
-		allowExplicitSelectionChange: false;
+		allowsRecursiveSearch: false;
 		display: [ :context | self variablesFromContext: context ];
 		column: 'Type'
 			evaluated: [ '' ]
