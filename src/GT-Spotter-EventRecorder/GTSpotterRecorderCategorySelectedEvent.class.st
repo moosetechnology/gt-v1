@@ -53,7 +53,7 @@ GTSpotterRecorderCategorySelectedEvent >> gtInspectorItems [
 			yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterRecorderCategorySelectedEvent >> isCategorySelection [
 	^ true
 ]

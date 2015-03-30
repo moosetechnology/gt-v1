@@ -41,6 +41,27 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Announcements'
 }
 
+{ #category : #examples }
+GTSpotterRecorderDataAnnouncement class >> exampleAnnouncement [
+	<gtExample>
+	^ self new
+			data: #[ 1 2 3 4 ];
+			timestamp: DateAndTime now;
+			imageHash: SmalltalkImage current imageName hash;
+			sessionCreationTime: SmalltalkImage current session creationTime;
+			imageVersion: SystemVersion current version;
+			latestUpdate: SystemVersion current highestUpdate;
+			computerUUID: GTSpotterEventRecorderSettings uniqueInstance computerUUID asString;
+			eventRecorderVersion: GTSpotterEventRecorder version;
+			yourself
+]
+
+{ #category : #examples }
+GTSpotterRecorderDataAnnouncement class >> exampleEmptyAnnouncement [
+	<gtExample>
+	^ self new
+]
+
 { #category : #updating }
 GTSpotterRecorderDataAnnouncement >> addInfoFor: aGTSpotterRecorderEvent [ 
 	dictionary keysAndValuesDo: [ :key :value |

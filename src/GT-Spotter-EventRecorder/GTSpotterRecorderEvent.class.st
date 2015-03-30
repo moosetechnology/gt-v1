@@ -13,6 +13,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+GTSpotterRecorderEvent class >> exampleAnySubclass [
+	<gtExample>
+	^ self subclasses any new 
+]
+
+{ #category : #'instance creation' }
 GTSpotterRecorderEvent class >> fromAnnouncement: anAnnouncement [
 
 	^ self new fromAnnouncement: anAnnouncement
@@ -132,7 +138,7 @@ GTSpotterRecorderEvent >> initialize [
 	timestamp := Time now asDateAndTime asUnixTime 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterRecorderEvent >> isCategorySelection [
 	^ false
 ]
