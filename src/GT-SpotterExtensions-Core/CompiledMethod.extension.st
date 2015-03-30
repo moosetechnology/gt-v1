@@ -6,17 +6,6 @@ CompiledMethod >> spotterActDefault [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-CompiledMethod >> spotterCriticsFor: aStep [
-	<spotterOrder: 90>
-	aStep listProcessor
-		title: 'Critics';
-		items: [ { GTCritics onMethod: self } ];
-		itemName: [ :item | item title ];
-		itemIcon: [ Smalltalk ui icons smallWarningIcon  ];
-		filter: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 CompiledMethod >> spotterForImplementorsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor

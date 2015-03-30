@@ -13,12 +13,6 @@ TBehavior classSide >> gtExampleClassVariables [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleCritics [
-	<gtExample: 'Critics'>
-	^ GTCritics forClass: GTCritics
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleInstanceVariables [
 	<gtExample: 'Instance Variables'>
 	^ ClassDescription
@@ -67,17 +61,6 @@ TBehavior >> spotterCompositionFor: aStep [
 			allCandidates: [ self traitComposition allTraits ];
 			itemIcon: #systemIcon;
 			filter: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterCriticsFor: aStep [
-	<spotterOrder: 90>
-	aStep listProcessor
-		title: 'Critics';
-		items: [ GTCritics forClass: self ];
-		itemName: [ :item | item title ];
-		itemIcon: [ Smalltalk ui icons smallWarningIcon ];
-		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
