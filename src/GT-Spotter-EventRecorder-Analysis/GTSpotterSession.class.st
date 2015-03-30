@@ -1,8 +1,26 @@
 Class {
 	#name : #GTSpotterSession,
 	#superclass : #GTSpotterEventCollection,
-	#category : #'GT-Spotter-EventRecorder-Analysis'
+	#traits : 'TGTSpotterCategoryView',
+	#classTraits : 'TGTSpotterCategoryView classTrait',
+	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #enumerating }
+GTSpotterSession >> categoryLabels [
+	^ self categorySelections collect: #categoryLabel as: OrderedCollection
+]
+
+{ #category : #enumerating }
+GTSpotterSession >> categorySelections [
+	^ self select: #isCategorySelection
+]
+
+{ #category : #accessing }
+GTSpotterSession >> computerUUID [
+	self ifEmpty: [ ^ 0 ].
+	^ self any computerUUID
+]
 
 { #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorSessionsIn: composite [

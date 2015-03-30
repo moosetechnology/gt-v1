@@ -1,7 +1,7 @@
 Class {
 	#name : #GTSpotterEventCollection,
 	#superclass : #OrderedCollection,
-	#category : #'GT-Spotter-EventRecorder-Analysis'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
 { #category : #enumerating }

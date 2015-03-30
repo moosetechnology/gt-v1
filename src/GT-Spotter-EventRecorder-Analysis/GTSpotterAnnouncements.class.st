@@ -1,15 +1,8 @@
 Class {
 	#name : #GTSpotterAnnouncements,
 	#superclass : #OrderedCollection,
-	#category : #'GT-Spotter-EventRecorder-Analysis'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
-
-{ #category : #helpers }
-GTSpotterAnnouncements class >> default [
-	"self default"
-	^ self sessions
-				sessionsWithNumberOfInputsGreaterThenOne
-]
 
 { #category : #'instance creation' }
 GTSpotterAnnouncements class >> fromDirectory: aFileReference [
@@ -24,15 +17,40 @@ GTSpotterAnnouncements class >> fromLocalDirectory [
 ]
 
 { #category : #helpers }
-GTSpotterAnnouncements class >> sessions [
-	"self sessions"
+GTSpotterAnnouncements class >> spotterDevelopers [
+	"self spotterDevelopers"
 	^ self fromLocalDirectory 
 			withoutEmptyComputerUUID
-				sessionsPerComputer
+				developers
+					sessionsPerComputer
+						sessionsWithNumberOfInputsGreaterThenOne
+]
+
+{ #category : #helpers }
+GTSpotterAnnouncements class >> spotterUsers [
+	"self spotterUsers"
+	^ self fromLocalDirectory 
+			withoutEmptyComputerUUID
+				users
+					sessionsPerComputer
+						sessionsWithNumberOfInputsGreaterThenOne
+]
+
+{ #category : #helpers }
+GTSpotterAnnouncements class >> spotterUsersAndDevelopers [
+	"self spotterUsersAndDevelopers"
+	^ self fromLocalDirectory 
+			withoutEmptyComputerUUID
+					sessionsPerComputer
+						sessionsWithNumberOfInputsGreaterThenOne
 ]
 
 { #category : #accessing }
 GTSpotterAnnouncements >> developerUUIDs [
+	"
+	GTSpotterEventRecorderSettings ensureComputerID.
+	GTSpotterEventRecorderSettings uniqueInstance computerUUID.
+	"
 	^ #( 	'58d42da6-c993-4ad1-8624-5fd628793610' 
 			'4483f704-6909-45d7-9367-869a5850c3e8'
 			'52fe7c39-9c98-4fa7-a883-a8b2cabe84db'
@@ -42,12 +60,7 @@ GTSpotterAnnouncements >> developerUUIDs [
 
 { #category : #enumerating }
 GTSpotterAnnouncements >> developers [
-	^ self select: [ :each | self developerUUIDs includes: each computerUUID  ]
-]
-
-{ #category : #accessing }
-GTSpotterAnnouncements >> duration [
-	^ 0 seconds
+	^ self select: [ :each | self developerUUIDs includes: each computerUUID asString ]
 ]
 
 { #category : #accessing }
@@ -57,13 +70,13 @@ GTSpotterAnnouncements >> numberOfComputers [
 
 { #category : #enumerating }
 GTSpotterAnnouncements >> perComputer [
-	^ (self groupedBy: #computerUUID) as: GTSpotterAnnouncements
+	^ (self groupedBy: [ :each | each computerUUID asString]) as: GTSpotterAnnouncements
 ]
 
 { #category : #enumerating }
 GTSpotterAnnouncements >> sessions [
 	^ GTSpotterSessionsBuilder fromEvents: (
-			self flatCollect: #materializedData as: OrderedCollection)
+			self flatCollect: #events as: OrderedCollection)
 ]
 
 { #category : #enumerating }
@@ -82,14 +95,9 @@ GTSpotterAnnouncements >> sortByTimestamp [
 	^ self sort: [ :a :b | a timestamp < b timestamp ]
 ]
 
-{ #category : #accessing }
-GTSpotterAnnouncements >> start [
-	^ DateAndTime now
-]
-
 { #category : #enumerating }
 GTSpotterAnnouncements >> users [
-	^ self select: [ :each | (self developerUUIDs includes: each computerUUID) not ]
+	^ self select: [ :each | (self developerUUIDs includes: each computerUUID asString) not ]
 ]
 
 { #category : #enumerating }

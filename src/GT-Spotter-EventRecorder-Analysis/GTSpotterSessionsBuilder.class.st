@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'events'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 
 { #category : #api }

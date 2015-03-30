@@ -1,6 +1,6 @@
 Trait {
 	#name : #TGTSpotterDurationView,
-	#category : #'GT-Spotter-EventRecorder-Analysis'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Traits'
 }
 
 { #category : #'gt-inspector-extension' }

@@ -1,8 +1,13 @@
 Class {
 	#name : #GTSpotterComputers,
 	#superclass : #OrderedCollection,
-	#category : #'GT-Spotter-EventRecorder-Analysis'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #enumerating }
+GTSpotterComputers >> computerUUIDs [
+	^ self collect: #computerUUID as: OrderedCollection
+]
 
 { #category : #'gt-inspector-extension' }
 GTSpotterComputers >> gtInspectorComputersIn: composite [
