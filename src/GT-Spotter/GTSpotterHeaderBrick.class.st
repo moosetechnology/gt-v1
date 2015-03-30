@@ -103,7 +103,7 @@ GTSpotterHeaderBrick >> onThemerChanged [
 { #category : #accessing }
 GTSpotterHeaderBrick >> openSettingsBrowser [
 	GTSpotterPrivacyAgreementNotificationBrick openSettingsBrowser.
-	self spotterModel exit.
+	self spotterModel exitDueTo: #openSettingsBrowser.
 ]
 
 { #category : #accessing }
