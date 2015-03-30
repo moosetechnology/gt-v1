@@ -158,6 +158,11 @@ GTSpotterRecorderEvent >> isHidePreview [
 ]
 
 { #category : #testing }
+GTSpotterRecorderEvent >> isOpenOrCloseSpotter [
+	^ self isOpenSpotter or: [ self isCloseSpotter ]
+]
+
+{ #category : #testing }
 GTSpotterRecorderEvent >> isOpenSpotter [
 	^ false
 ]
