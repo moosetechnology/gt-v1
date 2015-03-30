@@ -30,6 +30,11 @@ GTSpotterRecorderSearchFinishedEvent >> gtInspectorItems [
 			yourself
 ]
 
+{ #category : #testing }
+GTSpotterRecorderSearchFinishedEvent >> isSearchFinished [
+	^ self query notNil
+]
+
 { #category : #accessing }
 GTSpotterRecorderSearchFinishedEvent >> processors [
 	^ processors

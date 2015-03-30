@@ -20,6 +20,11 @@ Class {
 }
 
 { #category : #accessing }
+GTSpotterRecorderContextChangedEvent >> currentTextHashes [
+	^ self stringHashesFor: self currentTextInfo
+]
+
+{ #category : #accessing }
 GTSpotterRecorderContextChangedEvent >> currentTextInfo [
 	^ currentTextInfo
 ]
@@ -49,6 +54,11 @@ GTSpotterRecorderContextChangedEvent >> gtInspectorItems [
 GTSpotterRecorderContextChangedEvent >> initialize [
 	super initialize.
 	isRefinement := false.
+]
+
+{ #category : #testing }
+GTSpotterRecorderContextChangedEvent >> isContextChanged [
+	^ self currentTextInfo notNil
 ]
 
 { #category : #accessing }

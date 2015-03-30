@@ -78,6 +78,11 @@ GTSpotterRecorderEvent >> gtInspectorItemsIn: composite [
 			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
 		column: 'Value' 
 			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+		beMultiple;
+		send: [ :selection | 
+			(selection notNil and: [ selection size = 1 ]) 
+				ifTrue: [ selection anyOne value ] 
+				ifFalse: [ selection collect: #value ] ];
 		showOnly: 50
 ]
 
@@ -108,6 +113,12 @@ GTSpotterRecorderEvent >> infoAt: key ifAbsent: absentBlock [
 ]
 
 { #category : #accessing }
+GTSpotterRecorderEvent >> infoAt: key ifPresent: presentBlock ifAbsent: absentBlock [
+	info ifNil: [ ^ absentBlock value].
+	^ info at: key ifPresent: presentBlock ifAbsent: absentBlock
+]
+
+{ #category : #accessing }
 GTSpotterRecorderEvent >> infoAt: key put: value [
 	info ifNil: [ info := Dictionary new ].
 	^ info at: key put: value
@@ -132,6 +143,11 @@ GTSpotterRecorderEvent >> isCloseSpotter [
 ]
 
 { #category : #testing }
+GTSpotterRecorderEvent >> isContextChanged [
+	^ false
+]
+
+{ #category : #testing }
 GTSpotterRecorderEvent >> isDiveIn [
 	^ false
 ]
@@ -148,6 +164,11 @@ GTSpotterRecorderEvent >> isHidePreview [
 
 { #category : #testing }
 GTSpotterRecorderEvent >> isOpenSpotter [
+	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isSearchFinished [
 	^ false
 ]
 
@@ -174,6 +195,51 @@ GTSpotterRecorderEvent >> sessionCreationTime [
 { #category : #accessing }
 GTSpotterRecorderEvent >> settings [
 	^ GTSpotterEventRecorderSettings uniqueInstance
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> stringHashesAt: aSymbol [
+	^ self 
+		infoAt: aSymbol
+		ifPresent: [ :array | array first ]
+		ifAbsent: [ #() ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> stringHashesFor: anArrayOrNil [
+	^ anArrayOrNil 
+			ifNil: [ #() ]
+			ifNotNil: [ :array | array first ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> stringSizesAt: aSymbol [
+	^ self 
+		infoAt: aSymbol
+		ifPresent: [ :array | array second ]
+		ifAbsent: [ #() ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> stringSizesFor: anArrayOrNil [
+	^ anArrayOrNil 
+			ifNil: [ #() ]
+			ifNotNil: [ :array | array second ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> stringSpecialsAt: aSymbol [
+	^ self 
+		infoAt: aSymbol
+		ifPresent: [ :array | array third ]
+		ifAbsent: [ #() ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> stringSpecialsFor: anArrayOrNil [
+	^ anArrayOrNil 
+			ifNil: [ #() ]
+			ifNotNil: [ :array | array third ]
 ]
 
 { #category : #accessing }
