@@ -330,7 +330,7 @@ GTSpotterWidgetThemer >> hintHideStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> hintRevealArrowStyleFor: aBrick [
 	
-	SmalltalkImage current vm interpreterSourceDate < 2015 asYear 
+	SmalltalkImage current vm canHandleShiftPressed
 		ifTrue: [ ^ self ].
 	
 	aBrick ifNil: [ ^ self ].
@@ -348,7 +348,7 @@ GTSpotterWidgetThemer >> hintRevealArrowStyleFor: aBrick [
 { #category : #styles }
 GTSpotterWidgetThemer >> hintRevealStyleFor: aBrick [
 	
-	SmalltalkImage current vm interpreterSourceDate < 2015 asYear 
+	SmalltalkImage current vm canHandleShiftPressed
 		ifTrue: [ ^ self ].
 	
 	aBrick ifNil: [ ^ self ].

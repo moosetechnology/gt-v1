@@ -45,7 +45,7 @@ GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 { #category : #cleanup }
 GTSpotterGlobalShortcut class >> reset [
 	
-	(World findA: GTSpotterMorph) ifNotNil: [ :aSpotterMorph | aSpotterMorph spotterModel exitDueTo: #reset ]
+	(World findA: GTSpotterMorph) ifNotNil: [ :aSpotterMorph | aSpotterMorph spotterModel exit ]
 ]
 
 { #category : #shortcuts }
