@@ -12,3 +12,13 @@ GTSpotterRecorderCategorySelectedEvent >> eventAnalysisPrintOn: aStream [
 				print: self elementCountOrZero;
 				nextPutAll: ' elements' ]
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> markAsStrange [
+	^ self infoAt: #strange put: true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> selectedElementEvent: anEvent [
+	self infoAt: #selectedElementEvent put: anEvent
+]

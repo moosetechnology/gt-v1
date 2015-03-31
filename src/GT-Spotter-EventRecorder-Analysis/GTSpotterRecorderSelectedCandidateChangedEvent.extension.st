@@ -6,3 +6,8 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream 
 	self elementNamePrintOn: aStream.
 	self eventTypePrintOn: aStream.
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> selectedCategoryEvent: anEvent [
+	self infoAt: #selectedCategoryEvent put: anEvent
+]

@@ -69,7 +69,15 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		title: 'Sessions';
 		display: [ :aComputer | aComputer ];
 		column: 'Start' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each start ] width: 155;
+			evaluated: [ :each | String streamContents: [ :aStream | | start |
+											start := each start.
+											start = 0 
+												ifTrue: [ aStream nextPutAll: 'unknown' ]
+												ifFalse: [
+													start asUTC printYMDOn: aStream.
+													aStream nextPutAll: ', '.
+													start asUTC printHMSOn: aStream ] ] ]
+			width: 120;
 		column: 'Duration' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ] width: 67;
 		column: 'Events' 
@@ -94,6 +102,9 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 			width: 53;
 		column: 'Dives Out' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesOut ]
+			width: 63;
+		column: 'Close' 
+			evaluated: [ :each | each closeActionSymbol ]
 			width: 63;
 		column: 'Image Hashes' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHashes size ]

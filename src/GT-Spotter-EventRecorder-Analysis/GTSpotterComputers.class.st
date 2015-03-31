@@ -27,7 +27,7 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 											each start = 0 
 												ifTrue: [ aStream nextPutAll: 'unknown' ]
 												ifFalse: [ each start asUTC printYMDOn: aStream ] ] ]
-			width: 155;
+			width: 67;
 		column: 'Duration' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ] 
 			width: 67;

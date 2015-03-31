@@ -6,3 +6,8 @@ GTSpotterRecorderDiveOutEvent >> eventAnalysisPrintOn: aStream [
 	self elementNamePrintOn: aStream.
 
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveOutEvent >> parentDiveInEvent: aDiveInEvent [ 
+	self infoAt: #parentDiveInEvent put: aDiveInEvent
+]

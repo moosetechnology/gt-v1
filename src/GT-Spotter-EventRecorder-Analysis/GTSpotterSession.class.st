@@ -17,23 +17,39 @@ GTSpotterSession >> categorySelections [
 ]
 
 { #category : #accessing }
+GTSpotterSession >> closeActionSymbol [
+	self ifEmpty: [ ^ #empty ].
+	^ self last closeActionSymbol
+]
+
+{ #category : #accessing }
 GTSpotterSession >> computerUUID [
 	self ifEmpty: [ ^ 0 ].
 	^ self any computerUUID
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorSessionsIn: composite [
+GTSpotterSession >> gtInspectorEventsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Events';
 		display: [ :aSession | aSession ];
-		column: 'Object' 
+		column: 'Event' 
 			evaluated: [ :each | each asEventAnalysisString ] width: 300;
+		column: 'Strange' 
+			evaluated: [ :each | each isStrange ] width: 53;
 		column: 'Image Hash' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHash ] width: 75;
 		column: 'Time' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each timestamp ] width: 155;
+			evaluated: [ :each | String streamContents: [ :aStream | | start |
+											start := each timestamp.
+											start = 0 
+												ifTrue: [ aStream nextPutAll: 'unknown' ]
+												ifFalse: [
+													start asUTC printYMDOn: aStream.
+													aStream nextPutAll: ', '.
+													start asUTC printHMSOn: aStream ] ] ]
+			width: 120;
 		column: 'Session Creation Time' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;
 		withSmalltalkSearch;
@@ -63,4 +79,9 @@ GTSpotterSession >> previewString [
 GTSpotterSession >> searchStrings [
 	^ ((self select: #isContextChanged)
 			flatCollect: #currentTextHashes as: Bag)
+]
+
+{ #category : #update }
+GTSpotterSession >> updateEvents [
+	^ GTSpotterSessionAnalysis executeOn: self
 ]

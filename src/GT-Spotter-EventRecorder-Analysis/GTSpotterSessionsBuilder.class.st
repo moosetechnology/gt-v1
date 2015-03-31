@@ -1,3 +1,6 @@
+"
+I'm a session builder, I receive collected announcements and split events per computer and per session. Session starts with opening Spotter and finishs on closing Spotter.
+"
 Class {
 	#name : #GTSpotterSessionsBuilder,
 	#superclass : #Object,
