@@ -15,7 +15,9 @@ GTSpotterRecorderCategorySelectedEvent >> eventAnalysisPrintOn: aStream [
 				nextPutAll: aString;
 				nextPutAll: ' with ';
 				print: self elementCountOrZero;
-				nextPutAll: ' elements' ]
+				nextPutAll: ' spotted and ';
+				print: self selectedElementEvents size;
+				nextPutAll: ' selected elements' ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -28,4 +30,9 @@ GTSpotterRecorderCategorySelectedEvent >> selectedElementEvent: anEvent [
 	| elements |
 	elements := self infoAt: #selectedElementEvents ifAbsentPut: [ OrderedCollection new ].
 	elements add: anEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> selectedElementEvents [
+	^ self infoAt: #selectedElementEvents ifAbsent: [ #() ]
 ]

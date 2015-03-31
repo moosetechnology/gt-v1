@@ -8,6 +8,6 @@ GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 		nextPutAll: ', ';
 		print: self categories size;
 		nextPutAll: ' categories, ';
-		print: self items size;
+		print: self items sum;
 		nextPutAll: ' findings'
 ]
