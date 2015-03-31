@@ -1,8 +1,15 @@
 Class {
 	#name : #GTSpotterComputers,
 	#superclass : #OrderedCollection,
+	#traits : 'TGTSpotterCategoryView',
+	#classTraits : 'TGTSpotterCategoryView classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #enumerating }
+GTSpotterComputers >> categoryLabels [
+	^ self flatCollect: #categoryLabels as: OrderedCollection
+]
 
 { #category : #enumerating }
 GTSpotterComputers >> computerUUIDs [
@@ -16,7 +23,10 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 		title: 'Computers';
 		display: [ :aComputer | aComputer ];
 		column: 'Start' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each start ] 
+			evaluated: [ :each | String streamContents: [ :aStream | 
+											each start = 0 
+												ifTrue: [ aStream nextPutAll: 'unknown' ]
+												ifFalse: [ each start asUTC printYMDOn: aStream ] ] ]
 			width: 155;
 		column: 'Duration' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ] 

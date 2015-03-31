@@ -20,7 +20,7 @@ GTSpotterComputer >> avgNumberOfDivesOut [
 
 { #category : #enumerating }
 GTSpotterComputer >> categoryLabels [
-	^ self flatCollect: #categoryLabels
+	^ self flatCollect: #categoryLabels as: OrderedCollection
 ]
 
 { #category : #accessing }
