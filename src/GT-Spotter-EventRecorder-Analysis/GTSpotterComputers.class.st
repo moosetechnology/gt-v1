@@ -40,6 +40,12 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 		column: 'Previews' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfPreviews ] 
 			width: 60;
+		column: 'Inputs' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfContextChanged ]
+			width: 47;
+		column: 'Diff Inp.' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDifferentSearchStrings ]
+			width: 53;
 		column: 'Dives In' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesIn ]
 			width: 53;
@@ -53,6 +59,12 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 			evaluated: [ :each | (each avgNumberOfDivesOut printShowingDecimalPlaces: 2) ]
 			width: 60;
 		showOnly: 50
+]
+
+{ #category : #enumerating }
+GTSpotterComputers >> numberOfContextChanged [
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #numberOfContextChanged 
 ]
 
 { #category : #enumerating }

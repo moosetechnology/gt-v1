@@ -29,6 +29,11 @@ GTSpotterComputer >> computerUUID [
 	^ self any computerUUID
 ]
 
+{ #category : #enumerating }
+GTSpotterComputer >> differentSearchStrings [
+	^ self searchStrings asSet
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterComputer >> durationView [
 	| b ds |
@@ -109,7 +114,18 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		column: 'Image Hashes' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHashes size ]
 			width: 70;
-		showOnly: 50
+		showOnly: 200
+]
+
+{ #category : #helpers }
+GTSpotterComputer >> numberOfContextChanged [
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #numberOfContextChanged
+]
+
+{ #category : #helpers }
+GTSpotterComputer >> numberOfDifferentSearchStrings [
+	^ self differentSearchStrings size
 ]
 
 { #category : #helpers }
@@ -133,6 +149,11 @@ GTSpotterComputer >> numberOfEvents [
 { #category : #helpers }
 GTSpotterComputer >> numberOfPreviews [
 	^ self sessionsWithPreview size
+]
+
+{ #category : #enumerating }
+GTSpotterComputer >> searchStrings [
+	^ self flatCollect: #searchStrings as: Bag
 ]
 
 { #category : #enumerating }

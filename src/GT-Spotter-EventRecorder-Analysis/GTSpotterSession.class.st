@@ -54,7 +54,7 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;
 		withSmalltalkSearch;
 		helpMessage: 'Given your INPUT, it executes: self select: [:each | INPUT ]';
-		showOnly: 50
+		showOnly: 200
 ]
 
 { #category : #'gt-inspector-extension' }
