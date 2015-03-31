@@ -36,3 +36,8 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> fromAnnouncement: anAnnounceme
 GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelection [
 	^ self eventType notNil and: [ (self eventType = #unknown) not ]
 ]
+
+{ #category : #testing }
+GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelectionClass [
+	^ true
+]

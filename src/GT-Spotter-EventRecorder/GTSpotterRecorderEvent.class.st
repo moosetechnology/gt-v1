@@ -36,6 +36,11 @@ GTSpotterRecorderEvent >> associations [
 			ifNotNil: [ info associations ]
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderEvent >> closeActionSymbol [
+	^ #improper
+]
+
 { #category : #'accessing - announcement info' }
 GTSpotterRecorderEvent >> computerUUID [
 	^ self infoAt: #computerUUID
@@ -154,6 +159,11 @@ GTSpotterRecorderEvent >> isContextChanged [
 ]
 
 { #category : #testing }
+GTSpotterRecorderEvent >> isDive [
+	^ self isDiveIn or: [ self isDiveOut ]
+]
+
+{ #category : #testing }
 GTSpotterRecorderEvent >> isDiveIn [
 	^ false
 ]
@@ -190,6 +200,11 @@ GTSpotterRecorderEvent >> isShowPreview [
 
 { #category : #testing }
 GTSpotterRecorderEvent >> isUserSelection [
+	^ false
+]
+
+{ #category : #testing }
+GTSpotterRecorderEvent >> isUserSelectionClass [
 	^ false
 ]
 

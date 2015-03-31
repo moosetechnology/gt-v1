@@ -15,8 +15,13 @@ Class {
 }
 
 { #category : #accessing }
+GTSpotterRecorderExitAnnouncementEvent >> closeActionSymbol [
+	^ self eventType
+]
+
+{ #category : #accessing }
 GTSpotterRecorderExitAnnouncementEvent >> eventType [
-	^ self infoAt: #eventType
+	^ self infoAt: #eventType ifAbsent: [ #missing ]
 ]
 
 { #category : #initialization }

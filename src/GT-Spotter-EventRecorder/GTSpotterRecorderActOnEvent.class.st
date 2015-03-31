@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+GTSpotterRecorderActOnEvent >> closeActionSymbol [
+	^ #actOn
+]
+
+{ #category : #accessing }
 GTSpotterRecorderActOnEvent >> elementName [
 	^ self infoAt: #elementName
 ]
