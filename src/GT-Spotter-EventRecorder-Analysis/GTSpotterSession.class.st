@@ -35,12 +35,10 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 		title: 'Events';
 		display: [ :aSession | aSession ];
 		column: 'Event' 
-			evaluated: [ :each | each asEventAnalysisString ] width: 300;
-		column: 'Strange' 
-			evaluated: [ :each | each isStrange ] width: 53;
-		column: 'Image Hash' 
+			evaluated: [ :each | each asEventAnalysisString ] width: 400;
+"		column: 'Image Hash' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHash ] width: 75;
-		column: 'Time' 
+"		column: 'Time' 
 			evaluated: [ :each | String streamContents: [ :aStream | | start |
 											start := each timestamp.
 											start = 0 
@@ -50,8 +48,8 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 													aStream nextPutAll: ', '.
 													start asUTC printHMSOn: aStream ] ] ]
 			width: 120;
-		column: 'Session Creation Time' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;
+"		column: 'Session Creation Time' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;"
 		withSmalltalkSearch;
 		helpMessage: 'Given your INPUT, it executes: self select: [:each | INPUT ]';
 		showOnly: 200
@@ -113,6 +111,18 @@ GTSpotterSession >> roots [
 GTSpotterSession >> searchStrings [
 	^ ((self select: #isContextChanged)
 			flatCollect: #currentTextHashes as: Bag)
+]
+
+{ #category : #accessing }
+GTSpotterSession >> start [
+	self ifEmpty: [ ^ 0 ].
+	^ self first timestamp
+]
+
+{ #category : #accessing }
+GTSpotterSession >> stop [
+	self ifEmpty: [ ^ 0 ].
+	^ self last timestamp
 ]
 
 { #category : #update }

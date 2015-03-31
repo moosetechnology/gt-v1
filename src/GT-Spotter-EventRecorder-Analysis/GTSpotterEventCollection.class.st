@@ -96,17 +96,6 @@ GTSpotterEventCollection >> sessionPopupText [
 		 ]
 ]
 
-{ #category : #accessing }
-GTSpotterEventCollection >> start [
-	self ifEmpty: [ ^ 0 ].
-	^ self first timestamp
-]
-
-{ #category : #accessing }
-GTSpotterEventCollection >> stop [
-	^ self last timestamp
-]
-
 { #category : #enumerating }
 GTSpotterEventCollection >> userSelections [
 	^ self select: #isUserSelection

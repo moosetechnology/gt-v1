@@ -22,15 +22,15 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 	^ (composite table)
 		title: 'Computers';
 		display: [ :aComputer | aComputer ];
-		column: 'Start' 
+		column: 'Since' 
 			evaluated: [ :each | String streamContents: [ :aStream | 
 											each start = 0 
 												ifTrue: [ aStream nextPutAll: 'unknown' ]
 												ifFalse: [ each start asUTC printYMDOn: aStream ] ] ]
 			width: 67;
-		column: 'Duration' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration ] 
-			width: 67;
+		column: 'For Days' 
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration asDuration asDays rounded ] 
+			width: 60;
 		column: 'Sessions' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ] 
 			width: 60;

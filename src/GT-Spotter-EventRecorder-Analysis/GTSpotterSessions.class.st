@@ -6,7 +6,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterSessions >> duration [
 	^ self stop - self start
 ]
@@ -49,17 +49,17 @@ GTSpotterSessions >> numberOfEvents [
 	^ self sum: #size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTSpotterSessions >> sessions [
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterSessions >> start [
 	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTSpotterSessions >> stop [
 	^ (self detectMax: #stop)  ifNil: [ 0 ] ifNotNil: [ :obj | obj stop ]
 ]

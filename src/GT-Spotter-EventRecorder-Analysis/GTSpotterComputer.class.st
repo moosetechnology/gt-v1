@@ -180,7 +180,7 @@ GTSpotterComputer >> start [
 { #category : #accessing }
 GTSpotterComputer >> stop [
 	self ifEmpty: [ ^ 0 ].
-	^ self first stop
+	^ self last stop
 ]
 
 { #category : #update }
