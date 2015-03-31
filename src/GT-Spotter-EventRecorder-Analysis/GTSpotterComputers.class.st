@@ -69,3 +69,8 @@ GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThen: anInteger [
 GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]
+
+{ #category : #update }
+GTSpotterComputers >> updateEvents [
+	^ self do: #updateEvents
+]

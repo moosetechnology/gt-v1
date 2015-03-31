@@ -7,6 +7,11 @@ GTSpotterRecorderEvent >> asEventAnalysisString [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> children [
+	^ self infoAt: #sameLevelEvents ifAbsent: [ #() ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> diveInEvent: aDiveInEvent [ 
 	^ self infoAt: #diveInEvent put: aDiveInEvent.
 ]
@@ -35,9 +40,8 @@ GTSpotterRecorderEvent >> eventTypePrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
-GTSpotterRecorderEvent >> infoAt: key ifAbsentPut: putBlock [
-	info ifNil: [ Dictionary new ].
-	^ info at: key ifAbsentPut: putBlock
+GTSpotterRecorderEvent >> isRootEvent [
+	^ self infoAt: #diveInEvent ifPresent: [ :obj | false ] ifAbsent: [ true ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -50,4 +54,9 @@ GTSpotterRecorderEvent >> markAsStrange: aString [
 	| stranges |
 	stranges := self infoAt: #strange ifAbsentPut: [ OrderedCollection new ].
 	stranges add: aString.
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> strange [
+	^ self infoAt: #strange ifAbsent: [ #() ].
 ]

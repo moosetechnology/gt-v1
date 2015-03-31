@@ -57,6 +57,35 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 		showOnly: 50
 ]
 
+{ #category : #'gt-inspector-extension' }
+GTSpotterSession >> gtInspectorStrangeEventsIn: composite [
+	<gtInspectorPresentationOrder: 9>  
+	^ (composite tree)
+		title: 'Strange';
+		display: [ :aSession | aSession select: #isStrange ];
+		children: [ :eachChild |
+			eachChild isString 
+				ifTrue: [ #() ]
+				ifFalse: [ eachChild strange ] ];
+		format: [ :eachEvent | 
+			eachEvent isString 
+				ifTrue: [ eachEvent ]
+				ifFalse: [ eachEvent asEventAnalysisString, 
+								' with ', eachEvent strange size asString, ' strange observations.' ] ]
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterSession >> gtInspectorTreeEventsIn: composite [
+	<gtInspectorPresentationOrder: -1>  
+	^ (composite tree)
+		title: 'Tree';
+		display: [ :aSession | aSession roots ];
+		children: [ :eachChild |
+			eachChild children ];
+		format: [ :eachEvent | eachEvent asEventAnalysisString ]
+		
+]
+
 { #category : #accessing }
 GTSpotterSession >> imageHashes [
 	^ (self collect: #imageHash as: OrderedCollection) removeDuplicates
@@ -73,6 +102,11 @@ GTSpotterSession >> previewString [
 	^ self isWithPreview
 		ifTrue: [ 'yes' ]
 		ifFalse: [ 'no' ]
+]
+
+{ #category : #enumerating }
+GTSpotterSession >> roots [
+	^ self select: #isRootEvent
 ]
 
 { #category : #enumerating }

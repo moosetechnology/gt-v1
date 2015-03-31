@@ -161,3 +161,8 @@ GTSpotterComputer >> stop [
 	self ifEmpty: [ ^ 0 ].
 	^ self first stop
 ]
+
+{ #category : #update }
+GTSpotterComputer >> updateEvents [
+	^ self do: #updateEvents
+]

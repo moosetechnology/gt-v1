@@ -24,9 +24,7 @@ GTSpotterDiveInLevelCommand >> initialize [
 
 { #category : #update }
 GTSpotterDiveInLevelCommand >> updateDiveIn: anEvent [
-	dives ifNotEmpty: [ 
-		anEvent parentDiveInEvent: dives last.
-		dives last childDiveInEvent: anEvent ].
+	self updateEvent: anEvent.
 	dives add: anEvent.
 
 ]
@@ -34,8 +32,7 @@ GTSpotterDiveInLevelCommand >> updateDiveIn: anEvent [
 { #category : #update }
 GTSpotterDiveInLevelCommand >> updateDiveOut: anEvent [
 	dives ifEmpty: [ ^ anEvent markAsStrange: 'Dive-Out before Dive-In.' ].
-	anEvent parentDiveInEvent: dives last.
-	dives last diveOutEvent: anEvent.
+	self updateEvent: anEvent.
 	dives removeLast 
 ]
 

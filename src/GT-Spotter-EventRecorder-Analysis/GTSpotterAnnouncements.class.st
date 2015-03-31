@@ -87,6 +87,7 @@ GTSpotterAnnouncements >> sessionsPerComputer [
 		eachComputer sortByTimestamp.
 		eachComputer sessions as: GTSpotterComputer.
 	] as: GTSpotterComputers.
+	computers updateEvents.
 	^ computers select: #notEmpty
 ]
 
