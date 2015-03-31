@@ -119,6 +119,12 @@ GTSpotterRecorderEvent >> infoAt: key ifAbsent: absentBlock [
 ]
 
 { #category : #accessing }
+GTSpotterRecorderEvent >> infoAt: key ifAbsentPut: putBlock [
+	info ifNil: [ info := Dictionary new ].
+	^ info at: key ifAbsentPut: putBlock
+]
+
+{ #category : #accessing }
 GTSpotterRecorderEvent >> infoAt: key ifPresent: presentBlock ifAbsent: absentBlock [
 	info ifNil: [ ^ absentBlock value].
 	^ info at: key ifPresent: presentBlock ifAbsent: absentBlock
