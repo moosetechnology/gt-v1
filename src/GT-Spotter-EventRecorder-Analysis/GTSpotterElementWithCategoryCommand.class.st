@@ -2,7 +2,8 @@ Class {
 	#name : #GTSpotterElementWithCategoryCommand,
 	#superclass : #GTSpotterAnalysisCommand,
 	#instVars : [
-		'selection'
+		'selection',
+		'category'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
@@ -21,10 +22,17 @@ GTSpotterElementWithCategoryCommand >> updateCategory: anEvent [
 	selection selectedCategoryEvent: anEvent.
 	anEvent selectedElementEvent: selection.
 	selection := nil.
+	category := anEvent.
 ]
 
 { #category : #update }
 GTSpotterElementWithCategoryCommand >> updateSelection: anEvent [
-	selection ifNotNil: [ selection markAsStrange: 'More element selections before category selection.' ].
+	selection ifNotNil: [ 
+		category 
+			ifNil: [ selection markAsStrange: 'There is no category selection before.' ]
+			ifNotNil: [ :aCategory | 
+				selection selectedCategoryEvent: aCategory.
+				aCategory selectedElementEvent: selection.  ]
+		 ].
 	selection := anEvent.
 ]

@@ -1,6 +1,11 @@
 Extension { #name : #GTSpotterRecorderCategorySelectedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> elementSelectionEvents [
+	^ self infoAt: #selectedElementEvents ifAbsent: [ #() ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderCategorySelectedEvent >> eventAnalysisPrintOn: aStream [
 	aStream nextPutAll: 'Category: '.
 	self categoryLabel
@@ -20,5 +25,7 @@ GTSpotterRecorderCategorySelectedEvent >> markAsStrange [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderCategorySelectedEvent >> selectedElementEvent: anEvent [
-	self infoAt: #selectedElementEvent put: anEvent
+	| elements |
+	elements := self infoAt: #selectedElementEvents ifAbsentPut: [ OrderedCollection new ].
+	elements add: anEvent
 ]
