@@ -15,7 +15,7 @@ Class {
 { #category : #'instance creation' }
 GTSpotterRecorderEvent class >> exampleAnySubclass [
 	<gtExample>
-	^ self subclasses any new 
+	^ self subclasses anyOne new 
 ]
 
 { #category : #'instance creation' }
