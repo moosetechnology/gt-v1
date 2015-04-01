@@ -181,6 +181,16 @@ GTSpotter >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
+{ #category : #'accessing-convenience' }
+GTSpotter >> beDebugging [
+	self exceptionHandler: GTSpotterDebuggingExceptionHandler new
+]
+
+{ #category : #'accessing-convenience' }
+GTSpotter >> beDeployment [
+	self exceptionHandler: GTSpotterDeploymentExceptionHandler new
+]
+
 { #category : #accessing }
 GTSpotter >> currentStep [
 	

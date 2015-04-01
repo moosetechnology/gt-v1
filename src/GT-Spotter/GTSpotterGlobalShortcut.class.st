@@ -36,8 +36,10 @@ GTSpotterGlobalShortcut class >> openGlobalSpotter [
 GTSpotterGlobalShortcut class >> openGlobalSpotterDebug [
 
 	GTSpotterMorph new
-		extent: 830@630;
-		spotterModel: GTSpotter new;
+		extent: (World width / 2.25 @ (World height / 1.25)) asIntegerPoint;
+		spotterModel: (GTSpotter new
+			beDebugging;
+			yourself);
 		openInWindowLabeled: 'Spotter Debug Mode';
 		showPreview
 ]
@@ -60,13 +62,8 @@ GTSpotterGlobalShortcut >> keymapToggle [
 { #category : #shortcuts }
 GTSpotterGlobalShortcut >> keymapToggleDebug [
 	"KMRepository reset"
-	"<shortcut>"
+	<shortcut>
 	^ KMKeymap
-			shortcut: Character cr command
+			shortcut: Character cr shift command
 			action: [ self class openGlobalSpotterDebug ]
-]
-
-{ #category : #accessing }
-GTSpotterGlobalShortcut >> openGlobalSpotter [
-	
 ]
