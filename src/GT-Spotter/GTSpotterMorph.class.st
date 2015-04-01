@@ -114,7 +114,7 @@ GTSpotterMorph >> initialize [
 	super initialize.
 	"setting custom brick themer for the whole spotter"
 	"self themer: self themer spotterThemer themer."
-	self themer: GTSpotterBrickPinkThemer new.
+	self themer: self themer spotterPinkThemer themer.
 	
 	self initializeListeners.
 	self themer spotterThemer spotterStyleFor: self.
