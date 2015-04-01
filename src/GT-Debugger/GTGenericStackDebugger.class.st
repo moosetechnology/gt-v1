@@ -484,7 +484,7 @@ GTGenericStackDebugger >> selectionChanged: aContext [
 	self class enableStackColoring ifTrue: [  
 		UIManager default defer: [
 			(self browser paneNamed: #stack) presentations  presentations ifNotEmpty: [ :p | 
-				p first update ] ] ]
+				self session interruptedProcess ifNotNil: [ p first update ] ] ] ]
 ]
 
 { #category : #accessing }
