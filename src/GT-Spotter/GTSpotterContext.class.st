@@ -82,7 +82,8 @@ GTSpotterContext >> equals: aContext [
 
 { #category : #public }
 GTSpotterContext >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value
+	self flag: 'Bloc -> overrides doesNotUnderstand discarding the current exception context'.
+	^ GTCurrentSpotterExceptionHandler value ifNil: [ self step exceptionHandler ]
 ]
 
 { #category : #testing }

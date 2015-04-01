@@ -78,7 +78,8 @@ GTFilter >> defaultStreamed [
 
 { #category : #'private-model' }
 GTFilter >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value
+	self flag: 'Bloc -> overrides doesNotUnderstand discarding the current exception context'.
+	^ GTCurrentSpotterExceptionHandler value ifNil: [ self context exceptionHandler ]
 ]
 
 { #category : #public }

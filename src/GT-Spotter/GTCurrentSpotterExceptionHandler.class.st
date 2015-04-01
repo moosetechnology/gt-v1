@@ -6,7 +6,7 @@ Class {
 
 { #category : #'accessing-defaults' }
 GTCurrentSpotterExceptionHandler class >> defaultValue [
-	^ GTSpotterExceptionHandlerNotFound signal
+	^ nil
 ]
 
 { #category : #evaluating }

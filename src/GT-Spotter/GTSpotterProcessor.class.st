@@ -41,7 +41,8 @@ GTSpotterProcessor >> doFilterInContext: aSpotterContext [
 
 { #category : #'accessing-dynamic' }
 GTSpotterProcessor >> exceptionHandler [
-	^ GTCurrentSpotterExceptionHandler value
+	self flag: 'Bloc -> overrides doesNotUnderstand discarding the current exception context'.
+	^ GTCurrentSpotterExceptionHandler value ifNil: [ GTSpotterExceptionHandlerNotFound signal ]
 ]
 
 { #category : #private }
