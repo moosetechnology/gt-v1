@@ -107,6 +107,13 @@ GTSpotterRecorderEvent >> imageVersion [
 	^ self infoAt: #imageVersion
 ]
 
+{ #category : #private }
+GTSpotterRecorderEvent >> info [
+	"For the testing purpose only; we use it in #instancesForAllEvents.
+	We want to instantiate info only when it is really necessary."
+	^ info ifNil: [ info := Dictionary new ].
+]
+
 { #category : #accessing }
 GTSpotterRecorderEvent >> infoAt: key [
 	^ self infoAt: key ifAbsent: [ nil ]
