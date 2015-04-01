@@ -1,25 +1,28 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-GTSpotter >> concreteMethodsInContext: aContext [
+GTSpotter >> concreteMethodsInContext: aContext usingFilter: aFilter [
 	" return the concrete methods described by the expression (Class >> #Selector) - evaluate it savely "
-	| methods classAndSelectorStrings class selector |
-	methods := OrderedCollection new.
+	| classAndSelectorStrings class selector |
 	classAndSelectorStrings := (aContext textTrimmed splitOn: '>>') collect: [ :each | each trimBoth ].
+	
 	" check preconditions "
-	classAndSelectorStrings size = 2 ifFalse: [ ^ methods ].
-	classAndSelectorStrings second size < 2 ifTrue: [ ^ methods ].
-	classAndSelectorStrings second first = $# ifFalse: [ ^ methods ].
-	" retrieve concrete class and selector "
-	(class := Smalltalk classNamed: classAndSelectorStrings first) ifNil: [ ^ methods ].
+	classAndSelectorStrings size = 2 ifFalse: [ ^ self ].
+	classAndSelectorStrings second size < 2 ifTrue: [ ^ self ].
+	classAndSelectorStrings second first = $# ifFalse: [ ^ self ].
+	
+	" retrieve concrete class and selector - or saerch all behaviors "
 	selector := classAndSelectorStrings second allButFirst asSymbol.
+	(class := Smalltalk classNamed: classAndSelectorStrings first) ifNil: [ 
+		SystemNavigation default allBehaviorsDo: [ :aClass |
+			aClass methodsDo: [ :method |
+				method selector = selector ifTrue: [ aFilter value: method ] ] ].
+		^ self ].
+	
+	
 	" retrieve the compiled method in the class and class hierarchy "
 	class withAllSuperclassesDo: [ :aClass |
-		([ aClass compiledMethodAt: selector ] on: Error do: [ nil ]) 
-			ifNotNilDo: [ :compiledMethod | 
-				aContext addItem: compiledMethod.
-				methods add: compiledMethod ] ].
-	^ methods
+		aFilter value: ([ aClass compiledMethodAt: selector ] on: Error do: [ ^ self ]) ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
@@ -58,7 +61,7 @@ GTSpotter >> fileReferencesBy: aSelector inContext: aSpotterContext usingFilter:
 					query := split last.
 					rootDirectory := ('' join: split allButLast) asFileReference ] ].
 	rootDirectory exists ifFalse: [ ^ self ].
-	" hack: see senders of #queryForFileReference "
+	self flag: 'this is an ugly hack for #queryForFileReference. This iterator has to manipulate the query in order for the filter to work properly'.
 	aSpotterContext cacheAt: #queryForFileReference put: query.
 	(rootDirectory perform: aSelector) do: aBlock
 ]
@@ -79,9 +82,11 @@ GTSpotter >> spotterClipboardFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterConcreteMethodFor: aStep [
     <spotterOrder: 30>
+	self flag: #specialFilter.
 	^ aStep listProcessor
-		title: 'Method';
-		filter: [ :context | self concreteMethodsInContext: context ];
+		title: 'Methods';
+		filter: GTNullFilter item: [ :filter :context |
+			self concreteMethodsInContext: context usingFilter: filter ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -260,8 +265,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 	self flag: #specialFilter.
 	aStep listProcessor
 		title: 'Implementors';
-		itemFilterName: [ :item | item selector ];
-		filter: GTFilterSubstring item: [ :filter :context | 
+		filter: GTFilterImplementor item: [ :filter :context | 
 			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
 		wantsToDisplayOnEmptyQuery: false
 ]
