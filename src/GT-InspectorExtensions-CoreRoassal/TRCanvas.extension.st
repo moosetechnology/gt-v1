@@ -1,18 +1,6 @@
 Extension { #name : #TRCanvas }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-TRCanvas classSide >> gtExampleArc [
-	<gtExample: 'Example arc'>
-	^ TRCanvasExample new arc
-]
-
-{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
-TRCanvas classSide >> gtExampleAtRandom [
-	<gtExample: 'Random canvas'>
-	^ TRCanvasExample new perform: TRCanvasExample selectors atRandom
-]
-
-{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
 TRCanvas classSide >> gtExampleEmpty [
 	<gtExample: 'Empty canvas'>
 	^ TRCanvas new
