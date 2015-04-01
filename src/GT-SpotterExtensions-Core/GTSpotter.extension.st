@@ -260,7 +260,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 	self flag: #specialFilter.
 	aStep listProcessor
 		title: 'Implementors';
-		itemFilterName: [ :item | String streamContents: [ :stream | item gtDisplayOn: stream ] ];
+		itemFilterName: [ :item | item selector ];
 		filter: GTFilterSubstring item: [ :filter :context | 
 			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
 		wantsToDisplayOnEmptyQuery: false
