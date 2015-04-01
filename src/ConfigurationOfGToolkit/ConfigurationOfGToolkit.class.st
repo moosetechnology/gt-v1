@@ -1064,7 +1064,7 @@ ConfigurationOfGToolkit >> baseline022: aSpec [
 		aSpec
 			group: 'Tests' with: #('GT-Tests-Release');
 			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
-			group: 'default' with: #( 'GT-Setup' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests') ]
+			group: 'default' with: #( 'GT-Setup' 'GT-BytecodeDebugger' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GT-PetitParserDebugger' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests') ]
 ]
 
 { #category : #baselines }
