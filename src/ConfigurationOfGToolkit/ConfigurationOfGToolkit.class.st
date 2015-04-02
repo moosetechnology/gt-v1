@@ -721,9 +721,9 @@ ConfigurationOfGToolkit >> baseline018: aSpec [
 	aSpec for: #'common' do: [
 		aSpec
 			blessing: #'baseline';
-			description: 'GTSpotter';
-			author: 'TudorGirba';
-			timestamp: '2014-12-07';
+			description: 'Fixed GT-PetitParserDebugger';
+			author: 'AndreiChis';
+			timestamp: '2015-04-02';
 			repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
 		aSpec
 			package: 'GT-Coder' with: [
@@ -796,7 +796,7 @@ ConfigurationOfGToolkit >> baseline018: aSpec [
 		aSpec
 			group: 'Tests' with: #( 'GT-Metaceller-Tests');
 			group: 'debugger' with: #( 'GT-SUnitDebugger' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
-			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GT-Metaceller-Glamour' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests');
+			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'GT-SUnitDebugger' 'AnnouncerCentricDebugger' 'GT-PetitParserDebugger' 'GT-Metaceller-Glamour' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests');
 			group: 'metaceller' with: #( 'GT-Metaceller-Glamour' 'GT-Metaceller-Tests') ]
 ]
 
