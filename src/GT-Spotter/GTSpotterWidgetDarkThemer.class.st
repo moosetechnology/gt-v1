@@ -1,6 +1,3 @@
-"
-A GTSpotterWidgetDarkThemer isasdasdasd xxasdasda
-"
 Class {
 	#name : #GTSpotterWidgetDarkThemer,
 	#superclass : #GTSpotterWidgetThemer,
