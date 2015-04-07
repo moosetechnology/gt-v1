@@ -55,6 +55,7 @@ GTSpotterAnnouncements >> developerUUIDs [
 			'4483f704-6909-45d7-9367-869a5850c3e8'
 			'52fe7c39-9c98-4fa7-a883-a8b2cabe84db'
 			'69202c73-b32f-4968-aaf1-0666d421ea57'
+			'0cd69f50-ad08-8c47-84ec-329e2210a2f2'
 		)
 ]
 
