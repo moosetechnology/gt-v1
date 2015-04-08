@@ -229,12 +229,18 @@ GTPlayground class >> settingsOn: aBuilder [
 		setSelector: #setGTPlaygroundEnabledStatus:; 
 		label: 'GTPlayground';
 		description: 'Enable or disable the GTPlayground.'.
-	(aBuilder setting: #customDirectory)
+	(aBuilder setting: #cacheDirectory)
 		parent: #gt;
 		type: #Directory;
 		target: GTPlayBook;
 		description: 'The path to the local Playground cache that stores all Playground scripts in ph files' translated;
-		label: 'Local Playground cache directory'
+		label: 'Local Playground cache directory'.
+	(aBuilder setting: #stashDirectory)
+		parent: #gt;
+		type: #Directory;
+		target: GTPlayBook;
+		description: 'The path to the local Playground stash that stores all named Playground scripts in ph files' translated;
+		label: 'Local Playground stash directory'
 ]
 
 { #category : #'tools registry' }
@@ -265,7 +271,7 @@ GTPlayground >> acceptContents: aString [
 
 { #category : #building }
 GTPlayground >> actionsForPreviousContents [
-	^ GTPlayBook instance pagesSorted
+	^ GTPlayBook instance pages
 		collect: [ :each | 
 			GLMGenericAction new
 				title: (each content asString contractTo: 50);
@@ -278,10 +284,12 @@ GTPlayground >> actionsForPreviousContents [
 { #category : #building }
 GTPlayground >> codeIn: a [
 	^ a pharoPlayground
-		title: [ GTPlaygroundEditableTabLabel new
-			text: 'Untitled';
-			when: #accepted do: [ :text | "self entity title: text" ];
-			yourself ];
+		title: [ :page | 
+			GTPlaygroundEditableTabLabel new
+				text: page title;
+				when: #accepted do: [ :text | 
+					page setTitleAndEnsureInStash: text asString ];
+				yourself ];
 		format: [ :page | page content ];
 		act: [ :text :page |
 				text selectionInterval: (1 to: text text size).

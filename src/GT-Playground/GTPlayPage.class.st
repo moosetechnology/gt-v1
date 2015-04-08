@@ -9,10 +9,10 @@ Class {
 	#instVars : [
 		'title',
 		'content',
-		'fileName',
 		'creationTime',
 		'modificationTime',
-		'publishedUrl'
+		'publishedUrl',
+		'persistenceStrategies'
 	],
 	#category : #'GT-Playground'
 }
@@ -20,7 +20,6 @@ Class {
 { #category : #private }
 GTPlayPage class >> basicLoadFromPublishUrl: aString [
 	^ GTPlayPage new 
-		publishedUrl: aString;
 		saveContent: (GTUrlProvider new get: aString)
 		yourself
 ]
@@ -64,11 +63,9 @@ GTPlayPage class >> fileExtension [
 
 { #category : #'instance creation' }
 GTPlayPage class >> fromFileReference: aFileReference [
-	^ self new 
-		fileName: aFileReference basename;
+	^ self new
 		content: (aFileReference readStreamDo: #contents); 
 		creationTime: (self creationTimeFrom: aFileReference);
-		modificationTime: aFileReference modificationTime;
 		yourself
 ]
 
@@ -104,16 +101,9 @@ GTPlayPage >> acceptContents: aStringOrtext [
 	^ true
 ]
 
-{ #category : #'compatibility-tools' }
-GTPlayPage >> cacheDirectory [
-	self deprecated: 'use: #fileDirectory instead'.
-	^ self fileDirectory
-]
-
 { #category : #accessing }
 GTPlayPage >> content [
-	" lazy for better backward/forward-compatibility "
-	^ content ifNil: [ self defaultContent ]
+	^ content
 ]
 
 { #category : #accessing }
@@ -129,8 +119,7 @@ GTPlayPage >> contentString [
 
 { #category : #accessing }
 GTPlayPage >> creationTime [
-	" lazy for better backward/forward-compatibility "
-	^ creationTime ifNil: [ creationTime := self defaultCreationTime ]
+	^ creationTime
 ]
 
 { #category : #accessing }
@@ -139,69 +128,8 @@ GTPlayPage >> creationTime: anObject [
 ]
 
 { #category : #'accessing-defaults' }
-GTPlayPage >> defaultContent [
-	^ ''
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayPage >> defaultCreationTime [
-	^ self defaultTimestamp
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayPage >> defaultFileName [
-	^ self title , '.' , self fileExtension
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayPage >> defaultModificationTime [
-	^ self creationTime
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayPage >> defaultPublishedUrl [
-	^ ''
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayPage >> defaultTimestamp [
-	^ DateAndTime now
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayPage >> defaultTitle [
+GTPlayPage >> creationTimeForFileName [
 	^ (self creationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
-]
-
-{ #category : #private }
-GTPlayPage >> deleteFromFileSystem [
-	self fileReference ensureDelete
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayPage >> fileDirectory [
-	^ GTPlayBook cacheDirectory
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayPage >> fileExtension [
-	^ self class fileExtension
-]
-
-{ #category : #accessing }
-GTPlayPage >> fileName [
-	" lazy for better backward/forward-compatibility "
-	^ fileName ifNil: [ fileName := self defaultFileName ]
-]
-
-{ #category : #accessing }
-GTPlayPage >> fileName: anObject [
-	fileName := anObject
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayPage >> fileReference [
-	^ self fileDirectory / self fileName
 ]
 
 { #category : #ui }
@@ -222,10 +150,10 @@ GTPlayPage >> gtInspectorContentIn: composite [
 { #category : #initializing }
 GTPlayPage >> initialize [
 	super initialize.
-	
-	self content: self defaultContent.
-	self creationTime: self defaultCreationTime.
-	self modificationTime: self defaultModificationTime
+	self content: ''.
+	self creationTime: DateAndTime now.
+	self title: 'Page'.
+	persistenceStrategies := OrderedCollection with: (GTPlayPageCachePersistence new page: self)
 ]
 
 { #category : #testing }
@@ -234,14 +162,13 @@ GTPlayPage >> isInteresting [
 ]
 
 { #category : #accessing }
-GTPlayPage >> modificationTime [
-	" lazy for better backward/forward-compatibility "
-	^ modificationTime ifNil: [ modificationTime := self defaultModificationTime ]
+GTPlayPage >> persistenceStrategies [
+	^ persistenceStrategies
 ]
 
 { #category : #accessing }
-GTPlayPage >> modificationTime: anObject [
-	modificationTime := anObject
+GTPlayPage >> persistenceStrategies: anObject [
+	persistenceStrategies := anObject
 ]
 
 { #category : #actions }
@@ -255,50 +182,29 @@ GTPlayPage >> publish [
     self inform: publishedUrl , ' was published and the url was copied to clipboard'
 ]
 
-{ #category : #accessing }
-GTPlayPage >> publishedUrl [
-	^ publishedUrl ifNil: [ self defaultPublishedUrl ]
-]
-
-{ #category : #accessing }
-GTPlayPage >> publishedUrl: anObject [
-	publishedUrl := anObject
-]
-
 { #category : #actions }
 GTPlayPage >> save [
-	self content isEmpty
-		ifTrue: [ self deleteFromFileSystem ]
-		ifFalse: [ self writeToFileSystem ]
+	persistenceStrategies do: [ :each | each save ]
 ]
 
 { #category : #actions }
 GTPlayPage >> saveContent: aStringOrText [
-	self modificationTime: self defaultTimestamp.
 	self content: aStringOrText.
 	self save.
 ]
 
-{ #category : #'compatibility-tools' }
-GTPlayPage >> silentContent: aStringOrtext [
-	self deprecated: 'use: #content: instead (has no side-effects)'.
-	self content: aStringOrtext
+{ #category : #'accessing-dynamic' }
+GTPlayPage >> setTitleAndEnsureInStash: aString [
+	self title: aString.
+	self persistenceStrategies add: (GTPlayPageStashPersistence new page: self)
 ]
 
 { #category : #'accessing-dynamic' }
 GTPlayPage >> title [
-	^ title ifNil: [ self defaultTitle ]
+	^ title
 ]
 
 { #category : #'accessing-dynamic' }
 GTPlayPage >> title: aString [
 	title := aString
-]
-
-{ #category : #private }
-GTPlayPage >> writeToFileSystem [
-	self fileReference writeStreamDo: [ :stream | 
-		stream 
-			truncate; 
-			nextPutAll: self contentString ]
 ]

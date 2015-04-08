@@ -13,40 +13,24 @@ Class {
 	#classInstVars : [
 		'instance',
 		'cacheDirectory',
-		'customDirectory'
+		'stashDirectory'
 	],
 	#category : #'GT-Playground'
 }
 
-{ #category : #private }
-GTPlayBook class >> basicEnsureDistinctDirectory: aStringOrFileReference [
-	" Ensure aStringOrFileReference is either nil or a valid file-reference object distinct from the default one.
-	  Do not create any directory on disk yet - the first access to any directory will handle that.
-	  #asFileReference and #absolutePath may raise anError! "
-	
-	| fileReference |
-	fileReference := aStringOrFileReference asFileReference.
-	^ fileReference absolutePath = self defaultDirectory absolutePath
-		ifTrue: [ nil ]
-		ifFalse: [ fileReference ]
-		
-	" Background: The behavior of the default directory is being relative to the image. Therefore the default file-reference is relative to the image. If the image is moved/copied around the file-reference will stay relative to the image. We assume this is the expected behavior for the default directory. Therefore we prevent the user from setting that value as an absolute file-reference, since an absolute file-reference would behave differently when an image is moved/copied around. "
-]
-
 { #category : #accessing }
 GTPlayBook class >> cacheDirectory [
 	" lazy initialize the cache and always ensure its existence - especially while the image is running "
-	
 	cacheDirectory ifNil: [ cacheDirectory := self defaultCacheDirectory ].
-	^ cacheDirectory exists
-		ifTrue: [ cacheDirectory ]
-		ifFalse: [ cacheDirectory ensureCreateDirectory ]
+	^ cacheDirectory ensureCreateDirectory
 ]
 
 { #category : #accessing }
 GTPlayBook class >> cacheDirectory: aStringOrFileReference [
 
-	cacheDirectory := self ensureDistinctDirectory: aStringOrFileReference
+	cacheDirectory := self 
+							ensureDirectory: aStringOrFileReference 
+							distinctFrom: self defaultCacheDirectory
 ]
 
 { #category : #private }
@@ -55,40 +39,33 @@ GTPlayBook class >> cleanUp [
 	self reset
 ]
 
-{ #category : #accessing }
-GTPlayBook class >> customDirectory [
-	" the settings-browser will hang if this method returns nil or an object not being aFileReference " 
-	
-	^ customDirectory ifNil: [ self defaultCustomDirectory ]
-]
-
-{ #category : #accessing }
-GTPlayBook class >> customDirectory: aStringOrFileReference [
-
-	customDirectory := self ensureDistinctDirectory: aStringOrFileReference.
-	cacheDirectory := nil.
-]
-
 { #category : #'accessing-defaults' }
 GTPlayBook class >> defaultCacheDirectory [
-	^ customDirectory ifNil: [ self defaultDirectory ]
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayBook class >> defaultCustomDirectory [
-	^ self defaultDirectory
-]
-
-{ #category : #'accessing-defaults' }
-GTPlayBook class >> defaultDirectory [
 	^ 'play-cache/' asFileReference
 ]
 
+{ #category : #'accessing-defaults' }
+GTPlayBook class >> defaultStashDirectory [
+	^ 'play-stash/' asFileReference
+]
+
 { #category : #private }
-GTPlayBook class >> ensureDistinctDirectory: aStringOrFileReference [
-	^ [ self basicEnsureDistinctDirectory: aStringOrFileReference ]
-		on: Error
-		do: [ nil ]
+GTPlayBook class >> ensureDirectory: aStringOrFileReference distinctFrom: aDefaultDirectory [
+		" Ensure aStringOrFileReference is either nil or a valid file-reference object distinct from the default one.
+	  Do not create any directory on disk yet - the first access to any directory will handle that.
+	  #asFileReference and #absolutePath may raise anError! "
+	| fileReference |
+
+	^ [ 
+		fileReference := aStringOrFileReference asFileReference.
+		^ fileReference absolutePath = aDefaultDirectory absolutePath
+			ifTrue: [ nil ]
+			ifFalse: [ fileReference ]
+			
+		" Background: The behavior of the default directory is being relative to the image. Therefore the default file-reference is relative to the image. If the image is moved/copied around the file-reference will stay relative to the image. We assume this is the expected behavior for the default directory. Therefore we prevent the user from setting that value as an absolute file-reference, since an absolute file-reference would behave differently when an image is moved/copied around. "	
+		]
+			on: Error
+			do: [ nil ]
 ]
 
 { #category : #examples }
@@ -118,8 +95,7 @@ GTPlayBook class >> reset [
 { #category : #private }
 GTPlayBook class >> resetDirectories [
 
-	cacheDirectory := nil.
-	customDirectory := nil
+	cacheDirectory := nil
 ]
 
 { #category : #initializing }
@@ -132,6 +108,21 @@ GTPlayBook class >> startUp [
 GTPlayBook class >> startUp: resuming [
 
 	cacheDirectory := nil.
+]
+
+{ #category : #accessing }
+GTPlayBook class >> stashDirectory [
+	" lazy initialize the stash and always ensure its existence - especially while the image is running "
+	stashDirectory ifNil: [ stashDirectory := self defaultStashDirectory ].
+	^ stashDirectory ensureCreateDirectory
+]
+
+{ #category : #accessing }
+GTPlayBook class >> stashDirectory: aStringOrFileReference [
+
+	stashDirectory := self 
+							ensureDirectory: aStringOrFileReference 
+							distinctFrom: self defaultStashDirectory
 ]
 
 { #category : #actions }
@@ -212,12 +203,6 @@ GTPlayBook >> pagesLimit [
 { #category : #accessing }
 GTPlayBook >> pagesLimit: anObject [
 	pagesLimit := anObject
-]
-
-{ #category : #'accessing-dynamic' }
-GTPlayBook >> pagesSorted [
-	^ self pages sorted: [ :a :b | 
-		a modificationTime > b modificationTime ]
 ]
 
 { #category : #actions }
