@@ -241,7 +241,7 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'pharo4.x' version: '1.2.1'.
+	spec for: #'pharo4.x' version: '1.2.0'.
 	spec for: #'pharo3.x' version: '1.0.4'.
 
 ]
@@ -376,14 +376,14 @@ ConfigurationOfGTSpotter >> version107: spec [
 ]
 
 { #category : #versions }
-ConfigurationOfGTSpotter >> version121: spec [
-	<version: '1.2.1' imports: #('1.2-baseline' )>
+ConfigurationOfGTSpotter >> version120: spec [
+	<version: '1.2.0' imports: #('1.2-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '04/08/2015 21:57'.
-		spec project: 'GlamourCore' with: '3.1.1'.
+		spec project: 'GlamourCore' with: '3.1.0'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.300';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.82';
