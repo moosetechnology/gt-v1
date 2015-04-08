@@ -7,6 +7,11 @@ Class {
 	#category : #'GT-Playground'
 }
 
+{ #category : #testing }
+GTPlayPagePersistence >> isStash [
+	^ false
+]
+
 { #category : #accessing }
 GTPlayPagePersistence >> page [
 	^ page

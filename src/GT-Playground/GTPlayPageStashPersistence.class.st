@@ -13,3 +13,8 @@ GTPlayPageStashPersistence >> fileDirectory [
 GTPlayPageStashPersistence >> fileName [
 	^ self page title, '-', self page creationTimeForFileName, '.', GTPlayPage fileExtension
 ]
+
+{ #category : #testing }
+GTPlayPageStashPersistence >> isStash [
+	^ true
+]

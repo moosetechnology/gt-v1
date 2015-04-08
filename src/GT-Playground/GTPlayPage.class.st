@@ -196,7 +196,8 @@ GTPlayPage >> saveContent: aStringOrText [
 { #category : #'accessing-dynamic' }
 GTPlayPage >> setTitleAndEnsureInStash: aString [
 	self title: aString.
-	self persistenceStrategies add: (GTPlayPageStashPersistence new page: self).
+	(self persistenceStrategies noneSatisfy: [ :each | each isStash ])
+		ifTrue: [ self persistenceStrategies add: (GTPlayPageStashPersistence new page: self)].
 	self save
 ]
 
