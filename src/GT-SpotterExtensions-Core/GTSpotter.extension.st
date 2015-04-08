@@ -102,6 +102,16 @@ GTSpotter >> spotterDirtyMonticelloPackagesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForCachedPlaygroundPagesFor: aStep [
+	<spotterOrder: 100>
+	aStep listProcessor
+			allCandidates: [ GTPlayBook instance pages ];
+			title: 'Playground cached pages';
+			itemName: [ :page | page content asString contractTo: 100 ];
+			filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForClassesFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
@@ -204,16 +214,6 @@ GTSpotter >> spotterForPackagesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForPlaygroundPagesFor: aStep [
-	<spotterOrder: 100>
-	aStep listProcessor
-			allCandidates: [ GTPlayBook instance pagesSorted ];
-			title: 'Playground';
-			itemName: [ :page | page content asString contractTo: 100 ];
-			filter: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForPragmasFor: aStep [
 	<spotterOrder: 40>
 	aStep listProcessor 
@@ -244,6 +244,20 @@ GTSpotter >> spotterForSettingsFor: aStep [
 		itemName: [ :each | each spotterLabel ];
 		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForStashedPlaygroundPagesFor: aStep [
+	<spotterOrder: 100>
+	aStep listProcessor
+			allCandidates: [ GTPlayBook stashDirectory files reversed ];
+			title: 'Playground named pages';
+			itemName: [ :file | file basename copyUpTo: $- ];
+			actLogic: [ :file | 
+				GTPlayground new openOn: (
+					(GTPlayPage fromFileReference: file) 
+						setTitleAndEnsureInStash: (file basename copyUpTo: $-)) ];
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
