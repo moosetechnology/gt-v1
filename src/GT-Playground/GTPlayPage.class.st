@@ -132,6 +132,12 @@ GTPlayPage >> creationTimeForFileName [
 	^ (self creationTime asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'
 ]
 
+{ #category : #'accessing-dynamic' }
+GTPlayPage >> ensureStashPersistency [
+	(self persistenceStrategies noneSatisfy: [ :each | each isStash ])
+		ifTrue: [ self persistenceStrategies add: (GTPlayPageStashPersistence new page: self) ]
+]
+
 { #category : #ui }
 GTPlayPage >> gtDisplayOn: stream [
 	stream nextPutAll: (self contentString copyReplaceAll: String cr with: String space)
@@ -196,8 +202,7 @@ GTPlayPage >> saveContent: aStringOrText [
 { #category : #'accessing-dynamic' }
 GTPlayPage >> setTitleAndEnsureInStash: aString [
 	self title: aString.
-	(self persistenceStrategies noneSatisfy: [ :each | each isStash ])
-		ifTrue: [ self persistenceStrategies add: (GTPlayPageStashPersistence new page: self)].
+	self ensureStashPersistency.
 	self save
 ]
 
