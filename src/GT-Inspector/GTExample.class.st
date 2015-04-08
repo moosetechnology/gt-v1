@@ -33,11 +33,12 @@ GTExample >> extractionStrategy: anObject [
 	extractionStrategy := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #presentations }
 GTExample >> gtDisplayOn: stream [
 	
 	stream 
-		nextPutAll: 'GTExample: ';
+		nextPutAll: provider name;
+		nextPutAll: ' example: ';
 		nextPutAll: self title
 ]
 
