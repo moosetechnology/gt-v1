@@ -1,6 +1,12 @@
 Extension { #name : #Context }
 
 { #category : #'*GT-InspectorExtensions-Core' }
+Context class >> gtExampleTthisContext [
+	<gtExample: 'thisContext'>
+	^ thisContext
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 Context >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 	self method gtInspectorSourceIn: composite
@@ -20,10 +26,4 @@ Context >> gtInspectorVariableValuePairs [
 								do: [value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
 							('[' , tempName , ']') -> value ]) sort asOrderedCollection.
 		^ tempVariableValuePairs addAll: superVariableValuePairs; yourself
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Context class >> thisContextExample [
-	<gtExample: 'thisContext'>
-	^ thisContext
 ]

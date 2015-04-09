@@ -1,7 +1,7 @@
 Extension { #name : #HelpTopic }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-HelpTopic class >> exampleComposedTopic [
+HelpTopic class >> gtExampleComposedTopic [
 	<gtExample>
 	|rootTopic|
 	
@@ -19,7 +19,7 @@ HelpTopic class >> exampleComposedTopic [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-HelpTopic class >> exampleSingleTopic [
+HelpTopic class >> gtExampleSingleTopic [
 	<gtExample>
 	
 	^ HelpTopic new

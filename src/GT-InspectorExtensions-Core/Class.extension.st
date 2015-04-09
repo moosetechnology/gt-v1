@@ -1,7 +1,7 @@
 Extension { #name : #Class }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Class class >> exampleClass [
+Class class >> gtExampleClass [
 	<gtExample>
 	^ self
 ]

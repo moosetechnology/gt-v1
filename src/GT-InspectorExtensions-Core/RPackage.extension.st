@@ -1,7 +1,7 @@
 Extension { #name : #RPackage }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-RPackage class >> exampleEmpty [
+RPackage class >> gtExampleEmpty [
 	<gtExample: 'Empty package'>
 	^ self named: 'Empty'
 ]

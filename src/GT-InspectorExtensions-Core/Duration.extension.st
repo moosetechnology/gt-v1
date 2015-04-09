@@ -1,19 +1,19 @@
 Extension { #name : #Duration }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Duration class >> exampleOneDay [
+Duration class >> gtExampleOneDay [
 	<gtExample>
 	^ self days: 1
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Duration class >> exampleOneHour [
+Duration class >> gtExampleOneHour [
 	<gtExample>
 	^ self hours: 1
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Duration class >> exampleOneMinute [
+Duration class >> gtExampleOneMinute [
 	<gtExample>
 	^ self minutes: 1
 ]

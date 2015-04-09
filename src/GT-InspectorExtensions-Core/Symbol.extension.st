@@ -1,7 +1,7 @@
 Extension { #name : #Symbol }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Symbol class >> exampleFourtyTwo [
+Symbol class >> gtExampleFourtyTwo [
 	<gtExample>
 	^ #fourtyTwo
 ]

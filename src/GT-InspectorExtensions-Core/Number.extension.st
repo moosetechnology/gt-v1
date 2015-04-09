@@ -1,7 +1,7 @@
 Extension { #name : #Number }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Number class >> fourtyTwoExample [
+Number class >> gtExampleFourtyTwo [
 	<gtExample: '42'>
 	^ 42
 ]

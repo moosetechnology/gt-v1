@@ -1,7 +1,7 @@
 Extension { #name : #Color }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Color class >> exampleColorRed [
+Color class >> gtExampleColorRed [
 	<gtExample>
 	
 	^ Color red

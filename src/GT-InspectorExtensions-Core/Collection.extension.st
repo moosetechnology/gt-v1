@@ -1,18 +1,6 @@
 Extension { #name : #Collection }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Collection class >> exampleEmptyArray [
-	<gtExample>
-	^ #()
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Collection class >> exampleOrderedCollectionWithOneElement [
-	<gtExample>
-	^ #(42) asOrderedCollection
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Collection >> gtDisplayOn: s [
 	self printNameOn: s.
 	s 
@@ -25,6 +13,18 @@ Collection >> gtDisplayOn: s [
 	s 
 		nextPutAll: 
 			((String streamContents: [ :stream | self printElementsOn: stream ]) truncateWithElipsisTo: 42)
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Collection class >> gtExampleEmptyArray [
+	<gtExample>
+	^ #()
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Collection class >> gtExampleOrderedCollectionWithOneElement [
+	<gtExample>
+	^ #(42) asOrderedCollection
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }

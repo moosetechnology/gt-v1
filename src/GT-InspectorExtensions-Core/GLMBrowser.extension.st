@@ -1,7 +1,7 @@
 Extension { #name : #GLMBrowser }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-GLMBrowser class >> exampleBasic [
+GLMBrowser class >> gtExampleBasic [
 	<gtExample>
 	^ GLMWrapper new
 ]

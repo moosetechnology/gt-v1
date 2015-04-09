@@ -1,9 +1,18 @@
 Extension { #name : #Morph }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Morph class >> emptyExample [
+Morph class >> gtExampleEmpty [
 	<gtExample: 'Empty'>
 	^ self new
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Morph class >> gtExampleSubmorphs [
+	<gtExample: 'Submorphs'>
+	^ self new
+		addMorph: self new;
+		addMorph: self new;
+		yourself
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -68,13 +77,4 @@ Morph >> gtInspectorSubmorphsIn: composite [
 				ifFalse: [Form extent: 16@16] ];
 		children: [:each | each submorphs];
 		when: [:each | each submorphs notEmpty ]
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Morph class >> submorphsExample [
-	<gtExample: 'Submorphs'>
-	^ self new
-		addMorph: self new;
-		addMorph: self new;
-		yourself
 ]

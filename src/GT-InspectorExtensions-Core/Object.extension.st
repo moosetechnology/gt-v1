@@ -1,7 +1,7 @@
 Extension { #name : #Object }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Object class >> exampleBasic [
+Object class >> gtExampleBasic [
 	<gtExample>
 	^ self new
 ]

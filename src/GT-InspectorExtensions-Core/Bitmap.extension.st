@@ -1,12 +1,12 @@
 Extension { #name : #Bitmap }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Bitmap >> gtInspectorItemsIn: composite [
-	"No items presentation for a Bitmap"
+Bitmap class >> gtExampleIconBits [
+	<gtExample: 'Icon bits'>
+	^ ThemeIcons current pharoIcon bits
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Bitmap class >> iconBitsExample [
-	<gtExample: 'Icon bits'>
-	^ ThemeIcons current pharoIcon bits
+Bitmap >> gtInspectorItemsIn: composite [
+	"No items presentation for a Bitmap"
 ]
