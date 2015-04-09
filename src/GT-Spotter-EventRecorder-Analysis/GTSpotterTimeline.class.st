@@ -20,6 +20,7 @@ GTSpotterTimeline class >> viewOn: objects [
 GTSpotterTimeline >> build [
 	| shape elements visibleData levels |
 	view := RTView new.
+	view @ RTDraggableView.
 	shape := RTBitmap new.
 	shape form: #analysisIcon.
 	visibleData := self visibleData.

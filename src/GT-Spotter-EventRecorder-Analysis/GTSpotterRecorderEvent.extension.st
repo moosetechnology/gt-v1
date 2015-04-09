@@ -27,6 +27,13 @@ GTSpotterRecorderEvent >> diveInEvent: aDiveInEvent [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> diveInLevel [
+	^ self parentEvent 
+		ifNotNil: [ :obj | obj diveInLevel + 1 ]
+		ifNil: [ 1 ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> elementNamePrintOn: aStream [
 	self elementName 
 		ifNil: [ aStream nextPutAll: 'unknown element' ];

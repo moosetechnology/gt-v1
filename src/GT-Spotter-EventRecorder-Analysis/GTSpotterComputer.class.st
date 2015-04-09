@@ -90,6 +90,9 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		column: 'Preview' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each previewString ]
 			width: 57;
+		column: 'MissSteps' 
+			evaluated: [ :each | each numberOfMissSteps ]
+			width: 67;
 		column: 'Inputs' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfContextChanged ]
 			width: 47;
@@ -105,12 +108,6 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		column: 'Dives In' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesIn ]
 			width: 53;
-		column: 'Dives Out' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesOut ]
-			width: 63;
-		column: 'MissSteps' 
-			evaluated: [ :each | each numberOfMissSteps ]
-			width: 67;
 		column: 'Close' 
 			evaluated: [ :each | each closeActionSymbol ]
 			width: 63;
