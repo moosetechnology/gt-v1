@@ -62,6 +62,15 @@ GTSpotterSession >> gtInspectorStrangeEventsIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTSpotterSession >> gtInspectorTimelineViewIn: composite [
+	<gtInspectorPresentationOrder: 5>
+	composite roassal2
+		title: 'Timeline';
+		initializeView: [ self timelineView ]
+		
+]
+
+{ #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorTreeEventsIn: composite [
 	<gtInspectorPresentationOrder: -1>  
 	^ (composite tree)
@@ -117,6 +126,23 @@ GTSpotterSession >> start [
 GTSpotterSession >> stop [
 	self ifEmpty: [ ^ 0 ].
 	^ self last timestampWithFixedTimeZone
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterSession >> timelineView [
+	| view shape elements |
+	view := RTView new.
+	shape := RTBitmap new.
+	shape form: #analysisIcon.
+	elements := shape elementsOn: self.
+	elements @ RTDraggable @ (RTPopup text: #asEventAnalysisString).
+	"RTGridLayout on: elements."
+	RTMetricNormalizer new
+		elements: elements;
+		normalizeX: #timestampWithFixedTimeZone min: 0 max: 500.
+	view addAll: elements.
+	^ view.
+			
 ]
 
 { #category : #update }
