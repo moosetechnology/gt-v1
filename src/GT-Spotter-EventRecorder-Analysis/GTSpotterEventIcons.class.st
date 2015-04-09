@@ -22,7 +22,7 @@ GTSpotterEventIcons class >> diveInCategoryIcon [
 { #category : #icons }
 GTSpotterEventIcons class >> diveInCategoryMissStepIcon [
 	^ Smalltalk ui icons glamorousDiveAllRightIcon
-		copy 
+		deepCopy 
 			mapColor: (Color r: 0.581 g: 0.581 b: 0.581 alpha: 1.0)
 			to: Color red
 ]
@@ -35,7 +35,7 @@ GTSpotterEventIcons class >> diveInElementIcon [
 { #category : #icons }
 GTSpotterEventIcons class >> diveInElementMissStepIcon [
 	^ Smalltalk ui icons glamorousDiveRightIcon 
-			copy mapColor: Color black to: Color red
+			deepCopy mapColor: Color black to: Color red
 ]
 
 { #category : #icons }
