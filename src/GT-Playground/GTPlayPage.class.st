@@ -158,7 +158,7 @@ GTPlayPage >> initialize [
 	super initialize.
 	self content: ''.
 	self creationTime: DateAndTime now.
-	self title: 'Page'.
+	title := nil.
 	persistenceStrategies := OrderedCollection with: (GTPlayPageCachePersistence new page: self)
 ]
 
@@ -208,7 +208,7 @@ GTPlayPage >> setTitleAndEnsureInStash: aString [
 
 { #category : #'accessing-dynamic' }
 GTPlayPage >> title [
-	^ title
+	^ title ifNil: [ 'Page' ]
 ]
 
 { #category : #'accessing-dynamic' }
