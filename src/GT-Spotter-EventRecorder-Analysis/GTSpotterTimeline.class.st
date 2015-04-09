@@ -18,16 +18,19 @@ GTSpotterTimeline class >> viewOn: objects [
 
 { #category : #building }
 GTSpotterTimeline >> build [
-	| shape elements |
+	| shape elements visibleData levels |
 	view := RTView new.
 	shape := RTBitmap new.
 	shape form: #analysisIcon.
-	elements := shape elementsOn: self visibleData.
+	visibleData := self visibleData.
+	levels := visibleData deepestDiveIn.
+	elements := shape elementsOn: visibleData.
 	elements @ RTDraggable @ (RTPopup text: #asEventAnalysisString).
 	"RTGridLayout on: elements."
 	RTMetricNormalizer new
 		elements: elements;
-		normalizeX: [ :eachEvent | self xFor: eachEvent ] min: 0 max: 500.
+		normalizeX: [ :eachEvent | self xFor: eachEvent ] min: 0 max: 500;
+		normalizeY: [ :eachEvent | self yFor: eachEvent ] min: 0 max: (levels * 4).
 	view addAll: elements.
 ]
 
@@ -73,4 +76,9 @@ GTSpotterTimeline >> xFor: aSpotterEvent [
 	xPosition := currentTimeStamp + relDuration.
 	aSpotterEvent relativeXPosition: xPosition.
 	^ xPosition
+]
+
+{ #category : #accessing }
+GTSpotterTimeline >> yFor: aSpotterEvent [
+	^ aSpotterEvent diveInLevel
 ]

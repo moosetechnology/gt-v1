@@ -87,6 +87,11 @@ GTSpotterRecorderEvent >> myPositionAmongSameTimeEvents [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> parentEvent [
+	^ self infoAt: #diveInEvent ifPresent: [ :obj | obj ] ifAbsent: [ nil ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> relativeXPosition [
 	^ self infoAt: #relativeXPosition
 ]

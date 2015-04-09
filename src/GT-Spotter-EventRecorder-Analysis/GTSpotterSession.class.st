@@ -28,6 +28,11 @@ GTSpotterSession >> computerUUID [
 	^ self any computerUUID
 ]
 
+{ #category : #comparing }
+GTSpotterSession >> deepestDiveIn [
+	^ self max: #diveInLevel
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorEventsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
