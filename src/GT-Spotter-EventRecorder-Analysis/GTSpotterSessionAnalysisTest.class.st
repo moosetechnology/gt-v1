@@ -60,11 +60,50 @@ GTSpotterSessionAnalysisTest >> session2 [
 		yourself
 ]
 
+{ #category : #accessing }
+GTSpotterSessionAnalysisTest >> session3 [
+	"Miss-steps"
+	^ GTSpotterSession new
+		add: GTSpotterRecorderOpenEvent new;
+		add: GTSpotterRecorderContextChangedEvent new;
+		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
+		add: GTSpotterRecorderCategorySelectedEvent new;
+		add: GTSpotterRecorderContextChangedEvent new;
+		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
+		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
+		add: GTSpotterRecorderCategorySelectedEvent new;
+		add: GTSpotterRecorderDiveInCategoryEvent new;
+			add: GTSpotterRecorderContextChangedEvent new;
+			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
+			add: GTSpotterRecorderCategorySelectedEvent new;
+			add: GTSpotterRecorderSearchFinishedEvent new;
+			add: GTSpotterRecorderDiveOutEvent new;
+		add: GTSpotterRecorderSearchFinishedEvent new;
+		add: GTSpotterRecorderDiveInElementEvent new;
+			add: GTSpotterRecorderContextChangedEvent new;
+			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
+			add: GTSpotterRecorderCategorySelectedEvent new;
+		add: GTSpotterRecorderExitAnnouncementEvent new;
+		yourself
+]
+
 { #category : #running }
 GTSpotterSessionAnalysisTest >> setUp [
 	super setUp.
 	analysis := GTSpotterSessionAnalysis new.
 	
+]
+
+{ #category : #tests }
+GTSpotterSessionAnalysisTest >> testMissStepsSession3 [
+	| session |
+	analysis session: self session3.
+	analysis execute.
+	session := analysis session.
+	self assert: session size equals: 20.
+	self assert: (session at: 9) isMissStep.
+	self deny: (session at: 16) isMissStep.
+
 ]
 
 { #category : #tests }

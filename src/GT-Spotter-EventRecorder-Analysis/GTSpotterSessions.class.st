@@ -1,8 +1,8 @@
 Class {
 	#name : #GTSpotterSessions,
 	#superclass : #OrderedCollection,
-	#traits : 'TGTSpotterDurationView',
-	#classTraits : 'TGTSpotterDurationView classTrait',
+	#traits : 'TGTSpotterDurationView + TGTSpotterUpdateEvents',
+	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 

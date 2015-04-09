@@ -40,6 +40,11 @@ GTSpotterRecorderEvent >> eventTypePrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> isMissStep [
+	^ self infoAt: #isMissStep ifPresent: [ :obj | true ] ifAbsent: [ false ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> isRootEvent [
 	^ self infoAt: #diveInEvent ifPresent: [ :obj | false ] ifAbsent: [ true ]
 ]
@@ -54,6 +59,11 @@ GTSpotterRecorderEvent >> markAsStrange: aString [
 	| stranges |
 	stranges := self infoAt: #strange ifAbsentPut: [ OrderedCollection new ].
 	stranges add: aString.
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> setMissStep [
+	^ self infoAt: #isMissStep put: [ true ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

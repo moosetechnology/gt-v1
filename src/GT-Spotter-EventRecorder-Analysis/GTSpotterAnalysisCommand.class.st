@@ -7,6 +7,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 
+{ #category : #accessing }
+GTSpotterAnalysisCommand class >> analysisOrder [
+	^ 100
+]
+
 { #category : #'instance creation' }
 GTSpotterAnalysisCommand class >> context: aGTSpotterSession [ 
 	^ self new context: aGTSpotterSession; yourself

@@ -7,6 +7,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 
+{ #category : #accessing }
+GTSpotterDiveInLevelCommand class >> analysisOrder [
+	^ 1
+]
+
 { #category : #execute }
 GTSpotterDiveInLevelCommand >> execute [
 	self session do: [ :eachEvent |

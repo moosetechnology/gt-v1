@@ -8,11 +8,30 @@ GTSpotterRecorderDiveInCategoryEvent >> addSameLevelEvent: anEvent [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> duration [
+	^ (self children max: #timestamp) - self timestamp 
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInCategoryEvent >> eventAnalysisPrintOn: aStream [
-	aStream nextPutAll: 'Dive In Category: '.
+	self isMissStep ifTrue: [ aStream nextPutAll: 'MissStep ' ].
+	aStream nextPutAll: 'Dive In Category for '.
+	aStream 
+		print: self duration;
+		nextPutAll: ': '.
 	self categoryTitle
 		ifNil: [ aStream nextPutAll: 'unknown category' ]
 		ifNotNil: [ :aString | 
 			aStream nextPutAll: aString ].
 	self eventTypePrintOn: aStream.
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> hasDiveIn [
+	^ self children includes: #isDiveIn 
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> hasQuery [
+	^ self children includes: #isContextChanged
 ]

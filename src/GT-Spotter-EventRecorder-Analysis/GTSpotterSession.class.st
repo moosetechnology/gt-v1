@@ -95,6 +95,11 @@ GTSpotterSession >> isWithPreview [
 			(self contains: #isHidePreview) not ]
 ]
 
+{ #category : #enumerating }
+GTSpotterSession >> missSteps [
+	^ self select: #isMissStep 
+]
+
 { #category : #accessing }
 GTSpotterSession >> previewString [
 	^ self isWithPreview

@@ -8,6 +8,6 @@ GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 		nextPutAll: ', ';
 		print: self categories size;
 		nextPutAll: ' categories, ';
-		print: self items sum;
+		print: (self items ifEmpty: [ 0 ] ifNotEmpty: [ :col | col sum ]);
 		nextPutAll: ' findings'
 ]

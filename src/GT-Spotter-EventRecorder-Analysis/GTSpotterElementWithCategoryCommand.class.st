@@ -8,6 +8,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 
+{ #category : #accessing }
+GTSpotterElementWithCategoryCommand class >> analysisOrder [
+	^ 2
+]
+
 { #category : #execute }
 GTSpotterElementWithCategoryCommand >> execute [
 	self session do: [ :eachEvent |

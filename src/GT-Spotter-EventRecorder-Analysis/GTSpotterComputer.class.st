@@ -1,8 +1,8 @@
 Class {
 	#name : #GTSpotterComputer,
 	#superclass : #GTSpotterEventCollection,
-	#traits : 'TGTSpotterDurationView + TGTSpotterSessionsTable + TGTSpotterCategoryView',
-	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterSessionsTable classTrait + TGTSpotterCategoryView classTrait',
+	#traits : 'TGTSpotterDurationView + TGTSpotterSessionsTable + TGTSpotterCategoryView + TGTSpotterUpdateEvents',
+	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterSessionsTable classTrait + TGTSpotterCategoryView classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
@@ -108,6 +108,9 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		column: 'Dives Out' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each numberOfDivesOut ]
 			width: 63;
+		column: 'MissSteps' 
+			evaluated: [ :each | each numberOfMissSteps ]
+			width: 67;
 		column: 'Close' 
 			evaluated: [ :each | each closeActionSymbol ]
 			width: 63;
@@ -115,6 +118,11 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHashes size ]
 			width: 70;
 		showOnly: 200
+]
+
+{ #category : #enumerating }
+GTSpotterComputer >> missSteps [
+	^ self flatCollect: #missSteps as: GTSpotterSession
 ]
 
 { #category : #helpers }

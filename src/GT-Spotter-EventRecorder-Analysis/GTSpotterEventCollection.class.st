@@ -34,6 +34,11 @@ GTSpotterEventCollection >> finishedSearches [
 	^ self select: #isSearchFinished
 ]
 
+{ #category : #testing }
+GTSpotterEventCollection >> hasMissSteps [
+	^ self missSteps notEmpty
+]
+
 { #category : #helpers }
 GTSpotterEventCollection >> numberOfContextChanged [
 	^ self contextChanges size
@@ -57,6 +62,11 @@ GTSpotterEventCollection >> numberOfDivesOut [
 { #category : #helpers }
 GTSpotterEventCollection >> numberOfFinishedSearches [
 	^ self finishedSearches size
+]
+
+{ #category : #helpers }
+GTSpotterEventCollection >> numberOfMissSteps [
+	^ self missSteps size
 ]
 
 { #category : #helpers }

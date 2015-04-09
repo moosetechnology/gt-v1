@@ -19,9 +19,11 @@ GTSpotterSessionAnalysis class >> session: aGTSpotterSession [
 
 { #category : #execute }
 GTSpotterSessionAnalysis >> execute [
-	GTSpotterAnalysisCommand allSubclasses do: [ :each | | command |
-		command := each context: self.
-		command execute ].
+	(GTSpotterAnalysisCommand allSubclasses 
+		sort: [ :a :b | a analysisOrder < b analysisOrder ]) 
+			do: [ :each | | command |
+				command := each context: self.
+				command execute ].
 	^ self session
 ]
 

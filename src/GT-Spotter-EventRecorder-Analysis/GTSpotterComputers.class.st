@@ -1,8 +1,8 @@
 Class {
 	#name : #GTSpotterComputers,
 	#superclass : #OrderedCollection,
-	#traits : 'TGTSpotterCategoryView',
-	#classTraits : 'TGTSpotterCategoryView classTrait',
+	#traits : 'TGTSpotterCategoryView + TGTSpotterUpdateEvents',
+	#classTraits : 'TGTSpotterCategoryView classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
@@ -57,14 +57,27 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 			width: 60;
 		column: 'Avg. D-Out' 
 			evaluated: [ :each | (each avgNumberOfDivesOut printShowingDecimalPlaces: 2) ]
+			width: 67;
+		column: 'MissSteps' 
+			evaluated: [ :each | each numberOfMissSteps ]
 			width: 60;
 		showOnly: 50
+]
+
+{ #category : #enumerating }
+GTSpotterComputers >> missSteps [
+	^ self flatCollect: #missSteps as: GTSpotterSession
 ]
 
 { #category : #enumerating }
 GTSpotterComputers >> numberOfContextChanged [
 	self ifEmpty: [ ^ 0 ].
 	^ self sum: #numberOfContextChanged 
+]
+
+{ #category : #helpers }
+GTSpotterComputers >> numberOfMissSteps [
+	^ self missSteps size
 ]
 
 { #category : #enumerating }
