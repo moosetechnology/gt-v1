@@ -246,6 +246,17 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForSettingsFor: aStep [
+	<spotterOrder: 100>
+	aStep listProcessor
+		title: 'Settings';
+		allCandidates: [ (SettingTree new acceptableKeywords: SettingBrowser settingsKeywords) nodeList ];
+		itemName: [ :each | each spotterLabel ];
+		filter: GTFilterSubstring;
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForStashedPlaygroundPagesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
@@ -263,13 +274,13 @@ GTSpotter >> spotterForStashedPlaygroundPagesFor: aStep [
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 8>
 	aStep listProcessor
-			allCandidates: [ self class history asArray select: [ :each | each isNotNil and: [ each value isNotNil ] ] ];
-			title: 'History';
-			itemName: [ :item | 
-				item class = GTSpotterProcessorLink 
-					ifTrue: [ item processor itemNameFor: item value ] " HACK: this triggers a recursion ! ... but processor is undefined for aCandidate "
-					ifFalse: [ item gtDisplayString ] ];
-			filter: GTFilterSubstring
+		items: [ self class history asArray ];
+		title: 'History';
+		itemName: [ :item | item processor itemNameFor: item value ];
+		itemFilterName: [ :item | item processor itemFilterNameFor: item value ];
+		actLogic: [ :item | item processor actOn: item value for: aStep ];
+		filter: GTFilterSubstring
+		
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
