@@ -42,7 +42,7 @@ Class {
 }
 
 { #category : #examples }
-GTSpotterRecorderDataAnnouncement class >> exampleAnnouncement [
+GTSpotterRecorderDataAnnouncement class >> gtExampleAnnouncement [
 	<gtExample>
 	^ self new
 			data: #[ 1 2 3 4 ];
@@ -57,7 +57,7 @@ GTSpotterRecorderDataAnnouncement class >> exampleAnnouncement [
 ]
 
 { #category : #examples }
-GTSpotterRecorderDataAnnouncement class >> exampleEmptyAnnouncement [
+GTSpotterRecorderDataAnnouncement class >> gtExampleEmptyAnnouncement [
 	<gtExample>
 	^ self new
 ]

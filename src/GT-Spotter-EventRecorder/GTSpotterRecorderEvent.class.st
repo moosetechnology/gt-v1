@@ -13,15 +13,15 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTSpotterRecorderEvent class >> exampleAnySubclass [
-	<gtExample>
-	^ self subclasses anyOne new 
-]
-
-{ #category : #'instance creation' }
 GTSpotterRecorderEvent class >> fromAnnouncement: anAnnouncement [
 
 	^ self new fromAnnouncement: anAnnouncement
+]
+
+{ #category : #'instance creation' }
+GTSpotterRecorderEvent class >> gtExampleAnySubclass [
+	<gtExample>
+	^ self subclasses anyOne new 
 ]
 
 { #category : #'accessing - announcement info' }
