@@ -17,6 +17,21 @@ GTSpotterSessionAnalysis class >> session: aGTSpotterSession [
 	^ self new session: aGTSpotterSession; yourself
 ]
 
+{ #category : #api }
+GTSpotterSessionAnalysis class >> updateOn: aGTSpotterSession [
+	^ (self session: aGTSpotterSession) clean; execute
+]
+
+{ #category : #execute }
+GTSpotterSessionAnalysis >> clean [
+	(GTSpotterAnalysisCommand allSubclasses 
+		sort: [ :a :b | a analysisOrder < b analysisOrder ]) 
+			do: [ :each | | command |
+				command := each context: self.
+				command clean ].
+	^ self session
+]
+
 { #category : #execute }
 GTSpotterSessionAnalysis >> execute [
 	(GTSpotterAnalysisCommand allSubclasses 

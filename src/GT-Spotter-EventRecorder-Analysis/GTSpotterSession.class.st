@@ -132,5 +132,5 @@ GTSpotterSession >> stop [
 
 { #category : #update }
 GTSpotterSession >> updateEvents [
-	^ GTSpotterSessionAnalysis executeOn: self
+	^ GTSpotterSessionAnalysis updateOn: self
 ]

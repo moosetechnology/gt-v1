@@ -12,6 +12,11 @@ GTSpotterRecorderEvent >> children [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> cleanDiveInEvent: aDiveInEvent [ 
+	^ self removeInfoAt: #diveInEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> diveInEvent: aDiveInEvent [ 
 	^ self infoAt: #diveInEvent put: aDiveInEvent.
 ]
@@ -59,6 +64,36 @@ GTSpotterRecorderEvent >> markAsStrange: aString [
 	| stranges |
 	stranges := self infoAt: #strange ifAbsentPut: [ OrderedCollection new ].
 	stranges add: aString.
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeDiveInEvent [
+	^ self removeInfoKey: #diveInEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeIsMissStep [
+	^ self removeInfoKey: #isMissStep
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeSameLevelEvents [
+	^ self removeInfoKey: #sameLevelEvents
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeSelectedCategoryEvent [
+	^ self removeInfoKey: #selectedCategoryEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeSelectedElementEvents [
+	^ self removeInfoKey: #selectedElementEvents
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeStrange [
+	^ self removeInfoKey: #strange
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

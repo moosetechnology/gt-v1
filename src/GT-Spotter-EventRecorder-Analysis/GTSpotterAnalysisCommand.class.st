@@ -17,6 +17,11 @@ GTSpotterAnalysisCommand class >> context: aGTSpotterSession [
 	^ self new context: aGTSpotterSession; yourself
 ]
 
+{ #category : #execute }
+GTSpotterAnalysisCommand >> clean [
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 GTSpotterAnalysisCommand >> context [
 	^ context

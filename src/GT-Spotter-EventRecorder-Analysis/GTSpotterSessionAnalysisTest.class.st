@@ -95,6 +95,27 @@ GTSpotterSessionAnalysisTest >> setUp [
 ]
 
 { #category : #tests }
+GTSpotterSessionAnalysisTest >> testMissStepsSession1 [
+	| session |
+	analysis session: self session1.
+	analysis execute.
+	session := analysis session.
+	self assert: session size equals: 27.
+	self assert: session numberOfMissSteps equals: 1.
+	self assert: (session at: 6) isMissStep.
+]
+
+{ #category : #tests }
+GTSpotterSessionAnalysisTest >> testMissStepsSession2 [
+	| session |
+	analysis session: self session2.
+	analysis execute.
+	session := analysis session.
+	self assert: session size equals: 11.
+	self assert: session numberOfMissSteps equals: 0.
+]
+
+{ #category : #tests }
 GTSpotterSessionAnalysisTest >> testMissStepsSession3 [
 	| session |
 	analysis session: self session3.
@@ -103,7 +124,7 @@ GTSpotterSessionAnalysisTest >> testMissStepsSession3 [
 	self assert: session size equals: 20.
 	self assert: (session at: 9) isMissStep.
 	self deny: (session at: 16) isMissStep.
-
+	self assert: session numberOfMissSteps equals: 1.
 ]
 
 { #category : #tests }

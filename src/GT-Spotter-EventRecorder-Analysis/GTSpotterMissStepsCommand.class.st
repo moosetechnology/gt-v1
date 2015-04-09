@@ -10,6 +10,13 @@ GTSpotterMissStepsCommand class >> analysisOrder [
 ]
 
 { #category : #execute }
+GTSpotterMissStepsCommand >> clean [
+	self session do: [ :eachEvent |
+		eachEvent
+			removeIsMissStep ]
+]
+
+{ #category : #execute }
 GTSpotterMissStepsCommand >> execute [
 	| divesIn |
 	divesIn := self session select: #isDiveIn.

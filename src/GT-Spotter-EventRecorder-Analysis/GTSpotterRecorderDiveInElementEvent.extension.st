@@ -25,10 +25,10 @@ GTSpotterRecorderDiveInElementEvent >> eventAnalysisPrintOn: aStream [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInElementEvent >> hasDiveIn [
-	^ self children includes: #isDiveIn 
+	^ self children contains: #isDiveIn 
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInElementEvent >> hasQuery [
-	^ self children includes: #isContextChanged
+	^ self children contains: #isContextChanged
 ]

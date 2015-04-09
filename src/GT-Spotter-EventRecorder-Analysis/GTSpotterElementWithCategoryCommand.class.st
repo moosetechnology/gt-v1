@@ -14,6 +14,15 @@ GTSpotterElementWithCategoryCommand class >> analysisOrder [
 ]
 
 { #category : #execute }
+GTSpotterElementWithCategoryCommand >> clean [
+	self session do: [ :eachEvent |
+		eachEvent
+			removeStrange;
+			removeSelectedCategoryEvent;
+			removeSelectedElementEvents ]
+]
+
+{ #category : #execute }
 GTSpotterElementWithCategoryCommand >> execute [
 	self session do: [ :eachEvent |
 		eachEvent isUserSelectionClass ifTrue: [ self updateSelection: eachEvent ].

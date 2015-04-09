@@ -13,6 +13,14 @@ GTSpotterDiveInLevelCommand class >> analysisOrder [
 ]
 
 { #category : #execute }
+GTSpotterDiveInLevelCommand >> clean [
+	self session do: [ :eachEvent |
+		eachEvent
+			removeDiveInEvent;
+			removeSameLevelEvents ]
+]
+
+{ #category : #execute }
 GTSpotterDiveInLevelCommand >> execute [
 	self session do: [ :eachEvent |
 		eachEvent isDiveIn ifTrue: [ self updateDiveIn: eachEvent ].
