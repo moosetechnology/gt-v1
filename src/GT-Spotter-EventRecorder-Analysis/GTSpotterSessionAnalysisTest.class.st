@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'analysis'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Tests'
 }
 
 { #category : #accessing }

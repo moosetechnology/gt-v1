@@ -8,6 +8,11 @@ GTSpotterRecorderDiveInCategoryEvent >> addSameLevelEvent: anEvent [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> analysisIcon [
+	^ GTSpotterEventIcons diveInCategoryIcon
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInCategoryEvent >> duration [
 	^ (self children max: #timestamp) - self timestamp 
 ]

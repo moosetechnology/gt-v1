@@ -1,6 +1,11 @@
 Extension { #name : #GTSpotterRecorderEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> analysisIcon [
+	^ GTSpotterEventIcons noIcon
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> asEventAnalysisString [
 	^ String streamContents: [ :stream |
 			self eventAnalysisPrintOn: stream ]
@@ -92,8 +97,23 @@ GTSpotterRecorderEvent >> removeSelectedElementEvents [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeSession [
+	^ self removeInfoKey: #session
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> removeStrange [
 	^ self removeInfoKey: #strange
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> session [
+	^ self infoAt: #session
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> session: aSessionCollection [ 
+	^ self infoAt: #session put: aSessionCollection.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -104,4 +124,21 @@ GTSpotterRecorderEvent >> setMissStep [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> strange [
 	^ self infoAt: #strange ifAbsent: [ #() ].
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> timestampWithFixedTimeZone [
+	| dateAndTime announcementTimestamp session dates |
+	timestamp ifNil: [ ^ nil ].
+	dateAndTime := DateAndTime fromUnixTime: timestamp.
+	announcementTimestamp := self announcementTimestamp.
+	announcementTimestamp ifNil: [ ^ dateAndTime translateTo: 0 ].
+	dateAndTime asDate = announcementTimestamp asDate ifTrue: [ 
+		^ dateAndTime translateTo: announcementTimestamp offset ].
+	session := self session.
+	session ifNil: [ ^ dateAndTime translateTo: announcementTimestamp offset ].
+	dates := (session collect: #announcementTimestamp as: Set)
+		select: [ :eachTimestamp | eachTimestamp asDate yyyymmdd = dateAndTime asDate yyyymmdd ].
+	dates ifEmpty: [ ^ dateAndTime translateTo: announcementTimestamp offset ].
+	^ dateAndTime translateTo: dates any offset
 ]

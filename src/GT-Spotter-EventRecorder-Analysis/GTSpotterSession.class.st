@@ -36,20 +36,9 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 		display: [ :aSession | aSession ];
 		column: 'Event' 
 			evaluated: [ :each | each asEventAnalysisString ] width: 400;
-"		column: 'Image Hash' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHash ] width: 75;
-"		column: 'Time' 
-			evaluated: [ :each | String streamContents: [ :aStream | | start |
-											start := each timestamp.
-											start = 0 
-												ifTrue: [ aStream nextPutAll: 'unknown' ]
-												ifFalse: [
-													start asUTC printYMDOn: aStream.
-													aStream nextPutAll: ', '.
-													start asUTC printHMSOn: aStream ] ] ]
+		column: 'Time' 
+			evaluated: [ :each | GTSpotterPrintDateAndTime yyyyMmDdAndHhMmSs: each timestampWithFixedTimeZone ]
 			width: 120;
-"		column: 'Session Creation Time' 
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each sessionCreationTime ] width: 155;"
 		withSmalltalkSearch;
 		helpMessage: 'Given your INPUT, it executes: self select: [:each | INPUT ]';
 		showOnly: 200
@@ -121,13 +110,13 @@ GTSpotterSession >> searchStrings [
 { #category : #accessing }
 GTSpotterSession >> start [
 	self ifEmpty: [ ^ 0 ].
-	^ self first timestamp
+	^ self first timestampWithFixedTimeZone
 ]
 
 { #category : #accessing }
 GTSpotterSession >> stop [
 	self ifEmpty: [ ^ 0 ].
-	^ self last timestamp
+	^ self last timestampWithFixedTimeZone
 ]
 
 { #category : #update }

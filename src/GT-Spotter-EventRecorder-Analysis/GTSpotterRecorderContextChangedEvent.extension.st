@@ -1,6 +1,11 @@
 Extension { #name : #GTSpotterRecorderContextChangedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderContextChangedEvent >> analysisIcon [
+	^ GTSpotterEventIcons contextChangedIcon
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderContextChangedEvent >> eventAnalysisPrintOn: aStream [
 	aStream nextPutAll: 'Context Change: '.
 	self currentTextHashes 

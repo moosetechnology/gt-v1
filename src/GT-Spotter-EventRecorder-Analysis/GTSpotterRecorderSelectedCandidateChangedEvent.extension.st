@@ -1,6 +1,11 @@
 Extension { #name : #GTSpotterRecorderSelectedCandidateChangedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> analysisIcon [
+	^ GTSpotterEventIcons selectedCandidateChangedIcon
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> categoryEvent [
 	^ self infoAt: #selectedCategoryEvent
 ]
