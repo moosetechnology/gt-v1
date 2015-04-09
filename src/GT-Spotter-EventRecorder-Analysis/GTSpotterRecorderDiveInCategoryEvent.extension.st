@@ -40,3 +40,8 @@ GTSpotterRecorderDiveInCategoryEvent >> hasDiveIn [
 GTSpotterRecorderDiveInCategoryEvent >> hasQuery [
 	^ self children contains: #isContextChanged
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> isForTimelineView [
+	^ true
+]

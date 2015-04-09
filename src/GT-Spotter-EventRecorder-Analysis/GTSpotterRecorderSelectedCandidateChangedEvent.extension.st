@@ -22,6 +22,11 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream 
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> isForTimelineView [
+	^ self isUserSelection
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> selectedCategoryEvent [
 	^ self infoAt: #selectedCategoryEvent
 ]

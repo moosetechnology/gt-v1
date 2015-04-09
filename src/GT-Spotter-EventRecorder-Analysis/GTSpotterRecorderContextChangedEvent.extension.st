@@ -15,3 +15,8 @@ GTSpotterRecorderContextChangedEvent >> eventAnalysisPrintOn: aStream [
 					print: aCollection size;
 					nextPutAll: ' words' ]
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderContextChangedEvent >> isForTimelineView [
+	^ self isContextChanged
+]

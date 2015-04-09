@@ -10,3 +10,8 @@ GTSpotterRecorderExitAnnouncementEvent >> eventAnalysisPrintOn: aStream [
 	aStream
 		nextPutAll: 'Close Spotter'
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderExitAnnouncementEvent >> isForTimelineView [
+	^ true
+]

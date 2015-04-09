@@ -10,3 +10,8 @@ GTSpotterRecorderShowPreviewEvent >> eventAnalysisPrintOn: aStream [
 	aStream
 		nextPutAll: 'Show Preview'
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderShowPreviewEvent >> isForTimelineView [
+	^ true
+]

@@ -50,6 +50,16 @@ GTSpotterRecorderEvent >> eventTypePrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> followingDifferentTime [
+	^ self infoAt: #followingDifferentTime ifAbsent: [ self timestampWithFixedTimeZone ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> isForTimelineView [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> isMissStep [
 	^ self infoAt: #isMissStep ifPresent: [ :obj | true ] ifAbsent: [ false ]
 ]
@@ -72,6 +82,21 @@ GTSpotterRecorderEvent >> markAsStrange: aString [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> myPositionAmongSameTimeEvents [
+	^ self infoAt: #myPositionAmongSameTimeEvents ifAbsent: [ 1 ].
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> relativeXPosition [
+	^ self infoAt: #relativeXPosition
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> relativeXPosition: aDateAndTime [ 
+	^ self infoAt: #relativeXPosition put: aDateAndTime
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> removeDiveInEvent [
 	^ self removeInfoKey: #diveInEvent
 ]
@@ -84,6 +109,13 @@ GTSpotterRecorderEvent >> removeIsMissStep [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> removeSameLevelEvents [
 	^ self removeInfoKey: #sameLevelEvents
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removeSameTimeEvents [
+	self removeInfoKey: #sameTimeEvents.
+	self removeInfoKey: #myPositionAmongSameTimeEvents.
+	self removeInfoKey: #followingDifferentTime.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -104,6 +136,18 @@ GTSpotterRecorderEvent >> removeSession [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> removeStrange [
 	^ self removeInfoKey: #strange
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> sameTimeEvents [
+	^ self infoAt: #sameTimeEvents ifAbsent: [ #() ].
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> sameTimeEvents: aCollection index: anInteger nextDateAndTime: aDateAndTime [ 
+	self infoAt: #sameTimeEvents put: aCollection.
+	self infoAt: #myPositionAmongSameTimeEvents put: anInteger.
+	self infoAt: #followingDifferentTime put: aDateAndTime.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -129,16 +173,30 @@ GTSpotterRecorderEvent >> strange [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> timestampWithFixedTimeZone [
 	| dateAndTime announcementTimestamp session dates |
+	self infoAt: #timestampWithFixedTimeZone ifPresent: [ :value | ^ value ] ifAbsent: [ "ignore" ].
 	timestamp ifNil: [ ^ nil ].
 	dateAndTime := DateAndTime fromUnixTime: timestamp.
 	announcementTimestamp := self announcementTimestamp.
-	announcementTimestamp ifNil: [ ^ dateAndTime translateTo: 0 ].
+	announcementTimestamp ifNil: [ 
+		^ self 
+			infoAt: #timestampWithFixedTimeZone 
+			put: (dateAndTime translateTo: 0) ].
 	dateAndTime asDate = announcementTimestamp asDate ifTrue: [ 
-		^ dateAndTime translateTo: announcementTimestamp offset ].
+		^ self 
+			infoAt: #timestampWithFixedTimeZone 
+			put: (dateAndTime translateTo: announcementTimestamp offset) ].
 	session := self session.
-	session ifNil: [ ^ dateAndTime translateTo: announcementTimestamp offset ].
+	session ifNil: [ 
+		^ self 
+			infoAt: #timestampWithFixedTimeZone 
+			put: (dateAndTime translateTo: announcementTimestamp offset) ].
 	dates := (session collect: #announcementTimestamp as: Set)
 		select: [ :eachTimestamp | eachTimestamp asDate yyyymmdd = dateAndTime asDate yyyymmdd ].
-	dates ifEmpty: [ ^ dateAndTime translateTo: announcementTimestamp offset ].
-	^ dateAndTime translateTo: dates any offset
+	dates ifEmpty: [ 
+		^ self 
+			infoAt: #timestampWithFixedTimeZone 
+			put: (dateAndTime translateTo: announcementTimestamp offset) ].
+	^ self 
+		infoAt: #timestampWithFixedTimeZone 
+		put: (dateAndTime translateTo: dates any offset)
 ]

@@ -11,3 +11,8 @@ GTSpotterRecorderActOnEvent >> eventAnalysisPrintOn: aStream [
 	self elementNamePrintOn: aStream.
 	self eventTypePrintOn: aStream.
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> isForTimelineView [
+	^ true
+]
