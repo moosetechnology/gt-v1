@@ -27,10 +27,7 @@ GTSpotterTimeline >> build [
 	"RTGridLayout on: elements."
 	RTMetricNormalizer new
 		elements: elements;
-		normalizeX: [ :eachEvent | | value |
-			value := self xFor: eachEvent.
-			Transcript show: value; cr.
-			value ] min: 0 max: 500.
+		normalizeX: [ :eachEvent | self xFor: eachEvent ] min: 0 max: 500.
 	view addAll: elements.
 ]
 
