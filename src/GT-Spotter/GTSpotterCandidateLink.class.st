@@ -27,6 +27,16 @@ GTSpotterCandidateLink >> asSpotterCandidateLink [
 	^ self
 ]
 
+{ #category : #converting }
+GTSpotterCandidateLink >> asSpotterHistoryCandidate [
+	^ GTSpotterCandidateHistoryLink new 
+		value: self value; " users -> all processor specs "
+		processorLink: processorLink; " user -> #diveInCategoryDueTo:, ... "
+		weight: self weight;
+		renderingProcessor: self renderingProcessor; " user -> #actDueTo:, ... "
+		yourself
+]
+
 { #category : #copying }
 GTSpotterCandidateLink >> copy [
 	|link|
@@ -89,6 +99,12 @@ GTSpotterCandidateLink >> renderingProcessor: aProcessorLink [
 
 	renderingProcessorLink ifNil: [ renderingProcessorLink := aProcessorLink processor asSpotterProcessorLink ].
 	processorLink ifNil: [ processorLink := aProcessorLink ]
+]
+
+{ #category : #accessing }
+GTSpotterCandidateLink >> renderingProcessorLink [
+
+	^ renderingProcessorLink
 ]
 
 { #category : #accessing }

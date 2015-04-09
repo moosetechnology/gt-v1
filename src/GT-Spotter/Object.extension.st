@@ -7,6 +7,12 @@ Object >> asSpotterCandidateLink [
 ]
 
 { #category : #'*GT-Spotter' }
+Object >> asSpotterHistoryCandidate [
+	" anything else than a candidate link must be ignored "
+	^ nil
+]
+
+{ #category : #'*GT-Spotter' }
 Object >> asSpotterProcessorLink [
 
 	^ GTSpotterProcessorLink value: self
