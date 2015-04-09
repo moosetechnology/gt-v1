@@ -27,7 +27,7 @@ Class {
 
 { #category : #cleanup }
 GTSpotter class >> cleanUp [
-   self resetHistory.
+    self resetHistory.
 	wasOpened := false
 ]
 
@@ -96,7 +96,7 @@ GTSpotter class >> gtInspectorExtensionsIn: composite [
 
 { #category : #accessing }
 GTSpotter class >> history [
-	^ history ifNil: [ history := OrderedCollection new ]
+	^ history ifNil: [ history := WeakOrderedCollection new ]
 ]
 
 { #category : #testing }
@@ -291,11 +291,11 @@ GTSpotter >> hidePreview [
 
 { #category : #'actions api' }
 GTSpotter >> historize: target [
-	| historyItem |
-	historyItem := target asSpotterHistoryCandidate.
-	(historyItem = self or: [ historyItem isNil ]) ifFalse: [ 
-		self class history remove: historyItem ifAbsent: [].
-		self class history addFirst: historyItem ]
+
+	(target = self or: [ target isNil ])
+		ifFalse: [ 
+			self class history remove: target ifAbsent: [].
+			self class history addFirst: target ]
 ]
 
 { #category : #testing }
