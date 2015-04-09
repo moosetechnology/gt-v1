@@ -249,13 +249,11 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 GTSpotter >> spotterForStashedPlaygroundPagesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
-			allCandidates: [ GTPlayBook stashDirectory files reversed ];
+			allCandidates: [ GTPlayBook stashDirectory files collect: [ :file |
+					(GTPlayPage fromFileReference: file) 
+						title: (file basename copyUpTo: $-) ] ];
 			title: 'Playground named pages';
 			itemName: [ :file | file basename copyUpTo: $- ];
-			actLogic: [ :file | 
-				GTPlayground new openOn: (
-					(GTPlayPage fromFileReference: file) 
-						setTitleAndEnsureInStash: (file basename copyUpTo: $-)) ];
 			filter: GTFilterSubstring
 ]
 
