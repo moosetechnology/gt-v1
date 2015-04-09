@@ -38,12 +38,6 @@ GTSpotter class >> dontShowPreview [
 ]
 
 { #category : #example }
-GTSpotter class >> exampleBasic [
-	<gtExample>
-	^ self new
-]
-
-{ #category : #example }
 GTSpotter class >> exampleInWindow [
 	
 	^ GTSpotterMorph new
@@ -81,6 +75,12 @@ GTSpotter class >> exampleWorldMenu [
 		doLayout;
 		spotterModel: (self on: World worldMenu);
 		openCenteredInWorld
+]
+
+{ #category : #example }
+GTSpotter class >> gtExampleBasic [
+	<gtExample>
+	^ self new
 ]
 
 { #category : #inspecting }

@@ -9,19 +9,13 @@ Class {
 }
 
 { #category : #examples }
-GTSpotterPrivacyAgreementNotificationBrick class >> example [
-	<gtExample: 'Simple agreement'>
-	^ self new
-]
-
-{ #category : #examples }
 GTSpotterPrivacyAgreementNotificationBrick class >> exampleOpen [
 
 	(GLMBrick new
 		hSpaceFill;
 		vSpaceFill;
 		addBrickBack: (
-			self example
+			self gtExample
 				padding: 2;
 				borderColor: Color lightGray;
 				borderWidth: 2;
@@ -32,6 +26,12 @@ GTSpotterPrivacyAgreementNotificationBrick class >> exampleOpen [
 		yourself)
 			openInBrickWindow
 			extent: 600@400
+]
+
+{ #category : #examples }
+GTSpotterPrivacyAgreementNotificationBrick class >> gtExample [
+	<gtExample: 'Simple agreement'>
+	^ self new
 ]
 
 { #category : #utils }
