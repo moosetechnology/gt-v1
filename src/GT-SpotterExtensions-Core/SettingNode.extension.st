@@ -1,9 +1,9 @@
 Extension { #name : #SettingNode }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-SettingNode class >> exampleSettingNode [
+SettingNode class >> gtExampleSettingNode [
 	<gtExample: 'Settings node'>
-	^ SettingTree exampleSettingTree nodeList anyOne
+	^ SettingTree gtExampleSettingTree nodeList anyOne
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

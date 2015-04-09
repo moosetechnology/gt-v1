@@ -1,7 +1,7 @@
 Extension { #name : #SettingTree }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-SettingTree class >> exampleSettingTree [
+SettingTree class >> gtExampleSettingTree [
 	<gtExample: 'Settings tree'>
 	^ SettingTree new acceptableKeywords: SettingBrowser settingsKeywords
 ]

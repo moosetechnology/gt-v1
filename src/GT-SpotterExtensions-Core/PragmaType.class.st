@@ -33,7 +33,7 @@ PragmaType class >> all [
 ]
 
 { #category : #examples }
-PragmaType class >> exampleAnyOne [
+PragmaType class >> gtExampleAnyOne [
 	<gtExample>
 	^ self all anyOne
 ]
