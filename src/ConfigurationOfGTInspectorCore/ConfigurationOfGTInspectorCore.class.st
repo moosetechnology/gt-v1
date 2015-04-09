@@ -234,7 +234,7 @@ ConfigurationOfGTInspectorCore >> version2011: spec [
 		spec project: 'GlamourCore' with: '3.1.0'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.305';
-			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.143';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.144';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.33'. ].
 
 ]
