@@ -98,7 +98,7 @@ GTSpotterRecorderEvent >> removeStrange [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> setMissStep [
-	^ self infoAt: #isMissStep put: [ true ]
+	^ self infoAt: #isMissStep put: true
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
