@@ -15,5 +15,6 @@ String class >> gtInspectorFourtyTwo [
 String >> gtInspectorTextIn: composite [
 	<gtInspectorPresentationOrder: -10>  
 	 composite rubricText
-		title: 'String'
+		title: 'String';
+		display: [ self truncateWithElipsisTo: 10000 ]
 ]
