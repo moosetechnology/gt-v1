@@ -226,6 +226,17 @@ GTSpotterRecorderEvent >> latestUpdate [
 	^ self infoAt: #latestUpdate
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderEvent >> removeInfoKey: key [
+	^ self removeInfoKey: key ifAbsent: [ "ignore" ]
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> removeInfoKey: key ifAbsent: absentBlock [
+	info ifNil: [ ^ absentBlock value].
+	^ info removeKey: key ifAbsent: absentBlock
+]
+
 { #category : #'accessing - announcement info' }
 GTSpotterRecorderEvent >> sessionCreationTime [
 	^ self infoAt: #sessionCreationTime
