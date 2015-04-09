@@ -253,7 +253,7 @@ GTSpotter >> spotterForStashedPlaygroundPagesFor: aStep [
 					(GTPlayPage fromFileReference: file) 
 						title: (file basename copyUpTo: $-) ] ];
 			title: 'Playground named pages';
-			itemName: [ :file | file basename copyUpTo: $- ];
+			itemName: [ :page | page title, ' - ', page content asString contractTo: 100 ];
 			filter: GTFilterSubstring
 ]
 
