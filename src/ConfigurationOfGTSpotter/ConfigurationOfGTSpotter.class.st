@@ -387,6 +387,6 @@ ConfigurationOfGTSpotter >> version120: spec [
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-StefanReichhart.303';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.85';
-			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.137';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.138';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-StefanReichhart.7' ].
 ]
