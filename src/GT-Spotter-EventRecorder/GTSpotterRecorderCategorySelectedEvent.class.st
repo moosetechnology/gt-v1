@@ -57,3 +57,8 @@ GTSpotterRecorderCategorySelectedEvent >> gtInspectorItems [
 GTSpotterRecorderCategorySelectedEvent >> isCategorySelection [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderCategorySelectedEvent >> visit: aVisitor [
+	^ aVisitor acceptCategorySelectedEvent: self
+]

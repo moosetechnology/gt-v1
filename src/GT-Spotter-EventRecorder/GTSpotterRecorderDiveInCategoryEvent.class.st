@@ -35,3 +35,8 @@ GTSpotterRecorderDiveInCategoryEvent >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderDiveInCategoryEvent >> isDiveIn [
 	^ true
 ]
+
+{ #category : #'as yet unclassified' }
+GTSpotterRecorderDiveInCategoryEvent >> visit: aVisitor [
+	^ aVisitor acceptDiveInCategoryEvent: self
+]

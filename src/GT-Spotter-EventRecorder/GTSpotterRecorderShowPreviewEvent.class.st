@@ -12,3 +12,8 @@ Class {
 GTSpotterRecorderShowPreviewEvent >> isShowPreview [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderShowPreviewEvent >> visit: aVisitor [
+	^ aVisitor acceptShowPreviewEvent: self
+]

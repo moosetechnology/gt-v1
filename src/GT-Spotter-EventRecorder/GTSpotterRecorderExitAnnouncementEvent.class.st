@@ -36,3 +36,8 @@ GTSpotterRecorderExitAnnouncementEvent >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderExitAnnouncementEvent >> isCloseSpotter [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderExitAnnouncementEvent >> visit: aVisitor [
+	^ aVisitor acceptExitEvent: self
+]

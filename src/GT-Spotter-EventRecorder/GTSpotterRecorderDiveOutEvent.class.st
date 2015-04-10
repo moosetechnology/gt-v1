@@ -29,3 +29,8 @@ GTSpotterRecorderDiveOutEvent >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderDiveOutEvent >> isDiveOut [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderDiveOutEvent >> visit: aVisitor [
+	^ aVisitor acceptDiveOutEvent: self
+]

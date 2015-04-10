@@ -18,3 +18,8 @@ Class {
 GTSpotterRecorderOpenEvent >> isOpenSpotter [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderOpenEvent >> visit: aVisitor [
+	^ aVisitor acceptOpenEvent: self
+]

@@ -58,3 +58,8 @@ GTSpotterRecorderSearchFinishedEvent >> processors [
 GTSpotterRecorderSearchFinishedEvent >> query [
 	^ query
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderSearchFinishedEvent >> visit: aVisitor [
+	^ aVisitor acceptSearchFinishedEvent: self
+]

@@ -36,3 +36,8 @@ GTSpotterRecorderDiveInElementEvent >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderDiveInElementEvent >> isDiveIn [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderDiveInElementEvent >> visit: aVisitor [
+	^ aVisitor acceptDiveInElementEvent: self
+]

@@ -40,3 +40,8 @@ GTSpotterRecorderActOnEvent >> fromAnnouncement: anAnnouncement [
 GTSpotterRecorderActOnEvent >> isCloseSpotter [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderActOnEvent >> visit: aVisitor [
+	^ aVisitor acceptActOnEvent: self
+]

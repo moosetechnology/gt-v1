@@ -70,3 +70,8 @@ GTSpotterRecorderContextChangedEvent >> isRefinement [
 GTSpotterRecorderContextChangedEvent >> previousTextInfo [
 	^ previousTextInfo
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderContextChangedEvent >> visit: aVisitor [
+	^ aVisitor acceptContextChangedEvent: self
+]

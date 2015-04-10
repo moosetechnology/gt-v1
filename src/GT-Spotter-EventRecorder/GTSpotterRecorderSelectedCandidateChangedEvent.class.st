@@ -41,3 +41,8 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelection [
 GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelectionClass [
 	^ true
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderSelectedCandidateChangedEvent >> visit: aVisitor [
+	^ aVisitor acceptSelectedCandidateChangedEvent: self
+]

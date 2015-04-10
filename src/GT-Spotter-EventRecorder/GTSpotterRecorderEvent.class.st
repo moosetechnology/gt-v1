@@ -326,3 +326,8 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 GTSpotterRecorderEvent >> timestamp [
 	^ timestamp
 ]
+
+{ #category : #visitor }
+GTSpotterRecorderEvent >> visit: aVisitor [
+	^ self subclassResponsibility
+]
