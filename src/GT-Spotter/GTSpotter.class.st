@@ -15,7 +15,8 @@ Class {
 		'text',
 		'isPreviewVisible',
 		'isShiftPressed',
-		'exceptionHandler'
+		'exceptionHandler',
+		'history'
 	],
 	#classInstVars : [
 		'history',
@@ -314,8 +315,18 @@ GTSpotter >> historize: target [
 
 	(target = self or: [ target isNil ])
 		ifFalse: [ 
-			self class history remove: target ifAbsent: [].
-			self class history addFirst: target ]
+			self history removeAllSuchThat: [ :each | each value = target value ] .
+			self history addFirst: target ]
+]
+
+{ #category : #accessing }
+GTSpotter >> history [
+	^ history ifNil: [ self class history ]
+]
+
+{ #category : #accessing }
+GTSpotter >> history: aWeakCollection [
+	history := aWeakCollection
 ]
 
 { #category : #testing }

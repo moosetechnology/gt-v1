@@ -37,6 +37,12 @@ GTSpotterCandidateLink >> copy [
 	^ link
 ]
 
+{ #category : #printing }
+GTSpotterCandidateLink >> gtDisplayOn: stream [
+	stream nextPutAll: 'Candidate link: '.
+	self value gtDisplayOn: stream 
+]
+
 { #category : #testing }
 GTSpotterCandidateLink >> isFirst [
 
