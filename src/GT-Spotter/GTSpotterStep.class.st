@@ -29,6 +29,12 @@ Class {
 	#category : #'GT-Spotter-Model'
 }
 
+{ #category : #example }
+GTSpotterStep class >> gtExampleBasic [
+	<gtExample>
+	^ self new
+]
+
 { #category : #actions }
 GTSpotterStep >> actDueTo: anEventType [
 	self selected ifNil: [ ^ self ].
@@ -165,6 +171,15 @@ GTSpotterStep >> exceptionHandler [
 GTSpotterStep >> exit [
 
 	self spotter exit
+]
+
+{ #category : #inspecting }
+GTSpotterStep >> gtInspectorProcessorsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite list
+		title: 'Processors';
+		display: [ self processors ];
+		format: #gtDisplayString
 ]
 
 { #category : #testing }

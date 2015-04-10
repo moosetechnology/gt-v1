@@ -55,6 +55,13 @@ GTSpotterProcessor >> filterInContext: aSpotterContext [
 				do: [ ('[Spotter] Exception in processor <', self title asString, '>: ', exception asString) logCr ] ]
 ]
 
+{ #category : #printing }
+GTSpotterProcessor >> gtDisplayOn: stream [
+	stream 
+		nextPutAll: 'Processor: ';
+		nextPutAll: self title asString
+]
+
 { #category : #private }
 GTSpotterProcessor >> prepareProcessorInContext: aContext [
 	allFilteredCandidates := nil

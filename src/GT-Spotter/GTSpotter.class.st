@@ -83,6 +83,17 @@ GTSpotter class >> gtExampleBasic [
 	^ self new
 ]
 
+{ #category : #example }
+GTSpotter class >> gtExampleWithOneStepFrom: aSpotter [
+	<gtExample>
+	<gtExampleFrom: #gtExampleBasic>
+	| step |
+	step := GTSpotterStep new spotter: aSpotter.
+	aSpotter steps add: step.
+	aSpotter currentStep: step.
+	^ aSpotter
+]
+
 { #category : #inspecting }
 GTSpotter class >> gtInspectorExtensionsIn: composite [
 	<gtInspectorPresentationOrder: 40>
@@ -266,6 +277,15 @@ GTSpotter >> getText [
 GTSpotter >> gtDisplayOn: stream [
 
 	stream nextPutAll: 'Spotter'
+]
+
+{ #category : #inspecting }
+GTSpotter >> gtInspectorStepsIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite list
+		title: 'Steps';
+		display: [ self steps ];
+		when: [ self steps notEmpty ]
 ]
 
 { #category : #'event handling' }
