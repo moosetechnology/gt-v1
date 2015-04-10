@@ -385,7 +385,7 @@ ConfigurationOfGTSpotter >> version120: spec [
 		spec timestamp: '04/08/2015 21:57'.
 		spec project: 'GlamourCore' with: '3.1.0'.
 		spec 
-			package: 'GT-Spotter' with: 'GT-Spotter-StefanReichhart.303';
+			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.305';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.85';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.138';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-StefanReichhart.7' ].
