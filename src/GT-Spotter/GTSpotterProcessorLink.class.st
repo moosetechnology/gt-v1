@@ -31,6 +31,13 @@ GTSpotterProcessorLink >> clear [
 	size := 0.
 ]
 
+{ #category : #printing }
+GTSpotterProcessorLink >> gtDisplayOn: stream [
+	stream 
+		nextPutAll: 'Processor link: ';
+		nextPutAll: self processor title asString
+]
+
 { #category : #accessing }
 GTSpotterProcessorLink >> headLink [
 	^ headLink
