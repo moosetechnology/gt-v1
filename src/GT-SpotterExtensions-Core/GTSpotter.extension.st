@@ -261,7 +261,7 @@ GTSpotter >> spotterForStashedPlaygroundPagesFor: aStep [
 GTSpotter >> spotterHistoryFor: aStep [
 	<spotterOrder: 8>
 	aStep listProcessor
-			allCandidates: [ self class history asArray select: [ :each | each isNotNil and: [ each value isNotNil ] ] ];
+			allCandidates: [ self history asArray select: [ :each | each isNotNil and: [ each value isNotNil ] ] ];
 			title: 'History';
 			itemName: [ :item | 
 				item class = GTSpotterProcessorLink 
