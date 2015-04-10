@@ -353,7 +353,7 @@ ConfigurationOfGTPlaygroundCore >> version210: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '04/08/2015 22:11'.
 		
-		spec package: 'GT-Playground' with: 'GT-Playground-TudorGirba.108'.
+		spec package: 'GT-Playground' with: 'GT-Playground-TudorGirba.109'.
 		spec package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'.
 		spec project: 'GTInspectorCore' with: '2.0.11'. ]
 	
