@@ -67,6 +67,15 @@ GTSpotterSession >> gtInspectorStrangeEventsIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTSpotterSession >> gtInspectorTimelineView2In: composite [
+	<gtInspectorPresentationOrder: 6>
+	composite roassal2
+		title: 'Timeline 2';
+		initializeView: [ self timelineView2 ]
+		
+]
+
+{ #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2
@@ -135,6 +144,11 @@ GTSpotterSession >> stop [
 
 { #category : #'gt-inspector-extension' }
 GTSpotterSession >> timelineView [
+	^ GTATimelineBuilder viewOn: self
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterSession >> timelineView2 [
 	^ GTSpotterTimeline viewOn: self
 ]
 

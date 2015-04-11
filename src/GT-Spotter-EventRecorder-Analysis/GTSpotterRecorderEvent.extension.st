@@ -186,8 +186,8 @@ GTSpotterRecorderEvent >> strange [
 GTSpotterRecorderEvent >> timestampWithFixedTimeZone [
 	| dateAndTime announcementTimestamp session dates |
 	self infoAt: #timestampWithFixedTimeZone ifPresent: [ :value | ^ value ] ifAbsent: [ "ignore" ].
-	timestamp ifNil: [ ^ nil ].
-	dateAndTime := DateAndTime fromUnixTime: timestamp.
+	dateAndTime := self dateAndTime.
+	dateAndTime ifNil: [ ^ nil ].
 	announcementTimestamp := self announcementTimestamp.
 	announcementTimestamp ifNil: [ 
 		^ self 

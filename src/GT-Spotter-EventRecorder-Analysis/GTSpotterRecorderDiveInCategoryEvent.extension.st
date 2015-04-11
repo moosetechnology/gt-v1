@@ -16,7 +16,8 @@ GTSpotterRecorderDiveInCategoryEvent >> analysisIcon [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInCategoryEvent >> duration [
-	^ (self children max: #timestamp) - self timestamp 
+	self children ifEmpty: [ ^ 0 seconds ].
+	^ (self children last dateAndTime) - self dateAndTime 
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
