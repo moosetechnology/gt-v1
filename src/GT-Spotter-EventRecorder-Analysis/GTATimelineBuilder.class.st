@@ -29,18 +29,18 @@ GTATimelineBuilder >> build [
 		shape := icons shapeFor: event.
 		element := shape elementOn: event.
 		previousElement ifNotNil: [ 
-			edges add: (RTLine edgeFrom: previousElement to: element) ].
+			edges add: (RTLine new 
+								withHorizontalAttachPoint;
+							 	edgeFrom: previousElement to: element) ].
 		previousElement := element.
 		element ] as: RTGroup.
 	levels := visibleData deepestDiveIn.
 	elements @ RTDraggable @ (RTPopup text: #asEventAnalysisString).
-	"RTGridLayout on: elements."
-	RTHorizontalLineLayout on: elements.
-	RTMetricNormalizer new
-		elements: elements;
-"		normalizeX: [ :eachEvent | self xFor: eachEvent ] min: 0 max: 500;
-"		normalizeY: [ :eachEvent | self yFor: eachEvent ] min: 0 max: (levels * 5).
 	view addAll: elements; addAll: edges.
+	"RTGridLayout on: elements."
+	RTHorizontalLineLayout new center; on: elements.
+	elements do: [ :eachElement |
+		eachElement translateBy: 0 @ (eachElement model diveInLevel * 10) ].
 	view .
 ]
 

@@ -18,15 +18,14 @@ GTATimelineIconBuilderTest >> setUp [
 ]
 
 { #category : #tests }
-GTATimelineIconBuilderTest >> testSVGPathFor [
-	| svgPath shape view |
+GTATimelineIconBuilderTest >> testShapeFor [
+	| shape view |
 	view := RTView new.
 	GTSpotterRecorderEvent allSubclassesDo: [ :eachClass |
-		svgPath := builder svgPathFor: eachClass new.
-		svgPath ifNotNil: [
-			shape := RTSVGPath new centeredPath: svgPath; yourself.
+		shape := builder shapeFor: eachClass new.
+		shape ifNotNil: [
 			view add: shape element ]
 	].
 	RTHorizontalLineLayout on: view elements.
-	view inspect
+	view
 ]

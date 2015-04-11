@@ -27,7 +27,7 @@ GTATimelineBuilderTest >> testBuild [
 	].
 	builder data: events.
 	builder build.
-	builder view inspect.
+	builder view.
 ]
 
 { #category : #running }
@@ -38,5 +38,5 @@ GTATimelineBuilderTest >> testBuildSession1 [
 	builder data: events.
 	builder build.
 	RTHorizontalLineLayout on: builder view elements.
-	builder view inspect.
+	builder view.
 ]
