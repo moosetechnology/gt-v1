@@ -42,7 +42,7 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 		column: 'Event' 
 			evaluated: [ :each | each asEventAnalysisString ] width: 400;
 		column: 'Time' 
-			evaluated: [ :each | GTSpotterPrintDateAndTime yyyyMmDdAndHhMmSs: each timestampWithFixedTimeZone ]
+			evaluated: [ :each | GTSpotterPrintDateAndTime yyyyMmDdAndHhMmSs: each dateAndTimeWithFixedTimeZone ]
 			width: 120;
 		withSmalltalkSearch;
 		helpMessage: 'Given your INPUT, it executes: self select: [:each | INPUT ]';
@@ -133,13 +133,13 @@ GTSpotterSession >> searchStrings [
 { #category : #accessing }
 GTSpotterSession >> start [
 	self ifEmpty: [ ^ 0 ].
-	^ self first timestampWithFixedTimeZone
+	^ self first dateAndTimeWithFixedTimeZone
 ]
 
 { #category : #accessing }
 GTSpotterSession >> stop [
 	self ifEmpty: [ ^ 0 ].
-	^ self last timestampWithFixedTimeZone
+	^ self last dateAndTimeWithFixedTimeZone
 ]
 
 { #category : #'gt-inspector-extension' }

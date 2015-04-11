@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 GTSpotterSameTimestampCommand class >> analysisOrder [
-	^ 1
+	^ GTSpotterLinkToSessionCommand analysisOrder + 1
 ]
 
 { #category : #adding }
@@ -36,7 +36,7 @@ GTSpotterSameTimestampCommand >> consolidateEvents: aDateAndTime [
 GTSpotterSameTimestampCommand >> execute [
 	| eventTimestamp |
 	self session do: [ :eachEvent | 
-		eventTimestamp := eachEvent timestampWithFixedTimeZone.
+		eventTimestamp := eachEvent dateAndTimeWithFixedTimeZone.
 		timestamp 
 			ifNil: [ 
 				timestamp := eventTimestamp.

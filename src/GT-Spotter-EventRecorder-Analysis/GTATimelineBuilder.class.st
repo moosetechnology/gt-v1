@@ -73,7 +73,7 @@ GTATimelineBuilder >> visibleData [
 GTATimelineBuilder >> xFor: aSpotterEvent [
 	| currentTimeStamp index events nextTimestamp duration relIndex relDuration xPosition |
 	aSpotterEvent relativeXPosition ifNotNil: [ :value | ^ value ].
-	currentTimeStamp := aSpotterEvent timestampWithFixedTimeZone.
+	currentTimeStamp := aSpotterEvent dateAndTimeWithFixedTimeZone.
 	index := aSpotterEvent myPositionAmongSameTimeEvents - 1.
 	events := aSpotterEvent sameTimeEvents size.
 	events < 2 ifTrue: [ 

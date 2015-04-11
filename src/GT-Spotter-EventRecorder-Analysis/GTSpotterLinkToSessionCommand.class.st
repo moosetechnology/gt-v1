@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GTSpotterLinkToSessionCommand class >> analysisOrder [
-	^ 2
+	^ 1
 ]
 
 { #category : #execute }

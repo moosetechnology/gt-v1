@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 GTSpotterElementWithCategoryCommand class >> analysisOrder [
-	^ 2
+	^ 1
 ]
 
 { #category : #execute }

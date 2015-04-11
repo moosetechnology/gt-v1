@@ -22,6 +22,31 @@ GTSpotterRecorderEvent >> cleanDiveInEvent: aDiveInEvent [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> dateAndTimeWithFixedTimeZone [
+	| dateAndTime announcementTimestamp session dates |
+	self infoAt: #dateAndTimeWithFixedTimeZone ifPresent: [ :value | ^ value ] ifAbsent: [ "ignore" ].
+	dateAndTime := self dateAndTime.
+	dateAndTime ifNil: [ ^ nil ].
+	announcementTimestamp := self announcementTimestamp.
+	announcementTimestamp ifNil: [ 
+		^ dateAndTime translateTo: 0 ].
+	dateAndTime asDate yyyymmdd = announcementTimestamp asDate yyyymmdd ifTrue: [ 
+		^ self 
+			infoAt: #dateAndTimeWithFixedTimeZone 
+			put: (dateAndTime translateTo: announcementTimestamp offset) ].
+	session := self session.
+	session ifNil: [ 
+		^ dateAndTime translateTo: announcementTimestamp offset ].
+	dates := (session collect: #announcementTimestamp as: Set)
+		select: [ :eachTimestamp | eachTimestamp asDate yyyymmdd = dateAndTime asDate yyyymmdd ].
+	dates ifEmpty: [ 
+		^ dateAndTime translateTo: announcementTimestamp offset ].
+	^ self 
+		infoAt: #dateAndTimeWithFixedTimeZone 
+		put: (dateAndTime translateTo: dates any offset)
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> diveInEvent: aDiveInEvent [ 
 	^ self infoAt: #diveInEvent put: aDiveInEvent.
 ]
@@ -58,7 +83,7 @@ GTSpotterRecorderEvent >> eventTypePrintOn: aStream [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> followingDifferentTime [
-	^ self infoAt: #followingDifferentTime ifAbsent: [ self timestampWithFixedTimeZone ]
+	^ self infoAt: #followingDifferentTime ifAbsent: [ self dateAndTimeWithFixedTimeZone ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -180,35 +205,4 @@ GTSpotterRecorderEvent >> setMissStep [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> strange [
 	^ self infoAt: #strange ifAbsent: [ #() ].
-]
-
-{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
-GTSpotterRecorderEvent >> timestampWithFixedTimeZone [
-	| dateAndTime announcementTimestamp session dates |
-	self infoAt: #timestampWithFixedTimeZone ifPresent: [ :value | ^ value ] ifAbsent: [ "ignore" ].
-	dateAndTime := self dateAndTime.
-	dateAndTime ifNil: [ ^ nil ].
-	announcementTimestamp := self announcementTimestamp.
-	announcementTimestamp ifNil: [ 
-		^ self 
-			infoAt: #timestampWithFixedTimeZone 
-			put: (dateAndTime translateTo: 0) ].
-	dateAndTime asDate = announcementTimestamp asDate ifTrue: [ 
-		^ self 
-			infoAt: #timestampWithFixedTimeZone 
-			put: (dateAndTime translateTo: announcementTimestamp offset) ].
-	session := self session.
-	session ifNil: [ 
-		^ self 
-			infoAt: #timestampWithFixedTimeZone 
-			put: (dateAndTime translateTo: announcementTimestamp offset) ].
-	dates := (session collect: #announcementTimestamp as: Set)
-		select: [ :eachTimestamp | eachTimestamp asDate yyyymmdd = dateAndTime asDate yyyymmdd ].
-	dates ifEmpty: [ 
-		^ self 
-			infoAt: #timestampWithFixedTimeZone 
-			put: (dateAndTime translateTo: announcementTimestamp offset) ].
-	^ self 
-		infoAt: #timestampWithFixedTimeZone 
-		put: (dateAndTime translateTo: dates any offset)
 ]
