@@ -39,6 +39,14 @@ GTPlayBook class >> cleanUp [
 	self reset
 ]
 
+{ #category : #accessing }
+GTPlayBook class >> customDirectory: aFileReference [ 
+	"this is here for preserving backward compatibility with 
+	older settings that relied on customDirectory instead
+	of cacheDirectory"
+	self cacheDirectory: aFileReference
+]
+
 { #category : #'accessing-defaults' }
 GTPlayBook class >> defaultCacheDirectory [
 	^ 'play-cache/' asFileReference
