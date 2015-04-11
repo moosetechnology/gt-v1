@@ -24,6 +24,11 @@ GTSpotterRecorderEvent class >> gtExampleAnySubclass [
 	^ self subclasses anyOne new 
 ]
 
+{ #category : #visitor }
+GTSpotterRecorderEvent >> accept: aVisitor [
+	^ self subclassResponsibility
+]
+
 { #category : #'accessing - announcement info' }
 GTSpotterRecorderEvent >> announcementTimestamp [
 	^ self infoAt: #timestamp
@@ -325,9 +330,4 @@ GTSpotterRecorderEvent >> textInfoFrom: aString [
 { #category : #accessing }
 GTSpotterRecorderEvent >> timestamp [
 	^ timestamp
-]
-
-{ #category : #visitor }
-GTSpotterRecorderEvent >> visit: aVisitor [
-	^ self subclassResponsibility
 ]

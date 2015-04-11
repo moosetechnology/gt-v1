@@ -22,6 +22,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderCategorySelectedEvent >> accept: aVisitor [
+	^ aVisitor visitCategorySelectedEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderCategorySelectedEvent >> categoryLabel [
 	^ categoryLabel
@@ -56,9 +61,4 @@ GTSpotterRecorderCategorySelectedEvent >> gtInspectorItems [
 { #category : #testing }
 GTSpotterRecorderCategorySelectedEvent >> isCategorySelection [
 	^ true
-]
-
-{ #category : #visitor }
-GTSpotterRecorderCategorySelectedEvent >> visit: aVisitor [
-	^ aVisitor acceptCategorySelectedEvent: self
 ]

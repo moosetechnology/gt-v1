@@ -8,6 +8,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderDiveOutEvent >> accept: aVisitor [
+	^ aVisitor visitDiveOutEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderDiveOutEvent >> elementName [
 	^ self infoAt: #elementName
@@ -28,9 +33,4 @@ GTSpotterRecorderDiveOutEvent >> fromAnnouncement: anAnnouncement [
 { #category : #testing }
 GTSpotterRecorderDiveOutEvent >> isDiveOut [
 	^ true
-]
-
-{ #category : #visitor }
-GTSpotterRecorderDiveOutEvent >> visit: aVisitor [
-	^ aVisitor acceptDiveOutEvent: self
 ]

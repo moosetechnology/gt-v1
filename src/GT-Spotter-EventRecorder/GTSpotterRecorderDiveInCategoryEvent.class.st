@@ -8,6 +8,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderDiveInCategoryEvent >> accept: aVisitor [
+	^ aVisitor visitDiveInCategoryEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderDiveInCategoryEvent >> allFilteredCandidates [
 	^ self infoAt: #allFilteredCandidates
@@ -34,9 +39,4 @@ GTSpotterRecorderDiveInCategoryEvent >> fromAnnouncement: anAnnouncement [
 { #category : #testing }
 GTSpotterRecorderDiveInCategoryEvent >> isDiveIn [
 	^ true
-]
-
-{ #category : #'as yet unclassified' }
-GTSpotterRecorderDiveInCategoryEvent >> visit: aVisitor [
-	^ aVisitor acceptDiveInCategoryEvent: self
 ]

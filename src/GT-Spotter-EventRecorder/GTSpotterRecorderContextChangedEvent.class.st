@@ -19,6 +19,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderContextChangedEvent >> accept: aVisitor [
+	^ aVisitor visitContextChangedEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderContextChangedEvent >> currentTextHashes [
 	^ self stringHashesFor: self currentTextInfo
@@ -27,6 +32,11 @@ GTSpotterRecorderContextChangedEvent >> currentTextHashes [
 { #category : #accessing }
 GTSpotterRecorderContextChangedEvent >> currentTextInfo [
 	^ currentTextInfo
+]
+
+{ #category : #accessing }
+GTSpotterRecorderContextChangedEvent >> currentTextSizes [
+	^ self stringSizesFor: self currentTextInfo
 ]
 
 { #category : #initialization }
@@ -69,9 +79,4 @@ GTSpotterRecorderContextChangedEvent >> isRefinement [
 { #category : #accessing }
 GTSpotterRecorderContextChangedEvent >> previousTextInfo [
 	^ previousTextInfo
-]
-
-{ #category : #visitor }
-GTSpotterRecorderContextChangedEvent >> visit: aVisitor [
-	^ aVisitor acceptContextChangedEvent: self
 ]

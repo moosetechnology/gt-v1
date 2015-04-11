@@ -12,6 +12,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderSearchFinishedEvent >> accept: aVisitor [
+	^ aVisitor visitSearchFinishedEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderSearchFinishedEvent >> categories [
 	^ self processors 
@@ -57,9 +62,4 @@ GTSpotterRecorderSearchFinishedEvent >> processors [
 { #category : #accessing }
 GTSpotterRecorderSearchFinishedEvent >> query [
 	^ query
-]
-
-{ #category : #visitor }
-GTSpotterRecorderSearchFinishedEvent >> visit: aVisitor [
-	^ aVisitor acceptSearchFinishedEvent: self
 ]

@@ -8,6 +8,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderSelectedCandidateChangedEvent >> accept: aVisitor [
+	^ aVisitor visitSelectedCandidateChangedEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderSelectedCandidateChangedEvent >> elementName [
 	^ self infoAt: #elementName
@@ -40,9 +45,4 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelection [
 { #category : #testing }
 GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelectionClass [
 	^ true
-]
-
-{ #category : #visitor }
-GTSpotterRecorderSelectedCandidateChangedEvent >> visit: aVisitor [
-	^ aVisitor acceptSelectedCandidateChangedEvent: self
 ]

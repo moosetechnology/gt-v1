@@ -8,6 +8,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderActOnEvent >> accept: aVisitor [
+	^ aVisitor visitActOnEvent: self
+]
+
 { #category : #accessing }
 GTSpotterRecorderActOnEvent >> closeActionSymbol [
 	^ #actOn
@@ -39,9 +44,4 @@ GTSpotterRecorderActOnEvent >> fromAnnouncement: anAnnouncement [
 { #category : #testing }
 GTSpotterRecorderActOnEvent >> isCloseSpotter [
 	^ true
-]
-
-{ #category : #visitor }
-GTSpotterRecorderActOnEvent >> visit: aVisitor [
-	^ aVisitor acceptActOnEvent: self
 ]

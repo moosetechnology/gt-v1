@@ -14,12 +14,12 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderOpenEvent >> accept: aVisitor [
+	^ aVisitor visitOpenEvent: self
+]
+
 { #category : #testing }
 GTSpotterRecorderOpenEvent >> isOpenSpotter [
 	^ true
-]
-
-{ #category : #visitor }
-GTSpotterRecorderOpenEvent >> visit: aVisitor [
-	^ aVisitor acceptOpenEvent: self
 ]

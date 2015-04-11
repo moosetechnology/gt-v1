@@ -8,12 +8,12 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Events'
 }
 
+{ #category : #visitor }
+GTSpotterRecorderHidePreviewEvent >> accept: aVisitor [
+	^ aVisitor visitHidePreviewEvent: self
+]
+
 { #category : #testing }
 GTSpotterRecorderHidePreviewEvent >> isHidePreview [
 	^ true
-]
-
-{ #category : #visitor }
-GTSpotterRecorderHidePreviewEvent >> visit: aVisitor [
-	^ aVisitor acceptHidePreviewEvent: self
 ]
