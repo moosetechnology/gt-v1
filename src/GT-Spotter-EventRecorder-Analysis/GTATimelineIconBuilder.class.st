@@ -38,6 +38,25 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDown: aGTSpotterEvent
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory: aGTSpotterEvent [ 
+	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
+		ifTrue: [ self newShapeForSelectionEventKeyArrowDownDifferentCategoryRepetition: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventKeyArrowDownDifferentCategoryUnique: aGTSpotterEvent  ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryRepetition: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ 1. -2 @ 9. 2 @ 9. 5 @ 1. 5 @ -1. -5 @ -1 };
+				yourself.
+	s2 := RTBox new width: 10; height: 8; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s2; add: s1; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 1. 0 @ 9. 5 @ 1. 5 @ -1. -5 @ -1 };
@@ -50,6 +69,25 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategory: aGTSpotterEvent [ 
+	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
+		ifTrue: [ self newShapeForSelectionEventKeyArrowDownSameCategoryRepetition: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventKeyArrowDownSameCategoryUnique: aGTSpotterEvent  ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryRepetition: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ 1. -2 @ 5. 2 @ 5. 5 @ 1. 5 @ -1. -5 @ -1 };
+				yourself.
+	s2 := RTBox new width: 10; height: 4; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s2; add: s1; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 1. 0 @ 5. 5 @ 1. 5 @ -1. -5 @ -1 };
@@ -69,9 +107,28 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUp: aGTSpotterEvent [
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategory: aGTSpotterEvent [ 
+	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
+		ifTrue: [ self newShapeForSelectionEventKeyArrowUpDifferentCategoryRepetition: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventKeyArrowUpDifferentCategoryUnique: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ -2 . 0 @ -10 . 5 @ -2. 5 @ 0. -5 @ 0 };
+				vertices: { -5 @ -2. -2 @ -10. 2 @ -10. 5 @ -2. 5 @ 0. -5 @ 0 };
+				yourself.
+	s2 := RTBox new width: 10; height: 13; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s1; add: s2; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryUnique: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ -2. 0 @ -10. 5 @ -2. 5 @ 0. -5 @ 0 };
 				yourself.
 	s2 := RTBox new width: 10; height: 13; color: Color transparent; yourself.
 	c := RTCompositeShape new.
@@ -81,6 +138,25 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategory: 
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategory: aGTSpotterEvent [ 
+	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
+		ifTrue: [ self newShapeForSelectionEventKeyArrowUpSameCategoryRepetition: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventKeyArrowUpSameCategoryUnique: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryRepetition: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ -1. -2 @ -5. 2 @ -5. 5 @ -1. 5 @ 1. -5 @ 1 };
+				yourself.
+	s2 := RTBox new width: 10; height: 6; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s1; add: s2; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ -1 . 0 @ -5 . 5 @ -1. 5 @ 1. -5 @ 1 };
@@ -100,13 +176,41 @@ GTATimelineIconBuilder >> newShapeForSelectionEventSingleClick: aGTSpotterEvent 
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent [ 
+	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
+		ifTrue: [ self newShapeForSelectionEventSingleClickDifferentCategoryRepetition: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventSingleClickDifferentCategoryUnique: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryRepetition: aGTSpotterEvent [ 
 	^ RTPolygon new 
-			vertices: { -5 @ 0 . 0 @ -9 . 5 @ 0. 0 @ 9 };
+			vertices: { -5 @ 0. -2 @ -9. 2 @ -9. 5 @ 0. 2 @ 9. -2 @ 9 };
+			yourself
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryUnique: aGTSpotterEvent [ 
+	^ RTPolygon new 
+			vertices: { -5 @ 0. 0 @ -9. 5 @ 0. 0 @ 9 };
 			yourself
 ]
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategory: aGTSpotterEvent [ 
+	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
+		ifTrue: [ self newShapeForSelectionEventSingleClickSameCategoryRepetition: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventSingleClickSameCategoryUnique: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategoryRepetition: aGTSpotterEvent [ 
+	^ RTPolygon new 
+			vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0. 2 @ 5. -2 @ 5 };
+			yourself
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategoryUnique: aGTSpotterEvent [ 
 	^ RTPolygon new 
 			vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0. 0 @ 5 };
 			yourself

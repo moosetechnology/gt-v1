@@ -24,6 +24,17 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream 
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> existsUserSelectionsOfTheSameElement [
+	| index |
+	index := self session identityIndexOf: self.
+	^ self session anySatisfy: [ :each | 
+			((each isUserSelectionClass and: [ 
+				each elementName = self elementName ]) 
+					and: [ (each == self) not ]) 
+						and: [ (self session identityIndexOf: each) < index ] ] 
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> isForTimelineView [
 	^ self isUserSelection
 ]
@@ -61,4 +72,15 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> selectedCategoryEvent: anEvent
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> selectedCategoryLabel [
 	^ self selectedCategoryEvent ifNotNil: [ :catEvent | catEvent categoryLabel ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> userSelectionsOfTheSameElement [
+	| index |
+	index := self session identityIndexOf: self.
+	^ self session select: [ :each | 
+			((each isUserSelectionClass and: [ 
+				each elementName = self elementName ]) 
+					and: [ (each == self) not ]) 
+						and: [ (self session identityIndexOf: each) < index ] ] 
 ]
