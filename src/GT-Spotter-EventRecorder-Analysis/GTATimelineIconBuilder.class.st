@@ -30,6 +30,89 @@ GTATimelineIconBuilder >> defaultWidth [
 ]
 
 { #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDown: aGTSpotterEvent [ 
+	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
+		ifTrue: [ self newShapeForSelectionEventKeyArrowDownSameCategory: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventKeyArrowDownDifferentCategory: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ 1. 0 @ 9. 5 @ 1. 5 @ -1. -5 @ -1 };
+				yourself.
+	s2 := RTBox new width: 10; height: 8; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s2; add: s1; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategory: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ 1. 0 @ 5. 5 @ 1. 5 @ -1. -5 @ -1 };
+				yourself.
+	s2 := RTBox new width: 10; height: 4; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s2; add: s1; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUp: aGTSpotterEvent [
+	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
+		ifTrue: [ self newShapeForSelectionEventKeyArrowUpSameCategory: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventKeyArrowUpDifferentCategory: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategory: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ -2 . 0 @ -10 . 5 @ -2. 5 @ 0. -5 @ 0 };
+				yourself.
+	s2 := RTBox new width: 10; height: 13; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s1; add: s2; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategory: aGTSpotterEvent [ 
+	| s1 s2 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ -1 . 0 @ -5 . 5 @ -1. 5 @ 1. -5 @ 1 };
+				yourself.
+	s2 := RTBox new width: 10; height: 6; color: Color transparent; yourself.
+	c := RTCompositeShape new.
+	c add: s1; add: s2; vertical.
+	^ c
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClick: aGTSpotterEvent [ 
+	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
+		ifTrue: [ self newShapeForSelectionEventSingleClickSameCategory: aGTSpotterEvent ]
+		ifFalse: [ self newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent [ 
+	^ RTPolygon new 
+			vertices: { -5 @ 0 . 0 @ -5 . 10 @ 0. 0 @ 10 };
+			yourself
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategory: aGTSpotterEvent [ 
+	^ RTPolygon new 
+			vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0. 0 @ 5 };
+			yourself
+]
+
+{ #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForWordOfSize: wordSize keyword: aBoolean [
 	^ RTBox new 
 			height: (aBoolean ifTrue: [ self defaultHalfHeight ] ifFalse: [ self defaultHeight ]); 
@@ -145,49 +228,18 @@ GTATimelineIconBuilder >> visitSelectedCandidateChangedEvent: aGTSpotterEvent [
 	| type |
 	type := aGTSpotterEvent eventType. 
 	type = #keyPressedArrowUp ifTrue: [ 
-		^ self visitSelectedCandidateChangedEventKeyPressedArrowUp: aGTSpotterEvent ].
+		^ self newShapeForSelectionEventKeyArrowUp: aGTSpotterEvent ].
 
 	type = #keyPressedArrowDown ifTrue: [ 
-		^ self visitSelectedCandidateChangedEventKeyPressedArrowDown: aGTSpotterEvent ].
+		^ self newShapeForSelectionEventKeyArrowDown: aGTSpotterEvent ].
 
 	type = #singleClick ifTrue: [ 
-		^ self visitSelectedCandidateChangedEventSingleClick: aGTSpotterEvent ].
+		^ self newShapeForSelectionEventSingleClick: aGTSpotterEvent ].
 
 	^ RTPolygon new 
 			vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0. 0 @ 5 };
 			color: Color transparent;
 			borderColor: RTPolygon new defaultColor;
-			yourself
-]
-
-{ #category : #visitor }
-GTATimelineIconBuilder >> visitSelectedCandidateChangedEventKeyPressedArrowDown: aGTSpotterEvent [ 
-	| s1 s2 c |
-	s1 := RTPolygon new 
-				vertices: { -5 @ 1 . 0 @ 5 . 5 @ 1. 5 @ -1. -5 @ -1 };
-				yourself.
-	s2 := RTBox new width: 10; height: 4; color: Color transparent; yourself.
-	c := RTCompositeShape new.
-	c add: s2; add: s1; vertical.
-	^ c
-]
-
-{ #category : #visitor }
-GTATimelineIconBuilder >> visitSelectedCandidateChangedEventKeyPressedArrowUp: aGTSpotterEvent [ 
-	| s1 s2 c |
-	s1 := RTPolygon new 
-				vertices: { -5 @ -1 . 0 @ -5 . 5 @ -1. 5 @ 1. -5 @ 1 };
-				yourself.
-	s2 := RTBox new width: 10; height: 6; color: Color transparent; yourself.
-	c := RTCompositeShape new.
-	c add: s1; add: s2; vertical.
-	^ c
-]
-
-{ #category : #visitor }
-GTATimelineIconBuilder >> visitSelectedCandidateChangedEventSingleClick: aGTSpotterEvent [ 
-	^ RTPolygon new 
-			vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0. 0 @ 5 };
 			yourself
 ]
 

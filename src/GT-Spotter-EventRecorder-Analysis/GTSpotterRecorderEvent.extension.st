@@ -75,8 +75,7 @@ GTSpotterRecorderEvent >> eventTypePrintOn: aStream [
 	self eventType
 		ifNotNil: [ :aSymbol |
 			aStream
-				nextPut: $,; 
-				space;
+				cr;
 				print: aSymbol;
 				nextPutAll: ' event' ]
 ]

@@ -16,7 +16,8 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream 
 	self elementNamePrintOn: aStream.
 	self selectedCategoryLabel ifNotNil: [ :aLabelString |
 		aStream
-			nextPutAll: ' in category ';
+			cr
+			nextPutAll: 'in category ';
 			nextPutAll: aLabelString ].
 	self eventTypePrintOn: aStream.
 
@@ -25,6 +26,26 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> isForTimelineView [
 	^ self isUserSelection
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> isInTheSameCategoryAsPreviousSelection [
+	^ self selectedCategoryLabel = self previousSelection selectedCategoryLabel
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> previousSelection [
+	^ self infoAt: #previousSelection ifAbsent: [ nil ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> previousSelection: aGTSpotterRecorderSelectedCandidateChangedEvent [ 
+	self infoAt: #previousSelection put: aGTSpotterRecorderSelectedCandidateChangedEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> removePreviousSelection [
+	^ self removeInfoKey: #previousSelection
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
