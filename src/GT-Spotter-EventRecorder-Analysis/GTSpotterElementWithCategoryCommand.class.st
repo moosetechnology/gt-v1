@@ -27,7 +27,8 @@ GTSpotterElementWithCategoryCommand >> execute [
 	self session do: [ :eachEvent |
 		eachEvent isUserSelectionClass ifTrue: [ self updateSelection: eachEvent ].
 		eachEvent isCategorySelection ifTrue: [ self updateCategory: eachEvent ].
-	]
+	].
+	self updateSelection: nil.
 ]
 
 { #category : #update }

@@ -12,79 +12,22 @@ Class {
 
 { #category : #accessing }
 GTSpotterSessionAnalysisTest >> session1 [
-	^ GTSpotterSession new
-		add: GTSpotterRecorderOpenEvent new;
-		add: GTSpotterRecorderShowPreviewEvent new;
-		add: GTSpotterRecorderContextChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderDiveInCategoryEvent new;
-			add: GTSpotterRecorderContextChangedEvent new;
-			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-			add: GTSpotterRecorderCategorySelectedEvent new;
-			add: GTSpotterRecorderDiveOutEvent new;
-		add: GTSpotterRecorderDiveInElementEvent new;
-			add: GTSpotterRecorderContextChangedEvent new;
-			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-			add: GTSpotterRecorderCategorySelectedEvent new;
-			add: GTSpotterRecorderDiveInCategoryEvent new;
-				add: GTSpotterRecorderContextChangedEvent new;
-				add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-				add: GTSpotterRecorderCategorySelectedEvent new;
-				add: GTSpotterRecorderDiveOutEvent new;
-			add: GTSpotterRecorderContextChangedEvent new;
-			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-			add: GTSpotterRecorderCategorySelectedEvent new;
-			add: GTSpotterRecorderDiveOutEvent new;
-		add: GTSpotterRecorderContextChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderExitAnnouncementEvent new;
-		yourself
+	^ GTASessionExamples session1
 ]
 
 { #category : #accessing }
 GTSpotterSessionAnalysisTest >> session2 [
-	^ GTSpotterSession new
-		add: GTSpotterRecorderOpenEvent new;
-		add: GTSpotterRecorderShowPreviewEvent new;
-		add: GTSpotterRecorderContextChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderSearchFinishedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderExitAnnouncementEvent new;
-		yourself
+	^ GTASessionExamples session2
 ]
 
 { #category : #accessing }
 GTSpotterSessionAnalysisTest >> session3 [
-	"Miss-steps"
-	^ GTSpotterSession new
-		add: GTSpotterRecorderOpenEvent new;
-		add: GTSpotterRecorderContextChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderContextChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-		add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderDiveInCategoryEvent new;
-			add: GTSpotterRecorderContextChangedEvent new;
-			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-			add: GTSpotterRecorderCategorySelectedEvent new;
-			add: GTSpotterRecorderSearchFinishedEvent new;
-			add: GTSpotterRecorderDiveOutEvent new;
-		add: GTSpotterRecorderSearchFinishedEvent new;
-		add: GTSpotterRecorderDiveInElementEvent new;
-			add: GTSpotterRecorderContextChangedEvent new;
-			add: GTSpotterRecorderSelectedCandidateChangedEvent new;
-			add: GTSpotterRecorderCategorySelectedEvent new;
-		add: GTSpotterRecorderExitAnnouncementEvent new;
-		yourself
+	^ GTASessionExamples session3
+]
+
+{ #category : #accessing }
+GTSpotterSessionAnalysisTest >> session4 [
+	^ GTASessionExamples session4
 ]
 
 { #category : #running }
@@ -92,6 +35,59 @@ GTSpotterSessionAnalysisTest >> setUp [
 	super setUp.
 	analysis := GTSpotterSessionAnalysis new.
 	
+]
+
+{ #category : #tests }
+GTSpotterSessionAnalysisTest >> testCategoriesSession2 [
+	| session |
+	analysis session: self session2.
+	analysis execute.
+	session := analysis session.
+	self assert: session size equals: 11.
+	self assert: (session at: 4) categoryEvent equals: (session at: 5).
+	self assert: (session at: 5) elementSelectionEvents size equals: 3.
+	self assert: (session at: 5) elementSelectionEvents first equals: (session at: 4).
+	self assert: (session at: 5) elementSelectionEvents second equals: (session at: 7).
+	self assert: (session at: 5) elementSelectionEvents third equals: (session at: 8).
+	self assert: (session at: 9) categoryEvent equals: (session at: 10).
+	self assert: (session at: 10) elementSelectionEvents size equals: 1.
+	self assert: (session at: 10) elementSelectionEvents first equals: (session at: 9).
+
+]
+
+{ #category : #tests }
+GTSpotterSessionAnalysisTest >> testCategoriesSession4 [
+	| session |
+	analysis session: self session4.
+	analysis execute.
+	session := analysis session.
+	self assert: session size equals: 20.
+	self assert: (session at: 4) categoryEvent equals: (session at: 5).
+	self assert: (session at: 7) categoryEvent equals: (session at: 5).
+	self assert: (session at: 8) categoryEvent equals: (session at: 9).
+	self assert: (session at: 12) categoryEvent equals: (session at: 9).
+	self assert: (session at: 13) categoryEvent equals: (session at: 14).
+	self assert: (session at: 16) categoryEvent equals: (session at: 14).
+	self assert: (session at: 17) categoryEvent equals: (session at: 14).
+	self assert: (session at: 18) categoryEvent equals: (session at: 14).
+	self assert: (session at: 19) categoryEvent equals: (session at: 14).
+
+	self assert: (session at: 5) elementSelectionEvents size equals: 2.
+	self assert: (session at: 9) elementSelectionEvents size equals: 2.
+	self assert: (session at: 14) elementSelectionEvents size equals: 5.
+
+	self assert: (session at: 5) elementSelectionEvents first equals: (session at: 4).
+	self assert: (session at: 5) elementSelectionEvents second equals: (session at: 7).
+
+	self assert: (session at: 9) elementSelectionEvents first equals: (session at: 8).
+	self assert: (session at: 9) elementSelectionEvents second equals: (session at: 12).
+
+	self assert: (session at: 14) elementSelectionEvents first equals: (session at: 13).
+	self assert: (session at: 14) elementSelectionEvents second equals: (session at: 16).
+	self assert: (session at: 14) elementSelectionEvents third equals: (session at: 17).
+	self assert: (session at: 14) elementSelectionEvents fourth equals: (session at: 18).
+	self assert: (session at: 14) elementSelectionEvents fifth equals: (session at: 19).
+
 ]
 
 { #category : #tests }
@@ -138,23 +134,5 @@ GTSpotterSessionAnalysisTest >> testRootsSession1 [
 	self assert: (roots at: 1) children size equals: 0.
 	self assert: (roots at: 7) children size equals: 8.
 	self assert: ((roots at: 7) children at: 4) children size equals: 4.
-
-]
-
-{ #category : #tests }
-GTSpotterSessionAnalysisTest >> testRootsSession2 [
-	| session |
-	analysis session: self session2.
-	analysis execute.
-	session := analysis session.
-	self assert: session size equals: 11.
-	self assert: (session at: 4) categoryEvent equals: (session at: 5).
-	self assert: (session at: 5) elementSelectionEvents size equals: 3.
-	self assert: (session at: 5) elementSelectionEvents first equals: (session at: 4).
-	self assert: (session at: 5) elementSelectionEvents second equals: (session at: 7).
-	self assert: (session at: 5) elementSelectionEvents third equals: (session at: 8).
-	self assert: (session at: 9) categoryEvent equals: (session at: 10).
-	self assert: (session at: 10) elementSelectionEvents size equals: 1.
-	self assert: (session at: 10) elementSelectionEvents first equals: (session at: 9).
 
 ]
