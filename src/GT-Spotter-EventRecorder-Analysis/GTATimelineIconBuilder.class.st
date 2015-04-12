@@ -101,7 +101,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventSingleClick: aGTSpotterEvent 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent [ 
 	^ RTPolygon new 
-			vertices: { -5 @ 0 . 0 @ -5 . 10 @ 0. 0 @ 10 };
+			vertices: { -5 @ 0 . 0 @ -9 . 5 @ 0. 0 @ 9 };
 			yourself
 ]
 
