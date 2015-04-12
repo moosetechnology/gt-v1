@@ -170,29 +170,28 @@ GTATimelineIconBuilder >> visitContextChangedForSeveralWordsEvent: aGTSpotterEve
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
-	| s1 s2 c |
-	s1 := RTPolygon new 
-		vertices: { -3 @ 4. 2 @ -5. 3 @ -4. -2 @ 5 };
-		yourself.
-	s2 := RTPolygon new 
-		vertices: { -3 @ 4. 2 @ -5. 3 @ -4. -2 @ 5 };
-		yourself.
+	| s1 s2 s3 c |
+	s1 := RTBox new height: 2; width: 5; yourself.
+	s2 := RTBox new height: 2; width: 5; color: Color transparent; yourself.
+	s3 := RTBox new height: 2; width: 5; yourself.
 	c := RTCompositeShape new.
-	c add: s1; add: s2; horizontal.
+	c add: s1; add: s2; add: s3; vertical.
 	^ c
 ]
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
-	^ RTPolygon new 
-		vertices: { -3 @ 4. 2 @ -5. 3 @ -4. -2 @ 5 };
+	^ RTBox new
+		height: 2;
+		width: 5;
 		yourself
 ]
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
-	^ RTPolygon new 
-		vertices: { 3 @ 4. -2 @ -5. -3 @ -4. 2 @ 5 };
+	^ RTBox new
+		height: 2;
+		width: 5;
 		yourself
 ]
 
