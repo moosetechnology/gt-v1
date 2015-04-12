@@ -39,6 +39,11 @@ GTSpotterRecorderContextChangedEvent >> currentTextSizes [
 	^ self stringSizesFor: self currentTextInfo
 ]
 
+{ #category : #accessing }
+GTSpotterRecorderContextChangedEvent >> currentTextSpecials [
+	^ self stringSpecialsFor: self currentTextInfo
+]
+
 { #category : #initialization }
 GTSpotterRecorderContextChangedEvent >> fromAnnouncement: anAnnouncement [
 
@@ -58,6 +63,11 @@ GTSpotterRecorderContextChangedEvent >> gtInspectorItems [
 			add: (#previousTextInfo -> self previousTextInfo);
 			addAll: super gtInspectorItems;
 			yourself
+]
+
+{ #category : #testing }
+GTSpotterRecorderContextChangedEvent >> hasCurrentTextSpecials [
+	^ self currentTextSpecials includes: true
 ]
 
 { #category : #initialization }
