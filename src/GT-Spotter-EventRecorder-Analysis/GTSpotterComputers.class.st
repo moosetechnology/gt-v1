@@ -36,9 +36,12 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 												ifTrue: [ aStream nextPutAll: 'unknown' ]
 												ifFalse: [ each start asUTC printYMDOn: aStream ] ] ]
 			width: 67;
-		column: 'For Days' 
+		column: 'Days' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration asDuration asDays rounded ] 
-			width: 60;
+			width: 40;
+		column: 'Spent' 
+			evaluated: [ :each | each spentTime ] 
+			width: 63;
 		column: 'User' 
 			evaluated: [ :each | each userOrDeveloperString ] 
 			width: 50;

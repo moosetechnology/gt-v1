@@ -96,7 +96,7 @@ GTSpotterSession >> gtInspectorTreeEventsIn: composite [
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSpotterSession >> hasSpecialKeywords [
 	^ self anySatisfy: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
 ]

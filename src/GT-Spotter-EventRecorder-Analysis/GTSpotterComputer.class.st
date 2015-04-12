@@ -196,6 +196,12 @@ GTSpotterComputer >> sessionsWithSpecialKeywords [
 	^ self select: #hasSpecialKeywords
 ]
 
+{ #category : #enumerating }
+GTSpotterComputer >> spentTime [
+	self ifEmpty: [ ^ 0 seconds ].
+	^ self sum: #duration
+]
+
 { #category : #accessing }
 GTSpotterComputer >> start [
 	self ifEmpty: [ ^ 0 ].
