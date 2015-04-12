@@ -68,11 +68,7 @@ GTATimelineIconBuilder >> visitExitEvent: aGTSpotterEvent [
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitHidePreviewEvent: aGTSpotterEvent [ 
-	^ "RTEllipse new 
-			size: 10;
-			color: RTEllipse new defaultColor muchLighter;
-	 		yourself"
-	RTArc new 
+	^ RTArc new 
 			innerRadius: 4;
 			externalRadius: 5;
 			outerAngle: 0 innerAngle: 360
