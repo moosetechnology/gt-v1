@@ -4,6 +4,39 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
+{ #category : #configuration }
+GTATimelineIconBuilder >> defaultHalfHeight [
+	^ 5
+]
+
+{ #category : #configuration }
+GTATimelineIconBuilder >> defaultHeight [
+	^ 10
+]
+
+{ #category : #configuration }
+GTATimelineIconBuilder >> defaultMinHeight [
+	^ 2
+]
+
+{ #category : #configuration }
+GTATimelineIconBuilder >> defaultMinWidth [
+	^ 1
+]
+
+{ #category : #configuration }
+GTATimelineIconBuilder >> defaultWidth [
+	^ 10
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newShapeForWordOfSize: wordSize keyword: aBoolean [
+	^ RTBox new 
+			height: (aBoolean ifTrue: [ self defaultHalfHeight ] ifFalse: [ self defaultHeight ]); 
+			width: wordSize; 
+			yourself.
+]
+
 { #category : #accessing }
 GTATimelineIconBuilder >> shapeFor: aGTSpotterEvent [ 
 	^ aGTSpotterEvent accept: self
@@ -21,12 +54,35 @@ GTATimelineIconBuilder >> visitCategorySelectedEvent: aGTSpotterRecorderCategory
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitContextChangedEvent: aGTSpotterEvent [ 
+	^ aGTSpotterEvent currentTextSizes size < 2
+		ifTrue: [ self visitContextChangedForOneWordEvent: aGTSpotterEvent ]
+		ifFalse: [ self visitContextChangedForSeveralWordsEvent: aGTSpotterEvent ]
+]
+
+{ #category : #visitor }
+GTATimelineIconBuilder >> visitContextChangedForOneWordEvent: aGTSpotterEvent [
 	| shape sizes |
-	shape := RTBox new height: 10; width: 1; yourself.
+	shape := RTBox new height: self defaultHeight; width: self defaultMinWidth; yourself.
 	sizes := aGTSpotterEvent currentTextSizes.	
 	(sizes notNil and: [ sizes notEmpty ]) ifTrue: [ shape width: sizes sum ].
-	aGTSpotterEvent hasCurrentTextSpecials ifTrue: [ shape borderColor: Color black ]. 
+	aGTSpotterEvent hasCurrentTextSpecials ifTrue: [ shape height: self defaultHalfHeight ]. 
 	^ shape
+]
+
+{ #category : #visitor }
+GTATimelineIconBuilder >> visitContextChangedForSeveralWordsEvent: aGTSpotterEvent [
+	| composition sizes keywords shapes |
+	composition := RTCompositeShape new horizontal; yourself.
+	sizes := aGTSpotterEvent currentTextSizes.	
+	keywords := aGTSpotterEvent currentTextSpecials.
+	shapes := OrderedCollection new.
+	sizes with: keywords do: [ :size :keyword |
+		shapes add: (self newShapeForWordOfSize: size keyword: keyword) ].
+	shapes 
+		do: [ :shape | composition add: shape ]
+		separatedBy: [ 
+			composition add: (RTBox new height: 5; width: 1; color: Color transparent; yourself) ].
+	^ composition
 ]
 
 { #category : #visitor }
