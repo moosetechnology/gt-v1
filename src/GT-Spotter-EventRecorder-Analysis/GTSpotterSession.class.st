@@ -96,6 +96,11 @@ GTSpotterSession >> gtInspectorTreeEventsIn: composite [
 		
 ]
 
+{ #category : #'as yet unclassified' }
+GTSpotterSession >> hasSpecialKeywords [
+	^ self anySatisfy: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
+]
+
 { #category : #accessing }
 GTSpotterSession >> imageHashes [
 	^ (self collect: #imageHash as: OrderedCollection) removeDuplicates

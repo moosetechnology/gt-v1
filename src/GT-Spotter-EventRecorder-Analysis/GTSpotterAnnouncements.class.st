@@ -4,6 +4,20 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
+{ #category : #accessing }
+GTSpotterAnnouncements class >> developerUUIDs [
+	"
+	GTSpotterEventRecorderSettings ensureComputerID.
+	GTSpotterEventRecorderSettings uniqueInstance computerUUID.
+	"
+	^ #( 	'58d42da6-c993-4ad1-8624-5fd628793610' 
+			'4483f704-6909-45d7-9367-869a5850c3e8'
+			'52fe7c39-9c98-4fa7-a883-a8b2cabe84db'
+			'69202c73-b32f-4968-aaf1-0666d421ea57'
+			'0cd69f50-ad08-8c47-84ec-329e2210a2f2'
+		)
+]
+
 { #category : #'instance creation' }
 GTSpotterAnnouncements class >> fromDirectory: aFileReference [
 	"self fromDirectory: './gt/events/' asFileReference"
@@ -14,6 +28,11 @@ GTSpotterAnnouncements class >> fromDirectory: aFileReference [
 { #category : #'instance creation' }
 GTSpotterAnnouncements class >> fromLocalDirectory [
 	^ self fromDirectory: './gt/events/' asFileReference
+]
+
+{ #category : #testing }
+GTSpotterAnnouncements class >> isDeveloper: anUUID [
+	^ self developerUUIDs includes: anUUID asString
 ]
 
 { #category : #helpers }
@@ -47,16 +66,7 @@ GTSpotterAnnouncements class >> spotterUsersAndDevelopers [
 
 { #category : #accessing }
 GTSpotterAnnouncements >> developerUUIDs [
-	"
-	GTSpotterEventRecorderSettings ensureComputerID.
-	GTSpotterEventRecorderSettings uniqueInstance computerUUID.
-	"
-	^ #( 	'58d42da6-c993-4ad1-8624-5fd628793610' 
-			'4483f704-6909-45d7-9367-869a5850c3e8'
-			'52fe7c39-9c98-4fa7-a883-a8b2cabe84db'
-			'69202c73-b32f-4968-aaf1-0666d421ea57'
-			'0cd69f50-ad08-8c47-84ec-329e2210a2f2'
-		)
+	^ self class developerUUIDs
 ]
 
 { #category : #enumerating }

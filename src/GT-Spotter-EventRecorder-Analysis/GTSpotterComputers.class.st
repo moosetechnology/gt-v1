@@ -16,6 +16,14 @@ GTSpotterComputers >> computerUUIDs [
 	^ self collect: #computerUUID as: OrderedCollection
 ]
 
+{ #category : #enumerating }
+GTSpotterComputers >> computersAndOnlySessionsWithSpecialKeywords [
+	^ self 
+		select: [ :computer | computer hasSessionsWithSpecialKeywords ]
+		thenCollect: [ :computer | 
+			computer sessionsWithSpecialKeywords	]
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterComputers >> gtInspectorComputersIn: composite [
 	<gtInspectorPresentationOrder: -2>  
@@ -31,6 +39,9 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 		column: 'For Days' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each duration asDuration asDays rounded ] 
 			width: 60;
+		column: 'User' 
+			evaluated: [ :each | each userOrDeveloperString ] 
+			width: 50;
 		column: 'Sessions' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each size ] 
 			width: 60;

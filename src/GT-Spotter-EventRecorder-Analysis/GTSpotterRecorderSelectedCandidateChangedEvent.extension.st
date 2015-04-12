@@ -12,13 +12,14 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> categoryEvent [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream [
-	aStream nextPutAll: 'Selection: '.
+	aStream nextPutAll: 'Selection of '.
 	self elementNamePrintOn: aStream.
-	self eventTypePrintOn: aStream.
 	self selectedCategoryLabel ifNotNil: [ :aLabelString |
 		aStream
-			nextPutAll: ', in category ';
-			nextPutAll: aLabelString ]
+			nextPutAll: ' in category ';
+			nextPutAll: aLabelString ].
+	self eventTypePrintOn: aStream.
+
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

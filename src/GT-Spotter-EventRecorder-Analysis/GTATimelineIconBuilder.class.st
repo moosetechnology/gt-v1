@@ -21,12 +21,12 @@ GTATimelineIconBuilder >> visitCategorySelectedEvent: aGTSpotterRecorderCategory
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitContextChangedEvent: aGTSpotterEvent [ 
-	| sizes size |
-	sizes := aGTSpotterEvent currentTextSizes.
-	(sizes isNil or: [ sizes isEmpty ]) ifTrue: [ ^ RTBox new height: 10; width: 1; yourself ].
-	size := sizes sum.
-	
-	^ RTBox new height: 10; width: size; yourself
+	| shape sizes |
+	shape := RTBox new height: 10; width: 1; yourself.
+	sizes := aGTSpotterEvent currentTextSizes.	
+	(sizes notNil and: [ sizes notEmpty ]) ifTrue: [ shape width: sizes sum ].
+	aGTSpotterEvent hasCurrentTextSpecials ifTrue: [ shape borderColor: Color black ]. 
+	^ shape
 ]
 
 { #category : #visitor }
@@ -68,7 +68,11 @@ GTATimelineIconBuilder >> visitExitEvent: aGTSpotterEvent [
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitHidePreviewEvent: aGTSpotterEvent [ 
-	^ RTBox new size: 10; yourself
+	^ RTEllipse new 
+			size: 10;
+			color: RTEllipse new defaultColor muchLighter;
+	 		yourself
+
 ]
 
 { #category : #visitor }
@@ -119,7 +123,7 @@ GTATimelineIconBuilder >> visitSelectedCandidateChangedEventKeyPressedArrowUp: a
 	s1 := RTPolygon new 
 				vertices: { -5 @ -1 . 0 @ -5 . 5 @ -1. 5 @ 1. -5 @ 1 };
 				yourself.
-	s2 := RTBox new width: 10; height: 4; color: Color transparent; yourself.
+	s2 := RTBox new width: 10; height: 6; color: Color transparent; yourself.
 	c := RTCompositeShape new.
 	c add: s1; add: s2; vertical.
 	^ c
@@ -134,9 +138,5 @@ GTATimelineIconBuilder >> visitSelectedCandidateChangedEventSingleClick: aGTSpot
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitShowPreviewEvent: aGTSpotterEvent [ 
-	^ RTBox new 
-			size: 10;
-			color: Color transparent;
-			borderColor: RTBox new defaultColor;
-	 		yourself
+	^ RTEllipse new size: 10; yourself
 ]

@@ -117,6 +117,21 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		showOnly: 200
 ]
 
+{ #category : #testing }
+GTSpotterComputer >> hasSessionsWithSpecialKeywords [
+	^ self anySatisfy: #hasSpecialKeywords
+]
+
+{ #category : #testing }
+GTSpotterComputer >> hasSpecialKeywords [
+	^ self anySatisfy: #hasSpecialKeywords
+]
+
+{ #category : #testing }
+GTSpotterComputer >> isDeveloper [
+	^ GTSpotterAnnouncements isDeveloper: self computerUUID
+]
+
 { #category : #enumerating }
 GTSpotterComputer >> missSteps [
 	^ self flatCollect: #missSteps as: GTSpotterSession
@@ -176,6 +191,11 @@ GTSpotterComputer >> sessionsWithPreview [
 	^ self select: #isWithPreview
 ]
 
+{ #category : #enumerating }
+GTSpotterComputer >> sessionsWithSpecialKeywords [
+	^ self select: #hasSpecialKeywords
+]
+
 { #category : #accessing }
 GTSpotterComputer >> start [
 	self ifEmpty: [ ^ 0 ].
@@ -191,4 +211,11 @@ GTSpotterComputer >> stop [
 { #category : #update }
 GTSpotterComputer >> updateEvents [
 	^ self do: #updateEvents
+]
+
+{ #category : #accessing }
+GTSpotterComputer >> userOrDeveloperString [
+	^ self isDeveloper
+			ifTrue: [ 'dev' ]
+			ifFalse: [ 'user' ]
 ]

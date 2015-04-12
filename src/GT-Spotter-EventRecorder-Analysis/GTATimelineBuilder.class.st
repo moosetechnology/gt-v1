@@ -31,6 +31,7 @@ GTATimelineBuilder >> build [
 		previousElement ifNotNil: [ 
 			edges add: (RTLine new 
 								withHorizontalAttachPoint;
+								width: 2;
 							 	edgeFrom: previousElement to: element) ].
 		previousElement := element.
 		element ] as: RTGroup.
