@@ -402,7 +402,7 @@ ConfigurationOfGTSpotter >> version121: spec [
 		spec project: 'GlamourCore' with: '3.1.1'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-StefanReichhart.307';
-			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.87';
-			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.139';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.89';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.141';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-TudorGirba.8' ].
 ]
