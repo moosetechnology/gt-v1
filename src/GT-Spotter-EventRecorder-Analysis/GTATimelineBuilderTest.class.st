@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTATimelineBuilderTest >> session1 [
 	^ GTASessionExamples session1
 ]
@@ -18,25 +18,29 @@ GTATimelineBuilderTest >> setUp [
 	builder := GTATimelineBuilder new.
 ]
 
-{ #category : #running }
+{ #category : #tests }
 GTATimelineBuilderTest >> testBuild [
 	| events |
 	events := GTSpotterSession new.
 	GTSpotterRecorderEvent allSubclassesDo: [ :eachClass |
 		events add: eachClass new.
 	].
-	builder data: events.
+	builder events: events.
 	builder build.
 	builder view.
 ]
 
-{ #category : #running }
+{ #category : #tests }
 GTATimelineBuilderTest >> testBuildSession1 [
 	| events |
 	events := self session1.
-	GTSpotterSessionAnalysis updateOn: events.
-	builder data: events.
+	builder
+		events: events;
+		analyze;
+		withEdges.
+	builder interaction 
+		popupText: #asEventAnalysisString;
+		draggable.
 	builder build.
-	RTHorizontalLineLayout on: builder view elements.
-	builder view.
+	"builder view inspect."
 ]

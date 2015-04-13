@@ -23,6 +23,14 @@ GTSpotterSessionAnalysis class >> updateOn: aGTSpotterSession [
 ]
 
 { #category : #execute }
+GTSpotterSessionAnalysis >> analyze: aCollection [ 
+	self 
+		session: aCollection;
+		clean; 
+		execute
+]
+
+{ #category : #execute }
 GTSpotterSessionAnalysis >> clean [
 	(GTSpotterAnalysisCommand allSubclasses 
 		sort: [ :a :b | a analysisOrder < b analysisOrder ]) 

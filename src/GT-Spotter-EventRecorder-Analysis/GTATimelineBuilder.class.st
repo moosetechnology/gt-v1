@@ -1,95 +1,180 @@
 Class {
 	#name : #GTATimelineBuilder,
-	#superclass : #Object,
+	#superclass : #RTBuilder,
 	#instVars : [
-		'data',
-		'view'
+		'events',
+		'elements',
+		'eventAnalyzer',
+		'eventFilter',
+		'analyze',
+		'edges',
+		'edgeShapeBuilder',
+		'withEdges'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
 { #category : #api }
 GTATimelineBuilder class >> viewOn: objects [
-	^ self new
-			data: objects;
-			build;
-			view
+	| instance |
+	instance := self new.
+	instance
+		events: objects;
+		withEdges.
+	instance interaction
+		popupText: #asEventAnalysisString;
+		draggable.
+	^ instance
+		build;
+		view
 ]
 
-{ #category : #building }
-GTATimelineBuilder >> build [
-	| previousElement edges icons elements visibleData levels shape element |
-	view := RTView new.
-	view @ RTDraggableView.
-	icons := GTATimelineIconBuilder new.
-	edges := RTGroup new.
-	visibleData := self visibleData.
-	previousElement := nil.
-	elements := visibleData collect: [ :event |
-		shape := icons shapeFor: event.
-		element := shape elementOn: event.
-		previousElement ifNotNil: [ 
-			edges add: (RTLine new 
-								withHorizontalAttachPoint;
-								width: 2;
-							 	edgeFrom: previousElement to: element) ].
-		previousElement := element.
-		element ] as: RTGroup.
-	levels := visibleData deepestDiveIn.
-	elements @ RTDraggable @ (RTPopup text: #asEventAnalysisString).
-	view addAll: elements; addAll: edges.
-	"RTGridLayout on: elements."
-	RTHorizontalLineLayout new center; on: elements.
-	elements do: [ :eachElement |
-		eachElement translateBy: 0 @ (eachElement model diveInLevel * 10) ].
-	view .
+{ #category : #configuration }
+GTATimelineBuilder >> analyze [
+	analyze := true
+]
+
+{ #category : #private }
+GTATimelineBuilder >> analyzeEvents [
+	self eventAnalyzer analyze: self events
+]
+
+{ #category : #private }
+GTATimelineBuilder >> analyzeEventsIfRequested [
+	analyze ifTrue: [ self analyzeEvents ]
+]
+
+{ #category : #private }
+GTATimelineBuilder >> buildEdgesIfRequested [
+	| size |
+	withEdges ifFalse: [ ^ #() ].
+	size := self elements size.
+	size < 2 ifTrue: [ ^ #() ].
+	self shape line withHorizontalAttachPoint; width: 2.
+	self elements withIndexDo: [ :element :index |
+		index < size ifTrue: [
+			self edgeFrom: element to: (self elements at: index + 1) ]
+	]
+]
+
+{ #category : #private }
+GTATimelineBuilder >> buildElements [
+	| visibleEvents |
+	visibleEvents := self visibleEvents.
+	elements := self elementsWithInteractionOn: visibleEvents.
+
+]
+
+{ #category : #hooks }
+GTATimelineBuilder >> createShapeBuilder [
+	^ super createShapeBuilder event; yourself
+]
+
+{ #category : #hooks }
+GTATimelineBuilder >> createView [
+	^ super createView @ RTDraggableView @ RTZoomableView.
+]
+
+{ #category : #public }
+GTATimelineBuilder >> edgeFrom: source to: target [ 
+	"source and target are elements"
+	| newEdge |
+	newEdge := self edgeShapeBuilder edgeFrom: source to: target.
+	view add: newEdge.
+	^ newEdge
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> data [
-	^ data
+GTATimelineBuilder >> edgeShapeBuilder [
+	^ edgeShapeBuilder ifNil: [ edgeShapeBuilder := self newEdgeShapeBuilder ]
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> data: anObject [
-	data := anObject
+GTATimelineBuilder >> elements [
+	elements ifNil: [ self buildElements ].
+	^ elements
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> view [
-	^ view
+GTATimelineBuilder >> eventAnalyzer [
+	^ eventAnalyzer ifNil: [ eventAnalyzer := self newEventAnalyzer ]
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> view: anObject [
-	view := anObject
+GTATimelineBuilder >> eventFilter [
+	^ eventFilter ifNil: [ eventFilter := self newEventFilter ]
+]
+
+{ #category : #accessing }
+GTATimelineBuilder >> events [
+	^ events
+]
+
+{ #category : #accessing }
+GTATimelineBuilder >> events: aCollection [ 
+	events := aCollection
+]
+
+{ #category : #initialization }
+GTATimelineBuilder >> initialize [
+	super initialize.
+	analyze := false.
+	withEdges := false.
+]
+
+{ #category : #accessing }
+GTATimelineBuilder >> layout [
+	^ layoutBuilder ifNil: [ layoutBuilder := self newLayoutBuilder ]
+]
+
+{ #category : #private }
+GTATimelineBuilder >> layoutElements [
+	self layoutElements: self elements
+]
+
+{ #category : #private }
+GTATimelineBuilder >> layoutElements: aCollection [ 
+	self layout on: aCollection 
+]
+
+{ #category : #'instance creation' }
+GTATimelineBuilder >> newEdgeShapeBuilder [
+	^ self createShapeBuilder
+		line;
+		horizontalAttachPoint; 
+		width: 2;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTATimelineBuilder >> newEventAnalyzer [
+	^ GTSpotterSessionAnalysis new
+]
+
+{ #category : #'instance creation' }
+GTATimelineBuilder >> newEventFilter [
+	^ [ :session | session select: #isForTimelineView ]
+]
+
+{ #category : #'instance creation' }
+GTATimelineBuilder >> newLayoutBuilder [
+	^ GTADivingHorizontalLineLayout new center; yourself
+]
+
+{ #category : #hooks }
+GTATimelineBuilder >> renderIn: aView [
+	self analyzeEventsIfRequested.
+	aView addAll: self elements.
+	self buildEdgesIfRequested.
+	self layoutElements.
 ]
 
 { #category : #enumerating }
-GTATimelineBuilder >> visibleData [
-	^ self data select: #isForTimelineView
+GTATimelineBuilder >> visibleEvents [
+	^ self eventFilter cull: self events cull: self
 ]
 
-{ #category : #accessing }
-GTATimelineBuilder >> xFor: aSpotterEvent [
-	| currentTimeStamp index events nextTimestamp duration relIndex relDuration xPosition |
-	aSpotterEvent relativeXPosition ifNotNil: [ :value | ^ value ].
-	currentTimeStamp := aSpotterEvent dateAndTimeWithFixedTimeZone.
-	index := aSpotterEvent myPositionAmongSameTimeEvents - 1.
-	events := aSpotterEvent sameTimeEvents size.
-	events < 2 ifTrue: [ 
-		aSpotterEvent relativeXPosition: currentTimeStamp. 
-		^ currentTimeStamp ].
-	relIndex := index / events.
-	nextTimestamp := aSpotterEvent followingDifferentTime.
-	duration := nextTimestamp - currentTimeStamp / 2.
-	relDuration := duration * relIndex.
-	xPosition := currentTimeStamp + relDuration.
-	aSpotterEvent relativeXPosition: xPosition.
-	^ xPosition
-]
-
-{ #category : #accessing }
-GTATimelineBuilder >> yFor: aSpotterEvent [
-	^ aSpotterEvent diveInLevel
+{ #category : #configuration }
+GTATimelineBuilder >> withEdges [
+	withEdges := true
 ]

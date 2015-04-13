@@ -29,6 +29,16 @@ GTATimelineIconBuilder >> defaultWidth [
 	^ 10
 ]
 
+{ #category : #'as yet unclassified' }
+GTATimelineIconBuilder >> elementOn: aModel [ 
+	^ (self shapeFor: aModel) elementOn: aModel
+]
+
+{ #category : #'as yet unclassified' }
+GTATimelineIconBuilder >> elementsOn: models [
+	^ models collect: [ :eachModel | (self elementOn: eachModel) ] as: RTGroup
+]
+
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDown: aGTSpotterEvent [ 
 	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
