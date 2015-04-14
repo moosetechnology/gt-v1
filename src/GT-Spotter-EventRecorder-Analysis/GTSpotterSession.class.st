@@ -166,9 +166,9 @@ GTSpotterSession >> timelineView [
 	builder interaction
 		popupText: #asEventAnalysisString;
 		draggable.
-	^ builder
-		build;
-		view
+	builder build.
+	GTAMenuBuilder new timelineBuilder: builder; build.
+	^ builder view
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -176,7 +176,7 @@ GTSpotterSession >> timelineView2 [
 	| builder |
 	builder := GTATimelineBuilder new.
 	builder events: self.
-	builder shape shape: GTATimelineIconBuilder2 new.
+	builder shape shape: GTATimelineOrthogonalIconBuilder new.
 	builder interaction
 		popupText: #asEventAnalysisString;
 		draggable.

@@ -29,6 +29,12 @@ GTATimelineBuilder class >> viewOn: objects [
 		view
 ]
 
+{ #category : #adding }
+GTATimelineBuilder >> addEdges [
+	self edges ifNotEmpty: [ ^ self ].
+	self buildEdges.
+]
+
 { #category : #configuration }
 GTATimelineBuilder >> analyze [
 	analyze := true
@@ -45,16 +51,23 @@ GTATimelineBuilder >> analyzeEventsIfRequested [
 ]
 
 { #category : #private }
-GTATimelineBuilder >> buildEdgesIfRequested [
+GTATimelineBuilder >> buildEdges [
 	| size |
-	withEdges ifFalse: [ ^ #() ].
 	size := self elements size.
-	size < 2 ifTrue: [ ^ #() ].
-	self shape line withHorizontalAttachPoint; width: 2.
-	self elements withIndexDo: [ :element :index |
-		index < size ifTrue: [
-			self edgeFrom: element to: (self elements at: index + 1) ]
-	]
+	size < 2
+		ifTrue: [ ^ #() ].
+	self elements
+		withIndexDo: [ :element :index | 
+			index < size
+				ifTrue: [ self edgeFrom: element to: (self elements at: index + 1) ] ].
+	^ self edges
+]
+
+{ #category : #private }
+GTATimelineBuilder >> buildEdgesIfRequested [
+	withEdges
+		ifFalse: [ ^ #() ].
+	^ self buildEdges
 ]
 
 { #category : #private }
@@ -81,12 +94,18 @@ GTATimelineBuilder >> edgeFrom: source to: target [
 	| newEdge |
 	newEdge := self edgeShapeBuilder edgeFrom: source to: target.
 	view add: newEdge.
+	edges add: newEdge.
 	^ newEdge
 ]
 
 { #category : #accessing }
 GTATimelineBuilder >> edgeShapeBuilder [
 	^ edgeShapeBuilder ifNil: [ edgeShapeBuilder := self newEdgeShapeBuilder ]
+]
+
+{ #category : #accessing }
+GTATimelineBuilder >> edges [
+	^ edges
 ]
 
 { #category : #accessing }
@@ -118,6 +137,7 @@ GTATimelineBuilder >> events: aCollection [
 { #category : #initialization }
 GTATimelineBuilder >> initialize [
 	super initialize.
+	edges := OrderedCollection new.
 	analyze := false.
 	withEdges := false.
 ]
@@ -140,6 +160,11 @@ GTATimelineBuilder >> layoutElements [
 { #category : #private }
 GTATimelineBuilder >> layoutElements: aCollection [ 
 	self layout on: aCollection 
+]
+
+{ #category : #configuration }
+GTATimelineBuilder >> logicalLayout [
+	^ self layout: GTAHorizontalDivingLineLayout new
 ]
 
 { #category : #'instance creation' }
@@ -166,12 +191,49 @@ GTATimelineBuilder >> newLayoutBuilder [
 	^ GTAHorizontalDivingLineLayout new center; yourself
 ]
 
+{ #category : #configuration }
+GTATimelineBuilder >> realLayout [
+	^ self layout: GTAHorizontalTimelineLayout new
+]
+
+{ #category : #removing }
+GTATimelineBuilder >> removeAll [
+	self
+		removeEdges;
+		removeElements
+]
+
+{ #category : #removing }
+GTATimelineBuilder >> removeEdges [
+	self edges ifEmpty: [ ^ self ].
+	view removeEdges: self edges.
+	edges := OrderedCollection new.
+]
+
+{ #category : #removing }
+GTATimelineBuilder >> removeElements [
+	self elements ifEmpty: [ ^ self ].
+	view removeElements: self elements.
+	elements := nil
+]
+
 { #category : #hooks }
 GTATimelineBuilder >> renderIn: aView [
+	self removeAll.
 	self analyzeEventsIfRequested.
 	aView addAll: self elements.
 	self buildEdgesIfRequested.
 	self layoutElements.
+]
+
+{ #category : #signalling }
+GTATimelineBuilder >> signalUpdate [
+	view signalUpdate 
+]
+
+{ #category : #layout }
+GTATimelineBuilder >> smoothLayoutTranslator [
+	self layout translator: (RTSmoothLayoutTranslator new nbCycles: 1).
 ]
 
 { #category : #enumerating }
@@ -182,4 +244,9 @@ GTATimelineBuilder >> visibleEvents [
 { #category : #configuration }
 GTATimelineBuilder >> withEdges [
 	withEdges := true
+]
+
+{ #category : #configuration }
+GTATimelineBuilder >> withoutEdges [
+	withEdges := false
 ]

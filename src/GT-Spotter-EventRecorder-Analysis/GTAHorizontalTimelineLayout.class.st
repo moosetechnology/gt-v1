@@ -6,7 +6,9 @@ Class {
 
 { #category : #hook }
 GTAHorizontalTimelineLayout >> doExecute: elements [
-	| offset previousElement right left |
+	| offset previousElement right left min |
+	min := elements detectMin: [ :each | each position x ].
+	elements do: [ :each | each translateTo: (min position x) @ (each position y) ].
 	RTMetricNormalizer new
 		elements: elements;
 		normalizeX: [ :eachEvent | self xFor: eachEvent ] min: 0 max: 500.
@@ -17,7 +19,7 @@ GTAHorizontalTimelineLayout >> doExecute: elements [
 		right := previousElement encompassingRectangle right.
 		left := element encompassingRectangle left.
 		right > left
-			ifTrue: [ offset := (right - left) rounded ]
+			ifTrue: [ offset := (right - left) rounded + 1 ]
 			"ifFalse: [ offset := 0 ]".
 		element translateBy: (offset @ 0).
 		previousElement := element.
