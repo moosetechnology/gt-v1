@@ -206,14 +206,16 @@ GTATimelineBuilder >> removeAll [
 { #category : #removing }
 GTATimelineBuilder >> removeEdges [
 	self edges ifEmpty: [ ^ self ].
-	view removeEdges: self edges.
+	"view removeEdges: self edges."
+	self edges do: #remove.
 	edges := OrderedCollection new.
 ]
 
 { #category : #removing }
 GTATimelineBuilder >> removeElements [
+	elements ifNil: [ ^ self ].
 	self elements ifEmpty: [ ^ self ].
-	view removeElements: self elements.
+	self elements do: #remove.
 	elements := nil
 ]
 

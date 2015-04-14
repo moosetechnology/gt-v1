@@ -43,7 +43,6 @@ GTAMenuBuilder >> obliqueShapes [
 
 { #category : #'as yet unclassified' }
 GTAMenuBuilder >> orthogonalShapes [
-	self halt.
 	timelineBuilder shape orthogonal.
 	timelineBuilder 
 		removeAll;
