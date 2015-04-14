@@ -127,6 +127,11 @@ GTATimelineBuilder >> layout [
 	^ layoutBuilder ifNil: [ layoutBuilder := self newLayoutBuilder ]
 ]
 
+{ #category : #accessing }
+GTATimelineBuilder >> layout: aLayout [
+	^ layoutBuilder := aLayout
+]
+
 { #category : #private }
 GTATimelineBuilder >> layoutElements [
 	self layoutElements: self elements
@@ -158,7 +163,7 @@ GTATimelineBuilder >> newEventFilter [
 
 { #category : #'instance creation' }
 GTATimelineBuilder >> newLayoutBuilder [
-	^ GTADivingHorizontalLineLayout new center; yourself
+	^ GTAHorizontalDivingLineLayout new center; yourself
 ]
 
 { #category : #hooks }

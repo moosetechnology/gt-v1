@@ -27,12 +27,13 @@ GTSpotterTimeline >> build [
 	levels := visibleData deepestDiveIn.
 	elements := shape elementsOn: visibleData.
 	elements @ RTDraggable @ (RTPopup text: #asEventAnalysisString).
+	view addAll: elements.
 	"RTGridLayout on: elements."
 	RTMetricNormalizer new
 		elements: elements;
 		normalizeX: [ :eachEvent | self xFor: eachEvent ] min: 0 max: 500;
 		normalizeY: [ :eachEvent | self yFor: eachEvent ] min: 0 max: (levels * 4).
-	view addAll: elements.
+
 ]
 
 { #category : #accessing }

@@ -76,6 +76,15 @@ GTSpotterSession >> gtInspectorTimelineView2In: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTSpotterSession >> gtInspectorTimelineView3In: composite [
+	<gtInspectorPresentationOrder: 7>
+	composite roassal2
+		title: 'Timeline 3';
+		initializeView: [ self timelineView3 ]
+		
+]
+
+{ #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2
@@ -149,11 +158,36 @@ GTSpotterSession >> stop [
 
 { #category : #'gt-inspector-extension' }
 GTSpotterSession >> timelineView [
-	^ GTATimelineBuilder viewOn: self
+	| builder |
+	builder := GTATimelineBuilder new.
+	builder
+		events: self;
+		withEdges.
+	builder interaction
+		popupText: #asEventAnalysisString;
+		draggable.
+	^ builder
+		build;
+		view
 ]
 
 { #category : #'gt-inspector-extension' }
 GTSpotterSession >> timelineView2 [
+	| builder |
+	builder := GTATimelineBuilder new.
+	builder events: self.
+	builder shape shape: GTATimelineIconBuilder2 new.
+	builder interaction
+		popupText: #asEventAnalysisString;
+		draggable.
+	builder layout: GTAHorizontalTimelineLayout new.
+	^ builder
+		build;
+		view
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterSession >> timelineView3 [
 	^ GTSpotterTimeline viewOn: self
 ]
 

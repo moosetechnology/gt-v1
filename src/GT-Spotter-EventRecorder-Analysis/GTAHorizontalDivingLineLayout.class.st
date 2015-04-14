@@ -1,5 +1,5 @@
 Class {
-	#name : #GTADivingHorizontalLineLayout,
+	#name : #GTAHorizontalDivingLineLayout,
 	#superclass : #RTHorizontalLineLayout,
 	#instVars : [
 		'diveInLevel'
@@ -8,29 +8,33 @@ Class {
 }
 
 { #category : #accessing }
-GTADivingHorizontalLineLayout >> diveElement: eachElement [
+GTAHorizontalDivingLineLayout >> diveElement: eachElement [
 	^ (self diveInLevel cull: eachElement cull: self)
  			* self diveStep
 ]
 
+{ #category : #hook }
+GTAHorizontalDivingLineLayout >> diveElements: elements [
+	elements do: [ :eachElement | eachElement translateBy: 0 @ (self diveElement: eachElement) ]
+]
+
 { #category : #accessing }
-GTADivingHorizontalLineLayout >> diveInLevel [
+GTAHorizontalDivingLineLayout >> diveInLevel [
 	^ diveInLevel ifNil: [ diveInLevel := self newDiveInLevel ]
 ]
 
 { #category : #accessing }
-GTADivingHorizontalLineLayout >> diveStep [
+GTAHorizontalDivingLineLayout >> diveStep [
 	^ 10
 ]
 
 { #category : #hook }
-GTADivingHorizontalLineLayout >> doExecute: elements [
+GTAHorizontalDivingLineLayout >> doExecute: elements [
 	super doExecute: elements.
-	elements do: [ :eachElement |
-		eachElement translateBy: 0 @ (self diveElement: eachElement) ].
+	self diveElements: elements
 ]
 
 { #category : #'instance creation' }
-GTADivingHorizontalLineLayout >> newDiveInLevel [
+GTAHorizontalDivingLineLayout >> newDiveInLevel [
 	^ [ :element | #diveInLevel cull: element model ]
 ]

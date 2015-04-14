@@ -29,14 +29,43 @@ GTATimelineIconBuilder >> defaultWidth [
 	^ 10
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #public }
 GTATimelineIconBuilder >> elementOn: aModel [ 
 	^ (self shapeFor: aModel) elementOn: aModel
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #public }
 GTATimelineIconBuilder >> elementsOn: models [
 	^ models collect: [ :eachModel | (self elementOn: eachModel) ] as: RTGroup
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newCorrectDiveInElementEvent: aGTSpotterEvent [
+	^ RTBox new
+		height: 2;
+		width: 5;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTATimelineIconBuilder >> newMissStepDiveInElementEvent: aGTSpotterEvent [ 
+	| s1 s3 s2 c |
+	c := RTCompositeShape new.
+	s1 := RTBox new
+				height: 2;
+				width: 2;
+				yourself.
+	s2 := RTBox new
+				height: 2;
+				width: 1;
+				color: Color transparent;
+				yourself.
+	s3 := RTBox new
+				height: 2;
+				width: 2;
+				yourself.
+	c add: s1; add: s2; add: s3; horizontal.
+	^ c
 ]
 
 { #category : #'instance creation' }
@@ -295,10 +324,9 @@ GTATimelineIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [
 
 { #category : #visitor }
 GTATimelineIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
-	^ RTBox new
-		height: 2;
-		width: 5;
-		yourself
+	^ aGTSpotterEvent isMissStep 
+		ifTrue: [ self newMissStepDiveInElementEvent: aGTSpotterEvent ]
+		ifFalse: [ self newCorrectDiveInElementEvent: aGTSpotterEvent ]
 ]
 
 { #category : #visitor }
