@@ -16,9 +16,9 @@ GTAHorizontalTimelineLayout >> doExecute: elements [
 	elements allButFirstDo: [ :element |
 		right := previousElement encompassingRectangle right.
 		left := element encompassingRectangle left.
-		self halt.
 		right > left
-			ifTrue: [ offset := offset + (right - left) rounded ].
+			ifTrue: [ offset := (right - left) rounded ]
+			"ifFalse: [ offset := 0 ]".
 		element translateBy: (offset @ 0).
 		previousElement := element.
 	 ].
