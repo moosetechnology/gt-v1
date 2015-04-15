@@ -67,17 +67,8 @@ GTSpotterSession >> gtInspectorStrangeEventsIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorTimelineView2In: composite [
-	<gtInspectorPresentationOrder: 6>
-	composite roassal2
-		title: 'Timeline 2';
-		initializeView: [ self timelineView2 ]
-		
-]
-
-{ #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorTimelineView3In: composite [
-	<gtInspectorPresentationOrder: 7>
+	<gtInspectorPresentationOrder: 6>
 	composite roassal2
 		title: 'Timeline 3';
 		initializeView: [ self timelineView3 ]
@@ -166,21 +157,6 @@ GTSpotterSession >> timelineView [
 		build.
 	GTAMenuBuilder new timelineBuilder: builder; build.
 	^ builder view.
-]
-
-{ #category : #'gt-inspector-extension' }
-GTSpotterSession >> timelineView2 [
-	| builder |
-	builder := GTATimelineBuilder new.
-	builder events: self.
-	builder shape shape: GTATimelineOrthogonalIconBuilder new.
-	builder interaction
-		popupText: #asEventAnalysisString;
-		draggable.
-	builder layout: GTAHorizontalTimelineLayout new.
-	^ builder
-		build;
-		view
 ]
 
 { #category : #'gt-inspector-extension' }

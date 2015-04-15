@@ -114,7 +114,18 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 		column: 'Image Hashes' 
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHashes size ]
 			width: 70;
+		beMultiple;
+		send: [ :result | GTAMultipleSelectionSendCommand uniqueInstance selection: result in: self ];
 		showOnly: 200
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterComputer >> gtInspectorTimelineViewIn: composite [
+	<gtInspectorPresentationOrder: 6>
+	composite roassal2
+		title: 'Timeline';
+		initializeView: [ self timelineView ]
+		
 ]
 
 { #category : #testing }
@@ -212,6 +223,26 @@ GTSpotterComputer >> start [
 GTSpotterComputer >> stop [
 	self ifEmpty: [ ^ 0 ].
 	^ self last stop
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterComputer >> timelineView [
+	| composer builders |
+	composer := RTComposer new.
+	builders := GTATimelineBuilders new.
+	1 to: (self size min: 10) do: [ :index | | builder |
+		builder := GTATimelineBuilder new.
+		builder 
+			view: composer view;
+			configuration: GTADefaultTimelineConfiguration uniqueInstance;
+			events: (self at: index);
+			build.
+		composer group: index.
+		index > 1 ifTrue: [ composer move: index below: index - 1 ].
+		builders add: builder.
+	 ].
+	GTAMenuBuilder new timelineBuilder: builders; build.
+	^ composer view.
 ]
 
 { #category : #update }

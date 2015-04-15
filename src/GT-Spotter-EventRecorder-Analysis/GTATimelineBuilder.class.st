@@ -203,7 +203,7 @@ GTATimelineBuilder >> newLayoutBuilder [
 
 { #category : #configuration }
 GTATimelineBuilder >> realLayout [
-	^ self layout: GTAHorizontalTimelineLayout new
+	^ self layout: GTAHorizontalRealTimelineLayout new
 ]
 
 { #category : #removing }

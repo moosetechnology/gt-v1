@@ -11,7 +11,7 @@ Class {
 { #category : #'event handling' }
 GTAMenuBuilder >> addEdges [
 	timelineBuilder withEdges; addEdges; signalUpdate.
-	self configuration withEdges: timelineBuilder withEdges.
+	self configuration withEdges: timelineBuilder isWithEdges.
 ]
 
 { #category : #building }

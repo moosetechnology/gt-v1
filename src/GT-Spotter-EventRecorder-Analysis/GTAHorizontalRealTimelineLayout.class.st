@@ -1,11 +1,11 @@
 Class {
-	#name : #GTAHorizontalTimelineLayout,
+	#name : #GTAHorizontalRealTimelineLayout,
 	#superclass : #GTAHorizontalDivingLineLayout,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
 { #category : #hook }
-GTAHorizontalTimelineLayout >> doExecute: elements [
+GTAHorizontalRealTimelineLayout >> doExecute: elements [
 	| offset previousElement right left min |
 	min := elements detectMin: [ :each | each position x ].
 	elements do: [ :each | each translateTo: (min position x) @ (each position y) ].
@@ -19,7 +19,7 @@ GTAHorizontalTimelineLayout >> doExecute: elements [
 		right := previousElement encompassingRectangle right.
 		left := element encompassingRectangle left.
 		right > left
-			ifTrue: [ offset := (right - left) rounded + 1 ]
+			ifTrue: [ offset := (right - left) rounded + 3 ]
 			"ifFalse: [ offset := 0 ]".
 		element translateBy: (offset @ 0).
 		previousElement := element.
@@ -27,7 +27,7 @@ GTAHorizontalTimelineLayout >> doExecute: elements [
 ]
 
 { #category : #accessing }
-GTAHorizontalTimelineLayout >> xFor: aSpotterEvent [
+GTAHorizontalRealTimelineLayout >> xFor: aSpotterEvent [
 	| currentTimeStamp index events nextTimestamp duration relIndex relDuration xPosition |
 	aSpotterEvent relativeXPosition ifNotNil: [ :value | ^ value ].
 	currentTimeStamp := aSpotterEvent dateAndTimeWithFixedTimeZone.

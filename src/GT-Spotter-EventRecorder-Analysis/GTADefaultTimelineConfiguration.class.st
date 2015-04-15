@@ -13,6 +13,17 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
+{ #category : #cleanup }
+GTADefaultTimelineConfiguration class >> cleanUp [
+	self reset.
+]
+
+{ #category : #accessing }
+GTADefaultTimelineConfiguration class >> reset [
+	"self reset"
+	uniqueInstance := nil
+]
+
 { #category : #accessing }
 GTADefaultTimelineConfiguration class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
