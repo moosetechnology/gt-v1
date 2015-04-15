@@ -160,15 +160,12 @@ GTSpotterSession >> stop [
 GTSpotterSession >> timelineView [
 	| builder |
 	builder := GTATimelineBuilder new.
-	builder
+	builder 
+		configuration: GTADefaultTimelineConfiguration uniqueInstance;
 		events: self;
-		withEdges.
-	builder interaction
-		popupText: #asEventAnalysisString;
-		draggable.
-	builder build.
+		build.
 	GTAMenuBuilder new timelineBuilder: builder; build.
-	^ builder view
+	^ builder view.
 ]
 
 { #category : #'gt-inspector-extension' }

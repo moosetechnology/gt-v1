@@ -78,6 +78,11 @@ GTATimelineBuilder >> buildElements [
 
 ]
 
+{ #category : #accessing }
+GTATimelineBuilder >> configuration: aGTADefaultTimelineConfiguration [ 
+	aGTADefaultTimelineConfiguration configure: self
+]
+
 { #category : #hooks }
 GTATimelineBuilder >> createShapeBuilder [
 	^ super createShapeBuilder event; yourself
@@ -140,6 +145,11 @@ GTATimelineBuilder >> initialize [
 	edges := OrderedCollection new.
 	analyze := false.
 	withEdges := false.
+]
+
+{ #category : #testing }
+GTATimelineBuilder >> isWithEdges [
+	^ withEdges 
 ]
 
 { #category : #accessing }
@@ -246,6 +256,11 @@ GTATimelineBuilder >> visibleEvents [
 { #category : #configuration }
 GTATimelineBuilder >> withEdges [
 	withEdges := true
+]
+
+{ #category : #accessing }
+GTATimelineBuilder >> withEdges: aBoolean [ 
+	withEdges := aBoolean
 ]
 
 { #category : #configuration }

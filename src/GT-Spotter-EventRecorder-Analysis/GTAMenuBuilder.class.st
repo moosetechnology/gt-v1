@@ -8,14 +8,20 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
-{ #category : #adding }
+{ #category : #'event handling' }
 GTAMenuBuilder >> addEdges [
-	timelineBuilder withEdges; addEdges; signalUpdate
+	timelineBuilder withEdges; addEdges; signalUpdate.
+	self configuration withEdges: timelineBuilder withEdges.
 ]
 
 { #category : #building }
 GTAMenuBuilder >> build [
 	self renderIn: timelineBuilder view.
+]
+
+{ #category : #accessing }
+GTAMenuBuilder >> configuration [
+	^ GTADefaultTimelineConfiguration uniqueInstance
 ]
 
 { #category : #initialization }
@@ -24,43 +30,50 @@ GTAMenuBuilder >> initialize [
 	menuBuilder := RTMenuBuilder new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuBuilder >> logicalTimeline [
 	timelineBuilder
 			logicalLayout;
 			layoutElements;
-			signalUpdate
+			signalUpdate.
+	self configuration 
+			layout: timelineBuilder layout
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuBuilder >> obliqueShapes [
 	timelineBuilder shape oblique.
 	timelineBuilder 
 		removeAll;
 	 	build;
-		signalUpdate
+		signalUpdate.
+	self configuration shape: timelineBuilder shape shape
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuBuilder >> orthogonalShapes [
 	timelineBuilder shape orthogonal.
 	timelineBuilder 
 		removeAll;
 	 	build;
-		signalUpdate
+		signalUpdate.
+	self configuration shape: timelineBuilder shape shape
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuBuilder >> realTimeline [
 	timelineBuilder
 			realLayout;
 			layoutElements;
-			signalUpdate
+			signalUpdate.
+	self configuration 
+		layout: timelineBuilder layout
 ]
 
-{ #category : #removing }
+{ #category : #'event handling' }
 GTAMenuBuilder >> removeEdges [
-	timelineBuilder withoutEdges; removeEdges; signalUpdate
+	timelineBuilder withoutEdges; removeEdges; signalUpdate.
+	self configuration withEdges: timelineBuilder isWithEdges.
 ]
 
 { #category : #hooks }
