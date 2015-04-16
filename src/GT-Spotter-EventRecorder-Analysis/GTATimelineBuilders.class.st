@@ -11,7 +11,8 @@ GTATimelineBuilders >> addEdges [
 
 { #category : #building }
 GTATimelineBuilders >> build [
-	self do: #build
+	self do: #build.
+	self layoutSessions
 ]
 
 { #category : #testing }
@@ -26,16 +27,19 @@ GTATimelineBuilders >> layout [
 
 { #category : #layout }
 GTATimelineBuilders >> layoutElements [
-	| previousBuilder |
 	self do: #layoutElements.
-	self withIndexDo: [ :builder :index |
-		builder layoutElements.
-		index > 1 ifTrue: [ TRConstraint 
-										move: builder elements 
-										belowAlignFromLeft: previousBuilder elements
-										gap: 20 ].
-		previousBuilder := builder.
-	 ].
+	self layoutSessions
+]
+
+{ #category : #layout }
+GTATimelineBuilders >> layoutSessions [
+	| previousBuilder |
+	self
+		withIndexDo: [ :builder :index | 
+			builder layoutElements.
+			index > 1
+				ifTrue: [ TRConstraint move: builder elements belowAlignFromLeft: previousBuilder elements gap: 20 ].
+			previousBuilder := builder ]
 ]
 
 { #category : #configuration }
@@ -46,6 +50,11 @@ GTATimelineBuilders >> logicalLayout [
 { #category : #configuration }
 GTATimelineBuilders >> realLayout [
 	self do: #realLayout
+]
+
+{ #category : #'as yet unclassified' }
+GTATimelineBuilders >> removeAllElementsAndEdges [
+	self do: #removeAllElementsAndEdges
 ]
 
 { #category : #'event handling' }

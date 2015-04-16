@@ -44,7 +44,7 @@ GTAMenuBuilder >> logicalTimeline [
 GTAMenuBuilder >> obliqueShapes [
 	timelineBuilder shape oblique.
 	timelineBuilder 
-		removeAll;
+		removeAllElementsAndEdges;
 	 	build;
 		signalUpdate.
 	self configuration shape: timelineBuilder shape shape
@@ -54,7 +54,7 @@ GTAMenuBuilder >> obliqueShapes [
 GTAMenuBuilder >> orthogonalShapes [
 	timelineBuilder shape orthogonal.
 	timelineBuilder 
-		removeAll;
+		removeAllElementsAndEdges;
 	 	build;
 		signalUpdate.
 	self configuration shape: timelineBuilder shape shape

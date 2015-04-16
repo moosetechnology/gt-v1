@@ -207,7 +207,7 @@ GTATimelineBuilder >> realLayout [
 ]
 
 { #category : #removing }
-GTATimelineBuilder >> removeAll [
+GTATimelineBuilder >> removeAllElementsAndEdges [
 	self
 		removeEdges;
 		removeElements
@@ -231,7 +231,7 @@ GTATimelineBuilder >> removeElements [
 
 { #category : #hooks }
 GTATimelineBuilder >> renderIn: aView [
-	self removeAll.
+	self removeAllElementsAndEdges.
 	self analyzeEventsIfRequested.
 	aView addAll: self elements.
 	self buildEdgesIfRequested.
