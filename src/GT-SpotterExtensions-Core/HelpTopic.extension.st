@@ -27,6 +27,11 @@ HelpTopic >> gtTopicIcon [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+HelpTopic >> spotterActDefault [
+	HelpBrowser openOn: self
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 HelpTopic >> spotterForHelpTopicFor: aStep [
 	<spotterOrder: 200>
 	self flag: 'filter for multiple items like #title + #contents (combined by OR)'.
