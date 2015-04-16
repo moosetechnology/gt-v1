@@ -26,7 +26,16 @@ GTATimelineBuilders >> layout [
 
 { #category : #layout }
 GTATimelineBuilders >> layoutElements [
-	self do: #layoutElements
+	| previousBuilder |
+	self do: #layoutElements.
+	self withIndexDo: [ :builder :index |
+		builder layoutElements.
+		index > 1 ifTrue: [ TRConstraint 
+										move: builder elements 
+										belowAlignFromLeft: previousBuilder elements
+										gap: 20 ].
+		previousBuilder := builder.
+	 ].
 ]
 
 { #category : #configuration }

@@ -238,7 +238,7 @@ GTSpotterComputer >> timelineView [
 			events: (self at: index);
 			build.
 		composer group: index.
-		index > 1 ifTrue: [ composer move: index below: index - 1 ].
+		index > 1 ifTrue: [ composer move: index belowAlignFromLeft: index - 1 ].
 		builders add: builder.
 	 ].
 	GTAMenuBuilder new timelineBuilder: builders; build.
