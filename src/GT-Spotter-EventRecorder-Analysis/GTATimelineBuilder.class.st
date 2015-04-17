@@ -182,7 +182,7 @@ GTATimelineBuilder >> newEdgeShapeBuilder [
 	^ self createShapeBuilder
 		line;
 		horizontalAttachPoint; 
-		width: 2;
+		width: 1;
 		yourself
 ]
 

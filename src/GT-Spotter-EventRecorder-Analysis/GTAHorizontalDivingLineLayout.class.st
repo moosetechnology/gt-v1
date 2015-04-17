@@ -25,7 +25,7 @@ GTAHorizontalDivingLineLayout >> diveInLevel [
 
 { #category : #accessing }
 GTAHorizontalDivingLineLayout >> diveStep [
-	^ 10
+	^ 5
 ]
 
 { #category : #hook }
@@ -37,6 +37,7 @@ GTAHorizontalDivingLineLayout >> doExecute: elements [
 { #category : #'initialize-release' }
 GTAHorizontalDivingLineLayout >> initialize [
 	super initialize.
+	horizontalGap := 2.
 	self alignCenter.
 ]
 

@@ -84,25 +84,37 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryRepetition: aGTSpotterEvent [ 
-	| s1 s2 c |
+	| s1 s2 s3 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ 1. -2 @ 9. 2 @ 9. 5 @ 1. 5 @ -1. -5 @ -1 };
+				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
 				yourself.
-	s2 := RTBox new width: 10; height: 8; color: Color transparent; yourself.
+	s2 := RTPolygon new 
+				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
+				yourself.
+	s3 := RTBox new width: 10; height: 10; color: Color transparent; yourself.
 	c := RTCompositeShape new.
-	c add: s2; add: s1; vertical.
+	c 
+		add: s3;
+		add: s2 translateBy: 0 @ 7; 
+		add: s1 translateBy: 0 @ 12.
 	^ c
 ]
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryUnique: aGTSpotterEvent [ 
-	| s1 s2 c |
+	| s1 s2 s3 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ 1. 0 @ 9. 5 @ 1. 5 @ -1. -5 @ -1 };
+				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
 				yourself.
-	s2 := RTBox new width: 10; height: 8; color: Color transparent; yourself.
+	s2 := RTPolygon new 
+				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
+				yourself.
+	s3 := RTBox new width: 10; height: 10; color: Color transparent; yourself.
 	c := RTCompositeShape new.
-	c add: s2; add: s1; vertical.
+	c 
+		add: s3;
+		add: s1 translateBy: 0 @ 7; 
+		add: s2 translateBy: 0 @ 12.
 	^ c
 ]
 
@@ -117,7 +129,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategory: aGT
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ 1. -2 @ 5. 2 @ 5. 5 @ 1. 5 @ -1. -5 @ -1 };
+				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
 				yourself.
 	s2 := RTBox new width: 10; height: 4; color: Color transparent; yourself.
 	c := RTCompositeShape new.
@@ -129,7 +141,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryRepet
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ 1. 0 @ 5. 5 @ 1. 5 @ -1. -5 @ -1 };
+				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
 				yourself.
 	s2 := RTBox new width: 10; height: 4; color: Color transparent; yourself.
 	c := RTCompositeShape new.
@@ -153,25 +165,37 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategory: 
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryRepetition: aGTSpotterEvent [ 
-	| s1 s2 c |
+	| s1 s2 s3 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ -2. -2 @ -10. 2 @ -10. 5 @ -2. 5 @ 0. -5 @ 0 };
+				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
 				yourself.
-	s2 := RTBox new width: 10; height: 13; color: Color transparent; yourself.
+	s2 := RTPolygon new 
+				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
+				yourself.
+	s3 := RTBox new width: 10; height: 10; color: Color transparent; yourself.
 	c := RTCompositeShape new.
-	c add: s1; add: s2; vertical.
+	c 
+		add: s1;
+		add: s2 translateBy: 0 @ 5; 
+		add: s3 translateBy: 0 @ 13.
 	^ c
 ]
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryUnique: aGTSpotterEvent [ 
-	| s1 s2 c |
+	| s1 s2 s3 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ -2. 0 @ -10. 5 @ -2. 5 @ 0. -5 @ 0 };
+				vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0 };
 				yourself.
-	s2 := RTBox new width: 10; height: 13; color: Color transparent; yourself.
+	s2 := RTPolygon new 
+				vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0 };
+				yourself.
+	s3 := RTBox new width: 10; height: 10; color: Color transparent; yourself.
 	c := RTCompositeShape new.
-	c add: s1; add: s2; vertical.
+	c 
+		add: s1;
+		add: s2 translateBy: 0 @ 5; 
+		add: s3 translateBy: 0 @ 13.
 	^ c
 ]
 
@@ -186,9 +210,9 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategory: aGTSp
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ -1. -2 @ -5. 2 @ -5. 5 @ -1. 5 @ 1. -5 @ 1 };
+				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
 				yourself.
-	s2 := RTBox new width: 10; height: 6; color: Color transparent; yourself.
+	s2 := RTBox new width: 10; height: 9; color: Color transparent; yourself.
 	c := RTCompositeShape new.
 	c add: s1; add: s2; vertical.
 	^ c
@@ -198,7 +222,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryRepetit
 GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
-				vertices: { -5 @ -1 . 0 @ -5 . 5 @ -1. 5 @ 1. -5 @ 1 };
+				vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0 };
 				yourself.
 	s2 := RTBox new width: 10; height: 6; color: Color transparent; yourself.
 	c := RTCompositeShape new.
@@ -222,16 +246,50 @@ GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategory:
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryRepetition: aGTSpotterEvent [ 
-	^ RTPolygon new 
-			vertices: { -5 @ 0. -2 @ -9. 2 @ -9. 5 @ 0. 2 @ 9. -2 @ 9 };
-			yourself
+	| s1 s2 s3 s4 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
+				yourself.
+	s2 := RTPolygon new 
+				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
+				yourself.
+	s3 := RTPolygon new 
+				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
+				yourself.
+	s4 := RTPolygon new 
+				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
+				yourself.
+	c := RTCompositeShape new.
+	c 
+		add: s3;
+		add: s4 translateBy: 0 @ 5; 
+		add: s1 translateBy: 0 @ 10;
+		add: s2 translateBy: 0 @ 15.
+	^ c
 ]
 
 { #category : #'instance creation' }
 GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryUnique: aGTSpotterEvent [ 
-	^ RTPolygon new 
-			vertices: { -5 @ 0. 0 @ -9. 5 @ 0. 0 @ 9 };
-			yourself
+	| s1 s2 s3 s4 c |
+	s1 := RTPolygon new 
+				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
+				yourself.
+	s2 := RTPolygon new 
+				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
+				yourself.
+	s3 := RTPolygon new 
+				vertices: { -5 @ 0. 0 @ -5. 5 @ 0 };
+				yourself.
+	s4 := RTPolygon new 
+				vertices: { -5 @ 0. 0 @ -5. 5 @ 0 };
+				yourself.
+	c := RTCompositeShape new.
+	c 
+		add: s3;
+		add: s4 translateBy: 0 @ 5; 
+		add: s1 translateBy: 0 @ 10;
+		add: s2 translateBy: 0 @ 15.
+	^ c
 ]
 
 { #category : #'instance creation' }
@@ -307,7 +365,7 @@ GTATimelineIconBuilder >> visitContextChangedForSeveralWordsEvent: aGTSpotterEve
 	shapes 
 		do: [ :shape | composition add: shape ]
 		separatedBy: [ 
-			composition add: (RTBox new height: 5; width: 1; color: Color transparent; yourself) ].
+			composition add: (RTBox new height: 1; width: 1; yourself) ].
 	^ composition
 ]
 
