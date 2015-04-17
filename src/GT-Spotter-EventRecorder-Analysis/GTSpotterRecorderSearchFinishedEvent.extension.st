@@ -2,17 +2,45 @@ Extension { #name : #GTSpotterRecorderSearchFinishedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
+	| categories | 
+	categories := self notEmptyCategories.
 	aStream
 		nextPutAll: 'SearchFinished: ';
 		nextPutAll: (query ifNil: [ 'no query' ] ifNotNil: [ 'with query' ]);
 		nextPutAll: ', ';
-		print: self categories size;
+		print: categories size;
 		nextPutAll: ' categories, ';
 		print: (self items ifEmpty: [ 0 ] ifNotEmpty: [ :col | col sum ]);
-		nextPutAll: ' findings'
+		nextPutAll: ' findings'.
+	categories ifNotEmpty: [ | index |
+		index := 1.
+		aStream cr.
+		categories 
+			do: [ :category |
+				index \\ 6 = 0 ifTrue: [ aStream cr ].
+				aStream 
+					nextPutAll: category key;
+					nextPutAll: ' (';
+					print: category value;
+					nextPut: $).
+				index := index + 1.
+				 ] 
+			separatedBy: [ aStream nextPutAll: ', ' ] ].
+
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSearchFinishedEvent >> isForTimelineView [
 	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> notEmptyCategories [
+	| notEmptyCategories |
+	notEmptyCategories := OrderedCollection new.
+	self processors ifNil: [ notEmptyCategories ].
+	self processors pairsDo: [ :processor :items |
+		items > 0 ifTrue: [ notEmptyCategories add: (processor -> items) ]
+	].
+	^ notEmptyCategories
 ]
