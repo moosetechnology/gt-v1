@@ -230,7 +230,7 @@ GTSpotterComputer >> timelineView [
 	| composer builders |
 	composer := RTComposer new.
 	builders := GTATimelineBuilders new.
-	1 to: (self size min: 10) do: [ :index | | builder |
+	1 to: (self size min: 50) do: [ :index | | builder |
 		builder := GTATimelineBuilder new.
 		builder 
 			view: composer view;

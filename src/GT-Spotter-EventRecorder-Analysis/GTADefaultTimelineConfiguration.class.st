@@ -38,7 +38,17 @@ GTADefaultTimelineConfiguration >> configure: builder [
 	builder interaction
 		popupText: #asEventAnalysisString;
 		draggable.
-
+	builder interaction showEdge
+		connectTo: [ :event | 
+			event isUserSelection
+				ifFalse: [ RTGroup new ]
+				ifTrue: [ 
+					builder view elements
+						select: [ :eachElement | eachElement model isSpotterEvent
+								and: [ eachElement model isUserSelection
+								and: [ eachElement model elementName = event elementName ] ] ]
+						thenCollect: #model ] ];
+		shape: [ :el | RTLine new color: (Color blue alpha: 0.4) ] 
 ]
 
 { #category : #accessing }
