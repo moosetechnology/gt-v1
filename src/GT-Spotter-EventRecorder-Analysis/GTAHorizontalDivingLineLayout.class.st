@@ -34,6 +34,12 @@ GTAHorizontalDivingLineLayout >> doExecute: elements [
 	self diveElements: elements
 ]
 
+{ #category : #'initialize-release' }
+GTAHorizontalDivingLineLayout >> initialize [
+	super initialize.
+	self alignCenter.
+]
+
 { #category : #'instance creation' }
 GTAHorizontalDivingLineLayout >> newDiveInLevel [
 	^ [ :element | #diveInLevel cull: element model ]
