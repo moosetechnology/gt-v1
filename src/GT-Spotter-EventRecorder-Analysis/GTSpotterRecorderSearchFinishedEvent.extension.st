@@ -11,3 +11,8 @@ GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 		print: (self items ifEmpty: [ 0 ] ifNotEmpty: [ :col | col sum ]);
 		nextPutAll: ' findings'
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> isForTimelineView [
+	^ true
+]

@@ -418,8 +418,12 @@ GTATimelineIconBuilder >> visitOpenEvent: aGTSpotterRecorderOpenEvent [
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitSearchFinishedEvent: aGTSpotterRecorderSearchFinishedEvent [ 
-	^ nil
+GTATimelineIconBuilder >> visitSearchFinishedEvent: aGTSpotterEvent [ 
+	^ RTPolygon new
+			"vertices: { -5 @ -2. 0 @ 4. 5 @ -4. 4 @ -4. 0 @ 3. -4 @ -2 };"
+			vertices: { -5 @ 0. -3 @ 0. -1 @ 4. 1 @ -3. 3 @ 0. 5 @ 0. 
+							5 @ -1. 3 @ -1. 1 @ -4. -1 @ 3. -3 @ -1. -5 @ -1 };
+			yourself
 ]
 
 { #category : #visitor }
