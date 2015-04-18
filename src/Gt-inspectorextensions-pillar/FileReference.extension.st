@@ -39,7 +39,7 @@ FileReference >> gtInspectorPillarProjectIn: composite [
 	(self isDirectory not or: [
 	(self files noneSatisfy: [:each | each basename = 'pillar.conf'])])
 		ifTrue: [ ^ self ].
-	(((PRSTONConfigurationInterpreter baseDirectory: self)
+	(((PRCocoonConfigurationInterpreter baseDirectory: self)
 		buildFromFile: (self files detect: [:each | each basename = 'pillar.conf']))
 			gtInspectorInputFilesIn: composite)
 			title: 'Pillar'

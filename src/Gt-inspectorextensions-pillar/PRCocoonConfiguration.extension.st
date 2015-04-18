@@ -1,7 +1,7 @@
-Extension { #name : #PRExportConfiguration }
+Extension { #name : #PRCocoonConfiguration }
 
 { #category : #'*GT-InspectorExtensions-Pillar' }
-PRExportConfiguration >> gtInspectorInputFilesIn: composite [
+PRCocoonConfiguration >> gtInspectorInputFilesIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	^ composite list 
 		title: 'Files';
