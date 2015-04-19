@@ -1,46 +1,72 @@
 Class {
-	#name : #GTATimelineIconBuilder,
+	#name : #GTAIconBuilder,
 	#superclass : #Object,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
 { #category : #configuration }
-GTATimelineIconBuilder >> defaultHalfHeight [
+GTAIconBuilder >> defaultHalfHeight [
 	^ 5
 ]
 
 { #category : #configuration }
-GTATimelineIconBuilder >> defaultHeight [
+GTAIconBuilder >> defaultHeight [
 	^ 10
 ]
 
 { #category : #configuration }
-GTATimelineIconBuilder >> defaultMinHeight [
+GTAIconBuilder >> defaultMinHeight [
 	^ 2
 ]
 
 { #category : #configuration }
-GTATimelineIconBuilder >> defaultMinWidth [
+GTAIconBuilder >> defaultMinWidth [
 	^ 1
 ]
 
 { #category : #configuration }
-GTATimelineIconBuilder >> defaultWidth [
+GTAIconBuilder >> defaultWidth [
 	^ 10
 ]
 
 { #category : #public }
-GTATimelineIconBuilder >> elementOn: aModel [ 
+GTAIconBuilder >> elementOn: aModel [ 
 	^ (self shapeFor: aModel) elementOn: aModel
 ]
 
 { #category : #public }
-GTATimelineIconBuilder >> elementsOn: models [
+GTAIconBuilder >> elementsOn: models [
 	^ models collect: [ :eachModel | (self elementOn: eachModel) ] as: RTGroup
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newCorrectDiveInElementEvent: aGTSpotterEvent [
+GTAIconBuilder >> newContextChangedForOneWordEvent: aGTSpotterEvent [
+	| shape sizes |
+	shape := RTBox new height: self defaultHeight; width: self defaultMinWidth; yourself.
+	sizes := aGTSpotterEvent currentTextSizes.	
+	(sizes notNil and: [ sizes notEmpty ]) ifTrue: [ shape width: sizes sum ].
+	aGTSpotterEvent hasCurrentTextSpecials ifTrue: [ shape height: self defaultHalfHeight ]. 
+	^ shape
+]
+
+{ #category : #'instance creation' }
+GTAIconBuilder >> newContextChangedForSeveralWordsEvent: aGTSpotterEvent [
+	| composition sizes keywords shapes |
+	composition := RTCompositeShape new horizontal; yourself.
+	sizes := aGTSpotterEvent currentTextSizes.	
+	keywords := aGTSpotterEvent currentTextSpecials.
+	shapes := OrderedCollection new.
+	sizes with: keywords do: [ :size :keyword |
+		shapes add: (self newShapeForWordOfSize: size keyword: keyword) ].
+	shapes 
+		do: [ :shape | composition add: shape ]
+		separatedBy: [ 
+			composition add: (RTBox new height: 1; width: 1; yourself) ].
+	^ composition
+]
+
+{ #category : #'instance creation' }
+GTAIconBuilder >> newCorrectDiveInElementEvent: aGTSpotterEvent [
 	^ RTBox new
 		height: 2;
 		width: 5;
@@ -48,7 +74,7 @@ GTATimelineIconBuilder >> newCorrectDiveInElementEvent: aGTSpotterEvent [
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newMissStepDiveInElementEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> newMissStepDiveInElementEvent: aGTSpotterEvent [ 
 	| s1 s3 s2 c |
 	c := RTCompositeShape new.
 	s1 := RTBox new
@@ -69,21 +95,51 @@ GTATimelineIconBuilder >> newMissStepDiveInElementEvent: aGTSpotterEvent [
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDown: aGTSpotterEvent [ 
+GTAIconBuilder >> newSearchFinishedForOneCategoryEvent: aGTSpotterEvent [
+	| shape sizes |
+	shape := RTBox new height: self defaultHeight; width: self defaultMinWidth; yourself.
+	shape color: Color transparent; borderColor: shape defaultColor.
+	sizes := aGTSpotterEvent items.
+	(sizes notNil and: [ sizes notEmpty ]) ifTrue: [ shape width: sizes sum ].
+	^ shape
+]
+
+{ #category : #'instance creation' }
+GTAIconBuilder >> newSearchFinishedForSeveralCategoriesEvent: aGTSpotterEvent [
+	| composition categoriesAndItems shapes |
+	composition := RTCompositeShape new horizontal; yourself.
+	categoriesAndItems := aGTSpotterEvent notEmptyCategories.
+	shapes := OrderedCollection new.
+	categoriesAndItems do: [ :categoryAndItems | | shape size |
+		size := categoryAndItems value.
+		size := size // 10.
+		size < 2 ifTrue: [ size := 2 ].
+		shape := (self newShapeForWordOfSize: size keyword: false).
+		shape color: Color transparent; borderColor: shape defaultColor.
+		shapes add: shape ].
+	shapes 
+		do: [ :shape | composition add: shape ]
+		separatedBy: [ 
+			composition add: (RTBox new height: 1; width: 1; yourself) ].
+	^ composition
+]
+
+{ #category : #'instance creation' }
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDown: aGTSpotterEvent [ 
 	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
 		ifTrue: [ self newShapeForSelectionEventKeyArrowDownSameCategory: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventKeyArrowDownDifferentCategory: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory: aGTSpotterEvent [ 
 	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
 		ifTrue: [ self newShapeForSelectionEventKeyArrowDownDifferentCategoryRepetition: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventKeyArrowDownDifferentCategoryUnique: aGTSpotterEvent  ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryRepetition: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 s3 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
@@ -101,7 +157,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryUnique: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 s3 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
@@ -119,14 +175,14 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownDifferentCategory
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategory: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategory: aGTSpotterEvent [ 
 	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
 		ifTrue: [ self newShapeForSelectionEventKeyArrowDownSameCategoryRepetition: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventKeyArrowDownSameCategoryUnique: aGTSpotterEvent  ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryRepetition: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
@@ -138,7 +194,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryRepet
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryUnique: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
@@ -150,21 +206,21 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowDownSameCategoryUniqu
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUp: aGTSpotterEvent [
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUp: aGTSpotterEvent [
 	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
 		ifTrue: [ self newShapeForSelectionEventKeyArrowUpSameCategory: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventKeyArrowUpDifferentCategory: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategory: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategory: aGTSpotterEvent [ 
 	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
 		ifTrue: [ self newShapeForSelectionEventKeyArrowUpDifferentCategoryRepetition: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventKeyArrowUpDifferentCategoryUnique: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryRepetition: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 s3 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
@@ -182,7 +238,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryRe
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryUnique: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 s3 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0 };
@@ -200,14 +256,14 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpDifferentCategoryUn
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategory: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategory: aGTSpotterEvent [ 
 	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
 		ifTrue: [ self newShapeForSelectionEventKeyArrowUpSameCategoryRepetition: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventKeyArrowUpSameCategoryUnique: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryRepetition: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0 };
@@ -219,7 +275,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryRepetit
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryUnique: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0 };
@@ -231,21 +287,21 @@ GTATimelineIconBuilder >> newShapeForSelectionEventKeyArrowUpSameCategoryUnique:
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClick: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClick: aGTSpotterEvent [ 
 	^ aGTSpotterEvent isInTheSameCategoryAsPreviousSelection
 		ifTrue: [ self newShapeForSelectionEventSingleClickSameCategory: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategory: aGTSpotterEvent [ 
 	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
 		ifTrue: [ self newShapeForSelectionEventSingleClickDifferentCategoryRepetition: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventSingleClickDifferentCategoryUnique: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryRepetition: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryRepetition: aGTSpotterEvent [ 
 	| s1 s2 s3 s4 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. -2 @ 5. 2 @ 5. 5 @ 0 };
@@ -269,7 +325,7 @@ GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryR
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryUnique: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryUnique: aGTSpotterEvent [ 
 	| s1 s2 s3 s4 c |
 	s1 := RTPolygon new 
 				vertices: { -5 @ 0. 0 @ 5. 5 @ 0 };
@@ -293,28 +349,28 @@ GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickDifferentCategoryU
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategory: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClickSameCategory: aGTSpotterEvent [ 
 	^ aGTSpotterEvent existsUserSelectionsOfTheSameElement
 		ifTrue: [ self newShapeForSelectionEventSingleClickSameCategoryRepetition: aGTSpotterEvent ]
 		ifFalse: [ self newShapeForSelectionEventSingleClickSameCategoryUnique: aGTSpotterEvent ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategoryRepetition: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClickSameCategoryRepetition: aGTSpotterEvent [ 
 	^ RTPolygon new 
 			vertices: { -5 @ 0. -2 @ -5. 2 @ -5. 5 @ 0. 2 @ 5. -2 @ 5 };
 			yourself
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForSelectionEventSingleClickSameCategoryUnique: aGTSpotterEvent [ 
+GTAIconBuilder >> newShapeForSelectionEventSingleClickSameCategoryUnique: aGTSpotterEvent [ 
 	^ RTPolygon new 
 			vertices: { -5 @ 0 . 0 @ -5 . 5 @ 0. 0 @ 5 };
 			yourself
 ]
 
 { #category : #'instance creation' }
-GTATimelineIconBuilder >> newShapeForWordOfSize: wordSize keyword: aBoolean [
+GTAIconBuilder >> newShapeForWordOfSize: wordSize keyword: aBoolean [
 	^ RTBox new 
 			height: (aBoolean ifTrue: [ self defaultHalfHeight ] ifFalse: [ self defaultHeight ]); 
 			width: wordSize; 
@@ -322,55 +378,29 @@ GTATimelineIconBuilder >> newShapeForWordOfSize: wordSize keyword: aBoolean [
 ]
 
 { #category : #accessing }
-GTATimelineIconBuilder >> shapeFor: aGTSpotterEvent [ 
+GTAIconBuilder >> shapeFor: aGTSpotterEvent [ 
 	^ aGTSpotterEvent accept: self
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitActOnEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitActOnEvent: aGTSpotterEvent [ 
 	^ RTPolygon new vertices: { -5 @ -5. 5 @ 0. -5 @ 5 }; yourself
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitCategorySelectedEvent: aGTSpotterRecorderCategorySelectedEvent [ 
+GTAIconBuilder >> visitCategorySelectedEvent: aGTSpotterRecorderCategorySelectedEvent [ 
 	^ nil
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitContextChangedEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitContextChangedEvent: aGTSpotterEvent [ 
 	^ aGTSpotterEvent currentTextSizes size < 2
-		ifTrue: [ self visitContextChangedForOneWordEvent: aGTSpotterEvent ]
-		ifFalse: [ self visitContextChangedForSeveralWordsEvent: aGTSpotterEvent ]
+		ifTrue: [ self newContextChangedForOneWordEvent: aGTSpotterEvent ]
+		ifFalse: [ self newContextChangedForSeveralWordsEvent: aGTSpotterEvent ]
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitContextChangedForOneWordEvent: aGTSpotterEvent [
-	| shape sizes |
-	shape := RTBox new height: self defaultHeight; width: self defaultMinWidth; yourself.
-	sizes := aGTSpotterEvent currentTextSizes.	
-	(sizes notNil and: [ sizes notEmpty ]) ifTrue: [ shape width: sizes sum ].
-	aGTSpotterEvent hasCurrentTextSpecials ifTrue: [ shape height: self defaultHalfHeight ]. 
-	^ shape
-]
-
-{ #category : #visitor }
-GTATimelineIconBuilder >> visitContextChangedForSeveralWordsEvent: aGTSpotterEvent [
-	| composition sizes keywords shapes |
-	composition := RTCompositeShape new horizontal; yourself.
-	sizes := aGTSpotterEvent currentTextSizes.	
-	keywords := aGTSpotterEvent currentTextSpecials.
-	shapes := OrderedCollection new.
-	sizes with: keywords do: [ :size :keyword |
-		shapes add: (self newShapeForWordOfSize: size keyword: keyword) ].
-	shapes 
-		do: [ :shape | composition add: shape ]
-		separatedBy: [ 
-			composition add: (RTBox new height: 1; width: 1; yourself) ].
-	^ composition
-]
-
-{ #category : #visitor }
-GTATimelineIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
 	| s1 s2 s3 c |
 	s1 := RTBox new height: 2; width: 5; yourself.
 	s2 := RTBox new height: 2; width: 5; color: Color transparent; yourself.
@@ -381,14 +411,14 @@ GTATimelineIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
 	^ aGTSpotterEvent isMissStep 
 		ifTrue: [ self newMissStepDiveInElementEvent: aGTSpotterEvent ]
 		ifFalse: [ self newCorrectDiveInElementEvent: aGTSpotterEvent ]
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
 	^ RTBox new
 		height: 2;
 		width: 5;
@@ -396,7 +426,7 @@ GTATimelineIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitExitEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitExitEvent: aGTSpotterEvent [ 
 	^ RTPolygon new 
 		vertices: { 
 			-4 @ -5. 0 @ -1. 4 @ -5. 5 @ -4. 1 @ 0. 
@@ -405,7 +435,7 @@ GTATimelineIconBuilder >> visitExitEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitHidePreviewEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitHidePreviewEvent: aGTSpotterEvent [ 
 	^ RTArc new 
 			innerRadius: 4;
 			externalRadius: 5;
@@ -413,21 +443,20 @@ GTATimelineIconBuilder >> visitHidePreviewEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitOpenEvent: aGTSpotterRecorderOpenEvent [ 
+GTAIconBuilder >> visitOpenEvent: aGTSpotterRecorderOpenEvent [ 
 	^ nil
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitSearchFinishedEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitSearchFinishedEvent: aGTSpotterEvent [ 
 	^ RTPolygon new
-			"vertices: { -5 @ -2. 0 @ 4. 5 @ -4. 4 @ -4. 0 @ 3. -4 @ -2 };"
 			vertices: { -5 @ 0. -3 @ 0. -1 @ 4. 1 @ -3. 3 @ 0. 5 @ 0. 
 							5 @ -1. 3 @ -1. 1 @ -4. -1 @ 3. -3 @ -1. -5 @ -1 };
 			yourself
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitSelectedCandidateChangedEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitSelectedCandidateChangedEvent: aGTSpotterEvent [ 
 	| type |
 	type := aGTSpotterEvent eventType. 
 	type = #keyPressedArrowUp ifTrue: [ 
@@ -447,6 +476,6 @@ GTATimelineIconBuilder >> visitSelectedCandidateChangedEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineIconBuilder >> visitShowPreviewEvent: aGTSpotterEvent [ 
+GTAIconBuilder >> visitShowPreviewEvent: aGTSpotterEvent [ 
 	^ RTEllipse new size: 10; yourself
 ]

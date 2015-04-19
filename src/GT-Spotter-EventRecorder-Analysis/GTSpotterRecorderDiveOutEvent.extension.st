@@ -16,3 +16,10 @@ GTSpotterRecorderDiveOutEvent >> eventAnalysisPrintOn: aStream [
 GTSpotterRecorderDiveOutEvent >> isForTimelineView [
 	^ true
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveOutEvent >> userQueryOrSelectionHashes [
+	^ self elementName 
+			ifNil: [ #() ]
+			ifNotNil: [ :value | Array with: value ]
+]

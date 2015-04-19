@@ -75,6 +75,13 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> selectedCategoryLabel [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> userQueryOrSelectionHashes [
+	^ self elementName 
+			ifNil: [ #() ]
+			ifNotNil: [ :value | Array with: value ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> userSelectionsOfTheSameElement [
 	| index |
 	index := self session identityIndexOf: self.

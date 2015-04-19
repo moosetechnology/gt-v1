@@ -2,7 +2,7 @@
 A GTATimelineIconBuilderTest is a test class for testing the behavior of GTATimelineIconBuilder
 "
 Class {
-	#name : #GTATimelineIconBuilderTest,
+	#name : #GTAIconBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'builder'
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : #running }
-GTATimelineIconBuilderTest >> setUp [
+GTAIconBuilderTest >> setUp [
 	super setUp.
-	builder := GTATimelineIconBuilder new.
+	builder := GTAIconBuilder new.
 	
 ]
 
 { #category : #tests }
-GTATimelineIconBuilderTest >> testShapeFor [
+GTAIconBuilderTest >> testShapeFor [
 	| shape view |
 	view := RTView new.
 	GTSpotterRecorderEvent allSubclassesDo: [ :eachClass |

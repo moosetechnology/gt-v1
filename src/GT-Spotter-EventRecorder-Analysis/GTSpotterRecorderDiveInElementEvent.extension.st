@@ -45,3 +45,10 @@ GTSpotterRecorderDiveInElementEvent >> hasQuery [
 GTSpotterRecorderDiveInElementEvent >> isForTimelineView [
 	^ true
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> userQueryOrSelectionHashes [
+	^ self elementName 
+			ifNil: [ #() ]
+			ifNotNil: [ :value | Array with: value ]
+]

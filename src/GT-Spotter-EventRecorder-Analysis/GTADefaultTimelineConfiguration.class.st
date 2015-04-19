@@ -63,7 +63,7 @@ GTADefaultTimelineConfiguration >> layout: aLayout [
 
 { #category : #accessing }
 GTADefaultTimelineConfiguration >> shape [
-	^ shape ifNil: [ shape := GTATimelineOrthogonalIconBuilder new ]
+	^ shape ifNil: [ shape := GTAOrthogonalIconBuilder new ]
 ]
 
 { #category : #accessing }

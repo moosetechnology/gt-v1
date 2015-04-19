@@ -1,11 +1,11 @@
 Class {
-	#name : #GTATimelineOrthogonalIconBuilder,
-	#superclass : #GTATimelineIconBuilder,
+	#name : #GTAOrthogonalIconBuilder,
+	#superclass : #GTAIconBuilder,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
 { #category : #visitor }
-GTATimelineOrthogonalIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
+GTAOrthogonalIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -3 @ -2. 1 @ -2. 1 @ 4. 3 @ 4. 3 @ 5. 0 @ 5. 0 @ 1. 
@@ -18,7 +18,7 @@ GTATimelineOrthogonalIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineOrthogonalIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
+GTAOrthogonalIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -2 @ -1. 1 @ -1. 1 @ 4. 3 @ 4. 3 @ 5. 0 @ 5. 0 @ 0. -2 @ 0 };
@@ -30,7 +30,7 @@ GTATimelineOrthogonalIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTATimelineOrthogonalIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
+GTAOrthogonalIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -2 @ 1. 1 @ 1. 1 @ -4. 3 @ -4. 3 @ -5. 0 @ -5. 0 @ 0. -2 @ 0 };

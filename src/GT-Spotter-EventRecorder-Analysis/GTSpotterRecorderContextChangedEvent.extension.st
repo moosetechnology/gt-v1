@@ -27,3 +27,8 @@ GTSpotterRecorderContextChangedEvent >> eventAnalysisPrintOn: aStream [
 GTSpotterRecorderContextChangedEvent >> isForTimelineView [
 	^ self isContextChanged
 ]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderContextChangedEvent >> userQueryOrSelectionHashes [
+	^ self currentTextHashes 
+]

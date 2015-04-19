@@ -1,6 +1,16 @@
 Extension { #name : #GTSpotterRecorderSearchFinishedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> currentQueryHashes [
+	^ self stringHashesFor: self query
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> currentQuerySizes [
+	^ self stringSizesFor: self query
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 	| categories | 
 	categories := self notEmptyCategories.
@@ -43,4 +53,9 @@ GTSpotterRecorderSearchFinishedEvent >> notEmptyCategories [
 		items > 0 ifTrue: [ notEmptyCategories add: (processor -> items) ]
 	].
 	^ notEmptyCategories
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> userQueryOrSelectionHashes [
+	^ self currentQueryHashes
 ]

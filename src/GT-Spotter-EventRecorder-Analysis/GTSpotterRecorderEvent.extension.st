@@ -86,6 +86,11 @@ GTSpotterRecorderEvent >> followingDifferentTime [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> hasElementName [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> isForTimelineView [
 	^ false
 ]
@@ -209,4 +214,10 @@ GTSpotterRecorderEvent >> setMissStep [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> strange [
 	^ self infoAt: #strange ifAbsent: [ #() ].
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> userQueryOrSelectionHashes [
+	"It returns array of hashes that represent user input (query) or user selections."
+	^ #()
 ]

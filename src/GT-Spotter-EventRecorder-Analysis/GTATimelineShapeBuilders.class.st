@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #shapes }
+GTATimelineShapeBuilders >> flexibleResultShapes [
+	self do: #flexibleResultShapes
+]
+
+{ #category : #shapes }
 GTATimelineShapeBuilders >> oblique [
 	self do: #oblique
 ]
