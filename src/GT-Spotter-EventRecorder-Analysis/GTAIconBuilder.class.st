@@ -96,11 +96,12 @@ GTAIconBuilder >> newMissStepDiveInElementEvent: aGTSpotterEvent [
 
 { #category : #'instance creation' }
 GTAIconBuilder >> newSearchFinishedForOneCategoryEvent: aGTSpotterEvent [
-	| shape sizes |
-	shape := RTBox new height: self defaultHeight; width: self defaultMinWidth; yourself.
-	shape color: Color transparent; borderColor: shape defaultColor.
+	| shape sizes size |
 	sizes := aGTSpotterEvent items.
-	(sizes notNil and: [ sizes notEmpty ]) ifTrue: [ shape width: sizes sum ].
+	(sizes notNil and: [ sizes notEmpty ]) 
+		ifTrue: [ size := sizes sum ]
+		ifFalse: [ size := 1 ].
+	shape := self newShapeForQueryOfSize: size.
 	^ shape
 ]
 
@@ -114,14 +115,25 @@ GTAIconBuilder >> newSearchFinishedForSeveralCategoriesEvent: aGTSpotterEvent [
 		size := categoryAndItems value.
 		size := size // 10.
 		size < 2 ifTrue: [ size := 2 ].
-		shape := (self newShapeForWordOfSize: size keyword: false).
-		shape color: Color transparent; borderColor: shape defaultColor.
+		shape := self newShapeForQueryOfSize: size.
 		shapes add: shape ].
 	shapes 
 		do: [ :shape | composition add: shape ]
 		separatedBy: [ 
-			composition add: (RTBox new height: 1; width: 1; yourself) ].
+			composition add: (RTBox new height: 3; width: 1; yourself) ].
 	^ composition
+]
+
+{ #category : #'instance creation' }
+GTAIconBuilder >> newShapeForQueryOfSize: wordSize [
+	| s1 s3 c |
+	c := RTCompositeShape new.
+	s1 := RTBox new height: 4; width: wordSize; yourself.
+	s3 := RTBox new height: 4; width: wordSize; yourself.	
+	c 
+		add: s1;
+		add: s3 translateBy: 0 @ 6.
+	^ c
 ]
 
 { #category : #'instance creation' }
