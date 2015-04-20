@@ -96,44 +96,53 @@ GTAIconBuilder >> newMissStepDiveInElementEvent: aGTSpotterEvent [
 
 { #category : #'instance creation' }
 GTAIconBuilder >> newSearchFinishedForOneCategoryEvent: aGTSpotterEvent [
-	| shape sizes size |
+	| size sizes shapeAndSize |
 	sizes := aGTSpotterEvent items.
 	(sizes notNil and: [ sizes notEmpty ]) 
 		ifTrue: [ size := sizes sum ]
 		ifFalse: [ size := 1 ].
-	shape := self newShapeForQueryOfSize: size.
-	^ shape
+	shapeAndSize := self newShapeForQueryOfSize: size.
+	^ shapeAndSize key
 ]
 
 { #category : #'instance creation' }
 GTAIconBuilder >> newSearchFinishedForSeveralCategoriesEvent: aGTSpotterEvent [
-	| composition categoriesAndItems shapes |
-	composition := RTCompositeShape new horizontal; yourself.
+	| composition categoriesAndItems offset |
+	composition := RTCompositeShape new.
 	categoriesAndItems := aGTSpotterEvent notEmptyCategories.
-	shapes := OrderedCollection new.
-	categoriesAndItems do: [ :categoryAndItems | | shape size |
-		size := categoryAndItems value.
-		size := size // 10.
-		size < 2 ifTrue: [ size := 2 ].
-		shape := self newShapeForQueryOfSize: size.
-		shapes add: shape ].
-	shapes 
-		do: [ :shape | composition add: shape ]
-		separatedBy: [ 
-			composition add: (RTBox new height: 3; width: 1; yourself) ].
+	offset := 0.
+	categoriesAndItems 
+		do: [ :categoryAndItems | | shapeAndSize size |
+			size := categoryAndItems value.
+			shapeAndSize := self newShapeForQueryOfSize: size.
+			composition add: shapeAndSize key translateBy: offset @ 0.
+			offset := offset + shapeAndSize value ]
+		separatedBy: [ | connector |
+			connector := RTCompositeShape new.
+			connector 
+				add: (RTBox new height: 1; width: 1; yourself);
+				add: (RTBox new height: 1; width: 1; yourself)
+					translateBy: 0 @ 6.
+			composition 
+				add: connector
+				translateBy: offset @ 0.
+				offset := offset + 2 ].
 	^ composition
 ]
 
 { #category : #'instance creation' }
 GTAIconBuilder >> newShapeForQueryOfSize: wordSize [
-	| s1 s3 c |
+	| s1 s3 c size |
+	size := wordSize // 10.
+	size < 2 ifTrue: [ size := 2 ].
+	size > 100 ifTrue: [ size := 100 ].
 	c := RTCompositeShape new.
-	s1 := RTBox new height: 4; width: wordSize; yourself.
-	s3 := RTBox new height: 4; width: wordSize; yourself.	
+	s1 := RTBox new height: 4; width: size; yourself.
+	s3 := RTBox new height: 4; width: size; yourself.	
 	c 
 		add: s1;
 		add: s3 translateBy: 0 @ 6.
-	^ c
+	^ c -> size
 ]
 
 { #category : #'instance creation' }

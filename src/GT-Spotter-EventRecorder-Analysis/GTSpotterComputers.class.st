@@ -90,8 +90,18 @@ GTSpotterComputers >> numberOfContextChanged [
 ]
 
 { #category : #helpers }
+GTSpotterComputers >> numberOfEvents [
+	^ self sum: [ :each | each numberOfEvents ]
+]
+
+{ #category : #helpers }
 GTSpotterComputers >> numberOfMissSteps [
 	^ self missSteps size
+]
+
+{ #category : #helpers }
+GTSpotterComputers >> numberOfSessions [
+	^ self sum: [ :each | each size ]
 ]
 
 { #category : #enumerating }
