@@ -96,7 +96,7 @@ GTSpotterAnnouncements >> sessionsPerComputer [
 	group := self perComputer.
 	computers := group collect: [ :eachComputer |
 		eachComputer sortByTimestamp.
-		eachComputer sessions as: GTSpotterComputer.
+		eachComputer sessions.
 	] as: GTSpotterComputers.
 	computers updateEvents.
 	^ computers select: #notEmpty

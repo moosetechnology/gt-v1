@@ -145,7 +145,10 @@ GTSpotterComputer >> isDeveloper [
 
 { #category : #enumerating }
 GTSpotterComputer >> missSteps [
-	^ self flatCollect: #missSteps as: GTSpotterSession
+	| collection |
+	collection := self flatCollect: #missSteps as: GTSpotterSession.
+	collection computer: self.
+	^ collection
 ]
 
 { #category : #helpers }

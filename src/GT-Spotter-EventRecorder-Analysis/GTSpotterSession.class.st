@@ -23,6 +23,16 @@ GTSpotterSession >> closeActionSymbol [
 ]
 
 { #category : #accessing }
+GTSpotterSession >> computer [
+	^ self optionAt: #computer
+]
+
+{ #category : #accessing }
+GTSpotterSession >> computer: aGTSpotterComputer [
+	^ self optionAt: #computer put: aGTSpotterComputer
+]
+
+{ #category : #accessing }
 GTSpotterSession >> computerUUID [
 	self ifEmpty: [ ^ 0 ].
 	^ self any computerUUID

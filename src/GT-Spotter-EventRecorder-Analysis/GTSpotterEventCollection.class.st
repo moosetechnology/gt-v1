@@ -1,6 +1,9 @@
 Class {
 	#name : #GTSpotterEventCollection,
 	#superclass : #OrderedCollection,
+	#instVars : [
+		'options'
+	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
@@ -72,6 +75,23 @@ GTSpotterEventCollection >> numberOfMissSteps [
 { #category : #helpers }
 GTSpotterEventCollection >> numberOfUserSelections [
 	^ self userSelections size
+]
+
+{ #category : #accessing }
+GTSpotterEventCollection >> optionAt: key [
+	^ self optionAt: key ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTSpotterEventCollection >> optionAt: key ifAbsent: absentBlock [
+	options ifNil: [ ^ absentBlock value ].
+	^ options at: key ifAbsent: absentBlock
+]
+
+{ #category : #accessing }
+GTSpotterEventCollection >> optionAt: key put: value [
+	options ifNil: [ options := Dictionary new ].
+	^ options at: key put: value
 ]
 
 { #category : #printing }
