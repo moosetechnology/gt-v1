@@ -124,7 +124,10 @@ GTSpotterSession >> isWithPreview [
 
 { #category : #enumerating }
 GTSpotterSession >> missSteps [
-	^ self select: #isMissStep 
+	| collection |
+	collection := self select: #isMissStep.
+	collection computer: self computer.
+	^ collection
 ]
 
 { #category : #accessing }
