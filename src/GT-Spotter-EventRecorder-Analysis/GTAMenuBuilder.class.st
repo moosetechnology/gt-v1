@@ -20,7 +20,24 @@ GTAMenuBuilder >> build [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorMostOftenQueriesAndItems [
+GTAMenuBuilder >> colorMostOftenQueriesAndItemsInComputer [
+	| els bag hashes counts normalizer computers |
+	els := timelineBuilder view elements select: [ :el | 
+					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
+	computers := els collect: [ :e | e model session computer ] as: Set.
+	bag := (computers flatCollect: [ :e | e userQueryOrSelectionHashes ]) as: Bag.
+	counts := bag sortedCounts.
+	hashes := (counts collect: #value) reverse.
+	normalizer := RTGrayLinearColor new.
+	normalizer command: #yourself; scope: hashes.
+	els do: [ :element | | maxHash |
+	maxHash := element model userQueryOrSelectionHashes detectMax: [ :each | bag valuesAndCounts at: each ].
+	element trachelShape allVisibleColor: (normalizer rtValue: maxHash) ].
+	timelineBuilder view signalUpdate
+]
+
+{ #category : #'event handling' }
+GTAMenuBuilder >> colorMostOftenQueriesAndItemsInView [
 	| els bag hashes counts normalizer |
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
@@ -36,7 +53,24 @@ GTAMenuBuilder >> colorMostOftenQueriesAndItems [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorSameQueriesAndItems [
+GTAMenuBuilder >> colorSameQueriesAndItemsInComputer [
+	| els bag hashes counts normalizer computers |
+	els := timelineBuilder view elements select: [ :el | 
+					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
+	computers := els collect: [ :e | e model session computer ] as: Set.
+	bag := (computers flatCollect: [ :e | e userQueryOrSelectionHashes ]) as: Bag.
+	counts := bag sortedCounts.
+	hashes := (counts collect: #value) reverse.
+	normalizer := RTMultiLinearColorForIdentity new.
+	normalizer objects: hashes.
+	els do: [ :element | | maxHash |
+	maxHash := element model userQueryOrSelectionHashes detectMax: [ :each | bag valuesAndCounts at: each ].
+	element trachelShape allVisibleColor: (normalizer rtValue: maxHash) ].
+	timelineBuilder view signalUpdate
+]
+
+{ #category : #'event handling' }
+GTAMenuBuilder >> colorSameQueriesAndItemsInView [
 	| els bag hashes counts normalizer |
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
@@ -127,9 +161,11 @@ GTAMenuBuilder >> renderIn: aView [
 	menuBuilder menu: 'Edges' submenu: 'Add' callback: [ self addEdges ].
 	menuBuilder menu: 'Events' submenu: 'Orthogonal Shapes' callback: [ self orthogonalShapes ].
 	menuBuilder menu: 'Events' submenu: 'Flexible Result Shapes' callback: [ self flexibleResultShapes ].
-	menuBuilder menu: 'Color' submenu: 'Same queries and items' callback: [ self colorSameQueriesAndItems ].
-	menuBuilder menu: 'Color' submenu: 'Most often queries and items' callback: [ self colorMostOftenQueriesAndItems ].
-	
+	menuBuilder menu: 'Color' submenu: 'Same queries and items in view' callback: [ self colorSameQueriesAndItemsInView ].
+	menuBuilder menu: 'Color' submenu: 'Most often queries and items in view' callback: [ self colorMostOftenQueriesAndItemsInView ].
+	menuBuilder menu: 'Color' submenu: 'Same queries and items in computer' callback: [ self colorSameQueriesAndItemsInComputer ].
+	menuBuilder menu: 'Color' submenu: 'Most often queries and items in computer' callback: [ self colorMostOftenQueriesAndItemsInComputer ].
+
 ]
 
 { #category : #accessing }

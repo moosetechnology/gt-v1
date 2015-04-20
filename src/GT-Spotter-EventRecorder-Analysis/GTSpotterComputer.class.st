@@ -257,3 +257,8 @@ GTSpotterComputer >> userOrDeveloperString [
 			ifTrue: [ 'dev' ]
 			ifFalse: [ 'user' ]
 ]
+
+{ #category : #'as yet unclassified' }
+GTSpotterComputer >> userQueryOrSelectionHashes [
+	^ self flatCollect: #userQueryOrSelectionHashes as: OrderedCollection
+]

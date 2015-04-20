@@ -181,3 +181,8 @@ GTSpotterSession >> timelineView3 [
 GTSpotterSession >> updateEvents [
 	^ GTSpotterSessionAnalysis updateOn: self
 ]
+
+{ #category : #'as yet unclassified' }
+GTSpotterSession >> userQueryOrSelectionHashes [
+	^ self flatCollect: #userQueryOrSelectionHashes as: OrderedCollection 
+]
