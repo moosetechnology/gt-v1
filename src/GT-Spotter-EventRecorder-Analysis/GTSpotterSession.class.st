@@ -148,6 +148,11 @@ GTSpotterSession >> searchStrings [
 			flatCollect: #currentTextHashes as: Bag)
 ]
 
+{ #category : #enumerating }
+GTSpotterSession >> specialKeywords [
+	^ self select: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
+]
+
 { #category : #accessing }
 GTSpotterSession >> start [
 	self ifEmpty: [ ^ 0 ].
@@ -169,6 +174,7 @@ GTSpotterSession >> timelineView [
 		events: self;
 		build.
 	GTAMenuBuilder new timelineBuilder: builder; build.
+	builder view canvas focusOnCenterScaled.
 	^ builder view.
 ]
 
@@ -182,7 +188,7 @@ GTSpotterSession >> updateEvents [
 	^ GTSpotterSessionAnalysis updateOn: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTSpotterSession >> userQueryOrSelectionHashes [
 	^ self flatCollect: #userQueryOrSelectionHashes as: OrderedCollection 
 ]

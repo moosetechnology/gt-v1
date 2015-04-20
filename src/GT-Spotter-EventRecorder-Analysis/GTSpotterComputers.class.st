@@ -24,6 +24,11 @@ GTSpotterComputers >> computersAndOnlySessionsWithSpecialKeywords [
 			computer sessionsWithSpecialKeywords	]
 ]
 
+{ #category : #enumerating }
+GTSpotterComputers >> flatCollectEvents: aBlock [ 
+	^ self flatCollect: [ :eachComputer | eachComputer flatCollectEvents: aBlock ] as: OrderedCollection
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterComputers >> gtInspectorComputersIn: composite [
 	<gtInspectorPresentationOrder: -2>  
@@ -117,6 +122,11 @@ GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThen: anInteger [
 { #category : #enumerating }
 GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
+]
+
+{ #category : #enumerating }
+GTSpotterComputers >> specialKeywords [
+	^ self flatCollect: #specialKeywords as: OrderedCollection
 ]
 
 { #category : #update }

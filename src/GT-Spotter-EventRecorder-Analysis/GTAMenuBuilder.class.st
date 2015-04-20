@@ -25,7 +25,7 @@ GTAMenuBuilder >> colorMostOftenQueriesAndItemsInComputer [
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
 	computers := els collect: [ :e | e model session computer ] as: Set.
-	bag := (computers flatCollect: [ :e | e userQueryOrSelectionHashes ]) as: Bag.
+	bag := (computers flatCollect: [ :e | e userQueryOrSelectionHashes collect: #hash ]) as: Bag.
 	counts := bag sortedCounts.
 	hashes := (counts collect: #value) reverse.
 	normalizer := RTGrayLinearColor new.

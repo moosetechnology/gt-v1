@@ -45,6 +45,11 @@ GTSpotterRecorderDiveInCategoryEvent >> hasQuery [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> isCategoryDiveIn [
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInCategoryEvent >> isForTimelineView [
 	^ true
 ]

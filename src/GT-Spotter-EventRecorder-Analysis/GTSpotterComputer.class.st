@@ -58,6 +58,11 @@ GTSpotterComputer >> durationView [
 	
 ]
 
+{ #category : #enumerating }
+GTSpotterComputer >> flatCollectEvents: aBlock [ 
+	^ self flatCollect: [ :eachSession | eachSession select: aBlock ] as: OrderedCollection
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterComputer >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
@@ -208,6 +213,11 @@ GTSpotterComputer >> sessionsWithSpecialKeywords [
 ]
 
 { #category : #enumerating }
+GTSpotterComputer >> specialKeywords [
+	^ self flatCollect: #specialKeywords as: OrderedCollection
+]
+
+{ #category : #enumerating }
 GTSpotterComputer >> spentTime [
 	self ifEmpty: [ ^ 0 seconds ].
 	^ self sum: #duration
@@ -243,6 +253,7 @@ GTSpotterComputer >> timelineView [
 		builders add: builder.
 	 ].
 	GTAMenuBuilder new timelineBuilder: builders; build.
+	composer view canvas focusOnCenterScaled.
 	^ composer view.
 ]
 
@@ -258,7 +269,7 @@ GTSpotterComputer >> userOrDeveloperString [
 			ifFalse: [ 'user' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTSpotterComputer >> userQueryOrSelectionHashes [
 	^ self flatCollect: #userQueryOrSelectionHashes as: OrderedCollection
 ]

@@ -91,6 +91,16 @@ GTSpotterRecorderEvent >> hasElementName [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> isCategoryDiveIn [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> isElementDiveIn [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> isForTimelineView [
 	^ false
 ]
