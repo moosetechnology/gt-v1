@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'me',
 		'proxy',
-		'users',
-		'chats'
+		'users'
 	],
 	#category : #'GT-Chatter-NewModel'
 }
@@ -21,36 +20,32 @@ GTOChatter >> addUser: aGTOUser [
 	^ self users add: aGTOUser
 ]
 
-{ #category : #accessing }
-GTOChatter >> chats [
-	^ chats ifNil: [ chats := GTOChats new ]
-]
-
 { #category : #'event handling' }
 GTOChatter >> handleOnline: aGTOOnline [ 
-	(aGTOOnline isFrom: self me) ifTrue: [ ^ self ].
+	(aGTOOnline isFrom: self sign) ifTrue: [ ^ self ].
 	self users online: aGTOOnline from since: aGTOOnline timestamp
 ]
 
 { #category : #'event handling' }
 GTOChatter >> handleTextMessage: aGTOTextMessage [ 
-	aGTOTextMessage to = self me ifFalse: [ ^ self ].
-	self chats add: aGTOTextMessage.
-]
-
-{ #category : #'as yet unclassified' }
-GTOChatter >> lastMessageFrom: aGTOUser [ 
-	^ self chats lastMessageFrom: aGTOUser 
+	aGTOTextMessage to = self sign ifFalse: [ ^ self ].
+	self halt.
+	self me addMessage: aGTOTextMessage.
 ]
 
 { #category : #'as yet unclassified' }
 GTOChatter >> lastMessageWith: aGTOUser [ 
-	^ self lastMessageFrom: aGTOUser
+	^ self me lastMessageWith: aGTOUser
 ]
 
 { #category : #accessing }
 GTOChatter >> me [
-	^ me ifNil: [ me := GTOUser new ]
+	^ me ifNil: [ me := GTOMe new chatter: self; yourself ]
+]
+
+{ #category : #accessing }
+GTOChatter >> nickname [
+	^ self me nickname
 ]
 
 { #category : #accessing }
@@ -71,16 +66,21 @@ GTOChatter >> proxy: anAnnouncer [
 ]
 
 { #category : #'as yet unclassified' }
-GTOChatter >> sendTextMessage: aString to: aGTOUser [ 
+GTOChatter >> sendTextMessage: aString to: aGTOUserSign [ 
 	| announcement |
-	announcement := (GTOTextMessage fromChatter: self) to: aGTOUser; text: aString; yourself.
-	self chats add: announcement recipient: aGTOUser.
+	announcement := (GTOTextMessage fromChatter: self) to: aGTOUserSign; text: aString; yourself.
+	self me addMessage: announcement recipient: aGTOUserSign.
 	proxy announce: announcement.
 ]
 
 { #category : #accessing }
+GTOChatter >> sign [
+	^ self me sign
+]
+
+{ #category : #accessing }
 GTOChatter >> users [
-	^ users ifNil: [ users := GTOUsers new ]
+	^ users ifNil: [ users := GTOUsers new chatter: self ]
 ]
 
 { #category : #'as yet unclassified' }

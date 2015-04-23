@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #testing }
-GTOAddressedMessage >> isFor: aGTOUser [ 
-	^ self to = aGTOUser
+GTOAddressedMessage >> isFor: aGTOUserSign [ 
+	^ self to = aGTOUserSign
 ]
 
 { #category : #accessing }

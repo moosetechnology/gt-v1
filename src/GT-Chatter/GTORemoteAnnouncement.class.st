@@ -9,13 +9,18 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTORemoteAnnouncement class >> from: aGTOUser [ 
-	^ self new from: aGTOUser; yourself
+GTORemoteAnnouncement class >> from: aGTOUserSign [
+	^ self new from: aGTOUserSign; yourself
 ]
 
 { #category : #'instance creation' }
 GTORemoteAnnouncement class >> fromChatter: aGTOChatter [ 
-	^ self from: aGTOChatter me
+	^ self fromUser: aGTOChatter me
+]
+
+{ #category : #'instance creation' }
+GTORemoteAnnouncement class >> fromUser: aGTOUser [ 
+	^ self new from: aGTOUser sign; yourself
 ]
 
 { #category : #testing }
@@ -40,8 +45,8 @@ GTORemoteAnnouncement >> initialize [
 ]
 
 { #category : #testing }
-GTORemoteAnnouncement >> isFrom: aGTOUser [ 
-	^ self from = aGTOUser
+GTORemoteAnnouncement >> isFrom: aGTOUserSign [ 
+	^ self from = aGTOUserSign
 ]
 
 { #category : #accessing }

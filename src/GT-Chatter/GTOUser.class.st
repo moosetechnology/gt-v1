@@ -2,23 +2,10 @@ Class {
 	#name : #GTOUser,
 	#superclass : #Object,
 	#instVars : [
-		'options',
-		'nickname'
+		'options'
 	],
 	#category : #'GT-Chatter-NewModel'
 }
-
-{ #category : #'as yet unclassified' }
-GTOUser class >> named: aString [ 
-	^ self new nickname: aString; yourself
-]
-
-{ #category : #comparing }
-GTOUser >> = anObject [
-	^ self == anObject or: [ 
-		 self class = anObject class and: [ 
-			self nickname = anObject nickname ] ]
-]
 
 { #category : #accessing }
 GTOUser >> chatter [
@@ -30,38 +17,32 @@ GTOUser >> chatter: aGTOChatter [
 	self optionAt: #chatter put: aGTOChatter
 ]
 
-{ #category : #testing }
-GTOUser >> isOnline [
-	^ self 
-		optionAt: #onlineSince
-		ifPresent: [ :aDateAndTime | DateAndTime now - aDateAndTime < 10 minutes ]
-		ifAbsent: [ false ]
-]
-
-{ #category : #'as yet unclassified' }
-GTOUser >> lastMessageWith: aGTOUser [ 
-	^ self chatter lastMessageWith: aGTOUser
+{ #category : #initialization }
+GTOUser >> initializeOptions [
+	options := Dictionary new
 ]
 
 { #category : #accessing }
 GTOUser >> nickname [
-	^ nickname
+	^ self sign nickname
 ]
 
 { #category : #accessing }
 GTOUser >> nickname: aString [ 
-	nickname := aString
-]
-
-{ #category : #accessing }
-GTOUser >> onlineSince: aDateAndTime [ 
-	self optionAt: #onlineSince put: aDateAndTime
+	self sign nickname: aString
 ]
 
 { #category : #accessing }
 GTOUser >> optionAt: aSymbol ifAbsent: aBlockClosure [ 
 	options ifNil: [ ^ aBlockClosure value ].
 	^ options at: aSymbol ifAbsent: aBlockClosure 
+]
+
+{ #category : #accessing }
+GTOUser >> optionAt: aSymbol ifAbsentPut: absentBlock [ 
+	options ifNil: [ self initializeOptions ].
+	^ options at: aSymbol ifAbsentPut: absentBlock.
+	
 ]
 
 { #category : #accessing }
@@ -72,21 +53,13 @@ GTOUser >> optionAt: aSymbol ifPresent: presentBlock ifAbsent: absentBlock [
 
 { #category : #accessing }
 GTOUser >> optionAt: aSymbol put: anObject [ 
-	options ifNil: [ options := Dictionary new ].
+	options ifNil: [ self initializeOptions ].
 	^ options at: aSymbol put: anObject
 ]
 
-{ #category : #printing }
-GTOUser >> printOn: aStream [
-	self nickname 
-		ifNil: [ aStream nextPutAll: 'a user' ]
-		ifNotNil: [ aStream print: self nickname ].
-	self isOnline
-		ifTrue: [ aStream nextPutAll: ' is online' ]
-		ifFalse: [ aStream nextPutAll: ' is offline' ]
-]
-
-{ #category : #'as yet unclassified' }
-GTOUser >> sendTextMessage: aString [ 
-	self chatter sendTextMessage: aString to: self.
+{ #category : #accessing }
+GTOUser >> sign [
+	^ self 
+		optionAt: #sign
+		ifAbsentPut: [ GTOUserSign new ]
 ]

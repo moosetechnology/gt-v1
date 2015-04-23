@@ -2,7 +2,8 @@ Class {
 	#name : #GTOUsers,
 	#superclass : #Object,
 	#instVars : [
-		'users'
+		'users',
+		'chatter'
 	],
 	#category : #'GT-Chatter-NewModel'
 }
@@ -12,18 +13,40 @@ GTOUsers >> add: aGTOUser [
 	^ self users add: aGTOUser
 ]
 
-{ #category : #enumerating }
-GTOUsers >> online: aGTOUser since: aDateAndTime [ 
-	self 
-		user: aGTOUser
-		ifFound: [ :aUser | aUser onlineSince: aDateAndTime ]
-		ifNone: [ (self add: aGTOUser) onlineSince: aDateAndTime ]
+{ #category : #accessing }
+GTOUsers >> chatter [
+	^ chatter
+]
+
+{ #category : #accessing }
+GTOUsers >> chatter: anObject [
+	chatter := anObject
+]
+
+{ #category : #'as yet unclassified' }
+GTOUsers >> first [
+	^ self users first
+]
+
+{ #category : #'as yet unclassified' }
+GTOUsers >> isNotEmpty [
+	^ self users isNotEmpty
 ]
 
 { #category : #enumerating }
-GTOUsers >> user: aGTOUser ifFound: presentBlock ifNone: absentBlock [ 
+GTOUsers >> online: aGTOUserSign since: aDateAndTime [ 
+	self 
+		user: aGTOUserSign
+		ifFound: [ :aUser | aUser onlineSince: aDateAndTime ]
+		ifNone: [ (self add: (GTORemoteUser named: aGTOUserSign)) 
+							chatter: self chatter;
+							onlineSince: aDateAndTime ]
+]
+
+{ #category : #enumerating }
+GTOUsers >> user: aGTOUserSign ifFound: presentBlock ifNone: absentBlock [ 
 	self users
-		detect: [ :eachUser | eachUser = aGTOUser ] 
+		detect: [ :eachUser | eachUser sign = aGTOUserSign ] 
 		ifFound: presentBlock
 		ifNone: absentBlock
 ]

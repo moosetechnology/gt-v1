@@ -13,12 +13,12 @@ GTOChat class >> recipient: aGTOUser [
 	^ self new recipient: aGTOUser; yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 GTOChat >> add: aGTOMessage [ 
 	^ self messages add: aGTOMessage 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTOChat >> lastMessage [
 	^ self messages last
 ]
@@ -31,6 +31,13 @@ GTOChat >> messages [
 { #category : #accessing }
 GTOChat >> messages: anObject [
 	messages := anObject
+]
+
+{ #category : #printing }
+GTOChat >> printOn: aStream [
+	aStream
+		nextPutAll: 'Chat with ';
+		print: self recipient.
 ]
 
 { #category : #accessing }

@@ -13,12 +13,12 @@ GTOChats >> add: aGTOTextMessage [
 ]
 
 { #category : #adding }
-GTOChats >> add: aGTOTextMessage recipient: aGTOUser [
+GTOChats >> add: aGTOTextMessage recipient: aGTOUserSign [
 	^ self 
-				detectChatWith: aGTOUser
+				detectChatWith: aGTOUserSign
 				ifFound: [ :aChat | aChat add: aGTOTextMessage ]
 				ifNone: [ | chat |
-					chat := (self newChatWith: aGTOUser) add: aGTOTextMessage; yourself.
+					chat := (self newChatWith: aGTOUserSign) add: aGTOTextMessage; yourself.
 					self chats add: chat ].
 ]
 
@@ -28,22 +28,22 @@ GTOChats >> chats [
 ]
 
 { #category : #enumerating }
-GTOChats >> detectChatWith: aGTOUser ifFound: foundBlock ifNone: noneblock [ 
+GTOChats >> detectChatWith: aGTOUserSign ifFound: foundBlock ifNone: noneblock [ 
 	^ self chats 
-				detect: [ :eachChat | eachChat recipient = aGTOUser ]
+				detect: [ :eachChat | eachChat recipient = aGTOUserSign ]
 				ifFound: foundBlock 
 				ifNone: noneblock 
 ]
 
 { #category : #accessing }
-GTOChats >> lastMessageFrom: aGTOUser [ 
+GTOChats >> lastMessageWith: aGTOUser [ 
 	^ self  
-			detectChatWith: aGTOUser 
+			detectChatWith: aGTOUser sign
 			ifFound: [ :aChat | aChat lastMessage ] 
 			ifNone: [ nil ]
 ]
 
 { #category : #'instance creation' }
-GTOChats >> newChatWith: aGTOUser [ 
-	^ GTOChat recipient: aGTOUser
+GTOChats >> newChatWith: aGTOUserSign [ 
+	^ GTOChat recipient: aGTOUserSign
 ]
