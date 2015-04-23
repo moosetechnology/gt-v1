@@ -4,7 +4,7 @@ Extension { #name : #RTExampleSelection }
 RTExampleSelection >> matchesQuery: aSetOfNames [
 	| sourceCode |
 	
-	sourceCode := (self exampleObject class >> self selector) sourceCode asLowercase.
+	sourceCode := (self provider class >> self selector) sourceCode asLowercase.
 	^ aSetOfNames allSatisfy: [ :each | sourceCode includesSubstring: each ]
 
 ]
@@ -12,7 +12,7 @@ RTExampleSelection >> matchesQuery: aSetOfNames [
 { #category : #'*GT-SpotterExtensions-CoreRoassal' }
 RTExampleSelection >> spotterPreviewExampleIn: aComposite [
 	<spotterPreview: 10>
-	(self exampleObject class canPerform: (self selector, 'Icon') asSymbol)
+	(self provider class canPerform: (self selector, 'Icon') asSymbol)
 		ifTrue: [ 
 			aComposite addBrickBack: (self iconForm asAlphaImageMorph
 				layout: #center;
