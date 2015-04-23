@@ -19,7 +19,7 @@ GTOProxyRegistration class >> reset [
 	uniqueInstance := nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #subscription }
 GTOProxyRegistration class >> subscribe: aGTOChatter on: anAnnouncer [ 
 	self uniqueInstance subscribe: aGTOChatter on: anAnnouncer 
 ]
@@ -29,12 +29,12 @@ GTOProxyRegistration class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #subscription }
 GTOProxyRegistration class >> unsubscribe: aGTOChatter on: anAnnouncer [
 	self uniqueInstance unsubscribe: aGTOChatter on: anAnnouncer
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #subscription }
 GTOProxyRegistration >> subscribe: aGTOChatter on: anAnnouncer [ 
 	anAnnouncer 
 		when: GTOOnline 
@@ -42,7 +42,7 @@ GTOProxyRegistration >> subscribe: aGTOChatter on: anAnnouncer [
 		for: aGTOChatter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #subscription }
 GTOProxyRegistration >> unsubscribe: aGTOChatter on: anAnnouncerOrNil [
 	anAnnouncerOrNil ifNil: [ ^ self ].
 	anAnnouncerOrNil unsubscribe: aGTOChatter

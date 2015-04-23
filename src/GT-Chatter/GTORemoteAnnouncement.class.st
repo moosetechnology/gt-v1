@@ -8,14 +8,19 @@ Class {
 	#category : #'GT-Chatter-NewModel'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GTORemoteAnnouncement class >> from: aGTOUser [ 
 	^ self new from: aGTOUser; yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GTORemoteAnnouncement class >> fromChatter: aGTOChatter [ 
 	^ self from: aGTOChatter me
+]
+
+{ #category : #testing }
+GTORemoteAnnouncement class >> isAbstract [
+	^ self name = #GTORemoteAnnouncement
 ]
 
 { #category : #accessing }
@@ -32,6 +37,11 @@ GTORemoteAnnouncement >> from: anObject [
 GTORemoteAnnouncement >> initialize [
 	super initialize.
 	timestamp := DateAndTime now.
+]
+
+{ #category : #testing }
+GTORemoteAnnouncement >> isFrom: aGTOUser [ 
+	^ self from = aGTOUser
 ]
 
 { #category : #accessing }

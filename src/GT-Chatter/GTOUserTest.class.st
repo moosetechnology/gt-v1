@@ -36,7 +36,7 @@ GTOUserTest >> setUp [
 	super setUp.
 	proxy := Announcer new.
 	me := GTOChatter new.
-	me name: 'Me'.
+	me nickname: 'Me'.
 	me proxy: proxy.
 ]
 

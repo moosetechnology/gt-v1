@@ -9,44 +9,45 @@ Class {
 	#category : #'GT-Chatter-NewModel'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GTOChatter class >> named: aString [ 
-	^ self new name: aString; yourself
+	^ self new nickname: aString; yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 GTOChatter >> addUser: aGTOUser [ 
 	^ self users add: aGTOUser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTOChatter >> handleOnline: aGTOOnline [ 
+	(aGTOOnline isFrom: self me) ifTrue: [ ^ self ].
 	self users online: aGTOOnline from since: aGTOOnline timestamp
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTOChatter >> me [
 	^ me ifNil: [ me := GTOUser new ]
 ]
 
-{ #category : #'as yet unclassified' }
-GTOChatter >> name: aString [ 
-	self me name: aString
+{ #category : #accessing }
+GTOChatter >> nickname: aString [ 
+	self me nickname: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #announcing }
 GTOChatter >> online [
 	proxy announce: (GTOOnline fromChatter: self)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTOChatter >> proxy: anAnnouncer [ 
 	GTOProxyRegistration unsubscribe: self on: proxy.
 	proxy := anAnnouncer.
 	GTOProxyRegistration subscribe: self on: proxy.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTOChatter >> users [
 	^ users ifNil: [ users := GTOUsers new ]
 ]
