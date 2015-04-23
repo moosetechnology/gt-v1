@@ -51,8 +51,12 @@ GTOUserTest >> testIsOnline [
 { #category : #tests }
 GTOUserTest >> testSendTextMessage [
 	| user |
+	me online.
 	user := self newOnlineUser.
 	user sendTextMessage: 'Hi!'.
 	me waitForMessageFrom: user timeoutMSecs: 100.
+	self assert: (me lastMessageFrom: user) notNil.
 	self assert: (me lastMessageFrom: user) text equals: 'Hi!'.
+	self assert: (user lastMessageWith: me me) notNil.
+	self assert: (user lastMessageWith: me me) text equals: 'Hi!'.
 ]

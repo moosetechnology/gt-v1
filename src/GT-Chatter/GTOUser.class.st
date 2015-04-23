@@ -20,12 +20,27 @@ GTOUser >> = anObject [
 			self nickname = anObject nickname ] ]
 ]
 
+{ #category : #accessing }
+GTOUser >> chatter [
+	^ self optionAt: #chatter ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTOUser >> chatter: aGTOChatter [
+	self optionAt: #chatter put: aGTOChatter
+]
+
 { #category : #testing }
 GTOUser >> isOnline [
 	^ self 
 		optionAt: #onlineSince
 		ifPresent: [ :aDateAndTime | DateAndTime now - aDateAndTime < 10 minutes ]
 		ifAbsent: [ false ]
+]
+
+{ #category : #'as yet unclassified' }
+GTOUser >> lastMessageWith: aGTOUser [ 
+	^ self chatter lastMessageWith: aGTOUser
 ]
 
 { #category : #accessing }
@@ -69,4 +84,9 @@ GTOUser >> printOn: aStream [
 	self isOnline
 		ifTrue: [ aStream nextPutAll: ' is online' ]
 		ifFalse: [ aStream nextPutAll: ' is offline' ]
+]
+
+{ #category : #'as yet unclassified' }
+GTOUser >> sendTextMessage: aString [ 
+	self chatter sendTextMessage: aString to: self.
 ]

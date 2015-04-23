@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'me',
 		'proxy',
-		'users'
+		'users',
+		'chats'
 	],
 	#category : #'GT-Chatter-NewModel'
 }
@@ -15,14 +16,36 @@ GTOChatter class >> named: aString [
 ]
 
 { #category : #adding }
-GTOChatter >> addUser: aGTOUser [ 
+GTOChatter >> addUser: aGTOUser [
+	aGTOUser chatter: self.
 	^ self users add: aGTOUser
+]
+
+{ #category : #accessing }
+GTOChatter >> chats [
+	^ chats ifNil: [ chats := GTOChats new ]
 ]
 
 { #category : #'event handling' }
 GTOChatter >> handleOnline: aGTOOnline [ 
 	(aGTOOnline isFrom: self me) ifTrue: [ ^ self ].
 	self users online: aGTOOnline from since: aGTOOnline timestamp
+]
+
+{ #category : #'event handling' }
+GTOChatter >> handleTextMessage: aGTOTextMessage [ 
+	aGTOTextMessage to = self me ifFalse: [ ^ self ].
+	self chats add: aGTOTextMessage.
+]
+
+{ #category : #'as yet unclassified' }
+GTOChatter >> lastMessageFrom: aGTOUser [ 
+	^ self chats lastMessageFrom: aGTOUser 
+]
+
+{ #category : #'as yet unclassified' }
+GTOChatter >> lastMessageWith: aGTOUser [ 
+	^ self lastMessageFrom: aGTOUser
 ]
 
 { #category : #accessing }
@@ -47,7 +70,20 @@ GTOChatter >> proxy: anAnnouncer [
 	GTOProxyRegistration subscribe: self on: proxy.
 ]
 
+{ #category : #'as yet unclassified' }
+GTOChatter >> sendTextMessage: aString to: aGTOUser [ 
+	| announcement |
+	announcement := (GTOTextMessage fromChatter: self) to: aGTOUser; text: aString; yourself.
+	self chats add: announcement recipient: aGTOUser.
+	proxy announce: announcement.
+]
+
 { #category : #accessing }
 GTOChatter >> users [
 	^ users ifNil: [ users := GTOUsers new ]
+]
+
+{ #category : #'as yet unclassified' }
+GTOChatter >> waitForMessageFrom: aGTOUser timeoutMSecs: anInteger [ 
+	"self shouldBeImplemented."
 ]

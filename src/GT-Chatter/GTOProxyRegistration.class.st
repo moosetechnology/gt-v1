@@ -38,8 +38,12 @@ GTOProxyRegistration class >> unsubscribe: aGTOChatter on: anAnnouncer [
 GTOProxyRegistration >> subscribe: aGTOChatter on: anAnnouncer [ 
 	anAnnouncer 
 		when: GTOOnline 
-		do: [ :announcement | aGTOChatter handleOnline: announcement ] 
-		for: aGTOChatter
+			do: [ :announcement | aGTOChatter handleOnline: announcement ] 
+			for: aGTOChatter;
+		when: GTOTextMessage
+			do: [ :announcement | aGTOChatter handleTextMessage: announcement ] 
+			for: aGTOChatter
+
 ]
 
 { #category : #subscription }
