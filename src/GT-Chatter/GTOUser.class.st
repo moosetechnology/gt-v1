@@ -7,6 +7,16 @@ Class {
 	#category : #'GT-Chatter-NewModel'
 }
 
+{ #category : #'instance creation' }
+GTOUser class >> named: aString [ 
+	^ self new nickname: aString; yourself
+]
+
+{ #category : #'instance creation' }
+GTOUser class >> signed: aGTOUserSign [ 
+	^ self new sign: aGTOUserSign; yourself
+]
+
 { #category : #accessing }
 GTOUser >> chatter [
 	^ self optionAt: #chatter ifAbsent: [ nil ]
@@ -62,4 +72,11 @@ GTOUser >> sign [
 	^ self 
 		optionAt: #sign
 		ifAbsentPut: [ GTOUserSign new ]
+]
+
+{ #category : #accessing }
+GTOUser >> sign: aGTOUserSign [
+	^ self 
+		optionAt: #sign
+		put: aGTOUserSign
 ]

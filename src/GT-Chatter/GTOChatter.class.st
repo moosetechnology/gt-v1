@@ -29,7 +29,6 @@ GTOChatter >> handleOnline: aGTOOnline [
 { #category : #'event handling' }
 GTOChatter >> handleTextMessage: aGTOTextMessage [ 
 	aGTOTextMessage to = self sign ifFalse: [ ^ self ].
-	self halt.
 	self me addMessage: aGTOTextMessage.
 ]
 

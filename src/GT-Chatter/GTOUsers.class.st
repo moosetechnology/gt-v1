@@ -38,7 +38,7 @@ GTOUsers >> online: aGTOUserSign since: aDateAndTime [
 	self 
 		user: aGTOUserSign
 		ifFound: [ :aUser | aUser onlineSince: aDateAndTime ]
-		ifNone: [ (self add: (GTORemoteUser named: aGTOUserSign)) 
+		ifNone: [ (self add: (GTORemoteUser signed: aGTOUserSign)) 
 							chatter: self chatter;
 							onlineSince: aDateAndTime ]
 ]

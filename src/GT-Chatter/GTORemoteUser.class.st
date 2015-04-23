@@ -4,11 +4,6 @@ Class {
 	#category : #'GT-Chatter-NewModel'
 }
 
-{ #category : #'as yet unclassified' }
-GTORemoteUser class >> named: aString [ 
-	^ self new nickname: aString; yourself
-]
-
 { #category : #testing }
 GTORemoteUser >> isOnline [
 	^ self 

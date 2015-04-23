@@ -26,6 +26,7 @@ GTOUserSign >> nickname [
 
 { #category : #accessing }
 GTOUserSign >> nickname: anObject [
+	self assert: anObject isString.
 	nickname := anObject
 ]
 
