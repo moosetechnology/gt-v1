@@ -132,7 +132,7 @@ GTSpotterMorph >> initializeListeners [
 
 	self activeHand addEventListener: self.
 	
-	Morph announcer weak on: MorphLostFocus send: #onLostFocus: to: self.
+	Morph announcer weak when: MorphLostFocus send: #onLostFocus: to: self.
 	
 	self bindKeyCombination: Character escape toAction: [ self spotterModel exitDueTo: #keyPressedEscape ].
 	self bindKeyCombination: $w command toAction: [ self spotterModel exitDueTo: #keyPressedW ].
