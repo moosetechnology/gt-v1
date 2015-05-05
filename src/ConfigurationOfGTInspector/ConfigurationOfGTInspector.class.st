@@ -672,7 +672,7 @@ ConfigurationOfGTInspector >> version208: spec [
 		spec timestamp: '05/05/2014'.
 		
 		spec 
-			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-AndreiChis.42'.
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-AndreiChis.43'.
 		spec 
 			project: 'GTInspectorCore' with: #'stable';
 			project: 'Glamour' with: #'stable';
