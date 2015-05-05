@@ -232,6 +232,7 @@ ConfigurationOfGTDebugger >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.4-baseline'.
+	spec for: #'pharo4.x' version: '0.4-baseline'.
 
 ]
 
@@ -252,8 +253,9 @@ ConfigurationOfGTDebugger >> project [
 ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.0.0'.
+	spec for: #'common' version: '1.0.1'.
 	spec for: #'pharo3.x' version: '1.0.0'.
+	spec for: #'pharo4.x' version: '1.0.1'.
 
 ]
 
@@ -271,5 +273,21 @@ ConfigurationOfGTDebugger >> version100: spec [
 			project: 'NewDebugger' with: #'stable'".
 		spec 
 			package: #'GT-Debugger' with: 'GT-Debugger-AndreiChis.213'].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version101: spec [
+	<version: '1.0.1' imports: #('0.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0.1'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '05/05/2014'.
+		spec 
+			project: 'GTInspector' with: #'stable'.
+		spec 
+			package: #'GT-Debugger' with: 'GT-Debugger-AndreiChis.240'].
 
 ]
