@@ -2,7 +2,7 @@ Extension { #name : #RPackage }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 RPackage >> spotterActDefault [
-	^ Nautilus openOnPackage: self
+	^ Smalltalk tools browser openOnPackage: self
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
