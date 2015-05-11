@@ -62,7 +62,7 @@ GTAAnnouncements class >> spotterUsersAndDevelopers [
 	^ self fromLocalDirectory 
 			withoutEmptyComputerUUID
 					sessionsPerComputer
-						sessionsWithNumberOfInputsGreaterThenOne
+						"sessionsWithNumberOfInputsGreaterThenOne"
 ]
 
 { #category : #accessing }
