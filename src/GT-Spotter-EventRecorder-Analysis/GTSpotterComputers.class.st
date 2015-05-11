@@ -150,7 +150,7 @@ GTSpotterComputers >> timelineView [
 	| builder minTime |
 	builder := RTTimeLine new.
 	minTime := self start asUnixTime.
-	self withIndexDo: [ :eachComputer :index | 
+	self reverseWithIndexDo: [ :eachComputer :index | 
 		eachComputer do: [ :eachSession | | entry |
 			entry := RTTimeLineEntry new.
 			entry identifier: index.
@@ -159,12 +159,10 @@ GTSpotterComputers >> timelineView [
 			builder addEntry: entry.
 		].
 	 ].
-
 	builder axisX 
 		numberOfLabels: 5;
 		labelRotation: -45;
 		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
-
 	^ builder 
 ]
 
