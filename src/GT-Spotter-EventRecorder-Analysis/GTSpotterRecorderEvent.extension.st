@@ -138,6 +138,12 @@ GTSpotterRecorderEvent >> myPositionAmongSameTimeEvents [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> offset: aDuration [ 
+	"Private: For test case purpose only."
+	timestamp := timestamp + aDuration
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> parentEvent [
 	^ self infoAt: #diveInEvent ifPresent: [ :obj | obj ] ifAbsent: [ nil ]
 ]

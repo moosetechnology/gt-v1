@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GTASessionExamples class >> session1 [
-	^ GTSpotterSession new
+	^ GTASession new
 		add: GTSpotterRecorderOpenEvent new;
 		add: GTSpotterRecorderShowPreviewEvent new;
 		add: GTSpotterRecorderContextChangedEvent new;
@@ -39,7 +39,7 @@ GTASessionExamples class >> session1 [
 
 { #category : #accessing }
 GTASessionExamples class >> session2 [
-	^ GTSpotterSession new
+	^ GTASession new
 		add: GTSpotterRecorderOpenEvent new;
 		add: GTSpotterRecorderShowPreviewEvent new;
 		add: GTSpotterRecorderContextChangedEvent new;
@@ -57,7 +57,7 @@ GTASessionExamples class >> session2 [
 { #category : #accessing }
 GTASessionExamples class >> session3 [
 	"Miss-steps"
-	^ GTSpotterSession new
+	^ GTASession new
 		add: GTSpotterRecorderOpenEvent new;
 		add: GTSpotterRecorderContextChangedEvent new;
 		add: GTSpotterRecorderSelectedCandidateChangedEvent new;
@@ -83,7 +83,7 @@ GTASessionExamples class >> session3 [
 
 { #category : #accessing }
 GTASessionExamples class >> session4 [
-	^ GTSpotterSession new
+	^ GTASession new
 		add: GTSpotterRecorderOpenEvent new; 
 		add: GTSpotterRecorderShowPreviewEvent new; 
 		add: GTSpotterRecorderContextChangedEvent new; 
