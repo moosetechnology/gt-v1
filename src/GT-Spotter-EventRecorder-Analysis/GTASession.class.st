@@ -1,56 +1,56 @@
 Class {
-	#name : #GTSpotterSession,
-	#superclass : #GTSpotterEventCollection,
+	#name : #GTASession,
+	#superclass : #GTAEventCollection,
 	#traits : 'TGTSpotterCategoryView',
 	#classTraits : 'TGTSpotterCategoryView classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
 { #category : #enumerating }
-GTSpotterSession >> categoryLabels [
+GTASession >> categoryLabels [
 	^ self categorySelections collect: #categoryLabel as: OrderedCollection
 ]
 
 { #category : #enumerating }
-GTSpotterSession >> categorySelections [
+GTASession >> categorySelections [
 	^ self select: #isCategorySelection
 ]
 
 { #category : #accessing }
-GTSpotterSession >> closeActionSymbol [
+GTASession >> closeActionSymbol [
 	self ifEmpty: [ ^ #empty ].
 	^ self last closeActionSymbol
 ]
 
 { #category : #accessing }
-GTSpotterSession >> computer [
+GTASession >> computer [
 	^ self optionAt: #computer
 ]
 
 { #category : #accessing }
-GTSpotterSession >> computer: aGTSpotterComputer [
+GTASession >> computer: aGTSpotterComputer [
 	^ self optionAt: #computer put: aGTSpotterComputer
 ]
 
 { #category : #accessing }
-GTSpotterSession >> computerUUID [
+GTASession >> computerUUID [
 	self ifEmpty: [ ^ 0 ].
 	^ self any computerUUID
 ]
 
 { #category : #comparing }
-GTSpotterSession >> deepestDiveIn [
+GTASession >> deepestDiveIn [
 	^ self max: #diveInLevel
 ]
 
 { #category : #accessing }
-GTSpotterSession >> end [
+GTASession >> end [
 	self ifEmpty: [ ^ 0 ].
 	^ self last dateAndTimeWithFixedTimeZone
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorEventsIn: composite [
+GTASession >> gtInspectorEventsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Events';
@@ -66,7 +66,7 @@ GTSpotterSession >> gtInspectorEventsIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorStrangeEventsIn: composite [
+GTASession >> gtInspectorStrangeEventsIn: composite [
 	<gtInspectorPresentationOrder: 9>  
 	^ (composite tree)
 		title: 'Strange';
@@ -83,7 +83,7 @@ GTSpotterSession >> gtInspectorStrangeEventsIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorTimelineView3In: composite [
+GTASession >> gtInspectorTimelineView3In: composite [
 	<gtInspectorPresentationOrder: 6>
 	composite roassal2
 		title: 'Timeline 3';
@@ -92,7 +92,7 @@ GTSpotterSession >> gtInspectorTimelineView3In: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorTimelineViewIn: composite [
+GTASession >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2
 		title: 'Timeline';
@@ -101,7 +101,7 @@ GTSpotterSession >> gtInspectorTimelineViewIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> gtInspectorTreeEventsIn: composite [
+GTASession >> gtInspectorTreeEventsIn: composite [
 	<gtInspectorPresentationOrder: -1>  
 	^ (composite tree)
 		title: 'Tree';
@@ -113,23 +113,23 @@ GTSpotterSession >> gtInspectorTreeEventsIn: composite [
 ]
 
 { #category : #testing }
-GTSpotterSession >> hasSpecialKeywords [
+GTASession >> hasSpecialKeywords [
 	^ self anySatisfy: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
 ]
 
 { #category : #accessing }
-GTSpotterSession >> imageHashes [
+GTASession >> imageHashes [
 	^ (self collect: #imageHash as: OrderedCollection) removeDuplicates
 ]
 
 { #category : #testing }
-GTSpotterSession >> isWithPreview [
+GTASession >> isWithPreview [
 	^ (self contains: #isShowPreview) and: [ 
 			(self contains: #isHidePreview) not ]
 ]
 
 { #category : #enumerating }
-GTSpotterSession >> missSteps [
+GTASession >> missSteps [
 	| collection |
 	collection := self select: #isMissStep.
 	collection computer: self computer.
@@ -137,36 +137,36 @@ GTSpotterSession >> missSteps [
 ]
 
 { #category : #accessing }
-GTSpotterSession >> previewString [
+GTASession >> previewString [
 	^ self isWithPreview
 		ifTrue: [ 'yes' ]
 		ifFalse: [ 'no' ]
 ]
 
 { #category : #enumerating }
-GTSpotterSession >> roots [
+GTASession >> roots [
 	^ self select: #isRootEvent
 ]
 
 { #category : #enumerating }
-GTSpotterSession >> searchStrings [
+GTASession >> searchStrings [
 	^ ((self select: #isContextChanged)
 			flatCollect: #currentTextHashes as: Bag)
 ]
 
 { #category : #enumerating }
-GTSpotterSession >> specialKeywords [
+GTASession >> specialKeywords [
 	^ self select: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
 ]
 
 { #category : #accessing }
-GTSpotterSession >> start [
+GTASession >> start [
 	self ifEmpty: [ ^ 0 ].
 	^ self first dateAndTimeWithFixedTimeZone
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> timelineView [
+GTASession >> timelineView [
 	| builder |
 	builder := GTATimelineBuilder new.
 	builder 
@@ -179,16 +179,16 @@ GTSpotterSession >> timelineView [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSession >> timelineView3 [
+GTASession >> timelineView3 [
 	^ GTSpotterTimeline viewOn: self
 ]
 
 { #category : #update }
-GTSpotterSession >> updateEvents [
+GTASession >> updateEvents [
 	^ GTSpotterSessionAnalysis updateOn: self
 ]
 
 { #category : #enumerating }
-GTSpotterSession >> userQueryOrSelectionHashes [
+GTASession >> userQueryOrSelectionHashes [
 	^ self flatCollect: #userQueryOrSelectionHashes as: OrderedCollection 
 ]

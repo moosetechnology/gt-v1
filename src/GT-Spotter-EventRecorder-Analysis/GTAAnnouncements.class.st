@@ -1,11 +1,11 @@
 Class {
-	#name : #GTSpotterAnnouncements,
+	#name : #GTAAnnouncements,
 	#superclass : #OrderedCollection,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
 { #category : #accessing }
-GTSpotterAnnouncements class >> developerUUIDs [
+GTAAnnouncements class >> developerUUIDs [
 	"
 	GTSpotterEventRecorderSettings ensureComputerID.
 	GTSpotterEventRecorderSettings uniqueInstance computerUUID.
@@ -20,24 +20,24 @@ GTSpotterAnnouncements class >> developerUUIDs [
 ]
 
 { #category : #'instance creation' }
-GTSpotterAnnouncements class >> fromDirectory: aFileReference [
+GTAAnnouncements class >> fromDirectory: aFileReference [
 	"self fromDirectory: './gt/events/' asFileReference"
 	^ self 
 		withAll: (GTSpotterEventRecorder materializeObjectsFromDirectory: aFileReference)
 ]
 
 { #category : #'instance creation' }
-GTSpotterAnnouncements class >> fromLocalDirectory [
+GTAAnnouncements class >> fromLocalDirectory [
 	^ self fromDirectory: './gt/events/' asFileReference
 ]
 
 { #category : #testing }
-GTSpotterAnnouncements class >> isDeveloper: anUUID [
+GTAAnnouncements class >> isDeveloper: anUUID [
 	^ self developerUUIDs includes: anUUID asString
 ]
 
 { #category : #helpers }
-GTSpotterAnnouncements class >> spotterDevelopers [
+GTAAnnouncements class >> spotterDevelopers [
 	"self spotterDevelopers"
 	^ self fromLocalDirectory 
 			withoutEmptyComputerUUID
@@ -47,7 +47,7 @@ GTSpotterAnnouncements class >> spotterDevelopers [
 ]
 
 { #category : #helpers }
-GTSpotterAnnouncements class >> spotterUsers [
+GTAAnnouncements class >> spotterUsers [
 	"self spotterUsers"
 	^ self fromLocalDirectory 
 			withoutEmptyComputerUUID
@@ -57,7 +57,7 @@ GTSpotterAnnouncements class >> spotterUsers [
 ]
 
 { #category : #helpers }
-GTSpotterAnnouncements class >> spotterUsersAndDevelopers [
+GTAAnnouncements class >> spotterUsersAndDevelopers [
 	"self spotterUsersAndDevelopers"
 	^ self fromLocalDirectory 
 			withoutEmptyComputerUUID
@@ -66,54 +66,54 @@ GTSpotterAnnouncements class >> spotterUsersAndDevelopers [
 ]
 
 { #category : #accessing }
-GTSpotterAnnouncements >> developerUUIDs [
+GTAAnnouncements >> developerUUIDs [
 	^ self class developerUUIDs
 ]
 
 { #category : #enumerating }
-GTSpotterAnnouncements >> developers [
+GTAAnnouncements >> developers [
 	^ self select: [ :each | self developerUUIDs includes: each computerUUID asString ]
 ]
 
 { #category : #accessing }
-GTSpotterAnnouncements >> numberOfComputers [
+GTAAnnouncements >> numberOfComputers [
 	^ self perComputer size
 ]
 
 { #category : #enumerating }
-GTSpotterAnnouncements >> perComputer [
-	^ (self groupedBy: [ :each | each computerUUID asString]) as: GTSpotterAnnouncements
+GTAAnnouncements >> perComputer [
+	^ (self groupedBy: [ :each | each computerUUID asString]) as: GTAAnnouncements
 ]
 
 { #category : #enumerating }
-GTSpotterAnnouncements >> sessions [
+GTAAnnouncements >> sessions [
 	^ GTSpotterSessionsBuilder fromEvents: (
 			self flatCollect: #events as: OrderedCollection)
 ]
 
 { #category : #enumerating }
-GTSpotterAnnouncements >> sessionsPerComputer [
+GTAAnnouncements >> sessionsPerComputer [
 	| group computers |
 	group := self perComputer.
 	computers := group collect: [ :eachComputer |
 		eachComputer sortByTimestamp.
 		eachComputer sessions.
-	] as: GTSpotterComputers.
+	] as: GTAComputers.
 	computers updateEvents.
 	^ computers select: #notEmpty
 ]
 
 { #category : #sorting }
-GTSpotterAnnouncements >> sortByTimestamp [
+GTAAnnouncements >> sortByTimestamp [
 	^ self sort: [ :a :b | a timestamp < b timestamp ]
 ]
 
 { #category : #enumerating }
-GTSpotterAnnouncements >> users [
+GTAAnnouncements >> users [
 	^ self select: [ :each | (self developerUUIDs includes: each computerUUID asString) not ]
 ]
 
 { #category : #enumerating }
-GTSpotterAnnouncements >> withoutEmptyComputerUUID [
+GTAAnnouncements >> withoutEmptyComputerUUID [
 	^ self select: [ :each | each computerUUID notNil and: [ (each computerUUID = 'nil') not ] ]
 ]

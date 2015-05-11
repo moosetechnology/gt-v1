@@ -1,23 +1,23 @@
 Class {
-	#name : #GTSpotterComputers,
-	#superclass : #OrderedCollection,
+	#name : #GTAComputers,
+	#superclass : #GTACollection,
 	#traits : 'TGTSpotterCategoryView + TGTSpotterUpdateEvents',
 	#classTraits : 'TGTSpotterCategoryView classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
 { #category : #enumerating }
-GTSpotterComputers >> categoryLabels [
+GTAComputers >> categoryLabels [
 	^ self flatCollect: #categoryLabels as: OrderedCollection
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> computerUUIDs [
+GTAComputers >> computerUUIDs [
 	^ self collect: #computerUUID as: OrderedCollection
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> computersAndOnlySessionsWithSpecialKeywords [
+GTAComputers >> computersAndOnlySessionsWithSpecialKeywords [
 	^ self 
 		select: [ :computer | computer hasSessionsWithSpecialKeywords ]
 		thenCollect: [ :computer | 
@@ -25,12 +25,12 @@ GTSpotterComputers >> computersAndOnlySessionsWithSpecialKeywords [
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> flatCollectEvents: aBlock [ 
+GTAComputers >> flatCollectEvents: aBlock [ 
 	^ self flatCollect: [ :eachComputer | eachComputer flatCollectEvents: aBlock ] as: OrderedCollection
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputers >> gtInspectorComputersIn: composite [
+GTAComputers >> gtInspectorComputersIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Computers';
@@ -86,7 +86,7 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputers >> gtInspectorTimelineViewIn: composite [
+GTAComputers >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 6>
 	composite roassal2
 		title: 'Timeline';
@@ -95,58 +95,53 @@ GTSpotterComputers >> gtInspectorTimelineViewIn: composite [
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> missSteps [
-	^ self flatCollect: #missSteps as: GTSpotterSession
+GTAComputers >> missSteps [
+	^ self flatCollect: #missSteps as: GTASession
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> numberOfContextChanged [
+GTAComputers >> numberOfContextChanged [
 	self ifEmpty: [ ^ 0 ].
 	^ self sum: #numberOfContextChanged 
 ]
 
 { #category : #helpers }
-GTSpotterComputers >> numberOfEvents [
+GTAComputers >> numberOfEvents [
 	^ self sum: [ :each | each numberOfEvents ]
 ]
 
 { #category : #helpers }
-GTSpotterComputers >> numberOfMissSteps [
+GTAComputers >> numberOfMissSteps [
 	^ self missSteps size
 ]
 
 { #category : #helpers }
-GTSpotterComputers >> numberOfSessions [
+GTAComputers >> numberOfSessions [
 	^ self sum: [ :each | each size ]
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> sessions [
-	^ self flatCollect: #yourself as: GTSpotterSessions
+GTAComputers >> sessions [
+	^ self flatCollect: #yourself as: GTASessions
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThen: anInteger [
+GTAComputers >> sessionsWithNumberOfInputsGreaterThen: anInteger [
 	^ self collect: [ :each | each copy sessionsWithNumberOfInputsGreaterThen: anInteger ]
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThenOne [
+GTAComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]
 
 { #category : #enumerating }
-GTSpotterComputers >> specialKeywords [
+GTAComputers >> specialKeywords [
 	^ self flatCollect: #specialKeywords as: OrderedCollection
 ]
 
-{ #category : #'as yet unclassified' }
-GTSpotterComputers >> start [
-	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
-]
-
 { #category : #'gt-inspector-extension' }
-GTSpotterComputers >> timelineView [
+GTAComputers >> timelineView [
 	| builder minTime |
 	builder := RTTimeLine new.
 	minTime := self start asUnixTime.
@@ -163,10 +158,14 @@ GTSpotterComputers >> timelineView [
 		numberOfLabels: 5;
 		labelRotation: -45;
 		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
+	builder axisY noLabel.
+	builder shape color: (RTMultiLinearColorForIdentity new 
+							command: #identifier; 
+							objects: (1 to: self size)).
 	^ builder 
 ]
 
 { #category : #update }
-GTSpotterComputers >> updateEvents [
+GTAComputers >> updateEvents [
 	^ self do: #updateEvents
 ]

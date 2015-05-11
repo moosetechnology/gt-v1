@@ -1,18 +1,18 @@
 Class {
-	#name : #GTSpotterSessions,
-	#superclass : #OrderedCollection,
+	#name : #GTASessions,
+	#superclass : #GTACollection,
 	#traits : 'TGTSpotterDurationView + TGTSpotterUpdateEvents',
 	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
 { #category : #accessing }
-GTSpotterSessions >> duration [
+GTASessions >> duration [
 	^ self end - self start
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSessions >> durationView [
+GTASessions >> durationView [
 	| b ds |
 	b := RTGrapher new.
 	b extent: 500 @ 100.
@@ -36,12 +36,12 @@ GTSpotterSessions >> durationView [
 ]
 
 { #category : #accessing }
-GTSpotterSessions >> end [
+GTASessions >> end [
 	^ (self detectMax: #end)  ifNil: [ 0 ] ifNotNil: [ :obj | obj end ]
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterSessions >> gtInspectorDurationViewIn: composite [
+GTASessions >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2
 		title: 'Duration';
@@ -50,16 +50,16 @@ GTSpotterSessions >> gtInspectorDurationViewIn: composite [
 ]
 
 { #category : #helpers }
-GTSpotterSessions >> numberOfEvents [
+GTASessions >> numberOfEvents [
 	^ self sum: #size
 ]
 
 { #category : #enumerating }
-GTSpotterSessions >> sessions [
+GTASessions >> sessions [
 	^ self
 ]
 
 { #category : #accessing }
-GTSpotterSessions >> start [
+GTASessions >> start [
 	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
 ]

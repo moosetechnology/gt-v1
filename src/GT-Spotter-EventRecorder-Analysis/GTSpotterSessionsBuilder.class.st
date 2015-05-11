@@ -23,7 +23,7 @@ GTSpotterSessionsBuilder >> events: aCollection [
 { #category : #enumerating }
 GTSpotterSessionsBuilder >> sessions [ 
 	| borders pairs openOrExit previousAssociation computer |
-	events ifEmpty: [ ^ GTSpotterComputer new ].
+	events ifEmpty: [ ^ GTAComputer new ].
 	borders := events withIndexCollect: [ :event :index |
 		event isOpenOrCloseSpotter 
 				ifTrue: [ index -> event ]
@@ -53,8 +53,8 @@ GTSpotterSessionsBuilder >> sessions [
 	computer := pairs collect: [ :eachPair | | open exit |
 		open := eachPair key.
 		exit := eachPair value.
-		GTSpotterSession withAll: (events copyFrom: open key to: exit key).
-		 ] as: GTSpotterComputer.
+		GTASession withAll: (events copyFrom: open key to: exit key).
+		 ] as: GTAComputer.
 	computer do: [ :eachSession | eachSession computer: computer ].
 	^ computer
 ]

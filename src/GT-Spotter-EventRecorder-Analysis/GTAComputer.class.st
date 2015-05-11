@@ -1,41 +1,41 @@
 Class {
-	#name : #GTSpotterComputer,
-	#superclass : #GTSpotterEventCollection,
+	#name : #GTAComputer,
+	#superclass : #GTAEventCollection,
 	#traits : 'TGTSpotterDurationView + TGTSpotterSessionsTable + TGTSpotterCategoryView + TGTSpotterUpdateEvents',
 	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterSessionsTable classTrait + TGTSpotterCategoryView classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
 { #category : #helpers }
-GTSpotterComputer >> avgNumberOfDivesIn [
+GTAComputer >> avgNumberOfDivesIn [
 	self ifEmpty: [ ^ 0 ].
 	^ (self sum: #numberOfDivesIn) / self size
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> avgNumberOfDivesOut [
+GTAComputer >> avgNumberOfDivesOut [
 	self ifEmpty: [ ^ 0 ].
 	^ (self sum: #numberOfDivesOut) / self size
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> categoryLabels [
+GTAComputer >> categoryLabels [
 	^ self flatCollect: #categoryLabels as: OrderedCollection
 ]
 
 { #category : #accessing }
-GTSpotterComputer >> computerUUID [
+GTAComputer >> computerUUID [
 	self ifEmpty: [ ^ 0 ].
 	^ self any computerUUID
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> differentSearchStrings [
+GTAComputer >> differentSearchStrings [
 	^ self searchStrings asSet
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputer >> durationView [
+GTAComputer >> durationView [
 	| b ds |
 	b := RTGrapher new.
 	b extent: 500 @ 100.
@@ -58,19 +58,13 @@ GTSpotterComputer >> durationView [
 	
 ]
 
-{ #category : #accessing }
-GTSpotterComputer >> end [
-	self ifEmpty: [ ^ 0 ].
-	^ self last end
-]
-
 { #category : #enumerating }
-GTSpotterComputer >> flatCollectEvents: aBlock [ 
+GTAComputer >> flatCollectEvents: aBlock [ 
 	^ self flatCollect: [ :eachSession | eachSession select: aBlock ] as: OrderedCollection
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputer >> gtInspectorDurationViewIn: composite [
+GTAComputer >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	composite roassal2
 		title: 'Duration';
@@ -79,7 +73,7 @@ GTSpotterComputer >> gtInspectorDurationViewIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputer >> gtInspectorSessionsIn: composite [
+GTAComputer >> gtInspectorSessionsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
 		title: 'Sessions';
@@ -131,7 +125,7 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTSpotterComputer >> gtInspectorTimelineViewIn: composite [
+GTAComputer >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 6>
 	composite roassal2
 		title: 'Timeline';
@@ -140,103 +134,97 @@ GTSpotterComputer >> gtInspectorTimelineViewIn: composite [
 ]
 
 { #category : #testing }
-GTSpotterComputer >> hasSessionsWithSpecialKeywords [
+GTAComputer >> hasSessionsWithSpecialKeywords [
 	^ self anySatisfy: #hasSpecialKeywords
 ]
 
 { #category : #testing }
-GTSpotterComputer >> hasSpecialKeywords [
+GTAComputer >> hasSpecialKeywords [
 	^ self anySatisfy: #hasSpecialKeywords
 ]
 
 { #category : #testing }
-GTSpotterComputer >> isDeveloper [
-	^ GTSpotterAnnouncements isDeveloper: self computerUUID
+GTAComputer >> isDeveloper [
+	^ GTAAnnouncements isDeveloper: self computerUUID
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> missSteps [
-	^ self flatCollect: #missSteps as: GTSpotterSession
+GTAComputer >> missSteps [
+	^ self flatCollect: #missSteps as: GTASession
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> numberOfContextChanged [
+GTAComputer >> numberOfContextChanged [
 	self ifEmpty: [ ^ 0 ].
 	^ self sum: #numberOfContextChanged
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> numberOfDifferentSearchStrings [
+GTAComputer >> numberOfDifferentSearchStrings [
 	^ self differentSearchStrings size
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> numberOfDivesIn [
+GTAComputer >> numberOfDivesIn [
 	self ifEmpty: [ ^ 0 ].
 	^ self sum: #numberOfDivesIn	
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> numberOfDivesOut [
+GTAComputer >> numberOfDivesOut [
 	self ifEmpty: [ ^ 0 ].
 	^ self sum: #numberOfDivesOut
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> numberOfEvents [
+GTAComputer >> numberOfEvents [
 	self ifEmpty: [ ^ 0 ].
 	^ self sum: #size
 ]
 
 { #category : #helpers }
-GTSpotterComputer >> numberOfPreviews [
+GTAComputer >> numberOfPreviews [
 	^ self sessionsWithPreview size
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> searchStrings [
+GTAComputer >> searchStrings [
 	^ self flatCollect: #searchStrings as: Bag
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> sessionsWithNumberOfInputsGreaterThen: anInteger [
+GTAComputer >> sessionsWithNumberOfInputsGreaterThen: anInteger [
 	^ self select: [ :each | each numberOfContextChanged > anInteger ]
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> sessionsWithNumberOfInputsGreaterThenOne [
+GTAComputer >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> sessionsWithPreview [
+GTAComputer >> sessionsWithPreview [
 	^ self select: #isWithPreview
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> sessionsWithSpecialKeywords [
+GTAComputer >> sessionsWithSpecialKeywords [
 	^ self select: #hasSpecialKeywords
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> specialKeywords [
+GTAComputer >> specialKeywords [
 	^ self flatCollect: #specialKeywords as: OrderedCollection
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> spentTime [
+GTAComputer >> spentTime [
 	self ifEmpty: [ ^ 0 seconds ].
 	^ self sum: #duration
 ]
 
-{ #category : #accessing }
-GTSpotterComputer >> start [
-	self ifEmpty: [ ^ 0 ].
-	^ self first start
-]
-
 { #category : #'gt-inspector-extension' }
-GTSpotterComputer >> timelineView [
+GTAComputer >> timelineView [
 	| composer builders |
 	composer := RTComposer new.
 	composer view @ RTZoomableView.
@@ -258,18 +246,18 @@ GTSpotterComputer >> timelineView [
 ]
 
 { #category : #update }
-GTSpotterComputer >> updateEvents [
+GTAComputer >> updateEvents [
 	^ self do: #updateEvents
 ]
 
 { #category : #accessing }
-GTSpotterComputer >> userOrDeveloperString [
+GTAComputer >> userOrDeveloperString [
 	^ self isDeveloper
 			ifTrue: [ 'dev' ]
 			ifFalse: [ 'user' ]
 ]
 
 { #category : #enumerating }
-GTSpotterComputer >> userQueryOrSelectionHashes [
+GTAComputer >> userQueryOrSelectionHashes [
 	^ self flatCollect: #userQueryOrSelectionHashes as: OrderedCollection
 ]

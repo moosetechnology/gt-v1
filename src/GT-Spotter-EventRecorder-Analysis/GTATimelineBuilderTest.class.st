@@ -21,7 +21,7 @@ GTATimelineBuilderTest >> setUp [
 { #category : #tests }
 GTATimelineBuilderTest >> testBuild [
 	| events |
-	events := GTSpotterSession new.
+	events := GTASession new.
 	GTSpotterRecorderEvent allSubclassesDo: [ :eachClass |
 		events add: eachClass new.
 	].

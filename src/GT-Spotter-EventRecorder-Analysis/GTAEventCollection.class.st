@@ -1,6 +1,6 @@
 Class {
-	#name : #GTSpotterEventCollection,
-	#superclass : #OrderedCollection,
+	#name : #GTAEventCollection,
+	#superclass : #GTACollection,
 	#instVars : [
 		'options'
 	],
@@ -8,94 +8,89 @@ Class {
 }
 
 { #category : #enumerating }
-GTSpotterEventCollection >> contextChanges [
+GTAEventCollection >> contextChanges [
 	^ self select: #isContextChanged
 ]
 
 { #category : #enumerating }
-GTSpotterEventCollection >> differentSearchStrings [
+GTAEventCollection >> differentSearchStrings [
 	^ self searchStrings asSet
 ]
 
 { #category : #enumerating }
-GTSpotterEventCollection >> divesIn [
+GTAEventCollection >> divesIn [
 	^ self select: #isDiveIn
 ]
 
 { #category : #enumerating }
-GTSpotterEventCollection >> divesOut [
+GTAEventCollection >> divesOut [
 	^ self select: #isDiveOut
 ]
 
-{ #category : #accessing }
-GTSpotterEventCollection >> duration [
-	^ self end - self start
-]
-
 { #category : #enumerating }
-GTSpotterEventCollection >> finishedSearches [
+GTAEventCollection >> finishedSearches [
 	^ self select: #isSearchFinished
 ]
 
 { #category : #testing }
-GTSpotterEventCollection >> hasMissSteps [
+GTAEventCollection >> hasMissSteps [
 	^ self missSteps notEmpty
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfContextChanged [
+GTAEventCollection >> numberOfContextChanged [
 	^ self contextChanges size
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfDifferentSearchStrings [
+GTAEventCollection >> numberOfDifferentSearchStrings [
 	^ self differentSearchStrings size
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfDivesIn [
+GTAEventCollection >> numberOfDivesIn [
 	^ self divesIn size
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfDivesOut [
+GTAEventCollection >> numberOfDivesOut [
 	^ self divesOut size
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfFinishedSearches [
+GTAEventCollection >> numberOfFinishedSearches [
 	^ self finishedSearches size
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfMissSteps [
+GTAEventCollection >> numberOfMissSteps [
 	^ self missSteps size
 ]
 
 { #category : #helpers }
-GTSpotterEventCollection >> numberOfUserSelections [
+GTAEventCollection >> numberOfUserSelections [
 	^ self userSelections size
 ]
 
 { #category : #accessing }
-GTSpotterEventCollection >> optionAt: key [
+GTAEventCollection >> optionAt: key [
 	^ self optionAt: key ifAbsent: [ nil ]
 ]
 
 { #category : #accessing }
-GTSpotterEventCollection >> optionAt: key ifAbsent: absentBlock [
+GTAEventCollection >> optionAt: key ifAbsent: absentBlock [
 	options ifNil: [ ^ absentBlock value ].
 	^ options at: key ifAbsent: absentBlock
 ]
 
 { #category : #accessing }
-GTSpotterEventCollection >> optionAt: key put: value [
+GTAEventCollection >> optionAt: key put: value [
 	options ifNil: [ options := Dictionary new ].
 	^ options at: key put: value
 ]
 
 { #category : #printing }
-GTSpotterEventCollection >> sessionPopupText [
+GTAEventCollection >> sessionPopupText [
 	^ String streamContents: [ :aStream |
 			aStream
 				nextPutAll: 'Duration: ';
@@ -127,6 +122,6 @@ GTSpotterEventCollection >> sessionPopupText [
 ]
 
 { #category : #enumerating }
-GTSpotterEventCollection >> userSelections [
+GTAEventCollection >> userSelections [
 	^ self select: #isUserSelection
 ]
