@@ -7,7 +7,7 @@ RWView >> gtInspectorViewIn: composite [
 		title: 'Live';
 		initialize: [ :m |
 			self elements do: [ :e | 
-				e on: RWMouseButtonDown do: [ :ev | 
+				e when: RWMouseButtonDown do: [ :ev | 
 					m selection: ev element model].
 			 ].
 			self @ RWMouseKeyControl ];
