@@ -7,6 +7,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
 }
 
+{ #category : #api }
+GTAMultipleSelectionSendCommand class >> selection: result in: aCollection [
+	^ self new selection: result in: aCollection
+]
+
 { #category : #accessing }
 GTAMultipleSelectionSendCommand class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]

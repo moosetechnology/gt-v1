@@ -80,7 +80,18 @@ GTSpotterComputers >> gtInspectorComputersIn: composite [
 		column: 'MissSteps' 
 			evaluated: [ :each | each numberOfMissSteps ]
 			width: 60;
+		beMultiple;
+		send: [ :result | GTAMultipleSelectionSendCommand selection: result in: self ];
 		showOnly: 50
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterComputers >> gtInspectorTimelineViewIn: composite [
+	<gtInspectorPresentationOrder: 6>
+	composite roassal2
+		title: 'Timeline';
+		initializeView: [ self timelineView ]
+		
 ]
 
 { #category : #enumerating }
@@ -127,6 +138,34 @@ GTSpotterComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 { #category : #enumerating }
 GTSpotterComputers >> specialKeywords [
 	^ self flatCollect: #specialKeywords as: OrderedCollection
+]
+
+{ #category : #'as yet unclassified' }
+GTSpotterComputers >> start [
+	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
+]
+
+{ #category : #'gt-inspector-extension' }
+GTSpotterComputers >> timelineView [
+	| builder minTime |
+	builder := RTTimeLine new.
+	minTime := self start asUnixTime.
+	self withIndexDo: [ :eachComputer :index | 
+		eachComputer do: [ :eachSession | | entry |
+			entry := RTTimeLineEntry new.
+			entry identifier: index.
+			entry start: eachSession start asUnixTime - minTime.
+			entry end: eachSession end asUnixTime - minTime.
+			builder addEntry: entry.
+		].
+	 ].
+
+	builder axisX 
+		numberOfLabels: 5;
+		labelRotation: -45;
+		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
+
+	^ builder 
 ]
 
 { #category : #update }

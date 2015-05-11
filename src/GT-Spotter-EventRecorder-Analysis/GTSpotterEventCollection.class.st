@@ -29,7 +29,7 @@ GTSpotterEventCollection >> divesOut [
 
 { #category : #accessing }
 GTSpotterEventCollection >> duration [
-	^ self stop - self start
+	^ self end - self start
 ]
 
 { #category : #enumerating }

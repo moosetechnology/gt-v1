@@ -8,7 +8,7 @@ Class {
 
 { #category : #accessing }
 GTSpotterSessions >> duration [
-	^ self stop - self start
+	^ self end - self start
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -35,6 +35,11 @@ GTSpotterSessions >> durationView [
 	
 ]
 
+{ #category : #accessing }
+GTSpotterSessions >> end [
+	^ (self detectMax: #end)  ifNil: [ 0 ] ifNotNil: [ :obj | obj end ]
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterSessions >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
@@ -57,9 +62,4 @@ GTSpotterSessions >> sessions [
 { #category : #accessing }
 GTSpotterSessions >> start [
 	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
-]
-
-{ #category : #accessing }
-GTSpotterSessions >> stop [
-	^ (self detectMax: #stop)  ifNil: [ 0 ] ifNotNil: [ :obj | obj stop ]
 ]

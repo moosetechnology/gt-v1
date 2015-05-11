@@ -58,6 +58,12 @@ GTSpotterComputer >> durationView [
 	
 ]
 
+{ #category : #accessing }
+GTSpotterComputer >> end [
+	self ifEmpty: [ ^ 0 ].
+	^ self last end
+]
+
 { #category : #enumerating }
 GTSpotterComputer >> flatCollectEvents: aBlock [ 
 	^ self flatCollect: [ :eachSession | eachSession select: aBlock ] as: OrderedCollection
@@ -120,7 +126,7 @@ GTSpotterComputer >> gtInspectorSessionsIn: composite [
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each imageHashes size ]
 			width: 70;
 		beMultiple;
-		send: [ :result | GTAMultipleSelectionSendCommand uniqueInstance selection: result in: self ];
+		send: [ :result | GTAMultipleSelectionSendCommand selection: result in: self ];
 		showOnly: 200
 ]
 
@@ -227,12 +233,6 @@ GTSpotterComputer >> spentTime [
 GTSpotterComputer >> start [
 	self ifEmpty: [ ^ 0 ].
 	^ self first start
-]
-
-{ #category : #accessing }
-GTSpotterComputer >> stop [
-	self ifEmpty: [ ^ 0 ].
-	^ self last stop
 ]
 
 { #category : #'gt-inspector-extension' }

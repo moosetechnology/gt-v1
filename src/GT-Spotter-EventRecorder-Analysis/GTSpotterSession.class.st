@@ -43,6 +43,12 @@ GTSpotterSession >> deepestDiveIn [
 	^ self max: #diveInLevel
 ]
 
+{ #category : #accessing }
+GTSpotterSession >> end [
+	self ifEmpty: [ ^ 0 ].
+	^ self last dateAndTimeWithFixedTimeZone
+]
+
 { #category : #'gt-inspector-extension' }
 GTSpotterSession >> gtInspectorEventsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
@@ -157,12 +163,6 @@ GTSpotterSession >> specialKeywords [
 GTSpotterSession >> start [
 	self ifEmpty: [ ^ 0 ].
 	^ self first dateAndTimeWithFixedTimeZone
-]
-
-{ #category : #accessing }
-GTSpotterSession >> stop [
-	self ifEmpty: [ ^ 0 ].
-	^ self last dateAndTimeWithFixedTimeZone
 ]
 
 { #category : #'gt-inspector-extension' }
