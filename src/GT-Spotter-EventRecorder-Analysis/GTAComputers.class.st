@@ -202,9 +202,7 @@ GTAComputers >> timelineView2 [
 		labelRotation: -45;
 		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
 	builder axisY noLabel.
-	builder interaction popup text: [ :group | 
-		String streamContents: [ :aStream |
-			aStream print: group size; nextPutAll: ' events' ] ].
+	builder interaction popup text: #humanReadablePrintString.
 	builder shape color: (RTMultiLinearColorForIdentity new 
 							command: #identifier; 
 							objects: (1 to: self size);
