@@ -87,7 +87,7 @@ GTARoughDataSetBuilderTest >> testBuildSessions [
 	builder
 		objects: objects;
 		gap: 1 week;
-		comparator: [ :actualObject :previousObject | actualObject start - previousObject end ];
+		setSessionComparator;
 		build.
 	self assert: builder numberOfGroups equals: 3.
 	self assert: builder groups first size equals: 2.

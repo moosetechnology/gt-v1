@@ -86,6 +86,15 @@ GTAComputers >> gtInspectorComputersIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTAComputers >> gtInspectorTimelineView2In: composite [
+	<gtInspectorPresentationOrder: 6>
+	composite roassal2
+		title: 'Timeline 2';
+		initializeView: [ self timelineView2 ]
+		
+]
+
+{ #category : #'gt-inspector-extension' }
 GTAComputers >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 6>
 	composite roassal2
@@ -161,7 +170,45 @@ GTAComputers >> timelineView [
 	builder axisY noLabel.
 	builder shape color: (RTMultiLinearColorForIdentity new 
 							command: #identifier; 
-							objects: (1 to: self size)).
+							objects: (1 to: self size);
+							yourself).
+	^ builder 
+]
+
+{ #category : #'gt-inspector-extension' }
+GTAComputers >> timelineView2 [
+	| builder minTime dataSetBuilder |
+	builder := RTTimeLine new.
+	minTime := self start asUnixTime.
+	dataSetBuilder := GTARoughDataSetBuilder new
+		gap: self duration / 48;
+		setSessionComparator;
+		yourself.
+	self reverseWithIndexDo: [ :eachComputer :index | 
+		dataSetBuilder objects: eachComputer; build.
+		dataSetBuilder groups do: [ :eachGroup | | entry |
+			entry := GTATimeLineEntry new.
+			entry 
+				identifier: index;
+				computer: eachComputer;
+				group: eachGroup;
+				start: eachGroup start asUnixTime - minTime;
+				end: eachGroup end asUnixTime - minTime.
+			builder addEntry: entry.
+		].
+	 ].
+	builder axisX 
+		numberOfLabels: 5;
+		labelRotation: -45;
+		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
+	builder axisY noLabel.
+	builder interaction popup text: [ :group | 
+		String streamContents: [ :aStream |
+			aStream print: group size; nextPutAll: ' events' ] ].
+	builder shape color: (RTMultiLinearColorForIdentity new 
+							command: #identifier; 
+							objects: (1 to: self size);
+							yourself).
 	^ builder 
 ]
 

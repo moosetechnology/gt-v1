@@ -85,5 +85,11 @@ GTARoughDataSetBuilder >> objects [
 
 { #category : #accessing }
 GTARoughDataSetBuilder >> objects: aCollection [ 
-	objects := aCollection
+	objects := aCollection.
+	groups := nil.
+]
+
+{ #category : #initialization }
+GTARoughDataSetBuilder >> setSessionComparator [
+	self comparator: [ :actualObject :previousObject | actualObject start - previousObject end ]
 ]
