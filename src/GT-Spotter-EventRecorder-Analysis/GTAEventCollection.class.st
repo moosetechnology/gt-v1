@@ -92,33 +92,38 @@ GTAEventCollection >> optionAt: key put: value [
 { #category : #printing }
 GTAEventCollection >> sessionPopupText [
 	^ String streamContents: [ :aStream |
-			aStream
-				nextPutAll: 'Duration: ';
-				print: self duration;
-				cr;
-				nextPutAll: 'Events: ';
-				print: self size;
-				cr;
-				nextPutAll: 'Number of user input changes: ';
-				print: self numberOfContextChanged;
-				cr;
-				nextPutAll: 'Number of different search strings: ';
-				print: self numberOfDifferentSearchStrings;
-				cr;
-				nextPutAll: 'Number of finished searches: ';
-				print: self numberOfFinishedSearches;
-				cr;
-				nextPutAll: 'Number of user item selections: ';
-				print: self numberOfUserSelections;
-				cr;
-				nextPutAll: 'Dive in/out: ';
-				print: self numberOfDivesIn;
-				nextPut: $/;
-				print: self numberOfDivesOut;
-				cr;
-				"using of #i, etc."
-				nextPutAll: (self isWithPreview ifTrue: [ 'With Preview' ] ifFalse: [ 'Without Preview' ])
+			self sessionPopupTextOn: aStream
 		 ]
+]
+
+{ #category : #printing }
+GTAEventCollection >> sessionPopupTextOn: aStream [
+	aStream
+		nextPutAll: 'Duration: ';
+		print: self duration;
+		cr;
+		nextPutAll: 'Events: ';
+		print: self size;
+		cr;
+		nextPutAll: 'Number of user input changes: ';
+		print: self numberOfContextChanged;
+		cr;
+		nextPutAll: 'Number of different search strings: ';
+		print: self numberOfDifferentSearchStrings;
+		cr;
+		nextPutAll: 'Number of finished searches: ';
+		print: self numberOfFinishedSearches;
+		cr;
+		nextPutAll: 'Number of user item selections: ';
+		print: self numberOfUserSelections;
+		cr;
+		nextPutAll: 'Dive in/out: ';
+		print: self numberOfDivesIn;
+		nextPut: $/;
+		print: self numberOfDivesOut;
+		cr;
+		"using of #i, etc."
+		nextPutAll: (self isWithPreview ifTrue: [ 'With Preview' ] ifFalse: [ 'Without Preview' ])
 ]
 
 { #category : #enumerating }

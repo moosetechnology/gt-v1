@@ -56,5 +56,5 @@ GTATimeLineEntry >> startUnixTime [
 
 { #category : #'gt-inspector-extension' }
 GTATimeLineEntry >> timelineView2 [
-	self group timelineView2
+	^ self group timelineView2
 ]

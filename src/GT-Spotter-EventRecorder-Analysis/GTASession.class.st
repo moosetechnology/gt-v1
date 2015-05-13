@@ -143,6 +143,11 @@ GTASession >> previewString [
 		ifFalse: [ 'no' ]
 ]
 
+{ #category : #printing }
+GTASession >> printHumanReadableOn: aStream [ 
+	self sessionPopupTextOn: aStream
+]
+
 { #category : #enumerating }
 GTASession >> roots [
 	^ self select: #isRootEvent
@@ -176,6 +181,11 @@ GTASession >> timelineView [
 	GTAMenuBuilder new timelineBuilder: builder; build.
 	builder view canvas focusOnCenterScaled.
 	^ builder view.
+]
+
+{ #category : #'gt-inspector-extension' }
+GTASession >> timelineView2 [
+	^ self timelineView
 ]
 
 { #category : #'gt-inspector-extension' }

@@ -16,12 +16,19 @@ GTAGroup >> end [
 
 { #category : #printing }
 GTAGroup >> printHumanReadableOn: aStream [
+	| duration |
 	aStream 
 		print: self size; 
 		nextPutAll: ' events from '; 
 		print: self start asDate; 
+		cr;
 		nextPutAll: ' during '. 
-	self duration printHumanReadableOn: aStream
+	duration := self duration.
+	self duration > 1 second ifTrue: [ duration := self duration truncateTo: 1 milliseconds ].
+	self duration > 1 minute ifTrue: [ duration := self duration truncateTo: 1 second ].
+	self duration > 1 hour ifTrue: [ duration := self duration truncateTo: 1 minute ].
+	self duration > 1 day ifTrue: [ duration := self duration truncateTo: 1 hour ].
+	duration printHumanReadableOn: aStream
 ]
 
 { #category : #accessing }
@@ -29,27 +36,20 @@ GTAGroup >> start [
 	^ self first start
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTAGroup >> timelineView2 [
-	| builder minTime dataSetBuilder |
+	| builder minTime |
 	builder := RTTimeLine new.
 	minTime := self start asUnixTime.
-	dataSetBuilder := GTARoughDataSetBuilder new
-		gap: self duration / 48;
-		setSessionComparator;
-		yourself.
-	self reverseWithIndexDo: [ :eachComputer :index | 
-		dataSetBuilder objects: eachComputer; build.
-		dataSetBuilder groups do: [ :eachGroup | | entry |
-			entry := GTATimeLineEntry new.
-			entry 
-				identifier: index;
-				computer: eachComputer;
-				group: eachGroup;
-				start: eachGroup start asUnixTime - minTime;
-				end: eachGroup end asUnixTime - minTime.
-			builder addEntry: entry.
-		].
+	self reverseWithIndexDo: [ :eachSession :index | | entry |
+		entry := GTATimeLineEntry new.
+		entry 
+			identifier: 1;
+			computer: eachSession computer;
+			group: eachSession;
+			start: eachSession start asUnixTime - minTime;
+			end: eachSession end asUnixTime - minTime.
+		builder addEntry: entry.
 	 ].
 	builder axisX 
 		numberOfLabels: 5;
