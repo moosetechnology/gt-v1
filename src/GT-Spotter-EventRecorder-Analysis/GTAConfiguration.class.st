@@ -19,7 +19,37 @@ GTAConfiguration class >> developerUUIDs [
 		)
 ]
 
+{ #category : #accessing }
+GTAConfiguration class >> interestingSessions [
+	^ OrderedCollection new
+]
+
 { #category : #testing }
 GTAConfiguration class >> isDeveloper: anUUID [
 	^ self developerUUIDs includes: anUUID asString
+]
+
+{ #category : #api }
+GTAConfiguration class >> loadBookmarks [
+	GTABookmarks uniqueInstanceFrom: self savedBookmarks
+]
+
+{ #category : #api }
+GTAConfiguration class >> saveBookmarks [
+	| paths methodSource |
+	paths := GTABookmarks uniqueInstance collect: [ :each | each path ] as: Array.
+	methodSource := String streamContents: [ :aStream |
+		aStream
+			nextPutAll: 'savedBookmarks'; cr; 
+			tab; nextPutAll: '"Automatically created by class method #saveBookmarks."'; cr;
+			tab; nextPutAll: '^ '.
+		paths storeOn: aStream. 			
+	 ].
+	self class compile: methodSource classified: 'stored bookmarks'.
+]
+
+{ #category : #'stored bookmarks' }
+GTAConfiguration class >> savedBookmarks [
+	"Automatically created by class method #saveBookmarks."
+	^ ((Array new: 1) at: 1 put: ((Array new: 5) at: 1 put: GTASessionBookmark; at: 2 put: '29d8c44d-c6da-4026-bf49-c3b0c25625db'; at: 3 put: (DateAndTime basicNew instVarAt: 1 put: 72594; instVarAt: 2 put: (Duration seconds: 7200 nanoSeconds: 0); instVarAt: 3 put: 2457117; instVarAt: 4 put: 0; yourself); at: 4 put: 'History and calculator results'; at: 5 put: (DateAndTime basicNew instVarAt: 1 put: 70290; instVarAt: 2 put: (Duration seconds: -10800 nanoSeconds: 0); instVarAt: 3 put: 2457156; instVarAt: 4 put: 682694000; yourself); yourself); yourself)
 ]
