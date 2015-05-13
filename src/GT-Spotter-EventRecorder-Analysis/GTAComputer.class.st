@@ -145,7 +145,7 @@ GTAComputer >> hasSpecialKeywords [
 
 { #category : #testing }
 GTAComputer >> isDeveloper [
-	^ GTAAnnouncements isDeveloper: self computerUUID
+	^ GTAConfiguration isDeveloper: self computerUUID
 ]
 
 { #category : #enumerating }
