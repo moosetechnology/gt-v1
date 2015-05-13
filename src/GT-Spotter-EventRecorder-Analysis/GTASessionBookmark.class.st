@@ -4,9 +4,15 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
-{ #category : #'as yet unclassified' }
-GTASessionBookmark >> from: aCollection [ 
-	self shouldBeImplemented.
+{ #category : #initialization }
+GTASessionBookmark >> from: aCollection computers: aGTAComputers [ 
+	| computer session |
+	computer := aGTAComputers detect: [ :each | each computerUUID = aCollection second ].
+	session := computer detect: [ :each | each start = aCollection third ].
+	self
+		item: session;
+		description: aCollection fourth;
+		dateAndTime: aCollection fifth.
 ]
 
 { #category : #accessing }

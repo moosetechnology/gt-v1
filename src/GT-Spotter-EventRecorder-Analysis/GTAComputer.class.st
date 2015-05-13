@@ -29,6 +29,11 @@ GTAComputer >> computerUUID [
 	^ self any computerUUID
 ]
 
+{ #category : #'as yet unclassified' }
+GTAComputer >> computers: aCollection [ 
+	^ self optionAt: #computers put: aCollection
+]
+
 { #category : #enumerating }
 GTAComputer >> differentSearchStrings [
 	^ self searchStrings asSet

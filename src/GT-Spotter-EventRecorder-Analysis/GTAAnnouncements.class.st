@@ -80,6 +80,7 @@ GTAAnnouncements >> sessionsPerComputer [
 		eachComputer sortByTimestamp.
 		eachComputer sessions.
 	] as: GTAComputers.
+	computers do: [ :eachComputer | eachComputer computers: computers ].
 	computers updateEvents.
 	^ computers select: #notEmpty
 ]

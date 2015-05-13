@@ -19,25 +19,20 @@ GTAConfiguration class >> developerUUIDs [
 		)
 ]
 
-{ #category : #accessing }
-GTAConfiguration class >> interestingSessions [
-	^ OrderedCollection new
-]
-
 { #category : #testing }
 GTAConfiguration class >> isDeveloper: anUUID [
 	^ self developerUUIDs includes: anUUID asString
 ]
 
 { #category : #api }
-GTAConfiguration class >> loadBookmarks [
-	GTABookmarks uniqueInstanceFrom: self savedBookmarks
+GTAConfiguration class >> loadBookmarks: aGTAComputers [
+	^ GTABookmarks from: self savedBookmarks computers: aGTAComputers
 ]
 
 { #category : #api }
-GTAConfiguration class >> saveBookmarks [
+GTAConfiguration class >> saveBookmarks: aGTABookmarks [
 	| paths methodSource |
-	paths := GTABookmarks uniqueInstance collect: [ :each | each path ] as: Array.
+	paths := aGTABookmarks collect: [ :each | each path ] as: Array.
 	methodSource := String streamContents: [ :aStream |
 		aStream
 			nextPutAll: 'savedBookmarks'; cr; 

@@ -1,9 +1,6 @@
 Class {
 	#name : #GTAEventCollection,
 	#superclass : #GTACollection,
-	#instVars : [
-		'options'
-	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
@@ -70,23 +67,6 @@ GTAEventCollection >> numberOfMissSteps [
 { #category : #helpers }
 GTAEventCollection >> numberOfUserSelections [
 	^ self userSelections size
-]
-
-{ #category : #accessing }
-GTAEventCollection >> optionAt: key [
-	^ self optionAt: key ifAbsent: [ nil ]
-]
-
-{ #category : #accessing }
-GTAEventCollection >> optionAt: key ifAbsent: absentBlock [
-	options ifNil: [ ^ absentBlock value ].
-	^ options at: key ifAbsent: absentBlock
-]
-
-{ #category : #accessing }
-GTAEventCollection >> optionAt: key put: value [
-	options ifNil: [ options := Dictionary new ].
-	^ options at: key put: value
 ]
 
 { #category : #printing }

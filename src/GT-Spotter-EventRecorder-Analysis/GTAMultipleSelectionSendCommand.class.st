@@ -12,6 +12,11 @@ GTAMultipleSelectionSendCommand class >> selection: result in: aCollection [
 	^ self new selection: result in: aCollection
 ]
 
+{ #category : #api }
+GTAMultipleSelectionSendCommand class >> selection: result in: aCollection as: aCollectionClass [
+	^ self new selection: result in: aCollection as: aCollectionClass
+]
+
 { #category : #accessing }
 GTAMultipleSelectionSendCommand class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
@@ -19,7 +24,12 @@ GTAMultipleSelectionSendCommand class >> uniqueInstance [
 
 { #category : #api }
 GTAMultipleSelectionSendCommand >> selection: result in: aCollection [
+	^ self selection: result in: aCollection as: aCollection species
+]
+
+{ #category : #api }
+GTAMultipleSelectionSendCommand >> selection: result in: aCollection as: aCollectionClass [
 	^ (result notNil and: [result size = 1]) 
 		ifTrue: [result anyOne] 
-		ifFalse: [ aCollection species withAll: result ]
+		ifFalse: [ aCollectionClass withAll: result ]
 ]

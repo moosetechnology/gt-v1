@@ -9,11 +9,6 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
-{ #category : #'as yet unclassified' }
-GTABookmark class >> from: aCollection [ 
-	^ aCollection first new from: aCollection; yourself
-]
-
 { #category : #accessing }
 GTABookmark >> dateAndTime [
 	^ dateAndTime
@@ -34,12 +29,12 @@ GTABookmark >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #'as yet unclassified' }
-GTABookmark >> from: aCollection [ 
+{ #category : #initialization }
+GTABookmark >> from: aCollection computers: aGTAComputers [ 
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTABookmark >> initialize [
 	super initialize.
 	dateAndTime := DateAndTime now.
