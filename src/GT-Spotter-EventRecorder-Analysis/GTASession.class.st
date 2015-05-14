@@ -203,10 +203,6 @@ GTASession >> start [
 
 { #category : #'gt-inspector-extension' }
 GTASession >> timelineView2 [
-	self 
-		deprecated: 'Use activityView instead'
-		on: 	'14 May 2015' 
-		in: 'GT-Spotter-EventRecorder-Analysis-Core'.
 	^ self activityView
 ]
 
