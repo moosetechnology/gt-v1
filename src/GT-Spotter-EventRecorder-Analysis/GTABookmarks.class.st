@@ -1,7 +1,10 @@
 Class {
 	#name : #GTABookmarks,
 	#superclass : #OrderedCollection,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
+	#instVars : [
+		'announcer'
+	],
+	#category : #'GT-Spotter-EventRecorder-Analysis-Bookmarks'
 }
 
 { #category : #'instance creation' }
@@ -12,8 +15,24 @@ GTABookmarks class >> from: aCollection computers: aCollection2 [
 ]
 
 { #category : #adding }
+GTABookmarks >> addComputer: aGTAComputer description: aString [ 
+	| item |
+	item := self add: (GTAComputerBookmark new item: aGTAComputer; description: aString; yourself).
+	self announcer announce: GTAItemAdded.
+	^ item
+]
+
+{ #category : #adding }
 GTABookmarks >> addSession: aGTASession description: aString [ 
-	^ self add: (GTASessionBookmark new item: aGTASession; description: aString; yourself)
+	| item |
+	item := self add: (GTASessionBookmark new item: aGTASession; description: aString; yourself).
+	self announcer announce: GTAItemAdded.
+	^ item
+]
+
+{ #category : #accessing }
+GTABookmarks >> announcer [
+	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : #initialization }
@@ -36,7 +55,16 @@ GTABookmarks >> relatedTo: anObject [
 	^ (self select: [ :eachBookmark | eachBookmark isRelatedTo: anObject ]) as: OrderedCollection
 ]
 
+{ #category : #removing }
+GTABookmarks >> removeBookmark: aBookmark [
+	| item |
+	item := self remove: aBookmark.
+	self announcer announce: GTAItemRemoved.
+	^ item
+]
+
 { #category : #storing }
 GTABookmarks >> save [
-	GTAConfiguration saveBookmarks: self
+	GTAConfiguration saveBookmarks: self.
+	self announcer announce: GTASaved
 ]

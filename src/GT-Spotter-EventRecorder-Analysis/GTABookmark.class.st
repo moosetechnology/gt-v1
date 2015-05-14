@@ -6,7 +6,7 @@ Class {
 		'description',
 		'dateAndTime'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Bookmarks'
 }
 
 { #category : #accessing }

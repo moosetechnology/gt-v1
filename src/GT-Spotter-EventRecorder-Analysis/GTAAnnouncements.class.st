@@ -80,9 +80,10 @@ GTAAnnouncements >> sessionsPerComputer [
 		eachComputer sortByTimestamp.
 		eachComputer sessions.
 	] as: GTAComputers.
+	computers := computers removeAllSuchThat: #isEmpty.
 	computers do: [ :eachComputer | eachComputer computers: computers ].
 	computers updateEvents.
-	^ computers select: #notEmpty
+	^ computers
 ]
 
 { #category : #sorting }

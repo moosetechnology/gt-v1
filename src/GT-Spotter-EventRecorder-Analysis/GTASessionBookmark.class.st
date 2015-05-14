@@ -1,7 +1,7 @@
 Class {
 	#name : #GTASessionBookmark,
 	#superclass : #GTABookmark,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Bookmarks'
 }
 
 { #category : #initialization }

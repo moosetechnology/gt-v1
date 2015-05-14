@@ -23,7 +23,7 @@ GTASession >> activityView3 [
 	^ GTSpotterTimeline viewOn: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 GTASession >> bookmarkIt [
 	self bookmarks
 		addSession: self

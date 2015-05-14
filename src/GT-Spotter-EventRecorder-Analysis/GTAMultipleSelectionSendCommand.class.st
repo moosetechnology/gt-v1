@@ -29,7 +29,10 @@ GTAMultipleSelectionSendCommand >> selection: result in: aCollection [
 
 { #category : #api }
 GTAMultipleSelectionSendCommand >> selection: result in: aCollection as: aCollectionClass [
-	^ (result notNil and: [result size = 1]) 
-		ifTrue: [result anyOne] 
-		ifFalse: [ aCollectionClass withAll: result ]
+	^ result notNil 
+		ifTrue: [ 
+			(result size = 1)
+				ifTrue: [result anyOne] 
+				ifFalse: [ aCollectionClass withAll: result ] ]
+		ifFalse: [ result ]
 ]

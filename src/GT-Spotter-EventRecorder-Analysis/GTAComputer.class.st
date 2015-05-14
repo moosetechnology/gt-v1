@@ -40,6 +40,14 @@ GTAComputer >> avgNumberOfDivesOut [
 	^ (self sum: #numberOfDivesOut) / self size
 ]
 
+{ #category : #api }
+GTAComputer >> bookmarkIt [
+	self bookmarks
+		addComputer: self
+		description: 'Added at ', DateAndTime now rounded asString;
+		save
+]
+
 { #category : #accessing }
 GTAComputer >> bookmarks [
 	^ self computers bookmarks

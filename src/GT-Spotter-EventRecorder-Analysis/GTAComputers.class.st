@@ -23,6 +23,8 @@ GTAComputers >> gtInspectorBookmarksIn: composite [
 		selectionPopulate: #selection
 			entitled: 'Open bookmark'
 			with: [ :aTable | aTable rawSelection gtInspectorInterestingObject ];
+		updateOn: GTACollectionAnnouncement 
+			from: [ :aComputers | aComputers bookmarks announcer ];
 		beMultiple;
 		send: [ :result | | item |
 			result ifNotNil: [ item := result collect: #item ].

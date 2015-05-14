@@ -38,7 +38,14 @@ TGTABookmarkIt >> gtInspectorBookmarksIn: composite [
 					c list 
 						display: [ self relatedBookmarks ];
 						format: [ :aBookmark | 
-							GTObjectPrinter new asTruncatedTextFrom: aBookmark description asString ] ].
+							GTObjectPrinter new asTruncatedTextFrom: aBookmark description asString ];
+						updateOn: GTACollectionAnnouncement 
+							from: [ :aEventCollection | 
+										aEventCollection bookmarks announcer ];
+						selectionAct: [ :list :relatedBookmarks |
+							self removeBookmark: list selection.
+							list update ]
+							entitled: 'Remove bookmark' ].
 			browser transmit
 				to: #description;
 				from: #list port: #selection;
@@ -62,4 +69,11 @@ TGTABookmarkIt >> isBookmarked [
 { #category : #accessing }
 TGTABookmarkIt >> relatedBookmarks [
 	^ self bookmarks relatedTo: self
+]
+
+{ #category : #api }
+TGTABookmarkIt >> removeBookmark: aBookmark [
+	self bookmarks 
+		removeBookmark: aBookmark;
+		save.
 ]
