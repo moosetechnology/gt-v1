@@ -39,7 +39,7 @@ TGTSpotterCategoryView >> categoryView [
 
 { #category : #'gt-inspector-extension' }
 TGTSpotterCategoryView >> gtInspectorCategoryViewIn: composite [
-	<gtInspectorPresentationOrder: 7>
+	<gtInspectorPresentationOrder: -2>
 	composite roassal2
 		title: 'Category';
 		initializeView: [ self categoryView ]

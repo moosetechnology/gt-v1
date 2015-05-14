@@ -110,7 +110,7 @@ GTAComputer >> flatCollectEvents: aBlock [
 
 { #category : #'gt-inspector-extension' }
 GTAComputer >> gtInspectorActivityViewIn: composite [
-	<gtInspectorPresentationOrder: 6>
+	<gtInspectorPresentationOrder: -6>
 	composite roassal2
 		title: 'Activity';
 		initializeView: [ self activityView ]
@@ -119,7 +119,7 @@ GTAComputer >> gtInspectorActivityViewIn: composite [
 
 { #category : #'gt-inspector-extension' }
 GTAComputer >> gtInspectorDurationViewIn: composite [
-	<gtInspectorPresentationOrder: 5>
+	<gtInspectorPresentationOrder: -1>
 	composite roassal2
 		title: 'Duration';
 		initializeView: [ self durationView ]
@@ -128,7 +128,7 @@ GTAComputer >> gtInspectorDurationViewIn: composite [
 
 { #category : #'gt-inspector-extension' }
 GTAComputer >> gtInspectorSessionsIn: composite [
-	<gtInspectorPresentationOrder: -2>  
+	<gtInspectorPresentationOrder: -10>  
 	^ (composite table)
 		title: 'Sessions';
 		display: [ :aComputer | aComputer ];
@@ -176,6 +176,15 @@ GTAComputer >> gtInspectorSessionsIn: composite [
 		beMultiple;
 		send: [ :result | GTAMultipleSelectionSendCommand selection: result in: self ];
 		showOnly: 200
+]
+
+{ #category : #'gt-inspector-extension' }
+GTAComputer >> gtInspectorTimelineViewIn: composite [
+	<gtInspectorPresentationOrder: -8>
+	composite roassal2
+		title: 'Timeline';
+		initializeView: [ self timelineView ]
+		
 ]
 
 { #category : #testing }
@@ -266,6 +275,36 @@ GTAComputer >> specialKeywords [
 GTAComputer >> spentTime [
 	self ifEmpty: [ ^ 0 seconds ].
 	^ self sum: #duration
+]
+
+{ #category : #'gt-inspector-extension' }
+GTAComputer >> timelineView [
+	| builder minTime dataSetBuilder |
+	builder := RTTimeLine new.
+	minTime := self start asUnixTime.
+	dataSetBuilder := GTARoughDataSetBuilder new
+		gap: self duration / 48;
+		setSessionComparator;
+		yourself.
+	dataSetBuilder objects: self; build.
+	dataSetBuilder groups do: [ :eachGroup | | entry |
+		entry := GTATimeLineEntry new.
+		entry 
+			identifier: 1;
+			computer: self;
+			group: eachGroup;
+			start: eachGroup start asUnixTime - minTime;
+			end: eachGroup end asUnixTime - minTime.
+		builder addEntry: entry.
+	].
+	builder axisX 
+		numberOfLabels: 5;
+		labelRotation: -45;
+		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
+	builder axisY noLabel.
+	builder interaction popup text: #humanReadablePrintString.
+	builder shape color: (RTMultiLinearColorForIdentity new objects: builder entries).
+	^ builder 
 ]
 
 { #category : #update }

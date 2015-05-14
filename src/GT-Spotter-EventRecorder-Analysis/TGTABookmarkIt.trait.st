@@ -24,7 +24,7 @@ TGTABookmarkIt >> gtInspectorActionBookmarkIt [
 
 { #category : #'gt-inspector-extension' }
 TGTABookmarkIt >> gtInspectorBookmarksIn: composite [
-	<gtInspectorPresentationOrder: 9>
+	<gtInspectorPresentationOrder: -1>
 	composite tabulator 
 		when: [ self isBookmarked ];
 		title: 'Bookmarks';

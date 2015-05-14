@@ -81,7 +81,7 @@ GTASession >> end [
 
 { #category : #'gt-inspector-extension' }
 GTASession >> gtInspectorActivityView3In: composite [
-	<gtInspectorPresentationOrder: 6>
+	<gtInspectorPresentationOrder: -5>
 	"obsolete"
 	composite roassal2
 		title: 'Activity 3';
@@ -91,7 +91,7 @@ GTASession >> gtInspectorActivityView3In: composite [
 
 { #category : #'gt-inspector-extension' }
 GTASession >> gtInspectorActivityViewIn: composite [
-	<gtInspectorPresentationOrder: 5>
+	<gtInspectorPresentationOrder: -6>
 	composite roassal2
 		title: 'Activity';
 		initializeView: [ self activityView ]
@@ -100,7 +100,7 @@ GTASession >> gtInspectorActivityViewIn: composite [
 
 { #category : #'gt-inspector-extension' }
 GTASession >> gtInspectorEventsIn: composite [
-	<gtInspectorPresentationOrder: -2>  
+	<gtInspectorPresentationOrder: -10>  
 	^ (composite table)
 		title: 'Events';
 		display: [ :aSession | aSession ];
@@ -133,7 +133,7 @@ GTASession >> gtInspectorStrangeEventsIn: composite [
 
 { #category : #'gt-inspector-extension' }
 GTASession >> gtInspectorTreeEventsIn: composite [
-	<gtInspectorPresentationOrder: -1>  
+	<gtInspectorPresentationOrder: -8>  
 	^ (composite tree)
 		title: 'Tree';
 		display: [ :aSession | aSession roots ];
