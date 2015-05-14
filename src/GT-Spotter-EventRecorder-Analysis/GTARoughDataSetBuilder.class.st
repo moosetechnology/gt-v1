@@ -5,7 +5,8 @@ Class {
 		'objects',
 		'groups',
 		'comparator',
-		'gap'
+		'gap',
+		'newGroupBlock'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Timeline'
 }
@@ -18,7 +19,7 @@ GTARoughDataSetBuilder >> addToActualGroup: anObject [
 
 { #category : #adding }
 GTARoughDataSetBuilder >> addToNewGroup: anObject [
-	^ self groups add: (GTAGroup with: anObject) 
+	^ self groups add: (self newGroupObject add: anObject; yourself) 
 ]
 
 { #category : #building }
@@ -49,7 +50,7 @@ GTARoughDataSetBuilder >> comparator: anObject [
 
 { #category : #private }
 GTARoughDataSetBuilder >> ensureGroup [
-	self groups ifEmpty: [ :aGroup | aGroup add: GTAGroup new ]
+	self groups ifEmpty: [ :aGroup | aGroup add: self newGroupObject ]
 ]
 
 { #category : #accessing }
@@ -63,6 +64,11 @@ GTARoughDataSetBuilder >> gap: anInteger [
 ]
 
 { #category : #accessing }
+GTARoughDataSetBuilder >> groupClass: aClass [
+	self newGroupBlock: [ aClass new ]
+]
+
+{ #category : #accessing }
 GTARoughDataSetBuilder >> groups [
 	^ groups ifNil: [ groups := GTAGroups new ]
 ]
@@ -70,7 +76,23 @@ GTARoughDataSetBuilder >> groups [
 { #category : #initialization }
 GTARoughDataSetBuilder >> initialize [
 	super initialize.
-	comparator := [ :actualObject :previousObject | actualObject - previousObject ]
+	comparator := [ :actualObject :previousObject | actualObject - previousObject ].
+	newGroupBlock := [ GTAGroup new ].
+]
+
+{ #category : #accessing }
+GTARoughDataSetBuilder >> newGroupBlock [
+	^ newGroupBlock
+]
+
+{ #category : #accessing }
+GTARoughDataSetBuilder >> newGroupBlock: aBlockClosure [ 
+	newGroupBlock := aBlockClosure
+]
+
+{ #category : #'instance creation' }
+GTARoughDataSetBuilder >> newGroupObject [
+	^ self newGroupBlock value
 ]
 
 { #category : #helpers }

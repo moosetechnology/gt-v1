@@ -15,6 +15,13 @@ GTAGroup >> end [
 ]
 
 { #category : #printing }
+GTAGroup >> humanReadablePrintString [
+	"Return a String with a human readable representation of me"
+	^ String streamContents: [ :out | 
+		self printHumanReadableOn: out ]
+]
+
+{ #category : #printing }
 GTAGroup >> printHumanReadableOn: aStream [
 	| duration |
 	aStream 

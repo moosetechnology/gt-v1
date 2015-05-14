@@ -6,6 +6,12 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
+{ #category : #accessing }
+GTAEventCollection >> computerUUID [
+	self ifEmpty: [ ^ 0 ].
+	^ self any computerUUID
+]
+
 { #category : #enumerating }
 GTAEventCollection >> contextChanges [
 	^ self select: #isContextChanged
@@ -34,6 +40,13 @@ GTAEventCollection >> finishedSearches [
 { #category : #testing }
 GTAEventCollection >> hasMissSteps [
 	^ self missSteps notEmpty
+]
+
+{ #category : #printing }
+GTAEventCollection >> humanReadablePrintString [
+	"Return a String with a human readable representation of me"
+	^ String streamContents: [ :out | 
+		self printHumanReadableOn: out ]
 ]
 
 { #category : #helpers }

@@ -88,10 +88,30 @@ GTARoughDataSetBuilderTest >> testBuildSessions [
 		objects: objects;
 		gap: 1 week;
 		setSessionComparator;
+		groupClass: GTASomeSessions;
 		build.
 	self assert: builder numberOfGroups equals: 3.
 	self assert: builder groups first size equals: 2.
 	self assert: builder groups second size equals: 1.
 	self assert: builder groups third size equals: 2.
+	self assert: (builder groups allSatisfy: [ :eachGroup | eachGroup class = GTASomeSessions ]).
+
+]
+
+{ #category : #tests }
+GTARoughDataSetBuilderTest >> testBuildSessions2 [
+	| objects |
+	objects := self sessions.
+	builder
+		objects: objects;
+		gap: 1 week;
+		setSessionComparator;
+		newGroupBlock: [ GTASomeSessions new ];
+		build.
+	self assert: builder numberOfGroups equals: 3.
+	self assert: builder groups first size equals: 2.
+	self assert: builder groups second size equals: 1.
+	self assert: builder groups third size equals: 2.
+	self assert: (builder groups allSatisfy: [ :eachGroup | eachGroup class = GTASomeSessions ]).
 
 ]

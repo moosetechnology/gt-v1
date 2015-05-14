@@ -62,12 +62,6 @@ GTASession >> computer: aGTSpotterComputer [
 	^ self optionAt: #computer put: aGTSpotterComputer
 ]
 
-{ #category : #accessing }
-GTASession >> computerUUID [
-	self ifEmpty: [ ^ 0 ].
-	^ self any computerUUID
-]
-
 { #category : #comparing }
 GTASession >> deepestDiveIn [
 	^ self max: #diveInLevel
@@ -203,6 +197,10 @@ GTASession >> start [
 
 { #category : #'gt-inspector-extension' }
 GTASession >> timelineView2 [
+	self 
+		deprecated: 'Use activityView instead'
+		on: 	'14 May 2015' 
+		in: 'GT-Spotter-EventRecorder-Analysis-Core'.
 	^ self activityView
 ]
 

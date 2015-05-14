@@ -14,6 +14,16 @@ GTASomeComputers >> computerUUIDs [
 	^ self collect: #computerUUID as: OrderedCollection
 ]
 
+{ #category : #accessing }
+GTASomeComputers >> computers [
+	^ self optionAt: #computers
+]
+
+{ #category : #accessing }
+GTASomeComputers >> computers: aCollection [ 
+	^ self optionAt: #computers put: aCollection
+]
+
 { #category : #enumerating }
 GTASomeComputers >> computersAndOnlySessionsWithSpecialKeywords [
 	^ self 
@@ -84,15 +94,6 @@ GTASomeComputers >> gtInspectorComputersIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTASomeComputers >> gtInspectorTimelineView2In: composite [
-	<gtInspectorPresentationOrder: 6>
-	composite roassal2
-		title: 'Timeline 2';
-		initializeView: [ self timelineView2 ]
-		
-]
-
-{ #category : #'gt-inspector-extension' }
 GTASomeComputers >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: 6>
 	composite roassal2
@@ -149,32 +150,6 @@ GTASomeComputers >> specialKeywords [
 
 { #category : #'gt-inspector-extension' }
 GTASomeComputers >> timelineView [
-	| builder minTime |
-	builder := RTTimeLine new.
-	minTime := self start asUnixTime.
-	self reverseWithIndexDo: [ :eachComputer :index | 
-		eachComputer do: [ :eachSession | | entry |
-			entry := RTTimeLineEntry new.
-			entry identifier: index.
-			entry start: eachSession start asUnixTime - minTime.
-			entry end: eachSession end asUnixTime - minTime.
-			builder addEntry: entry.
-		].
-	 ].
-	builder axisX 
-		numberOfLabels: 5;
-		labelRotation: -45;
-		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
-	builder axisY noLabel.
-	builder shape color: (RTMultiLinearColorForIdentity new 
-							command: #identifier; 
-							objects: (1 to: self size);
-							yourself).
-	^ builder 
-]
-
-{ #category : #'gt-inspector-extension' }
-GTASomeComputers >> timelineView2 [
 	| builder minTime dataSetBuilder |
 	builder := RTTimeLine new.
 	minTime := self start asUnixTime.
@@ -183,13 +158,18 @@ GTASomeComputers >> timelineView2 [
 		setSessionComparator;
 		yourself.
 	self reverseWithIndexDo: [ :eachComputer :index | 
-		dataSetBuilder objects: eachComputer; build.
-		dataSetBuilder groups do: [ :eachGroup | | entry |
-			entry := GTATimeLineEntry new.
+		dataSetBuilder 
+			objects: eachComputer; 
+			newGroupBlock: [ GTASomeSessions new computer: eachComputer; yourself ];
+			build.
+		dataSetBuilder groups do: [ :eachGroup | | entry model |
+			entry := RTTimeLineEntry new.
+			model := eachGroup size = 1
+				ifTrue: [ eachGroup any ]
+				ifFalse: [ eachGroup ].
 			entry 
 				identifier: index;
-				computer: eachComputer;
-				group: eachGroup;
+				model: model;
 				start: eachGroup start asUnixTime - minTime;
 				end: eachGroup end asUnixTime - minTime.
 			builder addEntry: entry.
@@ -198,7 +178,12 @@ GTASomeComputers >> timelineView2 [
 	builder axisX 
 		numberOfLabels: 5;
 		labelRotation: -45;
-		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
+		labelConversion: [ :unixTime | 
+			GTADateAndTimeStringBuilder new
+				dateAndTime: (DateAndTime fromUnixTime: unixTime + minTime);
+				duration: self duration;
+				numberOfLabels: 5;
+				humanReadablePrintString ].
 	builder axisY noLabel.
 	builder interaction popup text: #humanReadablePrintString.
 	builder shape color: (RTMultiLinearColorForIdentity new 
