@@ -25,10 +25,7 @@ GTAComputers >> gtInspectorBookmarksIn: composite [
 			with: [ :aTable | aTable rawSelection gtInspectorInterestingObject ];
 		updateOn: GTACollectionAnnouncement 
 			from: [ :aComputers | aComputers bookmarks announcer ];
-		beMultiple;
-		send: [ :result | | item |
-			result ifNotNil: [ item := result collect: #item ].
-			GTAMultipleSelectionSendCommand selection: item in: self ];
+		send: [ :result | result ifNotNil: [ result item ] ];
 		showOnly: 50 
 ]
 
