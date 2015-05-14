@@ -1,10 +1,40 @@
 Class {
 	#name : #GTASession,
 	#superclass : #GTAEventCollection,
-	#traits : 'TGTSpotterCategoryView',
-	#classTraits : 'TGTSpotterCategoryView classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #'gt-inspector-extension' }
+GTASession >> activityView [
+	| builder |
+	builder := GTATimelineBuilder new.
+	builder 
+		configuration: GTADefaultTimelineConfiguration uniqueInstance;
+		events: self;
+		build.
+	GTAMenuBuilder new timelineBuilder: builder; build.
+	builder view canvas focusOnCenterScaled.
+	^ builder view.
+]
+
+{ #category : #'gt-inspector-extension' }
+GTASession >> activityView3 [
+	"obsolete"
+	^ GTSpotterTimeline viewOn: self
+]
+
+{ #category : #'as yet unclassified' }
+GTASession >> bookmarkIt [
+	self bookmarks
+		addSession: self
+		description: 'Added at ', DateAndTime now rounded asString;
+		save
+]
+
+{ #category : #accessing }
+GTASession >> bookmarks [
+	^ self computer bookmarks 
+]
 
 { #category : #enumerating }
 GTASession >> categoryLabels [
@@ -50,6 +80,25 @@ GTASession >> end [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTASession >> gtInspectorActivityView3In: composite [
+	<gtInspectorPresentationOrder: 6>
+	"obsolete"
+	composite roassal2
+		title: 'Activity 3';
+		initializeView: [ self activityView3 ]
+		
+]
+
+{ #category : #'gt-inspector-extension' }
+GTASession >> gtInspectorActivityViewIn: composite [
+	<gtInspectorPresentationOrder: 5>
+	composite roassal2
+		title: 'Activity';
+		initializeView: [ self activityView ]
+		
+]
+
+{ #category : #'gt-inspector-extension' }
 GTASession >> gtInspectorEventsIn: composite [
 	<gtInspectorPresentationOrder: -2>  
 	^ (composite table)
@@ -80,24 +129,6 @@ GTASession >> gtInspectorStrangeEventsIn: composite [
 				ifTrue: [ eachEvent ]
 				ifFalse: [ eachEvent asEventAnalysisString, 
 								' with ', eachEvent strange size asString, ' strange observations.' ] ]
-]
-
-{ #category : #'gt-inspector-extension' }
-GTASession >> gtInspectorTimelineView3In: composite [
-	<gtInspectorPresentationOrder: 6>
-	composite roassal2
-		title: 'Timeline 3';
-		initializeView: [ self timelineView3 ]
-		
-]
-
-{ #category : #'gt-inspector-extension' }
-GTASession >> gtInspectorTimelineViewIn: composite [
-	<gtInspectorPresentationOrder: 5>
-	composite roassal2
-		title: 'Timeline';
-		initializeView: [ self timelineView ]
-		
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -171,26 +202,12 @@ GTASession >> start [
 ]
 
 { #category : #'gt-inspector-extension' }
-GTASession >> timelineView [
-	| builder |
-	builder := GTATimelineBuilder new.
-	builder 
-		configuration: GTADefaultTimelineConfiguration uniqueInstance;
-		events: self;
-		build.
-	GTAMenuBuilder new timelineBuilder: builder; build.
-	builder view canvas focusOnCenterScaled.
-	^ builder view.
-]
-
-{ #category : #'gt-inspector-extension' }
 GTASession >> timelineView2 [
-	^ self timelineView
-]
-
-{ #category : #'gt-inspector-extension' }
-GTASession >> timelineView3 [
-	^ GTSpotterTimeline viewOn: self
+	self 
+		deprecated: 'Use activityView instead'
+		on: 	'14 May 2015' 
+		in: 'GT-Spotter-EventRecorder-Analysis-Core'.
+	^ self activityView
 ]
 
 { #category : #update }

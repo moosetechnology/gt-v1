@@ -1,6 +1,8 @@
 Class {
 	#name : #GTAEventCollection,
 	#superclass : #GTACollection,
+	#traits : 'TGTABookmarkIt + TGTSpotterCategoryView',
+	#classTraits : 'TGTABookmarkIt classTrait + TGTSpotterCategoryView classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 

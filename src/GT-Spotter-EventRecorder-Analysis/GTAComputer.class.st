@@ -1,10 +1,32 @@
 Class {
 	#name : #GTAComputer,
 	#superclass : #GTAEventCollection,
-	#traits : 'TGTSpotterDurationView + TGTSpotterSessionsTable + TGTSpotterCategoryView + TGTSpotterUpdateEvents',
-	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterSessionsTable classTrait + TGTSpotterCategoryView classTrait + TGTSpotterUpdateEvents classTrait',
+	#traits : 'TGTSpotterDurationView + TGTSpotterSessionsTable + TGTSpotterUpdateEvents',
+	#classTraits : 'TGTSpotterDurationView classTrait + TGTSpotterSessionsTable classTrait + TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #'gt-inspector-extension' }
+GTAComputer >> activityView [
+	| composer builders |
+	composer := RTComposer new.
+	composer view @ RTZoomableView.
+	builders := GTATimelineBuilders new.
+	1 to: (self size min: 50) do: [ :index | | builder |
+		builder := GTATimelineBuilder new.
+		builder 
+			view: composer view;
+			configuration: GTADefaultTimelineConfiguration uniqueInstance;
+			events: (self at: index);
+			build.
+		composer group: index.
+		index > 1 ifTrue: [ composer move: index belowAlignFromLeft: index - 1 ].
+		builders add: builder.
+	 ].
+	GTAMenuBuilder new timelineBuilder: builders; build.
+	composer view canvas focusOnCenterScaled.
+	^ composer view.
+]
 
 { #category : #helpers }
 GTAComputer >> avgNumberOfDivesIn [
@@ -18,6 +40,11 @@ GTAComputer >> avgNumberOfDivesOut [
 	^ (self sum: #numberOfDivesOut) / self size
 ]
 
+{ #category : #accessing }
+GTAComputer >> bookmarks [
+	^ self computers bookmarks
+]
+
 { #category : #enumerating }
 GTAComputer >> categoryLabels [
 	^ self flatCollect: #categoryLabels as: OrderedCollection
@@ -29,7 +56,12 @@ GTAComputer >> computerUUID [
 	^ self any computerUUID
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GTAComputer >> computers [
+	^ self optionAt: #computers
+]
+
+{ #category : #accessing }
 GTAComputer >> computers: aCollection [ 
 	^ self optionAt: #computers put: aCollection
 ]
@@ -66,6 +98,15 @@ GTAComputer >> durationView [
 { #category : #enumerating }
 GTAComputer >> flatCollectEvents: aBlock [ 
 	^ self flatCollect: [ :eachSession | eachSession select: aBlock ] as: OrderedCollection
+]
+
+{ #category : #'gt-inspector-extension' }
+GTAComputer >> gtInspectorActivityViewIn: composite [
+	<gtInspectorPresentationOrder: 6>
+	composite roassal2
+		title: 'Activity';
+		initializeView: [ self activityView ]
+		
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -127,15 +168,6 @@ GTAComputer >> gtInspectorSessionsIn: composite [
 		beMultiple;
 		send: [ :result | GTAMultipleSelectionSendCommand selection: result in: self ];
 		showOnly: 200
-]
-
-{ #category : #'gt-inspector-extension' }
-GTAComputer >> gtInspectorTimelineViewIn: composite [
-	<gtInspectorPresentationOrder: 6>
-	composite roassal2
-		title: 'Timeline';
-		initializeView: [ self timelineView ]
-		
 ]
 
 { #category : #testing }
@@ -226,28 +258,6 @@ GTAComputer >> specialKeywords [
 GTAComputer >> spentTime [
 	self ifEmpty: [ ^ 0 seconds ].
 	^ self sum: #duration
-]
-
-{ #category : #'gt-inspector-extension' }
-GTAComputer >> timelineView [
-	| composer builders |
-	composer := RTComposer new.
-	composer view @ RTZoomableView.
-	builders := GTATimelineBuilders new.
-	1 to: (self size min: 50) do: [ :index | | builder |
-		builder := GTATimelineBuilder new.
-		builder 
-			view: composer view;
-			configuration: GTADefaultTimelineConfiguration uniqueInstance;
-			events: (self at: index);
-			build.
-		composer group: index.
-		index > 1 ifTrue: [ composer move: index belowAlignFromLeft: index - 1 ].
-		builders add: builder.
-	 ].
-	GTAMenuBuilder new timelineBuilder: builders; build.
-	composer view canvas focusOnCenterScaled.
-	^ composer view.
 ]
 
 { #category : #update }

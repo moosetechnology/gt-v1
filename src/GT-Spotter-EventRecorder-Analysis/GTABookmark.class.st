@@ -40,6 +40,11 @@ GTABookmark >> initialize [
 	dateAndTime := DateAndTime now.
 ]
 
+{ #category : #testing }
+GTABookmark >> isRelatedTo: anObject [ 
+	^ self item = anObject 
+]
+
 { #category : #accessing }
 GTABookmark >> item [
 	^ item

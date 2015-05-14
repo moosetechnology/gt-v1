@@ -16,7 +16,7 @@ GTAComputers >> gtInspectorBookmarksIn: composite [
 		title: 'Bookmarks';
 		display: [ :aComputers | aComputers bookmarks ];
 		column: 'Description'
-			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each description ];
+			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each description asString ];
 		act: [ :Presentation :aComputers | aComputers saveBookmarks ]
 			icon: Smalltalk ui icons glamorousSave
 			entitled: 'Save bookmarks';

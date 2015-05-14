@@ -26,6 +26,16 @@ GTABookmarks >> from: aCollection computers: aGTAComputers [
 	]
 ]
 
+{ #category : #testing }
+GTABookmarks >> hasRelatedTo: anObject [ 
+	^ self anySatisfy: [ :eachBookmark | eachBookmark isRelatedTo: anObject ]
+]
+
+{ #category : #enumerating }
+GTABookmarks >> relatedTo: anObject [ 
+	^ (self select: [ :eachBookmark | eachBookmark isRelatedTo: anObject ]) as: OrderedCollection
+]
+
 { #category : #storing }
 GTABookmarks >> save [
 	GTAConfiguration saveBookmarks: self
