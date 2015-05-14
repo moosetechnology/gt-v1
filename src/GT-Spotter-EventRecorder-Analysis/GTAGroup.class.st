@@ -42,31 +42,3 @@ GTAGroup >> printHumanReadableOn: aStream [
 GTAGroup >> start [
 	^ self first start
 ]
-
-{ #category : #'gt-inspector-extension' }
-GTAGroup >> timelineView2 [
-	| builder minTime |
-	builder := RTTimeLine new.
-	minTime := self start asUnixTime.
-	self reverseWithIndexDo: [ :eachSession :index | | entry |
-		entry := GTATimeLineEntry new.
-		entry 
-			identifier: 1;
-			computer: eachSession computer;
-			group: eachSession;
-			start: eachSession start asUnixTime - minTime;
-			end: eachSession end asUnixTime - minTime.
-		builder addEntry: entry.
-	 ].
-	builder axisX 
-		numberOfLabels: 5;
-		labelRotation: -45;
-		labelConversion: [ :unixTime | (DateAndTime fromUnixTime: unixTime + minTime) asDate ].
-	builder axisY noLabel.
-	builder interaction popup text: #humanReadablePrintString.
-	builder shape color: (RTMultiLinearColorForIdentity new 
-							command: #identifier; 
-							objects: (1 to: self size);
-							yourself).
-	^ builder 
-]
