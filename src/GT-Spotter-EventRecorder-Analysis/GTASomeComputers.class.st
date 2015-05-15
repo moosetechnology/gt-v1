@@ -163,14 +163,13 @@ GTASomeComputers >> timelineView [
 			newGroupBlock: [ GTASomeSessions new computer: eachComputer; yourself ];
 			build.
 		dataSetBuilder groups do: [ :eachGroup | | entry model |
-			entry := GTATimeLineEntry new.
+			entry := RTTimeLineEntry new.
 			model := eachGroup size = 1
 				ifTrue: [ eachGroup any ]
 				ifFalse: [ eachGroup ].
 			entry 
 				identifier: index;
 				model: model;
-				group: model;
 				start: eachGroup start asUnixTime - minTime;
 				end: eachGroup end asUnixTime - minTime.
 			builder addEntry: entry.
