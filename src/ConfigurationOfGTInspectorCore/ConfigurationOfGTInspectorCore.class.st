@@ -180,9 +180,9 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.0.14'.
+	spec for: #'common' version: '2.0.13'.
 	spec for: #'pharo3.x' version: '2.0.6'.
-	spec for: #'pharo4.x' version: '2.0.14'.
+	spec for: #'pharo4.x' version: '2.0.15'.
 
 
 
@@ -287,6 +287,23 @@ ConfigurationOfGTInspectorCore >> version2014: spec [
 		spec project: 'GlamourCore' with: '3.1.3'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.305';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.147';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.33'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version2015: spec [
+	<version: '2.0.15' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.15'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '5/15/2015'.
+		spec project: 'GlamourCore' with: '3.1.4'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.307';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.147';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.33'. ].
 
