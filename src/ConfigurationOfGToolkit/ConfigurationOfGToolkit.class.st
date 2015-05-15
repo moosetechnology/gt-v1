@@ -1893,7 +1893,7 @@ ConfigurationOfGToolkit >> version018: spec [
 			project: 'GTPlayground' with: #'stable';
 			project: 'GTSpotter' with: #'stable'.
 		spec 
-			"package: 'GT-Coder' with: 'GT-Coder-TudorGirba.4';"
+			package: 'GT-Coder' with: 'GT-Coder-TudorGirba.4';
 			package: 'GT-GlamourDebugger' with: 'GT-GlamourDebugger-TudorGirba.41';
 			package: 'GT-Metaceller-Glamour' with: 'GT-Metaceller-Glamour-TudorGirba.25';
 			package: 'GT-Metaceller-Model' with: 'GT-Metaceller-Model-DiegoLont.47';
@@ -1902,7 +1902,7 @@ ConfigurationOfGToolkit >> version018: spec [
 			package: 'GT-PetitParserDebugger' with: 'GT-PetitParserDebugger-AndreiChis.44';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.13';
 			package: 'GT-Setup' with: 'GT-SUnitDebugger-AndreiChis.13';
-			"package: 'GT-Tools' with: 'GT-Tools-StephanEggermont.138';"
+			package: 'GT-Tools' with: 'GT-Tools-StephanEggermont.138';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.194'].
 
 ]
@@ -1925,7 +1925,7 @@ ConfigurationOfGToolkit >> version019: spec [
 			project: 'GTPlayground' with: #'stable';
 			project: 'GTSpotter' with: #'stable'.
 		spec 
-			package: 'GT-Coder' with: 'GT-Coder';
+			package: 'GT-Coder' with: 'GT-Coder-TudorGirba.4';
 			package: 'GT-GlamourDebugger' with: 'GT-GlamourDebugger-TudorGirba.41';
 			package: 'GT-Metaceller-Glamour' with: 'GT-Metaceller-Glamour-TudorGirba.25';
 			package: 'GT-Metaceller-Model' with: 'GT-Metaceller-Model-DiegoLont.47';
@@ -1934,7 +1934,7 @@ ConfigurationOfGToolkit >> version019: spec [
 			package: 'GT-PetitParserDebugger' with: 'GT-PetitParserDebugger-AndreiChis.44';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.13';
 			package: 'GT-Setup' with: 'GT-Setup-TudorGirba.25';
-			package: 'GT-Tools' with: 'GT-Tools';
+			package: 'GT-Tools' with: 'GT-Tools-StephanEggermont.138';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.194'. ].
 
 ]
