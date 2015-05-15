@@ -765,7 +765,7 @@ ConfigurationOfGToolkit >> baseline018: aSpec [
 				aSpec
 					versionString: #'development';
 					className: 'ConfigurationOfGlamour';
-					loads: #('default' 'Extras');
+					loads: #('default' 'Glamour-Magritte-Presentations');
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'PetitParser' with: [
 				aSpec
