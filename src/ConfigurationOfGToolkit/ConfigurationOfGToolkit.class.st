@@ -1947,7 +1947,7 @@ ConfigurationOfGToolkit >> version022: spec [
 		spec blessing: #'stable'.
 		spec description: 'version 0.22'.
 		spec author: 'AndreiChis'.
-		spec timestamp: '05/05/2014'.
+		spec timestamp: '05/15/2014'.
 		spec 
 			project: 'AnnouncerCentricDebugger' with: #'stable';
 			project: 'Glamour' with: #'stable';
@@ -1959,14 +1959,12 @@ ConfigurationOfGToolkit >> version022: spec [
 		spec 
 			package: 'GT-Coder' with: 'GT-Coder-TudorGirba.4';
 			package: 'GT-GlamourDebugger' with: 'GT-GlamourDebugger-AndreiChis.47';
-			package: 'GT-Metaceller-Glamour' with: 'GT-Metaceller-Glamour-TudorGirba.25';
-			package: 'GT-Metaceller-Model' with: 'GT-Metaceller-Model-DiegoLont.47';
-			package: 'GT-Metaceller-Stream' with: 'GT-Metaceller-Stream-DiegoLont.7';
-			package: 'GT-Metaceller-Tests' with: 'GT-Metaceller-Tests-DiegoLont.20';
 			package: 'GT-PetitParserDebugger' with: 'GT-PetitParserDebugger-AndreiChis.50';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.18';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.14';
 			package: 'GT-Setup' with: 'GT-Setup-AndreiChis.38';
 			package: 'GT-Tools' with: 'GT-Tools-StephanEggermont.138';
+			package: 'GT-Tests-Release' with: 'GT-Tests-Release-StefanReichhart.7';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-StefanReichhart.212'. ].
 
 ]
