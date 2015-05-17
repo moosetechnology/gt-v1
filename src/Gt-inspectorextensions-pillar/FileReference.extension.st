@@ -5,7 +5,7 @@ FileReference >> gtInspectorPillarConfigurationIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	(self basename = 'pillar.conf')
 		ifFalse: [ ^ self ].
-	((PRSTONConfigurationInterpreter baseDirectory: self parent)
+	((PRCocoonConfigurationInterpreter baseDirectory: self parent)
 		buildFromFile: self)
 			gtInspectorInputFilesIn: composite
 ]
