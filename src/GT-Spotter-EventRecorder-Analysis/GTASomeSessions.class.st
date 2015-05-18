@@ -153,8 +153,8 @@ GTASomeSessions >> gtInspectorTimelineViewIn: composite [
 GTASomeSessions >> printHumanReadableOn: aStream [
 	| duration |
 	aStream 
-		print: self size; 
-		nextPutAll: ' events from '; 
+		nextPutAll: (self size pluralize: 'event');
+		nextPutAll: ' from '; 
 		print: self start asDate; 
 		cr;
 		nextPutAll: ' during '. 
@@ -174,8 +174,8 @@ GTASomeSessions >> spentTime [
 
 { #category : #'gt-inspector-extension' }
 GTASomeSessions >> timelineView [
-	| builder minTime dataSetBuilder |
-	builder := RTTimeLine new.
+	| builder minTime dataSetBuilder set objects |
+	builder := RTTimeline new.
 	minTime := self start asUnixTime.
 	dataSetBuilder := GTARoughDataSetBuilder new
 		gap: self duration / 48;
@@ -183,18 +183,17 @@ GTASomeSessions >> timelineView [
 		newGroupBlock: [ GTASomeSessions new computer: self; yourself ];
 		yourself.
 	dataSetBuilder objects: self; build.
-	dataSetBuilder groups do: [ :eachGroup | | entry model |
-		entry := RTTimeLineEntry new.
-		model := eachGroup size = 1
-			ifTrue: [ eachGroup any ]
-			ifFalse: [ eachGroup ].
-		entry 
-			identifier: 1;
-			model: model;
-			start: eachGroup start asUnixTime - minTime;
-			end: eachGroup end asUnixTime - minTime.
-		builder addEntry: entry.
-	].
+	set := RTTimelineSet new.
+	objects := dataSetBuilder groups collect: [ :eachGroup |
+		eachGroup size = 1 ifTrue: [ eachGroup any ] ifFalse: [ eachGroup ] ].
+	set 
+		lineIdentifier: 1;
+		objects: objects;
+		start: [ :eachSession | eachSession start asUnixTime - minTime ];
+		end: [ :eachSession | eachSession end asUnixTime - minTime ].
+	set interaction popupText: #humanReadablePrintString.
+	set shape color: (RTMultiLinearColorForIdentity new objects: objects).
+	builder add: set.
 	builder axisX 
 		numberOfLabels: 5;
 		labelRotation: -45;
@@ -204,8 +203,6 @@ GTASomeSessions >> timelineView [
 				duration: self duration;
 				numberOfLabels: 5;
 				humanReadablePrintString ].
-	builder axisY noLabel.
-	builder interaction popup text: #humanReadablePrintString.
-	builder shape color: (RTMultiLinearColorForIdentity new objects: builder entries).
+	builder timelineLabel: ''.
 	^ builder 
 ]

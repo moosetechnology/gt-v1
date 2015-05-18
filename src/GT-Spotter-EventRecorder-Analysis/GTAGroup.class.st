@@ -25,8 +25,8 @@ GTAGroup >> humanReadablePrintString [
 GTAGroup >> printHumanReadableOn: aStream [
 	| duration |
 	aStream 
-		print: self size; 
-		nextPutAll: ' events from '; 
+		nextPutAll: (self size pluralize: 'event');
+		nextPutAll: ' from '; 
 		print: self start asDate; 
 		cr;
 		nextPutAll: ' during '. 

@@ -151,29 +151,31 @@ GTASomeComputers >> specialKeywords [
 { #category : #'gt-inspector-extension' }
 GTASomeComputers >> timelineView [
 	| builder minTime dataSetBuilder |
-	builder := RTTimeLine new.
+	builder := RTTimeline new.
 	minTime := self start asUnixTime.
 	dataSetBuilder := GTARoughDataSetBuilder new
 		gap: self duration / 48;
 		setSessionComparator;
 		yourself.
-	self reverseWithIndexDo: [ :eachComputer :index | 
+	self reverseWithIndexDo: [ :eachComputer :index | | set objects |
 		dataSetBuilder 
 			objects: eachComputer; 
 			newGroupBlock: [ GTASomeSessions new computer: eachComputer; yourself ];
 			build.
-		dataSetBuilder groups do: [ :eachGroup | | entry model |
-			entry := RTTimeLineEntry new.
-			model := eachGroup size = 1
-				ifTrue: [ eachGroup any ]
-				ifFalse: [ eachGroup ].
-			entry 
-				identifier: index;
-				model: model;
-				start: eachGroup start asUnixTime - minTime;
-				end: eachGroup end asUnixTime - minTime.
-			builder addEntry: entry.
-		].
+		objects := dataSetBuilder groups collect: [ :eachGroup |
+			eachGroup size = 1 ifTrue: [ eachGroup any ] ifFalse: [ eachGroup ] ].
+		set := RTTimelineSet new.
+		set
+			lineIdentifier: index;
+			objects: objects;
+			start: [ :eachSession | eachSession start asUnixTime - minTime ];
+			end: [ :eachSession | eachSession end asUnixTime - minTime ].
+		set interaction popupText: #humanReadablePrintString.
+		set shape color: (RTMultiLinearColorForIdentity new 
+							command: [ :eachSession | objects indexOf: eachSession ]; 
+							objects: (1 to: objects size);
+							yourself).
+		builder add: set.
 	 ].
 	builder axisX 
 		numberOfLabels: 5;
@@ -184,12 +186,7 @@ GTASomeComputers >> timelineView [
 				duration: self duration;
 				numberOfLabels: 5;
 				humanReadablePrintString ].
-	builder axisY noLabel.
-	builder interaction popup text: #humanReadablePrintString.
-	builder shape color: (RTMultiLinearColorForIdentity new 
-							command: #identifier; 
-							objects: (1 to: self size);
-							yourself).
+	builder timelineLabel: ''.
 	^ builder 
 ]
 

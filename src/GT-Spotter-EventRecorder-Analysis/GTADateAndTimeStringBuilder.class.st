@@ -29,15 +29,12 @@ GTADateAndTimeStringBuilder >> duration: anObject [
 	duration := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 GTADateAndTimeStringBuilder >> humanReadablePrintString [
 	self duration days > self numberOfLabels ifTrue: [ ^ self dateAndTime asDate printString ].
 	self duration days > 1 ifTrue: [ ^ String streamContents: [ :aStream | 
 			self dateAndTime printSeparateDateAndTimeOn: aStream ] ]. 
-	self duration minutes > self numberOfLabels ifTrue: [ ^ self dateAndTime asTime print24 ].
-	self duration minutes > 1 ifTrue: [ ^ String streamContents: [ :aStream | 
-			self dateAndTime printMSOn: aStream ] ].
-	^ self dateAndTime asSeconds printString
+	^ self dateAndTime asTime print24
 ]
 
 { #category : #accessing }
