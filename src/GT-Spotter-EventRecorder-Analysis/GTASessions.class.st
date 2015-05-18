@@ -6,11 +6,6 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
-{ #category : #accessing }
-GTASessions >> duration [
-	^ self end - self start
-]
-
 { #category : #'gt-inspector-extension' }
 GTASessions >> durationView [
 	| b ds |
@@ -35,11 +30,6 @@ GTASessions >> durationView [
 	
 ]
 
-{ #category : #accessing }
-GTASessions >> end [
-	^ (self detectMax: #end)  ifNil: [ 0 ] ifNotNil: [ :obj | obj end ]
-]
-
 { #category : #'gt-inspector-extension' }
 GTASessions >> gtInspectorDurationViewIn: composite [
 	<gtInspectorPresentationOrder: 5>
@@ -57,9 +47,4 @@ GTASessions >> numberOfEvents [
 { #category : #enumerating }
 GTASessions >> sessions [
 	^ self
-]
-
-{ #category : #accessing }
-GTASessions >> start [
-	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
 ]

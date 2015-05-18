@@ -14,8 +14,7 @@ GTACollection >> duration [
 
 { #category : #accessing }
 GTACollection >> end [
-	self ifEmpty: [ ^ 0 ].
-	^ self last end
+	^ (self detectMax: #end) ifNil: [ 0 ] ifNotNil: [ :obj | obj end ]
 ]
 
 { #category : #accessing }
@@ -43,6 +42,5 @@ GTACollection >> optionAt: key put: value [
 
 { #category : #accessing }
 GTACollection >> start [
-	self ifEmpty: [ ^ 0 ].
-	^ self first start
+	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]
 ]
