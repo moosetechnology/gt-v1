@@ -1,0 +1,55 @@
+Class {
+	#name : #GTAMenuTimelineBuilder,
+	#superclass : #Object,
+	#instVars : [
+		'timelineBuilder',
+		'menuBuilder'
+	],
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Timeline'
+}
+
+{ #category : #building }
+GTAMenuTimelineBuilder >> build [
+	self renderIn: timelineBuilder view.
+]
+
+{ #category : #initialization }
+GTAMenuTimelineBuilder >> initialize [
+	super initialize.
+	menuBuilder := RTMenuBuilder new.
+]
+
+{ #category : #'as yet unclassified' }
+GTAMenuTimelineBuilder >> keywordUsage [
+	| elements keywords normalizer maxKeywords |
+	elements := timelineBuilder elements.
+	keywords := elements collect: [ :e | e -> e model specialKeywords size ].
+	maxKeywords := keywords max: [ :assoc | assoc value ].
+	maxKeywords = 0 ifTrue: [ 
+		self inform: 'No keywords'.
+		^ self ].
+	normalizer := RTGrayLinearColor new.
+	normalizer command: #yourself; scope: (0 to: maxKeywords).
+	elements do: [ :element | | elementKeywords |
+		elementKeywords := keywords detect: [ :assoc | assoc key == element ].
+		element trachelShape allVisibleColor: (normalizer rtValue: elementKeywords value) ].
+	timelineBuilder view signalUpdate
+]
+
+{ #category : #hooks }
+GTAMenuTimelineBuilder >> renderIn: aView [
+	menuBuilder view: aView.
+	menuBuilder menu: 'Feature usage' submenu: 'Keyword' callback: [ self keywordUsage ].
+	menuBuilder menu: 'Feature usage' submenu: 'Diving' callback: [ self divingUsage ].
+	
+]
+
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> timelineBuilder [
+	^ timelineBuilder
+]
+
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> timelineBuilder: anObject [
+	timelineBuilder := anObject
+]

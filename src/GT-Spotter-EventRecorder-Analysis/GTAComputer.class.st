@@ -128,11 +128,6 @@ GTAComputer >> sessionsWithSpecialKeywords [
 	^ self select: #hasSpecialKeywords
 ]
 
-{ #category : #enumerating }
-GTAComputer >> specialKeywords [
-	^ self flatCollect: #specialKeywords as: OrderedCollection
-]
-
 { #category : #update }
 GTAComputer >> updateEvents [
 	^ self do: #updateEvents

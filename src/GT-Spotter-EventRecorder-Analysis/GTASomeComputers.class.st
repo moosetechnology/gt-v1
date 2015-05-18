@@ -186,7 +186,11 @@ GTASomeComputers >> timelineView [
 				duration: self duration;
 				numberOfLabels: 5;
 				humanReadablePrintString ].
-	builder timelineLabel: ''.
+	builder 
+		timelineLabel: [ :lineIdentifier | (self at: lineIdentifier) start asDate ];
+		extent: 400 @ ((self size * 10) max: 200).
+	builder build.
+	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
 	^ builder 
 ]
 

@@ -167,6 +167,11 @@ GTASomeSessions >> printHumanReadableOn: aStream [
 ]
 
 { #category : #enumerating }
+GTASomeSessions >> specialKeywords [
+	^ self flatCollect: #specialKeywords as: OrderedCollection
+]
+
+{ #category : #enumerating }
 GTASomeSessions >> spentTime [
 	self ifEmpty: [ ^ 0 seconds ].
 	^ self sum: #duration
@@ -204,5 +209,7 @@ GTASomeSessions >> timelineView [
 				numberOfLabels: 5;
 				humanReadablePrintString ].
 	builder timelineLabel: ''.
+	builder build.
+	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
 	^ builder 
 ]

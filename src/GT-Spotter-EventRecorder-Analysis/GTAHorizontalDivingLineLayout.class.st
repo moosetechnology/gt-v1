@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'diveInLevel'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #accessing }

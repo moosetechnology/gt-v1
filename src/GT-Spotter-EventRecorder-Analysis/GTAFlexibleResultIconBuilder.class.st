@@ -1,7 +1,7 @@
 Class {
 	#name : #GTAFlexibleResultIconBuilder,
 	#superclass : #GTAOrthogonalIconBuilder,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #visitor }

@@ -5,7 +5,7 @@ Class {
 		'timelineBuilder',
 		'menuBuilder'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #'event handling' }

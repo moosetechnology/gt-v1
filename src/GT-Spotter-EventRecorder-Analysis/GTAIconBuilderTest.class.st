@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'builder'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #running }

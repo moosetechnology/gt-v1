@@ -11,7 +11,7 @@ Class {
 		'edgeShapeBuilder',
 		'withEdges'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #api }

@@ -1,7 +1,7 @@
 Class {
 	#name : #GTATimelineBuilders,
 	#superclass : #OrderedCollection,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #adding }
