@@ -13,6 +13,16 @@ GTSpotterRecorderDiveOutEvent >> eventAnalysisPrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveOutEvent >> hasKnownName [
+	^ self elementName notNil
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveOutEvent >> hasName [
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveOutEvent >> isForTimelineView [
 	^ true
 ]

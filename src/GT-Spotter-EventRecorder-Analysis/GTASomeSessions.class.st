@@ -213,3 +213,8 @@ GTASomeSessions >> timelineView [
 	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
 	^ builder 
 ]
+
+{ #category : #enumerating }
+GTASomeSessions >> unknownNames [
+	^ self flatCollect: #unknownNames as: OrderedCollection
+]

@@ -39,7 +39,7 @@ GTASomeComputers >> flatCollectEvents: aBlock [
 
 { #category : #'gt-inspector-extension' }
 GTASomeComputers >> gtInspectorComputersIn: composite [
-	<gtInspectorPresentationOrder: -2>  
+	<gtInspectorPresentationOrder: -10>  
 	^ (composite table)
 		title: 'Computers';
 		display: [ :aComputer | aComputer ];
@@ -95,7 +95,7 @@ GTASomeComputers >> gtInspectorComputersIn: composite [
 
 { #category : #'gt-inspector-extension' }
 GTASomeComputers >> gtInspectorTimelineViewIn: composite [
-	<gtInspectorPresentationOrder: 6>
+	<gtInspectorPresentationOrder: -8>
 	composite roassal2
 		title: 'Timeline';
 		initializeView: [ self timelineView ]
@@ -192,6 +192,11 @@ GTASomeComputers >> timelineView [
 	builder build.
 	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
 	^ builder 
+]
+
+{ #category : #enumerating }
+GTASomeComputers >> unknownNames [
+	^ self flatCollect: #unknownNames as: OrderedCollection
 ]
 
 { #category : #update }

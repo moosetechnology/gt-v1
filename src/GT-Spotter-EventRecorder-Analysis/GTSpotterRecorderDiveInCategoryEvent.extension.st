@@ -40,6 +40,17 @@ GTSpotterRecorderDiveInCategoryEvent >> hasDiveIn [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> hasKnownName [
+	^ self categoryTitle notNil
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInCategoryEvent >> hasName [
+	"In that case it is category title"
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInCategoryEvent >> hasQuery [
 	^ self children contains: #isContextChanged
 ]

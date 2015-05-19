@@ -21,6 +21,18 @@ GTSpotterRecorderCategorySelectedEvent >> eventAnalysisPrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> hasKnownName [
+	"It is a category name"
+	^ self categoryLabel notNil
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> hasName [
+	"It is a category name"
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderCategorySelectedEvent >> markAsStrange [
 	^ self infoAt: #strange put: true
 ]

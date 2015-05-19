@@ -13,6 +13,23 @@ GTSpotterRecorderActOnEvent >> eventAnalysisPrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> hasKnownName [
+	"It is a hash"
+	^ self elementName notNil
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> hasName [
+	"It is a hash"
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> isActOn [
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderActOnEvent >> isForTimelineView [
 	^ true
 ]

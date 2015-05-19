@@ -40,7 +40,22 @@ GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> hasKnownName [
+	^ self query notNil and: [ self processors notNil ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> hasName [
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSearchFinishedEvent >> isForTimelineView [
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> isSearchFinishedClass [
 	^ true
 ]
 

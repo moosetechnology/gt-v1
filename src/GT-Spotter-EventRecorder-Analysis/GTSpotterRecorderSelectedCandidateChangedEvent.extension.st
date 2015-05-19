@@ -35,6 +35,16 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> existsUserSelectionsOfTheSameE
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> hasKnownName [
+	^ self elementName notNil
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> hasName [
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> isForTimelineView [
 	^ self isUserSelection
 ]

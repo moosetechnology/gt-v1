@@ -37,6 +37,18 @@ GTSpotterRecorderDiveInElementEvent >> hasDiveIn [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> hasKnownName [
+	"In that case a hash"
+	^ self elementName notNil
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> hasName [
+	"In that case a hash"
+	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInElementEvent >> hasQuery [
 	^ self children contains: #isContextChanged
 ]

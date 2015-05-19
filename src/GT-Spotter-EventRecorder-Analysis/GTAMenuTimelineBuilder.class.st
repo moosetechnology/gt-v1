@@ -19,14 +19,20 @@ GTAMenuTimelineBuilder >> initialize [
 	menuBuilder := RTMenuBuilder new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuTimelineBuilder >> keywordUsage [
+	self numberOfOccurrences: #specialKeywords inform: 'No keywords'
+
+]
+
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> numberOfOccurrences: aSymbol inform: aNoOccurrencesString [
 	| elements keywords normalizer maxKeywords |
 	elements := timelineBuilder elements.
-	keywords := elements collect: [ :e | e -> e model specialKeywords size ].
+	keywords := elements collect: [ :e | e -> (e model perform: aSymbol) size ].
 	maxKeywords := keywords max: [ :assoc | assoc value ].
 	maxKeywords = 0 ifTrue: [ 
-		self inform: 'No keywords'.
+		self inform: aNoOccurrencesString.
 		^ self ].
 	normalizer := RTGrayLinearColor new.
 	normalizer command: #yourself; scope: (0 to: maxKeywords).
@@ -42,6 +48,8 @@ GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder menu: 'Feature usage' submenu: 'Keyword' callback: [ self keywordUsage ].
 	menuBuilder menu: 'Feature usage' submenu: 'Diving' callback: [ self divingUsage ].
 	
+	menuBuilder menu: 'Data cleaning' submenu: 'Unknown items' callback: [ self unknownItems ].
+
 ]
 
 { #category : #accessing }
@@ -52,4 +60,9 @@ GTAMenuTimelineBuilder >> timelineBuilder [
 { #category : #accessing }
 GTAMenuTimelineBuilder >> timelineBuilder: anObject [
 	timelineBuilder := anObject
+]
+
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> unknownItems [
+	self numberOfOccurrences: #unknownNames inform: 'No unknown names.'
 ]

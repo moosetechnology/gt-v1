@@ -91,6 +91,26 @@ GTSpotterRecorderEvent >> hasElementName [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> hasKnownName [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> hasName [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> hasUnknownName [
+	^ self hasName and: [ self hasKnownName not ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> isActOn [
+	^ false
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> isCategoryDiveIn [
 	^ false
 ]
@@ -113,6 +133,11 @@ GTSpotterRecorderEvent >> isMissStep [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> isRootEvent [
 	^ self infoAt: #diveInEvent ifPresent: [ :obj | false ] ifAbsent: [ true ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> isSearchFinishedClass [
+	^ false
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

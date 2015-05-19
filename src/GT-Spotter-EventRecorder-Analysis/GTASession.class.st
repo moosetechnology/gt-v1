@@ -200,6 +200,11 @@ GTASession >> timelineView2 [
 	^ self activityView
 ]
 
+{ #category : #enumerating }
+GTASession >> unknownNames [
+	^ self select: #hasUnknownName
+]
+
 { #category : #update }
 GTASession >> updateEvents [
 	^ GTSpotterSessionAnalysis updateOn: self
