@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'item',
 		'description',
-		'dateAndTime'
+		'dateAndTime',
+		'garbage'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Bookmarks'
 }
@@ -34,10 +35,28 @@ GTABookmark >> from: aCollection computers: aGTAComputers [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+GTABookmark >> garbage [
+	^ garbage
+]
+
+{ #category : #accessing }
+GTABookmark >> garbage: aBoolean [
+	garbage := aBoolean
+]
+
+{ #category : #accessing }
+GTABookmark >> garbageString [
+	^ self garbage
+		ifTrue: 'yes'
+		ifFalse: 'no'
+]
+
 { #category : #initialization }
 GTABookmark >> initialize [
 	super initialize.
 	dateAndTime := DateAndTime now.
+	garbage := false.
 ]
 
 { #category : #testing }
@@ -58,4 +77,14 @@ GTABookmark >> item: anObject [
 { #category : #accessing }
 GTABookmark >> path [
 	^ self subclassResponsibility.
+]
+
+{ #category : #'as yet unclassified' }
+GTABookmark >> toggleGarbage [
+	self garbage: self garbage not
+]
+
+{ #category : #accessing }
+GTABookmark >> typeName [
+	^ self subclassResponsibility
 ]

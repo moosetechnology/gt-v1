@@ -30,25 +30,33 @@ TGTABookmarkIt >> gtInspectorBookmarksIn: composite [
 		title: 'Bookmarks';
 		with: [ :browser | 
 			browser
-				row: #list;
+				row: #table;
 				row: #description.
 			browser transmit 
-				to: #list;
+				to: #table;
 				andShow: [ :c |
-					c list 
-						display: [ self relatedBookmarks ];
-						format: [ :aBookmark | 
-							GTObjectPrinter new asTruncatedTextFrom: aBookmark description asString ];
+					c table 
+						display: [ :anEventCollection | anEventCollection relatedBookmarks ];
+						column: 'Garbage'
+							evaluated: [ :each | each garbageString ]
+							width: 57;
+						column: 'Description'
+							evaluated:  [ :each | GTObjectPrinter new asTruncatedTextFrom: 
+															each description asString ];
 						updateOn: GTACollectionAnnouncement 
 							from: [ :aEventCollection | 
 										aEventCollection bookmarks announcer ];
+						selectionAct: [ :list :bookmark | 
+								self toggleGarbage: list rawSelection.
+								list update ]
+							entitled: 'Toggle garbage';
 						selectionAct: [ :list :relatedBookmarks |
-							self removeBookmark: list selection.
-							list update ]
+								self removeBookmark: list selection.
+								list update ]
 							entitled: 'Remove bookmark' ].
 			browser transmit
 				to: #description;
-				from: #list port: #selection;
+				from: #table port: #selection;
 				andShow: [ :c |
 					c rubricText
 						display: #description;
@@ -76,4 +84,10 @@ TGTABookmarkIt >> removeBookmark: aBookmark [
 	self bookmarks 
 		removeBookmark: aBookmark;
 		save.
+]
+
+{ #category : #api }
+TGTABookmarkIt >> toggleGarbage: aGTABookmark [ 
+	aGTABookmark toggleGarbage.
+	self bookmarks save.
 ]

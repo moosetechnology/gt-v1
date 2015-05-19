@@ -12,7 +12,8 @@ GTASessionBookmark >> from: aCollection computers: aGTAComputers [
 	self
 		item: session;
 		description: aCollection fourth;
-		dateAndTime: aCollection fifth.
+		dateAndTime: aCollection fifth;
+		garbage: aCollection sixth
 ]
 
 { #category : #accessing }
@@ -23,4 +24,10 @@ GTASessionBookmark >> path [
 		with: self item start
 		with: self description
 		with: self dateAndTime
+		with: self garbage
+]
+
+{ #category : #accessing }
+GTASessionBookmark >> typeName [
+	^ 'session'
 ]

@@ -4,14 +4,15 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Bookmarks'
 }
 
-{ #category : #accessing }
+{ #category : #initialization }
 GTAComputerBookmark >> from: aCollection computers: aGTAComputers [ 
 	| computer |
 	computer := aGTAComputers detect: [ :each | each computerUUID = aCollection second ].
 	self
 		item: computer;
 		description: aCollection third;
-		dateAndTime: aCollection fourth.
+		dateAndTime: aCollection fourth;
+		garbage: aCollection fifth
 ]
 
 { #category : #accessing }
@@ -21,4 +22,10 @@ GTAComputerBookmark >> path [
 		with: self item computerUUID
 		with: self description
 		with: self dateAndTime
+		with: self garbage
+]
+
+{ #category : #accessing }
+GTAComputerBookmark >> typeName [
+	^ 'computer'
 ]

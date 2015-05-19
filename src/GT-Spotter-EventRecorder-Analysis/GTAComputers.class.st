@@ -15,6 +15,12 @@ GTAComputers >> gtInspectorBookmarksIn: composite [
 	(composite table)
 		title: 'Bookmarks';
 		display: [ :aComputers | aComputers bookmarks ];
+		column: 'Type'
+			evaluated: [ :each | each typeName ]
+			width: 57;
+		column: 'Garbage'
+			evaluated: [ :each | each garbageString ]
+			width: 57;
 		column: 'Description'
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each description asString ];
 		act: [ :Presentation :aComputers | aComputers saveBookmarks ]
@@ -23,13 +29,34 @@ GTAComputers >> gtInspectorBookmarksIn: composite [
 		selectionPopulate: #selection
 			entitled: 'Open bookmark'
 			with: [ :aTable | aTable rawSelection gtInspectorInterestingObject ];
+		selectionAct: [ :list :bookmark | 
+				self toggleGarbage: list rawSelection.
+				list update ]
+			entitled: 'Toggle garbage';
+		selectionAct: [ :list :bookmark | 
+				self removeBookmark: list rawSelection.
+				list update ]
+			entitled: 'Remove bookmark';
 		updateOn: GTACollectionAnnouncement 
 			from: [ :aComputers | aComputers bookmarks announcer ];
 		send: [ :result | result ifNotNil: [ result item ] ];
 		showOnly: 50 
 ]
 
-{ #category : #update }
+{ #category : #bookmarks }
+GTAComputers >> removeBookmark: aGTABookmark [ 
+	self bookmarks 
+		removeBookmark: aGTABookmark;
+		save.
+]
+
+{ #category : #bookmarks }
 GTAComputers >> saveBookmarks [
 	self bookmarks ifNotEmpty: [ self bookmarks save ]
+]
+
+{ #category : #bookmarks }
+GTAComputers >> toggleGarbage: aGTASessionBookmark [ 
+	aGTASessionBookmark toggleGarbage.
+	self saveBookmarks.
 ]
