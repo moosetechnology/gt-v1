@@ -7,8 +7,12 @@ Class {
 { #category : #initialization }
 GTASessionBookmark >> from: aCollection computers: aGTAComputers [ 
 	| computer session |
-	computer := aGTAComputers detect: [ :each | each computerUUID = aCollection second ].
-	session := computer detect: [ :each | each start = aCollection third ].
+	computer := aGTAComputers 
+						detect: [ :each | each computerUUID = aCollection second ] 
+						ifNone: [ ^ self newDetachedBookmark: aCollection ].
+	session := computer 
+						detect: [ :each | each start = aCollection third ] 
+						ifNone: [ ^ self newDetachedBookmark: aCollection ].
 	self
 		item: session;
 		description: aCollection fourth;

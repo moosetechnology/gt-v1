@@ -67,6 +67,11 @@ GTASession >> deepestDiveIn [
 	^ self max: #diveInLevel
 ]
 
+{ #category : #enumerating }
+GTASession >> divesIn [
+	^ self select: #isDiveIn
+]
+
 { #category : #accessing }
 GTASession >> end [
 	self ifEmpty: [ ^ 0 ].

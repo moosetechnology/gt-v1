@@ -13,6 +13,12 @@ GTAMenuTimelineBuilder >> build [
 	self renderIn: timelineBuilder view.
 ]
 
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> divingUsage [
+	self numberOfOccurrences: #divesIn inform: 'No dives-in.'
+
+]
+
 { #category : #initialization }
 GTAMenuTimelineBuilder >> initialize [
 	super initialize.
@@ -21,7 +27,7 @@ GTAMenuTimelineBuilder >> initialize [
 
 { #category : #'event handling' }
 GTAMenuTimelineBuilder >> keywordUsage [
-	self numberOfOccurrences: #specialKeywords inform: 'No keywords'
+	self numberOfOccurrences: #specialKeywords inform: 'No keywords.'
 
 ]
 

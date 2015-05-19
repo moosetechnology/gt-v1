@@ -39,8 +39,7 @@ GTABookmarks >> announcer [
 GTABookmarks >> from: aCollection computers: aGTAComputers [
 	aCollection do: [ :eachBookmarkPath | | bookmark |
 		bookmark := eachBookmarkPath first new
-							from: eachBookmarkPath computers: aGTAComputers;
-							yourself.
+							from: eachBookmarkPath computers: aGTAComputers.
 		self add: bookmark.
 	]
 ]

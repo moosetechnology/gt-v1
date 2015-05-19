@@ -26,6 +26,18 @@ GTASomeSessions >> activityView [
 	^ composer view.
 ]
 
+{ #category : #helpers }
+GTASomeSessions >> avgNumberOfDivesIn [
+	self ifEmpty: [ ^ 0 ].
+	^ (self sum: #numberOfDivesIn) / self size
+]
+
+{ #category : #helpers }
+GTASomeSessions >> avgNumberOfDivesOut [
+	self ifEmpty: [ ^ 0 ].
+	^ (self sum: #numberOfDivesOut) / self size
+]
+
 { #category : #accessing }
 GTASomeSessions >> bookmarks [
 	^ self computer bookmarks
@@ -44,6 +56,11 @@ GTASomeSessions >> computer [
 { #category : #accessing }
 GTASomeSessions >> computer: aCollection [ 
 	^ self optionAt: #computer put: aCollection
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> divesIn [
+	^ self flatCollect: #divesIn as: OrderedCollection
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -149,6 +166,50 @@ GTASomeSessions >> gtInspectorTimelineViewIn: composite [
 		
 ]
 
+{ #category : #testing }
+GTASomeSessions >> isDeveloper [
+	^ GTAConfiguration isDeveloper: self computerUUID
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> missSteps [
+	^ self flatCollect: #missSteps as: GTASession
+]
+
+{ #category : #helpers }
+GTASomeSessions >> numberOfContextChanged [
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #numberOfContextChanged
+]
+
+{ #category : #helpers }
+GTASomeSessions >> numberOfDifferentSearchStrings [
+	^ self differentSearchStrings size
+]
+
+{ #category : #helpers }
+GTASomeSessions >> numberOfDivesIn [
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #numberOfDivesIn	
+]
+
+{ #category : #helpers }
+GTASomeSessions >> numberOfDivesOut [
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #numberOfDivesOut
+]
+
+{ #category : #helpers }
+GTASomeSessions >> numberOfEvents [
+	self ifEmpty: [ ^ 0 ].
+	^ self sum: #size
+]
+
+{ #category : #helpers }
+GTASomeSessions >> numberOfPreviews [
+	^ self sessionsWithPreview size
+]
+
 { #category : #printing }
 GTASomeSessions >> printHumanReadableOn: aStream [
 	| duration |
@@ -164,6 +225,16 @@ GTASomeSessions >> printHumanReadableOn: aStream [
 	self duration > 1 hour ifTrue: [ duration := self duration truncateTo: 1 minute ].
 	self duration > 1 day ifTrue: [ duration := self duration truncateTo: 1 hour ].
 	duration printHumanReadableOn: aStream
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> searchStrings [
+	^ self flatCollect: #searchStrings as: Bag
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> sessionsWithPreview [
+	^ self select: #isWithPreview
 ]
 
 { #category : #enumerating }
@@ -217,4 +288,19 @@ GTASomeSessions >> timelineView [
 { #category : #enumerating }
 GTASomeSessions >> unknownNames [
 	^ self flatCollect: #unknownNames as: OrderedCollection
+]
+
+{ #category : #accessing }
+GTASomeSessions >> userOrDeveloperString [
+	^ self isDeveloper
+			ifTrue: [ 'dev' ]
+			ifFalse: [ 'user' ]
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> withoutEventsBeforePharo4Release [
+	^ (self 
+		select: [ :eachSession | 
+						eachSession end asDate > GTAConfiguration pharo4ReleaseDate ])
+		as: GTASomeSessions
 ]

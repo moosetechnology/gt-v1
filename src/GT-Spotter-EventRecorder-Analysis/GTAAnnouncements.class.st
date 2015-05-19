@@ -42,6 +42,7 @@ GTAAnnouncements class >> spotterUsersAndDevelopers [
 	"self spotterUsersAndDevelopers"
 	^ self fromLocalDirectory 
 			withoutEmptyComputerUUID
+				withoutEventsBeforePharo4Release
 					sessionsPerComputer
 						"sessionsWithNumberOfInputsGreaterThenOne"
 ]
@@ -99,4 +100,10 @@ GTAAnnouncements >> users [
 { #category : #enumerating }
 GTAAnnouncements >> withoutEmptyComputerUUID [
 	^ self select: [ :each | each computerUUID notNil and: [ (each computerUUID = 'nil') not ] ]
+]
+
+{ #category : #'as yet unclassified' }
+GTAAnnouncements >> withoutEventsBeforePharo4Release [
+	^ self select: [ :eachAnnouncement |
+			eachAnnouncement timestamp > GTAConfiguration pharo4ReleaseDate ]
 ]

@@ -23,7 +23,7 @@ GTAComputers >> gtInspectorBookmarksIn: composite [
 			width: 57;
 		column: 'Description'
 			evaluated: [ :each | GTObjectPrinter new asTruncatedTextFrom: each description asString ];
-		act: [ :Presentation :aComputers | aComputers saveBookmarks ]
+		act: [ :aPresentation :aComputers | aComputers saveBookmarks ]
 			icon: Smalltalk ui icons glamorousSave
 			entitled: 'Save bookmarks';
 		selectionPopulate: #selection
@@ -59,4 +59,15 @@ GTAComputers >> saveBookmarks [
 GTAComputers >> toggleGarbage: aGTASessionBookmark [ 
 	aGTASessionBookmark toggleGarbage.
 	self saveBookmarks.
+]
+
+{ #category : #enumerating }
+GTAComputers >> withoutEventsBeforePharo4Release [
+	| col |
+	col := (self 
+				collect: [ :eachComputer | eachComputer withoutEventsBeforePharo4Release ] 
+				thenSelect: [ :eachComputer | eachComputer notEmpty ]) 
+					as: GTASomeComputers.
+	col computers: self.
+	^ col
 ]

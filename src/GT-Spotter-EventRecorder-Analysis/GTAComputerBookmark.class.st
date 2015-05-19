@@ -7,7 +7,9 @@ Class {
 { #category : #initialization }
 GTAComputerBookmark >> from: aCollection computers: aGTAComputers [ 
 	| computer |
-	computer := aGTAComputers detect: [ :each | each computerUUID = aCollection second ].
+	computer := aGTAComputers 
+						detect: [ :each | each computerUUID = aCollection second ]
+						ifNone: [ ^ self newDetachedBookmark: aCollection ].
 	self
 		item: computer;
 		description: aCollection third;

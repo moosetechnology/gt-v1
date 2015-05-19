@@ -29,6 +29,11 @@ GTAConfiguration class >> loadBookmarks: aGTAComputers [
 	^ GTABookmarks from: self savedBookmarks computers: aGTAComputers
 ]
 
+{ #category : #accessing }
+GTAConfiguration class >> pharo4ReleaseDate [
+	^ '2015-04-16' asDate
+]
+
 { #category : #api }
 GTAConfiguration class >> saveBookmarks: aGTABookmarks [
 	| paths methodSource |

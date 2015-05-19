@@ -1,6 +1,6 @@
 Class {
 	#name : #GTABookmark,
-	#superclass : #Object,
+	#superclass : #GTAEmptyBookmark,
 	#instVars : [
 		'item',
 		'description',
@@ -28,11 +28,6 @@ GTABookmark >> description [
 { #category : #accessing }
 GTABookmark >> description: anObject [
 	description := anObject
-]
-
-{ #category : #initialization }
-GTABookmark >> from: aCollection computers: aGTAComputers [ 
-	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -74,17 +69,14 @@ GTABookmark >> item: anObject [
 	item := anObject
 ]
 
-{ #category : #accessing }
-GTABookmark >> path [
-	^ self subclassResponsibility.
+{ #category : #'instance creation' }
+GTABookmark >> newDetachedBookmark: aPathCollection [
+	^ GTADetachedBookmark new
+			path: aPathCollection;
+			yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 GTABookmark >> toggleGarbage [
 	self garbage: self garbage not
-]
-
-{ #category : #accessing }
-GTABookmark >> typeName [
-	^ self subclassResponsibility
 ]

@@ -23,11 +23,6 @@ GTAEventCollection >> differentSearchStrings [
 ]
 
 { #category : #enumerating }
-GTAEventCollection >> divesIn [
-	^ self select: #isDiveIn
-]
-
-{ #category : #enumerating }
 GTAEventCollection >> divesOut [
 	^ self select: #isDiveOut
 ]
