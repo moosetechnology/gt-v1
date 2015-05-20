@@ -232,7 +232,13 @@ GTASomeSessions >> printHumanReadableOn: aStream [
 	self duration > 1 minute ifTrue: [ duration := self duration truncateTo: 1 second ].
 	self duration > 1 hour ifTrue: [ duration := self duration truncateTo: 1 minute ].
 	self duration > 1 day ifTrue: [ duration := self duration truncateTo: 1 hour ].
-	duration printHumanReadableOn: aStream
+	duration printHumanReadableOn: aStream.
+	aStream
+		cr;
+		print: self specialKeywords size; nextPutAll: ' special keywords'; cr;
+		print: self divesIn size; nextPutAll: ' dives-in'; cr;
+		print: self unknownNames size; nextPutAll: ' unknown items'
+		
 ]
 
 { #category : #enumerating }
