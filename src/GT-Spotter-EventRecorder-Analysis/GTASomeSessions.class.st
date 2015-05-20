@@ -38,6 +38,14 @@ GTASomeSessions >> avgNumberOfDivesOut [
 	^ (self sum: #numberOfDivesOut) / self size
 ]
 
+{ #category : #'as yet unclassified' }
+GTASomeSessions >> bookmarkIt [
+	self bookmarks
+		addSomeSessions: self
+		description: 'Added at ', DateAndTime now rounded asString;
+		save
+]
+
 { #category : #accessing }
 GTASomeSessions >> bookmarks [
 	^ self computer bookmarks
@@ -295,12 +303,4 @@ GTASomeSessions >> userOrDeveloperString [
 	^ self isDeveloper
 			ifTrue: [ 'dev' ]
 			ifFalse: [ 'user' ]
-]
-
-{ #category : #enumerating }
-GTASomeSessions >> withoutEventsBeforePharo4Release [
-	^ (self 
-		select: [ :eachSession | 
-						eachSession end asDate > GTAConfiguration pharo4ReleaseDate ])
-		as: GTASomeSessions
 ]

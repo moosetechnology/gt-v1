@@ -30,6 +30,17 @@ GTABookmarks >> addSession: aGTASession description: aString [
 	^ item
 ]
 
+{ #category : #adding }
+GTABookmarks >> addSomeSessions: aCollection description: aString [ 
+	| item |
+	item := self add: (GTASomeSessionsBookmark new
+				item: aCollection;
+				description: aString;
+				yourself).
+	self announcer announce: GTAItemAdded.
+	^ item
+]
+
 { #category : #accessing }
 GTABookmarks >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
@@ -38,8 +49,7 @@ GTABookmarks >> announcer [
 { #category : #initialization }
 GTABookmarks >> from: aCollection computers: aGTAComputers [
 	aCollection do: [ :eachBookmarkPath | | bookmark |
-		bookmark := eachBookmarkPath first new
-							from: eachBookmarkPath computers: aGTAComputers.
+		bookmark := GTABookmark from: eachBookmarkPath computers: aGTAComputers.
 		self add: bookmark.
 	]
 ]

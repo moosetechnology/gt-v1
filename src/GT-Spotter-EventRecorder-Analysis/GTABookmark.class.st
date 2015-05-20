@@ -10,6 +10,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Bookmarks'
 }
 
+{ #category : #'instance creation' }
+GTABookmark class >> from: pathCollection computers: aGTAComputers [ 
+	^ pathCollection first new from: pathCollection computers: aGTAComputers
+]
+
 { #category : #accessing }
 GTABookmark >> dateAndTime [
 	^ dateAndTime

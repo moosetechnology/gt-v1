@@ -23,7 +23,7 @@ GTADetachedBookmark >> from: aCollection computers: aGTAComputers [
 
 { #category : #accessing }
 GTADetachedBookmark >> garbageString [
-	'no'
+	^ 'undefined'
 ]
 
 { #category : #testing }

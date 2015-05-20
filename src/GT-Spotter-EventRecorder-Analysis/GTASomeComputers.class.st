@@ -48,10 +48,6 @@ GTASomeComputers >> gtInspectorComputersIn: composite [
 	^ (composite table)
 		title: 'Computers';
 		display: [ :aComputer | aComputer ];
-		populate: #yourself
-			on: $r
-			entitled: 'Filter out events before Pharo 4 release'
-			with: [ :aPresentation :aComputers | aComputers withoutEventsBeforePharo4Release ];
 		column: 'Since' 
 			evaluated: [ :each | String streamContents: [ :aStream | 
 											each start = 0 

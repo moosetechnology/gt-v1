@@ -105,5 +105,5 @@ GTAAnnouncements >> withoutEmptyComputerUUID [
 { #category : #'as yet unclassified' }
 GTAAnnouncements >> withoutEventsBeforePharo4Release [
 	^ self select: [ :eachAnnouncement |
-			eachAnnouncement timestamp > GTAConfiguration pharo4ReleaseDate ]
+			eachAnnouncement latestUpdate >= GTAConfiguration pharo4HighestUpdate ]
 ]

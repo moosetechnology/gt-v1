@@ -60,14 +60,3 @@ GTAComputers >> toggleGarbage: aGTASessionBookmark [
 	aGTASessionBookmark toggleGarbage.
 	self saveBookmarks.
 ]
-
-{ #category : #enumerating }
-GTAComputers >> withoutEventsBeforePharo4Release [
-	| col |
-	col := (self 
-				collect: [ :eachComputer | eachComputer withoutEventsBeforePharo4Release ] 
-				thenSelect: [ :eachComputer | eachComputer notEmpty ]) 
-					as: GTASomeComputers.
-	col computers: self.
-	^ col
-]
