@@ -192,11 +192,15 @@ GTASomeComputers >> timelineView [
 				numberOfLabels: 5;
 				humanReadablePrintString ].
 	builder 
-		timelineLabel: [ :lineIdentifier | (self at: lineIdentifier) start asDate ];
-		extent: 400 @ ((self size * 10) max: 200).
+		timelineLabel: [ :lineIdentifier | String streamContents: [ :aStream |
+				aStream 
+					print: (self at: lineIdentifier) start asDate;
+					space;
+					nextPutAll: (self at: lineIdentifier) userOrDeveloperString ] ];
+		extent: 400 @ ((self size * 14) max: 200).
 	builder build.
 	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
-	^ builder 
+	^ builder
 ]
 
 { #category : #enumerating }
