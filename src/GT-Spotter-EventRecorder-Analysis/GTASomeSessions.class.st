@@ -261,15 +261,18 @@ GTASomeSessions >> timelineView [
 	| builder minTime dataSetBuilder set objects |
 	builder := RTTimeline new.
 	minTime := self start asUnixTime.
-	dataSetBuilder := GTARoughDataSetBuilder new
-		gap: self duration / 48;
-		setSessionComparator;
-		newGroupBlock: [ GTASomeSessions new computer: self; yourself ];
-		yourself.
-	dataSetBuilder objects: self; build.
+	self size > 15 
+		ifTrue: [ 
+			dataSetBuilder := GTARoughDataSetBuilder new
+				gap: self duration / 48;
+				setSessionComparator;
+				newGroupBlock: [ GTASomeSessions new computer: self; yourself ];
+				yourself.
+			dataSetBuilder objects: self; build.
+			objects := dataSetBuilder groups collect: [ :eachGroup |
+				eachGroup size = 1 ifTrue: [ eachGroup any ] ifFalse: [ eachGroup ] ] ]
+		ifFalse: [ objects := self ].
 	set := RTTimelineSet new.
-	objects := dataSetBuilder groups collect: [ :eachGroup |
-		eachGroup size = 1 ifTrue: [ eachGroup any ] ifFalse: [ eachGroup ] ].
 	set 
 		lineIdentifier: 1;
 		objects: objects;

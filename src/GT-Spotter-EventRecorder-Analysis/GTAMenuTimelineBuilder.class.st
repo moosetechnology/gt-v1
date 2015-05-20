@@ -44,7 +44,9 @@ GTAMenuTimelineBuilder >> numberOfOccurrences: aSymbol inform: aNoOccurrencesStr
 	normalizer command: #yourself; scope: (0 to: maxKeywords).
 	elements do: [ :element | | elementKeywords |
 		elementKeywords := keywords detect: [ :assoc | assoc key == element ].
-		element trachelShape allVisibleColor: (normalizer rtValue: elementKeywords value) ].
+		element trachelShape 
+			color: (normalizer rtValue: elementKeywords value);
+			strokePaint: (Color black alpha: 0.4) ].
 	timelineBuilder view signalUpdate
 ]
 
@@ -55,6 +57,8 @@ GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder menu: 'Feature usage' submenu: 'Diving' callback: [ self divingUsage ].
 	
 	menuBuilder menu: 'Data cleaning' submenu: 'Unknown items' callback: [ self unknownItems ].
+
+	menuBuilder menu: 'Clean' callback: [ self unspeciedFeature ].
 
 ]
 
@@ -71,4 +75,18 @@ GTAMenuTimelineBuilder >> timelineBuilder: anObject [
 { #category : #'event handling' }
 GTAMenuTimelineBuilder >> unknownItems [
 	self numberOfOccurrences: #unknownNames inform: 'No unknown names.'
+]
+
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> unspeciedFeature [
+	| elements normalizer  |
+	elements := timelineBuilder elements.
+	normalizer := RTMultiLinearColorForIdentity new 
+							objects: elements;
+							yourself.
+	elements do: [ :element |
+		element trachelShape 
+			color: (normalizer rtValue: element);
+			strokePaint: Color transparent ].
+	timelineBuilder view signalUpdate
 ]
