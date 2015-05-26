@@ -17,18 +17,18 @@ TGTSpotterCategoryView >> categoryLabelOccurrences [
 TGTSpotterCategoryView >> categoryView [
 	| b ds points |
 	b := RTGrapher new.
-	points := self categoryLabelOccurrences sortedAs: [ :x :y | x value > y value ].
+	points := self sessionsPerCategoryLabel sortedAs: [ :x :y | x size > y size ].
 	points ifEmpty: [ ^ b view ].
 	b extent: ((points size * 30) min: 800) @ 150.
 	ds := RTStackedDataSet new.
 	ds interaction highlight.
-	ds interaction popup text: [ :obj | obj key asString, ', ', obj value asString, ' times' ].
+	ds interaction popup text: [ :obj | obj categoryLabel asString, ', ', obj size asString, ' times' ].
 	ds points: points.
 	ds barShape 
 			color: (Color green alpha: 0.3); 
 			width: 10.
-	ds histogramWithBarTitle: #key.
-	ds y: [ :obj | obj value ].
+	ds histogramWithBarTitle: #categoryLabel.
+	ds y: [ :obj | obj size ].
 	b add: ds.
 	b axisX noTick; noLabel.
 	b axisY.

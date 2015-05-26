@@ -38,7 +38,7 @@ GTASomeSessions >> avgNumberOfDivesOut [
 	^ (self sum: #numberOfDivesOut) / self size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #api }
 GTASomeSessions >> bookmarkIt [
 	self bookmarks
 		addSomeSessions: self
@@ -49,6 +49,16 @@ GTASomeSessions >> bookmarkIt [
 { #category : #accessing }
 GTASomeSessions >> bookmarks [
 	^ self computer bookmarks
+]
+
+{ #category : #accessing }
+GTASomeSessions >> categoryLabel [
+	^ self optionAt: #categoryLabel
+]
+
+{ #category : #accessing }
+GTASomeSessions >> categoryLabel: aString [ 
+	^ self optionAt: #categoryLabel put: aString
 ]
 
 { #category : #enumerating }
@@ -244,6 +254,29 @@ GTASomeSessions >> printHumanReadableOn: aStream [
 { #category : #enumerating }
 GTASomeSessions >> searchStrings [
 	^ self flatCollect: #searchStrings as: Bag
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> sessionsPerCategoryLabel [
+	| dictionary |
+	dictionary := Dictionary new.
+	self  
+		select: [ :eachSession | eachSession anySatisfy: #isCategorySelection ]
+		thenDo: [ :eachSession | 
+			eachSession categoryLabels asSet do: [ :eachLabel |
+				dictionary 
+					at: eachLabel
+					ifPresent: [ :aCollection | aCollection add: eachSession ]
+					ifAbsent: [ dictionary 
+										at: eachLabel 
+										put: (GTASomeSessions new
+													add: eachSession;
+													categoryLabel: eachLabel;
+													computer: self computer;
+													yourself) ] ] ].
+	^ dictionary associations 
+		collect: #value
+		as: GTASomeSessions
 ]
 
 { #category : #enumerating }
