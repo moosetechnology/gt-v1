@@ -51,16 +51,6 @@ GTASomeSessions >> bookmarks [
 	^ self computer bookmarks
 ]
 
-{ #category : #accessing }
-GTASomeSessions >> categoryLabel [
-	^ self optionAt: #categoryLabel
-]
-
-{ #category : #accessing }
-GTASomeSessions >> categoryLabel: aString [ 
-	^ self optionAt: #categoryLabel put: aString
-]
-
 { #category : #enumerating }
 GTASomeSessions >> categoryLabels [
 	^ self flatCollect: #categoryLabels as: OrderedCollection
@@ -232,7 +222,7 @@ GTASomeSessions >> numberOfPreviews [
 GTASomeSessions >> printHumanReadableOn: aStream [
 	| duration |
 	aStream 
-		nextPutAll: (self size pluralize: 'event');
+		nextPutAll: (self size pluralize: 'session');
 		nextPutAll: ' from '; 
 		print: self start asDate; 
 		cr;

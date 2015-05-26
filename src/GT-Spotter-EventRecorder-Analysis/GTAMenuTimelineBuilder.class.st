@@ -50,9 +50,16 @@ GTAMenuTimelineBuilder >> numberOfOccurrences: aSymbol inform: aNoOccurrencesStr
 	timelineBuilder view signalUpdate
 ]
 
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> numberOfSessions [
+	self numberOfOccurrences: #yourself inform: 'There is not any session.'
+
+]
+
 { #category : #hooks }
 GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder view: aView.
+	menuBuilder menu: 'Feature usage' submenu: 'Sessions' callback: [ self numberOfSessions ].
 	menuBuilder menu: 'Feature usage' submenu: 'Keyword' callback: [ self keywordUsage ].
 	menuBuilder menu: 'Feature usage' submenu: 'Diving' callback: [ self divingUsage ].
 	

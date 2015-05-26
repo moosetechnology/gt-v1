@@ -190,6 +190,15 @@ GTASession >> searchStrings [
 ]
 
 { #category : #enumerating }
+GTASession >> sessionsPerCategoryLabel [
+	| labels col |
+	labels := ((self select: #isCategorySelection) collect: #categoryLabel as: OrderedCollection) removeDuplicates.
+	col := labels collect: [ :eachLabel | self categoryLabel: eachLabel; yourself ] as: GTASomeSessions.
+	col computer: self computer.
+	^ col
+]
+
+{ #category : #enumerating }
 GTASession >> specialKeywords [
 	^ self select: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
 ]

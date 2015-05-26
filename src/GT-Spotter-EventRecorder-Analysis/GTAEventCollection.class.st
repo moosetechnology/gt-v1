@@ -7,6 +7,16 @@ Class {
 }
 
 { #category : #accessing }
+GTAEventCollection >> categoryLabel [
+	^ self optionAt: #categoryLabel
+]
+
+{ #category : #accessing }
+GTAEventCollection >> categoryLabel: aString [ 
+	^ self optionAt: #categoryLabel put: aString
+]
+
+{ #category : #accessing }
 GTAEventCollection >> computerUUID [
 	self ifEmpty: [ ^ 0 ].
 	^ self any computerUUID
