@@ -102,7 +102,7 @@ GTAAnnouncements >> withoutEmptyComputerUUID [
 	^ self select: [ :each | each computerUUID notNil and: [ (each computerUUID = 'nil') not ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTAAnnouncements >> withoutEventsBeforePharo4Release [
 	^ self select: [ :eachAnnouncement |
 			eachAnnouncement latestUpdate >= GTAConfiguration pharo4HighestUpdate ]

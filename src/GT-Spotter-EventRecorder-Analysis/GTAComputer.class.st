@@ -18,6 +18,11 @@ GTAComputer >> bookmarks [
 ]
 
 { #category : #accessing }
+GTAComputer >> computer [
+	^ self
+]
+
+{ #category : #accessing }
 GTAComputer >> computers [
 	^ self optionAt: #computers
 ]
