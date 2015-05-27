@@ -145,6 +145,11 @@ GTASession >> gtInspectorTreeEventsIn: composite [
 ]
 
 { #category : #testing }
+GTASession >> hasDelayedExit [
+	^ self optionAt: #hasDelayedExit ifAbsent: [ false ]
+]
+
+{ #category : #testing }
 GTASession >> hasSpecialKeywords [
 	^ self anySatisfy: [ :each | each isContextChanged and: [ each hasCurrentTextSpecials ] ]
 ]
@@ -155,8 +160,26 @@ GTASession >> imageHashes [
 ]
 
 { #category : #testing }
+GTASession >> isComplexSession [
+	^ self isFirstLevelDiveInSession not and: [ 
+		self isDirectSession not and: [ 
+			self isEmptySession not and: [ 
+				self hasDelayedExit not ] ] ]
+]
+
+{ #category : #testing }
+GTASession >> isDirectSession [
+	^ self optionAt: #isDirectSession ifAbsent: [ false ]
+]
+
+{ #category : #testing }
 GTASession >> isEmptySession [
 	^ self optionAt: #isEmptySession ifAbsent: [ false ]
+]
+
+{ #category : #testing }
+GTASession >> isFirstLevelDiveInSession [
+	^ self optionAt: #isFirstLevelDiveInSession ifAbsent: [ false ]
 ]
 
 { #category : #testing }
@@ -186,8 +209,28 @@ GTASession >> printHumanReadableOn: aStream [
 ]
 
 { #category : #initialization }
+GTASession >> removeHasDelayedExit [
+	^ self removeOptionKey: #hasDelayedExit
+]
+
+{ #category : #initialization }
+GTASession >> removeIsDirectSession [
+	^ self removeOptionKey: #isDirectSession
+]
+
+{ #category : #initialization }
 GTASession >> removeIsEmptySession [
 	^ self removeOptionKey: #isEmptySession
+]
+
+{ #category : #initialization }
+GTASession >> removeIsFirstLevelDiveInSession [
+	^ self removeOptionKey: #isFirstLevelDiveInSession
+]
+
+{ #category : #initialization }
+GTASession >> removeIsOneDiveInSession [
+	^ self removeOptionKey: #isOneDiveInSession
 ]
 
 { #category : #enumerating }
@@ -219,8 +262,23 @@ GTASession >> sessionsPerCategoryLabel [
 ]
 
 { #category : #initialization }
+GTASession >> setDirectSession [
+	self optionAt: #isDirectSession put: true
+]
+
+{ #category : #initialization }
+GTASession >> setHasDelayedExit [
+	self optionAt: #hasDelayedExit put: true
+]
+
+{ #category : #initialization }
 GTASession >> setIsEmptySession [
 	self optionAt: #isEmptySession put: true
+]
+
+{ #category : #initialization }
+GTASession >> setIsFirstLevelDiveInSession [
+	self optionAt: #isFirstLevelDiveInSession put: true
 ]
 
 { #category : #enumerating }

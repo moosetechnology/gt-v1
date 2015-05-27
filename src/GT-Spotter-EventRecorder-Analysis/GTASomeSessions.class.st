@@ -9,6 +9,7 @@ GTASomeSessions >> activityView [
 	| composer builders |
 	composer := RTComposer new.
 	composer view @ RTZoomableView.
+	self ifEmpty: [ ^ composer view ].
 	builders := GTATimelineBuilders new.
 	1 to: (self size min: 50) do: [ :index | | builder |
 		builder := GTATimelineBuilder new.

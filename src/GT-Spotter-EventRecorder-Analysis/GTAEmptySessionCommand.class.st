@@ -4,6 +4,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 
+{ #category : #accessing }
+GTAEmptySessionCommand class >> analysisOrder [
+	^ GTADelayedExitCommand analysisOrder + 1
+]
+
 { #category : #execute }
 GTAEmptySessionCommand >> clean [
 	self session removeIsEmptySession
@@ -12,6 +17,7 @@ GTAEmptySessionCommand >> clean [
 { #category : #execute }
 GTAEmptySessionCommand >> execute [
 	| displayed |
+	self session hasDelayedExit ifTrue: [ ^ self ].
 	self session ifEmpty: [ ^ self setEmpty ].
 	self session last isActOn ifTrue: [ ^ self ].
 	displayed := (self session select: #isForTimelineView).
