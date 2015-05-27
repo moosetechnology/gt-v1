@@ -1,6 +1,8 @@
 Class {
 	#name : #GTAComputers,
 	#superclass : #GTASomeComputers,
+	#traits : 'TGTSpotterUpdateEvents',
+	#classTraits : 'TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 

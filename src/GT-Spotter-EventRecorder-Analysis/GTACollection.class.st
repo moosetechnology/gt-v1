@@ -40,6 +40,17 @@ GTACollection >> optionAt: key put: value [
 	^ options at: key put: value
 ]
 
+{ #category : #removing }
+GTACollection >> removeOptionKey: key [ 
+	^ self removeOptionKey: key ifAbsent: [ "ignore" ]
+]
+
+{ #category : #removing }
+GTACollection >> removeOptionKey: key ifAbsent: absentBlock [
+	options ifNil: [ ^ absentBlock value].
+	^ options removeKey: key ifAbsent: absentBlock
+]
+
 { #category : #accessing }
 GTACollection >> start [
 	^ (self detectMin: #start) ifNil: [ 0 ] ifNotNil: [ :obj | obj start ]

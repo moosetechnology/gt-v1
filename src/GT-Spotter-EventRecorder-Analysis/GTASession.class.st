@@ -1,6 +1,8 @@
 Class {
 	#name : #GTASession,
 	#superclass : #GTAEventCollection,
+	#traits : 'TGTSpotterUpdateEvents',
+	#classTraits : 'TGTSpotterUpdateEvents classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
@@ -153,6 +155,11 @@ GTASession >> imageHashes [
 ]
 
 { #category : #testing }
+GTASession >> isEmptySession [
+	^ self optionAt: #isEmptySession ifAbsent: [ false ]
+]
+
+{ #category : #testing }
 GTASession >> isWithPreview [
 	^ (self contains: #isShowPreview) and: [ 
 			(self contains: #isHidePreview) not ]
@@ -178,6 +185,11 @@ GTASession >> printHumanReadableOn: aStream [
 	self sessionPopupTextOn: aStream
 ]
 
+{ #category : #initialization }
+GTASession >> removeIsEmptySession [
+	^ self removeOptionKey: #isEmptySession
+]
+
 { #category : #enumerating }
 GTASession >> roots [
 	^ self select: #isRootEvent
@@ -190,12 +202,25 @@ GTASession >> searchStrings [
 ]
 
 { #category : #enumerating }
+GTASession >> select: aBlock [
+	| newCollection |
+	newCollection := super select: aBlock.
+	newCollection computer: self computer.
+	^ newCollection
+]
+
+{ #category : #enumerating }
 GTASession >> sessionsPerCategoryLabel [
 	| labels col |
 	labels := ((self select: #isCategorySelection) collect: #categoryLabel as: OrderedCollection) removeDuplicates.
 	col := labels collect: [ :eachLabel | self categoryLabel: eachLabel; yourself ] as: GTASomeSessions.
 	col computer: self computer.
 	^ col
+]
+
+{ #category : #initialization }
+GTASession >> setIsEmptySession [
+	self optionAt: #isEmptySession put: true
 ]
 
 { #category : #enumerating }

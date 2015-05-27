@@ -7,7 +7,7 @@ GTSpotterRecorderContextChangedEvent >> analysisIcon [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderContextChangedEvent >> eventAnalysisPrintOn: aStream [
-	aStream nextPutAll: 'Context Change: '.
+	aStream nextPutAll: 'Query: '.
 	self currentTextSizes 
 			ifEmpty: [ aStream nextPutAll: 'no input' ]
 			ifNotEmpty: [ :aCollection | 
