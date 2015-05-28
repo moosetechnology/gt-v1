@@ -20,6 +20,19 @@ GTAMenuBuilder >> build [
 ]
 
 { #category : #'event handling' }
+GTAMenuBuilder >> colorCloseEventsPerCategory [
+	| elements labels normalizer |
+	elements := timelineBuilder view elements select: [ :el | el model isCloseSpotter ].
+	labels := ((elements collect: [ :e | e model selectedCategoryLabel ]) as: Bag) sortedCounts collect: #value.
+	normalizer := RTMultiLinearColorForIdentity new.
+	normalizer objects: labels.
+	elements do: [ :element | | label |
+		label := element model selectedCategoryLabel.
+		element trachelShape allVisibleColor: (normalizer rtValue: label) ].
+	timelineBuilder view signalUpdate
+]
+
+{ #category : #'event handling' }
 GTAMenuBuilder >> colorMostOftenQueriesAndItemsInComputer [
 	| els bag hashes counts normalizer computers |
 	els := timelineBuilder view elements select: [ :el | 
@@ -157,14 +170,15 @@ GTAMenuBuilder >> renderIn: aView [
 	menuBuilder view: aView.
 	menuBuilder menu: 'Layout' submenu: 'Logical Timeline' callback: [ self logicalTimeline ].
 	menuBuilder menu: 'Layout' submenu: 'Real Timeline' callback: [ self realTimeline ].
-	menuBuilder menu: 'Edges' submenu: 'Remove' callback: [ self removeEdges ].
-	menuBuilder menu: 'Edges' submenu: 'Add' callback: [ self addEdges ].
-	menuBuilder menu: 'Events' submenu: 'Orthogonal Shapes' callback: [ self orthogonalShapes ].
-	menuBuilder menu: 'Events' submenu: 'Flexible Result Shapes' callback: [ self flexibleResultShapes ].
-	menuBuilder menu: 'Color' submenu: 'Same queries and items in view' callback: [ self colorSameQueriesAndItemsInView ].
-	menuBuilder menu: 'Color' submenu: 'Most often queries and items in view' callback: [ self colorMostOftenQueriesAndItemsInView ].
-	menuBuilder menu: 'Color' submenu: 'Same queries and items in computer' callback: [ self colorSameQueriesAndItemsInComputer ].
-	menuBuilder menu: 'Color' submenu: 'Most often queries and items in computer' callback: [ self colorMostOftenQueriesAndItemsInComputer ].
+	menuBuilder menu: 'Edge' submenu: 'Remove Edges' callback: [ self removeEdges ].
+	menuBuilder menu: 'Edge' submenu: 'Add Edges' callback: [ self addEdges ].
+	menuBuilder menu: 'Shape' submenu: 'Orthogonal Shapes' callback: [ self orthogonalShapes ].
+	menuBuilder menu: 'Shape' submenu: 'Flexible Result Shapes' callback: [ self flexibleResultShapes ].
+	menuBuilder menu: 'Color' submenu: 'Same Queries and Items in View' callback: [ self colorSameQueriesAndItemsInView ].
+	menuBuilder menu: 'Color' submenu: 'Most Often Queries and Items in View' callback: [ self colorMostOftenQueriesAndItemsInView ].
+	menuBuilder menu: 'Color' submenu: 'Same Queries and Items in Computer' callback: [ self colorSameQueriesAndItemsInComputer ].
+	menuBuilder menu: 'Color' submenu: 'Most Often Queries and Items in Computer' callback: [ self colorMostOftenQueriesAndItemsInComputer ].
+	menuBuilder menu: 'Color' submenu: 'ActOn and Exit Events per Category' callback: [ self colorCloseEventsPerCategory ].
 
 ]
 

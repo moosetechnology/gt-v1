@@ -8,8 +8,13 @@ GTSpotterRecorderExitAnnouncementEvent >> analysisIcon [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderExitAnnouncementEvent >> eventAnalysisPrintOn: aStream [
 	aStream
-		nextPutAll: 'Close Spotter on category ';
-		nextPutAll: self selectedCategoryLabel.
+		nextPutAll: 'Close Spotter'.
+	self selectedCategoryLabel 
+		ifNotNil: [ 
+			aStream
+				nextPutAll: 'on category ';
+				nextPutAll: self selectedCategoryLabel ]
+		ifNil: [ aStream nextPutAll: ' without results' ].
 	self eventTypePrintOn: aStream.
 ]
 
@@ -25,7 +30,9 @@ GTSpotterRecorderExitAnnouncementEvent >> removeSelectedElementEvent [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderExitAnnouncementEvent >> selectedCategoryLabel [
-	^ self selectedElementEvent selectedCategoryLabel
+	^ self selectedElementEvent 
+		ifNil: [ nil ]
+		ifNotNil: [ :obj | obj selectedCategoryLabel ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
