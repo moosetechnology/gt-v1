@@ -33,6 +33,14 @@ GTASession >> bookmarkIt [
 		save
 ]
 
+{ #category : #api }
+GTASession >> bookmarkIt: descriptionString [
+	self bookmarks
+		addSession: self
+		description: descriptionString;
+		save
+]
+
 { #category : #accessing }
 GTASession >> bookmarks [
 	^ self computer bookmarks 

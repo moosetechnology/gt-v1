@@ -7,8 +7,9 @@ GTSpotterRecorderActOnEvent >> analysisIcon [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderActOnEvent >> eventAnalysisPrintOn: aStream [
-	aStream nextPutAll: 'Act On: '.
-	self elementNamePrintOn: aStream.
+	aStream 
+		nextPutAll: 'Act on category ';
+		nextPutAll: self selectedCategoryLabel.
 	self eventTypePrintOn: aStream.
 ]
 
@@ -32,6 +33,26 @@ GTSpotterRecorderActOnEvent >> isActOn [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderActOnEvent >> isForTimelineView [
 	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> removeSelectedElementEvent [
+	^ self removeInfoKey: #selectedElementEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> selectedCategoryLabel [
+	^ self selectedElementEvent selectedCategoryLabel
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> selectedElementEvent [
+	^ self infoAt: #selectedElementEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> selectedElementEvent: anEvent [
+	^ self infoAt: #selectedElementEvent put: anEvent
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
