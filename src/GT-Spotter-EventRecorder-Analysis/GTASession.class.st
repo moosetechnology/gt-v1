@@ -261,6 +261,11 @@ GTASession >> select: aBlock [
 ]
 
 { #category : #enumerating }
+GTASession >> selectedCategoryLabel [
+	^ self last selectedCategoryLabel
+]
+
+{ #category : #enumerating }
 GTASession >> sessionsPerCategoryLabel [
 	| labels col |
 	labels := ((self select: #isCategorySelection) collect: #categoryLabel as: OrderedCollection) removeDuplicates.

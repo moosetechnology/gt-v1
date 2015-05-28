@@ -271,6 +271,30 @@ GTASomeSessions >> sessionsPerCategoryLabel [
 ]
 
 { #category : #enumerating }
+GTASomeSessions >> sessionsPerSelectedCategoryLabel [
+	| dictionary col |
+	dictionary := Dictionary new.
+	self 
+		do: [ :eachSession | | label |
+			label := eachSession selectedCategoryLabel.
+			dictionary 
+				at: label
+				ifPresent: [ :aCollection | aCollection add: eachSession ]
+				ifAbsent: [ dictionary 
+									at: label 
+									put: (GTASomeSessions new
+												add: eachSession;
+												categoryLabel: label;
+												computer: self computer;
+												yourself) ] ].
+	col := dictionary associations 
+				collect: #value
+				as: GTASomeComputers.
+	col computers: self computers.
+	^ col
+]
+
+{ #category : #enumerating }
 GTASomeSessions >> sessionsWithPreview [
 	^ self select: #isWithPreview
 ]
