@@ -184,20 +184,22 @@ GTASomeComputers >> timelineView [
 	 ].
 	builder axisX 
 		numberOfLabels: 5;
-		labelRotation: -45;
+		labelRotation: 0;
+		labelFontHeight: 8;
 		labelConversion: [ :unixTime | 
 			GTADateAndTimeStringBuilder new
 				dateAndTime: (DateAndTime fromUnixTime: unixTime + minTime);
 				duration: self duration;
 				numberOfLabels: 5;
 				humanReadablePrintString ].
+	builder timelineLabelBuilder shape fontSize: 8.
 	builder 
 		timelineLabel: [ :lineIdentifier | String streamContents: [ :aStream |
 				aStream 
-					print: (self at: lineIdentifier) start asDate;
+					nextPutAll: (self at: lineIdentifier) userOrDeveloperString;
 					space;
-					nextPutAll: (self at: lineIdentifier) userOrDeveloperString ] ];
-		extent: 400 @ ((self size * 14) max: 200).
+					print: lineIdentifier ] ];
+		extent: 400 @ ((self size * 10) max: 200).
 	builder build.
 	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
 	^ builder
