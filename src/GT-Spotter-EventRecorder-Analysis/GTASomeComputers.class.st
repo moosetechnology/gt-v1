@@ -148,7 +148,7 @@ GTASomeComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sorting }
 GTASomeComputers >> sortByDevelopersAndDuration [
 	self sort: [ :a :b | | duration |
 		duration := a duration > b duration.
@@ -168,7 +168,7 @@ GTASomeComputers >> timelineView [
 	builder := RTTimeline new.
 	minTime := self start asUnixTime.
 	dataSetBuilder := GTARoughDataSetBuilder new
-		gap: self duration / 48;
+		gap: self duration / 108;
 		setSessionComparator;
 		yourself.
 	self reverseWithIndexDo: [ :eachComputer :index | | set objects |

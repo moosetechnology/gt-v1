@@ -299,6 +299,11 @@ GTASomeSessions >> sessionsWithPreview [
 	^ self select: #isWithPreview
 ]
 
+{ #category : #sorting }
+GTASomeSessions >> sortByDateAndTime [
+	self sort: [ :a :b | a start < b start ]
+]
+
 { #category : #enumerating }
 GTASomeSessions >> specialKeywords [
 	^ self flatCollect: #specialKeywords as: OrderedCollection
@@ -318,11 +323,11 @@ GTASomeSessions >> timelineView [
 	self size > 15 
 		ifTrue: [ 
 			dataSetBuilder := GTARoughDataSetBuilder new
-				gap: self duration / 48;
+				gap: self duration / 108;
 				setSessionComparator;
 				newGroupBlock: [ GTASomeSessions new computer: self; yourself ];
 				yourself.
-			dataSetBuilder objects: self; build.
+			dataSetBuilder objects: self copy sortByDateAndTime; build.
 			objects := dataSetBuilder groups collect: [ :eachGroup |
 				eachGroup size = 1 ifTrue: [ eachGroup any ] ifFalse: [ eachGroup ] ] ]
 		ifFalse: [ objects := self ].
