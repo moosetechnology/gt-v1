@@ -148,6 +148,15 @@ GTASomeComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]
 
+{ #category : #'as yet unclassified' }
+GTASomeComputers >> sortByDevelopersAndDuration [
+	self sort: [ :a :b | | duration |
+		duration := a duration > b duration.
+		(a isDeveloper and: [ duration ]) or: [ 
+			(b isDeveloper not and: [ duration ]) or: [ 
+				a isDeveloper and: [ b isDeveloper not and: [ duration not ] ] ] ] ]
+]
+
 { #category : #enumerating }
 GTASomeComputers >> specialKeywords [
 	^ self flatCollect: #specialKeywords as: OrderedCollection

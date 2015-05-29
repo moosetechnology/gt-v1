@@ -83,6 +83,7 @@ GTAAnnouncements >> sessionsPerComputer [
 	] as: GTAComputers.
 	computers := computers removeAllSuchThat: #isEmpty.
 	computers do: [ :eachComputer | eachComputer computers: computers ].
+	computers sortByDevelopersAndDuration.
 	computers updateEvents.
 	^ computers
 ]
