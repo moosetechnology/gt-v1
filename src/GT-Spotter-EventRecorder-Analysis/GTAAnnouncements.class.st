@@ -85,7 +85,7 @@ GTAAnnouncements >> sessionsPerComputer [
 	computers do: [ :eachComputer | 
 		eachComputer computers: computers.
 		eachComputer sortByDateAndTime ].
-	computers sortByDevelopersAndDuration.
+	computers sortByDevelopersAndNumberOfSessions.
 	computers updateEvents.
 	^ computers
 ]

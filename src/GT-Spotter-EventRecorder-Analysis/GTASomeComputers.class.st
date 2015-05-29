@@ -157,6 +157,15 @@ GTASomeComputers >> sortByDevelopersAndDuration [
 				a isDeveloper and: [ b isDeveloper not and: [ duration not ] ] ] ] ]
 ]
 
+{ #category : #sorting }
+GTASomeComputers >> sortByDevelopersAndNumberOfSessions [
+	self sort: [ :a :b | | bigger |
+		bigger := a size > b size.
+		(a isDeveloper and: [ bigger ]) or: [ 
+			(b isDeveloper not and: [ bigger ]) or: [ 
+				a isDeveloper and: [ b isDeveloper not and: [ bigger not ] ] ] ] ]
+]
+
 { #category : #enumerating }
 GTASomeComputers >> specialKeywords [
 	^ self flatCollect: #specialKeywords as: OrderedCollection
