@@ -23,11 +23,12 @@ GTSpotterRecorderDiveInElementEvent >> duration [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInElementEvent >> eventAnalysisPrintOn: aStream [
 	self isMissStep ifTrue: [ aStream nextPutAll: 'MissStep ' ].
-	aStream nextPutAll: 'Dive In Element for '.
 	aStream 
-		print: self duration;
-		nextPutAll: ': '.
-	self elementNamePrintOn: aStream.
+		nextPutAll: 'Dive In Element of category ';
+		nextPutAll: self selectedCategoryLabel;
+		cr;
+		nextPutAll: 'for ';
+		print: self duration.
 	self eventTypePrintOn: aStream.
 ]
 
@@ -61,6 +62,26 @@ GTSpotterRecorderDiveInElementEvent >> isElementDiveIn [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInElementEvent >> isForTimelineView [
 	^ true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> removeSelectedElementEvent [
+	^ self removeInfoKey: #selectedElementEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> selectedCategoryLabel [
+	^ self selectedElementEvent selectedCategoryLabel
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> selectedElementEvent [
+	^ self infoAt: #selectedElementEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderDiveInElementEvent >> selectedElementEvent: anEvent [
+	^ self infoAt: #selectedElementEvent put: anEvent
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
