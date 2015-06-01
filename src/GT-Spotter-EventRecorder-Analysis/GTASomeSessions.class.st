@@ -219,6 +219,18 @@ GTASomeSessions >> numberOfPreviews [
 	^ self sessionsWithPreview size
 ]
 
+{ #category : #enumerating }
+GTASomeSessions >> perSessionType [
+	| results |
+	results := GTACollection new.
+	results add: (((self sessions select: #isEmptySession) as: GTAComputer) computers: self; sessionTypeString: 'Empty'; yourself).
+	results add: (((self sessions select: #isDirectSession) as: GTAComputer) computers: self; sessionTypeString: 'Direct'; yourself).
+	results add: (((self sessions select: #isFirstLevelDiveInSession) as: GTAComputer) computers: self; sessionTypeString: 'First Level Dive-In'; yourself).
+	results add: (((self sessions select: #hasDelayedExit) as: GTAComputer) computers: self; sessionTypeString: 'Delayed Exit'; yourself).
+	results add: (((self sessions select: #isComplexSession) as: GTAComputer) computers: self; sessionTypeString: 'Complex'; yourself).
+	^ results
+]
+
 { #category : #printing }
 GTASomeSessions >> printHumanReadableOn: aStream [
 	| duration |
@@ -245,6 +257,16 @@ GTASomeSessions >> printHumanReadableOn: aStream [
 { #category : #enumerating }
 GTASomeSessions >> searchStrings [
 	^ self flatCollect: #searchStrings as: Bag
+]
+
+{ #category : #accessing }
+GTASomeSessions >> sessionTypeString [
+	^ self optionAt: #sessionTypeString
+]
+
+{ #category : #initialization }
+GTASomeSessions >> sessionTypeString: aString [ 
+	^ self optionAt: #sessionTypeString put: aString
 ]
 
 { #category : #enumerating }
@@ -297,6 +319,11 @@ GTASomeSessions >> sessionsPerSelectedCategoryLabel [
 { #category : #enumerating }
 GTASomeSessions >> sessionsWithPreview [
 	^ self select: #isWithPreview
+]
+
+{ #category : #accessing }
+GTASomeSessions >> sizeInPercent [
+	^ (self size / self computers sessions size * 100)
 ]
 
 { #category : #sorting }

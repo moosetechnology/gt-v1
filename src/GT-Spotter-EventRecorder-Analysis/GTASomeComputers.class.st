@@ -99,6 +99,26 @@ GTASomeComputers >> gtInspectorComputersIn: composite [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTASomeComputers >> gtInspectorSessionClassificationIn: composite [
+	<gtInspectorPresentationOrder: -5>  
+	^ (composite table)
+		title: 'Classification';
+		display: [ :aComputers | aComputers perSessionType ];
+		column: 'Type' 
+			evaluated: [ :each | each sessionTypeString ]
+			width: 100;
+		column: 'Count' 
+			evaluated: [ :each | each size ] 
+			width: 50
+			tags: #()
+			sortedBy: [ :aComputer1 :aComputer2 | aComputer1 size > aComputer2 size ];
+		column: '%' 
+			evaluated: [ :each | each sizeInPercent asFloat rounded ] 
+			width: 63;
+		showOnly: 100
+]
+
+{ #category : #'gt-inspector-extension' }
 GTASomeComputers >> gtInspectorTimelineViewIn: composite [
 	<gtInspectorPresentationOrder: -8>
 	composite roassal2

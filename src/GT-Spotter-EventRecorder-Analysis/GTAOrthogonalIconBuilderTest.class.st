@@ -59,8 +59,8 @@ GTAOrthogonalIconBuilderTest >> testShapesForVissoft2015Paper [
 	| view line1 line2 line3 line4 line5 line6 |
 	view := RTView new.
 	line1 := RTGroup
-		with: (self newElementForEventClass: GTSpotterRecorderExitAnnouncementEvent)
-		with: (self newElementForEventClass: GTSpotterRecorderActOnEvent).
+		with: (self newElementForEventClass: GTSpotterRecorderActOnEvent)
+		with: (self newElementForEventClass: GTSpotterRecorderExitAnnouncementEvent).
 	line2 := RTGroup
 		with: (self newElementForEventClass: GTSpotterRecorderShowPreviewEvent)
 		with: (self newElementForEventClass: GTSpotterRecorderHidePreviewEvent).
