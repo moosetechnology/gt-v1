@@ -6,6 +6,11 @@ GTSpotterRecorderContextChangedEvent >> analysisIcon [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderContextChangedEvent >> currentTextInfoFromString: aString [ 
+	currentTextInfo := self textInfoFrom: aString
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderContextChangedEvent >> eventAnalysisPrintOn: aStream [
 	aStream nextPutAll: 'Query: '.
 	self currentTextSizes 

@@ -63,7 +63,7 @@ GTSpotterRecorderSearchFinishedEvent >> isSearchFinishedClass [
 GTSpotterRecorderSearchFinishedEvent >> notEmptyCategories [
 	| notEmptyCategories |
 	notEmptyCategories := OrderedCollection new.
-	self processors ifNil: [ notEmptyCategories ].
+	self processors ifNil: [ ^ notEmptyCategories ].
 	self processors pairsDo: [ :processor :items |
 		items > 0 ifTrue: [ notEmptyCategories add: (processor -> items) ]
 	].

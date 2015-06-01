@@ -14,6 +14,12 @@ GTAMenuBuilder >> addEdges [
 	self configuration withEdges: timelineBuilder isWithEdges.
 ]
 
+{ #category : #'event handling' }
+GTAMenuBuilder >> allBlack [
+	timelineBuilder view elements do: [ :el | 
+		el trachelShape allVisibleColor: Color black ]
+]
+
 { #category : #building }
 GTAMenuBuilder >> build [
 	self renderIn: timelineBuilder view.
@@ -174,6 +180,7 @@ GTAMenuBuilder >> renderIn: aView [
 	menuBuilder menu: 'Edge' submenu: 'Add Edges' callback: [ self addEdges ].
 	menuBuilder menu: 'Shape' submenu: 'Orthogonal Shapes' callback: [ self orthogonalShapes ].
 	menuBuilder menu: 'Shape' submenu: 'Flexible Result Shapes' callback: [ self flexibleResultShapes ].
+	menuBuilder menu: 'Color' submenu: 'All Black' callback: [ self allBlack ].
 	menuBuilder menu: 'Color' submenu: 'Same Queries and Items in View' callback: [ self colorSameQueriesAndItemsInView ].
 	menuBuilder menu: 'Color' submenu: 'Most Often Queries and Items in View' callback: [ self colorMostOftenQueriesAndItemsInView ].
 	menuBuilder menu: 'Color' submenu: 'Same Queries and Items in Computer' callback: [ self colorSameQueriesAndItemsInComputer ].

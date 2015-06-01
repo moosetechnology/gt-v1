@@ -8,7 +8,9 @@ Class {
 GTASomeSessionsBookmark >> from: aCollection computers: aGTAComputers [ 
 	| computer |
 	self item: (GTASomeSessions new: aCollection size - 5).
-	computer := aGTAComputers detect: [ :eachComputer | eachComputer computerUUID = (aCollection at: 2) ].
+	computer := aGTAComputers 
+		detect: [ :eachComputer | eachComputer computerUUID = (aCollection at: 2) ]
+		ifNone: [  ^ self newDetachedBookmark: aCollection ].
 	self item computer: computer.
 	self description: (aCollection at: 3).
 	self dateAndTime: (aCollection at: 4).
