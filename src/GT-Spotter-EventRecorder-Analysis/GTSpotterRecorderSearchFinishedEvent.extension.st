@@ -11,6 +11,11 @@ GTSpotterRecorderSearchFinishedEvent >> currentQuerySizes [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> currentQuerySpecials [
+	^ self stringSpecialsFor: self query
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 	| categories | 
 	categories := self notEmptyCategories.

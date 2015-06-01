@@ -37,7 +37,7 @@ GTASomeComputers >> divesIn [
 	^ self flatCollect: #divesIn as: OrderedCollection
 ]
 
-{ #category : #enumerating }
+{ #category : #'enumerating - events' }
 GTASomeComputers >> flatCollectEvents: aBlock [ 
 	^ self flatCollect: [ :eachComputer | eachComputer flatCollectEvents: aBlock ] as: OrderedCollection
 ]
@@ -163,6 +163,29 @@ GTASomeComputers >> perSessionType [
 	results add: (((self sessions select: #hasDelayedExit) as: GTAComputer) computers: self; sessionTypeString: 'Delayed Exit'; yourself).
 	results add: (((self sessions select: #isComplexSession) as: GTAComputer) computers: self; sessionTypeString: 'Complex'; yourself).
 	^ results
+]
+
+{ #category : #'enumerating - events' }
+GTASomeComputers >> selectComputersWithEvents: aBlock [
+	^ self select: [ :eachComputer | eachComputer anySatisfy: [ :eachSession | eachSession anySatisfy: aBlock ] ]
+]
+
+{ #category : #enumerating }
+GTASomeComputers >> selectComputersWithSessions: aBlock [
+	^ self select: [ :eachComputer | eachComputer select: aBlock ]
+]
+
+{ #category : #'enumerating - events' }
+GTASomeComputers >> selectSessionsPerComputerWithEvents: aBlock [
+	| someComputers |
+	someComputers := (self 
+		collect: [ :eachComputer | | newComputer |
+			newComputer := eachComputer select: [ :eachSession | eachSession anySatisfy: aBlock ].
+			(newComputer as: GTASomeSessions) computer: eachComputer computer; yourself ]
+		as: GTASomeComputers)
+		select: #notEmpty.
+	someComputers computers: self computers.
+	^ someComputers
 ]
 
 { #category : #enumerating }
