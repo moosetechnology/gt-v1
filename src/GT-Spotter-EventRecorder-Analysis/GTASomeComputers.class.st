@@ -154,6 +154,18 @@ GTASomeComputers >> numberOfSessions [
 ]
 
 { #category : #enumerating }
+GTASomeComputers >> perSessionType [
+	| results |
+	results := GTACollection new.
+	results add: (((self sessions select: #isEmptySession) as: GTAComputer) computers: self; sessionTypeString: 'Empty'; yourself).
+	results add: (((self sessions select: #isDirectSession) as: GTAComputer) computers: self; sessionTypeString: 'Direct'; yourself).
+	results add: (((self sessions select: #isFirstLevelDiveInSession) as: GTAComputer) computers: self; sessionTypeString: 'First Level Dive-In'; yourself).
+	results add: (((self sessions select: #hasDelayedExit) as: GTAComputer) computers: self; sessionTypeString: 'Delayed Exit'; yourself).
+	results add: (((self sessions select: #isComplexSession) as: GTAComputer) computers: self; sessionTypeString: 'Complex'; yourself).
+	^ results
+]
+
+{ #category : #enumerating }
 GTASomeComputers >> sessions [
 	^ self flatCollect: #yourself as: GTASessions
 ]
