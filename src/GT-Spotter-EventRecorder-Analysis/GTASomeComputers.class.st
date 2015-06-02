@@ -114,7 +114,16 @@ GTASomeComputers >> gtInspectorSessionClassificationIn: composite [
 			sortedBy: [ :aComputer1 :aComputer2 | aComputer1 size > aComputer2 size ];
 		column: '%' 
 			evaluated: [ :each | each sizeInPercent asFloat rounded ] 
-			width: 63;
+			width: 30;
+		column: 'Mean Duration' 
+			evaluated: [ :each | ((each collect: #duration as: OrderedCollection) sum / each size) roundTo: 1 second ] 
+			width: 97;
+		column: 'Min Duration' 
+			evaluated: [ :each | (each detectMin: #duration) duration roundTo: 1 second ] 
+			width: 97;
+		column: 'Max Duration' 
+			evaluated: [ :each | (each max: #duration) roundTo: 1 second ] 
+			width: 97;
 		showOnly: 100
 ]
 
