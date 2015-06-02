@@ -11,6 +11,7 @@ GTSpotterRecorderActOnEvent >> eventAnalysisPrintOn: aStream [
 		nextPutAll: 'Act on category ';
 		nextPutAll: self selectedCategoryLabel.
 	self eventTypePrintOn: aStream.
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

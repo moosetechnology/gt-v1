@@ -41,6 +41,7 @@ GTSpotterRecorderSearchFinishedEvent >> eventAnalysisPrintOn: aStream [
 				index := index + 1.
 				 ] 
 			separatedBy: [ aStream nextPutAll: ', ' ] ].
+	self printDelayFromPreviousEventOn: aStream.
 
 ]
 

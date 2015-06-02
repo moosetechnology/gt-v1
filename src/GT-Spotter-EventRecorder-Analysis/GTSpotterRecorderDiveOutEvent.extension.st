@@ -9,6 +9,7 @@ GTSpotterRecorderDiveOutEvent >> analysisIcon [
 GTSpotterRecorderDiveOutEvent >> eventAnalysisPrintOn: aStream [
 	aStream nextPutAll: 'Dive Out: '.
 	self elementNamePrintOn: aStream.
+	self printDelayFromPreviousEventOn: aStream.
 
 ]
 

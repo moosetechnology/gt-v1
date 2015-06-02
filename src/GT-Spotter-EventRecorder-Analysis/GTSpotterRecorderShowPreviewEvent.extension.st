@@ -8,7 +8,8 @@ GTSpotterRecorderShowPreviewEvent >> analysisIcon [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderShowPreviewEvent >> eventAnalysisPrintOn: aStream [
 	aStream
-		nextPutAll: 'Show Preview'
+		nextPutAll: 'Show Preview'.
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

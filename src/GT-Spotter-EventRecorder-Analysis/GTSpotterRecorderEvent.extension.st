@@ -47,6 +47,12 @@ GTSpotterRecorderEvent >> dateAndTimeWithFixedTimeZone [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> delayFromPreviousEvent [
+	self previousEvent ifNil: [ ^ 0 seconds ].
+	^ self dateAndTimeWithFixedTimeZone - self previousEvent dateAndTimeWithFixedTimeZone
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> diveInEvent: aDiveInEvent [ 
 	^ self infoAt: #diveInEvent put: aDiveInEvent.
 ]
@@ -174,6 +180,25 @@ GTSpotterRecorderEvent >> parentEvent [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> previousEvent [ 
+	^ self infoAt: #previousEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> previousEvent: anEvent [ 
+	^ self infoAt: #previousEvent put: anEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> printDelayFromPreviousEventOn: aStream [
+	self previousEvent ifNil: [ ^ self ].
+	aStream 
+		cr;
+		nextPutAll: 'triggered after ';
+		print: self delayFromPreviousEvent.
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> relativeXPosition [
 	^ self infoAt: #relativeXPosition
 ]
@@ -191,6 +216,11 @@ GTSpotterRecorderEvent >> removeDiveInEvent [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> removeIsMissStep [
 	^ self removeInfoKey: #isMissStep
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> removePreviousEvent [
+	^ self removeInfoKey: #previousEvent
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

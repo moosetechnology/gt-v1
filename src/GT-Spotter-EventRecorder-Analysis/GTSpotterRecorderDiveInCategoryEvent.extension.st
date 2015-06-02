@@ -32,6 +32,7 @@ GTSpotterRecorderDiveInCategoryEvent >> eventAnalysisPrintOn: aStream [
 		ifNotNil: [ :aString | 
 			aStream nextPutAll: aString ].
 	self eventTypePrintOn: aStream.
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

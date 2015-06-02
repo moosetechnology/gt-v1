@@ -12,10 +12,11 @@ GTSpotterRecorderExitAnnouncementEvent >> eventAnalysisPrintOn: aStream [
 	self selectedCategoryLabel 
 		ifNotNil: [ 
 			aStream
-				nextPutAll: 'on category ';
+				nextPutAll: ' on category ';
 				nextPutAll: self selectedCategoryLabel ]
 		ifNil: [ aStream nextPutAll: ' without results' ].
 	self eventTypePrintOn: aStream.
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

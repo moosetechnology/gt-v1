@@ -20,6 +20,7 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> eventAnalysisPrintOn: aStream 
 			nextPutAll: 'in category ';
 			nextPutAll: aLabelString ].
 	self eventTypePrintOn: aStream.
+	self printDelayFromPreviousEventOn: aStream.
 
 ]
 

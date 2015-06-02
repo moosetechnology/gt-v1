@@ -198,7 +198,7 @@ GTATimelineBuilder >> newEventFilter [
 
 { #category : #'instance creation' }
 GTATimelineBuilder >> newLayoutBuilder [
-	^ GTAHorizontalDivingLineLayout new center; yourself
+	^ GTAHorizontalDivingLineLayout new center; gapSize: 0; yourself
 ]
 
 { #category : #configuration }

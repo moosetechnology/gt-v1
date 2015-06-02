@@ -30,6 +30,7 @@ GTSpotterRecorderDiveInElementEvent >> eventAnalysisPrintOn: aStream [
 		nextPutAll: 'for ';
 		print: self duration.
 	self eventTypePrintOn: aStream.
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

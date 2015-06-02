@@ -25,7 +25,8 @@ GTSpotterRecorderContextChangedEvent >> eventAnalysisPrintOn: aStream [
 					do: [ :eachSize | aStream print: eachSize ] 
 					separatedBy: [ aStream space ].
 				self hasCurrentTextSpecials ifTrue: [ 
-					aStream nextPutAll: ', with #keyword' ] ]
+					aStream nextPutAll: ', with #keyword' ] ].
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

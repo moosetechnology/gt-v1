@@ -17,7 +17,8 @@ GTSpotterRecorderCategorySelectedEvent >> eventAnalysisPrintOn: aStream [
 				print: self elementCountOrZero;
 				nextPutAll: ' spotted and ';
 				print: self selectedElementEvents size;
-				nextPutAll: ' selected elements' ]
+				nextPutAll: ' selected elements' ].
+	self printDelayFromPreviousEventOn: aStream.
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
