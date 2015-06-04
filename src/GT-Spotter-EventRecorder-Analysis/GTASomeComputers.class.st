@@ -237,7 +237,7 @@ GTASomeComputers >> specialKeywords [
 
 { #category : #'gt-inspector-extension' }
 GTASomeComputers >> timelineView [
-	| builder minTime dataSetBuilder |
+	| builder minTime dataSetBuilder threshold |
 	builder := RTTimeline new.
 	minTime := self start asUnixTime.
 	dataSetBuilder := GTARoughDataSetBuilder new
@@ -282,6 +282,13 @@ GTASomeComputers >> timelineView [
 					space;
 					print: lineIdentifier ] ];
 		extent: 400 @ ((self size * 10) max: 200).
+	
+	threshold := RTHorizontalTimelineDecorator 	new.
+	threshold addLineAboveIdentifier: (self indexOf: (self detect: [ :e | e isDeveloper not ])).
+	"threshold addLineAboveIdentifier: (self indexOf: (self detect: [ :e | e isRegularUser not ]))."
+	threshold shape line width: 1; color: (Color paleGreen alpha: 0.6).
+	builder addDecorator: threshold.
+	
 	builder build.
 	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
 	^ builder
