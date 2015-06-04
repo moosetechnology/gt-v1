@@ -19,6 +19,31 @@ GTAMenuTimelineBuilder >> divingUsage [
 
 ]
 
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> highlightComposedQueries [
+	self highlightSessionsWithEvents: [ :eachEvent | 
+		(eachEvent isSearchFinished and: [ (eachEvent currentQuerySpecials reject: [ :b | b = true ]) size > 1 ]) 
+			and: [ eachEvent notEmptyCategories isEmpty ] ]
+]
+
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> highlightPharo5Users [
+	self highlightSessionsWithEvents: [ :eachEvent | 
+		eachEvent latestUpdate >= 50000 ]
+]
+
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> highlightSessionsWithEvents: aBlock [
+	timelineBuilder elements do: [ :eachElement | | color |
+		(eachElement model anyEventSatisfy: aBlock)
+			ifTrue: [ color := Color red ]
+			ifFalse: [ color := Color white ].
+		eachElement trachelShape 
+			color: color;
+			strokePaint: (Color black alpha: 0.4) ].
+	timelineBuilder view signalUpdate
+]
+
 { #category : #initialization }
 GTAMenuTimelineBuilder >> initialize [
 	super initialize.
@@ -59,10 +84,12 @@ GTAMenuTimelineBuilder >> numberOfSessions [
 { #category : #hooks }
 GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder view: aView.
-	menuBuilder menu: 'Feature usage' submenu: 'Sessions' callback: [ self numberOfSessions ].
-	menuBuilder menu: 'Feature usage' submenu: 'Keyword' callback: [ self keywordUsage ].
-	menuBuilder menu: 'Feature usage' submenu: 'Diving' callback: [ self divingUsage ].
-	
+	menuBuilder menu: 'Feature usage' submenu: 'Number of Sessions' callback: [ self numberOfSessions ].
+	menuBuilder menu: 'Feature usage' submenu: 'Keyword Usage' callback: [ self keywordUsage ].
+	menuBuilder menu: 'Feature usage' submenu: 'Diving Usage' callback: [ self divingUsage ].
+	menuBuilder menu: 'Feature usage' submenu: 'Composed Queries Usage' callback: [ self highlightComposedQueries ].
+	menuBuilder menu: 'Feature usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
+
 	menuBuilder menu: 'Data cleaning' submenu: 'Unknown items' callback: [ self unknownItems ].
 
 	menuBuilder menu: 'Clean' callback: [ self unspeciedFeature ].

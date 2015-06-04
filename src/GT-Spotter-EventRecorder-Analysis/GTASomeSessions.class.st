@@ -27,6 +27,11 @@ GTASomeSessions >> activityView [
 	^ composer view.
 ]
 
+{ #category : #'enumerating - events' }
+GTASomeSessions >> anyEventSatisfy: aBlockClosure [ 
+	^ self anySatisfy: [ :eachSession | eachSession anyEventSatisfy: aBlockClosure ]
+]
+
 { #category : #helpers }
 GTASomeSessions >> avgNumberOfDivesIn [
 	self ifEmpty: [ ^ 0 ].

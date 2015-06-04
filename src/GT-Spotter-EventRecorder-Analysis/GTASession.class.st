@@ -25,6 +25,11 @@ GTASession >> activityView3 [
 	^ GTAObsoleteActivityBuilder viewOn: self
 ]
 
+{ #category : #'enumerating - events' }
+GTASession >> anyEventSatisfy: aBlock [
+	^ self anySatisfy: aBlock
+]
+
 { #category : #api }
 GTASession >> bookmarkIt [
 	self bookmarks
