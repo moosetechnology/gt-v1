@@ -1,5 +1,5 @@
 Class {
-	#name : #GTSpotterAnalysisCommand,
+	#name : #GTACommand,
 	#superclass : #Object,
 	#instVars : [
 		'context'
@@ -8,36 +8,36 @@ Class {
 }
 
 { #category : #accessing }
-GTSpotterAnalysisCommand class >> analysisOrder [
+GTACommand class >> analysisOrder [
 	^ 100
 ]
 
 { #category : #'instance creation' }
-GTSpotterAnalysisCommand class >> context: aGTSpotterSession [ 
+GTACommand class >> context: aGTSpotterSession [ 
 	^ self new context: aGTSpotterSession; yourself
 ]
 
 { #category : #execute }
-GTSpotterAnalysisCommand >> clean [
+GTACommand >> clean [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-GTSpotterAnalysisCommand >> context [
+GTACommand >> context [
 	^ context
 ]
 
 { #category : #accessing }
-GTSpotterAnalysisCommand >> context: anObject [
+GTACommand >> context: anObject [
 	context := anObject
 ]
 
 { #category : #execute }
-GTSpotterAnalysisCommand >> execute [
+GTACommand >> execute [
 	self subclassResponsibility
 ]
 
 { #category : #accessing }
-GTSpotterAnalysisCommand >> session [
+GTACommand >> session [
 	^ self context session
 ]

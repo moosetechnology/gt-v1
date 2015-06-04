@@ -4,10 +4,10 @@ A GTATimelineIconBuilderTest is a test class for testing the behavior of GTATime
 Class {
 	#name : #GTAIconBuilderTest,
 	#superclass : #GTAAbstractIconBuilderTest,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Tests'
 }
 
 { #category : #initialization }
 GTAIconBuilderTest >> initializeBuilder [
-	builder := GTAIconBuilder new.
+	builder := GTAActivitySymbolBuilder new.
 ]

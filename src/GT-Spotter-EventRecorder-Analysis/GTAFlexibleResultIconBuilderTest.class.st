@@ -1,10 +1,10 @@
 Class {
 	#name : #GTAFlexibleResultIconBuilderTest,
 	#superclass : #GTAAbstractIconBuilderTest,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Tests'
 }
 
 { #category : #initialization }
 GTAFlexibleResultIconBuilderTest >> initializeBuilder [	
-	builder := GTAFlexibleResultIconBuilder new
+	builder := GTAFlexibleResultSymbolBuilder new
 ]

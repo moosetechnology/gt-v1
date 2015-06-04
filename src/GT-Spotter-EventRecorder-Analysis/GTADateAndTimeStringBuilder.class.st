@@ -6,7 +6,7 @@ Class {
 		'duration',
 		'numberOfLabels'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Timeline'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Utilities'
 }
 
 { #category : #accessing }

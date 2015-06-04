@@ -2,7 +2,7 @@
 I'm a session builder, I receive collected announcements and split events per computer and per session. Session starts with opening Spotter and finishs on closing Spotter.
 "
 Class {
-	#name : #GTSpotterSessionsBuilder,
+	#name : #GTASessionBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'events'
@@ -11,17 +11,17 @@ Class {
 }
 
 { #category : #api }
-GTSpotterSessionsBuilder class >> fromEvents: aCollection [ 
+GTASessionBuilder class >> fromEvents: aCollection [ 
 	^ self new events: aCollection; sessions
 ]
 
 { #category : #accessing }
-GTSpotterSessionsBuilder >> events: aCollection [ 
+GTASessionBuilder >> events: aCollection [ 
 	events := aCollection
 ]
 
 { #category : #enumerating }
-GTSpotterSessionsBuilder >> sessions [ 
+GTASessionBuilder >> sessions [ 
 	| borders pairs openOrExit previousAssociation computer |
 	events ifEmpty: [ ^ GTAComputer new ].
 	borders := events withIndexCollect: [ :event :index |

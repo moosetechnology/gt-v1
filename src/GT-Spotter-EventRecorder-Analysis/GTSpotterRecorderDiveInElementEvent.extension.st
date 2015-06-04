@@ -10,8 +10,8 @@ GTSpotterRecorderDiveInElementEvent >> addSameLevelEvent: anEvent [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveInElementEvent >> analysisIcon [
 	^ self isMissStep 
-			ifFalse: [ GTSpotterEventIcons diveInElementIcon ]
-			ifTrue: [ GTSpotterEventIcons diveInElementMissStepIcon ]
+			ifFalse: [ GTAEventIcons diveInElementIcon ]
+			ifTrue: [ GTAEventIcons diveInElementMissStepIcon ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

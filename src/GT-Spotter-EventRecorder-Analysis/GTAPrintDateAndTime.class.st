@@ -1,11 +1,11 @@
 Class {
-	#name : #GTSpotterPrintDateAndTime,
+	#name : #GTAPrintDateAndTime,
 	#superclass : #Object,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Support'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Utilities'
 }
 
 { #category : #api }
-GTSpotterPrintDateAndTime class >> yyyyMmDdAndHhMmSs: aDateAndTimeOrZero [
+GTAPrintDateAndTime class >> yyyyMmDdAndHhMmSs: aDateAndTimeOrZero [
 	"Returns YYYY-MM-DD, HH:MM:SS in UTC time."
 	aDateAndTimeOrZero = 0 ifTrue: [ ^ 'unknown' ].
 	^ String streamContents: [ :aStream |

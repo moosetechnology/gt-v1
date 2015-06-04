@@ -1,6 +1,6 @@
 Class {
 	#name : #GTALinkDiveInWithSelectionCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#superclass : #GTACommand,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 

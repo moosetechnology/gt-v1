@@ -1,15 +1,15 @@
 Class {
-	#name : #GTSpotterTimeline,
+	#name : #GTAObsoleteActivityBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'data',
 		'view'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Support'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Obsolete'
 }
 
 { #category : #api }
-GTSpotterTimeline class >> viewOn: objects [
+GTAObsoleteActivityBuilder class >> viewOn: objects [
 	^ self new
 			data: objects;
 			build;
@@ -17,7 +17,7 @@ GTSpotterTimeline class >> viewOn: objects [
 ]
 
 { #category : #building }
-GTSpotterTimeline >> build [
+GTAObsoleteActivityBuilder >> build [
 	| shape elements visibleData levels |
 	view := RTView new.
 	view @ RTDraggableView.
@@ -37,32 +37,32 @@ GTSpotterTimeline >> build [
 ]
 
 { #category : #accessing }
-GTSpotterTimeline >> data [
+GTAObsoleteActivityBuilder >> data [
 	^ data
 ]
 
 { #category : #accessing }
-GTSpotterTimeline >> data: anObject [
+GTAObsoleteActivityBuilder >> data: anObject [
 	data := anObject
 ]
 
 { #category : #accessing }
-GTSpotterTimeline >> view [
+GTAObsoleteActivityBuilder >> view [
 	^ view
 ]
 
 { #category : #accessing }
-GTSpotterTimeline >> view: anObject [
+GTAObsoleteActivityBuilder >> view: anObject [
 	view := anObject
 ]
 
 { #category : #enumerating }
-GTSpotterTimeline >> visibleData [
+GTAObsoleteActivityBuilder >> visibleData [
 	^ self data select: #isForTimelineView
 ]
 
 { #category : #accessing }
-GTSpotterTimeline >> xFor: aSpotterEvent [
+GTAObsoleteActivityBuilder >> xFor: aSpotterEvent [
 	| currentTimeStamp index events nextTimestamp duration relIndex relDuration xPosition |
 	aSpotterEvent relativeXPosition ifNotNil: [ :value | ^ value ].
 	currentTimeStamp := aSpotterEvent dateAndTimeWithFixedTimeZone.
@@ -81,6 +81,6 @@ GTSpotterTimeline >> xFor: aSpotterEvent [
 ]
 
 { #category : #accessing }
-GTSpotterTimeline >> yFor: aSpotterEvent [
+GTAObsoleteActivityBuilder >> yFor: aSpotterEvent [
 	^ aSpotterEvent diveInLevel
 ]

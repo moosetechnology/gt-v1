@@ -10,9 +10,9 @@ GTASomeSessions >> activityView [
 	composer := RTComposer new.
 	composer view @ RTZoomableView.
 	self ifEmpty: [ ^ composer view ].
-	builders := GTATimelineBuilders new.
+	builders := GTAActivityBuilders new.
 	1 to: (self size min: 100) do: [ :index | | builder |
-		builder := GTATimelineBuilder new.
+		builder := GTAActivityBuilder new.
 		builder 
 			view: composer view;
 			configuration: GTADefaultTimelineConfiguration uniqueInstance;
@@ -22,7 +22,7 @@ GTASomeSessions >> activityView [
 		index > 1 ifTrue: [ composer move: index belowAlignFromLeft: index - 1 ].
 		builders add: builder.
 	 ].
-	GTAMenuBuilder new timelineBuilder: builders; build.
+	GTAActivityMenuBuilder new timelineBuilder: builders; build.
 	composer view canvas focusOnCenterScaled.
 	^ composer view.
 ]

@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Utilities'
 }
 
 { #category : #api }

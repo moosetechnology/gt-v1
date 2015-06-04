@@ -2,7 +2,7 @@ Extension { #name : #GTSpotterRecorderSelectedCandidateChangedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> analysisIcon [
-	^ GTSpotterEventIcons selectedCandidateChangedIcon
+	^ GTAEventIcons selectedCandidateChangedIcon
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

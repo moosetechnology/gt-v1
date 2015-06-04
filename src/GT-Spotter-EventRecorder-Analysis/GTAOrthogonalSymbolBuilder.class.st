@@ -1,11 +1,11 @@
 Class {
-	#name : #GTAOrthogonalIconBuilder,
-	#superclass : #GTAIconBuilder,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
+	#name : #GTAOrthogonalSymbolBuilder,
+	#superclass : #GTAActivitySymbolBuilder,
+	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity-Symbols'
 }
 
 { #category : #visitor }
-GTAOrthogonalIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
+GTAOrthogonalSymbolBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -3 @ -2. 1 @ -2. 1 @ 4. 3 @ 4. 3 @ 5. 0 @ 5. 0 @ 1. 
@@ -18,7 +18,7 @@ GTAOrthogonalIconBuilder >> visitDiveInCategoryEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTAOrthogonalIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
+GTAOrthogonalSymbolBuilder >> visitDiveInElementEvent: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -2 @ -1. 1 @ -1. 1 @ 4. 3 @ 4. 3 @ 5. 0 @ 5. 0 @ 0. -2 @ 0 };
@@ -30,7 +30,7 @@ GTAOrthogonalIconBuilder >> visitDiveInElementEvent: aGTSpotterEvent [
 ]
 
 { #category : #visitor }
-GTAOrthogonalIconBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
+GTAOrthogonalSymbolBuilder >> visitDiveOutEvent: aGTSpotterEvent [ 
 	| s1 s2 c |
 	s1 := RTPolygon new 
 				vertices: { -2 @ 1. 1 @ 1. 1 @ -4. 3 @ -4. 3 @ -5. 0 @ -5. 0 @ 0. -2 @ 0 };

@@ -1,26 +1,26 @@
 Class {
-	#name : #GTATimelineShapeBuilders,
+	#name : #GTAShapeBuilders,
 	#superclass : #OrderedCollection,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #shapes }
-GTATimelineShapeBuilders >> flexibleResultShapes [
+GTAShapeBuilders >> flexibleResultShapes [
 	self do: #flexibleResultShapes
 ]
 
 { #category : #shapes }
-GTATimelineShapeBuilders >> oblique [
+GTAShapeBuilders >> oblique [
 	self do: #oblique
 ]
 
 { #category : #shapes }
-GTATimelineShapeBuilders >> orthogonal [
+GTAShapeBuilders >> orthogonal [
 	self do: #orthogonal
 ]
 
 { #category : #accessing }
-GTATimelineShapeBuilders >> shape [
+GTAShapeBuilders >> shape [
 	self ifEmpty: [ ^ nil ].
 	^ self anyOne shape
 ]

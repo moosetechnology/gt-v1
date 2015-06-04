@@ -9,12 +9,12 @@ Class {
 { #category : #'gt-inspector-extension' }
 GTASession >> activityView [
 	| builder |
-	builder := GTATimelineBuilder new.
+	builder := GTAActivityBuilder new.
 	builder 
 		configuration: GTADefaultTimelineConfiguration uniqueInstance;
 		events: self;
 		build.
-	GTAMenuBuilder new timelineBuilder: builder; build.
+	GTAActivityMenuBuilder new timelineBuilder: builder; build.
 	builder view canvas focusOnCenterScaled.
 	^ builder view.
 ]
@@ -22,7 +22,7 @@ GTASession >> activityView [
 { #category : #'gt-inspector-extension' }
 GTASession >> activityView3 [
 	"obsolete"
-	^ GTSpotterTimeline viewOn: self
+	^ GTAObsoleteActivityBuilder viewOn: self
 ]
 
 { #category : #api }
@@ -116,7 +116,7 @@ GTASession >> gtInspectorEventsIn: composite [
 		column: 'Event' 
 			evaluated: [ :each | each asEventAnalysisString ] width: 400;
 		column: 'Time' 
-			evaluated: [ :each | GTSpotterPrintDateAndTime yyyyMmDdAndHhMmSs: each dateAndTimeWithFixedTimeZone ]
+			evaluated: [ :each | GTAPrintDateAndTime yyyyMmDdAndHhMmSs: each dateAndTimeWithFixedTimeZone ]
 			width: 120;
 		withSmalltalkSearch;
 		helpMessage: 'Given your INPUT, it executes: self select: [:each | INPUT ]';
@@ -317,7 +317,7 @@ GTASession >> unknownNames [
 
 { #category : #update }
 GTASession >> updateEvents [
-	^ GTSpotterSessionAnalysis updateOn: self
+	^ GTASessionAnalysis updateOn: self
 ]
 
 { #category : #enumerating }

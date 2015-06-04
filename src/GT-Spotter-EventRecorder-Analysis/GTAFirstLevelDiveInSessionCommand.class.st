@@ -1,6 +1,6 @@
 Class {
 	#name : #GTAFirstLevelDiveInSessionCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#superclass : #GTACommand,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 

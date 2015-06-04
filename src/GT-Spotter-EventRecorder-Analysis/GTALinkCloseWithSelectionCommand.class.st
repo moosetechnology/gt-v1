@@ -1,6 +1,6 @@
 Class {
 	#name : #GTALinkCloseWithSelectionCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#superclass : #GTACommand,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 

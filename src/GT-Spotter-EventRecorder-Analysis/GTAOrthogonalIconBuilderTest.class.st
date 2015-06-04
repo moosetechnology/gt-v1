@@ -1,12 +1,12 @@
 Class {
 	#name : #GTAOrthogonalIconBuilderTest,
 	#superclass : #GTAAbstractIconBuilderTest,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Tests'
 }
 
 { #category : #running }
 GTAOrthogonalIconBuilderTest >> initializeBuilder [	
-	builder := GTAOrthogonalIconBuilder new
+	builder := GTAOrthogonalSymbolBuilder new
 ]
 
 { #category : #running }

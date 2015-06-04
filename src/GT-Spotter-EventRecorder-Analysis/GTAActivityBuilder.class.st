@@ -1,5 +1,5 @@
 Class {
-	#name : #GTATimelineBuilder,
+	#name : #GTAActivityBuilder,
 	#superclass : #RTBuilder,
 	#instVars : [
 		'events',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #api }
-GTATimelineBuilder class >> viewOn: objects [
+GTAActivityBuilder class >> viewOn: objects [
 	| instance |
 	instance := self new.
 	instance
@@ -30,28 +30,28 @@ GTATimelineBuilder class >> viewOn: objects [
 ]
 
 { #category : #adding }
-GTATimelineBuilder >> addEdges [
+GTAActivityBuilder >> addEdges [
 	self edges ifNotEmpty: [ ^ self ].
 	self buildEdges.
 ]
 
 { #category : #configuration }
-GTATimelineBuilder >> analyze [
+GTAActivityBuilder >> analyze [
 	analyze := true
 ]
 
 { #category : #private }
-GTATimelineBuilder >> analyzeEvents [
+GTAActivityBuilder >> analyzeEvents [
 	self eventAnalyzer analyze: self events
 ]
 
 { #category : #private }
-GTATimelineBuilder >> analyzeEventsIfRequested [
+GTAActivityBuilder >> analyzeEventsIfRequested [
 	analyze ifTrue: [ self analyzeEvents ]
 ]
 
 { #category : #private }
-GTATimelineBuilder >> buildEdges [
+GTAActivityBuilder >> buildEdges [
 	| size |
 	size := self elements size.
 	size < 2
@@ -64,14 +64,14 @@ GTATimelineBuilder >> buildEdges [
 ]
 
 { #category : #private }
-GTATimelineBuilder >> buildEdgesIfRequested [
+GTAActivityBuilder >> buildEdgesIfRequested [
 	withEdges
 		ifFalse: [ ^ #() ].
 	^ self buildEdges
 ]
 
 { #category : #private }
-GTATimelineBuilder >> buildElements [
+GTAActivityBuilder >> buildElements [
 	| visibleEvents |
 	visibleEvents := self visibleEvents.
 	elements := self elementsWithInteractionOn: visibleEvents.
@@ -79,22 +79,22 @@ GTATimelineBuilder >> buildElements [
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> configuration: aGTADefaultTimelineConfiguration [ 
+GTAActivityBuilder >> configuration: aGTADefaultTimelineConfiguration [ 
 	aGTADefaultTimelineConfiguration configure: self
 ]
 
 { #category : #hooks }
-GTATimelineBuilder >> createShapeBuilder [
+GTAActivityBuilder >> createShapeBuilder [
 	^ super createShapeBuilder event; yourself
 ]
 
 { #category : #hooks }
-GTATimelineBuilder >> createView [
+GTAActivityBuilder >> createView [
 	^ super createView @ RTDraggableView @ RTZoomableView.
 ]
 
 { #category : #public }
-GTATimelineBuilder >> edgeFrom: source to: target [ 
+GTAActivityBuilder >> edgeFrom: source to: target [ 
 	"source and target are elements"
 	| newEdge |
 	newEdge := self edgeShapeBuilder edgeFrom: source to: target.
@@ -104,43 +104,43 @@ GTATimelineBuilder >> edgeFrom: source to: target [
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> edgeShapeBuilder [
+GTAActivityBuilder >> edgeShapeBuilder [
 	^ edgeShapeBuilder ifNil: [ edgeShapeBuilder := self newEdgeShapeBuilder ]
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> edges [
+GTAActivityBuilder >> edges [
 	^ edges
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> elements [
+GTAActivityBuilder >> elements [
 	elements ifNil: [ self buildElements ].
 	^ elements
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> eventAnalyzer [
+GTAActivityBuilder >> eventAnalyzer [
 	^ eventAnalyzer ifNil: [ eventAnalyzer := self newEventAnalyzer ]
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> eventFilter [
+GTAActivityBuilder >> eventFilter [
 	^ eventFilter ifNil: [ eventFilter := self newEventFilter ]
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> events [
+GTAActivityBuilder >> events [
 	^ events
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> events: aCollection [ 
+GTAActivityBuilder >> events: aCollection [ 
 	events := aCollection
 ]
 
 { #category : #initialization }
-GTATimelineBuilder >> initialize [
+GTAActivityBuilder >> initialize [
 	super initialize.
 	edges := OrderedCollection new.
 	analyze := false.
@@ -148,37 +148,37 @@ GTATimelineBuilder >> initialize [
 ]
 
 { #category : #testing }
-GTATimelineBuilder >> isWithEdges [
+GTAActivityBuilder >> isWithEdges [
 	^ withEdges 
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> layout [
+GTAActivityBuilder >> layout [
 	^ layoutBuilder ifNil: [ layoutBuilder := self newLayoutBuilder ]
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> layout: aLayout [
+GTAActivityBuilder >> layout: aLayout [
 	^ layoutBuilder := aLayout
 ]
 
 { #category : #private }
-GTATimelineBuilder >> layoutElements [
+GTAActivityBuilder >> layoutElements [
 	self layoutElements: self elements
 ]
 
 { #category : #private }
-GTATimelineBuilder >> layoutElements: aCollection [ 
+GTAActivityBuilder >> layoutElements: aCollection [ 
 	self layout on: aCollection 
 ]
 
 { #category : #configuration }
-GTATimelineBuilder >> logicalLayout [
+GTAActivityBuilder >> logicalLayout [
 	^ self layout: GTAHorizontalDivingLineLayout new
 ]
 
 { #category : #'instance creation' }
-GTATimelineBuilder >> newEdgeShapeBuilder [
+GTAActivityBuilder >> newEdgeShapeBuilder [
 	^ self createShapeBuilder
 		line;
 		horizontalAttachPoint; 
@@ -187,34 +187,34 @@ GTATimelineBuilder >> newEdgeShapeBuilder [
 ]
 
 { #category : #'instance creation' }
-GTATimelineBuilder >> newEventAnalyzer [
-	^ GTSpotterSessionAnalysis new
+GTAActivityBuilder >> newEventAnalyzer [
+	^ GTASessionAnalysis new
 ]
 
 { #category : #'instance creation' }
-GTATimelineBuilder >> newEventFilter [
+GTAActivityBuilder >> newEventFilter [
 	^ [ :session | session select: #isForTimelineView ]
 ]
 
 { #category : #'instance creation' }
-GTATimelineBuilder >> newLayoutBuilder [
+GTAActivityBuilder >> newLayoutBuilder [
 	^ GTAHorizontalDivingLineLayout new center; gapSize: 0; yourself
 ]
 
 { #category : #configuration }
-GTATimelineBuilder >> realLayout [
+GTAActivityBuilder >> realLayout [
 	^ self layout: GTAHorizontalRealTimelineLayout new
 ]
 
 { #category : #removing }
-GTATimelineBuilder >> removeAllElementsAndEdges [
+GTAActivityBuilder >> removeAllElementsAndEdges [
 	self
 		removeEdges;
 		removeElements
 ]
 
 { #category : #removing }
-GTATimelineBuilder >> removeEdges [
+GTAActivityBuilder >> removeEdges [
 	self edges ifEmpty: [ ^ self ].
 	"view removeEdges: self edges."
 	self edges do: #remove.
@@ -222,7 +222,7 @@ GTATimelineBuilder >> removeEdges [
 ]
 
 { #category : #removing }
-GTATimelineBuilder >> removeElements [
+GTAActivityBuilder >> removeElements [
 	elements ifNil: [ ^ self ].
 	self elements ifEmpty: [ ^ self ].
 	self elements do: #remove.
@@ -230,7 +230,7 @@ GTATimelineBuilder >> removeElements [
 ]
 
 { #category : #hooks }
-GTATimelineBuilder >> renderIn: aView [
+GTAActivityBuilder >> renderIn: aView [
 	self removeAllElementsAndEdges.
 	self analyzeEventsIfRequested.
 	aView addAll: self elements.
@@ -239,31 +239,31 @@ GTATimelineBuilder >> renderIn: aView [
 ]
 
 { #category : #signalling }
-GTATimelineBuilder >> signalUpdate [
+GTAActivityBuilder >> signalUpdate [
 	view signalUpdate 
 ]
 
 { #category : #layout }
-GTATimelineBuilder >> smoothLayoutTranslator [
+GTAActivityBuilder >> smoothLayoutTranslator [
 	self layout translator: (RTSmoothLayoutTranslator new nbCycles: 1).
 ]
 
 { #category : #enumerating }
-GTATimelineBuilder >> visibleEvents [
+GTAActivityBuilder >> visibleEvents [
 	^ self eventFilter cull: self events cull: self
 ]
 
 { #category : #configuration }
-GTATimelineBuilder >> withEdges [
+GTAActivityBuilder >> withEdges [
 	withEdges := true
 ]
 
 { #category : #accessing }
-GTATimelineBuilder >> withEdges: aBoolean [ 
+GTAActivityBuilder >> withEdges: aBoolean [ 
 	withEdges := aBoolean
 ]
 
 { #category : #configuration }
-GTATimelineBuilder >> withoutEdges [
+GTAActivityBuilder >> withoutEdges [
 	withEdges := false
 ]

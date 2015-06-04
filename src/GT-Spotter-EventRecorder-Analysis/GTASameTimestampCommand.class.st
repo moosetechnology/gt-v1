@@ -1,6 +1,6 @@
 Class {
-	#name : #GTSpotterSameTimestampCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#name : #GTASameTimestampCommand,
+	#superclass : #GTACommand,
 	#instVars : [
 		'timestamp',
 		'events'
@@ -9,23 +9,23 @@ Class {
 }
 
 { #category : #accessing }
-GTSpotterSameTimestampCommand class >> analysisOrder [
+GTASameTimestampCommand class >> analysisOrder [
 	^ GTSpotterLinkToSessionCommand analysisOrder + 1
 ]
 
 { #category : #adding }
-GTSpotterSameTimestampCommand >> addEvent: aSpotterEvent [ 
+GTASameTimestampCommand >> addEvent: aSpotterEvent [ 
 	events ifNil: [ events := OrderedCollection new ].
 	events addLast: aSpotterEvent
 ]
 
 { #category : #execute }
-GTSpotterSameTimestampCommand >> clean [
+GTASameTimestampCommand >> clean [
 	self session do: [ :event | event removeSameTimeEvents ]
 ]
 
 { #category : #adding }
-GTSpotterSameTimestampCommand >> consolidateEvents: aDateAndTime [ 
+GTASameTimestampCommand >> consolidateEvents: aDateAndTime [ 
 	events ifNil: [ ^ self ].
 	events withIndexDo: [ :event :index |
 		event sameTimeEvents: events index: index nextDateAndTime: aDateAndTime ].
@@ -33,7 +33,7 @@ GTSpotterSameTimestampCommand >> consolidateEvents: aDateAndTime [
 ]
 
 { #category : #execute }
-GTSpotterSameTimestampCommand >> execute [
+GTASameTimestampCommand >> execute [
 	| eventTimestamp |
 	self session do: [ :eachEvent | 
 		eventTimestamp := eachEvent dateAndTimeWithFixedTimeZone.

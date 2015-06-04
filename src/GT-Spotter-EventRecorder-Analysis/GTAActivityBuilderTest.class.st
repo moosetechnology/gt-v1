@@ -1,25 +1,25 @@
 Class {
-	#name : #GTATimelineBuilderTest,
+	#name : #GTAActivityBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'builder'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Tests'
 }
 
 { #category : #accessing }
-GTATimelineBuilderTest >> session1 [
+GTAActivityBuilderTest >> session1 [
 	^ GTASessionExamples session1
 ]
 
 { #category : #running }
-GTATimelineBuilderTest >> setUp [
+GTAActivityBuilderTest >> setUp [
 	super setUp.
-	builder := GTATimelineBuilder new.
+	builder := GTAActivityBuilder new.
 ]
 
 { #category : #tests }
-GTATimelineBuilderTest >> testBuild [
+GTAActivityBuilderTest >> testBuild [
 	| events |
 	events := GTASession new.
 	GTSpotterRecorderEvent allSubclassesDo: [ :eachClass |
@@ -31,7 +31,7 @@ GTATimelineBuilderTest >> testBuild [
 ]
 
 { #category : #tests }
-GTATimelineBuilderTest >> testBuildSession1 [
+GTAActivityBuilderTest >> testBuildSession1 [
 	| events |
 	events := self session1.
 	builder

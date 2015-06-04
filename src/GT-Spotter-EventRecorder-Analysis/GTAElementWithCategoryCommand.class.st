@@ -1,6 +1,6 @@
 Class {
-	#name : #GTSpotterElementWithCategoryCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#name : #GTAElementWithCategoryCommand,
+	#superclass : #GTACommand,
 	#instVars : [
 		'selection',
 		'category'
@@ -9,12 +9,12 @@ Class {
 }
 
 { #category : #accessing }
-GTSpotterElementWithCategoryCommand class >> analysisOrder [
+GTAElementWithCategoryCommand class >> analysisOrder [
 	^ 1
 ]
 
 { #category : #execute }
-GTSpotterElementWithCategoryCommand >> clean [
+GTAElementWithCategoryCommand >> clean [
 	self session do: [ :eachEvent |
 		eachEvent
 			removeStrange;
@@ -23,7 +23,7 @@ GTSpotterElementWithCategoryCommand >> clean [
 ]
 
 { #category : #execute }
-GTSpotterElementWithCategoryCommand >> execute [
+GTAElementWithCategoryCommand >> execute [
 	self session do: [ :eachEvent |
 		eachEvent isUserSelectionClass ifTrue: [ self updateSelection: eachEvent ].
 		eachEvent isCategorySelection ifTrue: [ self updateCategory: eachEvent ].
@@ -32,7 +32,7 @@ GTSpotterElementWithCategoryCommand >> execute [
 ]
 
 { #category : #update }
-GTSpotterElementWithCategoryCommand >> updateCategory: anEvent [
+GTAElementWithCategoryCommand >> updateCategory: anEvent [
 	selection ifNil: [ ^ anEvent markAsStrange: 'Category selection before element selection.' ].
 	selection selectedCategoryEvent: anEvent.
 	anEvent selectedElementEvent: selection.
@@ -41,7 +41,7 @@ GTSpotterElementWithCategoryCommand >> updateCategory: anEvent [
 ]
 
 { #category : #update }
-GTSpotterElementWithCategoryCommand >> updateSelection: anEvent [
+GTAElementWithCategoryCommand >> updateSelection: anEvent [
 	selection ifNotNil: [ 
 		category 
 			ifNil: [ selection markAsStrange: 'There is no category selection before.' ]

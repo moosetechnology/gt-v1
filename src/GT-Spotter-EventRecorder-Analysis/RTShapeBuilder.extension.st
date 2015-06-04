@@ -2,20 +2,20 @@ Extension { #name : #RTShapeBuilder }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 RTShapeBuilder >> event [
-	self shape: GTAIconBuilder new
+	self shape: GTAActivitySymbolBuilder new
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 RTShapeBuilder >> flexibleResultShapes [
-	self shape: GTAFlexibleResultIconBuilder new
+	self shape: GTAFlexibleResultSymbolBuilder new
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 RTShapeBuilder >> oblique [
-	self shape: GTAIconBuilder new
+	self shape: GTAActivitySymbolBuilder new
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 RTShapeBuilder >> orthogonal [
-	self shape: GTAOrthogonalIconBuilder new
+	self shape: GTAOrthogonalSymbolBuilder new
 ]

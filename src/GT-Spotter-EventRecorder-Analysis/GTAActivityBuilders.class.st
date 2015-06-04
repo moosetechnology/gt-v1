@@ -1,38 +1,38 @@
 Class {
-	#name : #GTATimelineBuilders,
+	#name : #GTAActivityBuilders,
 	#superclass : #OrderedCollection,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Activity'
 }
 
 { #category : #adding }
-GTATimelineBuilders >> addEdges [
+GTAActivityBuilders >> addEdges [
 	self do: #addEdges
 ]
 
 { #category : #building }
-GTATimelineBuilders >> build [
+GTAActivityBuilders >> build [
 	self do: #build.
 	self layoutSessions
 ]
 
 { #category : #testing }
-GTATimelineBuilders >> isWithEdges [
+GTAActivityBuilders >> isWithEdges [
 	^ self anyOne isWithEdges
 ]
 
 { #category : #accessing }
-GTATimelineBuilders >> layout [
+GTAActivityBuilders >> layout [
 	^ self anyOne layout
 ]
 
 { #category : #layout }
-GTATimelineBuilders >> layoutElements [
+GTAActivityBuilders >> layoutElements [
 	self do: #layoutElements.
 	self layoutSessions
 ]
 
 { #category : #layout }
-GTATimelineBuilders >> layoutSessions [
+GTAActivityBuilders >> layoutSessions [
 	| previousBuilder |
 	self
 		withIndexDo: [ :builder :index | 
@@ -43,47 +43,47 @@ GTATimelineBuilders >> layoutSessions [
 ]
 
 { #category : #configuration }
-GTATimelineBuilders >> logicalLayout [
+GTAActivityBuilders >> logicalLayout [
 	self do: #logicalLayout
 ]
 
 { #category : #configuration }
-GTATimelineBuilders >> realLayout [
+GTAActivityBuilders >> realLayout [
 	self do: #realLayout
 ]
 
 { #category : #'as yet unclassified' }
-GTATimelineBuilders >> removeAllElementsAndEdges [
+GTAActivityBuilders >> removeAllElementsAndEdges [
 	self do: #removeAllElementsAndEdges
 ]
 
 { #category : #'event handling' }
-GTATimelineBuilders >> removeEdges [
+GTAActivityBuilders >> removeEdges [
 	self do: #removeEdges
 ]
 
 { #category : #accessing }
-GTATimelineBuilders >> shape [
-	^ self collect: #shape as: GTATimelineShapeBuilders
+GTAActivityBuilders >> shape [
+	^ self collect: #shape as: GTAShapeBuilders
 ]
 
 { #category : #signalling }
-GTATimelineBuilders >> signalUpdate [
+GTAActivityBuilders >> signalUpdate [
 	self ifEmpty: [ ^ self ].
 	self view signalUpdate
 ]
 
 { #category : #accessing }
-GTATimelineBuilders >> view [
+GTAActivityBuilders >> view [
 	^ self anyOne view
 ]
 
 { #category : #configuration }
-GTATimelineBuilders >> withEdges [
+GTAActivityBuilders >> withEdges [
 	self do: #withEdges
 ]
 
 { #category : #configuration }
-GTATimelineBuilders >> withoutEdges [
+GTAActivityBuilders >> withoutEdges [
 	self do: #withoutEdges
 ]

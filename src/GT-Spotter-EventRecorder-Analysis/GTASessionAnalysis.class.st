@@ -1,5 +1,5 @@
 Class {
-	#name : #GTSpotterSessionAnalysis,
+	#name : #GTASessionAnalysis,
 	#superclass : #Object,
 	#instVars : [
 		'session'
@@ -8,22 +8,22 @@ Class {
 }
 
 { #category : #api }
-GTSpotterSessionAnalysis class >> executeOn: aGTSpotterSession [
+GTASessionAnalysis class >> executeOn: aGTSpotterSession [
 	^ (self session: aGTSpotterSession) execute
 ]
 
 { #category : #'instance creation' }
-GTSpotterSessionAnalysis class >> session: aGTSpotterSession [ 
+GTASessionAnalysis class >> session: aGTSpotterSession [ 
 	^ self new session: aGTSpotterSession; yourself
 ]
 
 { #category : #api }
-GTSpotterSessionAnalysis class >> updateOn: aGTSpotterSession [
+GTASessionAnalysis class >> updateOn: aGTSpotterSession [
 	^ (self session: aGTSpotterSession) clean; execute
 ]
 
 { #category : #execute }
-GTSpotterSessionAnalysis >> analyze: aCollection [ 
+GTASessionAnalysis >> analyze: aCollection [ 
 	self 
 		session: aCollection;
 		clean; 
@@ -31,8 +31,8 @@ GTSpotterSessionAnalysis >> analyze: aCollection [
 ]
 
 { #category : #execute }
-GTSpotterSessionAnalysis >> clean [
-	(GTSpotterAnalysisCommand allSubclasses 
+GTASessionAnalysis >> clean [
+	(GTACommand allSubclasses 
 		sort: [ :a :b | a analysisOrder < b analysisOrder ]) 
 			do: [ :each | | command |
 				command := each context: self.
@@ -41,8 +41,8 @@ GTSpotterSessionAnalysis >> clean [
 ]
 
 { #category : #execute }
-GTSpotterSessionAnalysis >> execute [
-	(GTSpotterAnalysisCommand allSubclasses 
+GTASessionAnalysis >> execute [
+	(GTACommand allSubclasses 
 		sort: [ :a :b | a analysisOrder < b analysisOrder ]) 
 			do: [ :each | | command |
 				command := each context: self.
@@ -51,11 +51,11 @@ GTSpotterSessionAnalysis >> execute [
 ]
 
 { #category : #accessing }
-GTSpotterSessionAnalysis >> session [
+GTASessionAnalysis >> session [
 	^ session
 ]
 
 { #category : #accessing }
-GTSpotterSessionAnalysis >> session: anObject [
+GTASessionAnalysis >> session: anObject [
 	session := anObject
 ]

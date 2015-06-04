@@ -33,7 +33,7 @@ GTSpotterSessionAnalysisTest >> session4 [
 { #category : #running }
 GTSpotterSessionAnalysisTest >> setUp [
 	super setUp.
-	analysis := GTSpotterSessionAnalysis new.
+	analysis := GTASessionAnalysis new.
 	
 ]
 

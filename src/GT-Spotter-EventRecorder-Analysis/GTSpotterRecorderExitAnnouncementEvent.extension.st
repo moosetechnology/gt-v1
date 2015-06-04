@@ -2,7 +2,7 @@ Extension { #name : #GTSpotterRecorderExitAnnouncementEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderExitAnnouncementEvent >> analysisIcon [
-	^ GTSpotterEventIcons exitIcon
+	^ GTAEventIcons exitIcon
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

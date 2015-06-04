@@ -1,23 +1,23 @@
 Class {
-	#name : #GTSpotterMissStepsCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#name : #GTAMissStepsCommand,
+	#superclass : #GTACommand,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 
 { #category : #accessing }
-GTSpotterMissStepsCommand class >> analysisOrder [
+GTAMissStepsCommand class >> analysisOrder [
 	^ 50
 ]
 
 { #category : #execute }
-GTSpotterMissStepsCommand >> clean [
+GTAMissStepsCommand >> clean [
 	self session do: [ :eachEvent |
 		eachEvent
 			removeIsMissStep ]
 ]
 
 { #category : #execute }
-GTSpotterMissStepsCommand >> execute [
+GTAMissStepsCommand >> execute [
 	| divesIn |
 	divesIn := self session select: #isDiveIn.
 	divesIn withIndexDo: [ :aDiveIn :index |

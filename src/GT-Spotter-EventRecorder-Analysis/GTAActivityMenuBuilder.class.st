@@ -1,5 +1,5 @@
 Class {
-	#name : #GTAMenuBuilder,
+	#name : #GTAActivityMenuBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'timelineBuilder',
@@ -9,24 +9,24 @@ Class {
 }
 
 { #category : #'event handling' }
-GTAMenuBuilder >> addEdges [
+GTAActivityMenuBuilder >> addEdges [
 	timelineBuilder withEdges; addEdges; signalUpdate.
 	self configuration withEdges: timelineBuilder isWithEdges.
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> allBlack [
+GTAActivityMenuBuilder >> allBlack [
 	timelineBuilder view elements do: [ :el | 
 		el trachelShape allVisibleColor: Color black ]
 ]
 
 { #category : #building }
-GTAMenuBuilder >> build [
+GTAActivityMenuBuilder >> build [
 	self renderIn: timelineBuilder view.
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorCloseEventsPerCategory [
+GTAActivityMenuBuilder >> colorCloseEventsPerCategory [
 	| elements labels normalizer |
 	elements := timelineBuilder view elements select: [ :el | el model isCloseSpotter ].
 	labels := ((elements collect: [ :e | e model selectedCategoryLabel ]) as: Bag) sortedCounts collect: #value.
@@ -39,7 +39,7 @@ GTAMenuBuilder >> colorCloseEventsPerCategory [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorMostOftenQueriesAndItemsInComputer [
+GTAActivityMenuBuilder >> colorMostOftenQueriesAndItemsInComputer [
 	| els bag hashes counts normalizer computers |
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
@@ -56,7 +56,7 @@ GTAMenuBuilder >> colorMostOftenQueriesAndItemsInComputer [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorMostOftenQueriesAndItemsInView [
+GTAActivityMenuBuilder >> colorMostOftenQueriesAndItemsInView [
 	| els bag hashes counts normalizer |
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
@@ -72,7 +72,7 @@ GTAMenuBuilder >> colorMostOftenQueriesAndItemsInView [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorSameQueriesAndItemsInComputer [
+GTAActivityMenuBuilder >> colorSameQueriesAndItemsInComputer [
 	| els bag hashes counts normalizer computers |
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
@@ -89,7 +89,7 @@ GTAMenuBuilder >> colorSameQueriesAndItemsInComputer [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> colorSameQueriesAndItemsInView [
+GTAActivityMenuBuilder >> colorSameQueriesAndItemsInView [
 	| els bag hashes counts normalizer |
 	els := timelineBuilder view elements select: [ :el | 
 					el model isSpotterEvent and: [ el model userQueryOrSelectionHashes notEmpty ] ].
@@ -105,12 +105,12 @@ GTAMenuBuilder >> colorSameQueriesAndItemsInView [
 ]
 
 { #category : #accessing }
-GTAMenuBuilder >> configuration [
+GTAActivityMenuBuilder >> configuration [
 	^ GTADefaultTimelineConfiguration uniqueInstance
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> flexibleResultShapes [
+GTAActivityMenuBuilder >> flexibleResultShapes [
 	timelineBuilder shape flexibleResultShapes.
 	timelineBuilder 
 		removeAllElementsAndEdges;
@@ -120,13 +120,13 @@ GTAMenuBuilder >> flexibleResultShapes [
 ]
 
 { #category : #initialization }
-GTAMenuBuilder >> initialize [
+GTAActivityMenuBuilder >> initialize [
 	super initialize.
 	menuBuilder := RTMenuBuilder new.
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> logicalTimeline [
+GTAActivityMenuBuilder >> logicalTimeline [
 	timelineBuilder
 			logicalLayout;
 			layoutElements;
@@ -136,7 +136,7 @@ GTAMenuBuilder >> logicalTimeline [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> obliqueShapes [
+GTAActivityMenuBuilder >> obliqueShapes [
 	timelineBuilder shape oblique.
 	timelineBuilder 
 		removeAllElementsAndEdges;
@@ -146,7 +146,7 @@ GTAMenuBuilder >> obliqueShapes [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> orthogonalShapes [
+GTAActivityMenuBuilder >> orthogonalShapes [
 	timelineBuilder shape orthogonal.
 	timelineBuilder 
 		removeAllElementsAndEdges;
@@ -156,7 +156,7 @@ GTAMenuBuilder >> orthogonalShapes [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> realTimeline [
+GTAActivityMenuBuilder >> realTimeline [
 	timelineBuilder
 			realLayout;
 			layoutElements;
@@ -166,13 +166,13 @@ GTAMenuBuilder >> realTimeline [
 ]
 
 { #category : #'event handling' }
-GTAMenuBuilder >> removeEdges [
+GTAActivityMenuBuilder >> removeEdges [
 	timelineBuilder withoutEdges; removeEdges; signalUpdate.
 	self configuration withEdges: timelineBuilder isWithEdges.
 ]
 
 { #category : #hooks }
-GTAMenuBuilder >> renderIn: aView [
+GTAActivityMenuBuilder >> renderIn: aView [
 	menuBuilder view: aView.
 	menuBuilder menu: 'Layout' submenu: 'Logical Timeline' callback: [ self logicalTimeline ].
 	menuBuilder menu: 'Layout' submenu: 'Real Timeline' callback: [ self realTimeline ].
@@ -190,6 +190,6 @@ GTAMenuBuilder >> renderIn: aView [
 ]
 
 { #category : #accessing }
-GTAMenuBuilder >> timelineBuilder: aGTATimelineBuilder [ 
+GTAActivityMenuBuilder >> timelineBuilder: aGTATimelineBuilder [ 
 	timelineBuilder := aGTATimelineBuilder
 ]

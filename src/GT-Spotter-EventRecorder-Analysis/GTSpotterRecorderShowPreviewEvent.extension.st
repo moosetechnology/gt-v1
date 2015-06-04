@@ -2,7 +2,7 @@ Extension { #name : #GTSpotterRecorderShowPreviewEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderShowPreviewEvent >> analysisIcon [
-	^ GTSpotterEventIcons showPreviewIcon
+	^ GTAEventIcons showPreviewIcon
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

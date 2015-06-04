@@ -69,7 +69,7 @@ GTAAnnouncements >> perComputer [
 
 { #category : #enumerating }
 GTAAnnouncements >> sessions [
-	^ GTSpotterSessionsBuilder fromEvents: (
+	^ GTASessionBuilder fromEvents: (
 			self flatCollect: #events as: OrderedCollection)
 ]
 

@@ -1,26 +1,26 @@
 Class {
-	#name : #GTSpotterEventIcons,
+	#name : #GTAEventIcons,
 	#superclass : #Object,
-	#category : #'GT-Spotter-EventRecorder-Analysis-Support'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Obsolete'
 }
 
 { #category : #icons }
-GTSpotterEventIcons class >> actOnIcon [
+GTAEventIcons class >> actOnIcon [
 	^ Smalltalk ui icons glamorousPlay
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> contextChangedIcon [
+GTAEventIcons class >> contextChangedIcon [
 	^ Smalltalk ui icons glamorousEdit  
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> diveInCategoryIcon [
+GTAEventIcons class >> diveInCategoryIcon [
 	^ Smalltalk ui icons glamorousDiveAllRightIcon  
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> diveInCategoryMissStepIcon [
+GTAEventIcons class >> diveInCategoryMissStepIcon [
 	^ Smalltalk ui icons glamorousDiveAllRightIcon
 		deepCopy 
 			mapColor: (Color r: 0.581 g: 0.581 b: 0.581 alpha: 1.0)
@@ -28,42 +28,42 @@ GTSpotterEventIcons class >> diveInCategoryMissStepIcon [
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> diveInElementIcon [
+GTAEventIcons class >> diveInElementIcon [
 	^ Smalltalk ui icons glamorousDiveRightIcon  
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> diveInElementMissStepIcon [
+GTAEventIcons class >> diveInElementMissStepIcon [
 	^ Smalltalk ui icons glamorousDiveRightIcon 
 			deepCopy mapColor: Color black to: Color red
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> diveOutIcon [
+GTAEventIcons class >> diveOutIcon [
 	^ Smalltalk ui icons glamorousLeft  
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> exitIcon [
+GTAEventIcons class >> exitIcon [
 	^ Smalltalk ui icons glamorousClose  
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> hidePreviewIcon [
+GTAEventIcons class >> hidePreviewIcon [
 	^ Smalltalk ui icons glamorousZoomOut
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> noIcon [
+GTAEventIcons class >> noIcon [
 	^ Smalltalk ui icons protocolNoneIcon
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> selectedCandidateChangedIcon [
+GTAEventIcons class >> selectedCandidateChangedIcon [
 	^ Smalltalk ui icons glamorousGrayCircle  
 ]
 
 { #category : #icons }
-GTSpotterEventIcons class >> showPreviewIcon [
+GTAEventIcons class >> showPreviewIcon [
 	^ Smalltalk ui icons glamorousZoomIn
 ]

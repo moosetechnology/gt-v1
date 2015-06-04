@@ -1,6 +1,6 @@
 Class {
 	#name : #GTAEmptySessionCommand,
-	#superclass : #GTSpotterAnalysisCommand,
+	#superclass : #GTACommand,
 	#category : #'GT-Spotter-EventRecorder-Analysis-Builders'
 }
 

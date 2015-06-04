@@ -2,7 +2,7 @@ Extension { #name : #GTSpotterRecorderDiveOutEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderDiveOutEvent >> analysisIcon [
-	^ GTSpotterEventIcons diveOutIcon
+	^ GTAEventIcons diveOutIcon
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
