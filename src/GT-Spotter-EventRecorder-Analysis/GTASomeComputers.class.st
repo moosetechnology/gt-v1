@@ -237,61 +237,7 @@ GTASomeComputers >> specialKeywords [
 
 { #category : #'gt-inspector-extension' }
 GTASomeComputers >> timelineView [
-	| builder minTime dataSetBuilder threshold |
-	builder := RTTimeline new.
-	minTime := self start asUnixTime.
-	dataSetBuilder := GTARoughDataSetBuilder new
-		gap: self duration / 108;
-		setSessionComparator;
-		yourself.
-	self reverseWithIndexDo: [ :eachComputer :index | | set objects |
-		dataSetBuilder 
-			objects: eachComputer; 
-			newGroupBlock: [ GTASomeSessions new computer: eachComputer; yourself ];
-			build.
-		objects := dataSetBuilder groups collect: [ :eachGroup |
-			eachGroup size = 1 ifTrue: [ eachGroup any ] ifFalse: [ eachGroup ] ].
-		set := RTTimelineSet new.
-		set
-			lineIdentifier: index;
-			objects: objects;
-			start: [ :eachSession | eachSession start asUnixTime - minTime ];
-			end: [ :eachSession | eachSession end asUnixTime - minTime ].
-		set interaction popupText: #humanReadablePrintString.
-		set shape color: (RTMultiLinearColorForIdentity new 
-							command: [ :eachSession | objects indexOf: eachSession ]; 
-							objects: (1 to: objects size);
-							yourself).
-		builder add: set.
-	 ].
-	builder axisX 
-		numberOfLabels: 5;
-		labelRotation: 0;
-		labelFontHeight: 8;
-		labelConversion: [ :unixTime | 
-			GTADateAndTimeStringBuilder new
-				dateAndTime: (DateAndTime fromUnixTime: unixTime + minTime);
-				duration: self duration;
-				numberOfLabels: 5;
-				humanReadablePrintString ].
-	builder timelineLabelBuilder shape fontSize: 8.
-	builder 
-		timelineLabel: [ :lineIdentifier | String streamContents: [ :aStream |
-				aStream 
-					nextPutAll: (self at: lineIdentifier) userOrDeveloperString;
-					space;
-					print: lineIdentifier ] ];
-		extent: 400 @ ((self size * 10) max: 200).
-	
-	threshold := RTHorizontalTimelineDecorator 	new.
-	threshold addLineAboveIdentifier: (self indexOf: (self detect: [ :e | e isDeveloper not ])).
-	"threshold addLineAboveIdentifier: (self indexOf: (self detect: [ :e | e isRegularUser not ]))."
-	threshold shape line width: 1; color: (Color paleGreen alpha: 0.6).
-	builder addDecorator: threshold.
-	
-	builder build.
-	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
-	^ builder
+	^ GTATimelineBuilder new computers: self; build; menu; view.
 ]
 
 { #category : #enumerating }
