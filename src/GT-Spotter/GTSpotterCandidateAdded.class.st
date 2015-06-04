@@ -1,9 +1,8 @@
 Class {
 	#name : #GTSpotterCandidateAdded,
-	#superclass : #Announcement,
+	#superclass : #GTSpotterAnnouncement,
 	#instVars : [
-		'candidateLink',
-		'category'
+		'candidateLink'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
@@ -22,14 +21,4 @@ GTSpotterCandidateAdded >> candidateLink [
 { #category : #accessing }
 GTSpotterCandidateAdded >> candidateLink: anObject [
 	candidateLink := anObject
-]
-
-{ #category : #accessing }
-GTSpotterCandidateAdded >> category [
-	^ category
-]
-
-{ #category : #accessing }
-GTSpotterCandidateAdded >> category: anObject [
-	category := anObject
 ]

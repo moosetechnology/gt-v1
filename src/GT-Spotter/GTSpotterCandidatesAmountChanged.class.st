@@ -1,9 +1,8 @@
 Class {
 	#name : #GTSpotterCandidatesAmountChanged,
-	#superclass : #Announcement,
+	#superclass : #GTSpotterAnnouncement,
 	#instVars : [
-		'amount',
-		'category'
+		'amount'
 	],
 	#category : #'GT-Spotter-Announcements'
 }
@@ -16,14 +15,4 @@ GTSpotterCandidatesAmountChanged >> amount [
 { #category : #accessing }
 GTSpotterCandidatesAmountChanged >> amount: anObject [
 	amount := anObject
-]
-
-{ #category : #accessing }
-GTSpotterCandidatesAmountChanged >> category [
-	^ category
-]
-
-{ #category : #accessing }
-GTSpotterCandidatesAmountChanged >> category: anObject [
-	category := anObject
 ]
