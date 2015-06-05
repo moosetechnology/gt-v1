@@ -32,6 +32,11 @@ GTASessionExamples class >> compileCurrentDataInto: aMethodName [
 				
 ]
 
+{ #category : #utility }
+GTASessionExamples class >> computersFrom: aMethodName [
+	^ GTAAnnouncements spotterUsersAndDevelopersFrom: (self perform: aMethodName).
+]
+
 { #category : #accessing }
 GTASessionExamples class >> lotOfSelectionsDataSample [
 	"Automatically created by class method #compileCurrentDataInto: #lotOfSelectionsDataSample."

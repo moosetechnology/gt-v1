@@ -33,7 +33,7 @@ GTAOrthogonalIconBuilderTest >> lineWithQueries [
 ]
 
 { #category : #running }
-GTAOrthogonalIconBuilderTest >> lineWithUpSelections [
+GTAOrthogonalIconBuilderTest >> lineWithUpSelectionsFrom: aGTAComputers [
 	| selection2 session1 selection1 |
 	selection1 := GTSpotterRecorderSelectedCandidateChangedEvent new
 		infoAt: #eventType put: #keyPressedArrowUp;
@@ -56,8 +56,9 @@ GTAOrthogonalIconBuilderTest >> lineWithUpSelections [
 
 { #category : #running }
 GTAOrthogonalIconBuilderTest >> testShapesForVissoft2015Paper [
-	| view line1 line2 line3 line4 line5 line6 |
+	| view line1 line2 line3 line4 line5 line6 computers |
 	view := RTView new.
+	computers := GTASessionExamples computersFrom: #lotOfSelectionsDataSample.
 	line1 := RTGroup
 		with: (self newElementForEventClass: GTSpotterRecorderActOnEvent)
 		with: (self newElementForEventClass: GTSpotterRecorderExitAnnouncementEvent).
@@ -70,7 +71,7 @@ GTAOrthogonalIconBuilderTest >> testShapesForVissoft2015Paper [
 		with: (self newElementForEventClass: GTSpotterRecorderDiveOutEvent).
 	line4 := self lineWithQueries.
 	line5 := RTGroup with: (self newElementForEventClass: GTSpotterRecorderSearchFinishedEvent).
-	line6 := self lineWithUpSelections.
+	line6 := self lineWithUpSelectionsFrom: computers.
 	view
 		addAll: line1;
 		addAll: line2;
