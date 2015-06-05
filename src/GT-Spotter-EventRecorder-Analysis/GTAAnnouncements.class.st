@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+GTAAnnouncements class >> fromByteArray: aByteArray [
+	^ self with: (GTSpotterEventRecorder materialize: aByteArray)
+]
+
+{ #category : #'instance creation' }
 GTAAnnouncements class >> fromDirectory: aFileReference [
 	"self fromDirectory: './gt/events/' asFileReference"
 	^ self 
@@ -45,6 +50,12 @@ GTAAnnouncements class >> spotterUsersAndDevelopers [
 				withoutEventsBeforePharo4Release
 					sessionsPerComputer
 						"sessionsWithNumberOfInputsGreaterThenOne"
+]
+
+{ #category : #helpers }
+GTAAnnouncements class >> spotterUsersAndDevelopersFrom: aByteArray [
+	^ (self fromByteArray: aByteArray) sessionsPerComputer
+
 ]
 
 { #category : #accessing }

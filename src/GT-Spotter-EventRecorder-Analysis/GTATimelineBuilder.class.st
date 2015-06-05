@@ -3,14 +3,16 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'computers',
-		'builder'
+		'builder',
+		'width',
+		'height'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Timeline'
 }
 
 { #category : #building }
 GTATimelineBuilder >> build [
-	| minTime dataSetBuilder threshold |
+	| minTime dataSetBuilder user |
 	builder := RTTimeline new.
 	minTime := self computers start asUnixTime.
 	dataSetBuilder := GTARoughDataSetBuilder new
@@ -56,11 +58,12 @@ GTATimelineBuilder >> build [
 					print: lineIdentifier ] ];
 		extent: self extent.
 	
-	threshold := RTHorizontalTimelineDecorator 	new.
-	threshold addLineAboveIdentifier: (self computers indexOf: (self computers detect: [ :e | e isDeveloper not ])).
-	"threshold addLineAboveIdentifier: (self computers indexOf: (self computers detect: [ :e | e isRegularUser not ]))."
-	threshold shape line width: 1; color: (Color paleGreen alpha: 0.6).
-	builder addDecorator: threshold.
+	user := self computers detect: [ :e | e isDeveloper not ] ifNone: [ nil ].
+	user ifNotNil: [ | threshold |
+		threshold := RTHorizontalTimelineDecorator 	new.
+		threshold addLineAboveIdentifier: (self computers indexOf: user).
+		threshold shape line width: 1; color: (Color paleGreen alpha: 0.6).
+		builder addDecorator: threshold ].
 	
 	builder build.
 	^ builder view

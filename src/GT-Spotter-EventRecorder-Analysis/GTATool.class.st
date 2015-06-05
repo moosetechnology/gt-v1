@@ -5,7 +5,7 @@ Class {
 		'semaphore',
 		'process'
 	],
-	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
+	#category : #'GT-Spotter-EventRecorder-Analysis-Utilities'
 }
 
 { #category : #private }
