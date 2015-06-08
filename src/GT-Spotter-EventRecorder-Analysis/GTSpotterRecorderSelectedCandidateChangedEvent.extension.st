@@ -52,7 +52,14 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> isForTimelineView [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> isInTheSameCategoryAsPreviousSelection [
-	^ self selectedCategoryLabel = self previousSelection selectedCategoryLabel
+	^ self previousSelection isNil or: [ 
+			self selectedCategoryLabel = self previousSelection selectedCategoryLabel ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelection [
+	^ true "(self isInTheSameCategoryAsPreviousSelection not and: [ self eventType notNil ]) or: [ 
+		(self eventType notNil) and: [ (self eventType = #unknown) not ] ]"
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

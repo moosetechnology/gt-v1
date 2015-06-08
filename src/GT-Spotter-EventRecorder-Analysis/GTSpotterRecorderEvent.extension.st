@@ -92,6 +92,31 @@ GTSpotterRecorderEvent >> followingDifferentTime [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderEvent >> gtInspectorItemsIn: composite [
+	<gtInspectorPresentationOrder: -1>  
+	^ (composite table)
+		title: 'Info';
+		display: [ :anEvent | anEvent gtInspectorItems sort: [ :a :b | a key < b key ] ];
+		children: [ :each | 
+			(each value isDictionary) 
+				ifTrue: [ each value associations ] 
+				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
+						ifTrue: [ each value collectWithIndex: [:x :i | i -> x ] ]
+						ifFalse: [ #() ] ] ];
+		column: 'Key' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ]
+			sortedBy: [ :a :b | a key < b key ];
+		column: 'Value' 
+			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+		beMultiple;
+		send: [ :selection | 
+			(selection notNil and: [ selection size = 1 ]) 
+				ifTrue: [ selection anyOne value ] 
+				ifFalse: [ selection collect: #value ] ];
+		showOnly: 50
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderEvent >> hasElementName [
 	^ false
 ]
