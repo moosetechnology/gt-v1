@@ -270,6 +270,11 @@ GTASession >> selectedCategoryLabel [
 	^ self last selectedCategoryLabel
 ]
 
+{ #category : #'enumerating - sessions' }
+GTASession >> sessions [
+	^ Array with: self
+]
+
 { #category : #enumerating }
 GTASession >> sessionsPerCategoryLabel [
 	| labels col |

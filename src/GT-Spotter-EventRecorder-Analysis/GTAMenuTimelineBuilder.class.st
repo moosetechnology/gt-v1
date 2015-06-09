@@ -14,25 +14,39 @@ GTAMenuTimelineBuilder >> build [
 ]
 
 { #category : #'event handling' }
+GTAMenuTimelineBuilder >> clean [
+	| elements normalizer  |
+	elements := timelineBuilder elements.
+	normalizer := RTMultiLinearColorForIdentity new 
+							objects: elements;
+							yourself.
+	elements do: [ :element |
+		element trachelShape 
+			color: (normalizer rtValue: element);
+			strokePaint: Color transparent ].
+	timelineBuilder view signalUpdate
+]
+
+{ #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> divingUsage [
 	self numberOfOccurrences: #divesIn inform: 'No dives-in.'
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightComposedQueries [
 	self highlightSessionsWithEvents: [ :eachEvent | 
 		(eachEvent isSearchFinished and: [ (eachEvent currentQuerySpecials reject: [ :b | b = true ]) size > 1 ]) 
 			and: [ eachEvent notEmptyCategories isEmpty ] ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightPharo5Users [
 	self highlightSessionsWithEvents: [ :eachEvent | 
 		eachEvent latestUpdate >= 50000 ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightSessionsWithEvents: aBlock [
 	timelineBuilder elements do: [ :eachElement | | color |
 		(eachElement model anyEventSatisfy: aBlock)
@@ -50,13 +64,13 @@ GTAMenuTimelineBuilder >> initialize [
 	menuBuilder := RTMenuBuilder new.
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> keywordUsage [
 	self numberOfOccurrences: #specialKeywords inform: 'No keywords.'
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> numberOfOccurrences: aSymbol inform: aNoOccurrencesString [
 	| elements keywords normalizer maxKeywords |
 	elements := timelineBuilder elements.
@@ -75,24 +89,24 @@ GTAMenuTimelineBuilder >> numberOfOccurrences: aSymbol inform: aNoOccurrencesStr
 	timelineBuilder view signalUpdate
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> numberOfSessions [
-	self numberOfOccurrences: #yourself inform: 'There is not any session.'
+	self numberOfOccurrences: #sessions inform: 'There is not any session.'
 
 ]
 
 { #category : #hooks }
 GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder view: aView.
-	menuBuilder menu: 'Feature usage' submenu: 'Number of Sessions' callback: [ self numberOfSessions ].
-	menuBuilder menu: 'Feature usage' submenu: 'Keyword Usage' callback: [ self keywordUsage ].
-	menuBuilder menu: 'Feature usage' submenu: 'Diving Usage' callback: [ self divingUsage ].
-	menuBuilder menu: 'Feature usage' submenu: 'Composed Queries Usage' callback: [ self highlightComposedQueries ].
-	menuBuilder menu: 'Feature usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Number of Sessions' callback: [ self numberOfSessions ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Keyword Usage' callback: [ self keywordUsage ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Diving Usage' callback: [ self divingUsage ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
 
-	menuBuilder menu: 'Data cleaning' submenu: 'Unknown items' callback: [ self unknownItems ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries Usage' callback: [ self highlightComposedQueries ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
 
-	menuBuilder menu: 'Clean' callback: [ self unspeciedFeature ].
+	menuBuilder menu: 'Clean' callback: [ self clean ].
 
 ]
 
@@ -106,21 +120,7 @@ GTAMenuTimelineBuilder >> timelineBuilder: anObject [
 	timelineBuilder := anObject
 ]
 
-{ #category : #'event handling' }
+{ #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> unknownItems [
 	self numberOfOccurrences: #unknownNames inform: 'No unknown names.'
-]
-
-{ #category : #'event handling' }
-GTAMenuTimelineBuilder >> unspeciedFeature [
-	| elements normalizer  |
-	elements := timelineBuilder elements.
-	normalizer := RTMultiLinearColorForIdentity new 
-							objects: elements;
-							yourself.
-	elements do: [ :element |
-		element trachelShape 
-			color: (normalizer rtValue: element);
-			strokePaint: Color transparent ].
-	timelineBuilder view signalUpdate
 ]

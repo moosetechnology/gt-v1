@@ -262,6 +262,11 @@ GTASomeSessions >> sessionTypeString: aString [
 	^ self optionAt: #sessionTypeString put: aString
 ]
 
+{ #category : #'enumerating - sessions' }
+GTASomeSessions >> sessions [
+	^ self
+]
+
 { #category : #enumerating }
 GTASomeSessions >> sessionsPerCategoryLabel [
 	| dictionary |
