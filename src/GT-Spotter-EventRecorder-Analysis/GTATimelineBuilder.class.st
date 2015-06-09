@@ -62,7 +62,7 @@ GTATimelineBuilder >> build [
 	user ifNotNil: [ | threshold |
 		threshold := RTHorizontalTimelineDecorator 	new.
 		threshold addLineAboveIdentifier: (self computers indexOf: user).
-		threshold shape line width: 1; color: (Color paleGreen alpha: 0.6).
+		threshold shape line width: 1; color: (Color blue alpha: 0.6).
 		builder addDecorator: threshold ].
 	
 	builder build.

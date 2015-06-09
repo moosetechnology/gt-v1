@@ -34,6 +34,11 @@ GTAMenuTimelineBuilder >> divingUsage [
 ]
 
 { #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightCategoryFilters [
+	self highlightSessionsWithEvents: [ :eachEvent | eachEvent isContextChanged and: [ eachEvent hasCurrentTextSpecials ] ]
+]
+
+{ #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightComposedQueries [
 	self highlightSessionsWithEvents: [ :eachEvent | 
 		(eachEvent isSearchFinished and: [ (eachEvent currentQuerySpecials reject: [ :b | b = true ]) size > 1 ]) 
@@ -104,13 +109,14 @@ GTAMenuTimelineBuilder >> numberOfSessions [
 GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder view: aView.
 	menuBuilder menu: 'Feature Intensity' submenu: 'Number of Sessions' callback: [ self numberOfSessions ].
-	menuBuilder menu: 'Feature Intensity' submenu: 'Keyword Usage' callback: [ self keywordUsage ].
-	menuBuilder menu: 'Feature Intensity' submenu: 'Diving Usage' callback: [ self divingUsage ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Category Filter' callback: [ self keywordUsage ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Dive-In' callback: [ self divingUsage ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
 
-	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries Usage' callback: [ self highlightComposedQueries ].
-	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In Usage' callback: [ self highlightDivesIn ].
-	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images Usage' callback: [ self highlightPharo5Users ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries' callback: [ self highlightComposedQueries ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Category Filter' callback: [ self highlightCategoryFilters ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In' callback: [ self highlightDivesIn ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
 
 	menuBuilder menu: 'Clean' callback: [ self clean ].
 
