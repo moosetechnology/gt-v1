@@ -41,6 +41,11 @@ GTAMenuTimelineBuilder >> highlightComposedQueries [
 ]
 
 { #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightDivesIn [
+	self highlightSessionsWithEvents: [ :eachEvent | eachEvent isDiveIn ]
+]
+
+{ #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightPharo5Users [
 	self highlightSessionsWithEvents: [ :eachEvent | 
 		eachEvent latestUpdate >= 50000 ]
@@ -104,7 +109,8 @@ GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
 
 	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries Usage' callback: [ self highlightComposedQueries ].
-	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In Usage' callback: [ self highlightDivesIn ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images Usage' callback: [ self highlightPharo5Users ].
 
 	menuBuilder menu: 'Clean' callback: [ self clean ].
 

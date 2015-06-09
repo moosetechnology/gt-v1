@@ -116,13 +116,13 @@ GTASomeComputers >> gtInspectorSessionClassificationIn: composite [
 			evaluated: [ :each | each sizeInPercent asFloat rounded ] 
 			width: 30;
 		column: 'Mean Duration' 
-			evaluated: [ :each | ((each collect: #duration as: OrderedCollection) sum / each size) roundTo: 1 second ] 
+			evaluated: [ :each | self meanDurationFor: each ] 
 			width: 97;
 		column: 'Min Duration' 
-			evaluated: [ :each | (each detectMin: #duration) duration roundTo: 1 second ] 
+			evaluated: [ :each | self minDurationFor: each ] 
 			width: 97;
 		column: 'Max Duration' 
-			evaluated: [ :each | (each max: #duration) roundTo: 1 second ] 
+			evaluated: [ :each | self maxDurationFor: each ] 
 			width: 97;
 		showOnly: 100
 ]
@@ -134,6 +134,24 @@ GTASomeComputers >> gtInspectorTimelineViewIn: composite [
 		title: 'Timeline';
 		initializeView: [ self timelineView ]
 		
+]
+
+{ #category : #'enumerating - computer' }
+GTASomeComputers >> maxDurationFor: aComputer [
+	aComputer ifEmpty: [ ^ 0 seconds ].
+	^ (aComputer max: #duration) roundTo: 1 second
+]
+
+{ #category : #'enumerating - computer' }
+GTASomeComputers >> meanDurationFor: aComputer [
+	aComputer ifEmpty: [ ^ 0 seconds ].
+	^ ((aComputer collect: #duration as: OrderedCollection) sum / aComputer size) roundTo: 1 second
+]
+
+{ #category : #'enumerating - computer' }
+GTASomeComputers >> minDurationFor: aComputer [
+	aComputer ifEmpty: [ ^ 0 seconds ].
+	^ (aComputer detectMin: #duration) duration roundTo: 1 second
 ]
 
 { #category : #enumerating }
