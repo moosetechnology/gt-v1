@@ -470,10 +470,14 @@ GTAActivitySymbolBuilder >> visitOpenEvent: aGTSpotterRecorderOpenEvent [
 
 { #category : #visitor }
 GTAActivitySymbolBuilder >> visitSearchFinishedEvent: aGTSpotterEvent [ 
-	^ RTPolygon new
-			vertices: { -5 @ 0. -3 @ 0. -1 @ 4. 1 @ -3. 3 @ 0. 5 @ 0. 
-							5 @ -1. 3 @ -1. 1 @ -4. -1 @ 3. -3 @ -1. -5 @ -1 };
-			yourself
+	| s1 s2 c |
+	s1 :=  RTPolygon new
+				vertices: { -5 @ 0. -3 @ 0. -1 @ 4. 1 @ -3. 3 @ 0. 5 @ 0. 
+								5 @ -1. 3 @ -1. 1 @ -4. -1 @ 3. -3 @ -1. -5 @ -1 };
+				yourself.
+	s2 := RTBox new color: Color transparent; size: 10.
+	c := RTCompositeShape new.
+	^ c add: s1; add: s2; yourself
 ]
 
 { #category : #visitor }

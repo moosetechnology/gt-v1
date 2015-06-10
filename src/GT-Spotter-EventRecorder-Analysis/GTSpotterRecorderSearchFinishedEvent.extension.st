@@ -1,6 +1,16 @@
 Extension { #name : #GTSpotterRecorderSearchFinishedEvent }
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> associatedContextChanged [
+	^ self infoAt: #associatedContextChanged
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> associatedContextChanged: aGTSpotterRecorderContextChangedEvent [ 
+	^ self infoAt: #associatedContextChanged put: aGTSpotterRecorderContextChangedEvent
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSearchFinishedEvent >> currentQueryHashes [
 	^ self stringHashesFor: self query
 ]
@@ -74,6 +84,11 @@ GTSpotterRecorderSearchFinishedEvent >> notEmptyCategories [
 		items > 0 ifTrue: [ notEmptyCategories add: (processor -> items) ]
 	].
 	^ notEmptyCategories
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderSearchFinishedEvent >> removeAssociatedContextChanged [
+	^ self removeInfoKey: #associatedContextChanged
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

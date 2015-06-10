@@ -37,6 +37,7 @@ GTADefaultTimelineConfiguration >> configure: builder [
 	builder shape shape: self shape.
 	builder interaction
 		popupText: #asEventAnalysisString;
+		addInteraction: (self searchFinishedInteraction: builder);
 		draggable.
 	builder interaction showEdge
 		connectTo: [ :event | 
@@ -59,6 +60,15 @@ GTADefaultTimelineConfiguration >> layout [
 { #category : #accessing }
 GTADefaultTimelineConfiguration >> layout: aLayout [ 
 	layout := aLayout
+]
+
+{ #category : #api }
+GTADefaultTimelineConfiguration >> searchFinishedInteraction: builder [
+	^ GTAHighlightable new
+		initializeOn: #isSearchFinished;
+		highlight: [ :anSearchFinished |
+			Array with: anSearchFinished associatedContextChanged ];
+		yourself
 ]
 
 { #category : #accessing }
