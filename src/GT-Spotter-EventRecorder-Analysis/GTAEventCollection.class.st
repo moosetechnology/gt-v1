@@ -1,20 +1,10 @@
 Class {
 	#name : #GTAEventCollection,
 	#superclass : #GTACollection,
-	#traits : 'TGTABookmarkIt + TGTSpotterCategoryView',
-	#classTraits : 'TGTABookmarkIt classTrait + TGTSpotterCategoryView classTrait',
+	#traits : 'TGTABookmarkIt',
+	#classTraits : 'TGTABookmarkIt classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
-
-{ #category : #accessing }
-GTAEventCollection >> categoryLabel [
-	^ self optionAt: #categoryLabel
-]
-
-{ #category : #accessing }
-GTAEventCollection >> categoryLabel: aString [ 
-	^ self optionAt: #categoryLabel put: aString
-]
 
 { #category : #accessing }
 GTAEventCollection >> computerUUID [

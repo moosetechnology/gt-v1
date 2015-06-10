@@ -24,7 +24,7 @@ GTASomeComputers >> computers: aCollection [
 	^ self optionAt: #computers put: aCollection
 ]
 
-{ #category : #enumerating }
+{ #category : #'enumerating - computer' }
 GTASomeComputers >> computersAndOnlySessionsWithSpecialKeywords [
 	^ self 
 		select: [ :computer | computer hasSessionsWithSpecialKeywords ]
@@ -197,7 +197,7 @@ GTASomeComputers >> selectComputersWithEvents: aBlock [
 	^ self select: [ :eachComputer | eachComputer anySatisfy: [ :eachSession | eachSession anySatisfy: aBlock ] ]
 ]
 
-{ #category : #enumerating }
+{ #category : #'enumerating - computer' }
 GTASomeComputers >> selectComputersWithSessions: aBlock [
 	^ self select: [ :eachComputer | eachComputer select: aBlock ]
 ]
@@ -215,17 +215,42 @@ GTASomeComputers >> selectSessionsPerComputerWithEvents: aBlock [
 	^ someComputers
 ]
 
-{ #category : #enumerating }
+{ #category : #'enumerating - sessions' }
 GTASomeComputers >> sessions [
 	^ self flatCollect: #yourself as: GTASessions
 ]
 
 { #category : #enumerating }
+GTASomeComputers >> sessionsPerCategoryLabel [
+	| dictionary computers |
+	dictionary := Dictionary new.
+	self  
+		select: [ :eachComputer | eachComputer anyEventSatisfy: #isCategorySelection ]
+		thenDo: [ :eachComputer | 
+			eachComputer categoryLabels asSet do: [ :eachLabel |
+				dictionary 
+					at: eachLabel
+					ifPresent: [ :aCollection | aCollection add: eachComputer ]
+					ifAbsent: [ dictionary 
+										at: eachLabel 
+										put: (GTASomeComputers new
+													add: eachComputer;
+													categoryLabel: eachLabel;
+													computers: self computers;
+													yourself) ] ] ].
+	computers := dictionary associations 
+		collect: #value
+		as: GTASomeComputers.
+	computers computers: self computers.
+	^ computers
+]
+
+{ #category : #'enumerating - sessions' }
 GTASomeComputers >> sessionsWithNumberOfInputsGreaterThen: anInteger [
 	^ self collect: [ :each | each copy sessionsWithNumberOfInputsGreaterThen: anInteger ]
 ]
 
-{ #category : #enumerating }
+{ #category : #'enumerating - sessions' }
 GTASomeComputers >> sessionsWithNumberOfInputsGreaterThenOne [
 	^ self sessionsWithNumberOfInputsGreaterThen: 1
 ]

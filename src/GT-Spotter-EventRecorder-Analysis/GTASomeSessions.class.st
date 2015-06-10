@@ -274,10 +274,10 @@ GTASomeSessions >> sessions [
 
 { #category : #enumerating }
 GTASomeSessions >> sessionsPerCategoryLabel [
-	| dictionary |
+	| dictionary sessions |
 	dictionary := Dictionary new.
 	self  
-		select: [ :eachSession | eachSession anySatisfy: #isCategorySelection ]
+		select: [ :eachSession | eachSession anyEventSatisfy: #isCategorySelection ]
 		thenDo: [ :eachSession | 
 			eachSession categoryLabels asSet do: [ :eachLabel |
 				dictionary 
@@ -290,9 +290,11 @@ GTASomeSessions >> sessionsPerCategoryLabel [
 													categoryLabel: eachLabel;
 													computer: self computer;
 													yourself) ] ] ].
-	^ dictionary associations 
+	sessions := dictionary associations 
 		collect: #value
-		as: GTASomeSessions
+		as: GTASomeSessions.
+	sessions computer: self computer.
+	^ sessions
 ]
 
 { #category : #enumerating }

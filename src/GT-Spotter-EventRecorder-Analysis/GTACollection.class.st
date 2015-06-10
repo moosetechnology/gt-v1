@@ -1,11 +1,23 @@
 Class {
 	#name : #GTACollection,
 	#superclass : #OrderedCollection,
+	#traits : 'TGTSpotterCategoryView',
+	#classTraits : 'TGTSpotterCategoryView classTrait',
 	#instVars : [
 		'options'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #accessing }
+GTACollection >> categoryLabel [
+	^ self optionAt: #categoryLabel
+]
+
+{ #category : #accessing }
+GTACollection >> categoryLabel: aString [ 
+	^ self optionAt: #categoryLabel put: aString
+]
 
 { #category : #accessing }
 GTACollection >> duration [

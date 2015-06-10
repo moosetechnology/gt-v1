@@ -11,6 +11,11 @@ GTAComputers >> bookmarks [
 	^ self optionAt: #bookmarks ifAbsentPut: [ GTAConfiguration loadBookmarks: self ]
 ]
 
+{ #category : #accessing }
+GTAComputers >> computers [
+	^ self
+]
+
 { #category : #'gt-inspector-extension' }
 GTAComputers >> gtInspectorBookmarksIn: composite [
 	<gtInspectorPresentationOrder: 9>
