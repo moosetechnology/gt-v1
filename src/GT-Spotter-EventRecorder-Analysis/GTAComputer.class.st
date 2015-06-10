@@ -39,11 +39,6 @@ GTAComputer >> differentSearchStrings [
 	^ self searchStrings asSet
 ]
 
-{ #category : #enumerating }
-GTAComputer >> flatCollectEvents: aBlock [ 
-	^ self flatCollect: [ :eachSession | eachSession select: aBlock ] as: OrderedCollection
-]
-
 { #category : #testing }
 GTAComputer >> hasSessionsWithSpecialKeywords [
 	^ self anySatisfy: #hasSpecialKeywords

@@ -101,6 +101,11 @@ GTASomeSessions >> durationView [
 	
 ]
 
+{ #category : #'enumerating - events' }
+GTASomeSessions >> flatCollectEvents: aBlock [ 
+	^ self flatCollect: [ :eachSession | eachSession select: aBlock ] as: OrderedCollection
+]
+
 { #category : #'gt-inspector-extension' }
 GTASomeSessions >> gtInspectorActivityViewIn: composite [
 	<gtInspectorPresentationOrder: -6>
