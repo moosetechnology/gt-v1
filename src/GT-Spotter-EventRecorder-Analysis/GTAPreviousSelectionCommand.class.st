@@ -6,8 +6,8 @@ Class {
 
 { #category : #accessing }
 GTAPreviousSelectionCommand class >> analysisOrder [
-	^ (GTSpotterElementWithCategoryCommand analysisOrder max:
-			GTSpotterDiveInLevelCommand analysisOrder) + 1
+	^ (GTAElementWithCategoryCommand analysisOrder max:
+			GTADiveInLevelCommand analysisOrder) + 1
 ]
 
 { #category : #execute }

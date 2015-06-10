@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 GTASameTimestampCommand class >> analysisOrder [
-	^ GTSpotterLinkToSessionCommand analysisOrder + 1
+	^ GTALinkToSessionCommand analysisOrder + 1
 ]
 
 { #category : #adding }
