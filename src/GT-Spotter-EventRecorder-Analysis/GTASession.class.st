@@ -275,8 +275,17 @@ GTASession >> sessions [
 	^ Array with: self
 ]
 
-{ #category : #enumerating }
-GTASession >> sessionsPerCategoryLabel [
+{ #category : #'enumerating - sessions' }
+GTASession >> sessionsPerActOnOrCloseActionCategories [
+	| labels col |
+	labels := ((self select: #isCloseSpotter) collect: #selectedCategoryLabel as: OrderedCollection) removeDuplicates.
+	col := labels collect: [ :eachLabel | self categoryLabel: eachLabel; yourself ] as: GTASomeSessions.
+	col computer: self computer.
+	^ col
+]
+
+{ #category : #'enumerating - sessions' }
+GTASession >> sessionsPerSelectedCategories [
 	| labels col |
 	labels := ((self select: #isCategorySelection) collect: #categoryLabel as: OrderedCollection) removeDuplicates.
 	col := labels collect: [ :eachLabel | self categoryLabel: eachLabel; yourself ] as: GTASomeSessions.

@@ -272,8 +272,33 @@ GTASomeSessions >> sessions [
 	^ self
 ]
 
-{ #category : #enumerating }
-GTASomeSessions >> sessionsPerCategoryLabel [
+{ #category : #'enumerating - sessions' }
+GTASomeSessions >> sessionsPerActOnOrCloseActionCategories [
+	| dictionary sessions |
+	dictionary := Dictionary new.
+	self  
+		select: [ :eachSession | eachSession anyEventSatisfy: #isCloseSpotter ]
+		thenDo: [ :eachSession | 
+			eachSession categoryLabels asSet do: [ :eachLabel |
+				dictionary 
+					at: eachLabel
+					ifPresent: [ :aCollection | aCollection add: eachSession ]
+					ifAbsent: [ dictionary 
+										at: eachLabel 
+										put: (GTASomeSessions new
+													add: eachSession;
+													categoryLabel: eachLabel;
+													computer: self computer;
+													yourself) ] ] ].
+	sessions := dictionary associations 
+		collect: #value
+		as: GTASomeSessions.
+	sessions computer: self computer.
+	^ sessions
+]
+
+{ #category : #'enumerating - sessions' }
+GTASomeSessions >> sessionsPerSelectedCategories [
 	| dictionary sessions |
 	dictionary := Dictionary new.
 	self  
@@ -297,31 +322,7 @@ GTASomeSessions >> sessionsPerCategoryLabel [
 	^ sessions
 ]
 
-{ #category : #enumerating }
-GTASomeSessions >> sessionsPerSelectedCategoryLabel [
-	| dictionary col |
-	dictionary := Dictionary new.
-	self 
-		do: [ :eachSession | | label |
-			label := eachSession selectedCategoryLabel.
-			dictionary 
-				at: label
-				ifPresent: [ :aCollection | aCollection add: eachSession ]
-				ifAbsent: [ dictionary 
-									at: label 
-									put: (GTASomeSessions new
-												add: eachSession;
-												categoryLabel: label;
-												computer: self computer;
-												yourself) ] ].
-	col := dictionary associations 
-				collect: #value
-				as: GTASomeComputers.
-	col computers: self computers.
-	^ col
-]
-
-{ #category : #enumerating }
+{ #category : #'enumerating - sessions' }
 GTASomeSessions >> sessionsWithPreview [
 	^ self select: #isWithPreview
 ]

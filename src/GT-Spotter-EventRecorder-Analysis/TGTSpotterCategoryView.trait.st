@@ -15,25 +15,10 @@ TGTSpotterCategoryView >> categoryLabelOccurrences [
 
 { #category : #'gt-inspector-extension' }
 TGTSpotterCategoryView >> categoryView [
-	| b ds points |
-	b := RTGrapher new.
-	points := self sessionsPerCategoryLabel sortedAs: [ :x :y | x size > y size ].
-	points ifEmpty: [ ^ b view ].
-	b extent: ((points size * 30) min: 800) @ 150.
-	ds := RTStackedDataSet new.
-	ds interaction highlight.
-	ds interaction popup text: [ :obj | obj categoryLabel asString, ', ', obj size asString, ' times' ].
-	ds points: points.
-	ds barShape 
-			color: (Color green alpha: 0.3); 
-			width: 10.
-	ds histogramWithBarTitle: #categoryLabel.
-	ds y: [ :obj | obj size ].
-	b add: ds.
-	b axisX noTick; noLabel.
-	b axisY.
-	b build.
-	^ b view.
+	| builder |
+	builder := GTACategoryBuilder new collection: self; build; yourself.
+	GTAMenuCategoryBuilder new categoryBuilder: builder; build.
+	^ builder view.
 	
 ]
 
@@ -44,28 +29,4 @@ TGTSpotterCategoryView >> gtInspectorCategoryViewIn: composite [
 		title: 'Category';
 		initializeView: [ self categoryView ]
 		
-]
-
-{ #category : #'gt-inspector-extension' }
-TGTSpotterCategoryView >> selectedCategoriesView [
-	| b ds points |
-	b := RTGrapher new.
-	points := self sessionsPerSelectedCategoryLabel sortedAs: [ :x :y | x size > y size ].
-	points ifEmpty: [ ^ b view ].
-	b extent: ((points size * 30) min: 800) @ 150.
-	ds := RTStackedDataSet new.
-	ds interaction highlight.
-	ds interaction popup text: [ :obj | obj categoryLabel asString, ', ', obj size asString, ' times' ].
-	ds points: points.
-	ds barShape 
-			color: (Color green alpha: 0.3); 
-			width: 10.
-	ds histogramWithBarTitle: #categoryLabel.
-	ds y: [ :obj | obj size ].
-	b add: ds.
-	b axisX noTick; noLabel.
-	b axisY.
-	b build.
-	^ b view.
-	
 ]

@@ -220,8 +220,33 @@ GTASomeComputers >> sessions [
 	^ self flatCollect: #yourself as: GTASessions
 ]
 
-{ #category : #enumerating }
-GTASomeComputers >> sessionsPerCategoryLabel [
+{ #category : #'enumerating - sessions' }
+GTASomeComputers >> sessionsPerActOnOrCloseActionCategories [
+	| dictionary computers |
+	dictionary := Dictionary new.
+	self  
+		select: [ :eachComputer | eachComputer anyEventSatisfy: #isCloseSpotter ]
+		thenDo: [ :eachComputer | 
+			eachComputer categoryLabels asSet do: [ :eachLabel |
+				dictionary 
+					at: eachLabel
+					ifPresent: [ :aCollection | aCollection add: eachComputer ]
+					ifAbsent: [ dictionary 
+										at: eachLabel 
+										put: (GTASomeComputers new
+													add: eachComputer;
+													categoryLabel: eachLabel;
+													computers: self computers;
+													yourself) ] ] ].
+	computers := dictionary associations 
+		collect: #value
+		as: GTASomeComputers.
+	computers computers: self computers.
+	^ computers
+]
+
+{ #category : #'enumerating - sessions' }
+GTASomeComputers >> sessionsPerSelectedCategories [
 	| dictionary computers |
 	dictionary := Dictionary new.
 	self  
