@@ -93,6 +93,11 @@ GTASession >> end [
 	^ self last dateAndTimeWithFixedTimeZone
 ]
 
+{ #category : #'enumerating - events' }
+GTASession >> flatCollectEvents: aBlockClosure [ 
+	^ self collect: aBlockClosure
+]
+
 { #category : #'gt-inspector-extension' }
 GTASession >> gtInspectorActivityView3In: composite [
 	<gtInspectorPresentationOrder: -5>

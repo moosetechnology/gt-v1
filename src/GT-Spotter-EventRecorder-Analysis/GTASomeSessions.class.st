@@ -4,6 +4,11 @@ Class {
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
 
+{ #category : #'as yet unclassified' }
+GTASomeSessions >> accept: aVisitor [ 
+	^ aVisitor visitSomeSessions: self
+]
+
 { #category : #'gt-inspector-extension' }
 GTASomeSessions >> activityView [
 	| composer builders |
@@ -255,6 +260,24 @@ GTASomeSessions >> printHumanReadableOn: aStream [
 { #category : #enumerating }
 GTASomeSessions >> searchStrings [
 	^ self flatCollect: #searchStrings as: Bag
+]
+
+{ #category : #enumerating }
+GTASomeSessions >> select: aBlock [
+	| newCollection |
+	newCollection := super select: aBlock.
+	newCollection computer: self.
+	^ newCollection
+]
+
+{ #category : #'enumerating - events' }
+GTASomeSessions >> selectSessionsWithEvents: aBlock [
+	^ self selectWithEvents: aBlock
+]
+
+{ #category : #'enumerating - events' }
+GTASomeSessions >> selectWithEvents: aBlock [
+	^ self select: [ :eachSession | eachSession anyEventSatisfy: aBlock ]
 ]
 
 { #category : #accessing }

@@ -1,8 +1,20 @@
 Class {
 	#name : #GTASomeComputers,
 	#superclass : #GTACollection,
+	#traits : 'TGTSpotterCategoryView',
+	#classTraits : 'TGTSpotterCategoryView classTrait',
 	#category : #'GT-Spotter-EventRecorder-Analysis-Core'
 }
+
+{ #category : #visitor }
+GTASomeComputers >> accept: aVisitor [ 
+	^ aVisitor visitSomeComputers: self
+]
+
+{ #category : #'enumerating - events' }
+GTASomeComputers >> anyEventSatisfy: aBlock [
+	^ self anySatisfy: [ :eachComputer | eachComputer anyEventSatisfy: aBlock ]
+]
 
 { #category : #enumerating }
 GTASomeComputers >> categoryLabels [
@@ -180,6 +192,26 @@ GTASomeComputers >> numberOfSessions [
 	^ self sum: [ :each | each size ]
 ]
 
+{ #category : #helpers }
+GTASomeComputers >> numberOfSpecificEvents [
+	^ self optionAt: #numberOfSpecificEvents
+]
+
+{ #category : #helpers }
+GTASomeComputers >> numberOfSpecificEvents: anInteger [ 
+	^ self optionAt: #numberOfSpecificEvents put: anInteger
+]
+
+{ #category : #helpers }
+GTASomeComputers >> numberOfSpecificSessions [
+	^ self optionAt: #numberOfSpecificSessions
+]
+
+{ #category : #helpers }
+GTASomeComputers >> numberOfSpecificSessions: anInteger [ 
+	self optionAt: #numberOfSpecificSessions put: anInteger
+]
+
 { #category : #enumerating }
 GTASomeComputers >> perSessionType [
 	| results |
@@ -213,6 +245,16 @@ GTASomeComputers >> selectSessionsPerComputerWithEvents: aBlock [
 		select: #notEmpty.
 	someComputers computers: self computers.
 	^ someComputers
+]
+
+{ #category : #'enumerating - sessions' }
+GTASomeComputers >> selectSessionsWithEvents: aBlock [
+	^ self sessions select: [ :aSession | aSession anyEventSatisfy: aBlock ]
+]
+
+{ #category : #'enumerating - events' }
+GTASomeComputers >> selectWithEvents: aBlock [
+	^ self selectComputersWithEvents: aBlock
 ]
 
 { #category : #'enumerating - sessions' }

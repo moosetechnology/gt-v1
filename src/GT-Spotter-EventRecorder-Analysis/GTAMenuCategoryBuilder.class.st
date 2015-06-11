@@ -23,17 +23,45 @@ GTAMenuCategoryBuilder >> categoryBuilder: anObject [
 	categoryBuilder := anObject
 ]
 
-{ #category : #'event handling' }
-GTAMenuCategoryBuilder >> displayActOnAndCloseActions [
+{ #category : #'as yet unclassified' }
+GTAMenuCategoryBuilder >> displayNumberOfActOnAndCloseEvents [
 	self categoryBuilder 
-		initiliazeSessionsPerActOnOrCloseActionCategories;
+		initializeNumberOfActOnAndCloseEvents;
+		rebuild
+]
+
+{ #category : #'as yet unclassified' }
+GTAMenuCategoryBuilder >> displayNumberOfComputersWithActOnAndCloseEvents [
+	self categoryBuilder 
+		initializeNumberOfComputersWithActOnAndCloseEvents;
 		rebuild
 ]
 
 { #category : #'event handling' }
-GTAMenuCategoryBuilder >> displayCategorySelections [
+GTAMenuCategoryBuilder >> displayNumberOfComputersWithSelectionEvents [
 	self categoryBuilder 
-		initiliazeSessionsPerSelectedCategories;
+		initializeNumberOfComputersWithSelectionEvents;
+		rebuild
+]
+
+{ #category : #'event handling' }
+GTAMenuCategoryBuilder >> displayNumberOfSelectionEvents [
+	self categoryBuilder 
+		initializeNumberOfSelectionEvents;
+		rebuild
+]
+
+{ #category : #'as yet unclassified' }
+GTAMenuCategoryBuilder >> displayNumberOfSessionsWithActOnAndCloseEvents [
+	self categoryBuilder 
+		initializeNumberOfSessionsWithActOnAndCloseEvents;
+		rebuild
+]
+
+{ #category : #'event handling' }
+GTAMenuCategoryBuilder >> displayNumberOfSessionsWithSelectionEvents [
+	self categoryBuilder 
+		initializeNumberOfSessionsWithSelectionEvents;
 		rebuild
 ]
 
@@ -46,7 +74,39 @@ GTAMenuCategoryBuilder >> initialize [
 { #category : #hooks }
 GTAMenuCategoryBuilder >> renderIn: aView [
 	menuBuilder view: aView.
-	menuBuilder menu: 'User Activity' submenu: 'Category Selections' callback: [ self displayCategorySelections ].
-	menuBuilder menu: 'User Activity' submenu: 'Act-On and Close Actions' callback: [ self displayActOnAndCloseActions ].
-	
+	menuBuilder menu: 'Selection Events' submenu: 'Number of Events' callback: [ self displayNumberOfSelectionEvents ].
+	menuBuilder menu: 'Act-On and Close Events' submenu: 'Number of Events' callback: [ self displayNumberOfActOnAndCloseEvents ].
+	categoryBuilder collection accept: self.
+	menuBuilder menu: 'Sort It' callback: [ self sortIt ].
+]
+
+{ #category : #hooks }
+GTAMenuCategoryBuilder >> renderMenuForComputers [
+	menuBuilder menu: 'Selection Events' submenu: 'Number of Computers' callback: [ self displayNumberOfComputersWithSelectionEvents ].
+	menuBuilder menu: 'Act-On and Close Events' submenu: 'Number of Computers' callback: [ self displayNumberOfComputersWithActOnAndCloseEvents ].
+]
+
+{ #category : #hooks }
+GTAMenuCategoryBuilder >> renderMenuForSessions [
+	menuBuilder menu: 'Selection Events' submenu: 'Number of Sessions' callback: [ self displayNumberOfSessionsWithSelectionEvents ].
+	menuBuilder menu: 'Act-On and Close Events' submenu: 'Number of Sessions' callback: [ self displayNumberOfSessionsWithActOnAndCloseEvents ].
+]
+
+{ #category : #'as yet unclassified' }
+GTAMenuCategoryBuilder >> sortIt [
+	^ self categoryBuilder
+			sortIt;
+			rebuild.
+]
+
+{ #category : #visitor }
+GTAMenuCategoryBuilder >> visitSomeComputers: aCollection [ 
+	self 
+		renderMenuForSessions;
+		renderMenuForComputers.
+]
+
+{ #category : #visitor }
+GTAMenuCategoryBuilder >> visitSomeSessions: aCollection [ 
+	self renderMenuForSessions
 ]

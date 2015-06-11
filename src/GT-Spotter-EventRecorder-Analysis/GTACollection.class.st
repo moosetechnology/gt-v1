@@ -1,8 +1,6 @@
 Class {
 	#name : #GTACollection,
 	#superclass : #OrderedCollection,
-	#traits : 'TGTSpotterCategoryView',
-	#classTraits : 'TGTSpotterCategoryView classTrait',
 	#instVars : [
 		'options'
 	],

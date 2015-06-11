@@ -50,6 +50,15 @@ GTAComputer >> hasSpecialKeywords [
 ]
 
 { #category : #enumerating }
+GTAComputer >> select: aBlock [
+	| newCollection |
+	newCollection := super select: aBlock.
+	newCollection := newCollection as: GTASomeSessions.
+	newCollection computer: self.
+	^ newCollection
+]
+
+{ #category : #enumerating }
 GTAComputer >> sessionsWithNumberOfInputsGreaterThen: anInteger [
 	^ self select: [ :each | each numberOfContextChanged > anInteger ]
 ]
