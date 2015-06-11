@@ -3,7 +3,11 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'timelineBuilder',
-		'menuBuilder'
+		'menuBuilder',
+		'currentCategoryLabel',
+		'computers',
+		'categoryLabels',
+		'categoryMarker'
 	],
 	#category : #'GT-Spotter-EventRecorder-Analysis-Roassal-Timeline'
 }
@@ -11,6 +15,16 @@ Class {
 { #category : #building }
 GTAMenuTimelineBuilder >> build [
 	self renderIn: timelineBuilder view.
+]
+
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> categoryLabels [
+	^ categoryLabels ifNil: [ categoryLabels := self computers categoryLabels removeDuplicates ]
+]
+
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> categoryMarker [
+	^ categoryMarker
 ]
 
 { #category : #'event handling' }
@@ -27,10 +41,44 @@ GTAMenuTimelineBuilder >> clean [
 	timelineBuilder view signalUpdate
 ]
 
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> computers [
+	^ computers
+]
+
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> computers: aCollection [ 
+	computers := aCollection
+]
+
+{ #category : #accessing }
+GTAMenuTimelineBuilder >> currentCategoryLabel [
+	^ currentCategoryLabel ifNil: [ currentCategoryLabel := self categoryLabels anyOne ]
+]
+
 { #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> divingUsage [
 	self numberOfOccurrences: #divesIn inform: 'No dives-in.'
 
+]
+
+{ #category : #hooks }
+GTAMenuTimelineBuilder >> generateCategoryMenu [
+	| categoryMenuName |
+	categoryMenuName := 'Categories'.
+	self categoryLabels withIndexDo: [ :eachCategory :index | 
+		index \\ 25 = 0 ifTrue: [ categoryMenuName := 'Categories ', (index // 25 + 1) asString ].
+		menuBuilder 
+			menu: categoryMenuName 
+			submenu: eachCategory 
+			callback: [ self markCategory: eachCategory ] ].
+]
+
+{ #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightActOnAndCloseCategories [
+	self highlightSessionsWithEvents: [ :eachEvent | 
+			eachEvent isCloseSpotter and: [ eachEvent selectedCategoryLabel = self currentCategoryLabel ] ].
+	categoryMarker := [ self highlightActOnAndCloseCategories ].
 ]
 
 { #category : #'event handling - usage' }
@@ -57,6 +105,13 @@ GTAMenuTimelineBuilder >> highlightPharo5Users [
 ]
 
 { #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightSelectionCategories [
+	self highlightSessionsWithEvents: [ :eachEvent | 
+			eachEvent isUserSelection and: [ eachEvent selectedCategoryLabel = self currentCategoryLabel ] ].
+	categoryMarker := [ self highlightSelectionCategories ].
+]
+
+{ #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightSessionsWithEvents: aBlock [
 	timelineBuilder elements do: [ :eachElement | | color |
 		(eachElement model anyEventSatisfy: aBlock)
@@ -72,6 +127,36 @@ GTAMenuTimelineBuilder >> highlightSessionsWithEvents: aBlock [
 GTAMenuTimelineBuilder >> initialize [
 	super initialize.
 	menuBuilder := RTMenuBuilder new.
+	self initializeHighlightActOnAndCloseMarker.
+	
+]
+
+{ #category : #initialization }
+GTAMenuTimelineBuilder >> initializeHighlightActOnAndCloseMarker [
+	categoryMarker := [ self highlightActOnAndCloseCategories ]
+]
+
+{ #category : #'event handling - intensity' }
+GTAMenuTimelineBuilder >> intensityOfActOnAndCloseCategories [
+	self 
+		numberOfOccurrences: [ :eachSessionOrSomeSessions |
+			eachSessionOrSomeSessions flatCollectEvents: [ :eachEvent | 
+							eachEvent isCloseSpotter and: [ 
+								eachEvent selectedCategoryLabel = self currentCategoryLabel ] ] ]
+		inform: 'There are not such category labels.'.
+	categoryMarker := [ self intensityOfActOnAndCloseCategories ].
+]
+
+{ #category : #'event handling - intensity' }
+GTAMenuTimelineBuilder >> intensityOfSelectionCategories [
+	self 
+		numberOfOccurrences: [ :eachSessionOrSomeSessions |
+			eachSessionOrSomeSessions flatCollectEvents: [ :eachEvent | 
+							eachEvent isUserSelection and: [ 
+								eachEvent selectedCategoryLabel = self currentCategoryLabel ] ] ]
+		inform: 'There are not such category labels.'.
+	categoryMarker := [ self intensityOfSelectionCategories ].
+
 ]
 
 { #category : #'event handling - intensity' }
@@ -80,11 +165,17 @@ GTAMenuTimelineBuilder >> keywordUsage [
 
 ]
 
+{ #category : #'event handling' }
+GTAMenuTimelineBuilder >> markCategory: aString [ 
+	currentCategoryLabel := aString.
+	self categoryMarker value.
+]
+
 { #category : #'event handling - intensity' }
 GTAMenuTimelineBuilder >> numberOfOccurrences: aSymbol inform: aNoOccurrencesString [
 	| elements keywords normalizer maxKeywords |
 	elements := timelineBuilder elements.
-	keywords := elements collect: [ :e | e -> (e model perform: aSymbol) size ].
+	keywords := elements collect: [ :e | e -> (aSymbol cull: e model) size ].
 	maxKeywords := keywords max: [ :assoc | assoc value ].
 	maxKeywords = 0 ifTrue: [ 
 		self inform: aNoOccurrencesString.
@@ -112,12 +203,17 @@ GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder menu: 'Feature Intensity' submenu: 'Category Filter' callback: [ self keywordUsage ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Dive-In' callback: [ self divingUsage ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Selection Categories' callback: [ self intensityOfSelectionCategories ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Act-On and Close Categories' callback: [ self intensityOfActOnAndCloseCategories ].
 
 	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries' callback: [ self highlightComposedQueries ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Category Filter' callback: [ self highlightCategoryFilters ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In' callback: [ self highlightDivesIn ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Selection Categories' callback: [ self highlightSelectionCategories ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Act-On and Close Categories' callback: [ self highlightActOnAndCloseCategories ].
 
+	self generateCategoryMenu.
 	menuBuilder menu: 'Clean' callback: [ self clean ].
 
 ]

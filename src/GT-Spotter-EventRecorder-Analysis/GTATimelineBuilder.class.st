@@ -96,7 +96,7 @@ GTATimelineBuilder >> height: anObject [
 
 { #category : #building }
 GTATimelineBuilder >> menu [
-	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
+	GTAMenuTimelineBuilder new computers: self computers; timelineBuilder: builder; build.
 	^ builder
 ]
 

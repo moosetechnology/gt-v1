@@ -18,7 +18,7 @@ GTASomeComputers >> anyEventSatisfy: aBlock [
 
 { #category : #enumerating }
 GTASomeComputers >> categoryLabels [
-	^ self flatCollect: #categoryLabels as: OrderedCollection
+	^ (self flatCollect: #categoryLabels as: OrderedCollection)
 ]
 
 { #category : #enumerating }

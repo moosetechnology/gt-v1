@@ -95,7 +95,7 @@ GTASession >> end [
 
 { #category : #'enumerating - events' }
 GTASession >> flatCollectEvents: aBlockClosure [ 
-	^ self collect: aBlockClosure
+	^ self select: aBlockClosure
 ]
 
 { #category : #'gt-inspector-extension' }
