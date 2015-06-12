@@ -3,16 +3,18 @@ Extension { #name : #Collection }
 { #category : #'*GT-InspectorExtensions-Core' }
 Collection >> gtDisplayOn: s [
 	self printNameOn: s.
-	s 
+	s
 		space;
 		nextPut: $[;
 		nextPutAll: self size asString;
-		nextPutAll: (self size = 1 ifTrue: [' item'] ifFalse: [ ' items' ]);
+		nextPutAll:
+				(self size = 1
+						ifTrue: [ ' item' ]
+						ifFalse: [ ' items' ]);
 		nextPut: $];
 		space.
-	s 
-		nextPutAll: 
-			((String streamContents: [ :stream | self printElementsOn: stream ]) truncateWithElipsisTo: 42)
+		self printElementsOn: s.
+	
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
