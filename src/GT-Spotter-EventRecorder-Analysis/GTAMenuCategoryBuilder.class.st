@@ -23,14 +23,14 @@ GTAMenuCategoryBuilder >> categoryBuilder: anObject [
 	categoryBuilder := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuCategoryBuilder >> displayNumberOfActOnAndCloseEvents [
 	self categoryBuilder 
 		initializeNumberOfActOnAndCloseEvents;
 		rebuild
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuCategoryBuilder >> displayNumberOfComputersWithActOnAndCloseEvents [
 	self categoryBuilder 
 		initializeNumberOfComputersWithActOnAndCloseEvents;
@@ -51,7 +51,7 @@ GTAMenuCategoryBuilder >> displayNumberOfSelectionEvents [
 		rebuild
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuCategoryBuilder >> displayNumberOfSessionsWithActOnAndCloseEvents [
 	self categoryBuilder 
 		initializeNumberOfSessionsWithActOnAndCloseEvents;
@@ -92,7 +92,7 @@ GTAMenuCategoryBuilder >> renderMenuForSessions [
 	menuBuilder menu: 'Act-On and Close Events' submenu: 'Number of Sessions' callback: [ self displayNumberOfSessionsWithActOnAndCloseEvents ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GTAMenuCategoryBuilder >> sortIt [
 	^ self categoryBuilder
 			sortIt;

@@ -77,6 +77,11 @@ GTASomeSessions >> computer: aCollection [
 	^ self optionAt: #computer put: aCollection
 ]
 
+{ #category : #'as yet unclassified' }
+GTASomeSessions >> computers [
+	^ self computer computers
+]
+
 { #category : #enumerating }
 GTASomeSessions >> divesIn [
 	^ self flatCollect: #divesIn as: OrderedCollection
@@ -407,7 +412,7 @@ GTASomeSessions >> timelineView [
 				humanReadablePrintString ].
 	builder timelineLabel: ''.
 	builder build.
-	GTAMenuTimelineBuilder new timelineBuilder: builder; build.
+	GTAMenuTimelineBuilder new computers: self; timelineBuilder: builder; build.
 	^ builder 
 ]
 

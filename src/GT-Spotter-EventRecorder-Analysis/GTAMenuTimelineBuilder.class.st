@@ -19,7 +19,7 @@ GTAMenuTimelineBuilder >> build [
 
 { #category : #accessing }
 GTAMenuTimelineBuilder >> categoryLabels [
-	^ categoryLabels ifNil: [ categoryLabels := self computers categoryLabels removeDuplicates ]
+	^ categoryLabels ifNil: [ categoryLabels := self computers categoryLabels removeDuplicates sorted ]
 ]
 
 { #category : #accessing }
@@ -91,6 +91,12 @@ GTAMenuTimelineBuilder >> highlightComposedQueries [
 	self highlightSessionsWithEvents: [ :eachEvent | 
 		(eachEvent isSearchFinished and: [ (eachEvent currentQuerySpecials reject: [ :b | b = true ]) size > 1 ]) 
 			and: [ eachEvent notEmptyCategories isEmpty ] ]
+]
+
+{ #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightCustomizedSpotterExtenstions [
+	self highlightSessionsWithEvents: [ :eachEvent | 
+		eachEvent isCategorySelection and: [ eachEvent isCustomizedSpotterExtension ] ]
 ]
 
 { #category : #'event handling - usage' }
@@ -199,19 +205,20 @@ GTAMenuTimelineBuilder >> numberOfSessions [
 { #category : #hooks }
 GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder view: aView.
-	menuBuilder menu: 'Feature Intensity' submenu: 'Number of Sessions' callback: [ self numberOfSessions ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Category Filter' callback: [ self keywordUsage ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Dive-In' callback: [ self divingUsage ].
-	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Selection Categories' callback: [ self intensityOfSelectionCategories ].
 	menuBuilder menu: 'Feature Intensity' submenu: 'Act-On and Close Categories' callback: [ self intensityOfActOnAndCloseCategories ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Number of Sessions' callback: [ self numberOfSessions ].
+	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
 
-	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries' callback: [ self highlightComposedQueries ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Category Filter' callback: [ self highlightCategoryFilters ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In' callback: [ self highlightDivesIn ].
-	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Selection Categories' callback: [ self highlightSelectionCategories ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Act-On and Close Categories' callback: [ self highlightActOnAndCloseCategories ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries' callback: [ self highlightComposedQueries ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Pharo 5 Images' callback: [ self highlightPharo5Users ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Customized Spotter Extensions' callback: [ self highlightCustomizedSpotterExtenstions ].
 
 	self generateCategoryMenu.
 	menuBuilder menu: 'Clean' callback: [ self clean ].

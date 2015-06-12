@@ -34,8 +34,18 @@ GTSpotterRecorderCategorySelectedEvent >> hasName [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> isCustomizedSpotterExtension [
+	^ self infoAt: #customizedSpotterExtension ifAbsent: [ false ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderCategorySelectedEvent >> markAsStrange [
 	^ self infoAt: #strange put: true
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> removeCustomizedSpotterExtension [
+	^ self removeInfoKey: #customizedSpotterExtension
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
@@ -48,4 +58,9 @@ GTSpotterRecorderCategorySelectedEvent >> selectedElementEvent: anEvent [
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderCategorySelectedEvent >> selectedElementEvents [
 	^ self infoAt: #selectedElementEvents ifAbsent: [ #() ]
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderCategorySelectedEvent >> setCustomizedSpotterExtension [
+	self infoAt: #customizedSpotterExtension put: true
 ]
