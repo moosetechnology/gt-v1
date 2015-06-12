@@ -169,7 +169,7 @@ GTACategoryBuilder >> selectionEventsPerCategories [
 		collect: #value
 		as: GTASomeComputers.
 	computers do: [ :eachComputers | | block events sessions |
-		block := [ :eachEvent | eachEvent isCategorySelection and: [ eachEvent categoryLabel = eachComputers categoryLabel ] ].
+		block := [ :eachEvent | (eventSelectionBlock cull: eachEvent) and: [ eachEvent categoryLabel = eachComputers categoryLabel ] ].
 		events := eachComputers flatCollectEvents: block.
 		eachComputers numberOfSpecificEvents: events size.
 		sessions := eachComputers selectSessionsWithEvents: block.
