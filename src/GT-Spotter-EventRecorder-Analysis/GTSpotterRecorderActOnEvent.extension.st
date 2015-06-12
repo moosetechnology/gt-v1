@@ -6,6 +6,11 @@ GTSpotterRecorderActOnEvent >> analysisIcon [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderActOnEvent >> categoryLabel [
+	^ self selectedCategoryLabel
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderActOnEvent >> eventAnalysisPrintOn: aStream [
 	aStream 
 		nextPutAll: 'Act on category ';

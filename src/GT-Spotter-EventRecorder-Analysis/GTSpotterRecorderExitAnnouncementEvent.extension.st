@@ -6,6 +6,11 @@ GTSpotterRecorderExitAnnouncementEvent >> analysisIcon [
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
+GTSpotterRecorderExitAnnouncementEvent >> categoryLabel [
+	^ self selectedCategoryLabel
+]
+
+{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderExitAnnouncementEvent >> eventAnalysisPrintOn: aStream [
 	aStream
 		nextPutAll: 'Close Spotter'.
