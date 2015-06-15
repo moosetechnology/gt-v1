@@ -29,6 +29,16 @@ CompiledMethod >> spotterItemsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+CompiledMethod >> spotterMethodClassFor: aStep [
+	<spotterOrder: 50>
+	aStep listProcessor
+			allCandidates: [  {self methodClass }];
+			title: 'Class';
+			filter: GTFilterSubstring;
+			itemIcon: #systemIcon
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 CompiledMethod >> spotterPreviewCodeIn: aComposite [
 	<spotterPreview: 10>
 	aComposite pharoMethod
