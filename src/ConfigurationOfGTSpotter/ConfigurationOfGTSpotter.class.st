@@ -244,12 +244,12 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.2.5'.
+	spec for: #'common' version: '1.2.6'.
 
 	spec for: #'pharo3.x' version: '1.0.4'.
 
 	spec for: #'pharo4.x' version: '1.2.4'.
-	
+
 	spec for: #'pharo5.x' version: '1.2.5'.
 
 ]
@@ -484,6 +484,24 @@ ConfigurationOfGTSpotter >> version125: spec [
 			package: 'GT-Spotter' with: 'GT-Spotter-StephaneDucasse.309';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.89';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.146';
+			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-TudorGirba.8'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version126: spec [
+	<version: '1.2.6' imports: #('1.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'spotter dive into class from senders/implementors result list'.
+		spec author: 'EstebanLorenzano'.
+		spec timestamp: '6/17/2015 12:04'.
+		spec project: 'GlamourCore' with: '3.1.4'.
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-StephaneDucasse.309';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.89';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-NicolaiHess.147';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-TudorGirba.8'. ].
 
 ]
