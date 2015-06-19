@@ -56,9 +56,10 @@ Morph >> gtInspectorMorphIn: composite [
 	morphPresentation 
 		title: 'Morph';
 		display: [
-			self imageForm asMorph
+			[self imageForm asMorph
 				on: #mouseDown send: #value: to: [ :event | 
-					morphPresentation selection: (self morphsAt: event position) ] ];
+					morphPresentation selection: (self morphsAt: event position) ]] on:Error
+			do:[IconicListItem text:'Error drawing Morph' icon:Smalltalk ui icons smallWarningIcon] ];
 		act: [ :pres | self exportAsPNG ] entitled: 'Export as PNG';
 		act: [ :pres | self delete ] entitled: 'Delete'
 ]
@@ -76,5 +77,5 @@ Morph >> gtInspectorSubmorphsIn: composite [
 				ifTrue: [(morphForm scaledToSize: 16@16) asMorph]
 				ifFalse: [Form extent: 16@16] ];
 		children: [:each | each submorphs];
-		when: [:each | each submorphs notEmpty ]
+		when: [:each | each submorphs notNil and:[ each hasSubmorphs ] ]
 ]
