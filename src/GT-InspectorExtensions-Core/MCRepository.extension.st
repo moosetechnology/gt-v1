@@ -1,12 +1,6 @@
 Extension { #name : #MCRepository }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-MCRepository class >> gtDictionaryRepositoryExample [
-	<gtExample>
-	^ MCDictionaryRepository new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 MCRepository >> gtInspectorGoferReferencesIn: composite [
     <gtInspectorPresentationOrder: 40>
       
