@@ -46,7 +46,9 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> cleanupWorld [
-	SystemWindow allSubInstances do: #delete.
+"	SystemWindow allSubInstances do: #delete.
+"	
+	(World submorphs select: [ :each | each isSystemWindow ]) do: #delete.
 	World color: Color white
 ]
 
