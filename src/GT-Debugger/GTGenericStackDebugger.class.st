@@ -109,6 +109,16 @@ GTGenericStackDebugger class >> filterKernelClasses: aBoolean [
 ]
 
 { #category : #'settings api' }
+GTGenericStackDebugger class >> filterLinkSelectors [
+	^ false
+]
+
+{ #category : #'accessing - ancient preference selectors' }
+GTGenericStackDebugger class >> filterLinkSelectors: aBoolean [ 
+	self flag: 'just for backward compatibility'
+]
+
+{ #category : #'settings api' }
 GTGenericStackDebugger class >> filterNilSelectors [
 	^ false
 ]
