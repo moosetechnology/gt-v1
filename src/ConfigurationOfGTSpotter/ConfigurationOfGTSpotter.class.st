@@ -244,13 +244,12 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.2.7'.
+	spec for: #'common' version: '1.2.8'.
 
 	spec for: #'pharo3.x' version: '1.0.4'.
 
 	spec for: #'pharo4.x' version: '1.2.4'.
 
-	spec for: #'pharo5.x' version: '1.2.7'.
 
 ]
 
@@ -516,6 +515,24 @@ ConfigurationOfGTSpotter >> version127: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '7/1/2015 14:25'.
 		spec project: 'GlamourCore' with: '3.1.7'.
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-NicolaiHess.310';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-AndreiChis.92';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-NicolaiHess.148';
+			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-TudorGirba.8'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version128: spec [
+	<version: '1.2.8' imports: #('1.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.2.8'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '7/3/2015 13:54'.
+		spec project: 'GlamourCore' with: '3.1.8'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-NicolaiHess.310';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-AndreiChis.92';
