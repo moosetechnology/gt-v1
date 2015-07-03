@@ -162,6 +162,7 @@ ConfigurationOfGToolkitCore >> development: spec [
 
 	spec for: #'pharo3.x' version: '3.0-baseline'.
 	spec for: #'pharo4.x' version: '3.0-baseline'.
+	spec for: #'pharo5.x' version: '3.0-baseline'.
 
 ]
 
@@ -181,10 +182,9 @@ ConfigurationOfGToolkitCore >> project [
 { #category : #'symbolic versions' }
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
-
-	spec for: #'common' version: '3.0.4'.
 	
 	spec for: #'pharo4.x' version: '3.0.2'.
+	spec for: #'pharo5.x' version: '3.0.4'.
 
 ]
 
