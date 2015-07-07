@@ -31,6 +31,22 @@ GTSpotterMethodListProcessorFilter class >> exampleHelpSearch [
 ]
 
 { #category : #examples }
+GTSpotterMethodListProcessorFilter class >> exampleMenuMorphSearch [
+	"A spotter for searching through the menu morphs.
+	
+	self exampleMenuMorphSearch
+	"
+	
+	GTSpotterMorph new
+		extent: 400@500;
+		spotterModel: (GTSpotter
+			on: World worldMenu 
+			withProcessors: {
+				MenuMorph>>#spotterItemsFor:});
+		openCenteredInWorld
+]
+
+{ #category : #examples }
 GTSpotterMethodListProcessorFilter class >> exampleWorldMenuSearch [
 	"A spotter for searching through the world menu.
 	
