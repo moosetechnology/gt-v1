@@ -294,6 +294,12 @@ GTSpotterStep >> processors: aCollection [
 	processors := aCollection
 ]
 
+{ #category : #'accessing-dynamic' }
+GTSpotterStep >> processorsFilter [
+
+	^ self spotter processorsFilter
+]
+
 { #category : #private }
 GTSpotterStep >> relevantProcessorsProcess: aSpotterContext [
 	[ self basicRelevantProcessorsProcess: aSpotterContext ]

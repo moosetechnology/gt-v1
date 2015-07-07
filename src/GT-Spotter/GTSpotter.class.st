@@ -16,7 +16,8 @@ Class {
 		'isPreviewVisible',
 		'isShiftPressed',
 		'exceptionHandler',
-		'history'
+		'history',
+		'processorsFilter'
 	],
 	#classInstVars : [
 		'history',
@@ -129,6 +130,16 @@ GTSpotter class >> on: anObject [
 	^ self new foundationOrigin: anObject
 ]
 
+{ #category : #'instance creation' }
+GTSpotter class >> on: anObject withProcessors: aMethodsList [
+	"Create a new Spotter model on the given object and only enable those
+	processors created by methods in the given list."
+	
+	^ (self on: anObject)
+		processorsFilter: (GTSpotterMethodListProcessorFilter new
+			addSignaturesFor: aMethodsList)
+]
+
 { #category : #accessing }
 GTSpotter class >> resetHistory [
 	"
@@ -156,6 +167,12 @@ GTSpotter class >> spotterExtendingMethods [
 GTSpotter class >> wasOpened [
 
 	^ wasOpened ifNil: [ false ]
+]
+
+{ #category : #'instance creation' }
+GTSpotter class >> withProcessors: aMethodsList [
+
+	^ self on: nil withProcessors: aMethodsList
 ]
 
 { #category : #'actions api' }
@@ -327,6 +344,13 @@ GTSpotter >> history [
 { #category : #accessing }
 GTSpotter >> history: aWeakCollection [
 	history := aWeakCollection
+]
+
+{ #category : #initialization }
+GTSpotter >> initialize [
+	super initialize.
+	
+	processorsFilter := GTSpotterNullProcessorFilter new
 ]
 
 { #category : #testing }
@@ -517,6 +541,19 @@ GTSpotter >> previousStep [
 	
 	^ self steps size > 1 
 		ifTrue: [ self steps reversed second ]
+]
+
+{ #category : #accessing }
+GTSpotter >> processorsFilter [
+
+	^ processorsFilter
+]
+
+{ #category : #accessing }
+GTSpotter >> processorsFilter: aFilter [
+   "Set the filter for determining whether or not processors get added to a step."
+
+	processorsFilter := aFilter
 ]
 
 { #category : #'actions api' }
