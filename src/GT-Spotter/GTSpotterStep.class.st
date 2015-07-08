@@ -183,6 +183,12 @@ GTSpotterStep >> gtInspectorProcessorsIn: composite [
 ]
 
 { #category : #testing }
+GTSpotterStep >> hasPreviousStep [
+	
+	^ (self spotter steps indexOf: self) > 1
+]
+
+{ #category : #testing }
 GTSpotterStep >> isEmpty [
 
 	^ self candidates isEmpty
@@ -240,6 +246,13 @@ GTSpotterStep >> previousProcessorFrom: aCollection [
 		title: 'Items';
 		filter: GTFilterSubstring;
 		yourself
+]
+
+{ #category : #'accessing-dynamic' }
+GTSpotterStep >> previousStep [
+	
+	^ self spotter steps at: 
+			(self spotter steps indexOf: self) - 1
 ]
 
 { #category : #processing }

@@ -312,7 +312,7 @@ GTSpotter >> handleExceptionsDuring: aBlock [
 ]
 
 { #category : #testing }
-GTSpotter >> hasPreviousStep [
+GTSpotter >> hasMultipleSteps [
 
 	^ self steps size > 1
 ]
@@ -534,13 +534,6 @@ GTSpotter >> popUntil: aStep [
 
 	[ self steps last = aStep ]
 		whileFalse: [ self popStep ]
-]
-
-{ #category : #accessing }
-GTSpotter >> previousStep [
-	
-	^ self steps size > 1 
-		ifTrue: [ self steps reversed second ]
 ]
 
 { #category : #accessing }
