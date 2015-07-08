@@ -76,7 +76,7 @@ GTSpotterTest >> testInstanceCreation [
 	
 	self assert: spotter notNil.
 	self assert: spotter steps isEmpty.
-	self deny: spotter hasPreviousStep
+	self deny: spotter hasMultipleSteps
 ]
 
 { #category : #tests }
@@ -87,7 +87,7 @@ GTSpotterTest >> testNewSpotter [
 	self assert: spotter notNil.
 	self assert: spotter isEmpty.
 	self assert: spotter steps isEmpty.
-	self deny: spotter hasPreviousStep.
+	self deny: spotter hasMultipleSteps.
 	
 	self shouldnt: [ step1 := spotter currentStep ] raise: Error.
 	
