@@ -183,6 +183,13 @@ GTSpotterStep >> gtInspectorProcessorsIn: composite [
 ]
 
 { #category : #testing }
+GTSpotterStep >> hasPreviousNavigationFromClass: aClass [
+
+	^ self hasPreviousStep and: [
+		self previousStep origin isKindOf: aClass ]
+]
+
+{ #category : #testing }
 GTSpotterStep >> hasPreviousStep [
 	
 	^ (self spotter steps indexOf: self) > 1
