@@ -339,7 +339,7 @@ ConfigurationOfGTInspectorCore >> version2017: spec [
 		spec project: 'GlamourCore' with: '3.1.8'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.308';
-			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.149';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-VincentBlondeau.150';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.33'. ].
 
 ]
