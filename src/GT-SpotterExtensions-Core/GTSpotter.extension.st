@@ -114,6 +114,17 @@ GTSpotter >> spotterExamplesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter class >> spotterExtensionsFor: aStep [
+	<spotterOrder: 50>
+	aStep listProcessor
+			allCandidates: [ self spotterExtendingMethods ];
+			title: 'Extensions';
+			itemName:[ :each | each gtDisplayString ];
+			filter: GTFilterSubstring;
+			wantsToDisplayOnEmptyQuery: true
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForCachedPlaygroundPagesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
