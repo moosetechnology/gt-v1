@@ -162,7 +162,6 @@ ConfigurationOfGToolkitCore >> development: spec [
 
 	spec for: #'pharo3.x' version: '3.0-baseline'.
 	spec for: #'pharo4.x' version: '3.0-baseline'.
-	spec for: #'pharo5.x' version: '3.0-baseline'.
 
 ]
 
@@ -182,9 +181,10 @@ ConfigurationOfGToolkitCore >> project [
 { #category : #'symbolic versions' }
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '3.0.4'.
 	
 	spec for: #'pharo4.x' version: '3.0.2'.
-	spec for: #'pharo5.x' version: '3.0.4'.
 
 ]
 
@@ -264,7 +264,7 @@ ConfigurationOfGToolkitCore >> version304: spec [
 		spec blessing: #'stable'.
 		spec description: 'version 3.0.4'.
 		spec author: 'AndreiChis'.
-		spec timestamp: '7/3/2015 13:58'.
+		spec timestamp: '7/10/2015 17:31'.
 		
 		spec project: 'GTPlaygroundCore' with: '2.1.7'. 
 		spec project: 'GTInspectorCore' with: '2.0.17'.
