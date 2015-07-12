@@ -11,3 +11,13 @@ RTView >> spotterElementsFor: aStep [
 		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: true
 ]
+
+{ #category : #'*GT-SpotterExtensions-CoreRoassal' }
+RTView >> spotterPreviewIn: aComposite [
+	<spotterPreview: 10>
+	
+	self build.
+	aComposite addBrickBack: self view setUpCanvas buildMorph
+
+	
+]
