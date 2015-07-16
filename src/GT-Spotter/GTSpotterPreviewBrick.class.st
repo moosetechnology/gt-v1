@@ -38,13 +38,6 @@ GTSpotterPreviewBrick >> defaultNotAvailableText [
 	^ 'Preview is not available :('
 ]
 
-{ #category : #updating }
-GTSpotterPreviewBrick >> handleException: exception forComposite: composite [ 
-
-	('[Spotter] Exception while building the preview content: ', exception asString) logCr.
-	composite removeAllBricks.
-]
-
 { #category : #initialization }
 GTSpotterPreviewBrick >> initialize [
 	super initialize.
@@ -123,11 +116,8 @@ GTSpotterPreviewBrick >> updatePreviewWith: anObject [
 	self asyncTask
 		execute: [ :composite :entity |
 				[ entity spotterPreviewIn: composite inContext: self spotterModel ]
-					on: Error
-					do: [ :exception |
-						self spotterModel exceptionHandler 
-							handleException: exception 
-							do: [ self handleException: exception forComposite: composite ] ].
+					on: Exception
+					do: [ composite removeAllBricks ].
 				 composite ]
 		withArguments: { self newCompositeBrick . anObject }
 		callback: [ :composite |

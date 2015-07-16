@@ -183,19 +183,6 @@ GTSpotterStep >> gtInspectorProcessorsIn: composite [
 ]
 
 { #category : #testing }
-GTSpotterStep >> hasPreviousNavigationFromClass: aClass [
-
-	^ self hasPreviousStep and: [
-		self previousStep origin isKindOf: aClass ]
-]
-
-{ #category : #testing }
-GTSpotterStep >> hasPreviousStep [
-	
-	^ (self spotter steps indexOf: self) > 1
-]
-
-{ #category : #testing }
 GTSpotterStep >> isEmpty [
 
 	^ self candidates isEmpty
@@ -255,13 +242,6 @@ GTSpotterStep >> previousProcessorFrom: aCollection [
 		yourself
 ]
 
-{ #category : #'accessing-dynamic' }
-GTSpotterStep >> previousStep [
-	
-	^ self spotter steps at: 
-			(self spotter steps indexOf: self) - 1
-]
-
 { #category : #processing }
 GTSpotterStep >> process: aString [
 	"I do not accept empty queries or the same queries as before.
@@ -312,12 +292,6 @@ GTSpotterStep >> processors [
 GTSpotterStep >> processors: aCollection [
 
 	processors := aCollection
-]
-
-{ #category : #'accessing-dynamic' }
-GTSpotterStep >> processorsFilter [
-
-	^ self spotter processorsFilter
 ]
 
 { #category : #private }
