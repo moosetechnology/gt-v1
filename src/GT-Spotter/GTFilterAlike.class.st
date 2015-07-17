@@ -38,7 +38,7 @@ GTFilterAlike >> applyFilterWithQuery [
 	(alikeMatches size < self itemsLimit) ifTrue: [ 
 		(otherMatches first: ((self itemsLimit - alikeMatches size) min: otherMatches size)) do: [ :each |
 			self addItem: each ] ].
-	self items: alikeMatches , otherMatches 
+	self filteredItems: alikeMatches , otherMatches 
 ]
 
 { #category : #'accessing-defaults' }

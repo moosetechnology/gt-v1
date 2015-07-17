@@ -22,7 +22,7 @@ GTFilterSubstring >> applyFilterWithQuery [
 	(prefixMatches size < self itemsLimit) ifTrue: [ 
 		(otherMatches first: ((self itemsLimit - prefixMatches size) min: otherMatches size)) do: [ :each |
 			self addItem: each ] ].
-	self items: prefixMatches , otherMatches
+	self filteredItems: prefixMatches , otherMatches
 ]
 
 { #category : #private }

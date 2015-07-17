@@ -1,9 +1,15 @@
+"
+I am the root class of the hierarchy of filter objects  that can be used by Spotter. 
+
+The main entry point is the #value method that performs and returns the list of filtered items.
+Subclasses should return the list of filtered elements in sorted order based on the filtering criteria.
+"
 Class {
 	#name : #GTFilter,
 	#superclass : #Object,
 	#instVars : [
 		'context',
-		'items',
+		'filteredItems',
 		'streamed'
 	],
 	#category : #'GT-Spotter-Filters'
@@ -41,7 +47,7 @@ GTFilter >> allItemsDo: aBlock [
 
 { #category : #private }
 GTFilter >> applyFilter [
-	^ self items
+	^ self filteredItems
 ]
 
 { #category : #private }
@@ -53,7 +59,7 @@ GTFilter >> applyFilterInContext: aSpotterContext [
 { #category : #private }
 GTFilter >> applyFilterInContext: aSpotterContext error: anException [
 	('[Spotter] Exception in filter <', self class name, '>: ', anException asString) logCr.
-	^ self defaultItems
+	^ self defaultFilteredItems
 ]
 
 { #category : #accessing }
@@ -67,7 +73,7 @@ GTFilter >> context: anObject [
 ]
 
 { #category : #'accessing-defaults' }
-GTFilter >> defaultItems [
+GTFilter >> defaultFilteredItems [
 	^ OrderedCollection new
 ]
 
@@ -82,6 +88,16 @@ GTFilter >> exceptionHandler [
 	^ GTCurrentSpotterExceptionHandler value ifNil: [ self context exceptionHandler ]
 ]
 
+{ #category : #accessing }
+GTFilter >> filteredItems [
+	^ filteredItems
+]
+
+{ #category : #accessing }
+GTFilter >> filteredItems: aCollection [
+	filteredItems := aCollection
+]
+
 { #category : #public }
 GTFilter >> gtFilter [
 	^ self
@@ -93,23 +109,15 @@ GTFilter >> gtListFilter [
 ]
 
 { #category : #testing }
-GTFilter >> hasItems [
-	^ self items isEmptyOrNil not
+GTFilter >> hasFilteredItems [
+	^ self filteredItems isEmptyOrNil not
 ]
 
 { #category : #'private-model' }
 GTFilter >> itemFilterNameFor: anItem [
+	"I return the string/text representation of an item used by the filter."
+	
 	^ self processor itemFilterNameFor: anItem
-]
-
-{ #category : #accessing }
-GTFilter >> items [
-	^ items
-]
-
-{ #category : #accessing }
-GTFilter >> items: aCollection [
-	items := aCollection
 ]
 
 { #category : #'private-model' }
@@ -119,8 +127,10 @@ GTFilter >> itemsLimit [
 
 { #category : #private }
 GTFilter >> prepareFilterInContext: aSpotterContext [
+	"I provide a hook for preprocessing the query once before performing a search."
+	
 	self context: aSpotterContext.
-	self items: self defaultItems.
+	self filteredItems: self defaultFilteredItems.
 ]
 
 { #category : #'private-model' }
@@ -145,7 +155,10 @@ GTFilter >> streamed: anObject [
 
 { #category : #public }
 GTFilter >> value: aSpotterContext [
-
+	"I provide an entry point for performing a search that is 
+	polymorphic with BlockClosure>>value:. I return the list of
+	filtered items."
+	
 	^ [ self applyFilterInContext: aSpotterContext ]
 		on: Error
 		do: [ :exception | 

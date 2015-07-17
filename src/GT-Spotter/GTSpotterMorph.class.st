@@ -32,31 +32,6 @@ GTSpotterMorph >> autoHide: aBoolean [
 	autoHide := aBoolean
 ]
 
-{ #category : #initialization }
-GTSpotterMorph >> bindingDictionnary [
-	^ {Character escape -> [ self spotterModel exitDueTo: #keyPressedEscape ].
-	$w command -> [ self spotterModel exitDueTo: #keyPressedW ].
-	$p command -> [ self togglePreview ].
-	Character arrowUp -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
-	Character arrowDown -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
-	Character arrowUp command -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
-	Character arrowDown command -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
-	Character arrowUp shift -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
-	Character arrowDown shift -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
-	Character arrowUp command shift -> [ self selectPreviousCategory ].
-	Character arrowDown command shift -> [ self selectNextCategory ].
-	Character arrowRight command -> [ self diveInDueTo: #keyPressed ].
-	Character arrowLeft command -> [ self diveOut ].
-	Character arrowRight command shift -> [ self diveInCategoryDueTo: #keyPressed ].
-	Character arrowLeft command shift -> [ self diveOut ].
-	Character arrowUp alt -> [ self stepScrollPageUp ].
-	Character arrowDown alt -> [ self stepScrollPageDown ].
-	Character pageUp -> [ self stepScrollPageUp ].
-	Character pageDown -> [ self stepScrollPageDown ].
-	Character cr asKeyCombination -> [ self actDueTo: #keyPressed ].
-	$p command shift -> [ self exportAsPNGSilently ]}
-]
-
 { #category : #accessing }
 GTSpotterMorph >> breadcrumbBrick [
 	
@@ -154,10 +129,43 @@ GTSpotterMorph >> initialize [
 
 { #category : #initialization }
 GTSpotterMorph >> initializeListeners [
+
 	self activeHand addEventListener: self.
+	
 	Morph announcer weak when: MorphLostFocus send: #onLostFocus: to: self.
-	self bindingDictionnary
-		associationsDo: [ :anAssociation | self bindKeyCombination: anAssociation key toAction: anAssociation value ]
+	
+	self bindKeyCombination: Character escape toAction: [ self spotterModel exitDueTo: #keyPressedEscape ].
+	self bindKeyCombination: $w command toAction: [ self spotterModel exitDueTo: #keyPressedW ].
+	self bindKeyCombination: $p command toAction: [ self togglePreview ].
+	
+	self bindKeyCombination: Character arrowUp toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
+	self bindKeyCombination: Character arrowDown toAction: [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
+	self bindKeyCombination: Character arrowUp command toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
+	self bindKeyCombination: Character arrowDown command toAction: [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
+	self bindKeyCombination: Character arrowUp shift toAction: [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
+	self bindKeyCombination: Character arrowDown shift toAction: [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
+	
+	self bindKeyCombination: Character arrowUp command shift toAction: [ self selectPreviousCategory ].
+	self bindKeyCombination: Character arrowDown command shift toAction: [ self selectNextCategory ].
+	
+	self bindKeyCombination: Character arrowRight command toAction: [ self diveInDueTo: #keyPressed ].
+	self bindKeyCombination: Character arrowLeft command toAction: [ self diveOut ].
+
+	self bindKeyCombination: Character arrowRight command shift toAction: [ self diveInCategoryDueTo: #keyPressed ].
+	self bindKeyCombination: Character arrowLeft command shift toAction: [ self diveOut ].
+	
+	self bindKeyCombination: Character arrowUp alt toAction: [ self stepScrollPageUp ].
+	self bindKeyCombination: Character arrowDown alt toAction: [ self stepScrollPageDown ].
+	self bindKeyCombination: Character pageUp toAction: [ self stepScrollPageUp ].
+	self bindKeyCombination: Character pageDown toAction: [ self stepScrollPageDown ].
+	
+	self 
+		bindKeyCombination: Character cr asKeyCombination 
+		toAction: [ self actDueTo: #keyPressed ].
+		
+	self 
+		bindKeyCombination: $p command shift 
+		toAction: [ self exportAsPNGSilently ]
 ]
 
 { #category : #'instance creation' }
