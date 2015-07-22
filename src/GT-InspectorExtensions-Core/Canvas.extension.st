@@ -15,13 +15,15 @@ Canvas class >> gtExampleWorldCanvas [
 { #category : #'*GT-InspectorExtensions-Core' }
 Canvas class >> gtExampleWorldCanvasWithAlpha [
 	<gtExample: 'Canvas: World+ALpha'>
-	^ AlphaBlendingCanvas on: Canvas new
+	^ (AlphaBlendingCanvas on: Canvas new)	
+		alpha: 0.3
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Canvas class >> gtExampleWorldCanvasWithShadow [
 	<gtExample: 'Canvas: World+Shadow'>
-	^ ShadowDrawingCanvas on: Canvas new
+	^ (ShadowDrawingCanvas on: Canvas new)
+		shadowColor: (Color black alpha: 0.5)
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
