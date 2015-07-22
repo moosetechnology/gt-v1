@@ -6,5 +6,5 @@ SettingNode >> gtInspectorLiveIn: composite [
 	composite morph
 		title: 'Live';
 		display: [ self settingDeclaration inputWidget ];
-		when: [ self settingDeclaration notNil ]
+		when: [ self settingDeclaration notNil and: [ self settingDeclaration inputWidget notNil ] ]
 ]
