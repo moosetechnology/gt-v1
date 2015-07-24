@@ -269,6 +269,17 @@ GTPlayground >> acceptContents: aString [
 			true]
 ]
 
+{ #category : #actions }
+GTPlayground >> actOnBrowserClosing: ann [
+
+	"This is a hack for the moment.
+	We need a better mechanism from Glamour to help 
+	us keep the model in sync"
+	self entity
+		saveContent: self first panes first presentations first text.
+	GTPlayBook instance addPageIfInteresting: self entity
+]
+
 { #category : #building }
 GTPlayground >> actionsForPreviousContents [
 	^ GTPlayBook instance pages
@@ -283,7 +294,7 @@ GTPlayground >> actionsForPreviousContents [
 
 { #category : #building }
 GTPlayground >> codeIn: a [
-	^ a pharoPlayground
+	^ (self codePresentationIn: a)
 		title: [ :page | 
 			GTPlaygroundEditableTabLabel new
 				text: page title;
@@ -318,6 +329,12 @@ GTPlayground >> codeIn: a [
 ]
 
 { #category : #building }
+GTPlayground >> codePresentationIn: composite [
+
+	^ composite pharoPlayground
+]
+
+{ #category : #building }
 GTPlayground >> compose [
 	self title: self defaultPlaygroundTitle.
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
@@ -328,13 +345,8 @@ GTPlayground >> compose [
 				showFirst: [ :composite |
 					self codeIn: composite ];
 				yourself);
-		when: GLMBrowserClosing do: [ 
-			"This is a hack for the moment.
-			We need a better mechanism from Glamour to help 
-			us keep the model in sync"
-			self entity
-					saveContent: self first panes first presentations first text.
-			GTPlayBook instance addPageIfInteresting: self entity ]
+		when: GLMBrowserClosing do: [ :ann |
+			self actOnBrowserClosing: ann ]
 ]
 
 { #category : #'accessing-dynamic' }
