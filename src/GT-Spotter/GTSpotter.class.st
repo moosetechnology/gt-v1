@@ -1,7 +1,12 @@
 "
-This is the main model class.
+I am  the main model class.
 
-It handles the steps of the search, and it handles the search text.
+I handle the list of current search steps and provide the main functionality for spawning new search steps or removing old ones.
+I maintain search steps as a stack.
+ 
+I  trigger a search when the user enters a query (#setText:from:) and maintain the search text.
+
+To avoid crashes due to exceptions in search processors I can install an exception handler that prints exceptions to the transcript instead of opening a debugger (#beDeployment). Afternatively I can install an exception handler that  propagates exceptions (#beDeployment)
 "
 Class {
 	#name : #GTSpotter,
@@ -577,7 +582,8 @@ GTSpotter >> requestNextStepWith: origin [
 
 { #category : #'model access' }
 GTSpotter >> setText: aText from: aView [
-
+	"I am the main entry point for triggering a new search in the current step."
+	
 	self steps isEmpty
 		"by default there are no steps, so we need to create one based on foundation origin"
 		ifTrue: [ self addStep: ( self newStep origin: self foundationOrigin ) ].
