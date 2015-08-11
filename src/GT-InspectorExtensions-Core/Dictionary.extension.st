@@ -67,3 +67,12 @@ Dictionary >> gtInspectorItemsIn: composite [
 		showOnly: 50;
 		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Dictionary >> gtInspectorKeysIn: composite [
+	<gtInspectorPresentationOrder: 1>
+
+	^ composite list
+		title: 'Keys';
+		display: [ self keys ]
+]
