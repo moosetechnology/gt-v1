@@ -16,7 +16,7 @@ RecordingBeacon >> gtInspectorRecordingsIn: composite [
 		title: 'Recordings';
 		display: [ self recordings reverse ];
 		column: 'Timestamp' evaluated: [ :each | each timestamp asString ];
-		column: 'Type' evaluated: [ :each | each class name ];
+		column: 'Type' evaluated: [ :each | each name ];
 		column: 'Contents' evaluated: [ :each | String streamContents: [ :s | each printOneLineContentsOn: s ] ];
 		showOnly: 50;
 		beMultiple;
