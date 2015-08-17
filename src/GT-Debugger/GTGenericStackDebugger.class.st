@@ -235,11 +235,6 @@ GTGenericStackDebugger class >> openOn: process context: context label: title co
 	| fullView |
 	fullView := (bool or: [self alwaysOpenFullDebugger]).
 	
-	UserManager default canDebug ifFalse: [ 
-		UIManager default spawnNewProcessIfThisIsUI: process.
-		process suspend.
-		^ self ].
-	
 	^ UIManager default 
 		openDebuggerOn: process 
 		context: context 
