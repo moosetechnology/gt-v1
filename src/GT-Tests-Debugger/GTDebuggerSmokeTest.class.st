@@ -32,7 +32,8 @@ GTDebuggerSmokeTest >> setUp [
 
 { #category : #running }
 GTDebuggerSmokeTest >> tearDown [ 
-	debugger close
+	debugger ifNotNil: [ debugger close].
+	window := nil.
 ]
 
 { #category : #tests }
