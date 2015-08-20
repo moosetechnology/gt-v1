@@ -103,6 +103,6 @@ MCWorkingCopy >> spotterPackageRepositoriesFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> versionInfo [
 	^ self ancestors 
-		ifNotEmptyDo: [ :list | list first ] 
+		ifNotEmpty: [ :list | list first ] 
 		ifEmpty: [ nil ]
 ]
