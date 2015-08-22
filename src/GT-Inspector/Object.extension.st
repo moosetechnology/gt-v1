@@ -96,7 +96,7 @@ Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 				ifTrue: [ 
 					| configurationProvider |
 					configurationProvider := self perform: eachPragma selector.
-					configurationProvider gtPresentation cull: composite cull: aGTInspector cull: self ].
+					configurationProvider glmPresentation cull: composite cull: aGTInspector cull: self ].
 			eachPragma selector numArgs = 1
 				ifTrue: [ self perform: eachPragma selector with: composite ].
 			eachPragma selector numArgs = 2
