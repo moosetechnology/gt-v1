@@ -28,7 +28,7 @@ GTSimpleMethodsBrowser >> classesIn: a [
 			all ];
 "		initialize: [ :list | list selection: list entity class ];"
 		format: [ :class | class name ];
-		morphicSelectionAct: [ :list | Smalltalk tools browser fullOnClass: list selection ]
+		morphicSelectionAct: [ :list | Smalltalk tools browser openOnClass: list selection ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
 			entitled: 'Browse'
@@ -96,7 +96,7 @@ GTSimpleMethodsBrowser >> methodsIn: a [
 		format: [ :method | method selector ];
 		morphicSelectionAct: [ :list :object :class | 
 			Smalltalk tools browser 
-				fullOnClass: class 
+				openOnClass: class 
 				selector: list selection selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b
@@ -120,7 +120,7 @@ GTSimpleMethodsBrowser >> sourceOf: method for: object in: composite [
 			entitled: 'Accept';
 		act: [ :text :m | 
 			Smalltalk tools browser 
-				fullOnClass: m methodClass 
+				openOnClass: m methodClass 
 				selector: m selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			entitled: 'Browse';
