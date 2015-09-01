@@ -414,7 +414,7 @@ ConfigurationOfGTSpotter >> version1210: spec [
 		spec project: 'GlamourCore' with: '3.1.10'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-AndreiChis.318';
-			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-YuriyTymchuk.93';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-YuriyTymchuk.94';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-MarcusDenker.156';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-AndreiChis.9'. ].
 
