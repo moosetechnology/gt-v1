@@ -27,7 +27,7 @@ GTBrowseMethodDebuggerAction >> defaultOrder [
 { #category : #actions }
 GTBrowseMethodDebuggerAction >> executeAction [
 	Smalltalk tools browser 
-	fullOnClass: self debugger selectedContext methodClass
+	openOnClass: self debugger selectedContext methodClass
  	selector: self debugger selectedContext selector
 ]
 
