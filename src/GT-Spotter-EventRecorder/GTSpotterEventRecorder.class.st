@@ -320,7 +320,8 @@ GTSpotterEventRecorder >> recordAccouncement: anAnnouncement [
 	(Smalltalk hasClassNamed: recorderEventClassName) ifFalse: [ ^ false ].
 	self storeEvent: (recorderEventClassName asClass fromAnnouncement: anAnnouncement)"
 	
-	self storeEvent: anAnnouncement asRecorderEvent.
+	(anAnnouncement canUnderstand: #asRecorderEvent) ifTrue: [	
+		self storeEvent: anAnnouncement asRecorderEvent ]
 	
 
 	
