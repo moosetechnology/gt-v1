@@ -253,7 +253,7 @@ GTSpotterEventRecorder >> lastDataDelivery [
 { #category : #initialization }
 GTSpotterEventRecorder >> linkToSpotter: aSpotterModel [
 
-	aSpotterModel announcer weak when: Announcement send: #recordAccouncement: to: self
+	aSpotterModel announcer weak when: Announcement send: #recordAnnouncement: to: self
 ]
 
 { #category : #converting }
@@ -313,6 +313,12 @@ GTSpotterEventRecorder >> primitivePrepareDeliveryData [
 
 { #category : #events }
 GTSpotterEventRecorder >> recordAccouncement: anAnnouncement [
+	"Should be deleted in the next iteration."
+	^ self recordAnnouncement: anAnnouncement
+]
+
+{ #category : #events }
+GTSpotterEventRecorder >> recordAnnouncement: anAnnouncement [
 
 	self canSendUsageData ifFalse: [ ^ self ].
 
