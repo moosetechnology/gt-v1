@@ -232,8 +232,8 @@ GTMoldableDebugger >> process: aProcess controller: aController context: aContex
 { #category : #building }
 GTMoldableDebugger >> registerActions [
 
-	self on: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
-	self on: DebugActionExecuted send: #updateBrowser to: self.
+	self when: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
+	self when: DebugActionExecuted send: #updateBrowser to: self.
 
 ]
 
