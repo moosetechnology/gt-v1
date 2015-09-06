@@ -2,14 +2,22 @@ Extension { #name : #GTExample }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 GTExample classSide >> gtExampleBasic [
-	<gtExample>
+	<todo: 'fix: corrupt image state if this is an example itself'>
+	"<gtExample>"
 	^ self new
-		provider: self;
-		selector: #gtExampleBasic
+		initializeFromFinder: (GTExampleFinder new
+										source: self;
+										provider: self;
+										subjects: nil;
+										yourself) 
+			withPragma: ((GTExample class >> #gtExampleBasic) pragmas 
+										detect: [ :each | each isGTExamplePragma ]);
+		yourself
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 GTExample >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	^ self gtDisplaySourceIn: composite
+	^ (self method gtInspectorSourceIn: composite)
+		title: 'Source'
 ]

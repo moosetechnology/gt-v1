@@ -2,13 +2,17 @@ Extension { #name : #ZnHeaders }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnHeaders class >> gtExampleDefaultRequestHeaders [
-	<gtExample: 'Default request headers'>
+	<gtExample>
+	<label: 'Default request headers'>
+	
 	^ self defaultRequestHeaders
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnHeaders class >> gtExampleDefaultResponseHeaders [
-	<gtExample: 'Default response headers'>
+	<gtExample>
+	<label: 'Default response headers'>
+	
 	^ self defaultResponseHeaders
 ]
 

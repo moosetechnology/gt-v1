@@ -2,19 +2,25 @@ Extension { #name : #ZnMimePart }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnMimePart class >> gtExampleEmptyField [
-	<gtExample: 'Empty field'>
+	<gtExample>
+	<label: 'Empty field'>
+	
 	^ self fieldName: 'value' value: ''
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnMimePart class >> gtExampleField [
-	<gtExample: 'Field'>
+	<gtExample>
+	<label: 'Field'>
+	
 	^ self fieldName: 'message' value: 'hello world'
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnMimePart class >> gtExampleFile [
-	<gtExample: 'File'>
+	<gtExample>
+	<label: 'File'>
+	
 	^ self 
 		fieldName: 'file' 
 		fileName: 'message.txt' 

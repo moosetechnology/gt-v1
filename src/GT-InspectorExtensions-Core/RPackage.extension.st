@@ -2,7 +2,9 @@ Extension { #name : #RPackage }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RPackage class >> gtExampleEmpty [
-	<gtExample: 'Empty package'>
+	<gtExample>
+	<label: 'Empty package'>
+	
 	^ self named: 'Empty'
 ]
 
