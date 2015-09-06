@@ -12,11 +12,17 @@ Class {
 { #category : #public }
 GTExampleFinder class >> gtExamples [
 	" self gtExamples "
-	| allExamples |
-	allExamples := OrderedCollection new.
-	GTExampleFinder withAllSubclassesDo: [ :finder |
-		finder myExamplesTo: allExamples ].
-	^ allExamples
+	| examples |
+	examples := OrderedCollection new.
+	self gtExamplesTo: examples.
+	^ examples
+]
+
+{ #category : #public }
+GTExampleFinder class >> gtExamplesTo: examples [
+	Object withAllSubclasses do: [ :class | 
+		class gtExamplesFinder ifNotNil: [ :finder | 
+			finder gtExamplesTo: examples ] ]
 ]
 
 { #category : #public }
@@ -71,6 +77,19 @@ GTExampleFinder >> example: anExample to: examples [
 	examples add: anExample
 ]
 
+{ #category : #public }
+GTExampleFinder >> gtExamples [
+	| examples |
+	examples := OrderedCollection new.
+	self gtExamplesTo: examples.
+	^ examples
+]
+
+{ #category : #public }
+GTExampleFinder >> gtExamplesTo: examples [
+	self class: self provider class to: examples
+]
+
 { #category : #ui }
 GTExampleFinder >> gtSpotterExamplesFor: aStep [
 	<spotterOrder: 100>
@@ -88,15 +107,12 @@ GTExampleFinder >> method: aMethod to: examples [
 
 { #category : #public }
 GTExampleFinder >> myExamples [
-	| examples |
-	examples := OrderedCollection new.
-	self myExamplesTo: examples.
-	^ examples
+	^ self gtExamples
 ]
 
 { #category : #public }
 GTExampleFinder >> myExamplesTo: examples [
-	self class: self provider class to: examples
+	self gtExamplesTo: examples
 ]
 
 { #category : #private }
