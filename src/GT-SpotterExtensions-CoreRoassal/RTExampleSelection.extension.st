@@ -4,7 +4,7 @@ Extension { #name : #RTExampleSelection }
 RTExampleSelection >> matchesQuery: aSetOfNames [
 	| sourceCode |
 	
-	sourceCode := (self provider class >> self selector) sourceCode asLowercase.
+	sourceCode := self method sourceCode asLowercase.
 	^ aSetOfNames allSatisfy: [ :each | sourceCode includesSubstring: each ]
 
 ]
