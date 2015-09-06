@@ -1,31 +1,33 @@
 Extension { #name : #TClassDescription }
 
-{ #category : #'*GT-Inspector-Examples' }
-TClassDescription >> examplesProvider [
-
-	^ GTExampleProvider on: self
-]
-
-{ #category : #'*GT-Inspector-Examples' }
+{ #category : #'*GT-Inspector-Examples-Core' }
 TClassDescription >> gtExamples [
-
-	^	self examplesProvider gtExamples
+	^ self gtExamplesFinder gtExamples
 ]
 
-{ #category : #'*GT-Inspector-Examples' }
-TClassDescription >> gtInspectorExamplesIn: composite [
-	"This provides a list of example objects for the current class"
-	<gtInspectorPresentationOrder: 20>
-	<gtInspectorTag: #examples>
-	|exampleProvider|
+{ #category : #'*GT-Inspector-Examples-Core' }
+TClassDescription >> gtExamplesFinder [
+	^ GTExampleFinder new
+		source: self gtExamplesSource;
+		provider: self gtExamplesProvider;
+		subjects: self gtExamplesSubjects;
+		yourself
+]
 
-	exampleProvider := self examplesProvider.
-	(exampleProvider gtDisplayExamplesIn: composite)
-			"when: [ self exampleProvider rootExamples notEmpty ];"
-			morphicSelectionAct: [ :list | 
-					list rawSelection methodReference browse ] 
-				icon: GLMUIThemeExtraIcons glamorousBrowse 
-				on: $b 
-				entitled: 'Browse source'
+{ #category : #'*GT-Inspector-Examples-Core' }
+TClassDescription >> gtExamplesProvider [
+	" by default let a class be the provider for examples "
+	^ self
+]
 
+{ #category : #'*GT-Inspector-Examples-Core' }
+TClassDescription >> gtExamplesSource [
+	" by default let a class be the source for examples "
+	^ self
+]
+
+{ #category : #'*GT-Inspector-Examples-Core' }
+TClassDescription >> gtExamplesSubjects [
+	" by default let a class be the (implicit) subject for examples "
+	^ nil
 ]
