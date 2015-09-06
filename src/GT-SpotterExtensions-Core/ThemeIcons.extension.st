@@ -2,7 +2,9 @@ Extension { #name : #ThemeIcons }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 ThemeIcons class >> gtExampleThemeIcons [
-	<gtExample: 'Icon Theme'>
+	<gtExample>
+	<label: 'Icon Theme'>
+	
 	^ Smalltalk ui icons
 ]
 
