@@ -127,7 +127,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 		self checkForMissingDependencies ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTExampleOrganizer >> examples [
 	^ GTExampleFinder gtExamples
 ]
