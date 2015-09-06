@@ -1,7 +1,7 @@
 Extension { #name : #RTSpectrograph }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTSpectrograph classSide >> examplesProvider [
+RTSpectrograph classSide >> gtExamplesProvider [
 	
 	^ RTSpectrographExample new
 ]

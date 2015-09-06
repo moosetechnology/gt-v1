@@ -1,7 +1,7 @@
 Extension { #name : #RTKiviatBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTKiviatBuilder classSide >> examplesProvider [
+RTKiviatBuilder classSide >> gtExamplesProvider [
 
 	^ RTKiviatBuilderExample new
 ]

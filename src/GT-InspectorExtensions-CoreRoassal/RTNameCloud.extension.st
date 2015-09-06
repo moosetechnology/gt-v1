@@ -1,7 +1,7 @@
 Extension { #name : #RTNameCloud }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTNameCloud classSide >> examplesProvider [
+RTNameCloud classSide >> gtExamplesProvider [
 
 	^ RTNameCloudExample new
 ]

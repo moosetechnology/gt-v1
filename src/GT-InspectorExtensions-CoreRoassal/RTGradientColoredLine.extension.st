@@ -1,7 +1,7 @@
 Extension { #name : #RTGradientColoredLine }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTGradientColoredLine classSide >> examplesProvider [
+RTGradientColoredLine classSide >> gtExamplesProvider [
 
 	^ RTGradientColoredLineExample new
 ]

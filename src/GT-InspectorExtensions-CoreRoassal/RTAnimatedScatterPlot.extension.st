@@ -1,7 +1,7 @@
 Extension { #name : #RTAnimatedScatterPlot }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTAnimatedScatterPlot classSide >> examplesProvider [
+RTAnimatedScatterPlot classSide >> gtExamplesProvider [
 
 	^ RTAnimatedScatterPlotExample new
 ]

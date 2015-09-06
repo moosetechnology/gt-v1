@@ -1,7 +1,7 @@
 Extension { #name : #RTUMLClassBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTUMLClassBuilder classSide >> examplesProvider [
+RTUMLClassBuilder classSide >> gtExamplesProvider [
 	
 	^ RTUMLExample new
 ]

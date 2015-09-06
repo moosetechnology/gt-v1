@@ -2,7 +2,9 @@ Extension { #name : #TRCanvas }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
 TRCanvas classSide >> gtExampleEmpty [
-	<gtExample: 'Empty canvas'>
+	<gtExample>
+	<label: 'Empty canvas'>
+	
 	^ TRCanvas new
 ]
 

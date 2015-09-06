@@ -2,7 +2,9 @@ Extension { #name : #RTView }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTView classSide >> gtExampleEmptyView [
-	<gtExample: 'Empty view'>
+	<gtExample>
+	<label: 'Empty view'>
+	
 	^ self new
 ]
 

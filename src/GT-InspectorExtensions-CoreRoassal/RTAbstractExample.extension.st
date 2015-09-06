@@ -8,6 +8,18 @@ RTAbstractExample >> gtDisplayExamplesIn: aComposite [
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTAbstractExample classSide >> gtExamplesProvider [
+	^ self new
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTAbstractExample classSide >> gtInspectorPreviewIn: composite [
+	<gtInspectorPresentationOrder: 4>
+	<gtInspectorTag: #examples>
+	^ self new gtInspectorPreviewIn: composite
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTAbstractExample >> gtInspectorPreviewIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	^ composite roassal2
@@ -20,8 +32,18 @@ RTAbstractExample >> gtInspectorPreviewIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTAbstractExample classSide >> gtInspectorPreviewIn: composite [
-	<gtInspectorPresentationOrder: 4>
-	<gtInspectorTag: #examples>
-	^ self new gtInspectorPreviewIn: composite
+RTAbstractExample >> gtOpenOn: v [
+	|  icon64Mime form element  |
+
+	self gtExamples do: [ :anExample |
+		icon64Mime := self perform: (anExample selector, #Icon) asSymbol.
+		form := TRPlatform current formClass fromBinaryStream: 
+							(TRPlatform current mimeDecodeToBytes: icon64Mime readStream).
+		element := (RTBitmap new form: form) elementOn: anExample.
+		element @ (RTPopup new text: anExample selector asString).
+		element @ (RTEventForwarder new eventClass: TRMouseDragging). 
+		v add: element ].
+
+	RTGridLayout new on: v elements.
+	
 ]

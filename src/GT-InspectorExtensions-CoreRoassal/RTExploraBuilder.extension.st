@@ -1,7 +1,7 @@
 Extension { #name : #RTExploraBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTExploraBuilder classSide >> examplesProvider [
+RTExploraBuilder classSide >> gtExamplesProvider [
 
 	^ RTExploraBuilderExample new
 ]

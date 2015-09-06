@@ -1,7 +1,7 @@
 Extension { #name : #RTTreeMapBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTTreeMapBuilder classSide >> examplesProvider [
+RTTreeMapBuilder classSide >> gtExamplesProvider [
 	
 	^ RTTreeMapExample new
 ]

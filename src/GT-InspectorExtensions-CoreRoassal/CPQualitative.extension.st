@@ -2,7 +2,9 @@ Extension { #name : #CPQualitative }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
 CPQualitative classSide >> gtExampleColorPalette [
-	<gtExample: 'Colors: qualititive scheme'>
+	<gtExample>
+	<label: 'Colors: qualititive scheme'>
+	
 	^ self new
 ]
 

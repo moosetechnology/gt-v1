@@ -2,7 +2,9 @@ Extension { #name : #RTBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTBuilder classSide >> gtExampleBuilder [
-	<gtExample: 'Example builder'>
+	<gtExample>
+	<label: 'Example builder'>
+	
 	^ self new
 ]
 

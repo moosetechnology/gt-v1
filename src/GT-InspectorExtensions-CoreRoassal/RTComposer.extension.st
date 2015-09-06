@@ -1,7 +1,7 @@
 Extension { #name : #RTComposer }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTComposer classSide >> examplesProvider [
+RTComposer classSide >> gtExamplesProvider [
 
 	^ RTComposerExample new
 ]

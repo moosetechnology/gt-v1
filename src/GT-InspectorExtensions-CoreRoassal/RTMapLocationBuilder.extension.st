@@ -1,7 +1,7 @@
 Extension { #name : #RTMapLocationBuilder }
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTMapLocationBuilder classSide >> examplesProvider [
+RTMapLocationBuilder classSide >> gtExamplesProvider [
 
 	^ RTMapLocationExample new
 ]
