@@ -21,5 +21,5 @@ GTInspectorDictionaryScenery >> setUp [
 	#number -> 42 . 
 	#string -> ''fourty-two'' . 
 	#date -> Date today } 
-		asDictionary') maximize
+		asDictionary')
 ]

@@ -30,5 +30,5 @@ GTInspectorTextScenery >> setUp [
 
 ''Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa.''asText, 
 
-(''Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'' asText allBold makeAllColor: Color green ) ') maximize
+(''Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'' asText allBold makeAllColor: Color green ) ')
 ]

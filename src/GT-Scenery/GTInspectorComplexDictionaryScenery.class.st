@@ -21,5 +21,5 @@ GTInspectorComplexDictionaryScenery >> setUp [
    	at: #date put: Date today;
    at: #text put: Text loremImpsum;
 	at: #color put: Color red;
-	yourself.') maximize
+	yourself.')
 ]

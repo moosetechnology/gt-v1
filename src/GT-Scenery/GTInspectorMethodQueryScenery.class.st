@@ -23,5 +23,5 @@ GTInspectorMethodQueryScenery >> setUp [
 		Pragma
 			allNamed: #gtInspectorPresentationOrder:
 			in: each ])
-	collect: [:each | each method asRingDefinition]') maximize
+	collect: [:each | each method asRingDefinition]')
 ]

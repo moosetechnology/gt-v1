@@ -17,6 +17,6 @@ GTInspectorFileReferenceScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorFileReferenceScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: 'FileSystem disk workingDirectory') maximize.
+	(GTPlayground openContents: 'FileSystem workingDirectory').
 	GTSnippets reset
 ]

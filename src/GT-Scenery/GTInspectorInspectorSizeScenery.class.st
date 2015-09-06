@@ -21,5 +21,5 @@ GTInspectorInspectorSizeScenery >> setUp [
 	(GTPlayground openContents: 'GTInspector package linesOfCode + 
 ((RPackageOrganizer default packages 
 	select: [:each | each name beginsWith: ''GT-InspectorExtensions'']) 
-		sum: #linesOfCode).') maximize
+		sum: #linesOfCode).')
 ]

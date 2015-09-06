@@ -18,5 +18,5 @@ GTDebuggerPetitParserScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTDebuggerPetitParserScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: 'PPArithmeticParser parse: ''1+(2/3+4*5)''') maximize
+	(GTPlayground openContents: 'PPArithmeticParser parse: ''1+(2/3+4*5)''')
 ]

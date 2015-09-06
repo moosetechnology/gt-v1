@@ -24,5 +24,5 @@ the perfect answer"
 	(Workspace openContents: '"One has to wait a little to gets
 the perfect answer"
 (Delay forMilliseconds: 1000) wait.
-42' label: 'Workspace')
+42')
 ]

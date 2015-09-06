@@ -17,5 +17,5 @@ GTInspectorColorScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorColorScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: 'Color indexedColors atRandom') maximize
+	(GTPlayground openContents: 'Color indexedColors atRandom')
 ]

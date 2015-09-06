@@ -17,5 +17,5 @@ GTInspectorInspectorItselfScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorInspectorItselfScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: 'GTInspector') maximize
+	(GTPlayground openContents: 'GTInspector')
 ]

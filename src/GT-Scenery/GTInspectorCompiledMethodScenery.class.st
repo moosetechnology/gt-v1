@@ -17,5 +17,5 @@ GTInspectorCompiledMethodScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorCompiledMethodScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: 'Object>>#deep:do:') maximize
+	(GTPlayground openContents: 'Object>>#deep:do:')
 ]

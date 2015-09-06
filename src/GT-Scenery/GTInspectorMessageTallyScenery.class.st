@@ -17,5 +17,5 @@ GTInspectorMessageTallyScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorMessageTallyScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: 'MessageTally on: [ XMLParserTest new benchmark3 ].') maximize
+	(GTPlayground openContents: 'MessageTally on: [ XMLParserTest new benchmark3 ].')
 ]
