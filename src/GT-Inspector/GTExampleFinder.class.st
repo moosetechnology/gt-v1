@@ -10,18 +10,6 @@ Class {
 }
 
 { #category : #public }
-GTExampleFinder class >> gtExampleInstance [
-	<gtExample>
-	<label: 'An example finder on the source/provider #Number'>
-	
-	^ self new
-		source: Number;
-		provider: Number;
-		subjects: #();
-		yourself
-]
-
-{ #category : #public }
 GTExampleFinder class >> gtExamples [
 	" self gtExamples "
 	| examples |
@@ -32,7 +20,8 @@ GTExampleFinder class >> gtExamples [
 
 { #category : #public }
 GTExampleFinder class >> gtExamplesTo: examples [
-	Object withAllSubclasses do: [ :class | 
+	<todo: 'fix the #gtExamples for the finder'>
+	(Object withAllSubclasses difference: self withAllSubclasses) do: [ :class | 
 		class gtExamplesFinder ifNotNil: [ :finder | 
 			finder gtExamplesTo: examples ] ]
 ]
