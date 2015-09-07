@@ -11,9 +11,22 @@ Class {
 	#category : #'GT-Inspector-Examples-Utils'
 }
 
+{ #category : #examples }
+GTExampleOrganizer class >> gtExampleInstance [
+	<gtExample>
+	<label: 'An instance of an example organizer'>
+	
+	^ GTExampleOrganizer instance
+]
+
 { #category : #public }
 GTExampleOrganizer class >> instance [
-	^ instance ifNil: [ instance := self new start ]
+	^ instance ifNil: [ instance := self basicNew initialize start ]
+]
+
+{ #category : #public }
+GTExampleOrganizer class >> new [
+	self shouldNotImplement
 ]
 
 { #category : #public }
