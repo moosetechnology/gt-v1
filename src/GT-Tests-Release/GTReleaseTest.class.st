@@ -80,6 +80,9 @@ GTReleaseTest >> testAllMissingExternalExamples [
 	self assertIncludesPackages: nil
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		ignoredClasses: { 
+			OCClassScope. " corrupt package detection "
+			OCInstanceScope. " corrupt package detection "
+			ReCritic. " corrupt package detection "
 			Slot. " abstract "
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
@@ -93,7 +96,10 @@ GTReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
 		ignoredClasses: {
-			ComposableModel. " abstract superclass "	
+			BlMorph. " corrupt package detection "
+			ComposableModel. " abstract superclass "
+			GTExample	. " makes no sense "
+			GTExampleProxy. " makes no sense "
 			GTSpotterExceptionMock1. " counter-example "
 			GTSpotterExceptionMock2. " counter-example "
 			GTSpotterExceptionMock3. " counter-example "
@@ -115,6 +121,9 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
 		ignoredClasses: {
+			BlMorph. " corrupt package detection "
+			GTExample	. " makes no sense "
+			GTExampleProxy. " makes no sense "
 			ComposableModel. " abstract superclass "
 			RTAbstractExample.  " abstract factory for collecting examples "
 			TClass. " spotter/processor tests would be ulimatively slow "
