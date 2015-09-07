@@ -10,6 +10,18 @@ Class {
 }
 
 { #category : #public }
+GTExampleFinder class >> gtExampleInstance [
+	<gtExample>
+	<label: 'An example finder on the source/provider #Number'>
+	
+	^ self new
+		source: Number;
+		provider: Number;
+		subjects: #();
+		yourself
+]
+
+{ #category : #public }
 GTExampleFinder class >> gtExamples [
 	" self gtExamples "
 	| examples |
