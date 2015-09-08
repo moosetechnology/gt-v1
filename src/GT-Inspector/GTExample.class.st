@@ -515,6 +515,12 @@ GTExample >> provider [
 	^ provider
 ]
 
+{ #category : #'*GT-Inspector-Examples-DEPRECATED' }
+GTExample >> provider: aClassOrInstance [
+	<todo: 'deprecated: #provider:'>
+	^ self shouldNotImplement
+]
+
 { #category : #'pragma-selectors' }
 GTExample >> raises: aClassOrClassName [
 	self classNamed: aClassOrClassName do: [ :class | 

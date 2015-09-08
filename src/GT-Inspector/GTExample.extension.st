@@ -56,6 +56,12 @@ GTExample >> parentExample: anObject [
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
+GTExample >> provider: aClassOrInstance [
+	<todo: 'deprecated: #provider:'>
+	^ self shouldNotImplement
+]
+
+{ #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> selector [
 	<todo: 'deprecated: #selector'>
 	^ self shouldNotImplement
