@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-InspectorExtensions-CoreRoassal'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 RTExampleSelection class >> gtExampleAtRandom [
 	<gtExample>
 	<label: 'Random example'>
@@ -12,20 +12,27 @@ RTExampleSelection class >> gtExampleAtRandom [
 	^ RTAbstractExample subclasses atRandom new gtExamples atRandom
 ]
 
-{ #category : #'as yet unclassified' }
-RTExampleSelection class >> gtExampleFlags [
+{ #category : #examples }
+RTExampleSelection class >> gtExampleFlags1 [
 	<gtExample>
-	<label: 'Example flags'>
+	<label: 'Example flags 1'>
 	
-	^ RTExampleSelection new 
-		provider: RTComposedShapeExample new; 
-		selector: #exampleFlags;
-		yourself
+	^ RTComposedShapeExample gtExamples
+		detect: [ :example | example method selector = #exampleFlags ]
+		ifNone: [ nil ]
 ]
 
-{ #category : #'as yet unclassified' }
-RTExampleSelection >> gtDisplaySourceIn: composite [
+{ #category : #examples }
+RTExampleSelection class >> gtExampleFlags2 [
+	<gtExample>
+	<label: 'Example flags 2'>
+	
+	^ (RTComposedShapeExample >> #exampleFlags) gtExample
+]
 
+{ #category : #DEPRECATED }
+RTExampleSelection >> gtDisplaySourceIn: composite [
+	<todo: 'deprecated #gtDisplaySourceIn:'>
 	^ composite smalltalkCode
 		beForScripting;
 		title: 'Source';
@@ -44,18 +51,15 @@ RTExampleSelection >> gtDisplaySourceIn: composite [
 		
 ]
 
-{ #category : #'as yet unclassified' }
-RTExampleSelection >> gtInspectorViewIn: composite [
-	<gtInspectorPresentationOrder: -10>
-	composite roassal2
-		title: 'Canvas';
-		initializeView: [ self returnValue ]
-		
+{ #category : #accessing }
+RTExampleSelection >> icon [
+	form ifNil: [ self initializeIcon ].
+	^ form
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 RTExampleSelection >> iconForm [
-	self icon ifNil: [ self initializeIcon ].
+	<todo: 'deprecated #iconForm'>
 	^ self icon
 ]
 
@@ -65,4 +69,13 @@ RTExampleSelection >> initializeIcon [
 	icon64Mime := self provider perform: (self method selector, 'Icon') asSymbol.
 	form := TRPlatform current formClass fromBinaryStream: 
 		(TRPlatform current mimeDecodeToBytes: icon64Mime readStream) 
+]
+
+{ #category : #DEPRECATED }
+RTExampleSelection >> title [
+	<todo: '#deprecated: #title'>
+	^ self label isEmptyOrNil
+		ifNotNil: [ self label ]
+		ifNil: [ self method selector ]
+		
 ]
