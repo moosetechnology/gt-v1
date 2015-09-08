@@ -37,7 +37,6 @@ GTObjectVariablesBrowser >> evaluatorIn: composite [
 				GTSnippets 
 					snippetAt: object class 
 					put: (self stringWithoutInitialCommentFrom: text text asString) ];
-		installGoAction;
 		installDefaultSelectionActions
 ]
 
