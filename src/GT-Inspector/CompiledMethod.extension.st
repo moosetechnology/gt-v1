@@ -1,6 +1,16 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*GT-Inspector-Examples-Core' }
+CompiledMethod >> gtExample [
+	^ self gtExamples 
+		ifNotEmpty: [ :examples | 
+			" there should only be one example per compiled-method, otherwise something is really messed up "
+			self assert: examples size = 1. 
+			examples first ] 
+		ifEmpty: [ nil ]
+]
+
+{ #category : #'*GT-Inspector-Examples-Core' }
 CompiledMethod >> gtExamples [
 	| examples |
 	examples := OrderedCollection new.
