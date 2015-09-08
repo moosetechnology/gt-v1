@@ -32,7 +32,7 @@ RTExampleSelection class >> gtExampleFlags2 [
 
 { #category : #DEPRECATED }
 RTExampleSelection >> gtDisplaySourceIn: composite [
-	<todo: 'deprecated #gtDisplaySourceIn:'>
+	<todo: 'to be deprecated: #gtDisplaySourceIn:'>
 	^ composite smalltalkCode
 		beForScripting;
 		title: 'Source';
@@ -59,7 +59,7 @@ RTExampleSelection >> icon [
 
 { #category : #DEPRECATED }
 RTExampleSelection >> iconForm [
-	<todo: 'deprecated #iconForm'>
+	<todo: 'deprecated: #iconForm'>
 	^ self icon
 ]
 
@@ -73,7 +73,7 @@ RTExampleSelection >> initializeIcon [
 
 { #category : #DEPRECATED }
 RTExampleSelection >> title [
-	<todo: '#deprecated: #title'>
+	<todo: 'deprecated: #title'>
 	^ self label isEmptyOrNil
 		ifNotNil: [ self label ]
 		ifNil: [ self method selector ]
