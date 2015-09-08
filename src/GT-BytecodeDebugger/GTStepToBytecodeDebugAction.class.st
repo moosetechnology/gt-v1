@@ -6,7 +6,7 @@ Class {
 
 { #category : #registration }
 GTStepToBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
-	<gtContextBytecodeDebuggingAction>
+	<gtContextBytecodeCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousPlay

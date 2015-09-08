@@ -8,7 +8,7 @@ Class {
 	#category : #'GT-BytecodeDebugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #registration }
 GTGoAndInspectBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 	<gtContextBytecodeCodeDebuggingAction>
 	
