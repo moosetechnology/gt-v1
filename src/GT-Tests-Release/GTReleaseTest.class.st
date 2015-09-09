@@ -76,7 +76,7 @@ GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: 
 
 { #category : #tests }
 GTReleaseTest >> testAllMissingExternalExamples [
-	<todo: 'deprecated: #gtExample:'>
+	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: nil
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		ignoredClasses: { 
@@ -92,7 +92,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 
 { #category : #tests }
 GTReleaseTest >> testAllMissingInternalExamples [
-	<todo: 'deprecated: #gtExample:'>
+	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
 		ignoredClasses: {
@@ -117,7 +117,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 
 { #category : #tests }
 GTReleaseTest >> testMissingGTInspectorExamples [
-	<todo: 'deprecated: #gtExample:'>
+	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
 		ignoredClasses: {
@@ -136,7 +136,7 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 
 { #category : #tests }
 GTReleaseTest >> testMissingGTSpotterExamples [
-	<todo: 'deprecated: #gtExample:'>
+	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: { 'GT-Spotter' }
 		excludedPackages: nil
 		ignoredClasses: { 
