@@ -68,7 +68,7 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 
 { #category : #private }
 GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
-	[ self examples do: [ :example |
+	[ self examplesDo: [ :example |
 		example arguments do: [ :dependency |
 			(dependency exists not and: [ dependency matchesMethod: aCompiledMethod ]) 
 				ifTrue: [ self notifyForDependencyUsing: aCompiledMethod example: example ] ] ] ]
@@ -94,7 +94,7 @@ GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
 
 { #category : #private }
 GTExampleOrganizer >> checkForMissingDependencies [
-	[ self examples do: [ :example | 
+	[ self examplesDo: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
 				ifFalse: [ self notifyForMissingDependency: dependency example: example ] ] ] ]
@@ -143,6 +143,13 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 { #category : #private }
 GTExampleOrganizer >> examples [
 	^ GTExampleFinder gtExamples
+]
+
+{ #category : #private }
+GTExampleOrganizer >> examplesDo: aBlock [
+	<todo: 'remove again / ugly hotfix / fix the actual problem -> announcer during MC-load'>
+	examples do: [ :selectorsAndExamples |
+		selectorsAndExamples do: aBlock ]
 ]
 
 { #category : #ui }
