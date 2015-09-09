@@ -96,6 +96,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
 		ignoredClasses: {
+			AbstractMorphicAdapter. " corrupt package detection "
 			BlMorph. " corrupt package detection "
 			ComposableModel. " abstract superclass "
 			GTExample	. " makes no sense "
@@ -105,6 +106,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			GTSpotterExceptionMock3. " counter-example "
 			GTSpotterExceptionMock4. " counter-example "
 			GTSpotterExceptionMock5. " counter-example "
+			MorphicTreeNodeAdapter. " corrupt package detection "
 			RTAbstractExample.  " abstract factory for collecting examples "
 			Slot. " abstract "
 			TClass. " spotter/processor tests would be ulimatively slow "
@@ -121,10 +123,12 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
 		ignoredClasses: {
+			AbstractMorphicAdapter. " corrupt package detection "
 			BlMorph. " corrupt package detection "
 			GTExample	. " makes no sense "
 			GTExampleProxy. " makes no sense "
 			ComposableModel. " abstract superclass "
+			MorphicTreeNodeAdapter. " corrupt package detection "
 			RTAbstractExample.  " abstract factory for collecting examples "
 			TClass. " spotter/processor tests would be ulimatively slow "
 			ZnMessage. " abstract factory & superclass / subclasses provide examples "
