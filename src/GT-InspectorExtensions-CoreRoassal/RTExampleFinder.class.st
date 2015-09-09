@@ -4,6 +4,18 @@ Class {
 	#category : #'GT-InspectorExtensions-CoreRoassal'
 }
 
+{ #category : #examples }
+RTExampleFinder class >> gtExampleInstance [
+	<gtExample>
+	<label: 'An example finder on the source #RTExploraBuilder and provider #RTExploraBuilderExample'>
+	
+	^ self new
+		source: RTExploraBuilder;
+		provider: RTExploraBuilderExample new;
+		subjects: #();
+		yourself
+]
+
 { #category : #private }
 RTExampleFinder >> class: aClass selector: aSelector method: aMethod to: examples [
 	(aSelector beginsWith: 'example') ifFalse: [ ^ self ].

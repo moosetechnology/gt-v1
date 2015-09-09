@@ -13,6 +13,18 @@ RTExampleSelection class >> gtExampleAtRandom [
 ]
 
 { #category : #examples }
+RTExampleSelection class >> gtExampleFlags [
+	<gtExample>
+	<label: 'Example flags / the is the old gtExample way - no longer supported'>
+	<raises: ShouldNotImplement>
+	
+	^ RTExampleSelection new 
+		provider: RTComposedShapeExample new; 
+		selector: #exampleFlags;
+		yourself
+]
+
+{ #category : #examples }
 RTExampleSelection class >> gtExampleFlags1 [
 	<gtExample>
 	<label: 'Example flags 1'>
@@ -39,7 +51,7 @@ RTExampleSelection class >> gtExampleFlags3 [
 ]
 
 { #category : #ui }
-RTExampleSelection >> gtDisplaySourceIn: composite [
+RTExampleSelection >> gtDisplayPlaygroundIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ composite smalltalkCode
 		beForScripting;
