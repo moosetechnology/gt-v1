@@ -72,7 +72,7 @@ GTExample >> children [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> childrenExamples [
-	<todo: 'deprecated: #childrenExamples'>
+	self deprecated: 'Please use #dependencies instead'.
 	^ self dependencies
 ]
 
@@ -214,13 +214,13 @@ GTExample >> exists [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> extractionStrategy [
-	<todo: 'deprecated: #extractionStrategy'>
-	self shouldNotImplement
+	self deprecated: 'Please define your examples using pragmas'.
+	^ self shouldNotImplement
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> extractionStrategy: anObject [
-	<todo: 'deprecated: #extractionStrategy:'>
+	self deprecated: 'Please define your examples using pragmas'.
 	self shouldNotImplement
 ]
 
@@ -265,15 +265,15 @@ GTExample >> gtExample [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> gtExample: anObject [
-	<todo: 'deprecated: #gtExample:'>
+	self deprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'.
 	self label: anObject.
-	^ self gtExample
+	self gtExample
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> gtExampleFrom: aSelector [
-	<todo: 'deprecated: #gtExampleFrom:'>
-	^ self depends: aSelector
+	self deprecated: 'Please define your example-dependencies using the pragma #depends: or #dependsClass:selector: or #dependsAll:'.
+	self depends: aSelector
 ]
 
 { #category : #ui }
@@ -353,6 +353,11 @@ GTExample >> hasDependency: anExample [
 ]
 
 { #category : #testing }
+GTExample >> hasDependent [
+	^ self dependents notEmpty
+]
+
+{ #category : #testing }
 GTExample >> hasDependent: anExample [
 	(self traverser reversed
 		action: [ :example | (example equalsExample: anExample) ifTrue: [ ^ true ] ];
@@ -362,8 +367,8 @@ GTExample >> hasDependent: anExample [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> hasParentExample [
-	<todo: 'deprecated: #hasParentExample'>
-	^ self dependents notEmpty
+	self deprecated: 'Please use #hasDependent instead'.
+	^ self hasDependent
 ]
 
 { #category : #testing }
@@ -483,7 +488,7 @@ GTExample >> method [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> methodReference [
-	<todo: 'deprecated: #methodReference'>
+	self deprecated: 'The selector #methodReference is obsolete'.
 	^ self method asRingDefinition
 ]
 
@@ -496,8 +501,8 @@ GTExample >> painter [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> parentExample: anObject [
-	<todo: 'deprecated: #parentExample:'>
-	^ self shouldNotImplement
+	self deprecated: 'Please use #dependencies or #children instead'.
+	self shouldNotImplement
 ]
 
 { #category : #private }
@@ -517,8 +522,8 @@ GTExample >> provider [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> provider: aClassOrInstance [
-	<todo: 'deprecated: #provider:'>
-	^ self shouldNotImplement
+	self deprecated: 'Please define your examples using pragmas'.
+	self shouldNotImplement
 ]
 
 { #category : #'pragma-selectors' }
@@ -555,14 +560,14 @@ GTExample >> run [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> selector [
-	<todo: 'deprecated: #selector'>
+	self deprecated: 'Please define your examples using pragmas'.
 	^ self shouldNotImplement
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> selector: aSelector [
-	<todo: 'deprecated: #selector:'>
-	^ self shouldNotImplement
+	self deprecated: 'Please define your examples using pragmas'.
+	self shouldNotImplement
 ]
 
 { #category : #accessing }
@@ -577,11 +582,7 @@ GTExample >> sourceCode [
 
 { #category : #ui }
 GTExample >> spotterPreviewIn: aComposite inContext: aSpotter [
-	<todo: 'deprecated: #spotterPreviewIn:inContext:'>
 	^ self gtSpotterPreviewIn: aComposite
-	"
-	^ self result spotterPreviewIn: aComposite inContext: aSpotter
-	"
 ]
 
 { #category : #'pragma-selectors' }
@@ -609,23 +610,14 @@ GTExample >> substrings: aString do: aBlock [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> title [
-	<todo: 'deprecated: #title'>
-	^ self gtDisplayString
-	"
-	^ title 
-		ifNil: [ self result ]
-		ifNotNil: [ title ]
-	"
+	self deprecated: 'Please define your examples using pragmas'.
+	^ self label
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> title: aString [
-	<todo: 'deprecated: #title:'>
+	self deprecated: 'Please define your examples using pragmas'.
 	self label: aString
-	"
-	title: aString
-		title := aString
-	"
 ]
 
 { #category : #public }

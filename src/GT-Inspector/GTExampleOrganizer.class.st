@@ -48,7 +48,7 @@ GTExampleOrganizer class >> stop [
 
 { #category : #accessing }
 GTExampleOrganizer >> atMethod: aCompiledMethod ifAbsentPut: aBlock [
-	<todo: '#theNonMetaClass is not good'>
+	<todo: '#theNonMetaClass is not good since we could not put examples to the instance and class-side at once'>
 	^ (examples at: aCompiledMethod methodClass theNonMetaClass name ifAbsentPut: [ IdentityDictionary new ]) 
 		at: aCompiledMethod selector 
 		ifAbsentPut: aBlock

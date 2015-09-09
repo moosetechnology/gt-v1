@@ -140,6 +140,13 @@ GTExampleFinder >> newExampleFromPragma: aPragma [
 		yourself 
 ]
 
+{ #category : #private }
+GTExampleFinder >> newImpostorPragma: aCompiledMethod [
+	^ GTExampleImpostorPragma new
+		method: aCompiledMethod;
+		yourself
+]
+
 { #category : #accessing }
 GTExampleFinder >> provider [
 	^ provider
