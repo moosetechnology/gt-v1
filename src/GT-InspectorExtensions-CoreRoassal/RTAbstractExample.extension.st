@@ -25,7 +25,7 @@ RTAbstractExample >> gtInspectorPreviewIn: composite [
 	^ composite roassal2
 		title: 'Examples';
 		when: [ self gtExamples notEmpty ];
-		send: [ :example | example result ];
+		send: [ :example | example ];
 		painting: [ :view | 
 			view @ RTDraggableView.
 			self gtOpenOn: view ]
@@ -36,11 +36,11 @@ RTAbstractExample >> gtOpenOn: v [
 	|  icon64Mime form element  |
 
 	self gtExamples do: [ :anExample |
-		icon64Mime := self perform: (anExample selector, #Icon) asSymbol.
+		icon64Mime := self perform: (anExample method selector, #Icon) asSymbol.
 		form := TRPlatform current formClass fromBinaryStream: 
 							(TRPlatform current mimeDecodeToBytes: icon64Mime readStream).
 		element := (RTBitmap new form: form) elementOn: anExample.
-		element @ (RTPopup new text: anExample selector asString).
+		element @ (RTPopup new text: anExample method selector asString).
 		element @ (RTEventForwarder new eventClass: TRMouseDragging). 
 		v add: element ].
 
