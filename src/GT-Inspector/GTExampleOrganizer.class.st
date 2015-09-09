@@ -257,8 +257,11 @@ GTExampleOrganizer >> running [
 
 { #category : #public }
 GTExampleOrganizer >> start [
+	<todo: '*** BUG *** this will slow down the image durung MC load/merge/... we MUST prevent that otherwise this is completely useless ... diabled in #withCleanupDo:'>
+	self stop. " TEMP "
 	self running ifTrue: [ ^ self ].
 	running := true.
+	"
 	SystemAnnouncer uniqueInstance
 		when: MethodAdded do: [ :anAnnouncement | self methodAdded: anAnnouncement ] for: self;
 		when: MethodModified do: [ :anAnnouncement | self methodModified: anAnnouncement ] for: self;
@@ -266,6 +269,7 @@ GTExampleOrganizer >> start [
 		when: ClassRemoved do: [ :anAnnouncement | self classRemoved: anAnnouncement ] for: self;
 		when: ClassRenamed do: [ :anAnnouncement | self classRenamed: anAnnouncement ] for: self;
 		when: CategoryRemoved do: [ :anAnnouncement | self categoryRemoved: anAnnouncement ] for: self.
+	"
 ]
 
 { #category : #public }
@@ -277,6 +281,7 @@ GTExampleOrganizer >> stop [
 
 { #category : #private }
 GTExampleOrganizer >> withCleanupDo: aBlock [
-	aBlock value.
+	<todo: 'temporarily disable aBlock until we fix the BUG documented in #start'>
+	"aBlock value." self stop.
 	Smalltalk garbageCollect.
 ]
