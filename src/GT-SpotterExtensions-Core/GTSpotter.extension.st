@@ -74,7 +74,7 @@ GTSpotter >> gtSpotterExamplesFor: aStep [
 	<spotterOrder: 41>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ GTExampleFinder gtExamples ];
+		allCandidates: [ GTExampleFinder allGTExamples ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
