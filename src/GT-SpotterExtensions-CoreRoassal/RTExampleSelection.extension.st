@@ -23,7 +23,7 @@ RTExampleSelection >> matchesQuery: aSetOfNames [
 
 { #category : #'*GT-SpotterExtensions-CoreRoassal' }
 RTExampleSelection >> spotterPreviewExampleIn: aComposite [
-	<todo: 'deprecated: #spotterPreviewExampleIn:'>
+	self deprecated: 'Please use #gtSpotterPreviewIconIn: instead'>
 	self gtSpotterPreviewIconIn: aComposite
 	
 ]
