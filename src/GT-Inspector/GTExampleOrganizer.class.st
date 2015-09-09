@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'running',
-		'examples'
+		'examples',
+		'notifying'
 	],
 	#classInstVars : [
 		'instance'
@@ -54,13 +55,19 @@ GTExampleOrganizer >> atMethod: aCompiledMethod ifAbsentPut: aBlock [
 		ifAbsentPut: aBlock
 ]
 
+{ #category : #private }
+GTExampleOrganizer >> cachedExamplesDo: aBlock [
+	examples do: [ :selectorsAndExamples |
+		selectorsAndExamples do: aBlock ]
+]
+
 { #category : #'private-events' }
 GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 	self withCleanupDo: [ 
 		examples keys do: [ :key |
 			(Smalltalk classNamed: key) ifNil: [ 
 				(examples removeKey: key ifAbsent: [ nil ]) ifNotNil: [ :dict | 
-					dict do: #detachFromSystem ] ] ].
+					dict do: [ :example | [ example detachFromSystem ] on: Error do: [ " ignore " ] ] ] ] ].
 		
 		self checkForMissingDependencies.
 		self checkForMissingClasses ]
@@ -68,7 +75,9 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 
 { #category : #private }
 GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
-	[ self examplesDo: [ :example |
+	self notifying ifFalse: [ ^ self ].
+	
+	[ self cachedExamplesDo: [ :example |
 		example arguments do: [ :dependency |
 			(dependency exists not and: [ dependency matchesMethod: aCompiledMethod ]) 
 				ifTrue: [ self notifyForDependencyUsing: aCompiledMethod example: example ] ] ] ]
@@ -78,6 +87,8 @@ GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 
 { #category : #private }
 GTExampleOrganizer >> checkForMissingClasses [
+	self notifying ifFalse: [ ^ self ].
+	
 	[ self examples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
@@ -86,6 +97,8 @@ GTExampleOrganizer >> checkForMissingClasses [
 
 { #category : #private }
 GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+	
 	[ aCompiledMethod gtExamples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
@@ -94,7 +107,9 @@ GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
 
 { #category : #private }
 GTExampleOrganizer >> checkForMissingDependencies [
-	[ self examplesDo: [ :example | 
+	self notifying ifFalse: [ ^ self ].
+	
+	[ self cachedExamplesDo: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
 				ifFalse: [ self notifyForMissingDependency: dependency example: example ] ] ] ]
@@ -104,6 +119,8 @@ GTExampleOrganizer >> checkForMissingDependencies [
 
 { #category : #private }
 GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+	
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
@@ -114,6 +131,8 @@ GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
 
 { #category : #private }
 GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+	
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments size = aCompiledMethod numArgs 
 			ifFalse: [ self notifyForNumberOfArguments: example ] ] ]
@@ -143,13 +162,6 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 { #category : #private }
 GTExampleOrganizer >> examples [
 	^ GTExampleFinder gtExamples
-]
-
-{ #category : #private }
-GTExampleOrganizer >> examplesDo: aBlock [
-	<todo: 'remove again / ugly hotfix / fix the actual problem -> announcer during MC-load'>
-	examples do: [ :selectorsAndExamples |
-		selectorsAndExamples do: aBlock ]
 ]
 
 { #category : #ui }
@@ -244,16 +256,23 @@ GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 		nextPutAll: anExample method selector asString ])
 ]
 
+{ #category : #accessing }
+GTExampleOrganizer >> notifying [
+	^ notifying ifNil: [ false ]
+]
+
+{ #category : #accessing }
+GTExampleOrganizer >> notifying: anObject [
+	notifying := anObject
+]
+
 { #category : #initializing }
 GTExampleOrganizer >> reset [
 	examples := IdentityDictionary new.
 	Smalltalk garbageCollect; garbageCollectMost.
-	GTExample allInstances do: [ :each | each detachFromSystem ].
-	GTExample allSubInstances do: [ :each | each detachFromSystem ].
-	GTExampleProxy allInstances do: [ :each | each detachFromSystem ].
-	GTExampleProxy allSubInstances do: [ :each | each detachFromSystem ].
-	GTExampleResult allInstances do: [ :each | each detachFromSystem ].
-	GTExampleResult allSubInstances do: [ :each | each detachFromSystem ].
+	GTExample allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
+	GTExampleProxy allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
+	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 	Smalltalk garbageCollect; garbageCollectMost.
 ]
 
@@ -264,11 +283,8 @@ GTExampleOrganizer >> running [
 
 { #category : #public }
 GTExampleOrganizer >> start [
-	<todo: '*** BUG *** this will slow down the image durung MC load/merge/... we MUST prevent that otherwise this is completely useless ... diabled in #withCleanupDo:'>
-	self stop. " TEMP "
 	self running ifTrue: [ ^ self ].
 	running := true.
-	"
 	SystemAnnouncer uniqueInstance
 		when: MethodAdded do: [ :anAnnouncement | self methodAdded: anAnnouncement ] for: self;
 		when: MethodModified do: [ :anAnnouncement | self methodModified: anAnnouncement ] for: self;
@@ -276,7 +292,6 @@ GTExampleOrganizer >> start [
 		when: ClassRemoved do: [ :anAnnouncement | self classRemoved: anAnnouncement ] for: self;
 		when: ClassRenamed do: [ :anAnnouncement | self classRenamed: anAnnouncement ] for: self;
 		when: CategoryRemoved do: [ :anAnnouncement | self categoryRemoved: anAnnouncement ] for: self.
-	"
 ]
 
 { #category : #public }
@@ -288,7 +303,6 @@ GTExampleOrganizer >> stop [
 
 { #category : #private }
 GTExampleOrganizer >> withCleanupDo: aBlock [
-	<todo: 'temporarily disable aBlock until we fix the BUG documented in #start'>
-	"aBlock value." self stop.
+	aBlock value.
 	Smalltalk garbageCollect.
 ]
