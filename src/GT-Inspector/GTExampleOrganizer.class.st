@@ -161,7 +161,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 
 { #category : #private }
 GTExampleOrganizer >> examples [
-	^ GTExampleFinder gtExamples
+	^ GTExampleFinder allGTExamples
 ]
 
 { #category : #ui }
