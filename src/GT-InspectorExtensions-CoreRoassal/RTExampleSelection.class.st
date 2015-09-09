@@ -50,12 +50,12 @@ RTExampleSelection class >> gtExampleFlags3 [
 	^ (RTComposedShapeExample >> #exampleFlags) gtExample
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #ui }
 RTExampleSelection >> gtDisplaySourceIn: composite [
-	<todo: 'to be deprecated: #gtDisplaySourceIn:'>
+	<gtInspectorPresentationOrder: 0>
 	^ composite smalltalkCode
 		beForScripting;
-		title: 'Source';
+		title: 'Playground';
 		format: [ 
 			| sourceCode firstLine sourceCodeWithoutFirstLine |
 			sourceCode := self method sourceCode.
@@ -69,6 +69,21 @@ RTExampleSelection >> gtDisplaySourceIn: composite [
 			on: $g
 			entitled: 'Do it all and go (g)'
 		
+]
+
+{ #category : #ui }
+RTExampleSelection >> gtInspectorRoassalViewIn: composite [
+	<gtInspectorPresentationOrder: -10>
+	composite roassal2
+		title: 'Canvas';
+		initializeView: [ self returnValue ]
+		
+]
+
+{ #category : #ui }
+RTExampleSelection >> gtInspectorViewIn: composite [
+	<todo: 'deprecated: #gtInspectorViewIn:'>
+	^ self gtInspectorRoassalViewIn: composite
 ]
 
 { #category : #accessing }
@@ -92,10 +107,16 @@ RTExampleSelection >> initializeIcon [
 ]
 
 { #category : #DEPRECATED }
+RTExampleSelection >> label [
+	<todo: 'deprecated: #title'>
+	^ super label
+		ifNotNil: [ super label ]
+		ifNil: [ self method gtDisplayString ]
+		
+]
+
+{ #category : #DEPRECATED }
 RTExampleSelection >> title [
 	<todo: 'deprecated: #title'>
-	^ self label isEmptyOrNil
-		ifNotNil: [ self label ]
-		ifNil: [ self method selector ]
-		
+	^ self label
 ]
