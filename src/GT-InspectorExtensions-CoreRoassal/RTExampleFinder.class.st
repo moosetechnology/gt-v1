@@ -9,9 +9,7 @@ RTExampleFinder >> class: aClass selector: aSelector method: aMethod to: example
 	(aSelector beginsWith: 'example') ifFalse: [ ^ self ].
 	(aSelector endsWith: 'Icon') ifTrue: [ ^ self ].
 	
-	self example: (self class: aClass selector: aSelector method: aMethod pragma: (GTExampleImpostorPragma new
-		method: aMethod;
-		yourself)) to: examples
+	self example: (self class: aClass selector: aSelector method: aMethod pragma: (self newImpostorPragma: aMethod)) to: examples
 ]
 
 { #category : #private }

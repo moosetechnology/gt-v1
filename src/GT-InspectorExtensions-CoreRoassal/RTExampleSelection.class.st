@@ -82,7 +82,7 @@ RTExampleSelection >> gtInspectorRoassalViewIn: composite [
 
 { #category : #ui }
 RTExampleSelection >> gtInspectorViewIn: composite [
-	<todo: 'deprecated: #gtInspectorViewIn:'>
+	self deprecated: 'Please use #gtInspectorRoassalViewIn: instead'.
 	^ self gtInspectorRoassalViewIn: composite
 ]
 
@@ -92,31 +92,16 @@ RTExampleSelection >> icon [
 	^ form
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #public }
 RTExampleSelection >> iconForm [
-	<todo: 'deprecated: #iconForm'>
+	self deprecated: 'Please use #icon'.
 	^ self icon
 ]
 
-{ #category : #initializing }
+{ #category : #public }
 RTExampleSelection >> initializeIcon [
 	|icon64Mime|
 	icon64Mime := self provider perform: (self method selector, 'Icon') asSymbol.
 	form := TRPlatform current formClass fromBinaryStream: 
 		(TRPlatform current mimeDecodeToBytes: icon64Mime readStream) 
-]
-
-{ #category : #DEPRECATED }
-RTExampleSelection >> label [
-	<todo: 'deprecated: #title'>
-	^ super label
-		ifNotNil: [ super label ]
-		ifNil: [ self method gtDisplayString ]
-		
-]
-
-{ #category : #DEPRECATED }
-RTExampleSelection >> title [
-	<todo: 'deprecated: #title'>
-	^ self label
 ]
