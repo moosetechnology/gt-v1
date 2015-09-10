@@ -39,8 +39,7 @@ GTInspectorExamplesTest >> tearDown [
 
 { #category : #tests }
 GTInspectorExamplesTest >> testAllExamples [
-	<todo: 'fix the #gtExamples for the finder'>
-	(Object withAllSubclasses difference: GTExampleFinder withAllSubclasses) 
+	Object withAllSubclasses
 		do: [ :eachClass | 
 			eachClass gtExamples do: [ :exampleToTest | 
 				self checkAllPresentationsOf: exampleToTest ] ]
