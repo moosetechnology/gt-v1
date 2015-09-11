@@ -13,5 +13,6 @@ MetacelloVersionLoadDirective >> gtInspectorLoadDirectivesIn: composite [
 		display: [ { self } ];
 		format: [:each | each label ifEmpty: [each title]];
 		rootsExpanded;
-		children: #gtInspectorChildren
+		children: #gtInspectorChildren;
+		filterOn: [:text :each | '*', text, '*' match: each label ]
 ]
