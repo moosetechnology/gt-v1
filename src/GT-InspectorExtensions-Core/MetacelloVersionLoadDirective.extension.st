@@ -11,6 +11,7 @@ MetacelloVersionLoadDirective >> gtInspectorLoadDirectivesIn: composite [
 	composite tree
 		title: 'Load directives';
 		display: [ { self } ];
-		format: #label;
+		format: [:each | each label ifEmpty: [each title]];
+		rootsExpanded;
 		children: #gtInspectorChildren
 ]
