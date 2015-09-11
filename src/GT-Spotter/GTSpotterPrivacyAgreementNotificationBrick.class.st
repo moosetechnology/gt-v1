@@ -30,9 +30,7 @@ GTSpotterPrivacyAgreementNotificationBrick class >> exampleOpen [
 
 { #category : #examples }
 GTSpotterPrivacyAgreementNotificationBrick class >> gtExample [
-	<gtExample>
-	<label: 'Simple agreement'>
-	
+	<gtExample: 'Simple agreement'>
 	^ self new
 ]
 

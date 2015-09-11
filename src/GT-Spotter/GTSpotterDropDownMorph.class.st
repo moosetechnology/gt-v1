@@ -41,5 +41,5 @@ GTSpotterDropDownMorph >> spotterModel: aModel [
 	
 	spotterModel steps do: [ :each | self pushPane: (self buildPane: each) ].
 	
-	spotterModel announcer subscribe: GTSpotterStepAdded send: #onStepAdded: to: self.
+	spotterModel announcer when: GTSpotterStepAdded send: #onStepAdded: to: self.
 ]

@@ -93,7 +93,7 @@ GTSpotter class >> gtExampleBasic [
 { #category : #example }
 GTSpotter class >> gtExampleWithOneStepFrom: aSpotter [
 	<gtExample>
-	<depends: #gtExampleBasic>
+	<gtExampleFrom: #gtExampleBasic>
 	| step |
 	step := GTSpotterStep new spotter: aSpotter.
 	aSpotter steps add: step.
@@ -513,7 +513,7 @@ GTSpotter >> pagerModel [
 
 	^ pagerModel ifNil: [
 		pagerModel := self defaultPagerModel defaultNumberOfVisiblePages: 1.
-		pagerModel announcer subscribe: GLMPagePoped send: #onPagePopped to: self.
+		pagerModel announcer when: GLMPagePoped send: #onPagePopped to: self.
 		pagerModel ]
 ]
 

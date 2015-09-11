@@ -114,7 +114,7 @@ GTSpotterPreviewArrowBrick >> onShowPreview [
 GTSpotterPreviewArrowBrick >> onStepAdded [
 	
 	self selectedItemBrick: nil.
-	self spotterModel steps last candidates announcer subscribe: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
+	self spotterModel steps last candidates announcer when: GTSpotterAllCandidatesRemoved send: #onAllCandidatesRemoved to: self.
 ]
 
 { #category : #'brick-properties-events' }
@@ -158,14 +158,14 @@ GTSpotterPreviewArrowBrick >> spotterModel: aSpotterModel [
 
 	spotterModel := aSpotterModel.
 	
-	self spotterModel announcer weak subscribe: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
-	self spotterModel announcer weak subscribe: GTSpotterCandidateSelectedMoved send: #onCandidateMoved to: self.
-	self spotterModel announcer weak subscribe: GTSpotterStepAdded send: #onStepAdded to: self.
-	self spotterModel announcer weak subscribe: GTSpotterShowPreview send: #onShowPreview to: self.
-	self spotterModel announcer weak subscribe: GTSpotterHidePreview send: #onHidePreview to: self.
+	self spotterModel announcer weak when: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
+	self spotterModel announcer weak when: GTSpotterCandidateSelectedMoved send: #onCandidateMoved to: self.
+	self spotterModel announcer weak when: GTSpotterStepAdded send: #onStepAdded to: self.
+	self spotterModel announcer weak when: GTSpotterShowPreview send: #onShowPreview to: self.
+	self spotterModel announcer weak when: GTSpotterHidePreview send: #onHidePreview to: self.
 	
-	self spotterModel announcer weak subscribe: GTSpotterRevealHints send: #onRevealHints to: self.
-	self spotterModel announcer weak subscribe: GTSpotterHideHints send: #onHideHints to: self.
+	self spotterModel announcer weak when: GTSpotterRevealHints send: #onRevealHints to: self.
+	self spotterModel announcer weak when: GTSpotterHideHints send: #onHideHints to: self.
 ]
 
 { #category : #accessing }
