@@ -10,22 +10,6 @@ Class {
 }
 
 { #category : #public }
-GTExampleFinder class >> allGTExamples [
-	" self allGTExamples "
-	| examples |
-	examples := OrderedCollection new.
-	self allGTExamplesTo: examples.
-	^ examples
-]
-
-{ #category : #public }
-GTExampleFinder class >> allGTExamplesTo: examples [
-	Object withAllSubclasses do: [ :class | 
-		class gtExamplesFinder ifNotNil: [ :finder | 
-			finder gtExamplesContainedTo: examples ] ]
-]
-
-{ #category : #examples }
 GTExampleFinder class >> gtExampleInstance [
 	<gtExample>
 	<label: 'An example finder on the source/provider #Number'>
@@ -38,32 +22,37 @@ GTExampleFinder class >> gtExampleInstance [
 ]
 
 { #category : #public }
-GTExampleFinder class >> gtExamplesContained [
-	" self gtExamplesContained "
+GTExampleFinder class >> gtExamples [
+	" self gtExamples "
 	| examples |
 	examples := OrderedCollection new.
-	self gtExamplesContainedTo: examples.
+	self gtExamplesTo: examples.
 	^ examples
 ]
 
 { #category : #public }
-GTExampleFinder class >> gtExamplesContainedTo: examples [
+GTExampleFinder class >> gtExamplesTo: examples [
+	<todo: 'fix the #gtExamples for the finder'>
+	(Object withAllSubclasses difference: self withAllSubclasses) do: [ :class | 
+		class gtExamplesFinder ifNotNil: [ :finder | 
+			finder gtExamplesTo: examples ] ]
+]
+
+{ #category : #public }
+GTExampleFinder class >> myExamples [
+	" self myExamples "
+	| examples |
+	examples := OrderedCollection new.
+	self myExamplesTo: examples.
+	^ examples
+]
+
+{ #category : #public }
+GTExampleFinder class >> myExamplesTo: examples [
 	Object withAllSubclasses do: [ :class | 
 		class gtExamplesFinder ifNotNil: [ :finder | 
 			self = finder class ifTrue: [ 
-				finder gtExamplesContainedTo: examples ] ] ]
-]
-
-{ #category : #DEPRECATED }
-GTExampleFinder class >> myExamples [
-	self deprecated: 'Please use #gtExamplesContained instead'.
-	^ self gtExamplesContained
-]
-
-{ #category : #DEPRECATED }
-GTExampleFinder class >> myExamplesTo: examples [
-	self deprecated: 'Please use #gtExamplesContainedTo: instead'.
-	^ self gtExamplesContainedTo: examples
+				finder myExamplesTo: examples ] ] ]
 ]
 
 { #category : #private }
@@ -102,15 +91,15 @@ GTExampleFinder >> example: anExample to: examples [
 ]
 
 { #category : #public }
-GTExampleFinder >> gtExamplesContained [
+GTExampleFinder >> gtExamples [
 	| examples |
 	examples := OrderedCollection new.
-	self gtExamplesContainedTo: examples.
+	self gtExamplesTo: examples.
 	^ examples
 ]
 
 { #category : #public }
-GTExampleFinder >> gtExamplesContainedTo: examples [
+GTExampleFinder >> gtExamplesTo: examples [
 	self class: self provider class to: examples
 ]
 
@@ -119,7 +108,7 @@ GTExampleFinder >> gtSpotterExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ self gtExamplesContained ];
+		allCandidates: [ self gtExamples ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -129,16 +118,14 @@ GTExampleFinder >> method: aMethod to: examples [
 	self class: aMethod methodClass selector: aMethod selector method: aMethod to: examples
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #public }
 GTExampleFinder >> myExamples [
-	self deprecated: 'Please use #gtExamplesContained instead'.
-	^ self gtExamplesContained
+	^ self gtExamples
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #public }
 GTExampleFinder >> myExamplesTo: examples [
-	self deprecated: 'Please use #gtExamplesContainedTo: instead'.
-	^ self gtExamplesContainedTo: examples
+	self gtExamplesTo: examples
 ]
 
 { #category : #private }

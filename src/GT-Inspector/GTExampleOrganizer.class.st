@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'running',
 		'examples',
-		'notifying'
+		'notifying',
+		'notifyingBeforeJobStarted'
 	],
 	#classInstVars : [
 		'instance'
@@ -73,7 +74,7 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 		self checkForMissingClasses ]
 ]
 
-{ #category : #private }
+{ #category : #'private-checking' }
 GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 	self notifying ifFalse: [ ^ self ].
 	
@@ -85,30 +86,30 @@ GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 		do: [ :exception | " ignore " ]
 ]
 
-{ #category : #private }
+{ #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingClasses [
 	self notifying ifFalse: [ ^ self ].
-	
+
 	[ self examples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
 			self notifyForMissingClasses: exception ]
 ]
 
-{ #category : #private }
+{ #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
 	self notifying ifFalse: [ ^ self ].
-	
+
 	[ aCompiledMethod gtExamples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
 			self notifyForMissingClasses: exception ]
 ]
 
-{ #category : #private }
+{ #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingDependencies [
 	self notifying ifFalse: [ ^ self ].
-	
+
 	[ self cachedExamplesDo: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
@@ -117,10 +118,10 @@ GTExampleOrganizer >> checkForMissingDependencies [
 		do: [ :exception | " ignore " ]
 ]
 
-{ #category : #private }
+{ #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
 	self notifying ifFalse: [ ^ self ].
-	
+
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
@@ -129,10 +130,10 @@ GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
 		do: [ :exception | " ignore " ]
 ]
 
-{ #category : #private }
+{ #category : #'private-checking' }
 GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
 	self notifying ifFalse: [ ^ self ].
-	
+
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments size = aCompiledMethod numArgs 
 			ifFalse: [ self notifyForNumberOfArguments: example ] ] ]
@@ -161,7 +162,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 
 { #category : #private }
 GTExampleOrganizer >> examples [
-	^ GTExampleFinder allGTExamples
+	^ GTExampleFinder gtExamples
 ]
 
 { #category : #ui }
@@ -179,6 +180,18 @@ GTExampleOrganizer >> initialize [
 	super initialize.
 	
 	self reset.
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> jobEnded: anAnnouncement [
+	notifying := notifyingBeforeJobStarted.
+	notifyingBeforeJobStarted := nil.
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> jobStarted: anAnnouncement [
+	notifyingBeforeJobStarted := notifying.
+	notifying := false
 ]
 
 { #category : #'private-events' }
@@ -210,7 +223,7 @@ GTExampleOrganizer >> methodRemoved: anAnnouncement [
 		self checkForDependenciesUsing: anAnnouncement method ]
 ]
 
-{ #category : #'private-notify' }
+{ #category : #'private-notifying' }
 GTExampleOrganizer >> notify: aString exception: anException [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: aString;
@@ -218,7 +231,7 @@ GTExampleOrganizer >> notify: aString exception: anException [
 		nextPutAll: anException messageText ])
 ]
 
-{ #category : #'private-notify' }
+{ #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForDependencyUsing: aCompiledMethod example: anExample [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Obsolete example dependency in' ;
@@ -228,7 +241,7 @@ GTExampleOrganizer >> notifyForDependencyUsing: aCompiledMethod example: anExamp
 		nextPutAll: anExample method selector asString ])
 ]
 
-{ #category : #'private-notify' }
+{ #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForMissingClasses: anException [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Referenced class missing' ;
@@ -236,7 +249,7 @@ GTExampleOrganizer >> notifyForMissingClasses: anException [
 		nextPutAll: anException classNamed asString ])
 ]
 
-{ #category : #'private-notify' }
+{ #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForMissingDependency: aDependency example: anExample [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Missing example dependency' ;
@@ -246,7 +259,7 @@ GTExampleOrganizer >> notifyForMissingDependency: aDependency example: anExample
 		nextPutAll: aDependency selector asString ])
 ]
 
-{ #category : #'private-notify' }
+{ #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Invalid number of arguments in' ;
@@ -256,14 +269,9 @@ GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 		nextPutAll: anExample method selector asString ])
 ]
 
-{ #category : #accessing }
+{ #category : #public }
 GTExampleOrganizer >> notifying [
-	^ notifying ifNil: [ false ]
-]
-
-{ #category : #accessing }
-GTExampleOrganizer >> notifying: anObject [
-	notifying := anObject
+	^ notifying ifNil: [ true ]
 ]
 
 { #category : #initializing }
@@ -284,7 +292,17 @@ GTExampleOrganizer >> running [
 { #category : #public }
 GTExampleOrganizer >> start [
 	self running ifTrue: [ ^ self ].
+	
 	running := true.
+	notifying := true.
+	notifyingBeforeJobStarted := notifying.
+	
+	" MC will load using a Job object, we have to be quiet and fast while this happens "
+	Job jobAnnouncer
+		when: JobStart do: [ :anAnnouncement | self jobStarted: anAnnouncement ] for: self;
+		when: JobEnd do: [ :anAnnouncement | self jobEnded: anAnnouncement ] for: self.
+	
+	" Observe the system for relevant changes, try to keep this cache intact "
 	SystemAnnouncer uniqueInstance
 		when: MethodAdded do: [ :anAnnouncement | self methodAdded: anAnnouncement ] for: self;
 		when: MethodModified do: [ :anAnnouncement | self methodModified: anAnnouncement ] for: self;
@@ -297,12 +315,13 @@ GTExampleOrganizer >> start [
 { #category : #public }
 GTExampleOrganizer >> stop [
 	running := false.
-	SystemAnnouncer uniqueInstance
-		unsubscribe: self
+	notifying := false.
+	SystemAnnouncer uniqueInstance	unsubscribe: self.
+	Job jobAnnouncer unsubscribe: self.
 ]
 
 { #category : #private }
 GTExampleOrganizer >> withCleanupDo: aBlock [
 	aBlock value.
-	Smalltalk garbageCollect.
+	self notifying ifTrue: [ Smalltalk garbageCollect ]
 ]

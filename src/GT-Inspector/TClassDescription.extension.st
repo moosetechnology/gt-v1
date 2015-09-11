@@ -2,7 +2,7 @@ Extension { #name : #TClassDescription }
 
 { #category : #'*GT-Inspector-Examples-Core' }
 TClassDescription >> gtExamples [
-	^ self gtExamplesFinder gtExamplesContained
+	^ self gtExamplesFinder gtExamples
 ]
 
 { #category : #'*GT-Inspector-Examples-Core' }

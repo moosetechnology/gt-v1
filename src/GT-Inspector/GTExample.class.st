@@ -245,7 +245,7 @@ GTExample >> gtDisplayOn: aStream [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> gtDisplaySourceIn: composite [
-	self deprecated: 'Please use #gtInspectorSourceIn: instead'.
+	<todo: 'deprecated: #gtDisplaySourceIn:'>
 	^ self gtInspectorSourceIn: composite
 ]
 
@@ -265,7 +265,7 @@ GTExample >> gtExample [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> gtExample: anObject [
-	<toBeDeprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'>
+	self deprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'.
 	self label: anObject.
 	self gtExample
 ]
