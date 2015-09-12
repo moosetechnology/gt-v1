@@ -32,9 +32,14 @@ GTInspectorExamplesTest >> setUp [
 ]
 
 { #category : #running }
-GTInspectorExamplesTest >> tearDown [ 
+GTInspectorExamplesTest >> tearDown [
+	super tearDown.
+	 
 	windows do: [ :each | each delete ].
-	windows := nil
+	windows := nil.
+	
+	(Smalltalk classNamed: #GTExampleOrganizer) 
+		ifNotNil: [ :class | class instance resetResults ]
 ]
 
 { #category : #tests }
@@ -42,7 +47,8 @@ GTInspectorExamplesTest >> testAllExamples [
 	Object withAllSubclasses
 		do: [ :eachClass | 
 			eachClass gtExamples do: [ :exampleToTest | 
-				self checkAllPresentationsOf: exampleToTest ] ]
+				self checkAllPresentationsOf: exampleToTest.
+				exampleToTest detachResultFromSystem ] ]
 		displayingProgress: 'Testing GTInspector examples (#testAllExamples)'
 ]
 
