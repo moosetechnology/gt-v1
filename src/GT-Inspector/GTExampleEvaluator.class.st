@@ -5,7 +5,7 @@ Class {
 		'processed',
 		'result'
 	],
-	#category : #'GT-Inspector-Example-Tools'
+	#category : #'GT-Inspector-Examples-Tools'
 }
 
 { #category : #private }

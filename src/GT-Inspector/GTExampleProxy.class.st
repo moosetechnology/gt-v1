@@ -109,6 +109,11 @@ GTExampleProxy >> hash [
 ]
 
 { #category : #testing }
+GTExampleProxy >> isValid [
+	^ self withExampleDo: [ self example isValid ] ifAbsent: [ false ]
+]
+
+{ #category : #testing }
 GTExampleProxy >> matchesMethod: aCompiledMethod [
 	^ self owner finder proxy: self matchesMethod: aCompiledMethod
 ]

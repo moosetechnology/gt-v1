@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : #'GT-Inspector-Example-Tools'
+	#category : #'GT-Inspector-Examples-Tools'
 }
 
 { #category : #accessing }

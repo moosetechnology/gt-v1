@@ -51,7 +51,7 @@ GTExampleOrganizer class >> stop [
 { #category : #accessing }
 GTExampleOrganizer >> atMethod: aCompiledMethod ifAbsentPut: aBlock [
 	<todo: '#theNonMetaClass is not good since we could not put examples to the instance and class-side at once'>
-	^ (examples at: aCompiledMethod methodClass theNonMetaClass name ifAbsentPut: [ IdentityDictionary new ]) 
+	^ (examples at: aCompiledMethod methodClass theNonMetaClass name ifAbsentPut: [ WeakIdentityKeyDictionary new ]) 
 		at: aCompiledMethod selector 
 		ifAbsentPut: aBlock
 ]
@@ -276,7 +276,7 @@ GTExampleOrganizer >> notifying [
 
 { #category : #initializing }
 GTExampleOrganizer >> reset [
-	examples := IdentityDictionary new.
+	examples := WeakIdentityKeyDictionary new.
 	Smalltalk garbageCollect; garbageCollectMost.
 	GTExample allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 	GTExampleProxy allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].

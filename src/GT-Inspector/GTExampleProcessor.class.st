@@ -9,7 +9,7 @@ Class {
 		'onDependencyError',
 		'onArgumentError'
 	],
-	#category : #'GT-Inspector-Example-Tools'
+	#category : #'GT-Inspector-Examples-Tools'
 }
 
 { #category : #private }
