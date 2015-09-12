@@ -538,6 +538,11 @@ GTExample >> raisesAny: aString [
 		self raises: each ]
 ]
 
+{ #category : #public }
+GTExample >> removeFromSystem [
+	self finder remove: self ifPresent: [ self detachFromSystem ]
+]
+
 { #category : #accessing }
 GTExample >> result [
 	^ result ifNil: [ self run ]

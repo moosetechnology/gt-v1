@@ -66,7 +66,7 @@ GTExampleFinder class >> myExamplesTo: examples [
 	^ self gtExamplesContainedTo: examples
 ]
 
-{ #category : #private }
+{ #category : #'private-primitives' }
 GTExampleFinder >> class: aClass selector: aSelector method: aMethod pragma: aPragma [
 	^ GTExampleOrganizer instance atMethod: aMethod ifAbsentPut: [ self newExampleFromPragma: aPragma ]
 ]
@@ -188,6 +188,11 @@ GTExampleFinder >> proxy: anExampleProxy matchesMethod: aCompiledMethod [
 { #category : #private }
 GTExampleFinder >> proxyExists: anExampleProxy [
 	^ anExampleProxy provider class includesSelector: anExampleProxy selector
+]
+
+{ #category : #'private-primitives' }
+GTExampleFinder >> remove: anExample ifPresent: aBlock [
+	^ GTExampleOrganizer instance removeAtMethod: anExample method ifPresent: aBlock
 ]
 
 { #category : #accessing }

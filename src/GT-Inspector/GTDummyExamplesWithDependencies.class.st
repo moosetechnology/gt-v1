@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamplesWithDependencies,
 	#superclass : #Object,
-	#category : #'GT-Inspector-Examples-Dummies'
+	#category : #'GT-Inspector-Examples-Dummies-1'
 }
 
 { #category : #examples }
