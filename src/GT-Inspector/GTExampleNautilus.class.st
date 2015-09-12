@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #private }
+GTExampleNautilus class >> methodChanged: aCompiledMethod [
+	[	AbstractMethodWidget methodsIconsCache removeKey: aCompiledMethod. 
+		NautilusUI allInstances do: #updateCategoryAndMethodList ]
+			on: Error
+			do: [ " ignore and continue " ]
+]
+
+{ #category : #private }
 GTExampleNautilus >> examples: aCollection [
 	^ aCollection size = 1
 		ifTrue: [ aCollection first ]

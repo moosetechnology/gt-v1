@@ -166,6 +166,7 @@ GTExample >> description: anObject [
 
 { #category : #private }
 GTExample >> detachFromSystem [
+	self detachResultFromSystem.
 	(self traverser reversed
 		action: [ :example | example detachResultFromSystem ];
 		onRecursionError: [ :aProcessor :anExample | " ignore and continue " ];
@@ -553,14 +554,21 @@ GTExample >> result: aResult [
 	result := aResult
 ]
 
+{ #category : #private }
+GTExample >> resultCached: aResult [
+	result := aResult.
+	GTExampleNautilus methodChanged: self method.
+	^ aResult
+]
+
 { #category : #public }
 GTExample >> returnValue [
 	^ self result returnValue
 ]
 
-{ #category : #public }
+{ #category : #private }
 GTExample >> run [
-	^ result := self evaluator result 
+	^ self resultCached: self evaluator result 
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
