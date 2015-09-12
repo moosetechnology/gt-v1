@@ -4,6 +4,14 @@ Class {
 	#category : #'GT-Tests-Spotter'
 }
 
+{ #category : #running }
+GTSpotterProcessorsForExamplesTest >> tearDown [
+	super tearDown.
+	
+	(Smalltalk classNamed: #GTExampleOrganizer) 
+		ifNotNil: [ :class | class instance resetResults ]
+]
+
 { #category : #tests }
 GTSpotterProcessorsForExamplesTest >> testEachProcessor [
 	Object withAllSubclasses
@@ -18,6 +26,7 @@ GTSpotterProcessorsForExamplesTest >> testEachProcessor [
 								yourself);
 							origin: exampleToTest result;
 							processContext: (step newContextForQuery: 'a') ] 
-					raise: Error ] ]
+					raise: Error.
+				exampleToTest detachResultFromSystem ]  ]
 		displayingProgress: 'Testing GTSpotter examples (#testEachProcessor)'
 ]
