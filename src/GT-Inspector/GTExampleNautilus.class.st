@@ -7,7 +7,7 @@ Class {
 { #category : #private }
 GTExampleNautilus class >> methodChanged: aCompiledMethod [
 	[	AbstractMethodWidget methodsIconsCache removeKey: aCompiledMethod. 
-		NautilusUI allInstances do: #updateCategoryAndMethodList ]
+		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
 			on: Error
 			do: [ " ignore and continue " ]
 ]
@@ -55,7 +55,7 @@ GTExampleNautilus >> onExamples: aCollection builder: aBuilder [
 
 	(aBuilder item: #'Run Examples')
 		order: 10000;
-		action: [ (self examples: aCollection do: #result) inspect ].
+		action: [ (self examples: aCollection do: #run) inspect ].
 		
 	(aBuilder item: #'Debug Examples')
 		order: 10000;
