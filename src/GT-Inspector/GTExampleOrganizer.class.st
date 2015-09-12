@@ -284,6 +284,13 @@ GTExampleOrganizer >> reset [
 	Smalltalk garbageCollect; garbageCollectMost.
 ]
 
+{ #category : #initializing }
+GTExampleOrganizer >> resetResults [
+	Smalltalk garbageCollect; garbageCollectMost.
+	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
+	Smalltalk garbageCollect; garbageCollectMost.
+]
+
 { #category : #public }
 GTExampleOrganizer >> running [
 	^ running ifNil: [ false ]
