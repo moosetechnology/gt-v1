@@ -11,6 +11,7 @@ GTInspectorDummyExamplesTest >> allExamplesDummiesProviders [
 		GTDummyExamplesPragmas. 
 		GTDummyExamplesRecursive. 
 		GTDummyExamplesWithDependencies. 
+		GTDummyExamplesWithExternalDependencies.
 		GTDummyExamplesWithExceptions 
 	}
 ]
