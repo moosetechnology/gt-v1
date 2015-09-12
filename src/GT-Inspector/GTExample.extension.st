@@ -20,13 +20,13 @@ GTExample >> extractionStrategy: anObject [
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> gtDisplaySourceIn: composite [
-	<todo: 'deprecated: #gtDisplaySourceIn:'>
+	self deprecated: 'Please use #gtInspectorSourceIn: instead'.
 	^ self gtInspectorSourceIn: composite
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> gtExample: anObject [
-	self deprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'.
+	<toBeDeprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'>
 	self label: anObject.
 	self gtExample
 ]

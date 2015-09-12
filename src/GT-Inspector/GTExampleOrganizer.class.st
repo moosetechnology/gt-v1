@@ -162,7 +162,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 
 { #category : #private }
 GTExampleOrganizer >> examples [
-	^ GTExampleFinder gtExamples
+	^ GTExampleFinder allGTExamples
 ]
 
 { #category : #ui }
@@ -322,6 +322,8 @@ GTExampleOrganizer >> stop [
 
 { #category : #private }
 GTExampleOrganizer >> withCleanupDo: aBlock [
-	aBlock value.
+	[ aBlock value ]
+		on: Error
+		do: [ :exception | " we should not ignore it, but try to continue " ].
 	self notifying ifTrue: [ Smalltalk garbageCollect ]
 ]

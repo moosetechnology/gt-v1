@@ -2,7 +2,7 @@ Extension { #name : #SystemNavigation }
 
 { #category : #'*GT-Inspector-Examples-UI' }
 SystemNavigation >> examplesReferencesTo: aLiteral [
-	^ GTExampleFinder gtExamples select: [ :each | 
+	^ GTExampleFinder allGTExamples select: [ :each | 
 			(each hasSubject: aLiteral)
 				or: [ (each method hasLiteralThorough: aLiteral)
 					or: [ (each source theNonMetaClass name asString = aLiteral name asString) ] ] ]
