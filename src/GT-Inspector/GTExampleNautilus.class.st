@@ -24,7 +24,7 @@ GTExampleNautilus >> onClass: aBuilder [
 	target := aBuilder model.
 	(class := target selectedClass) ifNil: [ ^ self ].
 	self onReferences: class theNonMetaClass name builder: aBuilder.
-	(examples := class gtExamplesContained) isEmptyOrNil ifTrue: [ ^ self ].
+	(examples := class theNonMetaClass gtExamplesContained) isEmptyOrNil ifTrue: [ ^ self ].
 	self onExamples: examples builder: aBuilder
 ]
 
