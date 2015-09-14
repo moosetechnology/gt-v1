@@ -23,7 +23,8 @@ GTReleaseTest >> assertIncludesPackages: includedPackageNames excludedPackages: 
 				(missingExamplesWithoutIgnoredClasses keys sorted: [ :a :b | a name < b name ]) printOn: stream ] ].
 	
 	" check for ignored examples which are provided - those should no longer be ignored "
-	self assert: (obsoleteIgnoredClasses := ignoredClasses difference: missingExamples keys) isEmpty 
+	obsoleteIgnoredClasses := (ignoredClasses difference: missingExamples keys) reject: [ :each | each isNil ].
+	self assert: obsoleteIgnoredClasses isEmpty 
 		description: [ 
 			String streamContents: [ :stream |
 				stream nextPutAll: 'Examples found. Test should no longer ignore these classes: '.
@@ -106,6 +107,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			GTSpotterExceptionMock3. " counter-example "
 			GTSpotterExceptionMock4. " counter-example "
 			GTSpotterExceptionMock5. " counter-example "
+			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
 			RTAbstractExample.  " abstract factory for collecting examples "
 			Slot. " abstract "
@@ -128,6 +130,7 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 			GTExample	. " makes no sense "
 			GTExampleProxy. " makes no sense "
 			ComposableModel. " abstract superclass "
+			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
 			RTAbstractExample.  " abstract factory for collecting examples "
 			TClass. " spotter/processor tests would be ulimatively slow "
