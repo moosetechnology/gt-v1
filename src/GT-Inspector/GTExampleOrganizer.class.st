@@ -67,10 +67,11 @@ GTExampleOrganizer >> cachedExamplesDo: aBlock [
 { #category : #'private-events' }
 GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 	self withCleanupDo: [ 
-		examples keys do: [ :key |
-			(Smalltalk classNamed: key) ifNil: [ 
-				(examples removeKey: key ifAbsent: [ nil ]) ifNotNil: [ :dict | 
-					dict do: [ :example | [ example detachFromSystem ] on: Error do: [ " ignore " ] ] ] ] ].
+		examples keys do: [ :className |
+			(Smalltalk classNamed: className) ifNil: [ 
+				(examples removeKey: className ifAbsent: [ nil ]) ifNotNil: [ :dict | 
+					dict do: [ :example | 
+						[ example detachFromSystem ] on: Error do: [ " ignore " ] ] ] ] ].
 		
 		self checkForMissingDependencies.
 		self checkForMissingClasses ]
@@ -147,10 +148,12 @@ GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
 GTExampleOrganizer >> classRemoved: anAnnouncement [
 	self withCleanupDo: [ 
 		(examples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ])
-			ifNotNil: [ :dict | dict do: #detachFromSystem ].
+			ifNotNil: [ :dict | 
+				dict do: [ :example |
+					[ example detachFromSystem ] on: Error do: [ " ignore " ] ].
 			
-		self checkForMissingDependencies.
-		self checkForMissingClasses ]
+				self checkForMissingDependencies.
+				self checkForMissingClasses ] ]
 ]
 
 { #category : #'private-events' }
@@ -209,24 +212,26 @@ GTExampleOrganizer >> methodAdded: anAnnouncement [
 GTExampleOrganizer >> methodModified: anAnnouncement [
 	self withCleanupDo: [ 
 		((examples at: anAnnouncement oldMethod methodClass theNonMetaClass name ifAbsent: [ IdentityDictionary new ])
-			removeKey: anAnnouncement oldMethod selector ifAbsent: [ nil ]) detachFromSystem.
+			removeKey: anAnnouncement oldMethod selector ifAbsent: [ nil ]) ifNotNil: [ :example |
+				[ example detachFromSystem ] on: Error do: [ " ignore " ].
 			
-		self checkForMissingDependencies: anAnnouncement method.
-		self checkForNumberOfArguments: anAnnouncement method.
-		self checkForMissingClasses: anAnnouncement method.
-		self checkForDependenciesUsing: anAnnouncement method.
-		GTExampleNautilus methodChanged: anAnnouncement method.
-		GTExampleNautilus methodChanged: anAnnouncement oldMethod ]
+				self checkForMissingDependencies: anAnnouncement method.
+				self checkForNumberOfArguments: anAnnouncement method.
+				self checkForMissingClasses: anAnnouncement method.
+				self checkForDependenciesUsing: anAnnouncement method.
+				GTExampleNautilus methodChanged: anAnnouncement method.
+				GTExampleNautilus methodChanged: anAnnouncement oldMethod ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodRemoved: anAnnouncement [
 	self withCleanupDo: [ 
 		((examples at: anAnnouncement method methodClass theNonMetaClass name ifAbsent: [ IdentityDictionary new ])
-			removeKey: anAnnouncement method selector ifAbsent: [ nil ]) detachFromSystem.
+			removeKey: anAnnouncement method selector ifAbsent: [ nil ]) ifNotNil: [ :example |
+				[ example detachFromSystem ] on: Error do: [ " ignore " ].
 			
-		self checkForDependenciesUsing: anAnnouncement method.
-		GTExampleNautilus methodChanged: anAnnouncement method.  ]
+				self checkForDependenciesUsing: anAnnouncement method.
+				GTExampleNautilus methodChanged: anAnnouncement method.  ] ]
 ]
 
 { #category : #'private-notifying' }
