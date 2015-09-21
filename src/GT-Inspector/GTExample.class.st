@@ -289,22 +289,23 @@ GTExample >> gtInspectorActionEvaluateResultAndGo [
 { #category : #ui }
 GTExample >> gtInspectorDependenciesIn: composite [
 	<gtInspectorPresentationOrder: 2>
-	^ ((self dependenciesOrErrors ifEmpty: [ ^ self ]) 
-			gtInspectorItemsIn: composite)
-				title: 'Dependencies'
+	self arguments ifEmpty: [ ^ self ].
+	^ ((self dependenciesOrErrors ifEmpty: [ ^ self ]) gtInspectorItemsIn: composite)
+			title: 'Dependencies'
 ]
 
 { #category : #ui }
 GTExample >> gtInspectorDependentsIn: composite [
 	<gtInspectorPresentationOrder: 3>
-	^ ((self dependents ifEmpty: [ ^ self ]) 
-			gtInspectorItemsIn: composite)
-				title: 'Dependents'
+	self dependents ifEmpty: [ ^ self ].
+	^ (self dependents gtInspectorItemsIn: composite)
+			title: 'Dependents'
 ]
 
 { #category : #ui }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
+	self hasRelationships ifFalse: [ ^ self ].
 	^ self painter gtInspectorRoassalIn: composite
 ]
 
@@ -318,6 +319,7 @@ GTExample >> gtInspectorSourceIn: composite [
 { #category : #ui }
 GTExample >> gtSpotterDependenciesFor: aStep [
 	<spotterOrder: 100>
+	self arguments ifEmpty: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependencies';
 		allCandidates: [ self arguments ];
@@ -328,6 +330,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 { #category : #ui }
 GTExample >> gtSpotterDependentsFor: aStep [
 	<spotterOrder: 101>
+	self dependents ifEmpty: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependents';
 		allCandidates: [ self dependents ];
@@ -343,6 +346,11 @@ GTExample >> gtSpotterPreviewIn: aComposite [
 		display: [ :entity | entity method sourceCode ];
 		smalltalkClass: [ self method methodClass ];
 		entity: self
+]
+
+{ #category : #testing }
+GTExample >> hasDependencies [
+	^ self arguments notEmpty
 ]
 
 { #category : #testing }
@@ -366,10 +374,21 @@ GTExample >> hasDependent: anExample [
 	^ false
 ]
 
+{ #category : #testing }
+GTExample >> hasDependents [
+	^ self dependents notEmpty
+]
+
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
 GTExample >> hasParentExample [
 	self deprecated: 'Please use #hasDependent instead'.
 	^ self hasDependent
+]
+
+{ #category : #testing }
+GTExample >> hasRelationships [
+	^ self hasDependents
+		or: [ self hasDependencies ]
 ]
 
 { #category : #testing }
