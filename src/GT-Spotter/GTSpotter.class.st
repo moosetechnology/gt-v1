@@ -93,7 +93,7 @@ GTSpotter class >> gtExampleBasic [
 { #category : #example }
 GTSpotter class >> gtExampleWithOneStepFrom: aSpotter [
 	<gtExample>
-	<gtExampleFrom: #gtExampleBasic>
+	<depends: #gtExampleBasic>
 	| step |
 	step := GTSpotterStep new spotter: aSpotter.
 	aSpotter steps add: step.
