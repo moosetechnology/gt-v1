@@ -8,6 +8,13 @@ Class {
 }
 
 { #category : #testing }
+GTSpotterNullProcessorFilter >> configurationBlockForProcessorsCreatedBy: aMethod [
+	"No need to configure anything."
+	
+	^ [ :processor | ]
+]
+
+{ #category : #testing }
 GTSpotterNullProcessorFilter >> shouldEnableProcessorsCreateBy: aMethod [
 	"Enable everything."
 	

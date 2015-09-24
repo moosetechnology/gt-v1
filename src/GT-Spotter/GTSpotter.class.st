@@ -93,7 +93,7 @@ GTSpotter class >> gtExampleBasic [
 { #category : #example }
 GTSpotter class >> gtExampleWithOneStepFrom: aSpotter [
 	<gtExample>
-	<depends: #gtExampleBasic>
+	<gtExampleFrom: #gtExampleBasic>
 	| step |
 	step := GTSpotterStep new spotter: aSpotter.
 	aSpotter steps add: step.
@@ -135,16 +135,6 @@ GTSpotter class >> on: anObject [
 	^ self new foundationOrigin: anObject
 ]
 
-{ #category : #'instance creation' }
-GTSpotter class >> on: anObject withProcessors: aMethodsList [
-	"Create a new Spotter model on the given object and only enable those
-	processors created by methods in the given list."
-	
-	^ (self on: anObject)
-		processorsFilter: (GTSpotterMethodListProcessorFilter new
-			addSignaturesFor: aMethodsList)
-]
-
 { #category : #accessing }
 GTSpotter class >> resetHistory [
 	"
@@ -172,12 +162,6 @@ GTSpotter class >> spotterExtendingMethods [
 GTSpotter class >> wasOpened [
 
 	^ wasOpened ifNil: [ false ]
-]
-
-{ #category : #'instance creation' }
-GTSpotter class >> withProcessors: aMethodsList [
-
-	^ self on: nil withProcessors: aMethodsList
 ]
 
 { #category : #'actions api' }
@@ -276,6 +260,17 @@ GTSpotter >> exit [
 GTSpotter >> exitDueTo: anEventType [
 
 	self notifySpotterExitFor: anEventType
+]
+
+{ #category : #filtering }
+GTSpotter >> filterByMethods: aCollection [
+	| filter |
+	
+	filter := GTSpotterMethodListProcessorFilter new.
+	aCollection  do: [ :aMethod |
+		filter allowProcessorsFrom: aMethod ].
+	self processorsFilter: filter
+		
 ]
 
 { #category : #accessing }

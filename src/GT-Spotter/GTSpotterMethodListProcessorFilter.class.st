@@ -1,7 +1,9 @@
 "
 I implement a filtering strategy for processors based on method signatures (method selector and class).
 
-I only allow processor created by a method currently added to the filter.
+I only allow processors created by a method currently added to the filter.
+
+I can attach to each processor a configuration block.
 
 For examples view my class side methods in teh category 'example'
 "
@@ -9,10 +11,55 @@ Class {
 	#name : #GTSpotterMethodListProcessorFilter,
 	#superclass : #GTSpotterProcessorFilter,
 	#instVars : [
-		'selectedMethodSignatures'
+		'selectedMethodSignatures',
+		'configurationBlocks'
 	],
 	#category : #'GT-Spotter-Model'
 }
+
+{ #category : #examples }
+GTSpotterMethodListProcessorFilter class >> exampleCustomImplementorsSearch [
+	"A spotter for searching through the implementors of a method that 
+	overrides properties of the search step.
+	
+	self exampleCustomImplementorsSearch
+	"
+	
+	GTSpotterMorph new
+		extent: 400@500;
+		spotterModel: ((GTSpotter on: Object>>#copy) 
+			processorsFilter: (GTSpotterMethodListProcessorFilter new 
+				allowProcessorsFrom: CompiledMethod>>#spotterForImplementorsFor: 
+				configuredWith: [ :aProcessor | aProcessor
+					actLogic: [ :aMethod :step | 
+						step exit.
+						aMethod inform: aMethod name ];
+					candidatesLimit: 50 ]));
+		openCenteredInWorld
+]
+
+{ #category : #examples }
+GTSpotterMethodListProcessorFilter class >> exampleCustomImplementorsSearchWithNavigation [
+	"A spotter for searching through the implementors of a method that 
+	overrides properties of the search step and enables the Collection 
+	processor (to allow dive in).
+	
+	self exampleCustomImplementorsSearchWithNavigation
+	"
+	
+	GTSpotterMorph new
+		extent: 400@500;
+		spotterModel: ((GTSpotter on: Object>>#copy) 
+			processorsFilter: (GTSpotterMethodListProcessorFilter new 
+				allowProcessorsFrom: Collection>>#spotterItemsFor:;
+				allowProcessorsFrom: CompiledMethod>>#spotterForImplementorsFor: 
+				configuredWith: [ :aProcessor | aProcessor
+					actLogic: [ :aMethod :step | 
+						step exit.
+						aMethod inform: aMethod name ];
+					candidatesLimit: 50 ]));
+		openCenteredInWorld
+]
 
 { #category : #examples }
 GTSpotterMethodListProcessorFilter class >> exampleHelpSearch [
@@ -23,10 +70,25 @@ GTSpotterMethodListProcessorFilter class >> exampleHelpSearch [
 	
 	GTSpotterMorph new
 		extent: 400@500;
-		spotterModel: (GTSpotter
-			withProcessors: {
+		spotterModel: (GTSpotter new
+			filterByMethods: {
 				GTSpotter>>#spotterForHelpTopicFor:.
 				HelpTopic>>#spotterForHelpTopicFor:});
+		openCenteredInWorld
+]
+
+{ #category : #examples }
+GTSpotterMethodListProcessorFilter class >> exampleImplementorsSearch [
+	"A spotter for searching through the implementors of a method.
+	
+	self exampleImplementorsSearch
+	"
+	
+	GTSpotterMorph new
+		extent: 400@500;
+		spotterModel: ((GTSpotter on: Object>>#copy) 
+			filterByMethods: {
+				CompiledMethod>>#spotterForImplementorsFor:});
 		openCenteredInWorld
 ]
 
@@ -39,9 +101,8 @@ GTSpotterMethodListProcessorFilter class >> exampleMenuMorphSearch [
 	
 	GTSpotterMorph new
 		extent: 400@500;
-		spotterModel: (GTSpotter
-			on: World worldMenu 
-			withProcessors: {
+		spotterModel: ((GTSpotter on: World worldMenu) 
+			filterByMethods: {
 				MenuMorph>>#spotterItemsFor:});
 		openCenteredInWorld
 ]
@@ -55,14 +116,14 @@ GTSpotterMethodListProcessorFilter class >> exampleWorldMenuSearch [
 	
 	GTSpotterMorph new
 		extent: 400@500;
-		spotterModel: (GTSpotter
-			withProcessors: {
+		spotterModel: (GTSpotter new
+			filterByMethods: {
 				GTSpotter>>#spotterWorldMenuFor:});
 		openCenteredInWorld
 ]
 
 { #category : #adding }
-GTSpotterMethodListProcessorFilter >> addSignatureFor: aMethod [
+GTSpotterMethodListProcessorFilter >> allowProcessorsFrom: aMethod [
 	|signature|
 	
 	signature := self signatureFor: aMethod.
@@ -71,9 +132,17 @@ GTSpotterMethodListProcessorFilter >> addSignatureFor: aMethod [
 ]
 
 { #category : #adding }
-GTSpotterMethodListProcessorFilter >> addSignaturesFor: aMethodsList [
+GTSpotterMethodListProcessorFilter >> allowProcessorsFrom: aMethod configuredWith: aBlock [
 	
-	aMethodsList do: [ :aMethod | self addSignatureFor: aMethod ]
+	self allowProcessorsFrom: aMethod.
+	configurationBlocks at: aMethod name put: aBlock.
+	
+]
+
+{ #category : #accessing }
+GTSpotterMethodListProcessorFilter >> configurationBlockForProcessorsCreatedBy: aMethod [
+	
+	^ configurationBlocks at: aMethod name ifAbsent: [ self nullConfigurationBlock ]
 ]
 
 { #category : #initialization }
@@ -81,6 +150,13 @@ GTSpotterMethodListProcessorFilter >> initialize [
 	super initialize.
 
 	selectedMethodSignatures := OrderedCollection new.
+	configurationBlocks := Dictionary new.
+]
+
+{ #category : #accessing }
+GTSpotterMethodListProcessorFilter >> nullConfigurationBlock [
+
+	^ [ :processor | ]
 ]
 
 { #category : #printing }
