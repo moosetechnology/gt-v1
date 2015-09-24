@@ -24,7 +24,7 @@ GTSpotterExamples class >> gtExampleCustomImplementorsSearchOn: aSpotter [
 	method that overrides properties of the search step.'>
 	<depends: #gtExampleOnCompliedMethod>
 	
-	aSpotter
+	^ aSpotter
 		processorsFilter: (GTSpotterMethodListProcessorFilter new 
 			allowProcessorsFrom: CompiledMethod>>#spotterForImplementorsFor: 
 			configuredWith: [ :aProcessor | aProcessor
@@ -43,7 +43,7 @@ GTSpotterExamples class >> gtExampleCustomImplementorsSearchWithNavigationOn: aS
 	processor for items (to allow dive in).'>
 	<depends: #gtExampleOnCompliedMethod>
 	
-	aSpotter
+	^ aSpotter
 		processorsFilter: (GTSpotterMethodListProcessorFilter new 
 			allowProcessorsFrom: Collection>>#spotterItemsFor:;
 			allowProcessorsFrom: CompiledMethod>>#spotterForImplementorsFor: 
@@ -61,7 +61,7 @@ GTSpotterExamples class >> gtExampleHelpSearchOn: aSpotter [
 	<description: 'A spotter for searching through help pages.'>
 	<depends: #gtExampleBasic>
 	
-	aSpotter
+	^ aSpotter
 		filterByMethods: {
 			GTSpotter>>#spotterForHelpTopicFor:.
 			HelpTopic>>#spotterForHelpTopicFor:}
@@ -74,7 +74,7 @@ GTSpotterExamples class >> gtExampleImplementorsSearchOn: aSpotter [
 	<description: 'A spotter for searching through the implementors of a method.'>
 	<depends: #gtExampleOnCompliedMethod>
 	
-	aSpotter
+	^ aSpotter
 		filterByMethods: {
 			CompiledMethod>>#spotterForImplementorsFor:}
 ]
@@ -105,7 +105,7 @@ GTSpotterExamples class >> gtExampleWorldMenuSearchOn: aSpotter [
 	<description: 'A spotter for searching through the world menu'>
 	<depends: #gtExampleBasic>
 
-	aSpotter
+	^ aSpotter
 		filterByMethods: {
 			GTSpotter>>#spotterWorldMenuFor:}
 	
