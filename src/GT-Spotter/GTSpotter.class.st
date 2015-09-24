@@ -85,20 +85,9 @@ GTSpotter class >> exampleWorldMenu [
 ]
 
 { #category : #example }
-GTSpotter class >> gtExampleBasic [
-	<gtExample>
-	^ self new
-]
+GTSpotter class >> gtExamplesProvider [
 
-{ #category : #example }
-GTSpotter class >> gtExampleWithOneStepFrom: aSpotter [
-	<gtExample>
-	<depends: #gtExampleBasic>
-	| step |
-	step := GTSpotterStep new spotter: aSpotter.
-	aSpotter steps add: step.
-	aSpotter currentStep: step.
-	^ aSpotter
+	^ GTSpotterExamples 
 ]
 
 { #category : #inspecting }
@@ -295,6 +284,22 @@ GTSpotter >> getText [
 GTSpotter >> gtDisplayOn: stream [
 
 	stream nextPutAll: 'Spotter'
+]
+
+{ #category : #printing }
+GTSpotter >> gtDisplaySpotterMorphOn: aComposite [
+	<gtInspectorPresentationOrder: 50>
+	
+	aComposite morph 
+		title: 'Live';
+		display: [ 
+			GLMBrick new 
+				hSpaceFill;
+				vSpaceFill;
+				addMorphBack: 
+					(GTSpotterMorph new
+						spotterModel: self);
+				yourself ]
 ]
 
 { #category : #inspecting }
