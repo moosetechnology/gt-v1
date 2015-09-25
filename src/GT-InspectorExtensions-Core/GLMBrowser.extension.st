@@ -9,10 +9,13 @@ GLMBrowser class >> gtExampleBasic [
 { #category : #'*GT-InspectorExtensions-Core' }
 GLMBrowser >> gtInspectorBrowserIn: composite [
 	<gtInspectorPresentationOrder: 40>  
-	^ (composite wrapper with: [ :w |
+	^ composite wrapper with: [ :w |
 		w title: 'Live'.
-		w show: [:a | a custom: self copy ] ]
-		) startOn: self entity
+		w show: [:a | 
+			(a custom: 
+				self copy)
+				display: [ self entity ] ] ]
+		
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
