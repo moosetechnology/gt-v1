@@ -51,6 +51,7 @@ GTDummyExamplesWithExceptions class >> e [
 	<gtExample>
 	<label: 'Dummy #e'>
 	<description: 'Dummy #e, raises an unexpected exception (AssertionFailure) since we did not a declare it'>
+	<noTest>
 	
 	self assert: false
 ]
@@ -71,6 +72,7 @@ GTDummyExamplesWithExceptions class >> g: anObject [
 	<label: 'Dummy #g'>
 	<description: 'Dummy #g, depends: #e, should raise a dependency error since the only dependency is raising an exception'>
 	<depends: #e>
+	<noTest>
 	
 	^ anObject
 ]
@@ -82,6 +84,7 @@ GTDummyExamplesWithExceptions class >> h [
 	<description: 'Dummy #h, should raise an exception (by declaration) but it does not'>
 	<raises: AssertionFailure>
 	<raises: ZeroDivide>
+	<noTest>
 	
 	self assert: true. " no exception raised -> expected exception not raises"
 	true " no exception raised -> expected exception not raises "

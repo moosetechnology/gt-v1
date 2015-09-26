@@ -26,7 +26,8 @@ Class {
 		'subjects',
 		'parents',
 		'children',
-		'result'
+		'result',
+		'properties'
 	],
 	#category : #'GT-Inspector-Examples-Core'
 }
@@ -458,16 +459,27 @@ GTExample >> iconThemeSelector: aSelector [
 	form := (Smalltalk ui icons perform: aSelector)
 ]
 
+{ #category : #testing }
+GTExample >> ignoreTest [
+	^ self propertyAt: #noTest ifAbsent: [ false ]
+]
+
+{ #category : #testing }
+GTExample >> ignoreTestReport [
+	^ self propertyAt: #notTestReport ifAbsent: [ false ]
+]
+
 { #category : #initializing }
 GTExample >> initializeFromFinder: aFinder withPragma: aPragma [
 	finder := aFinder.
 	pragma := aPragma.
 	source := aFinder source.
-	provider := aFinder provider.
+	provider := aFinder provider.	
 	subjects := aFinder subjects.
 	exceptions := ExceptionSet new.
 	children := OrderedCollection new.
 	parents := Set new.
+	properties := IdentityDictionary new.
 	
 	aPragma method pragmas do: [ :p |
 		(self class canPerform: p keyword) 
@@ -512,6 +524,16 @@ GTExample >> methodReference [
 	^ self method asRingDefinition
 ]
 
+{ #category : #'pragma-selectors' }
+GTExample >> noTest [
+	self propertyAt: #noTest put: true
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> notTestReport [
+	self propertyAt: #notTestReport put: true
+]
+
 { #category : #public }
 GTExample >> painter [
 	^ GTExamplePainter new 
@@ -533,6 +555,30 @@ GTExample >> parents [
 { #category : #accessing }
 GTExample >> pragma [
 	^ pragma
+]
+
+{ #category : #public }
+GTExample >> propertyAt: aKey [
+	^ (properties ifNil: [ KeyNotFound signalFor: aKey ])
+		at: aKey
+]
+
+{ #category : #public }
+GTExample >> propertyAt: aKey ifAbsent: aBlock [
+	^ (properties ifNil: [ ^ aBlock value ])
+		at: aKey ifAbsent: aBlock
+]
+
+{ #category : #public }
+GTExample >> propertyAt: aKey ifAbsentPut: aBlock [
+	^ (properties ifNil: [ properties := IdentityDictionary new ])
+		at: aKey ifAbsentPut: aBlock
+]
+
+{ #category : #public }
+GTExample >> propertyAt: aKey put: aValue [
+	^ (properties ifNil: [ properties := IdentityDictionary new ])
+		at: aKey put: aValue
 ]
 
 { #category : #accessing }

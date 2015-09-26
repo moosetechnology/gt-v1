@@ -9,6 +9,7 @@ GTDummyExamplesInvalid class >> a: anObject [
 	<gtExample>
 	<label: 'Dummy #a:'>
 	<description: 'argument defined / dependency missing'>
+	<noTest>
 ]
 
 { #category : #examples }
@@ -17,6 +18,8 @@ GTDummyExamplesInvalid class >> b [
 	<label: 'Dummy #b'>
 	<description: 'existing dependency defined / argument missing'>
 	<depends: #a>
+	<noTest>
+	
 ]
 
 { #category : #examples }
@@ -26,6 +29,8 @@ GTDummyExamplesInvalid class >> c: anObject1 c: anObject2 [
 	<description: 'non-existing dependencies defined, all arguments defined'>
 	<depends: #a>
 	<depends: #b:>
+	<noTest>
+	
 ]
 
 { #category : #examples }
@@ -35,4 +40,6 @@ GTDummyExamplesInvalid class >> d [
 	<description: 'non-existing dependencies defined, all arguments missing'>
 	<depends: #a>
 	<depends: #b:>
+	<noTest>
+	
 ]
