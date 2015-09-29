@@ -9,6 +9,12 @@ RTView classSide >> gtExampleEmptyView [
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
+RTView classSide >> gtExamplesProvider [
+
+	^ RTRoassalExample new
+]
+
+{ #category : #'*GT-InspectorExtensions-CoreRoassal' }
 RTView >> gtInspectorElementsHierarchyIn: composite [
 	<gtInspectorPresentationOrder: 20>
 	composite table 
