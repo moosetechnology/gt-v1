@@ -7,7 +7,6 @@ Socket >> gtInspectorSocketInfo: composite [
 		at: #isConnected put: self isConnected;
 		at: #address put: self localAddress;
 		at: #port put: self localPort;
-		at: #dataAvailable put: self dataAvailable;
 		at: #isOtherEndClosed put: self isOtherEndClosed;
 		at: #isThisEndClosed put: self isThisEndClosed;
 		at: #isUnconnected put: self isUnconnected;
