@@ -2,25 +2,19 @@ Extension { #name : #Float }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Float class >> gtExampleE [
-	<gtExample>
-	<label: 'Float with e'>
-	
+	<gtExample: 'Float with e'>
 	^ 42.42e42
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Float class >> gtExampleNegativeE [
-	<gtExample>
-	<label: 'Float with negative e'>
-	
+	<gtExample: 'Float with negative e'>
 	^ 42.42e-42
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Float class >> gtExampleZero [
-	<gtExample>
-	<label: 'Zero'>
-	
+	<gtExample: 'Zero'>
 	^ 0.0
 ]
 

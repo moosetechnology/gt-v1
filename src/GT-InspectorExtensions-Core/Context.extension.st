@@ -2,9 +2,7 @@ Extension { #name : #Context }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Context class >> gtExampleTthisContext [
-	<gtExample>
-	<label: 'thisContext'>
-	
+	<gtExample: 'thisContext'>
 	^ thisContext
 ]
 

@@ -2,9 +2,7 @@ Extension { #name : #Set }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Set class >> gtExampleSimple [
-	<gtExample>
-	<label: 'Simple'>
-	
+	<gtExample: 'Simple'>
 	^ #('fourtytwo' 42) asSet
 ]
 

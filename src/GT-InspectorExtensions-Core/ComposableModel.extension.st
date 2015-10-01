@@ -20,5 +20,6 @@ ComposableModel >> gtInspectorModelNestingIn: composite [
 ComposableModel >> gtInspectorPreviewIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	
-	self widget ifNotNil: [ :w | w gtInspectorPreviewIn: composite ]
+	(self widget notNil and: [ self widget widget notNil ]) ifTrue: [ 
+		 self widget widget gtInspectorMorphIn: composite ].
 ]

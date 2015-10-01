@@ -9,9 +9,7 @@ Pragma >> gtDisplayOn: stream [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Pragma class >> gtExamplePragma [
-	<gtExample>
-	<label: 'Pragma'>
-	
+	<gtExample: 'Pragma'>
 	^ (Pragma class >> #gtExamplePragma) pragmas anyOne
 ]
 

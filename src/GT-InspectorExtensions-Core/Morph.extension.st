@@ -2,17 +2,13 @@ Extension { #name : #Morph }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Morph class >> gtExampleEmpty [
-	<gtExample>
-	<label: 'Empty'>
-	
+	<gtExample: 'Empty'>
 	^ self new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Morph class >> gtExampleSubmorphs [
-	<gtExample>
-	<label: 'Submorphs'>
-	
+	<gtExample: 'Submorphs'>
 	^ self new
 		addMorph: self new;
 		addMorph: self new;

@@ -2,17 +2,13 @@ Extension { #name : #Announcer }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Announcer class >> gtExampleEmptyAnnouncer [
-	<gtExample>
-	<label: 'Empty Announcer'>
-	
+	<gtExample: 'Empty Announcer'>
 	^ self new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Announcer class >> gtExampleSystemAnnouncer [
-	<gtExample>
-	<label: 'System Announcer'>
-	
+	<gtExample: 'System Announcer'>
 	^ SystemAnnouncer uniqueInstance
 ]
 

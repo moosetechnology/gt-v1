@@ -2,25 +2,19 @@ Extension { #name : #ZnStatusLine }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnStatusLine class >> gtExampleForbidden [
-	<gtExample>
-	<label: 'Forbidden'>
-	
+	<gtExample: 'Forbidden'>
 	^ self forbidden
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnStatusLine class >> gtExampleNotFound [
-	<gtExample>
-	<label: 'Not Found'>
-	
+	<gtExample: 'Not Found'>
 	^ self notFound
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnStatusLine class >> gtExampleOk [
-	<gtExample>
-	<label: 'Ok'>
-	
+	<gtExample: 'Ok'>
 	^ self ok
 ]
 

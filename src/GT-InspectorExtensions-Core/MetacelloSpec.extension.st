@@ -2,9 +2,7 @@ Extension { #name : #MetacelloSpec }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 MetacelloSpec class >> gtExampleMetacelloSpec [
-	<gtExample>
-	<label: 'Metacello group reference'>
-	
+	<gtExample: 'Metacello group reference'>
 	^ (ConfigurationOfGTInspectorCore project version: #development) groups anyOne
 ]
 

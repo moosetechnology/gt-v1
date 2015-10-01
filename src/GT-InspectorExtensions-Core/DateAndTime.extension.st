@@ -2,9 +2,7 @@ Extension { #name : #DateAndTime }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 DateAndTime class >> gtExampleNow [
-	<gtExample>
-	<label: 'Now'>
-	
+	<gtExample: 'Now'>
 	^ self now
 ]
 

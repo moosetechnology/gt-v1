@@ -2,25 +2,19 @@ Extension { #name : #BlockClosure }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 BlockClosure class >> gtExampleEmpty [
-	<gtExample>
-	<label: 'Empty'>
-	
+	<gtExample: 'Empty'>
 	^ [  ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 BlockClosure class >> gtExampleOneArgument [
-	<gtExample>
-	<label: 'With one argument'>
-	
+	<gtExample: 'With one argument'>
 	^ [ :x | x ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 BlockClosure class >> gtExampleTwoArguments [
-	<gtExample>
-	<label: 'With two arguments'>
-	
+	<gtExample: 'With two arguments'>
 	^ [ :x :y | x + y ]
 ]
 

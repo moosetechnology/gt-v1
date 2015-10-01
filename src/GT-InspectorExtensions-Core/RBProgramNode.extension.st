@@ -2,9 +2,7 @@ Extension { #name : #RBProgramNode }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RBProgramNode class >> gtExampleRBProgramNode [
-	<gtExample>
-	<label: 'RBProgramNode'>
-	
+	<gtExample: 'RBProgramNode'>
 	^ (GTInspector class >> #gtInspectorExtensionsIn:) parseTree
 ]
 

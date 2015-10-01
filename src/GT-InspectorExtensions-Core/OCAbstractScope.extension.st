@@ -2,8 +2,6 @@ Extension { #name : #OCAbstractScope }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 OCAbstractScope class >> gtExampleMethodScope [
-	<gtExample>
-	<label: 'Method scope'>
-	
+	<gtExample: 'Method scope'>
 	^ (self class >> #gtExampleMethodScope) ast scope
 ]

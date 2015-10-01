@@ -2,9 +2,7 @@ Extension { #name : #Text }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Text class >> gtExampleSimple [
-	<gtExample>
-	<label: 'Simple'>
-	
+	<gtExample: 'Simple'>
 	^ 'fourtytwo' asText
 ]
 

@@ -24,7 +24,7 @@ FileReference class >> gtExampleGif [
 	^ FileSystem memory workingDirectory / 'pharoicon.gif' 
 		writeStreamDo: [ :stream |
 			GIFReadWriter 
-				putForm: ThemeIcons current pharoIcon 
+				putForm: Smalltalk ui icons pharoIcon
 				onStream: stream ];
 		yourself
 ]
@@ -35,7 +35,7 @@ FileReference class >> gtExamplePng [
 	^ FileSystem memory workingDirectory / 'pharoicon.png' 
 		writeStreamDo: [ :stream |
 			PNGReadWriter 
-				putForm: ThemeIcons current pharoIcon 
+				putForm: Smalltalk ui icons pharoIcon 
 				onStream: stream ];
 		yourself
 ]
@@ -172,6 +172,7 @@ FileReference >> gtInspectorStScriptIn: composite [
 				icon: GLMUIThemeExtraIcons glamorousGo
 				on: $G
 				entitled: 'Do it all and go';
+			installGoAction;
 			installDefaultSelectionActions;
 			act: [ :text |
 				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]

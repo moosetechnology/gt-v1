@@ -2,17 +2,13 @@ Extension { #name : #ReadStream }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ReadStream class >> gtExampleReadStream [
-	<gtExample>
-	<label: 'Stream'>
-	
+	<gtExample: 'Stream'>
 	^ 'GTInspector' readStream
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ReadStream class >> gtExampleReadStreamAtEnd [
-	<gtExample>
-	<label: 'Stream at end'>
-	
+	<gtExample: 'Stream at end'>
 	^ 'GTInspector' readStream 
 		upToEnd;
 		yourself
@@ -20,17 +16,13 @@ ReadStream class >> gtExampleReadStreamAtEnd [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ReadStream class >> gtExampleReadStreamEmpty [
-	<gtExample>
-	<label: 'Empty stream'>
-	
+	<gtExample: 'Empty stream'>
 	^ '' readStream
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 ReadStream class >> gtExampleReadStreamWithPosition [
-	<gtExample>
-	<label: 'Stream with position'>
-	
+	<gtExample: 'Stream with position'>
 	^ 'GTInspector' readStream 
 		next; 
 		next; 

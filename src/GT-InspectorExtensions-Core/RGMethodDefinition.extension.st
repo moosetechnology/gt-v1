@@ -2,9 +2,7 @@ Extension { #name : #RGMethodDefinition }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 RGMethodDefinition class >> gtExampleMethod [
-	<gtExample>
-	<label: 'RMethodDefinition'>
-	
+	<gtExample: 'RMethodDefinition'>
 	^ (GTInspector class >> #gtInspectorExtensionsIn:) asRingDefinition
 ]
 
