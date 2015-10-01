@@ -168,6 +168,7 @@ ConfigurationOfGTPlaygroundCore >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '2.1-baseline'.
+
 	spec for: #'pharo4.x' version: '2.1-baseline'.
 
 ]
@@ -189,9 +190,12 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.1.9'.
+	spec for: #'common' version: '2.1.10'.
+
 	spec for: #'pharo3.x' version: '2.0.5'.
+
 	spec for: #'pharo4.x' version: '2.1.5'.
+
 	spec for: #'pharo5.x' version: '2.1.9'.
 
 ]
@@ -360,6 +364,22 @@ ConfigurationOfGTPlaygroundCore >> version210: spec [
 		spec package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'.
 		spec project: 'GTInspectorCore' with: '2.0.11'. ]
 	
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version2110: spec [
+	<version: '2.1.10' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'remove  hard dependency to theme icons (they will be remove, and also it was bad :) )'.
+		spec author: 'EstebanLorenzano'.
+		spec timestamp: '10/1/2015 14:30'.
+		spec project: 'GTInspectorCore' with: '2.0.20'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-EstebanLorenzano.113';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
 
