@@ -71,9 +71,7 @@ GTPlayPage class >> fromFileReference: aFileReference [
 
 { #category : #examples }
 GTPlayPage class >> gtExampleEmpty [
-	<gtExample>
-	<label: 'Empty'>
-	
+	<gtExample: 'Empty'>
 	^ self new
 ]
 
@@ -151,6 +149,7 @@ GTPlayPage >> gtInspectorContentIn: composite [
 	composite pharoPlayground 
 		title: 'Content';
 		display: #content;
+		installGoAction;
 		installDefaultSelectionActions
 ]
 
