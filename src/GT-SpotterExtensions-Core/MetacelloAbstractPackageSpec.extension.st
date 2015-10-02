@@ -2,9 +2,7 @@ Extension { #name : #MetacelloAbstractPackageSpec }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MetacelloAbstractPackageSpec class >> gtExamplePackageSpec [
-	<gtExample>
-	<label: 'Metacello package reference'>
-	
+	<gtExample: 'Metacello package reference'>
 	^ (ConfigurationOfGTSpotter project version: #development) packages anyOne
 ]
 

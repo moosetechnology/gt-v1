@@ -2,9 +2,7 @@ Extension { #name : #TClassDescription }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TClassDescription classSide >> gtExamplePackage [
-	<gtExample>
-	<label: 'Package'>
-	
+	<gtExample: 'Package'>
 	^ TClassDescription
 ]
 

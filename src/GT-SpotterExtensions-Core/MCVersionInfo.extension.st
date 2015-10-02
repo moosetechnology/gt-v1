@@ -23,9 +23,7 @@ MCVersionInfo >> gtDisplayOn: stream [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MCVersionInfo class >> gtExampleVersionInfo [
-	<gtExample>
-	<label: 'Metacello version-info'>
-	
+	<gtExample: 'Metacello version-info'>
 	MCWorkingCopy allManagers do: [ :each | 
 		each packageName = 'GT-SpotterExtensions-Core' ifTrue: [ 
 			^ each versionInfo ] ].

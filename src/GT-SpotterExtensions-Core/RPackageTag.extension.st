@@ -2,9 +2,7 @@ Extension { #name : #RPackageTag }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 RPackageTag class >> gtExamplePackageTag [
-	<gtExample>
-	<label: 'Tag'>
-	
+	<gtExample: 'Tag'>
 	^ (RPackageOrganizer default packageOf: GTSpotter) classTags anyOne
 ]
 

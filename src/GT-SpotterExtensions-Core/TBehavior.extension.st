@@ -2,57 +2,43 @@ Extension { #name : #TBehavior }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleAllSubclasses [
-	<gtExample>
-	<label: 'All Subclasses'>
-	
+	<gtExample: 'All Subclasses'>
 	^ Object
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleClassVariables [
-	<gtExample>
-	<label: 'Class Variables'>
-	
+	<gtExample: 'Class Variables'>
 	^ Behavior
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleInstanceVariables [
-	<gtExample>
-	<label: 'Instance Variables'>
-	
+	<gtExample: 'Instance Variables'>
 	^ ClassDescription
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleSuperclasses [
-	<gtExample>
-	<label: 'Superclasses'>
-	
+	<gtExample: 'Superclasses'>
 	^ Metaclass
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleTraitComposition [
-	<gtExample>
-	<label: 'Trait Composition'>
-	
+	<gtExample: 'Trait Composition'>
 	^ Class
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleTraitUsers [
-	<gtExample>
-	<label: 'Trait Users'>
-	
+	<gtExample: 'Trait Users'>
 	^ TBehavior
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior classSide >> gtExampleTraits [
-	<gtExample>
-	<label: 'Traits'>
-	
+	<gtExample: 'Traits'>
 	^ Class
 ]
 

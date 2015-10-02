@@ -7,17 +7,13 @@ MCPackage >> gtDisplayOn: aStream [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MCPackage class >> gtExampleNoPackage [
-	<gtExample>
-	<label: 'Metacello package without corresponding RPackage'>
-	
+	<gtExample: 'Metacello package without corresponding RPackage'>
 	^ MCPackage named: 'No-correspondingRPackage-For-This-MCPackage'
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MCPackage class >> gtExamplePackage [
-	<gtExample>
-	<label: 'Metacello package with corresponding RPackage'>
-	
+	<gtExample: 'Metacello package with corresponding RPackage'>
 	MCWorkingCopy allManagers do: [ :each | 
 		each packageName = 'GT-SpotterExtensions-Core' ifTrue: [ ^ each package ] ].
 	^ nil
