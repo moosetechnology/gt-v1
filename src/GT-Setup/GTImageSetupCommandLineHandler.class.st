@@ -122,5 +122,5 @@ GTImageSetupCommandLineHandler >> setPreferredSettings [
 	GTGenericStackDebugger enableStackColoring: true.
 	GLMWhitespaceTheme setPreferredShoutColors.
 	KMRepository reset.
-	ThemeIcons current: GLMThemeIcons new
+	"ThemeIcons current: GLMThemeIcons new"
 ]
