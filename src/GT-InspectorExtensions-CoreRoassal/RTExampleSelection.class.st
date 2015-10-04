@@ -89,6 +89,9 @@ RTExampleSelection >> iconForm [
 { #category : #public }
 RTExampleSelection >> initializeIcon [
 	|icon64Mime|
+	(self provider class canPerform: (self method selector, 'Icon') asSymbol)
+		ifFalse: [ form := Form extent: 16@16. ^ self ].
+	
 	icon64Mime := self provider perform: (self method selector, 'Icon') asSymbol.
 	form := TRPlatform current formClass fromBinaryStream: 
 		(TRPlatform current mimeDecodeToBytes: icon64Mime readStream) 
