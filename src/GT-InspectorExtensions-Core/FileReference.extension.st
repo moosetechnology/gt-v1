@@ -172,7 +172,6 @@ FileReference >> gtInspectorStScriptIn: composite [
 				icon: GLMUIThemeExtraIcons glamorousGo
 				on: $G
 				entitled: 'Do it all and go';
-			installGoAction;
 			installDefaultSelectionActions;
 			act: [ :text |
 				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]

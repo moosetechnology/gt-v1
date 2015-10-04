@@ -2,7 +2,8 @@ Extension { #name : #Bitmap }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Bitmap class >> gtExampleIconBits [
-	<gtExample: 'Icon bits'>
+	<gtExample>
+	<label: 'Icon bits'>
 	^ Smalltalk ui icons pharoIcon bits
 ]
 

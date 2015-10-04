@@ -2,19 +2,25 @@ Extension { #name : #KMDispatcher }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher class >> gtExampleDispatcherWithTarget [
-	<gtExample: 'Dispatcher with target'>
+	<gtExample>
+	<label: 'Dispatcher with target'>
+	
 	^ self target: Morph new
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher class >> gtExampleDispatcherWithTargetAndShortcuts [
-	<gtExample: 'Dispatcher with target and shortcuts'>
+	<gtExample>
+	<label: 'Dispatcher with target and shortcuts'>
+	
 	^ BorderedMorph new kmDispatcher
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher class >> gtExampleEmptyDispatcher [
-	<gtExample: 'Empty dispatcher'>
+	<gtExample>
+	<label: 'Empty dispatcher'>
+	
 	^ self new
 ]
 

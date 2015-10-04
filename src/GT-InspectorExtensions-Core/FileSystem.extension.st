@@ -2,7 +2,9 @@ Extension { #name : #FileSystem }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileSystem class >> gtExampleZip [
-	<gtExample: 'Zip file system'>
+	<gtExample>
+	<label: 'Zip file system'>
+	
 	| zipFile zip |
 	zipFile := FileSystem memory workingDirectory / 'test.zip'.
 	zip := (FileSystem zip: zipFile) open.
