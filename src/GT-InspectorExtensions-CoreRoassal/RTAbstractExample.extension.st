@@ -13,9 +13,8 @@ RTAbstractExample classSide >> gtExamplesProvider [
 ]
 
 { #category : #'*GT-InspectorExtensions-CoreRoassal' }
-RTAbstractExample classSide >> gtInspectorPreviewIn: composite [
-	<gtInspectorPresentationOrder: 4>
-	<gtInspectorTag: #examples>
+RTAbstractExample classSide >> gtInspectorGTExamplesIn: composite [
+	
 	^ self new gtInspectorPreviewIn: composite
 ]
 
