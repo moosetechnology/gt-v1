@@ -2,7 +2,9 @@ Extension { #name : #MetacelloProject }
 
 { #category : #'*GT-SpotterExtensions-Core' }
 MetacelloProject class >> gtExampleMetacelloProject [
-	<gtExample: 'Metacello project'>
+	<gtExample>
+	<label: 'Metacello project'>
+	
 	^ ConfigurationOfGTSpotter project
 ]
 

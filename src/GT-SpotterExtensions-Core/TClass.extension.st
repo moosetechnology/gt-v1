@@ -16,16 +16,6 @@ TClass >> spotterClassMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterExamplesFor: aStep [
-	<spotterOrder: 50>
-	aStep listProcessor
-			title: 'Examples';
-			allCandidates: [ self gtExamples ];
-			itemName: [ :example | example title ];
-			filter: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 TClass >> spotterMethodsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
