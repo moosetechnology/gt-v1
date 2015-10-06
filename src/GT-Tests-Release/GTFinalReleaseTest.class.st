@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #tests }
+GTFinalReleaseTest >> testNoExampleInstances [
+
+	self assert: GTExample allInstances size equals: 0.
+	self assert: GTExampleResult allInstances size equals: 0.
+	
+]
+
+{ #category : #tests }
 GTFinalReleaseTest >> testNoGLMWindowInstances [
 
 	self assert: GLMSystemWindow allInstances size equals: 0.
