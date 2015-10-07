@@ -24,7 +24,7 @@ FileReference class >> gtExampleGif [
 	^ FileSystem memory workingDirectory / 'pharoicon.gif' 
 		writeStreamDo: [ :stream |
 			GIFReadWriter 
-				putForm: Smalltalk ui icons pharoIcon
+				putForm: ThemeIcons current pharoIcon 
 				onStream: stream ];
 		yourself
 ]
@@ -35,7 +35,7 @@ FileReference class >> gtExamplePng [
 	^ FileSystem memory workingDirectory / 'pharoicon.png' 
 		writeStreamDo: [ :stream |
 			PNGReadWriter 
-				putForm: Smalltalk ui icons pharoIcon 
+				putForm: ThemeIcons current pharoIcon 
 				onStream: stream ];
 		yourself
 ]
