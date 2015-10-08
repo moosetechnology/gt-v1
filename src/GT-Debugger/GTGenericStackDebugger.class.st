@@ -419,7 +419,7 @@ GTGenericStackDebugger >> methodCodeIn: composite forContext: aContext [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> methodCodeWidgetIn: composite forContext: aContext [
 
-	^ composite smalltalkCode
+	^ composite pharoMethod
 		title: 'Source';
 		format: [ aContext sourceCode ];
 		smalltalkClass: [  aContext methodClass ];
@@ -561,6 +561,12 @@ GTGenericStackDebugger >> textAttributesForStackEntry: aContext [
 		ifTrue: [ ^ { TextColor black } ]. 
 
 	^ {TextColor gray}
+]
+
+{ #category : #updating }
+GTGenericStackDebugger >> updateBrowser [
+	super updateBrowser.
+	self updateSelectionInterval.
 ]
 
 { #category : #updating }
