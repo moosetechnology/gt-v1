@@ -15,6 +15,6 @@ RWAbstractExample >> gtInspectorPreviewIn: composite [
 		when: [ self gtExamples notEmpty ];
 		send: [ :example | example result ];
 		painting: [ :view | 
-			view @ RTDraggableView.
+			"view @ RTDraggableView."
 			self gtOpenOn: view ]
 ]

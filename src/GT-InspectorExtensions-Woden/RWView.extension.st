@@ -10,7 +10,7 @@ RWView >> gtInspectorViewIn: composite [
 				e when: RWMouseButtonDown do: [ :ev | 
 					m selection: ev element model].
 			 ].
-			self @ RWMouseKeyControl ];
+			"self @ RWMouseKeyControl" ];
 		display: [
 			(RWViewWindow new view: self ) window
 			]
