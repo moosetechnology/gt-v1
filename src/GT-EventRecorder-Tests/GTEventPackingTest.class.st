@@ -10,10 +10,20 @@ Class {
 	#category : #'GT-EventRecorder-Tests'
 }
 
+{ #category : #testing }
+GTEventPackingTest class >> isAbstract [
+	^ self name = GTEventPackingTest name
+]
+
+{ #category : #accessing }
+GTEventPackingTest >> packingClass [
+	^ self subclassResponsibility
+]
+
 { #category : #running }
 GTEventPackingTest >> setUp [
 	super setUp.
-	packing := GTEventPacking new.
+	packing := self packingClass new.
 ]
 
 { #category : #'tests-packing' }
