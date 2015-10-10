@@ -4,9 +4,9 @@ Class {
 	#category : #'GT-EventRecorder-Identifiers'
 }
 
-{ #category : #initialization }
-GlobalIdentifierFuelPersistence >> initilizePreferences [
-	^ FileLocator preferences / 'org.pharo.gt.spotter.event.recorder.fuel'
+{ #category : #configuration }
+GlobalIdentifierFuelPersistence >> fileName [ 
+	^ 'org.pharo.gt.spotter.event.recorder.fuel'
 ]
 
 { #category : #'load and saving' }

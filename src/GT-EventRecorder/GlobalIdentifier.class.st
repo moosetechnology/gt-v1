@@ -83,6 +83,7 @@ GlobalIdentifier >> initialize [
 	persistedInformation := Dictionary new.
 	persistedInformation at: #computerUUID put: UUID new asString.
 	persistedInformation at: #secretUUID put: UUID new asString.
+	persistenceStrategy := GlobalIdentifierPersistence ston.
 ]
 
 { #category : #'load and saving' }
@@ -113,7 +114,7 @@ GlobalIdentifier >> persistenceStrategy: anObject [
 ]
 
 { #category : #'load and saving' }
-GlobalIdentifier >> savePreferences [
+GlobalIdentifier >> save [
 	self persistenceStrategy save: persistedInformation.
 ]
 

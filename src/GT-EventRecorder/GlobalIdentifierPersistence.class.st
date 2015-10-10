@@ -7,9 +7,19 @@ Class {
 	#category : #'GT-EventRecorder-Identifiers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GlobalIdentifierPersistence class >> fuel [
 	^ GlobalIdentifierFuelPersistence new
+]
+
+{ #category : #'instance creation' }
+GlobalIdentifierPersistence class >> ston [
+	^ GlobalIdentifierStonPersistence new
+]
+
+{ #category : #configuration }
+GlobalIdentifierPersistence >> defaultPreferences [
+	^ FileLocator preferences / self fileName
 ]
 
 { #category : #operations }
@@ -24,8 +34,8 @@ GlobalIdentifierPersistence >> ensureDirectory [
 	self preferences parent ensureCreateDirectory 
 ]
 
-{ #category : #initialization }
-GlobalIdentifierPersistence >> initilizePreferences [
+{ #category : #configuration }
+GlobalIdentifierPersistence >> fileName [
 	^ self subclassResponsibility
 ]
 
@@ -60,7 +70,7 @@ GlobalIdentifierPersistence >> mergeExisting: existingDictionary stored: storedD
 
 { #category : #accessing }
 GlobalIdentifierPersistence >> preferences [
-	^ preferences ifNil: [ preferences := self initilizePreferences ]
+	^ preferences ifNil: [ preferences := self defaultPreferences ]
 ]
 
 { #category : #accessing }
