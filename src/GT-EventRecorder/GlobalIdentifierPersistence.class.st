@@ -2,7 +2,8 @@ Class {
 	#name : #GlobalIdentifierPersistence,
 	#superclass : #Object,
 	#instVars : [
-		'preferences'
+		'preferences',
+		'previousPersistence'
 	],
 	#category : #'GT-EventRecorder-Identifiers'
 }
@@ -27,6 +28,14 @@ GlobalIdentifierPersistence >> delete [
 	"self deletePreferences"
 	[ self preferences ensureDelete ]
 	on: Error do: [ "ignore" ]
+]
+
+{ #category : #'load and saving' }
+GlobalIdentifierPersistence >> ensure: existingDictionary [
+	"It proceeds all backward compatibility work."
+	self shouldCallPreviousPersistence ifTrue: [ 
+		previousPersistence ensure: existingDictionary ].
+	self load: existingDictionary
 ]
 
 { #category : #operations }
@@ -78,6 +87,16 @@ GlobalIdentifierPersistence >> preferences: anObject [
 	preferences := anObject
 ]
 
+{ #category : #accessing }
+GlobalIdentifierPersistence >> previous [
+	^ previousPersistence
+]
+
+{ #category : #accessing }
+GlobalIdentifierPersistence >> previous: aGlobalIdentifierPersistence [
+	previousPersistence := aGlobalIdentifierPersistence
+]
+
 { #category : #'load and saving' }
 GlobalIdentifierPersistence >> save: aDictionary [
 	self delete.
@@ -90,4 +109,9 @@ GlobalIdentifierPersistence >> save: aDictionary [
 GlobalIdentifierPersistence >> save: aDictionary into: aWriteStream [
 	"Saves aDictionary into aWriteStream"
 	self subclassResponsibility
+]
+
+{ #category : #testing }
+GlobalIdentifierPersistence >> shouldCallPreviousPersistence [
+	^ self preferences exists not and: [ previousPersistence notNil ]
 ]

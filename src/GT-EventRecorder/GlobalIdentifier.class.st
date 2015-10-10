@@ -66,13 +66,14 @@ GlobalIdentifier class >> uniqueInstance [
 
 { #category : #accessing }
 GlobalIdentifier >> computerUUID [
-	"This value identifies a user logged into the computer."
+	"This value identifies a user logged into the computer.
+	Before calling #computerUUID method, you should call #ensure."
 	^ persistedInformation at: #computerUUID
 ]
 
 { #category : #'load and saving' }
 GlobalIdentifier >> ensure [
-	self persistenceStrategy load: self persistedInformation
+	self persistenceStrategy ensure: self persistedInformation
 ]
 
 { #category : #initialization }
@@ -83,6 +84,7 @@ GlobalIdentifier >> initialize [
 	persistedInformation at: #computerUUID put: UUID new asString.
 	persistedInformation at: #secretUUID put: UUID new asString.
 	persistenceStrategy := GlobalIdentifierPersistence ston.
+	persistenceStrategy previous: GlobalIdentifierPersistence fuel.
 ]
 
 { #category : #actions }
@@ -110,6 +112,7 @@ GlobalIdentifier >> persistenceStrategy: anObject [
 { #category : #accessing }
 GlobalIdentifier >> secretUUID [
 	"This value can be used for obfuscating an information before sending it.
-	See #obfuscate: method."
+	See #obfuscate: method.
+	Before calling #secretUUID method, you should call #ensure."
 	^ persistedInformation at: #secretUUID
 ]

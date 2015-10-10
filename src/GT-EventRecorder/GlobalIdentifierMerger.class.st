@@ -8,6 +8,18 @@ Class {
 	#category : #'GT-EventRecorder-Identifiers'
 }
 
+{ #category : #actions }
+GlobalIdentifierMerger >> convertValues [
+	existing 
+		at: #computerUUID 
+		ifPresent: [ :aValue | existing at: #computerUUID put: aValue asString ]
+		ifAbsent: [ "ignore" ].
+	existing 
+		at: #secretUUID
+		ifPresent: [ :aValue | existing at: #secretUUID put: aValue asString ]
+		ifAbsent: [ "ignore" ].
+]
+
 { #category : #accessing }
 GlobalIdentifierMerger >> existing [
 	^ existing
@@ -35,12 +47,13 @@ GlobalIdentifierMerger >> mergeDifferentComputer [
 	"It puts all stored values into existing dictionary."
 	stored keysAndValuesDo: [ :eachKey :eachValue |
 		existing at: eachKey put: eachValue ].
+	self convertValues.
 	^ true
 ]
 
 { #category : #actions }
 GlobalIdentifierMerger >> mergeSameComputer [
-	"It add into existing dictionary items that are included in the stored dictionary,
+	"It add into existing dictionary keys that are included in the stored dictionary,
 	but are missing in the existing dictionary. Useful when a new version
 	adds new configuration values that should be saved too.
 	
@@ -50,6 +63,7 @@ GlobalIdentifierMerger >> mergeSameComputer [
 	difference ifEmpty: [ ^ false ].
 	difference do: [ :eachKey |
 		existing at: eachKey put: (stored at: eachKey) ].
+	self convertValues.
 	^ true
 ]
 
