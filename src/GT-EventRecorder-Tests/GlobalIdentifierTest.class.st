@@ -7,18 +7,26 @@ Class {
 	#instVars : [
 		'disk',
 		'preferences',
-		'identifier'
+		'identifier',
+		'persistence'
 	],
 	#category : #'GT-EventRecorder-Tests'
 }
+
+{ #category : #accessing }
+GlobalIdentifierTest >> folderName [
+	^ 'pharoPreferencesTestFolder'
+]
 
 { #category : #running }
 GlobalIdentifierTest >> setUp [
 	super setUp.
 	"disk := FileSystem memory."
-	preferences := FileLocator workingDirectory / self testFolderName / 'pharoX' / 'preferences.fuel'.
+	preferences := FileLocator workingDirectory / self folderName / 'pharoX' / 'preferences.fuel'.
 	preferences ensureDelete.
-	identifier := GlobalIdentifier basicNew initialize preferences: preferences; yourself.
+	persistence := GlobalIdentifierPersistence fuel.
+	persistence preferences: preferences.
+	identifier := GlobalIdentifier basicNew initialize persistenceStrategy: persistence; yourself.
 ]
 
 { #category : #running }
@@ -26,7 +34,7 @@ GlobalIdentifierTest >> tearDown [
 	super tearDown.
 	"disk := FileSystem memory."
 	preferences ensureDelete.
-	(FileLocator workingDirectory / self testFolderName) 
+	(FileLocator workingDirectory / self folderName) 
 		ensureDeleteAllChildren; 
 		ensureDelete.
 ]
@@ -36,7 +44,7 @@ GlobalIdentifierTest >> testComputerUUID [
 	"The computer UUID is not stored immediately because the Pharo Integration Server
 	raised building errors when storing the computer UUID on the CI server."
 	self assert: identifier computerUUID notNil.
-	self assert: (identifier computerUUID isKindOf: UUID).
+	self assert: identifier computerUUID isString.
 	self testDefault.
 ]
 
@@ -47,35 +55,12 @@ GlobalIdentifierTest >> testDefault [
 ]
 
 { #category : #tests }
-GlobalIdentifierTest >> testDeletePreferences [
-	preferences parent ensureCreateDirectory.
-	preferences ensureCreateFile.
-	self assert: preferences exists.
-	identifier deletePreferences.
-	self deny: preferences exists.
-	
-]
-
-{ #category : #tests }
 GlobalIdentifierTest >> testEnsureComputerUUID [
 	"The computer UUID is not stored immediately because the Pharo Integration Server
 	raised building errors when storing the computer UUID on the CI server."
 	| stored |
 	identifier ensureComputerUUID.
 	self assert: preferences exists description: 'The preferences should be stored now.'.
-	stored := identifier newInstanceFromPreferences.
-	self assert: stored persistedInformation equals: identifier persistedInformation.
-]
-
-{ #category : #tests }
-GlobalIdentifierTest >> testEnsureCreateDirectory [
-	identifier ensurePreferencesDirectory.
-	self assert: preferences parent exists.
-	self deny: preferences exists.
-	
-]
-
-{ #category : #accessing }
-GlobalIdentifierTest >> testFolderName [
-	^ 'pharoPreferencesTestFolder'
+	stored := persistence load.
+	self assert: stored equals: identifier persistedInformation.
 ]
