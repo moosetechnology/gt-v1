@@ -35,7 +35,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'GT-EventRecorder-Privacy'
+	#category : #'GT-EventRecorder-Identifiers'
 }
 
 { #category : #cleanup }
@@ -71,8 +71,9 @@ GlobalIdentifier >> computerUUID [
 ]
 
 { #category : #'load and saving' }
-GlobalIdentifier >> ensureComputerUUID [
-	self loadPreferences
+GlobalIdentifier >> ensure [
+	"By loading stored values we ensure, that we use right values."
+	self load
 ]
 
 { #category : #initialization }
@@ -85,7 +86,7 @@ GlobalIdentifier >> initialize [
 ]
 
 { #category : #'load and saving' }
-GlobalIdentifier >> loadPreferences [
+GlobalIdentifier >> load [
 	self persistenceStrategy load: self persistedInformation
 ]
 

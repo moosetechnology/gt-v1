@@ -1,7 +1,7 @@
 Class {
 	#name : #GlobalIdentifierStonPersistence,
 	#superclass : #GlobalIdentifierPersistence,
-	#category : #'GT-EventRecorder-Privacy'
+	#category : #'GT-EventRecorder-Identifiers'
 }
 
 { #category : #initialization }

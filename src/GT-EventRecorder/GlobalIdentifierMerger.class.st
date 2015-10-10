@@ -5,7 +5,7 @@ Class {
 		'existing',
 		'stored'
 	],
-	#category : #'GT-EventRecorder-Privacy'
+	#category : #'GT-EventRecorder-Identifiers'
 }
 
 { #category : #accessing }

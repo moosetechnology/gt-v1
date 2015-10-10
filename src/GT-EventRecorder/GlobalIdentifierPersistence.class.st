@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'preferences'
 	],
-	#category : #'GT-EventRecorder-Privacy'
+	#category : #'GT-EventRecorder-Identifiers'
 }
 
 { #category : #'as yet unclassified' }
