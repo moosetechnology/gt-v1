@@ -72,8 +72,7 @@ GlobalIdentifier >> computerUUID [
 
 { #category : #'load and saving' }
 GlobalIdentifier >> ensure [
-	"By loading stored values we ensure, that we use right values."
-	self load
+	self persistenceStrategy load: self persistedInformation
 ]
 
 { #category : #initialization }
@@ -84,11 +83,6 @@ GlobalIdentifier >> initialize [
 	persistedInformation at: #computerUUID put: UUID new asString.
 	persistedInformation at: #secretUUID put: UUID new asString.
 	persistenceStrategy := GlobalIdentifierPersistence ston.
-]
-
-{ #category : #'load and saving' }
-GlobalIdentifier >> load [
-	self persistenceStrategy load: self persistedInformation
 ]
 
 { #category : #actions }
@@ -111,11 +105,6 @@ GlobalIdentifier >> persistenceStrategy [
 { #category : #accessing }
 GlobalIdentifier >> persistenceStrategy: anObject [
 	persistenceStrategy := anObject
-]
-
-{ #category : #'load and saving' }
-GlobalIdentifier >> save [
-	self persistenceStrategy save: persistedInformation.
 ]
 
 { #category : #accessing }
