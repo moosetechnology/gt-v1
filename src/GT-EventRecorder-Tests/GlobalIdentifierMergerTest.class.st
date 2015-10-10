@@ -59,7 +59,7 @@ GlobalIdentifierMergerTest >> testMerge3 [
 ]
 
 { #category : #tests }
-GlobalIdentifierMergerTest >> testMerger4 [
+GlobalIdentifierMergerTest >> testMerge4 [
 	"Existing has different computer id as stored."
 	existing at: #computerUUID put: 42.
 	existing at: #a put: 43.
@@ -71,7 +71,7 @@ GlobalIdentifierMergerTest >> testMerger4 [
 	self deny: existing = stored.
 	self assert: existing size equals: 4.
 	self assert: stored size equals: 3.
-	self assert: (existing at: #computerUUID) equals: 21.
+	self assert: (existing at: #computerUUID) equals: 21 asString.
 	self assert: (existing at: #a) equals: 43.
 	self assert: (existing at: #b) equals: 22.
 	self assert: (existing at: #c) equals: 23.
@@ -79,7 +79,7 @@ GlobalIdentifierMergerTest >> testMerger4 [
 ]
 
 { #category : #tests }
-GlobalIdentifierMergerTest >> testMerger5 [
+GlobalIdentifierMergerTest >> testMerge5 [
 	"Existing has different computer id as stored."
 	existing at: #computerUUID put: 42.
 	existing at: #a put: 43.
@@ -90,7 +90,7 @@ GlobalIdentifierMergerTest >> testMerger5 [
 	self deny: existing = stored.
 	self assert: existing size equals: 4.
 	self assert: stored size equals: 2.
-	self assert: (existing at: #computerUUID) equals: 42.
+	self assert: (existing at: #computerUUID) equals: 42 asString.
 	self assert: (existing at: #a) equals: 43.
 	self assert: (existing at: #b) equals: 22.
 	self assert: (existing at: #c) equals: 44.
@@ -98,7 +98,7 @@ GlobalIdentifierMergerTest >> testMerger5 [
 ]
 
 { #category : #tests }
-GlobalIdentifierMergerTest >> testMerger6 [
+GlobalIdentifierMergerTest >> testMerge6 [
 	"Existing has different computer id as stored."
 	existing at: #a put: 43.
 	existing at: #c put: 44.
@@ -109,9 +109,29 @@ GlobalIdentifierMergerTest >> testMerger6 [
 	self deny: existing = stored.
 	self assert: existing size equals: 4.
 	self assert: stored size equals: 3.
-	self assert: (existing at: #computerUUID) equals: 21.
+	self assert: (existing at: #computerUUID) equals: 21 asString.
 	self assert: (existing at: #a) equals: 43.
 	self assert: (existing at: #b) equals: 22.
 	self assert: (existing at: #c) equals: 23.
 
+]
+
+{ #category : #tests }
+GlobalIdentifierMergerTest >> testMerge7 [
+	"Ensure that it converts computerUUID into string."
+	stored at: #computerUUID put: UUID new.
+	self assert: merger merge.
+	self deny: existing = stored.
+	self assert: (existing at: #computerUUID) equals: (stored at: #computerUUID) asString.
+	
+]
+
+{ #category : #tests }
+GlobalIdentifierMergerTest >> testMerge8 [
+	"Ensure that it converts secretUUID into string."
+	stored at: #secretUUID put: UUID new.
+	self assert: merger merge.
+	self deny: existing = stored.
+	self assert: (existing at: #secretUUID) equals: (stored at: #secretUUID) asString.
+	
 ]

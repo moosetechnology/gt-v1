@@ -17,6 +17,11 @@ GlobalIdentifierPersistenceTest class >> isAbstract [
 ]
 
 { #category : #accessing }
+GlobalIdentifierPersistenceTest >> folderName [
+	^ 'pharoPreferencesTestFolder'
+]
+
+{ #category : #accessing }
 GlobalIdentifierPersistenceTest >> persistenceClass [
 	^ self subclassResponsibility
 ]

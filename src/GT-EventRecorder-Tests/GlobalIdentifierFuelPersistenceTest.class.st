@@ -8,11 +8,6 @@ Class {
 }
 
 { #category : #accessing }
-GlobalIdentifierFuelPersistenceTest >> folderName [
-	^ 'pharoPreferencesTestFolder'
-]
-
-{ #category : #accessing }
 GlobalIdentifierFuelPersistenceTest >> persistenceClass [
 	^ GlobalIdentifierFuelPersistence
 ]
