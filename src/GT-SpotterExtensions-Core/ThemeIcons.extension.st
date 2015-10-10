@@ -1,7 +1,7 @@
-Extension { #name : #ThemeIconPack }
+Extension { #name : #ThemeIcons }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-ThemeIconPack classSide >> gtExampleThemeIcons [
+ThemeIcons class >> gtExampleThemeIcons [
 	<gtExample>
 	<label: 'Icon Theme'>
 	^ Smalltalk ui icons
