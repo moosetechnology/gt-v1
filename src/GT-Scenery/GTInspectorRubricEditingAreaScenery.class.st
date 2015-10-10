@@ -25,16 +25,17 @@ GTInspectorRubricEditingAreaScenery >> setUp [
 area openInWindow width: 400.
 area ') .
 	GTSnippets reset.
-	GTSnippets snippetAt: #RubEditingArea asClass put: 'view := ROMondrianViewBuilder new.
+	GTSnippets snippetAt: #RubEditingArea asClass put: 'view := RTMondrian new.
 self textArea
-     withDeep: [ :each |
-          (each class withAllSuperclasses) flatCollect: [ :cls |
-		(cls instVarNames collect: [ :iv | each instVarNamed: iv ])
-                         select: [ :obj | obj class name beginsWith: ''Rub'' ] ] ]
-     do: [ :each |
-          view shape label text: [:x | (x asString removePrefix: ''a '') removePrefix: ''Rub''].
-          view node: each ]
-     relationDo: [ :from :to | view edges: {from->to} from: from to: to ].
-view layout: RTHorizontalTreeLayout new.
+	withDeep: [ :each |
+			each allInstVars select: [ :obj | obj class name beginsWith: ''Rub'' ] ]
+	do: [ :each |
+			view shape label text: [:x | x class name].
+			view node: each ]
+	relationDo: [ :from :to | 
+		view shape line color: (Color gray alpha: 0.3).
+		view edges fromAssociations: {from->to} ].
+view view edges do: #pushBack.
+view layout tree.
 view'
 ]
