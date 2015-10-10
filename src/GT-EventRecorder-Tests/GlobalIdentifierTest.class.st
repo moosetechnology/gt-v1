@@ -14,6 +14,11 @@ Class {
 }
 
 { #category : #accessing }
+GlobalIdentifierTest >> fileName [
+	^ identifier persistenceStrategy fileName
+]
+
+{ #category : #accessing }
 GlobalIdentifierTest >> folderName [
 	^ 'pharoPreferencesTestFolder'
 ]
@@ -21,12 +26,15 @@ GlobalIdentifierTest >> folderName [
 { #category : #running }
 GlobalIdentifierTest >> setUp [
 	super setUp.
-	"disk := FileSystem memory."
-	preferences := FileLocator workingDirectory / self folderName / 'pharoX' / 'preferences.fuel'.
+	identifier := GlobalIdentifier basicNew initialize.
+	preferences := FileLocator workingDirectory / self folderName / 'pharoX' / self fileName.
 	preferences ensureDelete.
-	persistence := GlobalIdentifierPersistence fuel.
-	persistence preferences: preferences.
-	identifier := GlobalIdentifier basicNew initialize persistenceStrategy: persistence; yourself.
+	self setUpPersistenceStrategy
+]
+
+{ #category : #running }
+GlobalIdentifierTest >> setUpPersistenceStrategy [
+	identifier persistenceStrategy preferences: preferences
 ]
 
 { #category : #running }
@@ -61,6 +69,6 @@ GlobalIdentifierTest >> testEnsure [
 	| stored |
 	identifier ensure.
 	self assert: preferences exists description: 'The preferences should be stored now.'.
-	stored := persistence load.
+	stored := identifier persistenceStrategy load.
 	self assert: stored equals: identifier persistedInformation.
 ]
