@@ -150,6 +150,16 @@ GTEventAnnouncement >> latestUpdate: anObject [
 ]
 
 { #category : #accessing }
+GTEventAnnouncement >> serializedBy [
+	^ self dictionary at: #serializedBy ifAbsent: [ GTFuelPacking name ]
+]
+
+{ #category : #accessing }
+GTEventAnnouncement >> serializedBy: anObject [
+	self at: #serializedBy put: anObject
+]
+
+{ #category : #accessing }
 GTEventAnnouncement >> sessionCreationTime [
 	^ self at: #sessionCreationTime
 ]
@@ -181,5 +191,5 @@ GTEventAnnouncement >> timestamp: anObject [
 
 { #category : #accessing }
 GTEventAnnouncement >> unpackedData [
-	^ self data ifNotNil: [ :aData | GTEventPacking new materialize: aData ]
+	^ self data ifNotNil: [ :aData | 	self serializedBy asClass new materialize: aData ]
 ]
