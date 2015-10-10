@@ -29,7 +29,7 @@ Class {
 	#name : #GlobalIdentifier,
 	#superclass : #Object,
 	#instVars : [
-		'preferences',
+		'persistenceStrategy',
 		'persistedInformation'
 	],
 	#classInstVars : [
@@ -51,11 +51,6 @@ GlobalIdentifier class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #'instance creation' }
-GlobalIdentifier class >> persistedInformation: aDictionary [ 
-	^ self basicNew initialize persistedInformation: aDictionary; yourself
-]
-
 { #category : #'initialize-release' }
 GlobalIdentifier class >> reset [
 	"self reset"
@@ -71,14 +66,8 @@ GlobalIdentifier class >> uniqueInstance [
 
 { #category : #accessing }
 GlobalIdentifier >> computerUUID [
+	"This value identifies a user logged into the computer."
 	^ persistedInformation at: #computerUUID
-]
-
-{ #category : #'load and saving' }
-GlobalIdentifier >> deletePreferences [
-	"self deletePreferences"
-	[ self preferences ensureDelete ]
-	on: Error do: [ "ignore" ]
 ]
 
 { #category : #'load and saving' }
@@ -86,51 +75,25 @@ GlobalIdentifier >> ensureComputerUUID [
 	self loadPreferences
 ]
 
-{ #category : #'load and saving' }
-GlobalIdentifier >> ensurePreferencesDirectory [
-	self preferences parent ensureCreateDirectory 
-]
-
-{ #category : #accessing }
-GlobalIdentifier >> hashForText: aString [
-	^ aString hash bitXor: self secretUUID hash
-]
-
 { #category : #initialization }
 GlobalIdentifier >> initialize [
 	super initialize.
 	"Dictionary contains all the values that we want to persist on disk."
 	persistedInformation := Dictionary new.
-	persistedInformation at: #computerUUID put: UUID new.
-	self secretUUID: UUID new.
+	persistedInformation at: #computerUUID put: UUID new asString.
+	persistedInformation at: #secretUUID put: UUID new asString.
 ]
 
 { #category : #'load and saving' }
 GlobalIdentifier >> loadPreferences [
-	"self uniqueInstance loadPreferences"
-	self preferences exists ifFalse: [ 
-		"This is a new computer, so we define new computer UUID.
-		User still has to agree about sending data if it is not has been done yet."
-		^ self savePreferences ].
-	[ | newInstance |
-		newInstance := self newInstanceFromPreferences.
-		"If UUIDs are different, it is likely different user and we should use
-		localy stored settings. If the UUIDs are same, we keep settings of the image."
-		newInstance computerUUID = self computerUUID
-			ifTrue: [ self secretUUID: newInstance secretUUID ]
-			ifFalse: [ persistedInformation := newInstance persistedInformation ].
-		self saveMissingAttributes: newInstance persistedInformation.
-	] on: Error do: [ 
-		"Preferences likely contains a different settings version, so we store the actual one.
-		We should keep the preferences as stable as possible."
-		self savePreferences ]
+	self persistenceStrategy load: self persistedInformation
 ]
 
-{ #category : #'instance creation' }
-GlobalIdentifier >> newInstanceFromPreferences [
-	| loadedDictionary |
-	loadedDictionary := FLMaterializer materializeFromFileNamed: self preferences.
-	^ self class persistedInformation: loadedDictionary.
+{ #category : #actions }
+GlobalIdentifier >> obfuscate: anObject [
+	"If you have an information that you want to obfuscate before sending,
+	this is likely a good solution for you."
+	^ anObject hash bitXor: self secretUUID hash
 ]
 
 { #category : #accessing }
@@ -139,57 +102,23 @@ GlobalIdentifier >> persistedInformation [
 ]
 
 { #category : #accessing }
-GlobalIdentifier >> persistedInformation: anObject [
-	persistedInformation := anObject
+GlobalIdentifier >> persistenceStrategy [
+	^ persistenceStrategy
 ]
 
 { #category : #accessing }
-GlobalIdentifier >> preferences [
-	"It is lazy initialized for the purpose of test cases."
-	^ preferences ifNil: [ preferences := FileLocator preferences / 'org.pharo.gt.spotter.event.recorder.fuel' ]
-]
-
-{ #category : #accessing }
-GlobalIdentifier >> preferences: aFileReference [
-	"Set a preferences file. For testing purpose only."
-	preferences := aFileReference 
-]
-
-{ #category : #'load and saving' }
-GlobalIdentifier >> saveMissingAttributes: aDictionary [
-	"It saves to the disk items that are included in the dictionary instance variable,
-	but are missing in aDictionary. Useful when a new version of this class
-	adds new configuration values that should be saved too."
-	| difference |
-	difference := aDictionary keys difference: persistedInformation keys.
-	difference ifEmpty: [ ^ self ].
-	difference do: [ :eachKey |
-		persistedInformation at: eachKey put: (aDictionary at: eachKey) ].
-	self savePreferences.
+GlobalIdentifier >> persistenceStrategy: anObject [
+	persistenceStrategy := anObject
 ]
 
 { #category : #'load and saving' }
 GlobalIdentifier >> savePreferences [
-	"self savePreferences"
-	self savePreferences: persistedInformation.
-]
-
-{ #category : #'load and saving' }
-GlobalIdentifier >> savePreferences: aDictionary [
-	self deletePreferences.
-	self ensurePreferencesDirectory.
-	self preferences writeStreamDo: [ :aPreferenceStream |
-		aPreferenceStream binary.
-		[ FLSerializer serialize: aDictionary on: aPreferenceStream ]
-			on: Error do: [ :anError | "ignore" ] ]
+	self persistenceStrategy save: persistedInformation.
 ]
 
 { #category : #accessing }
 GlobalIdentifier >> secretUUID [
+	"This value can be used for obfuscating an information before sending it.
+	See #obfuscate: method."
 	^ persistedInformation at: #secretUUID
-]
-
-{ #category : #accessing }
-GlobalIdentifier >> secretUUID: anUUID [
-	^ persistedInformation at: #secretUUID put: anUUID
 ]
