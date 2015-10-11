@@ -30,6 +30,11 @@ GTEventCollectorTest >> testBundle2 [
 ]
 
 { #category : #tests }
+GTEventCollectorTest >> testPrintOn [
+	self assert: (String streamContents: [ :stream | collector printOn: stream ]) notEmpty.
+]
+
+{ #category : #tests }
 GTEventCollectorTest >> testUrl [
 	self assert: collector url notNil.
 	self assert: collector url equals: GTEventRecorderSettings url.
