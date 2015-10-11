@@ -28,12 +28,12 @@ GTEventDelivery >> add: packByteArray [
 
 { #category : #announce }
 GTEventDelivery >> announceSuspendingDelivery [
-	self announcer announce: GTEventSuspendingDeliveryAnnouncement
+	self announcer ifNotNil: [ :anAnnoucner | anAnnoucner announce: GTEventSuspendingDeliveryAnnouncement ]
 ]
 
 { #category : #accessing }
 GTEventDelivery >> announcer [
-	^ self recorder announcer
+	^ self recorder ifNotNil: #announcer
 ]
 
 { #category : #deactivation }
@@ -150,7 +150,7 @@ GTEventDelivery >> printOn: aStream [
 				ifNotNil: [ :aDelay |
 					aStream
 						nextPutAll: ', next cycle in ';
-						print: (aDelay millisecondsToGo milliseconds roundTo: 1 second);
+						print: (aDelay millisecondsToGo milliSeconds roundTo: 1 second);
 						nextPutAll: ' sec' ] ]
 		ifFalse: [ 
 			aStream nextPutAll: ', inactive' ].
