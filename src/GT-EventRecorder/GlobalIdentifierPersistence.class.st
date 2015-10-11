@@ -5,7 +5,7 @@ Class {
 		'preferences',
 		'previousPersistence'
 	],
-	#category : #'GT-EventRecorder-Identifiers'
+	#category : #'GT-EventRecorder-Identifier'
 }
 
 { #category : #'instance creation' }

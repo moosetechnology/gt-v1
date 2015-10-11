@@ -33,7 +33,7 @@ GTEventCollector >> initialize [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 GTEventCollector >> printOn: aStream [
 	super printOn: aStream.
 	aStream

@@ -5,7 +5,7 @@ Class {
 		'existing',
 		'stored'
 	],
-	#category : #'GT-EventRecorder-Identifiers'
+	#category : #'GT-EventRecorder-Identifier'
 }
 
 { #category : #actions }
