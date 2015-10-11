@@ -13,7 +13,7 @@ Class {
 		'semaphore',
 		'receiverSemaphore'
 	],
-	#category : #'GT-EventRecorder-Tests'
+	#category : #'GT-EventRecorder-Tests-Core'
 }
 
 { #category : #asserting }

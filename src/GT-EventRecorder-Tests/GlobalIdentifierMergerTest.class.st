@@ -9,7 +9,7 @@ Class {
 		'stored',
 		'merger'
 	],
-	#category : #'GT-EventRecorder-Tests'
+	#category : #'GT-EventRecorder-Tests-Identifier'
 }
 
 { #category : #running }

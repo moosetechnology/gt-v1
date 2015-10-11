@@ -1,7 +1,7 @@
 Class {
 	#name : #GlobalIdentifierWithFuel,
 	#superclass : #GlobalIdentifierTest,
-	#category : #'GT-EventRecorder-Tests'
+	#category : #'GT-EventRecorder-Tests-Identifier'
 }
 
 { #category : #accessing }

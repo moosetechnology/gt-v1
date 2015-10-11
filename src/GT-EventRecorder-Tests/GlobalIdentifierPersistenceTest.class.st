@@ -8,7 +8,7 @@ Class {
 		'preferences',
 		'persistence'
 	],
-	#category : #'GT-EventRecorder-Tests'
+	#category : #'GT-EventRecorder-Tests-Identifier'
 }
 
 { #category : #testing }

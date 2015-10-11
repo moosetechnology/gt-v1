@@ -1,7 +1,7 @@
 Class {
 	#name : #GTStonPackingTest,
 	#superclass : #GTEventPackingTest,
-	#category : #'GT-EventRecorder-Tests'
+	#category : #'GT-EventRecorder-Tests-Core'
 }
 
 { #category : #accessing }

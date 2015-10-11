@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'packing'
 	],
-	#category : #'GT-EventRecorder-Tests'
+	#category : #'GT-EventRecorder-Tests-Core'
 }
 
 { #category : #testing }
