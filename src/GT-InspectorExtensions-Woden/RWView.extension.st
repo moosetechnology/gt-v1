@@ -12,7 +12,7 @@ RWView >> gtInspectorViewIn: composite [
 			 ].
 			"self @ RWMouseKeyControl" ];
 		display: [
-			(RWViewWindow new view: self ) window
+			(RWViewWindow new view: self) morphicWindow
 			]
 
 ]
