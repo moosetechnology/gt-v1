@@ -47,9 +47,13 @@ GTEventCollectors >> printOn: aStream [
 	aStream
 		space;
 		nextPut: $[;
-		nextPutAll: (self size pluralize: 'collector');
+		print: self size;
+		space;
+		nextPutAll: ('collector' asPluralBasedOn: self size);
 		nextPutAll: ', ';
-		nextPutAll: (self numberOfEvents pluralize: 'event');
+		print: self numberOfEvents;
+		space;
+		nextPutAll: ('event' asPluralBasedOn: self numberOfEvents);
 		nextPut: $]
 ]
 

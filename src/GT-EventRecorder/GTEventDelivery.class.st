@@ -140,7 +140,9 @@ GTEventDelivery >> printOn: aStream [
 	aStream
 		space;
 		nextPut: $[;
-		nextPutAll: (queue size pluralize: 'item').
+		print: queue size;
+		space;
+		nextPutAll: ('item' asPluralBasedOn: queue size).
 	self isActive
 		ifTrue: [ 
 			delay 
