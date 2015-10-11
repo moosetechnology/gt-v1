@@ -23,6 +23,12 @@ Class {
 	#category : #'GT-EventRecorder-Privacy'
 }
 
+{ #category : #cleanup }
+Privacy class >> cleanUp [
+	"Clean settings."
+	sendDiagnosticsAndUsageData := nil.
+]
+
 { #category : #settings }
 Privacy class >> privacySettingsOn: aBuilder [
 	<systemsettings>

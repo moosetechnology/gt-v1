@@ -5,8 +5,36 @@ Class {
 		'url',
 		'recordedEvents'
 	],
+	#classInstVars : [
+		'uniqueInstance'
+	],
 	#category : #'GT-EventRecorder-Core'
 }
+
+{ #category : #cleanup }
+GTEventCollector class >> cleanUp [
+	self reset.
+]
+
+{ #category : #initialization }
+GTEventCollector class >> initializeUniqueInstance [
+	uniqueInstance ifNotNil: [ self reset ].
+	uniqueInstance := self new.
+	GTEventRecorder uniqueInstance addCollector: uniqueInstance
+]
+
+{ #category : #accessing }
+GTEventCollector class >> reset [
+	uniqueInstance ifNil: [ ^ self ].
+	GTEventRecorder uniqueInstance removeCollector: uniqueInstance.
+	uniqueInstance := nil.
+]
+
+{ #category : #accessing }
+GTEventCollector class >> uniqueInstance [
+	uniqueInstance ifNil: [ self initializeUniqueInstance ].
+	^ uniqueInstance
+]
 
 { #category : #adding }
 GTEventCollector >> add: anEvent [ 
@@ -15,10 +43,13 @@ GTEventCollector >> add: anEvent [
 
 { #category : #accessing }
 GTEventCollector >> bundle [
-	| bundle |
-	bundle := OrderedCollection new.
-	recordedEvents flush: [ :eachEvent | bundle addLast: eachEvent ].
-	^ bundle
+	^ self bundle: OrderedCollection new.
+]
+
+{ #category : #accessing }
+GTEventCollector >> bundle: aCollection [
+	recordedEvents flush: [ :eachEvent | aCollection addLast: eachEvent ].
+	^ aCollection
 ]
 
 { #category : #accessing }
@@ -50,7 +81,7 @@ GTEventCollector >> size [
 
 { #category : #accessing }
 GTEventCollector >> url [
-	^ url
+	^ url ifNil: [ url := GTEventRecorderSettings url ]
 ]
 
 { #category : #accessing }

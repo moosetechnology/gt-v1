@@ -44,6 +44,12 @@ GlobalIdentifier class >> cleanUp [
 	self reset.
 ]
 
+{ #category : #initialization }
+GlobalIdentifier class >> initializeUniqueInstance [
+	uniqueInstance := self basicNew initialize.
+	uniqueInstance ensure.
+]
+
 { #category : #'instance creation' }
 GlobalIdentifier class >> new [
 	"Users should not create instances of this class.
@@ -60,8 +66,8 @@ GlobalIdentifier class >> reset [
 { #category : #accessing }
 GlobalIdentifier class >> uniqueInstance [
 	"self uniqueInstance"
-	^ uniqueInstance ifNil: [ 
-			uniqueInstance := self basicNew initialize ].
+	uniqueInstance ifNil: [ self initializeUniqueInstance ].
+	^ uniqueInstance
 ]
 
 { #category : #accessing }

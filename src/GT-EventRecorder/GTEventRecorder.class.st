@@ -8,8 +8,37 @@ Class {
 		'privacy',
 		'announcer'
 	],
+	#classInstVars : [
+		'uniqueInstance'
+	],
 	#category : #'GT-EventRecorder-Core'
 }
+
+{ #category : #cleanup }
+GTEventRecorder class >> cleanUp [
+	self reset.
+]
+
+{ #category : #testing }
+GTEventRecorder class >> isGlobalRecorder: aGTEventRecorder [
+	^ uniqueInstance 
+			ifNil: false
+			ifNotNil: [ :anInstance | anInstance == aGTEventRecorder  ]
+]
+
+{ #category : #accessing }
+GTEventRecorder class >> reset [
+	"Stop and remove the process for sending usage data. Delete all recorder that from the queue."
+	uniqueInstance ifNil: [ ^ self ].
+	uniqueInstance deactivateDelivery ifNotNil: [ :aProcess | 
+			[ aProcess terminate ] on: Error do: [ "ignore error" ] ].
+	uniqueInstance := nil.
+]
+
+{ #category : #accessing }
+GTEventRecorder class >> uniqueInstance [
+	^ uniqueInstance ifNil: [ uniqueInstance := self new ].
+]
 
 { #category : #delivery }
 GTEventRecorder >> activateDelivery [
@@ -76,6 +105,11 @@ GTEventRecorder >> isDeliveryActive [
 	^ delivery isActive
 ]
 
+{ #category : #testing }
+GTEventRecorder >> isGlobalRecorder [
+	^ self class isGlobalRecorder: self
+]
+
 { #category : #convenient }
 GTEventRecorder >> numberOfCollectors [
 	^ collectors size
@@ -98,6 +132,14 @@ GTEventRecorder >> pack [
 	collectors do: [ :eachCollector | | bundle |
 		bundle := packing pack: eachCollector.
 		bundle data ifNotEmpty: [ delivery add: bundle ] ].
+]
+
+{ #category : #removing }
+GTEventRecorder >> removeCollector: aGTEventCollector [ 
+	| removedCollector |
+	removedCollector := collectors remove: aGTEventCollector.
+	collectors size = 0 ifTrue: [ self deactivateDelivery ].
+	^ removedCollector
 ]
 
 { #category : #configuration }

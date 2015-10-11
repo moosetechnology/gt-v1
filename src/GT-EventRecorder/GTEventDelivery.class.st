@@ -93,12 +93,19 @@ GTEventDelivery >> initialize [
 GTEventDelivery >> initializeProcess [
 	process := [ [ self hasPermission ] whileTrue: [ self deliveryCycle ] ]
 		forkAt: Processor userBackgroundPriority
-		named: self className , ' regular delivery process'
+		named: self printProcessName
 ]
 
 { #category : #testing }
 GTEventDelivery >> isActive [
 	^ self isInactive not
+]
+
+{ #category : #testing }
+GTEventDelivery >> isGlobalRecorder [
+	^ self recorder 
+			ifNil: false
+			ifNotNil: #isGlobalRecorder
 ]
 
 { #category : #testing }
@@ -147,6 +154,22 @@ GTEventDelivery >> printOn: aStream [
 			aStream nextPutAll: ', inactive' ].
 	aStream		
 		nextPut: $]
+]
+
+{ #category : #printing }
+GTEventDelivery >> printProcessName [
+	^ String streamContents: [ :aStream |
+		self printProcessNameOn: aStream ]
+]
+
+{ #category : #printing }
+GTEventDelivery >> printProcessNameOn: aStream [
+	aStream
+		nextPutAll: self className.
+	self isGlobalRecorder
+		ifTrue: [ aStream nextPutAll: ' global ' ]
+		ifFalse: [ aStream nextPutAll: ' a ' ].
+	aStream nextPutAll: 'delivery process'
 ]
 
 { #category : #accessing }

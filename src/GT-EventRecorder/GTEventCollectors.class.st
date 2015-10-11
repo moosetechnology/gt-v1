@@ -13,12 +13,12 @@ GTEventCollectors >> add: aGTEventCollector [
 	^ mutex critical: [ collectors addLast: aGTEventCollector ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #enumerating }
 GTEventCollectors >> do: oneArgBlock [
 	mutex critical: [ collectors do: oneArgBlock ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'gt-inspector-extension' }
 GTEventCollectors >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	^ collectors ifNotNil: [ 
@@ -33,12 +33,15 @@ GTEventCollectors >> initialize [
 	collectors := OrderedCollection new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTEventCollectors >> numberOfEvents [
-	^ mutex critical: [ collectors sum: #size ]
+	^ mutex critical: [ 
+		collectors 
+			ifEmpty: 0
+			ifNotEmpty: [ collectors sum: #size ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 GTEventCollectors >> printOn: aStream [
 	super printOn: aStream.
 	aStream
@@ -48,6 +51,11 @@ GTEventCollectors >> printOn: aStream [
 		nextPutAll: ', ';
 		nextPutAll: (self numberOfEvents pluralize: 'event');
 		nextPut: $]
+]
+
+{ #category : #removing }
+GTEventCollectors >> remove: aGTEventCollector [ 
+	^ mutex critical: [ collectors remove: aGTEventCollector ifAbsent: nil ]
 ]
 
 { #category : #accessing }

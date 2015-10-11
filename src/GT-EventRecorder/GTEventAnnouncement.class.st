@@ -17,8 +17,6 @@ GTEventAnnouncement class >> gtExampleAnnouncement [
 			sessionCreationTime: SmalltalkImage current session creationTime;
 			imageVersion: SystemVersion current version;
 			latestUpdate: SystemVersion current highestUpdate;
-			computerUUID: GTSpotterEventRecorderSettings uniqueInstance computerUUID asString;
-			eventRecorderVersion: GTSpotterEventRecorder version;
 			yourself
 ]
 
