@@ -109,8 +109,8 @@ GTSpotterPrivacyAgreementNotificationBrick >> privacyMessage [
 { #category : #preferences }
 GTSpotterPrivacyAgreementNotificationBrick >> sendUsageData [
 	| settingsClass |
-	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
-	^ settingsClass sendUsageData
+	settingsClass := #Privacy asClassIfAbsent: [ ^ false ].
+	^ settingsClass sendDiagnosticsAndUsageData
 ]
 
 { #category : #preferences }
