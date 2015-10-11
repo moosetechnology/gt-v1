@@ -48,6 +48,7 @@ GTEventRecorderTest >> setUp [
 
 { #category : #running }
 GTEventRecorderTest >> setUpServer [
+	| subscription |
 	receivedContents := WaitfreeQueue new.
 	receiverSemaphore := Semaphore new.
 	delegate := ZnDispatcherDelegate new.
@@ -57,7 +58,14 @@ GTEventRecorderTest >> setUpServer [
 			[ :request :response | self handleRequest: request response: response ].
 	server := ZnServer on: 0.
 	server delegate: delegate.
+	server route: UUID new asString.
+	subscription := ZnLogEvent announcer 
+							when: ZnServerSocketBoundEvent 
+							do: [ :announcement | announcement serverId = server route ifTrue: [ receiverSemaphore signal ] ]
+							for: self.
 	server start.
+	self assertReceiverSemaphore.
+	ZnLogEvent announcer removeSubscription: subscription.
 	url := ZnUrl new
 		scheme: #http;
 		host: NetNameResolver loopBackName;
@@ -128,4 +136,18 @@ GTEventRecorderTest >> testPack [
 	recorder pack.
 	self assert: collector size equals: 0.
 	self assert: recorder delivery size equals: 1.
+]
+
+{ #category : #tests }
+GTEventRecorderTest >> testRemoveCollector [
+	recorder removeCollector: GTEventCollector new.
+	self assert: recorder numberOfCollectors equals: 0.
+]
+
+{ #category : #tests }
+GTEventRecorderTest >> testRemoveCollector2 [
+	recorder addCollector: collector.
+	self assert: recorder isDeliveryActive.
+	recorder removeCollector: collector.
+	self deny: recorder isDeliveryActive.
 ]
