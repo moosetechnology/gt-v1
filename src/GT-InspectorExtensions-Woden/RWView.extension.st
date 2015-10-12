@@ -2,7 +2,7 @@ Extension { #name : #RWView }
 
 { #category : #'*GT-InspectorExtensions-Woden' }
 RWView >> gtInspectorViewIn: composite [
-	<gtInspectorPresentationOrder: 100>
+	<gtInspectorPresentationOrder: -10>
 	composite morph 
 		title: 'Live';
 		initialize: [ :m |
