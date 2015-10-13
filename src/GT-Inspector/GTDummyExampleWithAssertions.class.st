@@ -23,7 +23,7 @@ GTDummyExampleWithAssertions >> b [
 
 { #category : #examples }
 GTDummyExampleWithAssertions >> c: aBoolean c: anotherBoolean [
-	"<gtExample>"
+	<gtExample>
 	<depends: #a>
 	<depends: #b>
 	self assert: aBoolean equals: anotherBoolean.
