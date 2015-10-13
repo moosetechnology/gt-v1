@@ -1,3 +1,22 @@
+"
+I represent a collection of data that should be sent to a specific URL. 
+
+I am responsible for collecting data (#add: method) and for handing collected data to GTEventPacking object (#bundle method). If convenient, someone can consider me (or any of my subclasses) as singleton. That way could be favorable to send me data from other parts of the Pharo system.
+
+I collaborate with GTEventPacking object that receives collected data and URL, serilize the collected data, and creates GTEventBundle object. My subclasses can handle differently what data to send together to server by rewritting #bundle method.
+
+Public API and Key Messages
+
+- bundle   
+- url
+ 
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	recordedEvents:		<WaitfreeQueue>
+	url:		<ZnUrl>
+
+"
 Class {
 	#name : #GTEventCollector,
 	#superclass : #Object,

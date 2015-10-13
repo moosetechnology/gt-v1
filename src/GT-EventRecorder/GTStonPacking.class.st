@@ -1,3 +1,6 @@
+"
+I serialize or materialize objects using STON framework. Create instance of me calling GTEventPacking ston.
+"
 Class {
 	#name : #GTStonPacking,
 	#superclass : #GTEventPacking,
