@@ -16,7 +16,7 @@ Public API and Key Messages
 - loadPreferences 
 - savePreferences.
 
-Before using #computerUUID, you should call #ensureComputerUUID. It will update UUID from the disk or stores existing one if it is not stored yet. I behave like this as autonatically storing data to disk on image start-up leads to errors.
+Before using #computerUUID, you should call #ensureComputerUUID. It will update UUID from the disk or stores existing one if it is not stored yet. I behave like this as automatic storing data to disk on image start-up leads to errors.
 
 Internal Representation and Key Implementation Points.
 
