@@ -35,7 +35,7 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 		on: Error
 		do: [ :exception | ^ self onDependencyError value: self value: anExample value: exception ].
 	self do: [ value := anExample method valueWithReceiver: anExample provider arguments: arguments ]
-		on: (anExample exceptions copyWithAll: { Error. TestFailure })
+		on: (anExample exceptions copyWith: Error)
 		do: [ :exception | signaledException := exception ].
 	processed add: { anExample. value. signaledException }.
 	result returnValue: value.

@@ -8,9 +8,9 @@ ExceptionSet >> copyWith: anException [
 ]
 
 { #category : #'*GT-Inspector-Examples-Core' }
-ExceptionSet >> copyWithAll: aCollection [
+ExceptionSet >> copyWithAll: anExceptionSet [
 	^ self class new 
-		instVarNamed: #exceptions put: (exceptions copyWithAll: aCollection);
+		instVarNamed: #exceptions put: (exceptions copyWithAll: (anExceptionSet instVarNamed: #exceptions));
 		yourself
 ]
 
