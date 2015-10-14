@@ -28,38 +28,29 @@ GTEventPacking class >> ston [
 	^ GTStonPacking new
 ]
 
-{ #category : #packing }
-GTEventPacking >> announcementWith: aByteArray [
-	^ GTEventAnnouncement new
-			data: aByteArray;
-			serializedBy: self class name;
-			eventRecorderVersion: self version;
-			timestamp: DateAndTime now;
-			imageHash: SmalltalkImage current imagePath hash;
-			imageVersion: SystemVersion current version;
-			latestUpdate: SystemVersion current highestUpdate;
-			computerUUID: GlobalIdentifier uniqueInstance computerUUID asString;
-			sessionUUID: SmalltalkImage current session sid;
-			sessionCreationTime: SmalltalkImage current session creationTime;
-			yourself			
-]
-
 { #category : #private }
 GTEventPacking >> materialize: aByteArray [
 	^ self subclassResponsibility
+]
+
+{ #category : #private }
+GTEventPacking >> newAnnouncementFor: aGTEventCollector [
+	^ self 
+		updateAnnouncement: aGTEventCollector newAnnouncement 
+		withData: (self serialize: aGTEventCollector bundle).
 ]
 
 { #category : #packing }
 GTEventPacking >> pack: aGTEventCollector [
 	^ GTEventBundle new
 			url: aGTEventCollector url;
-			data: (self packEvents: aGTEventCollector bundle);
+			data: (self packCollector: aGTEventCollector);
 			yourself
 ]
 
-{ #category : #packing }
-GTEventPacking >> packEvents: aCollectionOfEvents [
-	^ self serialize: (self announcementWith: (self serialize: aCollectionOfEvents))
+{ #category : #private }
+GTEventPacking >> packCollector: aGTEventCollector [
+	^ self serialize: (self newAnnouncementFor: aGTEventCollector)
 ]
 
 { #category : #private }
@@ -70,6 +61,22 @@ GTEventPacking >> serialize: anObject [
 { #category : #packing }
 GTEventPacking >> unpack: aByteArray [
 	^ self materialize: aByteArray
+]
+
+{ #category : #private }
+GTEventPacking >> updateAnnouncement: aGTEventAnnouncement withData: aByteArray [
+	^ aGTEventAnnouncement
+			data: aByteArray;
+			serializedBy: self class name;
+			eventRecorderVersion: self version;
+			timestamp: DateAndTime now;
+			imageHash: SmalltalkImage current imagePath hash;
+			imageVersion: SystemVersion current version;
+			latestUpdate: SystemVersion current highestUpdate;
+			computerUUID: GlobalIdentifier uniqueInstance computerUUID asString;
+			sessionUUID: SmalltalkImage current session sid;
+			sessionCreationTime: SmalltalkImage current session creationTime;
+			yourself
 ]
 
 { #category : #accessing }

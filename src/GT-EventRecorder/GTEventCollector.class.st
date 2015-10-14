@@ -3,12 +3,16 @@ I represent a collection of data that should be sent to a specific URL.
 
 I am responsible for collecting data (#add: method) and for handing collected data to GTEventPacking object (#bundle method). If convenient, someone can consider me (or any of my subclasses) as singleton. That way could be favorable to send me data from other parts of the Pharo system.
 
+Subclasses can overwrite #newAnnouncement method if they want to send another announcement objects and #updateAnnouncement: if they want to add extra information to delivered bundle. 
+
 I collaborate with GTEventPacking object that receives collected data and URL, serilize the collected data, and creates GTEventBundle object. My subclasses can handle differently what data to send together to server by rewritting #bundle method.
 
 Public API and Key Messages
 
 - bundle   
 - url
+- newAnnouncement 
+- updateAnnouncement: 
  
 Internal Representation and Key Implementation Points.
 
@@ -83,6 +87,16 @@ GTEventCollector >> initialize [
 
 ]
 
+{ #category : #'instance creation' }
+GTEventCollector >> newAnnouncement [
+	"Instance of this announcement is used for packing data, that are given by sending me #bundle message.
+	Other information about the delivering bundle can be agregated, e.g., version number in order to identify differences of contents."
+	| newAnnouncement |
+	newAnnouncement := GTEventAnnouncement new.
+	self updateAnnouncement: newAnnouncement.
+	^ newAnnouncement
+]
+
 { #category : #printing }
 GTEventCollector >> printOn: aStream [
 	super printOn: aStream.
@@ -98,6 +112,12 @@ GTEventCollector >> printOn: aStream [
 { #category : #accessing }
 GTEventCollector >> size [
 	^ recordedEvents size
+]
+
+{ #category : #'as yet unclassified' }
+GTEventCollector >> updateAnnouncement: aGTEventAnnouncement [ 
+	"Any particular GTEventCollector can add additional information about the delivering bundle, 
+	e.g., version number in order to identify differences of contents."
 ]
 
 { #category : #accessing }
