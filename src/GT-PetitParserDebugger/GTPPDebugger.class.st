@@ -262,7 +262,7 @@ GTPPDebugger >> sourceCodeFrom: parser inContext: aPPContext [
 { #category : #'building presentations' }
 GTPPDebugger >> sourceIn: aComposite forSession: aSession forParser: selectedParser [
 
-	aComposite smalltalkCode
+	aComposite pharoMethod
 		title: 'Source';
 		useExplicitNotNil;
 		display: [ self sourceCodeFrom: selectedParser inContext: self session stream ];
