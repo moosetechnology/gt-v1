@@ -93,7 +93,7 @@ GTBytecodeDebugger >> debuggerTransmissionsIn: browser [
 { #category : #'building presentations' }
 GTBytecodeDebugger >> decompiledCodeWidgetIn: composite forContext: aContext [
 
-	^ composite smalltalkCode
+	^ composite pharoMethod
 		title: 'Decompiled';
 		format: [ aContext method codeForNoSource ];
 		smalltalkClass: [  aContext methodClass ];
