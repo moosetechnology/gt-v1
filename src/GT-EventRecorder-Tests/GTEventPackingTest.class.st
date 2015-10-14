@@ -27,14 +27,6 @@ GTEventPackingTest >> setUp [
 ]
 
 { #category : #'tests-packing' }
-GTEventPackingTest >> testAnnouncementWith [
-	| data announcement |
-	data := #[1 2 3 4].
-	announcement := packing announcementWith: data.
-	self assert: announcement data equals: data.
-]
-
-{ #category : #'tests-packing' }
 GTEventPackingTest >> testPack [
 	| event1 event2 bundle  announcement collector unpackedData |
 	event1 := GTDummyEvent new data: 'string'.
