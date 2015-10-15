@@ -76,7 +76,8 @@ GTSpotter >> gtSpotterExamplesFor: aStep [
 		title: 'Examples';
 		allCandidates: [ GTExampleFinder allGTExamples ];
 		itemName: [ :example | example gtDisplayString ];
-		filter: GTFilterSubstring
+		filter: GTFilterSubstring;
+		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
