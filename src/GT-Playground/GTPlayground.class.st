@@ -27,6 +27,13 @@ Class {
 	#category : #'GT-Playground'
 }
 
+{ #category : #menu }
+GTPlayground class >> contextMenuBasicActionsFor: aPlayground [
+	<playgroundContextMenu>
+	
+	^ aPlayground codePresentation defaultSelectionActions 
+]
+
 { #category : #'compatibility-tools' }
 GTPlayground class >> edit: aString label: aLabel [
 
@@ -280,7 +287,7 @@ GTPlayground >> actOnBrowserClosing: ann [
 	GTPlayBook instance addPageIfInteresting: self entity
 ]
 
-{ #category : #building }
+{ #category : #'building actions' }
 GTPlayground >> actionsForPreviousContents [
 	^ GTPlayBook instance pages
 		collect: [ :each | 
@@ -308,8 +315,6 @@ GTPlayground >> codeIn: a [
 			icon: GLMUIThemeExtraIcons glamorousGo
 			on: $G
 			entitled: 'Do it all and go';
-		installGoAction;
-		installDefaultSelectionActions;
 		act: [ :text :page | page publish ]
 			icon: Smalltalk ui icons glamorousSaveToUrl
 			entitled: 'Remote publish';
@@ -325,7 +330,14 @@ GTPlayground >> codeIn: a [
 				title: 'Bindings';
 				yourself);
 		dynamicActions: [ self actionsForPreviousContents ];
+		dynamicActionsOnSelection: [ self contextMenuActions ];
 		onChangeOfPort: #text act: [ :text :page | page saveContent: text text ]
+]
+
+{ #category : #'accessing-dynamic' }
+GTPlayground >> codePresentation [
+
+	^ self inspectorPresentation firstPresentation
 ]
 
 { #category : #building }
@@ -349,10 +361,25 @@ GTPlayground >> compose [
 			self actOnBrowserClosing: ann ]
 ]
 
+{ #category : #'building actions' }
+GTPlayground >> contextMenuActions [
+	^ (Pragma 
+		allNamed: self contextMenuPragma
+		from: self class class
+		to: Object class) flatCollect: [ :eachPragma |
+			self class perform: eachPragma selector with: self ]
+]
+
+{ #category : #accessing }
+GTPlayground >> contextMenuPragma [
+
+	^ #playgroundContextMenu
+]
+
 { #category : #'accessing-dynamic' }
 GTPlayground >> currentBindings [ 
 
-	^ self inspectorPresentation firstPresentation currentBindings
+	^ self codePresentation currentBindings
 ]
 
 { #category : #'accessing-dynamic' }
