@@ -190,13 +190,11 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.1.10'.
+	spec for: #'common' version: '2.1.11'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
 	spec for: #'pharo4.x' version: '2.1.5'.
-
-	spec for: #'pharo5.x' version: '2.1.9'.
 
 ]
 
@@ -379,6 +377,22 @@ ConfigurationOfGTPlaygroundCore >> version2110: spec [
 		spec project: 'GTInspectorCore' with: '2.0.20'.
 		spec 
 			package: 'GT-Playground' with: 'GT-Playground-EstebanLorenzano.113';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version2111: spec [
+	<version: '2.1.11' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'bugfixes'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '10/15/2015 16:28'.
+		spec project: 'GTInspectorCore' with: '2.0.22'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.115';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
