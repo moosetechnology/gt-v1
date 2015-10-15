@@ -12,7 +12,7 @@ GTDummyExampleWithAssertions class >> gtExamplesProvider [
 { #category : #examples }
 GTDummyExampleWithAssertions >> a [
 	<gtExample>
-	^ false
+	^ true
 ]
 
 { #category : #examples }
