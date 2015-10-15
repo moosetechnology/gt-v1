@@ -304,13 +304,6 @@ GTExample >> gtInspectorDependentsIn: composite [
 ]
 
 { #category : #ui }
-GTExample >> gtInspectorRoassalIn: composite [
-	<gtInspectorPresentationOrder: 1>
-	self hasRelationships ifFalse: [ ^ self ].
-	^ self painter gtInspectorRoassalIn: composite
-]
-
-{ #category : #ui }
 GTExample >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ (self method gtInspectorSourceIn: composite)
@@ -532,13 +525,6 @@ GTExample >> noTest [
 { #category : #'pragma-selectors' }
 GTExample >> notTestReport [
 	self propertyAt: #notTestReport put: true
-]
-
-{ #category : #public }
-GTExample >> painter [
-	^ GTExamplePainter new 
-		example: self;
-		yourself
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }
