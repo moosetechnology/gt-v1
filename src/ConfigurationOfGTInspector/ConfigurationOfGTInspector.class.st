@@ -299,6 +299,49 @@ ConfigurationOfGTInspector >> baseline20: spec [
 
 ]
 
+{ #category : #baselines }
+ConfigurationOfGTInspector >> baseline21: spec [
+	<version: '2.1-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec description: 'Explicitly depend on roassal'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '2015-10-16'.
+		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
+		
+		spec 
+			package: 'GT-InspectorExtensions-CoreRoassal' with: [
+				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2') ].
+			
+		spec 
+			project: 'GTInspectorCore' with: [
+				spec
+					className: #ConfigurationOfGTInspectorCore;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'Glamour' with: [
+				spec
+					className: #ConfigurationOfGlamour;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];
+			project: 'Roassal2' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
+			project: 'DeepTraverser' with: [
+				spec
+					className: #ConfigurationOfDeepTraverser;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ].
+		
+		spec 
+			group: 'default' with: #('GTInspectorCore' 'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser' ) ].
+
+]
+
 { #category : #accessing }
 ConfigurationOfGTInspector >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -311,7 +354,7 @@ ConfigurationOfGTInspector >> customProjectAttributes [
 ConfigurationOfGTInspector >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '2.0-baseline'.
+	spec for: #'common' version: '2.1-baseline'.
 	spec for: #'pharo4.x' version: '2.0-baseline'.
 
 ]
