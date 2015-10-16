@@ -114,6 +114,8 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			Slot. " abstract "
 			TClass. " spotter/processor tests would be ulimatively slow "
 			ZnMessage. " abstract factory & superclass / subclasses provide examples "
+			GTEventRecorder. GTEventCollectors. "Do not instantiate an event recorder"
+			
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
