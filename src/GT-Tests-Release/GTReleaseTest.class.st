@@ -86,6 +86,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 			PPBrowserStream. " corrupt package detection "
 			ReCritic. " corrupt package detection "
 			Slot. " abstract "
+			RTAbstractExample.  " abstract factory for collecting examples "
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
@@ -110,7 +111,6 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			GTSpotterExceptionMock5. " counter-example "
 			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
-			RTAbstractExample.  " abstract factory for collecting examples "
 			Slot. " abstract "
 			TClass. " spotter/processor tests would be ulimatively slow "
 			ZnMessage. " abstract factory & superclass / subclasses provide examples "
@@ -133,7 +133,6 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 			ComposableModel. " abstract superclass "
 			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
-			RTAbstractExample.  " abstract factory for collecting examples "
 			TClass. " spotter/processor tests would be ulimatively slow "
 			ZnMessage. " abstract factory & superclass / subclasses provide examples "
 		}
