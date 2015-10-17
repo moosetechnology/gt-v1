@@ -66,6 +66,14 @@ GTSpotter class >> exampleMC [
 ]
 
 { #category : #example }
+GTSpotter class >> exampleSpotterWithoutMorph [
+	<gtExample>
+	<label: 'A GTSpotter without UI'>
+	
+	^ self new
+]
+
+{ #category : #example }
 GTSpotter class >> exampleWithPreview [
 	^ GTSpotterMorph new
 		extent: (World width / 2.5 @ (World height / 1.5)) asIntegerPoint;
