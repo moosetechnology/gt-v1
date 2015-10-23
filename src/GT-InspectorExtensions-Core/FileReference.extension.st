@@ -65,7 +65,7 @@ FileReference >> gtInspectorActionMaterializeFuel [
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 5>
-	composite rubricText
+	composite text
 			title: 'Contents';
 			display: [ 
 				self readStreamDo: [ :stream | 
