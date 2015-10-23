@@ -343,7 +343,7 @@ GTPlayground >> codePresentation [
 { #category : #building }
 GTPlayground >> codePresentationIn: composite [
 
-	^ composite pharoPlayground
+	^ composite pharoScript
 ]
 
 { #category : #building }

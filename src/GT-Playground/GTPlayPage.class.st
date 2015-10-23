@@ -148,7 +148,7 @@ GTPlayPage >> gtDisplayOn: stream [
 { #category : #ui }
 GTPlayPage >> gtInspectorContentIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	composite pharoPlayground 
+	composite pharoScript 
 		title: 'Content';
 		display: #content;
 		installDefaultSelectionActions
