@@ -77,7 +77,13 @@ FileReference >> gtInspectorContentsIn: composite [
 						ifTrue: [ result, '  ... truncated ...' ]
 						ifFalse: [ result ] ] ];
 			withLineNumbers: true;
-			when: [ self isFile ]
+			when: [ self isFile ];
+			act: [ :text |
+				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
+				icon: GLMUIThemeExtraIcons glamorousSave
+				on: $s
+				entitled: 'Save';
+			when: [ #('pillar' 'txt') includes: self extension ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
