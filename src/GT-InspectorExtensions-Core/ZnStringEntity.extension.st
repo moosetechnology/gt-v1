@@ -51,7 +51,7 @@ ZnStringEntity class >> gtExampleXml [
 { #category : #'*GT-InspectorExtensions-Core' }
 ZnStringEntity >> gtInspectorTextIn: composite [
 	<gtInspectorPresentationOrder: 30>
-	composite text
+	composite rubricText
 		title: 'Contents';
 		format: self string
 ]

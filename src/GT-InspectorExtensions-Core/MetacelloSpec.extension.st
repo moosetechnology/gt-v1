@@ -11,7 +11,7 @@ MetacelloSpec class >> gtExampleMetacelloSpec [
 { #category : #'*GT-InspectorExtensions-Core' }
 MetacelloSpec >> gtInspectorCodeIn: composite [
 	<gtInspectorPresentationOrder: 40>
-	composite pharoScript 
+	composite pharoPlayground 
 		title: 'Code';
 		display: [ 
 			String streamContents: [ :s | self configMethodOn: s indent: 0] ]
