@@ -1,3 +1,6 @@
+"
+I serialize or materialize objects using FUEL framework. Create instance of me calling GlobalIdentifierPersistence fuel.
+"
 Class {
 	#name : #GlobalIdentifierFuelPersistence,
 	#superclass : #GlobalIdentifierPersistence,
