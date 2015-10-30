@@ -4,8 +4,22 @@ I serialize or materialize objects using FUEL framework. Create instance of me c
 Class {
 	#name : #GTFuelPacking,
 	#superclass : #GTEventPacking,
+	#instVars : [
+		'migrations'
+	],
 	#category : #'GT-EventRecorder-Core'
 }
+
+{ #category : #adding }
+GTFuelPacking >> addMigration: oneArgBlock [ 
+	^ self migrations addLast: oneArgBlock
+]
+
+{ #category : #initialization }
+GTFuelPacking >> initializeMaterializer: aFLMaterializer [ 
+	migrations ifNil: [ ^ self ].
+	self migrations do: [ :eachMigration | eachMigration value: aFLMaterializer ]
+]
 
 { #category : #private }
 GTFuelPacking >> materialize: aByteArray [
@@ -13,10 +27,21 @@ GTFuelPacking >> materialize: aByteArray [
 	stream := aByteArray readStream. 
 	gzstream := GZipReadStream on: stream.
 	materializer := FLMaterializer newDefault.
+	self initializeMaterializer: materializer.
 	materialization := materializer materializeFrom: gzstream.
 	gzstream close.
 	stream close.
 	^ materialization root.
+]
+
+{ #category : #accessing }
+GTFuelPacking >> migrations [
+	^ migrations ifNil: [ migrations := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GTFuelPacking >> migrations: aCollectionOrNil [
+	migrations := aCollectionOrNil
 ]
 
 { #category : #private }

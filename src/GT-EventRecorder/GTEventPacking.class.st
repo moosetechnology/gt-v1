@@ -38,6 +38,11 @@ GTEventPacking >> materialize: aByteArray [
 	^ self subclassResponsibility
 ]
 
+{ #category : #accessing }
+GTEventPacking >> migrations: anObject [ 
+	"Ignore by default. Subclasses can overwrite it."
+]
+
 { #category : #private }
 GTEventPacking >> newAnnouncementFor: aGTEventCollector [
 	^ self 

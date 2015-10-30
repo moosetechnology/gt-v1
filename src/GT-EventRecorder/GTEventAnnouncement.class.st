@@ -148,6 +148,16 @@ GTEventAnnouncement >> latestUpdate: anObject [
 ]
 
 { #category : #accessing }
+GTEventAnnouncement >> migrationRules [
+	^ self dictionary at: #migrationRules ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTEventAnnouncement >> migrationRules: aCollectionOrNil [
+	^ self dictionary at: #migrationRules put: aCollectionOrNil
+]
+
+{ #category : #accessing }
 GTEventAnnouncement >> serializedBy [
 	^ self dictionary at: #serializedBy ifAbsent: [ GTFuelPacking name ]
 ]
@@ -189,5 +199,8 @@ GTEventAnnouncement >> timestamp: anObject [
 
 { #category : #accessing }
 GTEventAnnouncement >> unpackedData [
-	^ self data ifNotNil: [ :aData | 	self serializedBy asClass new materialize: aData ]
+	^ self data ifNotNil: [ :aData | 	
+			self serializedBy asClass new
+				migrations: self migrationRules;
+				materialize: aData ]
 ]
