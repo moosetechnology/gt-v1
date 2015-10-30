@@ -40,6 +40,12 @@ GTSpotterEventCollectorTest >> testBundle [
 	bundle withIndexDo: [ :eachEvent :index |
 		self assert: (events at: index) class = eachEvent class ].
 	"second delivery"
+	bundle := collector bundle.
+	self assert: collector postponedEvents size equals: 2.
+	7 to: 8 do: [ :index |
+		self assert: (events at: index) == (collector postponedEvents at: index - 6) ].
+	self assert: bundle isEmpty.
+	"third delivery"
 	collector add: GTSpotterRecorderExitAnnouncementEvent new.
 	bundle := collector bundle.
 	self assert: collector postponedEvents isNil.
