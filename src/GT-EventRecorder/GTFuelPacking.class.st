@@ -17,8 +17,16 @@ GTFuelPacking >> addMigration: oneArgBlock [
 
 { #category : #initialization }
 GTFuelPacking >> initializeMaterializer: aFLMaterializer [ 
-	migrations ifNil: [ ^ self ].
 	self migrations do: [ :eachMigration | eachMigration value: aFLMaterializer ]
+]
+
+{ #category : #initialization }
+GTFuelPacking >> initializeMigrations [
+	| pragmas |
+	pragmas := Pragma allNamed: #fuelMaterializerMigration in: self class.
+	migrations := pragmas 
+						collect: [ :eachPragma | self perform: eachPragma selector ] 
+						as: OrderedCollection.
 ]
 
 { #category : #private }
@@ -36,7 +44,8 @@ GTFuelPacking >> materialize: aByteArray [
 
 { #category : #accessing }
 GTFuelPacking >> migrations [
-	^ migrations ifNil: [ migrations := OrderedCollection new ]
+	migrations ifNil: [ self initializeMigrations ].
+	^ migrations
 ]
 
 { #category : #accessing }
