@@ -14,7 +14,7 @@ ZnMessage >> gtInspectorContentsIn: composite [
 						column: 'Value' evaluated: #value;
 						send: #value ]
 				ifFalse: [ 
-					composite rubricText
+					composite text
 						title: 'Contents';
 						format: self contents ] ]
 ]
