@@ -118,6 +118,20 @@ GTEventRecorderTest >> testAddCollector4 [
 ]
 
 { #category : #tests }
+GTEventRecorderTest >> testAddCollector5 [
+	recorder addCollector: GTEventCollector new.
+	recorder addCollector: GTEventCollector new.
+	self assert: recorder numberOfCollectors equals: 2.
+]
+
+{ #category : #tests }
+GTEventRecorderTest >> testAddCollector6 [
+	recorder addCollector: collector.
+	recorder addCollector: collector.
+	self assert: recorder numberOfCollectors equals: 1.
+]
+
+{ #category : #tests }
 GTEventRecorderTest >> testDeliverNow [
 	"Just test that we can ask for delivering."
 	recorder deliverNow
