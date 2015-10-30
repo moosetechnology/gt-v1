@@ -117,7 +117,7 @@ GTSpotterRecorderEvent >> gtInspectorItemsIn: composite [
 
 { #category : #accessing }
 GTSpotterRecorderEvent >> hashForText: aString [
-	^ aString hash bitXor: self settings secretUUID hash
+	^ self settings obfuscate: aString
 ]
 
 { #category : #'accessing - announcement info' }
@@ -267,7 +267,7 @@ GTSpotterRecorderEvent >> sessionCreationTime [
 
 { #category : #accessing }
 GTSpotterRecorderEvent >> settings [
-	^ GTSpotterEventRecorderSettings uniqueInstance
+	^ GlobalIdentifier uniqueInstance
 ]
 
 { #category : #accessing }
