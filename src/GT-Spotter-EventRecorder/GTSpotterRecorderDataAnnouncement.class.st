@@ -52,7 +52,7 @@ GTSpotterRecorderDataAnnouncement class >> gtExampleAnnouncement [
 			imageVersion: SystemVersion current version;
 			latestUpdate: SystemVersion current highestUpdate;
 			computerUUID: GTSpotterEventRecorderSettings uniqueInstance computerUUID asString;
-			eventRecorderVersion: GTSpotterEventRecorder version;
+			eventRecorderVersion: 2;
 			yourself
 ]
 
@@ -185,7 +185,7 @@ GTSpotterRecorderDataAnnouncement >> latestUpdate: anObject [
 
 { #category : #accessing }
 GTSpotterRecorderDataAnnouncement >> materializedData [
-	^ self data ifNotNil: [ :aData | GTSpotterEventRecorder materialize: aData ]
+	^ self data ifNotNil: [ :aData | GTEventUnpacking default unpack: aData ]
 ]
 
 { #category : #accessing }
