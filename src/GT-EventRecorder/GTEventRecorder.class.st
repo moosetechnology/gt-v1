@@ -120,7 +120,7 @@ GTEventRecorder >> initialize [
 	collectors := GTEventCollectors new.
 	delivery := GTEventDelivery new.
 	delivery recorder: self.
-	packing := GTEventPacking ston.
+	packing := GTEventPacking default.
 	privacy := [ Privacy sendDiagnosticsAndUsageData ]
 ]
 

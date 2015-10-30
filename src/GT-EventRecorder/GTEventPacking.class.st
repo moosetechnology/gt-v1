@@ -19,6 +19,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+GTEventPacking class >> default [
+	^ self ston
+]
+
+{ #category : #'instance creation' }
 GTEventPacking class >> fuel [
 	^ GTFuelPacking new
 ]
