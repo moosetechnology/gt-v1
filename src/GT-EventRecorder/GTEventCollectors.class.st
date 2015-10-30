@@ -25,7 +25,7 @@ Class {
 
 { #category : #adding }
 GTEventCollectors >> add: aGTEventCollector [
-	^ mutex critical: [ collectors addLast: aGTEventCollector ]
+	^ mutex critical: [ collectors add: aGTEventCollector ]
 ]
 
 { #category : #enumerating }
@@ -45,7 +45,7 @@ GTEventCollectors >> gtInspectorItemsIn: composite [
 GTEventCollectors >> initialize [
 	super initialize.
 	mutex := Mutex new.
-	collectors := OrderedCollection new.
+	collectors := IdentitySet new.
 ]
 
 { #category : #accessing }
