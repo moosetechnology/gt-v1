@@ -18,7 +18,9 @@ Class {
 	#name : #Privacy,
 	#superclass : #Object,
 	#classInstVars : [
-		'sendDiagnosticsAndUsageData'
+		'sendDiagnosticsAndUsageData',
+		'sendEntityNames',
+		'sendSourceCode'
 	],
 	#category : #'GT-EventRecorder-Privacy'
 }
@@ -27,6 +29,8 @@ Class {
 Privacy class >> cleanUp [
 	"Clean settings."
 	sendDiagnosticsAndUsageData := nil.
+	sendEntityNames := nil.
+	sendSourceCode := nil.
 ]
 
 { #category : #settings }
@@ -55,5 +59,48 @@ Privacy class >> sendDiagnosticsAndUsageUsageDataSettingsOn: aBuilder [
 		label: 'Send diagnostics and usage data';
 		noOrdering;
 		description: 'Help Pharo community improve its products and services by automatically sending diagnostic and usage data.';
+		default: true;
 		parent: #privacy
+]
+
+{ #category : #accessing }
+Privacy class >> sendEntityNames [
+	^ sendEntityNames ifNil: [ sendEntityNames := true ]
+]
+
+{ #category : #accessing }
+Privacy class >> sendEntityNames: aBoolean [
+	sendEntityNames := aBoolean
+]
+
+{ #category : #settings }
+Privacy class >> sendEntityNamesSettingsOn: aBuilder [
+	<systemsettings>
+	(aBuilder setting: #sendEntityNames)
+		label: 'Include package/class/method names';
+		noOrdering;
+		description: 'Help Pharo community improve its products and services by automatically sending package, class, or method names as part of diagnostic and usage data, e.g., browsed classes, changed methods.';
+		default: true;
+		parent: #sendDiagnosticsAndUsageData
+]
+
+{ #category : #accessing }
+Privacy class >> sendSourceCode [
+	^ sendSourceCode ifNil: [ sendSourceCode := false ]
+]
+
+{ #category : #accessing }
+Privacy class >> sendSourceCode: aBoolean [
+	sendSourceCode := aBoolean
+]
+
+{ #category : #settings }
+Privacy class >> sendSourceCodeSettingsOn: aBuilder [
+	<systemsettings>
+	(aBuilder setting: #sendSourceCode)
+		label: 'Include source code';
+		noOrdering;
+		description: 'Help Pharo community improve its products and services by automatically sending source code as part of diagnostic and usage data, e.g., changed methods, browsed source code, written code snippets.';
+		default: false;
+		parent: #sendDiagnosticsAndUsageData
 ]
