@@ -125,7 +125,10 @@ ConfigurationOfGTEventRecorder >> baseline01: spec [
 				spec requires: #('Ston' ). ];
 			package: 'GT-EventRecorder-Tests' with: [
 				spec requires: #(#'GT-EventRecorder' ). ].
-		spec group: 'default' with: #('GT-EventRecorder' ). ].
+		spec 
+			group: 'Core' with: #('GT-EventRecorder');
+			group: 'Tests' with: #('GT-EventRecorder-Tests');
+			group: 'default' with: #('Core' 'Tests') ].
 
 ]
 
