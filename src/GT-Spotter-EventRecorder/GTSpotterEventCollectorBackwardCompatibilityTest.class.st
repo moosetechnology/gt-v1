@@ -64,8 +64,8 @@ GTSpotterEventCollectorBackwardCompatibilityTest >> allPragmaVersions [
 { #category : #asserting }
 GTSpotterEventCollectorBackwardCompatibilityTest >> assertAnnouncement: announcement [
 	self assert: announcement notNil.
-	self assert: (announcement isKindOf: GTSpotterRecorderDataAnnouncement).
-	announcement materializedData do: [ :eachEvent |
+	self assert: (announcement isKindOf: GTEventAnnouncement).
+	announcement unpackedData do: [ :eachEvent |
 		"Check that all instance variables have some value."
 		1 to: eachEvent class instSize do: [ :index |
 			self 
@@ -86,7 +86,7 @@ GTSpotterEventCollectorBackwardCompatibilityTest >> assertVersion: aMethodName [
 	| announcement |
 	announcement := unpacking unpack: (self perform: aMethodName).
 	self assertAnnouncement: announcement.
-	checkedEvents addAll: (announcement materializedData collect: #class).
+	checkedEvents addAll: (announcement unpackedData collect: #class).
 ]
 
 { #category : #accessing }
@@ -103,7 +103,7 @@ GTSpotterEventCollectorBackwardCompatibilityTest >> setUp [
 { #category : #tests }
 GTSpotterEventCollectorBackwardCompatibilityTest >> testDateAndTime [
 	self versionsDo: [ :announcement :version |
-		announcement materializedData do: [ :eachEvent | | dateAndTime |
+		announcement unpackedData do: [ :eachEvent | | dateAndTime |
 			dateAndTime := eachEvent dateAndTime.
 			self assert: dateAndTime class equals: DateAndTime ] ]
 ]
