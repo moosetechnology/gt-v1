@@ -5,7 +5,15 @@ Class {
 	#name : #GTEventPackingTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'packing'
+		'packing',
+		'event1',
+		'event2',
+		'collector',
+		'bundle',
+		'announcement',
+		'unpackedData',
+		'storage',
+		'file'
 	],
 	#category : #'GT-EventRecorder-Tests-Core'
 }
@@ -13,6 +21,21 @@ Class {
 { #category : #testing }
 GTEventPackingTest class >> isAbstract [
 	^ self name = GTEventPackingTest name
+]
+
+{ #category : #asserting }
+GTEventPackingTest >> assertBundle [
+	bundle := packing pack: collector.
+	self assert: bundle url equals: collector url.
+	self assert: bundle data isLiteral
+]
+
+{ #category : #asserting }
+GTEventPackingTest >> assertUnpackedData [
+	unpackedData := announcement unpackedData.
+	self assert: unpackedData size equals: 2.
+	self assert: unpackedData first equals: event1.
+	self assert: unpackedData second equals: event2
 ]
 
 { #category : #accessing }
@@ -23,23 +46,61 @@ GTEventPackingTest >> packingClass [
 { #category : #running }
 GTEventPackingTest >> setUp [
 	super setUp.
-	packing := self packingClass new.
-]
-
-{ #category : #'tests-packing' }
-GTEventPackingTest >> testPack [
-	| event1 event2 bundle  announcement collector unpackedData |
 	event1 := GTDummyEvent new data: 'string'.
 	event2 := GTDummyEvent new data: 42.
 	collector := GTEventCollector new.
 	collector add: event1; add: event2.
-	bundle := packing pack: collector.
-	self assert: bundle url equals: collector url.
-	self assert: bundle data isLiteral.
-	announcement := packing unpack: bundle data.
-	unpackedData := announcement unpackedData.
-	self assert: unpackedData size equals: 2.
-	self assert: unpackedData first equals: event1.
-	self assert: unpackedData second equals: event2.
+	packing := self packingClass new.
+	storage := FileSystem memory.
+	file := storage workingDirectory / 'data'.
 
+]
+
+{ #category : #'tests-packing' }
+GTEventPackingTest >> testPack [
+	self assertBundle.
+	announcement := packing unpack: bundle data.
+	self assertUnpackedData
+]
+
+{ #category : #'tests-packing' }
+GTEventPackingTest >> testUnpackBinaryBinaryStream [
+	self assertBundle.
+	file writeStreamDo: [ :aStream | 
+		aStream binary.
+		aStream nextPutAll: bundle data ].
+	file binaryReadStreamDo: [ :aStream | 
+		announcement := packing unpack: aStream contents ].
+	self assertUnpackedData.
+
+]
+
+{ #category : #'tests-packing' }
+GTEventPackingTest >> testUnpackBinaryUnspecifiedStream [
+	self assertBundle.
+	file writeStreamDo: [ :aStream | 
+		aStream binary.
+		aStream nextPutAll: bundle data ].
+	announcement := packing unpack: file contents.
+	self assertUnpackedData.
+]
+
+{ #category : #'tests-packing' }
+GTEventPackingTest >> testUnpackUnspecifiedBinaryStream [
+	self assertBundle.
+	file writeStreamDo: [ :aStream | 
+		aStream nextPutAll: bundle data ].
+	file binaryReadStreamDo: [ :aStream | 
+		announcement := packing unpack: aStream contents ].
+	self assertUnpackedData.
+
+]
+
+{ #category : #'tests-packing' }
+GTEventPackingTest >> testUnpackUnspecifiedUnspecifiedStream [
+	self assertBundle.
+	file writeStreamDo: [ :aStream | 
+		aStream nextPutAll: bundle data ].
+	announcement := packing unpack: file contents.
+	self assertUnpackedData.
 ]
