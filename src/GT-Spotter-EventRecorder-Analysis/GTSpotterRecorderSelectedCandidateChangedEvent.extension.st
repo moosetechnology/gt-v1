@@ -57,12 +57,6 @@ GTSpotterRecorderSelectedCandidateChangedEvent >> isInTheSameCategoryAsPreviousS
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
-GTSpotterRecorderSelectedCandidateChangedEvent >> isUserSelection [
-	^ true "(self isInTheSameCategoryAsPreviousSelection not and: [ self eventType notNil ]) or: [ 
-		(self eventType notNil) and: [ (self eventType = #unknown) not ] ]"
-]
-
-{ #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderSelectedCandidateChangedEvent >> previousSelection [
 	^ self infoAt: #previousSelection ifAbsent: [ nil ]
 ]
