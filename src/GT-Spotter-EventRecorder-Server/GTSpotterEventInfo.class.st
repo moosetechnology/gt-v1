@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 GTSpotterEventInfo >> data [
-	^ data ifNil: [ data := GTSpotterEventRecorder materializeObjectsFromDirectory: self directory ]
+	^ data ifNil: [ data := GTEventUnpacking default unpackDirectory: self directory ]
 ]
 
 { #category : #accessing }
