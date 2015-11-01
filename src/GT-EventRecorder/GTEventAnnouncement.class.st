@@ -109,7 +109,7 @@ GTEventAnnouncement >> eventRecorderVersion: anObject [
 { #category : #accessing }
 GTEventAnnouncement >> events [
 	| events |
-	events := self materializedData.
+	events := self unpackedData.
 	events do: [ :each | self addInfoFor: each ].
 	^ events
 ]
@@ -223,5 +223,5 @@ GTEventAnnouncement >> unpackedData [
 	^ self data ifNotNil: [ :aData | 	
 			self serializedBy asClass new
 				migrations: self migrationRules;
-				materialize: aData ]
+				unpack: aData ]
 ]

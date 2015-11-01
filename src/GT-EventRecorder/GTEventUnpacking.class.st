@@ -65,3 +65,20 @@ GTEventUnpacking >> unpack: aByteArray [
 								data: aByteArray 
 								errors: exceptions ]
 ]
+
+{ #category : #packing }
+GTEventUnpacking >> unpackDirectory: aFileReference [
+	"self default unpackDirectory: './gt/events/' asFileReference"
+	^ aFileReference asFileReference allFiles 
+			collect: [ :eachFile | 
+				(eachFile basename = '.DS_Store') 
+					ifTrue: [ nil ]
+					ifFalse: [ self unpackFile: eachFile ] ]
+			thenSelect: #notNil
+]
+
+{ #category : #packing }
+GTEventUnpacking >> unpackFile: aFileReference [
+	"self default unpackFile: './gt/events/' asFileReference allFiles atRandom"
+	^ self unpack: (aFileReference binaryReadStreamDo: [ :aStream |  aStream contents ]).
+]

@@ -32,7 +32,7 @@ GTFuelPacking >> initializeMigrations [
 { #category : #private }
 GTFuelPacking >> materialize: aByteArray [
 	| materializer stream gzstream materialization |
-	stream := aByteArray readStream. 
+	stream := aByteArray asByteArray readStream. 
 	gzstream := GZipReadStream on: stream.
 	materializer := FLMaterializer newDefault.
 	self initializeMaterializer: materializer.
