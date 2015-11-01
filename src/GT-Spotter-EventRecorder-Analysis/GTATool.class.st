@@ -45,13 +45,24 @@ GTATool class >> defaultUrl [
 GTATool class >> download [
 	"self download"
  	UIManager default informUserDuring: [ :bar |
-		bar label: 'Download Spotter Event Data...'.
+		bar label: 'Downloading Spotter Event Data...'.
 		[ ZnClient new
 			url: self defaultUrl;
+			signalProgress: true;
 			downloadTo: self defaultDownloadFilename ]
 		on: HTTPProgress 
 		do: [ :progress |
-			progress isEmpty ifFalse: [ bar current: progress percentage ].
+			self haltOnce.
+			progress isEmpty ifFalse: [ 
+				bar current: progress percentage.
+				progress total ifNotNil: [ :aTotalNumber | | length humanReadable unit |
+					length := (aTotalNumber decimalDigitLength / 3) truncated.
+					humanReadable := (aTotalNumber / (1024 raisedTo: (length min: 3))) rounded.
+					length = 0 ifTrue: [ unit := 'bytes' ].
+					length = 1 ifTrue: [ unit := 'KB' ].
+					length = 2 ifTrue: [ unit := 'MB' ].
+					length = 3 ifTrue: [ unit := 'GB' ].
+					bar label: 'Downloading ', humanReadable printString, ' ', unit, ' of Spotter Event Data... ' ] ].
 			progress resume ] 
 	]
 ]

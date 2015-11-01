@@ -13,7 +13,7 @@ GTAAnnouncements class >> fromByteArray: aByteArray [
 GTAAnnouncements class >> fromDirectory: aFileReference [
 	"self fromDirectory: './gt/events/' asFileReference"
 	^ self 
-		withAll: (GTSpotterEventRecorder materializeObjectsFromDirectory: aFileReference)
+		withAll: (GTEventUnpacking default unpackDirectory: aFileReference)
 ]
 
 { #category : #'instance creation' }
