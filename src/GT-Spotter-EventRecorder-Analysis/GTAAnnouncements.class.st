@@ -61,7 +61,7 @@ GTAAnnouncements class >> spotterUsersAndDevelopersFrom: aByteArray [
 { #category : #'instance creation' }
 GTAAnnouncements class >> spotterUsersAndDevelopersFromAllByteArrays: aCollection [ 
 	^ (self withAll: (aCollection collect: [ :eachByteArray | 
-				GTSpotterEventRecorder materialize: eachByteArray ])) sessionsPerComputer
+				GTEventUnpacking default unpack: eachByteArray ])) sessionsPerComputer
 ]
 
 { #category : #accessing }
