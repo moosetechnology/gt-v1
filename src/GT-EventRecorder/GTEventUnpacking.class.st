@@ -63,7 +63,9 @@ GTEventUnpacking >> unpack: aByteArray [
 		ifNotEmpty: [ GTEventUnpackingError 
 								signal: 'Cannot unpack data' 
 								data: aByteArray 
-								errors: exceptions ]
+								errors: exceptions ].
+	"In case of resumed exception it returns nil object."
+	^ nil
 ]
 
 { #category : #packing }
@@ -80,5 +82,8 @@ GTEventUnpacking >> unpackDirectory: aFileReference [
 { #category : #packing }
 GTEventUnpacking >> unpackFile: aFileReference [
 	"self default unpackFile: './gt/events/' asFileReference allFiles atRandom"
-	^ self unpack: (aFileReference binaryReadStreamDo: [ :aStream |  aStream contents ]).
+	^ [ self unpack: (aFileReference binaryReadStreamDo: [ :aStream |  aStream contents ]) ]
+		on: GTEventUnpackingError do: [ :anException |
+			anException data: aFileReference.
+			anException pass ]
 ]

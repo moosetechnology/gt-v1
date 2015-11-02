@@ -42,3 +42,9 @@ GTEventUnpackingError >> errors [
 GTEventUnpackingError >> errors: anObject [
 	errors := anObject
 ]
+
+{ #category : #private }
+GTEventUnpackingError >> isResumable [
+	"Determine whether an exception is resumable."
+	^true
+]
