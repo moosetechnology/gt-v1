@@ -12,8 +12,14 @@ GTAAnnouncements class >> fromByteArray: aByteArray [
 { #category : #'instance creation' }
 GTAAnnouncements class >> fromDirectory: aFileReference [
 	"self fromDirectory: './gt/events/' asFileReference"
-	^ self 
-		withAll: (GTEventUnpacking default unpackDirectory: aFileReference)
+	| exceptions announcements |
+	exceptions := OrderedCollection new.
+	[ announcements := GTEventUnpacking default unpackDirectory: aFileReference ]
+	on: GTEventUnpackingError do: [ :anException |
+		exceptions addLast: anException.
+		anException resume. ].
+	exceptions ifNotEmpty: [ exceptions inspect ].
+	^ self withAll: announcements
 ]
 
 { #category : #'instance creation' }
