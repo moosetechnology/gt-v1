@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #tests }
+GTFinalReleaseTest >> setUp [
+	Smalltalk garbageCollect
+]
+
+{ #category : #tests }
 GTFinalReleaseTest >> testNoExampleInstances [
 
 	self assert: GTExample allInstances size equals: 0.
