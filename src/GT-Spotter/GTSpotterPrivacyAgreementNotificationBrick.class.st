@@ -113,13 +113,6 @@ GTSpotterPrivacyAgreementNotificationBrick >> sendUsageData [
 	^ settingsClass sendDiagnosticsAndUsageData
 ]
 
-{ #category : #preferences }
-GTSpotterPrivacyAgreementNotificationBrick >> sendUsageData: aBoolean [
-	| settingsClass |
-	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
-	^ settingsClass sendUsageData: aBoolean
-]
-
 { #category : #accessing }
 GTSpotterPrivacyAgreementNotificationBrick >> settingsButtonBrick [
 	^ settingsButtonBrick
