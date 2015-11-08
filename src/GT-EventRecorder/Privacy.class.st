@@ -58,7 +58,7 @@ Privacy class >> sendDiagnosticsAndUsageUsageDataSettingsOn: aBuilder [
 	(aBuilder setting: #sendDiagnosticsAndUsageData)
 		label: 'Send diagnostics and usage data';
 		noOrdering;
-		description: 'Help Pharo community improve its products and services by automatically sending diagnostic and usage data.';
+		description: 'Help the Pharo community improve its products and services by automatically sending diagnostic and usage data.';
 		default: true;
 		parent: #privacy
 ]
@@ -79,7 +79,7 @@ Privacy class >> sendEntityNamesSettingsOn: aBuilder [
 	(aBuilder setting: #sendEntityNames)
 		label: 'Include package/class/method names';
 		noOrdering;
-		description: 'Help Pharo community improve its products and services by automatically sending package, class, or method names as part of diagnostic and usage data, e.g., browsed classes, changed methods.';
+		description: 'Help the Pharo community improve its products and services by automatically sending package, class, or method names as part of the diagnostic and usage data, e.g., browsed classes, changed methods.';
 		default: true;
 		parent: #sendDiagnosticsAndUsageData
 ]
@@ -100,7 +100,7 @@ Privacy class >> sendSourceCodeSettingsOn: aBuilder [
 	(aBuilder setting: #sendSourceCode)
 		label: 'Include source code';
 		noOrdering;
-		description: 'Help Pharo community improve its products and services by automatically sending source code as part of diagnostic and usage data, e.g., changed methods, browsed source code, written code snippets.';
+		description: 'Help the Pharo community improve its products and services by automatically sending source code as part of the diagnostic and usage data, e.g., changed methods, browsed source code, written code snippets.';
 		default: false;
 		parent: #sendDiagnosticsAndUsageData
 ]
