@@ -42,3 +42,9 @@ GTSaveDebugAction >> executeAction [
 		inContext: self currentContext 
 		notifying: self debugger codePresentation"
 ]
+
+{ #category : #accessing }
+GTSaveDebugAction >> id [
+
+	^ #gTSaveDebugAction
+]
