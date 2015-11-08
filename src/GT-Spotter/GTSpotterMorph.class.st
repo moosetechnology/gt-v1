@@ -145,7 +145,7 @@ GTSpotterMorph >> initialize [
 	
 	self breadcrumbBrick: self newBreadcrumbBrick.
 	self paneBrick: self newPaneBrick.
-	#GTSpotterEventRecorderSettings asClassIfPresent: [ 
+	#GTSpotterEventCollector asClassIfPresent: [ 
 		GTSpotter wasOpened ifFalse: [ self privacyAgreementNotificationBrick: self newPrivacyAgreementNotificationBrick ] ].
 	
 	
