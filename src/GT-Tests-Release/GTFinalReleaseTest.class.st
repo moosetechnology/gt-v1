@@ -9,6 +9,7 @@ Class {
 
 { #category : #tests }
 GTFinalReleaseTest >> setUp [
+	GTExampleOrganizer restart.
 	Smalltalk garbageCollect
 ]
 
