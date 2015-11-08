@@ -233,7 +233,7 @@ GTMoldableDebugger >> process: aProcess controller: aController context: aContex
 GTMoldableDebugger >> registerActions [
 
 	self when: GLMBrowserClosing send: #actOnBrowserClosing: to: self.
-	self when: DebugActionExecuted send: #updateBrowser to: self.
+	self when: DebugActionExecuted send: #updateBrowserFrom: to: self.
 
 ]
 
@@ -271,6 +271,13 @@ GTMoldableDebugger >> updateBrowser [
 	(browserPane port: #entity) silentValue: nil.
 	(browserPane port: #entity) value: session.
 	browserPane update.
+]
+
+{ #category : #updating }
+GTMoldableDebugger >> updateBrowserFrom: anAnnouncement [
+	
+	anAnnouncement action needsUpdate ifFalse: [ ^ self ].
+	self updateBrowser
 ]
 
 { #category : #callbacks }
