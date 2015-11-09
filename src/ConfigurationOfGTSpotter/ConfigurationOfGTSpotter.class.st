@@ -260,7 +260,7 @@ ConfigurationOfGTSpotter >> customProjectAttributes [
 ConfigurationOfGTSpotter >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '1.2-baseline'.
+	spec for: #'common' version: '1.3-baseline'.
 
 	spec for: #'pharo3.x' version: '1.0.4'.
 
@@ -287,7 +287,7 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.2.15'.
+	spec for: #'common' version: '1.3'.
 
 	spec for: #'pharo3.x' version: '1.0.4'.
 
@@ -706,5 +706,28 @@ ConfigurationOfGTSpotter >> version129: spec [
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-AndreiChis.92';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TorstenBergmann.154';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-AndreiChis.9'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version13: spec [
+	<version: '1.3' imports: #('1.3-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Updated GTools: 
+  - bug fixes
+  - deprecated PluggableTextMorph
+  - improved event recorder'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/9/2015 14:32'.
+		spec 
+			project: 'GlamourCore' with: '3.3';
+			project: 'GTEventRecorder' with: '0.1'.
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-AndreiChis.332';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.102';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.166';
+			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-AndreiChis.14'. ].
 
 ]
