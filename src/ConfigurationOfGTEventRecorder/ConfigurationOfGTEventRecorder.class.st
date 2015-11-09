@@ -185,7 +185,7 @@ ConfigurationOfGTEventRecorder >> version01: spec [
 		spec timestamp: '11/9/2015 14:32'.
 		spec project: 'Ston' with: '0.14'.
 		spec 
-			package: #'GT-EventRecorder' with: 'GT-EventRecorder-AndreiChis.25';
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-AndreiChis.26';
 			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.17'. ].
 
 ]
