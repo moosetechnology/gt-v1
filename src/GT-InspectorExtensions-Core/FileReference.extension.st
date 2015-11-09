@@ -65,7 +65,7 @@ FileReference >> gtInspectorActionMaterializeFuel [
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorContentsIn: composite [
 	<gtInspectorPresentationOrder: 5>
-	composite rubricText
+	composite text
 			title: 'Contents';
 			display: [ 
 				self readStreamDo: [ :stream | 
@@ -77,7 +77,13 @@ FileReference >> gtInspectorContentsIn: composite [
 						ifTrue: [ result, '  ... truncated ...' ]
 						ifFalse: [ result ] ] ];
 			withLineNumbers: true;
-			when: [ self isFile ]
+			when: [ self isFile ];
+			act: [ :text |
+				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
+				icon: GLMUIThemeExtraIcons glamorousSave
+				on: $s
+				entitled: 'Save';
+			when: [ #('pillar' 'txt') includes: self extension ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -139,6 +145,16 @@ FileReference >> gtInspectorItemsIn: composite [
 				ifFalse: [ GLMUIThemeExtraIcons glamorousBrowse ] ];
 		when: [self isDirectory and: [self hasChildren]];
 		selectionAct: [:table | table selection delete. table update] entitled: 'Delete';
+		act: [ :table |
+			 (UIManager default request: 'New Directory name?' initialAnswer: '') 
+					ifNotNil: [:name | (self / name) ensureCreateDirectory ].
+			 table update
+			 ] icon: GLMUIThemeExtraIcons glamorousFolder entitled: 'Create Directory';		
+		act: [ :table |
+			 (UIManager default request: 'New File name?' initialAnswer: '') 
+					ifNotNil: [:name | (self / name) ensureCreateFile ].
+			 table update
+			 ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Create File';		
 		act: [ :table | table update ] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Refresh'
 ]
 
@@ -157,13 +173,13 @@ FileReference >> gtInspectorPngIn: composite [
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
-			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ]
+			when: [ self exists and: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorStScriptIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	composite pharoPlayground
+	composite pharoScript
 			title: 'Script';
 			display: [ self readStreamDo: [ :s | s contents ] ];
 			act: [ :text |
