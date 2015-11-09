@@ -181,7 +181,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.0.22'.
+	spec for: #'common' version: '2.1'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -589,5 +589,25 @@ ConfigurationOfGTInspectorCore >> version209: spec [
 			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.279';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.92';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.24'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version21: spec [
+	<version: '2.1' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Updated GTools: 
+  - bug fixes
+  - deprecated PluggableTextMorph
+  - improved event recorder'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/9/2015 14:32'.
+		spec project: 'GlamourCore' with: '3.3'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.345';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.185';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.41'. ].
 
 ]
