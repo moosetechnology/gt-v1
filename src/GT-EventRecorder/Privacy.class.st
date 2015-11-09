@@ -44,7 +44,7 @@ Privacy class >> privacySettingsOn: aBuilder [
 
 { #category : #accessing }
 Privacy class >> sendDiagnosticsAndUsageData [
-	^ sendDiagnosticsAndUsageData ifNil: [ sendDiagnosticsAndUsageData := true ]
+	^ sendDiagnosticsAndUsageData ifNil: [ sendDiagnosticsAndUsageData := false ]
 ]
 
 { #category : #accessing }
@@ -65,7 +65,7 @@ Privacy class >> sendDiagnosticsAndUsageUsageDataSettingsOn: aBuilder [
 
 { #category : #accessing }
 Privacy class >> sendEntityNames [
-	^ sendEntityNames ifNil: [ sendEntityNames := true ]
+	^ sendEntityNames ifNil: [ sendEntityNames := false ]
 ]
 
 { #category : #accessing }
