@@ -159,10 +159,11 @@ ConfigurationOfGToolkitCore >> customProjectAttributes [
 { #category : #'symbolic versions' }
 ConfigurationOfGToolkitCore >> development: spec [
 	<symbolicVersion: #'development'>
-	
+
 	spec for: #'common' version: '3.0-baseline'.
 
 	spec for: #'pharo3.x' version: '3.0-baseline'.
+
 	spec for: #'pharo4.x' version: '3.0-baseline'.
 
 ]
@@ -183,9 +184,9 @@ ConfigurationOfGToolkitCore >> project [
 { #category : #'symbolic versions' }
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
-	
-	spec for: #'common' version: '3.0.8'.
-	
+
+	spec for: #'common' version: '3.1'.
+
 	spec for: #'pharo4.x' version: '3.0.2'.
 
 ]
@@ -340,5 +341,24 @@ ConfigurationOfGToolkitCore >> version308: spec [
 		spec project: 'GTInspectorCore' with: '2.0.22'.
 		spec project: 'GTSpotter' with: '1.2.15'. ]
 	
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version31: spec [
+	<version: '3.1' imports: #('3.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Updated GTools: 
+  - bug fixes
+  - deprecated PluggableTextMorph
+  - improved event recorder'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/9/2015 14:32'.
+		spec 
+			project: 'GTPlaygroundCore' with: '2.2';
+			project: 'GTInspectorCore' with: '2.1';
+			project: 'GTSpotter' with: '1.3'. ].
 
 ]
