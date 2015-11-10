@@ -276,7 +276,7 @@ GTMoldableDebugger >> updateBrowser [
 { #category : #updating }
 GTMoldableDebugger >> updateBrowserFrom: anAnnouncement [
 	
-	anAnnouncement action needsUpdate ifFalse: [ ^ self ].
+	"anAnnouncement action needsUpdate ifFalse: [ ^ self ]."
 	self updateBrowser
 ]
 
