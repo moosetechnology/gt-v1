@@ -19,8 +19,7 @@ GTInspectorExamplesTest >> checkAllPresentationsOf: exampleToTest [
 				on: Error 
 				do: [
 					window ifNotNil: [ window delete ].
-					(eachPragma method gtDisplayString, ' for ', exampleToTest gtDisplayString) logCr.
-					"self fail: (eachPragma method gtDisplayString, ' for ', exampleToTest gtDisplayString)"  ].
+					self fail: (eachPragma method gtDisplayString, ' for ', exampleToTest gtDisplayString)  ].
 		window ifNotNil: [ window delete ] ]
 ]
 
