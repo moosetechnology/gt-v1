@@ -123,7 +123,8 @@ GTPlayBook class >> startUp: resuming [
 { #category : #accessing }
 GTPlayBook class >> stashDirectory [
 	" lazy initialize the stash and always ensure its existence - especially while the image is running "
-	stashDirectory ifNil: [ stashDirectory := self defaultStashDirectory ].
+	(stashDirectory notNil and: [ stashDirectory exists ])
+		ifFalse: [ stashDirectory := self defaultStashDirectory ].
 	^ stashDirectory ensureCreateDirectory
 ]
 
