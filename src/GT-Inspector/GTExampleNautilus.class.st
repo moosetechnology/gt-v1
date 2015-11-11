@@ -6,7 +6,7 @@ Class {
 
 { #category : #private }
 GTExampleNautilus class >> methodChanged: aCompiledMethod [
-	[	AbstractMethodWidget methodsIconsCache removeKey: aCompiledMethod. 
+	[	MethodWidget methodsIconsCache removeKey: aCompiledMethod. 
 		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
 			on: Error
 			do: [ " ignore and continue " ]
