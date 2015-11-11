@@ -30,14 +30,14 @@ GTSpotterMethodListProcessorFilter >> allowProcessorsFrom: aMethod [
 GTSpotterMethodListProcessorFilter >> allowProcessorsFrom: aMethod configuredWith: aBlock [
 	
 	self allowProcessorsFrom: aMethod.
-	configurationBlocks at: aMethod name put: aBlock.
+	configurationBlocks at: aMethod printString put: aBlock.
 	
 ]
 
 { #category : #accessing }
 GTSpotterMethodListProcessorFilter >> configurationBlockForProcessorsCreatedBy: aMethod [
 	
-	^ configurationBlocks at: aMethod name ifAbsent: [ self nullConfigurationBlock ]
+	^ configurationBlocks at: aMethod printString ifAbsent: [ self nullConfigurationBlock ]
 ]
 
 { #category : #initialization }
