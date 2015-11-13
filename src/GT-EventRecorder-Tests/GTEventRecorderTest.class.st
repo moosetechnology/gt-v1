@@ -4,14 +4,17 @@ Class {
 	#instVars : [
 		'recorder',
 		'server',
-		'collector',
 		'url',
 		'event1',
 		'event2',
 		'delegate',
 		'receivedContents',
 		'semaphore',
-		'receiverSemaphore'
+		'receiverSemaphore',
+		'collector1',
+		'collector2',
+		'event3',
+		'event4'
 	],
 	#category : #'GT-EventRecorder-Tests-Core'
 }
@@ -40,10 +43,15 @@ GTEventRecorderTest >> setUp [
 	semaphore := Semaphore new.
 	recorder := GTEventRecorder new.
 	recorder offerPrivacy.
-	collector := GTEventCollector new.
-	collector url: url.
+	collector1 := GTEventCollector new.
+	collector1 url: url.
+	collector2 := GTEventCollector new.
+	collector2 url: url.
 	event1 := GTDummyEvent new data: 'string1'.
-	event2 := GTDummyEvent new data: 42
+	event2 := GTDummyEvent new data: 42.
+	event3 := GTDummyEvent new data: #symbol1.
+	event4 := GTDummyEvent new data: 42.0.
+	
 ]
 
 { #category : #running }
@@ -93,27 +101,27 @@ GTEventRecorderTest >> testAddCollector2 [
 
 { #category : #tests }
 GTEventRecorderTest >> testAddCollector3 [
-	recorder addCollector: collector.
-	collector add: event1.
-	collector add: event2.
+	recorder addCollector: collector1.
+	collector1 add: event1.
+	collector1 add: event2.
 	recorder announcer 
 		when: GTEventSuspendingDeliveryAnnouncement
 		do: [ semaphore signal ].
 	self assertSemaphore.
-	recorder deliverNow.
-	self assertReceiverSemaphore.
-	self assert: collector size equals: 0.
+	self waitForDelivery.
+	self assert: collector1 size equals: 0.
+	self assert: receivedContents size equals: 1.
 	
 ]
 
 { #category : #tests }
 GTEventRecorderTest >> testAddCollector4 [
-	recorder addCollector: collector.
-	collector add: event1.
-	collector add: event2.
+	recorder addCollector: collector1.
+	collector1 add: event1.
+	collector1 add: event2.
 	recorder delivery packAndDeliver: false.
 	"wait"
-	self assert: collector size equals: 0.
+	self assert: collector1 size equals: 0.
 	
 ]
 
@@ -126,9 +134,24 @@ GTEventRecorderTest >> testAddCollector5 [
 
 { #category : #tests }
 GTEventRecorderTest >> testAddCollector6 [
-	recorder addCollector: collector.
-	recorder addCollector: collector.
+	recorder addCollector: collector1.
+	recorder addCollector: collector1.
 	self assert: recorder numberOfCollectors equals: 1.
+]
+
+{ #category : #tests }
+GTEventRecorderTest >> testDeliverAllInOneHttpRequest [
+	collector1 category: #category1.
+	collector2 category: #category2.
+	collector1 add: event1; add: event2.
+	collector2 add: event3; add: event4.
+	recorder deliveryPreSuspendingAction: [ semaphore signal ].
+	recorder addCollector: collector1.
+	recorder addCollector: collector2.
+	self assertSemaphore.
+	self waitForDelivery.
+	self assert: receivedContents size equals: 1.
+
 ]
 
 { #category : #tests }
@@ -144,11 +167,11 @@ GTEventRecorderTest >> testIsDeliveryActive [
 
 { #category : #tests }
 GTEventRecorderTest >> testPack [
-	recorder addCollector: collector.
-	collector add: event1.
-	collector add: event2.
+	recorder addCollector: collector1.
+	collector1 add: event1.
+	collector1 add: event2.
 	recorder pack.
-	self assert: collector size equals: 0.
+	self assert: collector1 size equals: 0.
 	self assert: recorder delivery size equals: 1.
 ]
 
@@ -160,8 +183,23 @@ GTEventRecorderTest >> testRemoveCollector [
 
 { #category : #tests }
 GTEventRecorderTest >> testRemoveCollector2 [
-	recorder addCollector: collector.
+	recorder addCollector: collector1.
 	self assert: recorder isDeliveryActive.
-	recorder removeCollector: collector.
+	recorder removeCollector: collector1.
 	self deny: recorder isDeliveryActive.
+]
+
+{ #category : #asserting }
+GTEventRecorderTest >> waitForDelivery [
+	recorder deliverNow.
+	self assertReceiverSemaphore.
+]
+
+{ #category : #'as yet unclassified' }
+GTEventRecorderTest >> waitForDeliveryInitialization [
+	recorder announcer
+		when: GTEventSuspendingDeliveryAnnouncement
+		do: [ semaphore signal ].
+	self assertSemaphore.
+
 ]
