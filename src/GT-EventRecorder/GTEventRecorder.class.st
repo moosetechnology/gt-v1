@@ -101,6 +101,11 @@ GTEventRecorder >> delivery [
 	^ delivery
 ]
 
+{ #category : #'as yet unclassified' }
+GTEventRecorder >> deliveryPreSuspendingAction: aBlockClosure [ 
+	self delivery deliveryPreSuspendingAction: aBlockClosure
+]
+
 { #category : #packing }
 GTEventRecorder >> flush [
 	collectors do: #flush

@@ -26,7 +26,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'url',
-		'recordedEvents'
+		'recordedEvents',
+		'category'
 	],
 	#classInstVars : [
 		'uniqueInstance'
@@ -73,6 +74,11 @@ GTEventCollector >> bundle [
 GTEventCollector >> bundle: aCollection [
 	recordedEvents flush: [ :eachEvent | aCollection addLast: eachEvent ].
 	^ aCollection
+]
+
+{ #category : #accessing }
+GTEventCollector >> category: aString [ 
+	^ category := aString
 ]
 
 { #category : #accessing }
