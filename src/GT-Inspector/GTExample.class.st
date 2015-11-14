@@ -453,6 +453,11 @@ GTExample >> iconThemeSelector: aSelector [
 ]
 
 { #category : #testing }
+GTExample >> ignoreCache [
+	^ self propertyAt: #noCache ifAbsent: [ false ]
+]
+
+{ #category : #testing }
 GTExample >> ignoreTest [
 	^ self propertyAt: #noTest ifAbsent: [ false ]
 ]
@@ -515,6 +520,11 @@ GTExample >> method [
 GTExample >> methodReference [
 	self deprecated: 'The selector #methodReference is obsolete'.
 	^ self method asRingDefinition
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> noCache [
+	self propertyAt: #noCache put: true
 ]
 
 { #category : #'pragma-selectors' }
@@ -607,7 +617,7 @@ GTExample >> result: aResult [
 
 { #category : #private }
 GTExample >> resultCached: aResult [
-	result := aResult.
+	self ignoreCache ifFalse: [ result := aResult ].
 	GTExampleNautilus methodChanged: self method.
 	^ aResult
 ]
