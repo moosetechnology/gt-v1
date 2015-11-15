@@ -20,6 +20,12 @@ GTSpotterRecorderOpenEvent >> accept: aVisitor [
 ]
 
 { #category : #testing }
+GTSpotterRecorderOpenEvent >> initialize [
+	super initialize.
+	self initializeObfuscated.
+]
+
+{ #category : #testing }
 GTSpotterRecorderOpenEvent >> isOpenSpotter [
 	^ true
 ]

@@ -117,7 +117,7 @@ GTSpotterRecorderEvent >> gtInspectorItemsIn: composite [
 
 { #category : #accessing }
 GTSpotterRecorderEvent >> hashForText: aString [
-	^ self settings obfuscate: aString
+	^ self settings obfuscateIfNecessary: aString
 ]
 
 { #category : #'accessing - announcement info' }
@@ -177,6 +177,11 @@ GTSpotterRecorderEvent >> infoAt: key putHashForText: valueString [
 GTSpotterRecorderEvent >> initialize [
 	super initialize.
 	timestamp := DateAndTime now.
+]
+
+{ #category : #initialization }
+GTSpotterRecorderEvent >> initializeObfuscated [
+	self obfuscated: Privacy sendEntityNames not.
 ]
 
 { #category : #testing }
@@ -247,6 +252,16 @@ GTSpotterRecorderEvent >> isUserSelectionClass [
 { #category : #'accessing - announcement info' }
 GTSpotterRecorderEvent >> latestUpdate [
 	^ self infoAt: #latestUpdate
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> obfuscated [
+	^ self infoAt: #obfuscated ifAbsent: true
+]
+
+{ #category : #accessing }
+GTSpotterRecorderEvent >> obfuscated: aBoolean [
+	^ self infoAt: #obfuscated put: aBoolean
 ]
 
 { #category : #accessing }
