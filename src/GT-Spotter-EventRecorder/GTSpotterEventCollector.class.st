@@ -1,3 +1,7 @@
+"
+I represent a GTEventCollector for GTSpotter application.
+I am a bit spetial because I send only closed sessions. It means, bundle always end with closing event. The rest of the events are postponed for the next delivery cycle.
+"
 Class {
 	#name : #GTSpotterEventCollector,
 	#superclass : #GTEventCollector,
@@ -10,6 +14,11 @@ Class {
 { #category : #accessing }
 GTSpotterEventCollector >> bundle [
 	^ self postpone: (self bundle: (postponedEvents ifNil: [ OrderedCollection new ]))
+]
+
+{ #category : #configuration }
+GTSpotterEventCollector >> defaultCategory [
+	^ #spotter
 ]
 
 { #category : #initialization }
