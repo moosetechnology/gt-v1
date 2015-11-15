@@ -92,9 +92,12 @@ GTEventPacking >> updateAnnouncement: aGTEventAnnouncement withData: aByteArray 
 
 { #category : #accessing }
 GTEventPacking >> version [
-	^ 3
+	^ 4
 	
-"Changes to version 3:
+"
+Changes to version 4:
+	- It introduces GTEventMultiBundle object that is used for sending several GTEVentBundle objects to the same server in one HTTP request
+Changes to version 3:
 	- GTSpotterEventRecorder rewritten to GTEventRecorder.
 	- It uses STON instead of FUEL serializing engine.
 		- FUEL engine is still available using GTFuelPacking object
