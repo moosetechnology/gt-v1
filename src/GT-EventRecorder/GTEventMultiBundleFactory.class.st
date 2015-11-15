@@ -1,20 +1,23 @@
+"
+I know how to create GTEventMultiBundle object from a collection of GTEventBundle objects.
+"
 Class {
 	#name : #GTEventMultiBundleFactory,
 	#superclass : #Object,
 	#category : #'GT-EventRecorder-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTEventMultiBundleFactory class >> default [
 	^ self new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #public }
 GTEventMultiBundleFactory class >> fromBundles: aCollection [ 
 	^ self default fromBundles: aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #public }
 GTEventMultiBundleFactory >> fromBundles: aCollection [ 
 	| multiBundles |
 	multiBundles := StandardOrderedDictionary new.
