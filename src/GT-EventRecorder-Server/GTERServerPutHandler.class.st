@@ -7,6 +7,13 @@ Class {
 	#category : #'GT-EventRecorder-Server-Core'
 }
 
+{ #category : #private }
+GTERServerPutHandler >> saveByteArray: aByteArray [
+	"storage is responsible for storing aByteArray.
+	It returns location."
+	^ self storage put: aByteArray.
+]
+
 { #category : #accessing }
 GTERServerPutHandler >> storage [
 	^ storage
@@ -17,7 +24,13 @@ GTERServerPutHandler >> storage: anObject [
 	storage := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #evaluating }
 GTERServerPutHandler >> value: aZnRequest value: aZnResponse [
-	aZnResponse entity: (ZnStringEntity html: '<h1>hello server</h1>')
+	| badRequest key |
+	badRequest := [ ^ ZnResponse badRequest: aZnRequest ].
+	(aZnRequest hasEntity and: [ aZnRequest contentType matches: ZnMimeType applicationOctetStream ])
+		ifTrue: [ 
+			[ key := self saveByteArray: aZnRequest entity bytes ] on: Error do: badRequest.
+			^ ZnResponse created: key ].
+	badRequest value.
 ]

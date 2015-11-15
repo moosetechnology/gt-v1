@@ -13,7 +13,8 @@ Class {
 		'url',
 		'data',
 		'client',
-		'location'
+		'location',
+		'storage'
 	],
 	#category : #'GT-EventRecorder-Server-Tests'
 }
@@ -21,6 +22,15 @@ Class {
 { #category : #'as yet unclassified' }
 GTERServerPutHandlerTest >> assertReceiverSemaphore [
 	self deny: (receiverSemaphore waitTimeoutMSecs: 200)
+]
+
+{ #category : #'as yet unclassified' }
+GTERServerPutHandlerTest >> put: aByteArray [ 
+	| key |
+	key := (receivedContents size + 1) printString.
+	receivedContents nextPut: key -> aByteArray.
+	receiverSemaphore signal.
+	^ key
 ]
 
 { #category : #accessing }
@@ -64,7 +74,18 @@ GTERServerPutHandlerTest >> setUpServer [
 	url := ZnUrl new
 		scheme: #http;
 		host: NetNameResolver loopBackName;
-		port: server serverSocket port.
+		port: server serverSocket port;
+		addPathSegment: 'gt';
+		addPathSegment: 'events';
+		yourself.
+]
+
+{ #category : #'as yet unclassified' }
+GTERServerPutHandlerTest >> storage [
+	storage ifNil: [ storage := Dictionary new ].
+	receivedContents flush: [ :association |
+		storage at: association key put: association value ].
+	^ storage
 ]
 
 { #category : #running }
