@@ -30,7 +30,7 @@ GTEventRecorderDelegateTest >> setUp [
 	fileSystem := FileSystem memory.
 	delegate := GTEventRecorderDelegate new.
 	delegate putHandler directory: fileSystem workingDirectory.
-	server := GTTestServer new.
+	server := GTEventRecorderTestServer new.
 	server initializeUsingDelegate: delegate semaphore: serverSemaphore.
 	client := ZnClient new
 		url: server url;
