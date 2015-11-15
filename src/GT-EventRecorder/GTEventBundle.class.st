@@ -10,10 +10,21 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'url',
+		'category',
 		'data'
 	],
 	#category : #'GT-EventRecorder-Core'
 }
+
+{ #category : #accessing }
+GTEventBundle >> category [
+	^ category
+]
+
+{ #category : #accessing }
+GTEventBundle >> category: anObject [
+	category := anObject
+]
 
 { #category : #accessing }
 GTEventBundle >> data [
@@ -23,6 +34,11 @@ GTEventBundle >> data [
 { #category : #accessing }
 GTEventBundle >> data: anObject [
 	data := anObject
+]
+
+{ #category : #'accessing - computed' }
+GTEventBundle >> entity [
+	^ ZnByteArrayEntity bytes: self data
 ]
 
 { #category : #accessing }

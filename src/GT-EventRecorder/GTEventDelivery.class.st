@@ -21,7 +21,8 @@ Class {
 		'delay',
 		'permission',
 		'recorder',
-		'queue'
+		'queue',
+		'preSuspendingAction'
 	],
 	#category : #'GT-EventRecorder-Core'
 }
@@ -42,12 +43,20 @@ GTEventDelivery >> add: aGTEventBundle [
 
 { #category : #announce }
 GTEventDelivery >> announceSuspendingDelivery [
-	self announcer ifNotNil: [ :anAnnoucner | anAnnoucner announce: GTEventSuspendingDeliveryAnnouncement ]
+	preSuspendingAction ifNotNil: #value
 ]
 
 { #category : #accessing }
 GTEventDelivery >> announcer [
 	^ self recorder ifNotNil: #announcer
+]
+
+{ #category : #delivery }
+GTEventDelivery >> bundles [
+	| bundles |
+	bundles := OrderedCollection new.
+	queue flush: [ :eachGTEventBundle | bundles addLast: eachGTEventBundle ].
+	^ bundles
 ]
 
 { #category : #deactivation }
@@ -62,8 +71,10 @@ GTEventDelivery >> deactivate [
 
 { #category : #delivery }
 GTEventDelivery >> deliver: aBoolean [
-	queue flush: [ :eachGTEventBundle |
-		self deliver: eachGTEventBundle signalProgress: aBoolean ]
+	| bundles |
+	bundles := GTEventMultiBundleFactory fromBundles: self bundles.
+	bundles do: [ :eachGTEventMultiBundle |
+		self deliver: eachGTEventMultiBundle signalProgress: aBoolean ]
 ]
 
 { #category : #delivery }
@@ -76,7 +87,7 @@ GTEventDelivery >> deliver: aGTEventBundle signalProgress: aBoolean [
 			url: aGTEventBundle url;
 			enforceHttpSuccess: true;
 			ifFail: [ :exception | queue nextPut: aGTEventBundle ];
-			entity: (ZnByteArrayEntity bytes: aGTEventBundle data);
+			entity: aGTEventBundle entity;
 			put;
 			response)
 ]
@@ -101,6 +112,7 @@ GTEventDelivery >> initialize [
 	mutex := Mutex new.
 	queue := WaitfreeQueue new.
 	permission := true.
+	preSuspendingAction := nil.
 ]
 
 { #category : #initialization }
@@ -146,6 +158,11 @@ GTEventDelivery >> packAndDeliver: aBoolean. [
 	recorder pack.
 	self deliver: aBoolean.
 	
+]
+
+{ #category : #initialization }
+GTEventDelivery >> preSuspendingAction: aBlockClosure [ 
+	preSuspendingAction := aBlockClosure
 ]
 
 { #category : #printing }

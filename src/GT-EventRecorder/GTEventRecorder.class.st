@@ -29,8 +29,7 @@ Class {
 		'collectors',
 		'delivery',
 		'packing',
-		'privacy',
-		'announcer'
+		'privacy'
 	],
 	#classInstVars : [
 		'uniqueInstance'
@@ -75,11 +74,6 @@ GTEventRecorder >> addCollector: aGTEventCollector [
 	^ collectors add: aGTEventCollector
 ]
 
-{ #category : #accessing }
-GTEventRecorder >> announcer [
-	^ announcer
-]
-
 { #category : #testing }
 GTEventRecorder >> canSendDiagnosticsAndUsageData [
 	^ privacy value
@@ -101,6 +95,11 @@ GTEventRecorder >> delivery [
 	^ delivery
 ]
 
+{ #category : #'as yet unclassified' }
+GTEventRecorder >> deliveryPreSuspendingAction: aBlockClosure [ 
+	self delivery preSuspendingAction: aBlockClosure
+]
+
 { #category : #packing }
 GTEventRecorder >> flush [
 	collectors do: #flush
@@ -116,7 +115,6 @@ GTEventRecorder >> gtInspectorItemsIn: composite [
 { #category : #initialization }
 GTEventRecorder >> initialize [
 	super initialize.
-	announcer := Announcer new.
 	collectors := GTEventCollectors new.
 	delivery := GTEventDelivery new.
 	delivery recorder: self.

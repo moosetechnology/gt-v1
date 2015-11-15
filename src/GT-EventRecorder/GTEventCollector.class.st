@@ -26,6 +26,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'url',
+		'category',
 		'recordedEvents'
 	],
 	#classInstVars : [
@@ -76,6 +77,21 @@ GTEventCollector >> bundle: aCollection [
 ]
 
 { #category : #accessing }
+GTEventCollector >> category [
+	^ category ifNil: [ category := self defaultCategory ]
+]
+
+{ #category : #accessing }
+GTEventCollector >> category: aString [ 
+	^ category := aString
+]
+
+{ #category : #configuration }
+GTEventCollector >> defaultCategory [
+	^ #unknown
+]
+
+{ #category : #accessing }
 GTEventCollector >> flush [
 	recordedEvents flush
 ]
@@ -114,7 +130,7 @@ GTEventCollector >> size [
 	^ recordedEvents size
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GTEventCollector >> updateAnnouncement: aGTEventAnnouncement [ 
 	"Any particular GTEventCollector can add additional information about the delivering bundle, 
 	e.g., version number in order to identify differences of contents."
