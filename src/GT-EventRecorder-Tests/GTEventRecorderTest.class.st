@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'recorder',
 		'server',
-		'url',
 		'event1',
 		'event2',
 		'delegate',
@@ -49,9 +48,9 @@ GTEventRecorderTest >> setUp [
 	recorder := GTEventRecorder new.
 	recorder offerPrivacy.
 	collector1 := GTEventCollector new.
-	collector1 url: url.
+	collector1 url: server url.
 	collector2 := GTEventCollector new.
-	collector2 url: url.
+	collector2 url: server url.
 	event1 := GTDummyEvent new data: 'string1'.
 	event2 := GTDummyEvent new data: 42.
 	event3 := GTDummyEvent new data: #symbol1.
@@ -61,28 +60,14 @@ GTEventRecorderTest >> setUp [
 
 { #category : #running }
 GTEventRecorderTest >> setUpServer [
-	| subscription |
 	receivedContents := WaitfreeQueue new.
 	receiverSemaphore := Semaphore new.
 	delegate := ZnDispatcherDelegate new.
 	delegate
 		map: '/'
 		to: [ :request :response | self handleRequest: request response: response ].
-	server := ZnServer on: 0.
-	server delegate: delegate.
-	server route: UUID new asString.
-	subscription := ZnLogEvent announcer 
-							when: ZnServerSocketBoundEvent 
-							do: [ :announcement | announcement serverId = server route 
-										ifTrue: [ receiverSemaphore signal ] ]
-							for: self.
-	server start.
-	self assertReceiverSemaphore.
-	ZnLogEvent announcer removeSubscription: subscription.
-	url := ZnUrl new
-		scheme: #http;
-		host: NetNameResolver loopBackName;
-		port: server serverSocket port
+	server := GTEventRecorderTestServer new.
+	server initializeUsingDelegate: delegate semaphore: receiverSemaphore.
 ]
 
 { #category : #running }
