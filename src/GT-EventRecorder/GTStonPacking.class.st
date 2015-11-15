@@ -22,3 +22,8 @@ GTStonPacking >> serialize: anObject [
 		[ STON put: anObject onStreamPretty: gzstream ]
 			ensure: [ gzstream close ] ]
 ]
+
+{ #category : #accessing }
+GTStonPacking >> technologyName [
+	^ 'ston'
+]

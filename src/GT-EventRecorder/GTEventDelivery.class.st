@@ -21,8 +21,7 @@ Class {
 		'delay',
 		'permission',
 		'recorder',
-		'queue',
-		'preSuspendingAction'
+		'queue'
 	],
 	#category : #'GT-EventRecorder-Core'
 }
@@ -43,7 +42,7 @@ GTEventDelivery >> add: aGTEventBundle [
 
 { #category : #announce }
 GTEventDelivery >> announceSuspendingDelivery [
-	preSuspendingAction ifNotNil: #value
+	self announcer ifNotNil: [ :anAnnoucner | anAnnoucner announce: GTEventSuspendingDeliveryAnnouncement ]
 ]
 
 { #category : #accessing }
@@ -91,11 +90,6 @@ GTEventDelivery >> deliveryCycle [
 	self hasPermission ifTrue: [ self packAndDeliver: false ]
 ]
 
-{ #category : #'as yet unclassified' }
-GTEventDelivery >> deliveryPreSuspendingAction: aBlockClosure [ 
-	preSuspendingAction := aBlockClosure
-]
-
 { #category : #testing }
 GTEventDelivery >> hasPermission [
 	^ permission
@@ -107,7 +101,6 @@ GTEventDelivery >> initialize [
 	mutex := Mutex new.
 	queue := WaitfreeQueue new.
 	permission := true.
-	preSuspendingAction := nil.
 ]
 
 { #category : #initialization }
