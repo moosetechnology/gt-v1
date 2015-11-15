@@ -95,7 +95,7 @@ GTEventRecorder >> delivery [
 	^ delivery
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #configuration }
 GTEventRecorder >> deliveryPreSuspendingAction: aBlockClosure [ 
 	self delivery preSuspendingAction: aBlockClosure
 ]
