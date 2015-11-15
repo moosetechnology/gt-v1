@@ -100,6 +100,13 @@ GlobalIdentifier >> obfuscate: anObject [
 	^ anObject hash bitXor: self secretUUID hash
 ]
 
+{ #category : #actions }
+GlobalIdentifier >> obfuscateIfNecessary: anObject [
+	^ Privacy sendEntityNames
+			ifTrue: [ anObject ]
+			ifFalse: [ self obfuscate: anObject ]
+]
+
 { #category : #accessing }
 GlobalIdentifier >> persistedInformation [
 	^ persistedInformation
