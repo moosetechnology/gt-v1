@@ -1,5 +1,5 @@
 Class {
-	#name : #GTTestServer,
+	#name : #GTEventRecorderTestServer,
 	#superclass : #Object,
 	#instVars : [
 		'server',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-GTTestServer >> initializeUsingDelegate: aDelegate semaphore: aSemaphore [
+GTEventRecorderTestServer >> initializeUsingDelegate: aDelegate semaphore: aSemaphore [
 	| subscription |
 	server := ZnServer on: 0.
 	server delegate: aDelegate.
@@ -30,11 +30,16 @@ GTTestServer >> initializeUsingDelegate: aDelegate semaphore: aSemaphore [
 ]
 
 { #category : #accessing }
-GTTestServer >> server [
+GTEventRecorderTestServer >> server [
 	^ server
 ]
 
 { #category : #accessing }
-GTTestServer >> url [
+GTEventRecorderTestServer >> stop [
+	server stop
+]
+
+{ #category : #accessing }
+GTEventRecorderTestServer >> url [
 	^ url
 ]
