@@ -38,7 +38,7 @@ GTATool class >> defaultEventsDirectory [
 
 { #category : #defaults }
 GTATool class >> defaultUrl [
-	^ 'http://gc.dcc.uchile.cl:8080/gt/events/data'
+	^ 'http://gc.dcc.uchile.cl/gt-events.tar.gz'
 ]
 
 { #category : #api }
@@ -52,7 +52,6 @@ GTATool class >> download [
 			downloadTo: self defaultDownloadFilename ]
 		on: HTTPProgress 
 		do: [ :progress |
-			self haltOnce.
 			progress isEmpty ifFalse: [ 
 				bar current: progress percentage.
 				progress total ifNotNil: [ :aTotalNumber | | length humanReadable unit |
