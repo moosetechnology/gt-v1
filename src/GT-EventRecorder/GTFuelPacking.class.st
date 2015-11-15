@@ -66,3 +66,8 @@ GTFuelPacking >> serialize: anObject [
 	stream close.
 	^ stream contents.
 ]
+
+{ #category : #accessing }
+GTFuelPacking >> technologyName [
+	^ 'fuel'
+]

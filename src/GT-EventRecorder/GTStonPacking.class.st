@@ -17,8 +17,13 @@ GTStonPacking >> materialize: aByteArray [
 
 { #category : #private }
 GTStonPacking >> serialize: anObject [
-	^ String streamContents: [ :stream | | gzstream |
+	^ (String streamContents: [ :stream | | gzstream |
 		gzstream := GZipWriteStream on: stream.
 		[ STON put: anObject onStreamPretty: gzstream ]
-			ensure: [ gzstream close ] ]
+			ensure: [ gzstream close ] ]) asByteArray
+]
+
+{ #category : #accessing }
+GTStonPacking >> technologyName [
+	^ 'ston'
 ]

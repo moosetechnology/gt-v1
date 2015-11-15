@@ -18,6 +18,11 @@ Class {
 	#category : #'GT-EventRecorder-Core'
 }
 
+{ #category : #accessing }
+GTEventPacking class >> all [
+	^ {self ston. self fuel}
+]
+
 { #category : #'instance creation' }
 GTEventPacking class >> default [
 	^ self ston
@@ -66,6 +71,12 @@ GTEventPacking >> packCollector: aGTEventCollector [
 
 { #category : #private }
 GTEventPacking >> serialize: anObject [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+GTEventPacking >> technologyName [
+	"It returns a string that identify packing technology."
 	^ self subclassResponsibility
 ]
 
