@@ -156,3 +156,25 @@ ConfigurationOfGTEventRecorderServer >> project [
 		project loadType: #linear. "change to #atomic if desired"
 		project ]
 ]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfGTEventRecorderServer >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '0.1'.
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorderServer >> version01: spec [
+	<version: '0.1' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 0.1'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '11/15/2015 19:17'.
+		spec project: 'GTEventRecorder' with: '0.2'.
+		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.5'. ].
+
+]
