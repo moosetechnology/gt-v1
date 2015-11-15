@@ -19,12 +19,12 @@ Class {
 	#category : #'GT-EventRecorder-Server-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #asserting }
 GTERServerPutHandlerTest >> assertReceiverSemaphore [
 	self deny: (receiverSemaphore waitTimeoutMSecs: 200)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTERServerPutHandlerTest >> put: aByteArray [ 
 	| key |
 	key := (receivedContents size + 1) printString.
@@ -80,7 +80,7 @@ GTERServerPutHandlerTest >> setUpServer [
 		yourself.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTERServerPutHandlerTest >> storage [
 	storage ifNil: [ storage := Dictionary new ].
 	receivedContents flush: [ :association |
