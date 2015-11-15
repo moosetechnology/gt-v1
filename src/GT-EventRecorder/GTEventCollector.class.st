@@ -5,12 +5,15 @@ I am responsible for collecting data (#add: method) and for handing collected da
 
 Subclasses can overwrite #newAnnouncement method if they want to send another announcement objects and #updateAnnouncement: if they want to add extra information to delivered bundle. 
 
+You should consider to set #category. This value is used for separating data on the server to directories. That way you will then easier receive your collected data. If you creates a subclass of me, you can override #defaultCategory method.
+
 I collaborate with GTEventPacking object that receives collected data and URL, serilize the collected data, and creates GTEventBundle object. My subclasses can handle differently what data to send together to server by rewritting #bundle method.
 
 Public API and Key Messages
 
 - bundle   
 - url
+- category
 - newAnnouncement 
 - updateAnnouncement: 
  
