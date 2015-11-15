@@ -12,11 +12,6 @@ Class {
 	#category : #'GT-EventRecorder-Tests-Core'
 }
 
-{ #category : #accessing }
-GTEventDeliveryTest >> announcer [
-	^ announcer
-]
-
 { #category : #converting }
 GTEventDeliveryTest >> assertSemaphore [
 	self deny: (semaphore waitTimeoutMSecs: 200)
@@ -31,7 +26,6 @@ GTEventDeliveryTest >> isGlobalRecorder [
 GTEventDeliveryTest >> setUp [
 	super setUp.
 	semaphore := Semaphore new.
-	announcer := Announcer new.
 	delivery := GTEventDelivery new
 ]
 
@@ -50,9 +44,7 @@ GTEventDeliveryTest >> testPrintOn [
 GTEventDeliveryTest >> testPrintOn2 [
 	| string |
 	delivery recorder: self.
-	announcer
-		when: GTEventSuspendingDeliveryAnnouncement
-		do: [ semaphore signal ].	
+	delivery preSuspendingAction: [ semaphore signal ].
 	delivery activate.	
 	self assertSemaphore.
 	200 milliSeconds wait.

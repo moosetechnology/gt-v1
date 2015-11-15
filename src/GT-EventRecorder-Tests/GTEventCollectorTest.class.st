@@ -30,6 +30,11 @@ GTEventCollectorTest >> testBundle2 [
 ]
 
 { #category : #tests }
+GTEventCollectorTest >> testCategory [
+	self assert: collector category equals: collector defaultCategory
+]
+
+{ #category : #tests }
 GTEventCollectorTest >> testNewAnnouncement [
 	self assert: (collector newAnnouncement isKindOf: Announcement).
 ]

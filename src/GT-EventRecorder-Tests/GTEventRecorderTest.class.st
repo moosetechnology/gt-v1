@@ -29,6 +29,11 @@ GTEventRecorderTest >> assertSemaphore [
 	self deny: (semaphore waitTimeoutMSecs: 200)
 ]
 
+{ #category : #asserting }
+GTEventRecorderTest >> denyReceiverSemaphore [
+	self assert: (receiverSemaphore waitTimeoutMSecs: 200)
+]
+
 { #category : #'server handling' }
 GTEventRecorderTest >> handleRequest: request response: response [
 	receivedContents nextPut: request contents.
@@ -62,14 +67,14 @@ GTEventRecorderTest >> setUpServer [
 	delegate := ZnDispatcherDelegate new.
 	delegate
 		map: '/'
-		to:
-			[ :request :response | self handleRequest: request response: response ].
+		to: [ :request :response | self handleRequest: request response: response ].
 	server := ZnServer on: 0.
 	server delegate: delegate.
 	server route: UUID new asString.
 	subscription := ZnLogEvent announcer 
 							when: ZnServerSocketBoundEvent 
-							do: [ :announcement | announcement serverId = server route ifTrue: [ receiverSemaphore signal ] ]
+							do: [ :announcement | announcement serverId = server route 
+										ifTrue: [ receiverSemaphore signal ] ]
 							for: self.
 	server start.
 	self assertReceiverSemaphore.
@@ -104,9 +109,7 @@ GTEventRecorderTest >> testAddCollector3 [
 	recorder addCollector: collector1.
 	collector1 add: event1.
 	collector1 add: event2.
-	recorder announcer 
-		when: GTEventSuspendingDeliveryAnnouncement
-		do: [ semaphore signal ].
+	recorder deliveryPreSuspendingAction: [ semaphore signal ].
 	self assertSemaphore.
 	self waitForDelivery.
 	self assert: collector1 size equals: 0.
@@ -150,6 +153,9 @@ GTEventRecorderTest >> testDeliverAllInOneHttpRequest [
 	recorder addCollector: collector2.
 	self assertSemaphore.
 	self waitForDelivery.
+	self denyReceiverSemaphore.
+	self assert: collector1 size equals: 0.
+	self assert: collector2 size equals: 0.
 	self assert: receivedContents size equals: 1.
 
 ]
@@ -193,13 +199,4 @@ GTEventRecorderTest >> testRemoveCollector2 [
 GTEventRecorderTest >> waitForDelivery [
 	recorder deliverNow.
 	self assertReceiverSemaphore.
-]
-
-{ #category : #'as yet unclassified' }
-GTEventRecorderTest >> waitForDeliveryInitialization [
-	recorder announcer
-		when: GTEventSuspendingDeliveryAnnouncement
-		do: [ semaphore signal ].
-	self assertSemaphore.
-
 ]
