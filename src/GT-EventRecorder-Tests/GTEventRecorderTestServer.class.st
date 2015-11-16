@@ -45,7 +45,21 @@ GTEventRecorderTestServer >> stop [
 	server stop
 ]
 
+{ #category : #subscription }
+GTEventRecorderTestServer >> unsubscribeAll [
+	ZnLogEvent announcer unsubscribe: self
+]
+
 { #category : #accessing }
 GTEventRecorderTestServer >> url [
 	^ url
+]
+
+{ #category : #events }
+GTEventRecorderTestServer >> when: anAnnouncement do: aBlock [
+	"Subscribe myself for events that belongs to my ZnServer."
+	^ ZnLogEvent announcer 
+			when: anAnnouncement 
+			do: [ :announcement | announcement serverId = server route ifTrue: [ aBlock cull: announcement ] ]
+			for: self.
 ]
