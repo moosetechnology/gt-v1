@@ -78,6 +78,13 @@ GTEventCollectors >> remove: aGTEventCollector [
 	^ mutex critical: [ collectors remove: aGTEventCollector ifAbsent: nil ]
 ]
 
+{ #category : #removing }
+GTEventCollectors >> removeLiberatedCollectors [
+	mutex critical: [ | liberated |
+		liberated := collectors select: #isLiberated.
+		collectors removeAll: liberated ]
+]
+
 { #category : #accessing }
 GTEventCollectors >> size [
 	^ mutex critical: [ collectors size ]

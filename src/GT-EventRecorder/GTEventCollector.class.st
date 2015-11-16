@@ -30,7 +30,8 @@ Class {
 	#instVars : [
 		'url',
 		'category',
-		'recordedEvents'
+		'recordedEvents',
+		'registry'
 	],
 	#classInstVars : [
 		'uniqueInstance'
@@ -47,13 +48,14 @@ GTEventCollector class >> cleanUp [
 GTEventCollector class >> initializeUniqueInstance [
 	uniqueInstance ifNotNil: [ self reset ].
 	uniqueInstance := self new.
+	uniqueInstance occupant: self.
 	GTEventRecorder uniqueInstance addCollector: uniqueInstance
 ]
 
 { #category : #accessing }
 GTEventCollector class >> reset [
 	uniqueInstance ifNil: [ ^ self ].
-	GTEventRecorder uniqueInstance removeCollector: uniqueInstance.
+	uniqueInstance liberate.
 	uniqueInstance := nil.
 ]
 
@@ -96,6 +98,7 @@ GTEventCollector >> defaultCategory [
 
 { #category : #accessing }
 GTEventCollector >> flush [
+	"Be careful when using it. You will lost all data."
 	recordedEvents flush
 ]
 
@@ -104,6 +107,18 @@ GTEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
 
+]
+
+{ #category : #testing }
+GTEventCollector >> isLiberated [
+	"When I answer true, I can be removed from a GTEventRecorder object."
+	^ self registry isLiberated and: [ recordedEvents isEmpty ]
+]
+
+{ #category : #actions }
+GTEventCollector >> liberate [
+	"Liberate me from the occupant so I can be removed from GTEventRecorder object in the next delivery cycle."
+	^ self registry liberate.
 ]
 
 { #category : #'instance creation' }
@@ -116,6 +131,12 @@ GTEventCollector >> newAnnouncement [
 	^ newAnnouncement
 ]
 
+{ #category : #accessing }
+GTEventCollector >> occupant: anObject [ 
+	"anObject sends me data. I weakly keeps anObject and once it is released, I can be removed from GTEventRecorder object."
+	self registry object: anObject
+]
+
 { #category : #printing }
 GTEventCollector >> printOn: aStream [
 	super printOn: aStream.
@@ -126,6 +147,17 @@ GTEventCollector >> printOn: aStream [
 		space;
 		nextPutAll: ('item' asPluralBasedOn: recordedEvents size);
 		nextPut: $]
+]
+
+{ #category : #initialization }
+GTEventCollector >> register [
+	"Register to the global GTEventRecorder."
+	GTEventRecorder uniqueInstance addCollector: self.
+]
+
+{ #category : #accessing }
+GTEventCollector >> registry [
+	^ registry ifNil: [ registry := GTEventRegistry new ]
 ]
 
 { #category : #accessing }

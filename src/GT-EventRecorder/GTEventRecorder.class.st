@@ -154,6 +154,7 @@ GTEventRecorder >> pack [
 	collectors do: [ :eachCollector | | bundle |
 		bundle := packing pack: eachCollector.
 		bundle data ifNotEmpty: [ delivery add: bundle ] ].
+	self removeLiberatedCollectors.
 ]
 
 { #category : #removing }
@@ -162,6 +163,11 @@ GTEventRecorder >> removeCollector: aGTEventCollector [
 	removedCollector := collectors remove: aGTEventCollector.
 	collectors size = 0 ifTrue: [ self deactivateDelivery ].
 	^ removedCollector
+]
+
+{ #category : #removing }
+GTEventRecorder >> removeLiberatedCollectors [
+	collectors removeLiberatedCollectors
 ]
 
 { #category : #configuration }
