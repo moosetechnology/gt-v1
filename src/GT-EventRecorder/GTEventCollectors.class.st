@@ -38,7 +38,8 @@ GTEventCollectors >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	^ collectors ifNotNil: [ 
 			(collectors gtInspectorItemsIn: composite)
-				title: 'Collectors' ]
+				title: 'Collectors';
+				display: [ collectors asOrderedCollection ] ]
 ]
 
 { #category : #initialization }
