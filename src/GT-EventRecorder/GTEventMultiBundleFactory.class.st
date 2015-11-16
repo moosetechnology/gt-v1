@@ -20,7 +20,7 @@ GTEventMultiBundleFactory class >> fromBundles: aCollection [
 { #category : #public }
 GTEventMultiBundleFactory >> fromBundles: aCollection [ 
 	| multiBundles |
-	multiBundles := StandardOrderedDictionary new.
+	multiBundles := OrderedDictionary new.
 	aCollection do: [ :aBundle | | multiBundle |
 		multiBundle := multiBundles 
 								at: aBundle url 

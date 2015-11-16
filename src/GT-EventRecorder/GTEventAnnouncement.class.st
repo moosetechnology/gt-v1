@@ -179,12 +179,6 @@ GTEventAnnouncement >> migrationRules: aCollectionOrNil [
 ]
 
 { #category : #accessing }
-GTEventAnnouncement >> safeUnpackedData [
-	"On any error, returns empty collection"
-	^ [ self unpackedData ] on: Error do: [ #() ]
-]
-
-{ #category : #accessing }
 GTEventAnnouncement >> serializedBy [
 	^ self dictionary at: #serializedBy ifAbsent: [ GTFuelPacking name ]
 ]
