@@ -35,6 +35,40 @@ GTEventCollectorTest >> testCategory [
 ]
 
 { #category : #tests }
+GTEventCollectorTest >> testIsLiberated [
+	"By default it is liberated."
+	self assert: collector isLiberated
+]
+
+{ #category : #tests }
+GTEventCollectorTest >> testIsLiberated2 [
+	"The collection of events has to be empty."
+	collector add: 42.
+	self deny: collector isLiberated.
+]
+
+{ #category : #tests }
+GTEventCollectorTest >> testIsLiberated3 [
+	"The occupant has to be empty."
+	collector occupant: self.
+	self deny: collector isLiberated.
+]
+
+{ #category : #tests }
+GTEventCollectorTest >> testLiberate [
+	collector liberate.
+	self assert: collector isLiberated
+]
+
+{ #category : #tests }
+GTEventCollectorTest >> testLiberate2 [
+	collector occupant: self.
+	self deny: collector isLiberated.
+	collector liberate.
+	self assert: collector isLiberated
+]
+
+{ #category : #tests }
 GTEventCollectorTest >> testNewAnnouncement [
 	self assert: (collector newAnnouncement isKindOf: Announcement).
 ]

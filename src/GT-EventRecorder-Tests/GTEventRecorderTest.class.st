@@ -153,6 +153,33 @@ GTEventRecorderTest >> testDeliverNow [
 ]
 
 { #category : #tests }
+GTEventRecorderTest >> testDeliverNow2 [
+	"Ensure that liberated collector is removed."
+	recorder deliveryPreSuspendingAction: [ semaphore signal ].
+	collector1 add: 42.
+	recorder addCollector: collector1.
+	self assertSemaphore.
+	recorder deliverNow.
+	self assertSemaphore.
+	self assert: collector1 size equals: 0.
+	self assert: recorder numberOfCollectors equals: 0.
+]
+
+{ #category : #tests }
+GTEventRecorderTest >> testDeliverNow3 [
+	"Ensure that collector with registerd holder is not removed."
+	recorder deliveryPreSuspendingAction: [ semaphore signal ].
+	collector1 add: 42.
+	collector1 occupant: self.
+	recorder addCollector: collector1.
+	self assertSemaphore.
+	recorder deliverNow.
+	self assertSemaphore.
+	self assert: collector1 size equals: 0.
+	self assert: recorder numberOfCollectors equals: 1.
+]
+
+{ #category : #tests }
 GTEventRecorderTest >> testIsDeliveryActive [
 	self deny: recorder isDeliveryActive.
 ]
