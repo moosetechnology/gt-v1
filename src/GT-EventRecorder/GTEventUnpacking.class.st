@@ -36,8 +36,8 @@ Class {
 { #category : #'instance creation' }
 GTEventUnpacking class >> default [
 	^ self new
-			addPacking: GTEventPacking ston;
 			addPacking: GTEventPacking fuel;
+			addPacking: GTEventPacking ston;
 			yourself
 ]
 
