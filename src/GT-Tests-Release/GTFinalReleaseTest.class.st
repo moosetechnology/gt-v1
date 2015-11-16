@@ -13,6 +13,7 @@ GTFinalReleaseTest >> setUp [
 	
 	GTExampleOrganizer instance reset.
 	GTExampleOrganizer stop.
+	
 	Smalltalk garbageCollect
 ]
 
@@ -22,6 +23,7 @@ GTFinalReleaseTest >> tearDown [
 	
 	GTExampleOrganizer instance reset.
 	GTExampleOrganizer start.
+	
 	Smalltalk garbageCollect
 ]
 
