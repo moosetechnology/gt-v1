@@ -49,18 +49,22 @@ GTInspectorExamplesTest >> pragmasFor: exampleToTest [
 GTInspectorExamplesTest >> setUp [
 	super setUp.
 	
-	GTExampleOrganizer instance stop.
 	pragmas := IdentityDictionary new.
-	GTExampleOrganizer instance resetResults
+	GTExampleOrganizer instance reset.
+	GTExampleOrganizer stop.
+	
+	Smalltalk garbageCollect
 ]
 
 { #category : #running }
 GTInspectorExamplesTest >> tearDown [
 	super tearDown.
 	
-	GTExampleOrganizer instance resetResults.
 	pragmas := nil.
-	GTExampleOrganizer instance start.
+	GTExampleOrganizer instance reset.
+	GTExampleOrganizer start.
+	
+	Smalltalk garbageCollect
 ]
 
 { #category : #tests }
