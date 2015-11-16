@@ -9,7 +9,19 @@ Class {
 
 { #category : #tests }
 GTFinalReleaseTest >> setUp [
-	GTExampleOrganizer restart.
+	super setUp.
+	
+	GTExampleOrganizer instance reset.
+	GTExampleOrganizer stop.
+	Smalltalk garbageCollect
+]
+
+{ #category : #tests }
+GTFinalReleaseTest >> tearDown [
+	super tearDown.
+	
+	GTExampleOrganizer instance reset.
+	GTExampleOrganizer start.
 	Smalltalk garbageCollect
 ]
 
