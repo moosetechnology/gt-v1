@@ -72,7 +72,8 @@ GTInspectorExamplesTest >> testAllExamples [
 	self allExamplesClasses
 		do: [ :eachClass | 
 			eachClass gtExamples do: [ :exampleToTest | 
-				self checkAllPresentationsOf: exampleToTest ] ]
+				exampleToTest ignoreTest ifTrue: [ 
+					self checkAllPresentationsOf: exampleToTest ] ] ]
 ]
 
 { #category : #tests }
