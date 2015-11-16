@@ -75,6 +75,11 @@ GlobalIdentifierPersistence >> fileName [
 	^ self subclassResponsibility
 ]
 
+{ #category : #testing }
+GlobalIdentifierPersistence >> hasPreviousPersistence [
+	^ previousPersistence notNil
+]
+
 { #category : #'load and saving' }
 GlobalIdentifierPersistence >> load [
 	"It loads and returns stored dictionary."
@@ -93,7 +98,14 @@ GlobalIdentifierPersistence >> load: existingDictionary [
 	] on: Error do: [ 
 		"Preferences likely contains a different settings version, so we store the actual one.
 		We should keep the preferences as stable as possible."
-		self save: existingDictionary ]
+		self mayOverwrite: existingDictionary ]
+]
+
+{ #category : #'load and saving' }
+GlobalIdentifierPersistence >> mayOverwrite: aDictionary [
+	"If I keep previous persistence strategy, I am the main one and I can overwrite the current preference file.
+	I am called only on loading failure; it means when I cannot load preference file."
+	self hasPreviousPersistence ifTrue: [ self save: aDictionary ].
 ]
 
 { #category : #merging }
@@ -140,5 +152,5 @@ GlobalIdentifierPersistence >> save: aDictionary into: aWriteStream [
 
 { #category : #testing }
 GlobalIdentifierPersistence >> shouldCallPreviousPersistence [
-	^ self preferences exists not and: [ previousPersistence notNil ]
+	^ self preferences exists not and: [ self hasPreviousPersistence ]
 ]
