@@ -30,7 +30,7 @@ GTEventConsolidate >> collectors: aCollection [
 	collectors := aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - computed' }
 GTEventConsolidate >> consolidated [
 	| consolidatedCollectors |
 	consolidatedCollectors := OrderedDictionary new.
