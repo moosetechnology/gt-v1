@@ -117,6 +117,15 @@ GTEventTool >> unpackAll [
 	^ GTEventUnpacking default safeUnpackDirectory: self defaultEventsDirectory.
 ]
 
+{ #category : #api }
+GTEventTool >> unpackAll: aFileReference [
+	"self default unpackAll: './gt/events' asFileReference.
+	self default unpackAll: './gt/events/roassal2Examples' asFileReference.
+	" 
+	self ensureLocalDirectory.
+	^ GTEventUnpacking default safeUnpackDirectory: aFileReference.
+]
+
 { #category : #updating }
 GTEventTool >> update: aParameter [
 	aParameter = #runState ifTrue: [ self checkProcess ]
