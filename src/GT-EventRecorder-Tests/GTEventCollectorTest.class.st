@@ -78,18 +78,8 @@ GTEventCollectorTest >> testLiberate2 [
 ]
 
 { #category : #tests }
-GTEventCollectorTest >> testNewAnnouncement [
-	self assert: (collector newAnnouncement isKindOf: Announcement).
-]
-
-{ #category : #tests }
 GTEventCollectorTest >> testPrintOn [
 	self assert: (String streamContents: [ :stream | collector printOn: stream ]) notEmpty.
-]
-
-{ #category : #tests }
-GTEventCollectorTest >> testUpdateAnnouncement [
-	collector updateAnnouncement: GTEventAnnouncement new
 ]
 
 { #category : #tests }
