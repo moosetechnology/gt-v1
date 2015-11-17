@@ -44,6 +44,40 @@ GTEventCollectorsTest >> testDefault [
 ]
 
 { #category : #tests }
+GTEventCollectorsTest >> testDo [
+	"Ensure that collectors are iterated according to creation time."
+	| collector1 collector2 interatedCollectors |
+	collector1 := GTEventCollector new.
+	collector2 := GTEventCollector new.
+	self assert: collector1 creationTime < collector2 creationTime.
+	collectors add: collector2.
+	collectors add: collector1.
+	interatedCollectors := OrderedCollection new.
+	collectors do: [ :eachCollector | interatedCollectors addLast: eachCollector ].
+	self assert: interatedCollectors size equals: 2.
+	self assert: interatedCollectors first == collector1.
+	self assert: interatedCollectors second == collector2.
+	
+]
+
+{ #category : #tests }
+GTEventCollectorsTest >> testDo2 [
+	"Ensure that collectors are iterated according to creation time."
+	| collector1 collector2 interatedCollectors |
+	collector1 := GTEventCollector new.
+	collector2 := GTEventCollector new.
+	self assert: collector1 creationTime < collector2 creationTime.
+	collectors add: collector1.
+	collectors add: collector2.
+	interatedCollectors := OrderedCollection new.
+	collectors do: [ :eachCollector | interatedCollectors addLast: eachCollector ].
+	self assert: interatedCollectors size equals: 2.
+	self assert: interatedCollectors first == collector1.
+	self assert: interatedCollectors second == collector2.
+	
+]
+
+{ #category : #tests }
 GTEventCollectorsTest >> testPrintOn [
 	self assert: (String streamContents: [ :stream | collectors printOn: stream ]) notEmpty.
 ]
