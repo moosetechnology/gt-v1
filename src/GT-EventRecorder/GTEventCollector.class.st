@@ -127,16 +127,6 @@ GTEventCollector >> liberate [
 	^ self registry liberate.
 ]
 
-{ #category : #'instance creation' }
-GTEventCollector >> newAnnouncement [
-	"Instance of this announcement is used for packing data, that are given by sending me #bundle message.
-	Other information about the delivering bundle can be agregated, e.g., version number in order to identify differences of contents."
-	| newAnnouncement |
-	newAnnouncement := GTEventAnnouncement new.
-	self updateAnnouncement: newAnnouncement.
-	^ newAnnouncement
-]
-
 { #category : #accessing }
 GTEventCollector >> occupant: anObject [ 
 	"anObject sends me data. I weakly keeps anObject and once it is released, I can be removed from GTEventRecorder object."
@@ -169,12 +159,6 @@ GTEventCollector >> registry [
 { #category : #accessing }
 GTEventCollector >> size [
 	^ recordedEvents size
-]
-
-{ #category : #private }
-GTEventCollector >> updateAnnouncement: aGTEventAnnouncement [ 
-	"Any particular GTEventCollector can add additional information about the delivering bundle, 
-	e.g., version number in order to identify differences of contents."
 ]
 
 { #category : #accessing }

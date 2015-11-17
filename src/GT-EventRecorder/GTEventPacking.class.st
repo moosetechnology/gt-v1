@@ -48,10 +48,15 @@ GTEventPacking >> migrations: anObject [
 	"Ignore by default. Subclasses can overwrite it."
 ]
 
+{ #category : #'instance creation' }
+GTEventPacking >> newAnnouncement [
+	^ GTEventAnnouncement new
+]
+
 { #category : #private }
 GTEventPacking >> newAnnouncementFor: aGTEventCollector [
 	^ self 
-		updateAnnouncement: aGTEventCollector newAnnouncement 
+		updateAnnouncement: self newAnnouncement 
 		withData: (self serialize: aGTEventCollector bundle).
 ]
 

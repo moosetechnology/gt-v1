@@ -102,6 +102,7 @@ GTEventRecorder >> deliveryPreSuspendingAction: aBlockClosure [
 
 { #category : #packing }
 GTEventRecorder >> flush [
+	"Be careful! You will lost all data."
 	collectors do: #flush
 ]
 
@@ -150,8 +151,12 @@ GTEventRecorder >> offerPrivacy [
 
 { #category : #packing }
 GTEventRecorder >> pack [
+	| allCollectors consolidatedCollectors |
 	self canSendDiagnosticsAndUsageData ifFalse: [ ^ self flush; yourself ].
-	collectors do: [ :eachCollector | | bundle |
+	allCollectors := OrderedCollection new: collectors size.
+	collectors do: [ :eachCollector | allCollectors addLast: eachCollector ].
+	consolidatedCollectors := GTEventConsolidate new collectors: allCollectors; consolidated.
+	consolidatedCollectors do: [ :eachCollector | | bundle |
 		bundle := packing pack: eachCollector.
 		bundle data ifNotEmpty: [ delivery add: bundle ] ].
 	self removeLiberatedCollectors.

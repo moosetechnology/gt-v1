@@ -44,3 +44,12 @@ GTEventRegistry >> liberate [
 GTEventRegistry >> object: anObject [ 
 	weakHolder at: 1 put: anObject.
 ]
+
+{ #category : #printing }
+GTEventRegistry >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		nextPutAll: (self isLiberated ifTrue: [ 'liberated' ] ifFalse: [ 'used' ]);
+		nextPut: $)
+]
