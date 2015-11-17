@@ -30,7 +30,7 @@ GTEventCollectors >> add: aGTEventCollector [
 
 { #category : #enumerating }
 GTEventCollectors >> do: oneArgBlock [
-	mutex critical: [ collectors do: oneArgBlock ]
+	mutex critical: [ (collectors sorted: [ :a :b | a creationTime < b creationTime ]) do: oneArgBlock ]
 ]
 
 { #category : #'gt-inspector-extension' }

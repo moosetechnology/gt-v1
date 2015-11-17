@@ -31,7 +31,8 @@ Class {
 		'url',
 		'category',
 		'recordedEvents',
-		'registry'
+		'registry',
+		'creationTime'
 	],
 	#classInstVars : [
 		'uniqueInstance'
@@ -91,6 +92,11 @@ GTEventCollector >> category: aString [
 	^ category := aString
 ]
 
+{ #category : #accessing }
+GTEventCollector >> creationTime [
+	^ creationTime
+]
+
 { #category : #configuration }
 GTEventCollector >> defaultCategory [
 	^ #unknown
@@ -106,7 +112,7 @@ GTEventCollector >> flush [
 GTEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
-
+	creationTime := DateAndTime now.
 ]
 
 { #category : #testing }
