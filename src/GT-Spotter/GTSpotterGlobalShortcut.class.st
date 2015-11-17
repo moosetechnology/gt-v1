@@ -19,7 +19,10 @@ GTSpotterGlobalShortcut class >> openGlobalSpotter [
 	self reset.
 	spotterModel := GTSpotter new.
 	(Smalltalk hasClassNamed: #GTSpotterEventCollector) ifTrue: [ 
-		#GTSpotterEventCollector asClass uniqueInstance 
+		#GTSpotterEventCollector asClass new
+			perform: #occupant: with: spotterModel;
+			perform: #category: with: #spotter;
+			register;
 			perform: #linkToSpotter: with: spotterModel;
 			perform: #recordSpotterOpenEvent ].
 	
