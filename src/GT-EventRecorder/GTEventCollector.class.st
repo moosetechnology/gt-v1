@@ -28,7 +28,7 @@ Example for playing with me:
 Example for serious use:
 	GTEventCollector new
 		category: #testingForReal;
-		occupant: nil ""object that represents your application"";
+		occupant: nil ""object that represents your application, if nil, the collector will be removed from GTEventRecorder object once collected data are sent"";
 		register; ""please do not register just for fun, because we collects those data""
 		yourself
  
