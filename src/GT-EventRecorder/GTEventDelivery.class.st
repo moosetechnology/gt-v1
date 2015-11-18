@@ -53,10 +53,10 @@ GTEventDelivery >> announcer [
 
 { #category : #delivery }
 GTEventDelivery >> bundles [
-	| bundles |
-	bundles := OrderedCollection new.
-	queue flush: [ :eachGTEventBundle | bundles addLast: eachGTEventBundle ].
-	^ bundles
+	| eventBundles |
+	eventBundles := OrderedCollection new.
+	queue flush: [ :eachGTEventBundle | eventBundles addLast: eachGTEventBundle ].
+	^ eventBundles
 ]
 
 { #category : #deactivation }
@@ -78,16 +78,16 @@ GTEventDelivery >> deliver: aBoolean [
 ]
 
 { #category : #delivery }
-GTEventDelivery >> deliver: aGTEventBundle signalProgress: aBoolean [
+GTEventDelivery >> deliver: aGTEventMultiBundle signalProgress: aBoolean [
 	^ (ZnClient new
 			beOneShot;
 			timeout: 5;
 			signalProgress: aBoolean;
 			numberOfRetries: 0;
-			url: aGTEventBundle url;
+			url: aGTEventMultiBundle url;
 			enforceHttpSuccess: true;
-			ifFail: [ :exception | queue nextPut: aGTEventBundle ];
-			entity: aGTEventBundle entity;
+			ifFail: [ :exception | queue nextPut: aGTEventMultiBundle ];
+			entity: aGTEventMultiBundle entity;
 			put;
 			response)
 ]

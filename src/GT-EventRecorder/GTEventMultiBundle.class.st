@@ -25,6 +25,11 @@ Class {
 	#category : #'GT-EventRecorder-Core'
 }
 
+{ #category : #visitor }
+GTEventMultiBundle >> accept: aVisitor [ 
+	^ aVisitor visitMultiBundle: self
+]
+
 { #category : #adding }
 GTEventMultiBundle >> add: aGTEventBundle [ 
 	^ self bundles addLast: aGTEventBundle
@@ -33,11 +38,6 @@ GTEventMultiBundle >> add: aGTEventBundle [
 { #category : #accessing }
 GTEventMultiBundle >> bundles [
 	^ bundles ifNil: [ bundles := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-GTEventMultiBundle >> bundles: anObject [
-	bundles := anObject
 ]
 
 { #category : #accessing }
@@ -51,10 +51,10 @@ GTEventMultiBundle >> entity [
 { #category : #private }
 GTEventMultiBundle >> updateEntity: aZnMultiPartFormDataEntity [ 
 	bundles ifNil: [ ^ self ].
-	self bundles do: [ :eachBundle |
+	self bundles do: [ :eachEventBundle |
 		aZnMultiPartFormDataEntity 
-			addPart: (ZnMimePart fieldName: 'category' value: eachBundle category);
-			addPart: (ZnMimePart fieldName: 'data' entity: eachBundle entity) ]
+			addPart: (ZnMimePart fieldName: 'category' value: eachEventBundle category);
+			addPart: (ZnMimePart fieldName: 'data' entity: eachEventBundle entity) ]
 ]
 
 { #category : #accessing }

@@ -16,6 +16,11 @@ Class {
 	#category : #'GT-EventRecorder-Core'
 }
 
+{ #category : #visitor }
+GTEventBundle >> accept: aVisitor [ 
+	^ aVisitor visitSingleBundle: self
+]
+
 { #category : #accessing }
 GTEventBundle >> category [
 	^ category
