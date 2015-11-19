@@ -65,7 +65,9 @@ GTEventMultiBundleFactoryTest >> testFromBundles [
 GTEventMultiBundleFactoryTest >> testFromBundles2 [
 	"#fromBundles: can also receive GTMultiBundle object. It should be consolidate too."
 	multiBundles := factory fromBundles: self allBundles.
-	multiBundles := factory fromBundles: (self allBundles copyWithAll: multiBundles).
+	multiBundles := factory fromBundles: (self allBundles copy asOrderedCollection
+		addAll: multiBundles;
+		yourself) asArray.
 	self assert: multiBundles size equals: 2.
 	self detectEvents.
 	self assert: multiBundle1 url equals: bundle1 url.
@@ -89,7 +91,9 @@ GTEventMultiBundleFactoryTest >> testFromBundles2 [
 GTEventMultiBundleFactoryTest >> testFromBundles3 [
 	"#fromBundles: can also receive GTMultiBundle object. It should be consolidate too."
 	multiBundles := factory fromBundles: self allBundles.
-	multiBundles := factory fromBundles: (multiBundles copyWithAll: self allBundles).
+	multiBundles := factory fromBundles: (multiBundles copy asOrderedCollection
+		addAll: self allBundles;
+		yourself) asArray.
 	self assert: multiBundles size equals: 2.
 	self detectEvents.
 	self assert: multiBundle1 url equals: bundle1 url.
