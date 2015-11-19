@@ -85,12 +85,12 @@ GTEventTool >> ensureLocalDirectory [
 { #category : #api }
 GTEventTool >> extract [
 	semaphore := Semaphore new.
-	process := ExternalUnixOSProcess 
-		forkAndExec: '/usr/bin/tar' 
-		arguments: (Array with: 'xzf' with: self defaultDownloadFilename fullName)
-		environment: nil 
-		descriptors: nil 
-		workingDir: self defaultDownloadDirectory fullName.
+	(Smalltalk hasClassNamed: #ExternalUnixOSProcess) ifFalse: [ ^ self ].
+	process := #ExternalUnixOSProcess asClass forkAndExec: '/usr/bin/tar' 
+			arguments: (Array with: 'xzf' with: self defaultDownloadFilename fullName)
+			environment: nil 
+			descriptors: nil 
+			workingDir: self defaultDownloadDirectory fullName.
 	process addDependent: self.
 	self checkProcess.
 	semaphore wait.
