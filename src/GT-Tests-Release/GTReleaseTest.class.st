@@ -85,6 +85,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 			OCInstanceScope. " corrupt package detection "
 			PPBrowserStream. " corrupt package detection "
 			ReCritic. " corrupt package detection "
+			ReAbstractCritic. " corrupt package detection "
 			Slot. " abstract "
 			RTAbstractExample.  " abstract factory for collecting examples "
 		}
