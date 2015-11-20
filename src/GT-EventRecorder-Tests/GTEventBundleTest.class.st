@@ -25,6 +25,13 @@ GTEventBundleTest >> setUp [
 ]
 
 { #category : #tests }
+GTEventBundleTest >> testData [
+	"It is really important that it is the same object."
+	bundle data: data.
+	self assert: bundle data == bundle data.
+]
+
+{ #category : #tests }
 GTEventBundleTest >> testEntity [
 	bundle data: data.
 	entity := bundle entity.
