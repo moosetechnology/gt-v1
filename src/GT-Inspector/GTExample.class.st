@@ -448,6 +448,11 @@ GTExample >> iconSelector: aSelector [
 ]
 
 { #category : #'pragma-selectors' }
+GTExample >> iconSelectorBase64: aSelector [
+	self iconBase64: (self provider perform: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
 GTExample >> iconThemeSelector: aSelector [
 	form := (Smalltalk ui icons perform: aSelector)
 ]
