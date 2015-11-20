@@ -138,6 +138,11 @@ GTEventRecorder >> numberOfCollectors [
 	^ collectors size
 ]
 
+{ #category : #convenient }
+GTEventRecorder >> numberOfDeliveryData [
+	^ delivery size
+]
+
 { #category : #configuration }
 GTEventRecorder >> offerDeliveryPermission [
 	delivery offerPermission
