@@ -3,7 +3,7 @@ Extension { #name : #PGConnection }
 { #category : #'*GT-InspectorExtensions-PostgresV2' }
 PGConnection >> gtInspectorSQLIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	composite rubricText
+	composite text
 		title: 'SQL';
 		display: [ GTSnippets instance snippetAtOrEmpty: #'PGConnection-SQL' ];
 		selectionPopulate: #selection
