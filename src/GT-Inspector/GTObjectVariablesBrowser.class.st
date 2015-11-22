@@ -25,7 +25,7 @@ GTObjectVariablesBrowser >> compose [
 
 { #category : #'private building' }
 GTObjectVariablesBrowser >> evaluatorIn: composite [
-	^ composite pharoScript
+	^ composite pharoPlayground
 		doItReceiver: #yourself;
 		display: [ :object | 
 			String streamContents: [ :stream | 
