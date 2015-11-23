@@ -625,7 +625,7 @@ ConfigurationOfGTInspectorCore >> version22: spec [
 		spec timestamp: '11/19/2015 20:57'.
 		spec project: 'GlamourCore' with: '3.4'.
 		spec 
-			package: 'GT-Inspector' with: 'GT-Inspector-StefanReichhart.348';
+			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.350';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.185';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.48'. ].
 
