@@ -257,7 +257,7 @@ GTExample >> gtDisplaySummaryOn: aStream. [
 		ifFalse: [ ^ aStream nextPutAll: self label ].
 	self description isEmptyOrNil 
 		ifFalse: [ ^ aStream nextPutAll: self description ].
-	aStream nextPutAll: self method name
+	aStream nextPutAll: self method printString
 ]
 
 { #category : #'pragma-selectors' }
@@ -448,8 +448,18 @@ GTExample >> iconSelector: aSelector [
 ]
 
 { #category : #'pragma-selectors' }
+GTExample >> iconSelectorBase64: aSelector [
+	self iconBase64: (self provider perform: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
 GTExample >> iconThemeSelector: aSelector [
 	form := (Smalltalk ui icons perform: aSelector)
+]
+
+{ #category : #testing }
+GTExample >> ignoreCache [
+	^ self propertyAt: #noCache ifAbsent: [ false ]
 ]
 
 { #category : #testing }
@@ -515,6 +525,11 @@ GTExample >> method [
 GTExample >> methodReference [
 	self deprecated: 'The selector #methodReference is obsolete'.
 	^ self method asRingDefinition
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> noCache [
+	self propertyAt: #noCache put: true
 ]
 
 { #category : #'pragma-selectors' }
@@ -607,7 +622,7 @@ GTExample >> result: aResult [
 
 { #category : #private }
 GTExample >> resultCached: aResult [
-	result := aResult.
+	self ignoreCache ifFalse: [ result := aResult ].
 	GTExampleNautilus methodChanged: self method.
 	^ aResult
 ]
