@@ -19,14 +19,7 @@ Class {
 { #category : #'instance creation' }
 GTMoldableDebugger class >> debugBasedOnSession: aSession [
 
-	^ self debugSession: ((self spanNewSessionForContext: aSession context fromProcess: aSession process)
-		errorWasInUIProcess: aSession errorWasInUIProcess)
-]
-
-{ #category : #'instance creation' }
-GTMoldableDebugger class >> debugContext: aContext fromProcess: aProcess [
-
-	^ self debugSession: (self spanNewSessionForContext: aContext fromProcess: aProcess)
+	^ self debugSession: (self spanNewSessionLabeled: aSession name forContext: aSession context fromProcess: aSession process)
 ]
 
 { #category : #'instance creation' }
@@ -59,11 +52,6 @@ GTMoldableDebugger class >> handlesContext: aContext [
 	self subclassResponsibility 
 ]
 
-{ #category : #opening }
-GTMoldableDebugger class >> openOn: anObject [ 
-	^ self new openOn: anObject
-]
-
 { #category : #'window color api' }
 GTMoldableDebugger class >> patchworkUIThemeColor [
 	"Answer a default color for UI themes that make use of different colors for Browser, MessageList etc..."
@@ -80,7 +68,15 @@ GTMoldableDebugger class >> sessionClass [
 { #category : #private }
 GTMoldableDebugger class >> spanNewSessionForContext: aContext fromProcess: aProcess [
 
-	^ self sessionClass process: aProcess context: aContext 
+	^ self sessionClass 
+		named: 'temporary name' on: aProcess startedAt: aContext
+]
+
+{ #category : #private }
+GTMoldableDebugger class >> spanNewSessionLabeled: aString forContext: aContext fromProcess: aProcess [
+
+	^ self sessionClass 
+		named: aString on: aProcess startedAt: aContext
 ]
 
 { #category : #icons }
@@ -223,12 +219,6 @@ GTMoldableDebugger >> openOn: anObject [
 		yourself
 ]
 
-{ #category : #intialization }
-GTMoldableDebugger >> process: aProcess controller: aController context: aContext [
-
-	self session: (self class spanNewSessionForContext: aContext fromProcess: aProcess)
-]
-
 { #category : #building }
 GTMoldableDebugger >> registerActions [
 
@@ -249,9 +239,10 @@ GTMoldableDebugger >> session [
 ]
 
 { #category : #accessing }
-GTMoldableDebugger >> session: anObject [
+GTMoldableDebugger >> session: aSession [
 
-	^ (self browser pane port: #entity) value: anObject
+	(self browser pane port: #entity) value: aSession.
+	self title: aSession name
 ]
 
 { #category : #accessing }
