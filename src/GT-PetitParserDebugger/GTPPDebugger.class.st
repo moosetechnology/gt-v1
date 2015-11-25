@@ -320,6 +320,12 @@ GTPPDebugger >> textAttributesForStackEntry: aContext [
 ]
 
 { #category : #updating }
+GTPPDebugger >> updateBrowser [
+	super updateBrowser.
+	self updateStreamSelectionInterval.
+]
+
+{ #category : #updating }
 GTPPDebugger >> updateStreamSelectionInterval [
 
 	(self streamPane port: #selectionInterval) value: (1 to: self session stream position)

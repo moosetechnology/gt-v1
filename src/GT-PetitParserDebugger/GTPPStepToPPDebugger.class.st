@@ -54,6 +54,13 @@ GTPPStepToPPDebugger >> executeAction [
 
 ]
 
+{ #category : #'as yet unclassified' }
+GTPPStepToPPDebugger >> initialize [ 
+	super initialize.
+	
+	self needsUpdate: false
+]
+
 { #category : #testing }
 GTPPStepToPPDebugger >> isPPDebuggerActivePredicate [
 

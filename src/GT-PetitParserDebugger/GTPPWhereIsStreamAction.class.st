@@ -26,3 +26,9 @@ GTPPWhereIsStreamAction >> executeAction [
 
 	self debugger updateStreamSelectionInterval
 ]
+
+{ #category : #initialization }
+GTPPWhereIsStreamAction >> initialize [ 
+	super initialize.
+	self needsUpdate: false
+]
