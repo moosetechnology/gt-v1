@@ -19,5 +19,5 @@ GTGenericStackDebuggerSmokeTest >> instantiateSession [
 		forContext: context
 		priority: Processor userInterruptPriority.
 		
-	^ self debuggerToTest spanNewSessionForContext: context fromProcess: process
+	^ self debuggerToTest spanNewSessionLabeled:  'test session' forContext: process suspendedContext fromProcess: process
 ]

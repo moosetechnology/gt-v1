@@ -19,7 +19,7 @@ GTGlamourDebuggerSmokeTest >> instantiateSession [
 		priority: Processor userInterruptPriority.
 		
 	self stepToGlamourModelConstructionInProcess: process.	
-	^ self debuggerToTest spanNewSessionForContext: process suspendedContext fromProcess: process
+	^ self debuggerToTest spanNewSessionLabeled:  'test session' forContext: process suspendedContext fromProcess: process
 ]
 
 { #category : #private }

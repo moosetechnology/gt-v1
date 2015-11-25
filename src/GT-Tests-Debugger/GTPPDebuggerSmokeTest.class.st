@@ -24,7 +24,7 @@ GTPPDebuggerSmokeTest >> instantiateSession [
 		priority: Processor userInterruptPriority.
 		
 	self stepToWhenParsingStartsInProcess: process.	
-	^ self debuggerToTest spanNewSessionForContext: process suspendedContext fromProcess: process
+	^ self debuggerToTest spanNewSessionLabeled:  'test session' forContext: process suspendedContext fromProcess: process
 ]
 
 { #category : #private }
