@@ -15,14 +15,14 @@ GTExampleNautilus class >> methodChanged: aCompiledMethod [
 { #category : #private }
 GTExampleNautilus >> examples: aCollection [
 	^ aCollection size = 1
-		ifTrue: [ aCollection first ]
+		ifTrue: [ aCollection anyOne ]
 		ifFalse: [ aCollection ]
 ]
 
 { #category : #private }
 GTExampleNautilus >> examples: aCollection do: aSelector [
 	^ aCollection size = 1
-		ifTrue: [ aCollection first perform: aSelector ]
+		ifTrue: [ aCollection anyOne perform: aSelector ]
 		ifFalse: [ aCollection collect: aSelector ]
 ]
 
