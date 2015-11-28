@@ -301,18 +301,14 @@ GTExampleOrganizer >> removeAtMethod: aCompiledMethod ifPresent: aBlock [
 { #category : #initializing }
 GTExampleOrganizer >> reset [
 	examples := WeakIdentityKeyDictionary new.
-	Smalltalk garbageCollect; garbageCollectMost.
 	GTExample allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 	GTExampleProxy allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
-	Smalltalk garbageCollect; garbageCollectMost.
 ]
 
 { #category : #initializing }
 GTExampleOrganizer >> resetResults [
-	Smalltalk garbageCollect; garbageCollectMost.
 	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
-	Smalltalk garbageCollect; garbageCollectMost.
 ]
 
 { #category : #public }
@@ -356,5 +352,5 @@ GTExampleOrganizer >> withCleanupDo: aBlock [
 	[ aBlock value ]
 		on: Error
 		do: [ :exception | " we should not ignore it, but try to continue " ].
-	self notifying ifTrue: [ Smalltalk garbageCollect ]
+	"self notifying ifTrue: [ Smalltalk garbageCollect ]"
 ]
