@@ -56,8 +56,8 @@ GTExampleResult >> gtDisplayOn: aStream [
 { #category : #ui }
 GTExampleResult >> gtDisplaySummaryOn: aStream [
 	self unexpectedError 
-		ifNotNil: [ self unexpectedError printOn: aStream ]
-		ifNil: [ self returnValue printOn: aStream ].
+		ifNotNil: [ self unexpectedError gtDisplayOn: aStream ]
+		ifNil: [ self returnValue gtDisplayOn: aStream ].
 
 ]
 
