@@ -621,9 +621,14 @@ GTExample >> result: aResult [
 ]
 
 { #category : #private }
+GTExample >> resultCached [
+	^ result
+]
+
+{ #category : #private }
 GTExample >> resultCached: aResult [
 	self ignoreCache ifFalse: [ result := aResult ].
-	GTExampleNautilus methodChanged: self method.
+	GTExampleNautilus methodUpdated: self method with: aResult.
 	^ aResult
 ]
 

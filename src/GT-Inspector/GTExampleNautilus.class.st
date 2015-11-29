@@ -13,6 +13,16 @@ GTExampleNautilus class >> methodChanged: aCompiledMethod [
 ]
 
 { #category : #private }
+GTExampleNautilus class >> methodUpdated: aCompiledMethod with: aResult [
+	[	MethodWidget methodsIconsCache 
+			at: aCompiledMethod 
+			put: (GTExampleNautilusAction iconForMethod: aCompiledMethod result: aResult). 
+		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
+			on: Error
+			do: [ " ignore and continue " ]
+]
+
+{ #category : #private }
 GTExampleNautilus >> examples: aCollection [
 	^ aCollection size = 1
 		ifTrue: [ aCollection anyOne ]
