@@ -51,6 +51,11 @@ GTSUnitDebugger class >> sessionClass [
 	^ GTSUnitDebugSession
 ]
 
+{ #category : #'accessing context' }
+GTSUnitDebugger >> contextToSelectFrom: aSession [
+	^ aSession testContext
+]
+
 { #category : #'building presentations' }
 GTSUnitDebugger >> diffIn: composite [
 
