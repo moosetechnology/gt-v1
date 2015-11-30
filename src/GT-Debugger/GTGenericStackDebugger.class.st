@@ -131,30 +131,6 @@ GTGenericStackDebugger class >> logFileName: newName [
 	LogFileName := newName
 ]
 
-{ #category : #'instance creation api' }
-GTGenericStackDebugger class >> on: aDebugSession [
-
-	^ self new 	
-			session: aDebugSession
-]
-
-{ #category : #'opening api' }
-GTGenericStackDebugger class >> openOn: aDebugSession withFullView: aBool [
-	
-	self openOn: aDebugSession withFullView: aBool andNotification: nil
-]
-
-{ #category : #'opening api' }
-GTGenericStackDebugger class >> openOn: aDebugSession withFullView: aBool andNotification: aString [
-	
-	| debugger |
-	debugger := self on: aDebugSession.
-	
-	aBool | self alwaysOpenFullDebugger
-		ifTrue: [ debugger openWithFullView ]
-		ifFalse: [ debugger openWithNotification: aString]
-]
-
 { #category : #'tools registry' }
 GTGenericStackDebugger class >> register [
 

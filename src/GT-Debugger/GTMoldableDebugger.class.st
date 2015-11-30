@@ -16,10 +16,11 @@ Class {
 	#category : #'GT-Debugger'
 }
 
-{ #category : #'instance creation' }
-GTMoldableDebugger class >> debugBasedOnSession: aSession [
-
-	^ self debugSession: (self spanNewSessionLabeled: aSession name forContext: aSession context fromProcess: aSession process)
+{ #category : #testing }
+GTMoldableDebugger class >> availableAutomatically [
+	"Should this debugger be taken into account when looking for a debugger to handle an exception."
+	
+	^ false
 ]
 
 { #category : #'instance creation' }
@@ -52,6 +53,38 @@ GTMoldableDebugger class >> handlesContext: aContext [
 	self subclassResponsibility 
 ]
 
+{ #category : #'instance creation api' }
+GTMoldableDebugger class >> on: aDebugSession [
+
+	^ self new 	
+			session: aDebugSession
+]
+
+{ #category : #'opening api' }
+GTMoldableDebugger class >> openOn: aDebugSession withFullView: aBool [
+	
+	self openOn: aDebugSession withFullView: aBool andNotification: nil
+]
+
+{ #category : #'opening api' }
+GTMoldableDebugger class >> openOn: aDebugSession withFullView: aBool andNotification: aString [
+	
+	| debugger |
+	debugger := (Smalltalk tools 
+		debuggerDispatcherFor: aDebugSession interruptedContext
+		matching: [:aDebugger | aDebugger availableAutomatically ]) 
+			ifNil: [ 
+				"Use the current debugger"
+				self on: aDebugSession ]
+			ifNotNil: [ :aDebugger | 
+				"Use a custom extension"
+				aDebugger on: (aDebugger spanNewSessionFrom: aDebugSession) ].
+	
+	aBool | self alwaysOpenFullDebugger
+		ifTrue: [ debugger openWithFullView ]
+		ifFalse: [ debugger openWithNotification: aString]
+]
+
 { #category : #'window color api' }
 GTMoldableDebugger class >> patchworkUIThemeColor [
 	"Answer a default color for UI themes that make use of different colors for Browser, MessageList etc..."
@@ -70,6 +103,15 @@ GTMoldableDebugger class >> spanNewSessionForContext: aContext fromProcess: aPro
 
 	^ self sessionClass 
 		named: 'temporary name' on: aProcess startedAt: aContext
+]
+
+{ #category : #accessing }
+GTMoldableDebugger class >> spanNewSessionFrom: anotherSession [
+
+	^ self sessionClass 
+		named: anotherSession name 
+		on: anotherSession interruptedProcess 
+		startedAt: anotherSession interruptedContext
 ]
 
 { #category : #private }
@@ -149,7 +191,7 @@ GTMoldableDebugger >> debug: aContext using: aDebuggerClass [
 	self detachSession.
 	self browser close.
 	currentSession updateContextTo: aContext.
-	aDebuggerClass debugBasedOnSession: currentSession
+	aDebuggerClass debugSession: (aDebuggerClass spanNewSessionFrom: currentSession)
 ]
 
 { #category : #building }
@@ -216,6 +258,7 @@ GTMoldableDebugger >> interruptedProcess [
 GTMoldableDebugger >> openOn: anObject [ 
 	^ (super openOn: anObject)
 		extent: self initialExtent;
+		title: self session name;
 		yourself
 ]
 
