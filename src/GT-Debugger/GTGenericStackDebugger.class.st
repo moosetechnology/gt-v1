@@ -187,6 +187,11 @@ GTGenericStackDebugger >> codePresentation [
 	^ self codePane presentations first
 ]
 
+{ #category : #'accessing context' }
+GTGenericStackDebugger >> contextToSelectFrom: aSession [
+	^ aSession context
+]
+
 { #category : #building }
 GTGenericStackDebugger >> debuggerStructureIn: browser [
 	
@@ -211,7 +216,7 @@ GTGenericStackDebugger >> debuggerTransmissionsIn: browser [
 		from: #stack port: #entity;
 		to: #stack port: #selection;
 		when: [ :session | session notNil ];
-		transformed: [:session | session context].
+		transformed: [:session | self contextToSelectFrom: session ].
 	browser transmit "need a method call when the selection is changed"
 		from: #stack port: #selection;
 		to: #stack port: #action;
@@ -443,6 +448,7 @@ GTGenericStackDebugger >> updateBrowser [
 { #category : #updating }
 GTGenericStackDebugger >> updateSelectionInterval [
 
+	self selectedContext ifNil: [ ^ self ].
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
 ]
 
