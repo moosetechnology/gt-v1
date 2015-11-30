@@ -4,6 +4,13 @@ Class {
 	#category : #'GT-SUnitDebugger'
 }
 
+{ #category : #testing }
+GTSUnitDebugger class >> availableAutomatically [
+	"Should this debugger be taken into account when looking for a debugger to handle an exception."
+	
+	^ true
+]
+
 { #category : #accessing }
 GTSUnitDebugger class >> defaultTitle [
 
@@ -12,8 +19,17 @@ GTSUnitDebugger class >> defaultTitle [
 
 { #category : #testing }
 GTSUnitDebugger class >> handlesContext: aContext [
-	self flag: 'this should go to the superclass'.
-	^ (aContext findContextMatchingPredicate: self sessionClass activationPredicate) notNil
+	| activationPredicate |
+	activationPredicate := self sessionClass activationPredicate.
+	^ (aContext stackOfSize: self lookupStackSize) 
+		detect: [ :ctx | activationPredicate matches: ctx ] 
+		 ifFound: [ true ]
+		 ifNone: [ false ]
+]
+
+{ #category : #testing }
+GTSUnitDebugger class >> lookupStackSize [
+	^ 10
 ]
 
 { #category : #'tools registry' }
@@ -35,49 +51,20 @@ GTSUnitDebugger class >> sessionClass [
 	^ GTSUnitDebugSession
 ]
 
-{ #category : #building }
-GTSUnitDebugger >> debuggerStructureIn: browser [
-	
-	browser
-		row: [ :row | 
-					row
-						column: #stack;
-						column: #code span: 2 ];
-		row: #diff.
-]
-
-{ #category : #building }
-GTSUnitDebugger >> debuggerTransmissionsIn: browser [
-
-	browser transmit
-		fromOutsideEntityPort;
-		to: #stack;
-		andShow: [ :composite | self stackIn: composite ].
-	browser transmit
-		fromOutsideEntityPort;
-		to: #stack port: #selection;
-		when: [ :session | session notNil ];
-		transformed: [:session | session testContext ].
-	browser transmit
-		from: #stack port: #selection;
-		to: #code;
-		andShow: [ :composite :aContext | self methodCodeIn: composite forContext: aContext ].
-	browser transmit
-		from: #stack port: #selection;
-		to: #diff;
-		andShow: [ :composite | 
-			(self diffIn: composite) title: 'Actual vs. expected'.
-			(self inspectorIn: composite) title: 'Inspector' ]
-	
-]
-
 { #category : #'building presentations' }
 GTSUnitDebugger >> diffIn: composite [
 
 	^ composite diff
 			when: [ self session isActive ];
 			display: [ 
-				{ self session actualResult gtSUnitPrint. self session expectedResult gtSUnitPrint} ]
+				{self session actualResult gtSUnitPrint. self session expectedResult gtSUnitPrint} ]
+]
+
+{ #category : #'building presentations' }
+GTSUnitDebugger >> inspectorIn: aComposite [
+
+	(self diffIn: aComposite) title: 'Actual vs. expected'.
+	(super inspectorIn: aComposite) title: 'Inspector'
 ]
 
 { #category : #updating }
@@ -85,6 +72,7 @@ GTSUnitDebugger >> updateBrowser [
 
 	super updateBrowser.
 	"The transmission will select the context of the test case. 
-	This should only happen the first time."
+	This should only happen the first time.
+	Should find another solution so this method doesn;t have to be overridden"
 	((self browser paneNamed: #stack) port: #selection) value: self session interruptedContext
 ]
