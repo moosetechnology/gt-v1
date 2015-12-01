@@ -6,6 +6,16 @@ CompiledMethod >> spotterActDefault [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+CompiledMethod >> spotterForBytecodesFor: aStep [
+	<spotterOrder: 15>
+	aStep listProcessor
+		title: 'Bytecode';
+		allCandidates: [ self symbolicBytecodes ];
+		itemName: #printString;
+		filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 CompiledMethod >> spotterForImplementorsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
