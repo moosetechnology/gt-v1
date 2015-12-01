@@ -57,19 +57,41 @@ GTSUnitDebugger >> contextToSelectFrom: aSession [
 ]
 
 { #category : #'building presentations' }
-GTSUnitDebugger >> diffIn: composite [
+GTSUnitDebugger >> inspectorDiffIn: aComposite [
 
-	^ composite diff
-			when: [ self session isActive ];
-			display: [ 
-				{self session actualResult gtSUnitPrint. self session expectedResult gtSUnitPrint} ]
+	^ aComposite tabulator 
+		with: [ :aTabulator |
+			aTabulator 
+				column: #actual;
+				column: #expected.
+			aTabulator when: [ self session isActive ].
+			aTabulator transmit to: #actual; andShow: [ :anotherComposite |
+				anotherComposite  dynamic 
+					display: [:anObject |
+				 		(GTDebuggerInspector new 
+							startOn: self session actualResult) ] ].
+			aTabulator transmit to: #expected; andShow: [ :anotherComposite |
+				anotherComposite  dynamic 
+					display: [:anObject |
+				 		(GTDebuggerInspector new 
+							startOn: self session expectedResult) ] ] ]
 ]
 
 { #category : #'building presentations' }
 GTSUnitDebugger >> inspectorIn: aComposite [
 
-	(self diffIn: aComposite) title: 'Actual vs. expected'.
+	(self textualDiffIn: aComposite) title: 'Diff (actual vs. expected)'.
+	(self inspectorDiffIn: aComposite) title: 'Objects (actual vs. expected)'.
 	(super inspectorIn: aComposite) title: 'Inspector'
+]
+
+{ #category : #'building presentations' }
+GTSUnitDebugger >> textualDiffIn: composite [
+
+	^ composite diff
+			when: [ self session isActive ];
+			display: [ 
+				{self session actualResult gtSUnitPrint. self session expectedResult gtSUnitPrint} ]
 ]
 
 { #category : #updating }
