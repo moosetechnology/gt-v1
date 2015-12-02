@@ -427,7 +427,8 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 { #category : #'printing/formatting' }
 GTGenericStackDebugger >> textAttributesForStackEntry: aContext [
 
-	(self selectedContext isNil or: self class enableStackColoring not) ifTrue: [ ^ {TextColor black} ].
+	(self selectedContext isNil or: self class enableStackColoring not) 
+		ifTrue: [ ^ {TextColor color: Smalltalk ui theme textColor} ].
 
 	(self selectedContext == aContext) ifTrue: [ ^ {TextColor black}  ].
 
