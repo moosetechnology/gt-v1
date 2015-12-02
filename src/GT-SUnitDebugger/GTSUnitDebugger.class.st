@@ -56,6 +56,34 @@ GTSUnitDebugger >> contextToSelectFrom: aSession [
 	^ aSession testContext
 ]
 
+{ #category : #building }
+GTSUnitDebugger >> debuggerStructureIn: browser [
+	
+	browser
+		row: [ :row | 
+					row
+						column: #stack;
+						column: #code;
+						column: #test ]
+			span: 2;
+		row: #inspector.
+		
+]
+
+{ #category : #building }
+GTSUnitDebugger >> debuggerTransmissionsIn: browser [
+
+	super debuggerTransmissionsIn: browser.
+	
+	browser transmit
+		from: #stack port: #selection;
+		to: #test;
+		andShow: [ :aComposite :aContext | 
+			self setUpCodeIn: aComposite.
+			self tearDownCodeIn: aComposite ]
+
+]
+
 { #category : #'building presentations' }
 GTSUnitDebugger >> inspectorDiffIn: aComposite [
 
@@ -83,6 +111,26 @@ GTSUnitDebugger >> inspectorIn: aComposite [
 	(self textualDiffIn: aComposite) title: 'Diff (actual vs. expected)'.
 	(self inspectorDiffIn: aComposite) title: 'Objects (actual vs. expected)'.
 	(super inspectorIn: aComposite) title: 'Inspector'
+]
+
+{ #category : #'building presentations' }
+GTSUnitDebugger >> setUpCodeIn: aComposite [
+
+	aComposite pharoMethod
+		title: 'SetUp';
+		format: [ self session setUpMethod sourceCode ];
+		smalltalkClass: [  self session testObject class ];
+		doItReceiver: [ self session testObject ].
+]
+
+{ #category : #'building presentations' }
+GTSUnitDebugger >> tearDownCodeIn: aComposite [
+
+	aComposite pharoMethod
+		title: 'TearDown';
+		format: [ self session tearDownMethod sourceCode ];
+		smalltalkClass: [  self session testObject class ];
+		doItReceiver: [ self session testObject ].
 ]
 
 { #category : #'building presentations' }

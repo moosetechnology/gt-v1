@@ -27,13 +27,13 @@ GTSUnitDebugSession >> expectedResult [
 	^ expectedResult
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSUnitDebugSession >> isActive [
 
 	^ self isActive: self testContext
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTSUnitDebugSession >> isActive: aContext [
 
 	^ aContext 
@@ -55,7 +55,25 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 ]
 
 { #category : #accessing }
+GTSUnitDebugSession >> setUpMethod [
+
+	^ self testContext receiver class lookupSelector: #setUp
+]
+
+{ #category : #accessing }
+GTSUnitDebugSession >> tearDownMethod [
+
+	^ self testContext receiver class lookupSelector: #tearDown
+]
+
+{ #category : #accessing }
 GTSUnitDebugSession >> testContext [
 
 	^ assertionContext sender
+]
+
+{ #category : #accessing }
+GTSUnitDebugSession >> testObject [
+
+	^ self testContext receiver
 ]
