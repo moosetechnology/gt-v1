@@ -8,7 +8,8 @@ KMDispatcher >> spotterForKeysFor: aStep [
 			title: 'Keys';
 			allCandidates: [ (self gtAllKeyCategoryPairs collect: #key) asOrderedCollection ];
 			itemName: [ :aKeymap | 
-				aKeymap shortcut gtDisplayString, ' [', aKeymap name,']' ];
+				aKeymap shortcut gtDisplayString, 
+				(aKeymap name ifNil: [ '' ] ifNotNil: [ ' [', aKeymap name,']' ]) ];
 			candidatesLimit: 5;
 			filter: GTFilterSubstrings
 ]
