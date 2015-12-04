@@ -767,7 +767,7 @@ ConfigurationOfGTSpotter >> version142: spec [
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-JurajKubelka.334';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.107';
-			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.171';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.172';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-StefanReichhart.15'. ].
 
 ]
