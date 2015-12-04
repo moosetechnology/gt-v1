@@ -181,7 +181,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.2.1'.
+	spec for: #'common' version: '2.2.2'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -625,6 +625,23 @@ ConfigurationOfGTInspectorCore >> version221: spec [
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.351';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.185';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.49'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version222: spec [
+	<version: '2.2.2' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Update GTools: small fixes and improvements (issue 17184)'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '12/4/2015 11:12'.
+		spec project: 'GlamourCore' with: '3.4.2'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-StefanReichhart.355';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.186';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.49'. ].
 
 ]
