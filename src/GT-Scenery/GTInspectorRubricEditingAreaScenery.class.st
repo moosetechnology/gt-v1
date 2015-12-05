@@ -21,21 +21,24 @@ GTInspectorRubricEditingAreaScenery >> setUp [
 		beWrapped;
 		withoutSelectionBar;
 		beForSmalltalkScripting;
-		setTextWith: ''"How is this text editor structured internally?"''.
+		setTextWith: ''| a | 
+a := 42''.
 area openInWindow width: 400.
 area ') .
 	GTSnippets reset.
 	GTSnippets snippetAt: #RubEditingArea asClass put: 'view := RTMondrian new.
-self textArea
+self
 	withDeep: [ :each |
 			each allInstVars select: [ :obj | obj class name beginsWith: ''Rub'' ] ]
 	do: [ :each |
-			view shape label text: [:x | x class name].
+			view shape label 
+				text: [:x | x class name]; 
+				if: [:x | x class = RubSHTextStylerST80 ] color: Color red.
 			view node: each ]
 	relationDo: [ :from :to | 
 		view shape line color: (Color gray alpha: 0.3).
-		view edges fromAssociations: {from->to} ].
+		view edges connectFrom: from to: to ].
 view view edges do: #pushBack.
-view layout tree.
+view layout horizontalTree.
 view'
 ]

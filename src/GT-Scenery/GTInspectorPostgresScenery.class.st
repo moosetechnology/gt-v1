@@ -27,7 +27,7 @@ conn connectionArgs:
 			userName: ''girba''
 			password: '''').
 conn startup.
-conn') maximize.
+conn').
 	GTSnippets reset.
 	GTSnippets snippetAt: #'PGConnection-SQL' put: 'select * from city
 select 
