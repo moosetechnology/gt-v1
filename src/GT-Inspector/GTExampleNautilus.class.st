@@ -42,6 +42,8 @@ GTExampleNautilus >> onClass: aBuilder [
 	target := aBuilder model.
 	(class := target selectedClass) ifNil: [ ^ self ].
 	self onReferences: class theNonMetaClass name builder: aBuilder.
+	self onProvider: class theNonMetaClass builder: aBuilder.
+	self onSource: class theNonMetaClass builder: aBuilder.
 	(examples := class theNonMetaClass gtExamplesContained) isEmptyOrNil ifTrue: [ ^ self ].
 	self onExamples: examples builder: aBuilder
 ]
@@ -57,18 +59,18 @@ GTExampleNautilus >> onCompiledMethod: aBuilder [
 
 ]
 
-{ #category : #private }
+{ #category : #public }
 GTExampleNautilus >> onExamples: aCollection builder: aBuilder [
 	(aBuilder item: #'Inspect Examples')
-		order: 10000;
+		order: 90003;
 		action: [ (self examples: aCollection) inspect ].
 
 	(aBuilder item: #'Run Examples')
-		order: 10000;
+		order: 10004;
 		action: [ (self examples: aCollection do: #run) inspect ].
 		
 	(aBuilder item: #'Debug Examples')
-		order: 10000;
+		order: 10005;
 		action: [ (self examples: aCollection do: #debug) ].
 		
 		
@@ -85,13 +87,33 @@ GTExampleNautilus >> onPackage: aBuilder [
 ]
 
 { #category : #public }
+GTExampleNautilus >> onProvider: aClass builder: aBuilder [
+	aClass gtExamplesProvider = aClass ifTrue: [ ^ self ].
+	aClass gtExamplesSource = aClass ifTrue: [ ^ self ].
+	
+	(aBuilder item: #'Browse Example Source ...')
+		order: 90002;
+		action: [ aClass gtExamplesSource browse ].
+]
+
+{ #category : #public }
 GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
 	(aBuilder item: #'Examples of ...')
-		order: 10000;
+		order: 90000;
 		action: [
 			(SystemNavigation default examplesReferencesTo: aLiteral) 
 				ifNotEmpty: [ :examples | examples inspect ]
 				ifEmpty: [ UIManager default inform: 'No examples found for #', aLiteral asString ] ].
 				
 
+]
+
+{ #category : #public }
+GTExampleNautilus >> onSource: aClass builder: aBuilder [
+	aClass gtExamplesProvider = aClass ifTrue: [ ^ self ].
+	aClass gtExamplesProvider class = aClass ifTrue: [ ^ self ].
+	
+	(aBuilder item: #'Browse Example Provider ...')
+		order: 90001;
+		action: [ aClass gtExamplesProvider browse ].
 ]

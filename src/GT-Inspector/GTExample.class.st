@@ -419,49 +419,42 @@ GTExample >> icon [
 
 { #category : #'pragma-selectors' }
 GTExample >> icon: aSelector [
-	self initializeIconWith: [ 
-		self iconThemeSelector: aSelector ]
+	self iconThemeSelector: aSelector
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconBase64: aString [
-	self initializeIconWith: [ 
-		form := (Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)) ]
+	form := (Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream))
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconBytes: aByteArray [
-	self initializeIconWith: [ 
-		form := (Form
-			extent: 16@16
-			depth: 32
-			fromArray: aByteArray 
-			offset: 0@0) ]
+	form := (Form
+		extent: 16@16
+		depth: 32
+		fromArray: aByteArray 
+		offset: 0@0)
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconClass: aClassOrClassName selector: aSelector [
-	self initializeIconWith: [ 
-		self classNamed: aClassOrClassName do: [ :class | 
-			form := (class perform: aSelector) ] ]
+	self classNamed: aClassOrClassName do: [ :class | 
+		form := (class perform: aSelector) ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconSelector: aSelector [
-	self initializeIconWith: [ 
-		form := (self provider perform: aSelector) ]
+	form := (self provider perform: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconSelectorBase64: aSelector [
-	self initializeIconWith: [ 
-		self iconBase64: (self provider perform: aSelector) ]
+	self iconBase64: (self provider perform: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconThemeSelector: aSelector [
-	self initializeIconWith: [ 
-		form := (Smalltalk ui icons perform: aSelector) ]
+	form := (Smalltalk ui icons perform: aSelector)
 ]
 
 { #category : #testing }
@@ -494,15 +487,6 @@ GTExample >> initializeFromFinder: aFinder withPragma: aPragma [
 	aPragma method pragmas do: [ :p |
 		(self class canPerform: p keyword) 
 			ifTrue: [ self perform: p keyword withArguments: p arguments ] ].
-]
-
-{ #category : #private }
-GTExample >> initializeIconWith: aBlock [
-	<todo: 'come up with something better than an empty & generic exception handler'>
-	" We don't want to throw exceptions while examples are being created. We regard those as optional / nice-to-have. "
-	[ aBlock value ]
-		on: Error
-		do: [ :exception | ]
 ]
 
 { #category : #testing }

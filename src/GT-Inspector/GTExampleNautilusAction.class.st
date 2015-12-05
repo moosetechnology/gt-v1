@@ -57,6 +57,6 @@ GTExampleNautilusAction >> resultForMethod: aCompiledMethod [
 
 { #category : #order }
 GTExampleNautilusAction >> run: aCompiledMethod [
-	(self resultForMethod: aCompiledMethod)
-		ifNotNil: [ :result | result run; debug ]
+	aCompiledMethod gtExamples do: [ :example | 
+		example run isSuccess ifFalse: [ example debug ] ]
 ]
