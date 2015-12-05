@@ -54,6 +54,16 @@ GTExampleFinder class >> gtExamplesContainedTo: examples [
 				finder gtExamplesContainedTo: examples ] ] ]
 ]
 
+{ #category : #ui }
+GTExampleFinder class >> gtSpotterExamplesFor: aStep [
+	<spotterOrder: 100>
+	aStep listProcessor
+		title: 'Examples';
+		allCandidates: [ self gtExamplesContained ];
+		itemName: [ :example | example gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
 { #category : #DEPRECATED }
 GTExampleFinder class >> myExamples [
 	self deprecated: 'Please use #gtExamplesContained instead'.

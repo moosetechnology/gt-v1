@@ -342,6 +342,39 @@ GTExample >> gtSpotterPreviewIn: aComposite [
 		entity: self
 ]
 
+{ #category : #ui }
+GTExample >> gtSpotterProviderFor: aStep [
+	<spotterOrder: 103>
+	self provider ifNil: [ ^ self ].
+	aStep listProcessor
+		title: 'Example Provider';
+		items: [ Array with: self provider ];
+		itemName: [ :aProvider | aProvider gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #ui }
+GTExample >> gtSpotterSourceFor: aStep [
+	<spotterOrder: 103>
+	self source ifNil: [ ^ self ].
+	aStep listProcessor
+		title: 'Example Source';
+		items: [ Array with: self source ];
+		itemName: [ :aSource | aSource gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #ui }
+GTExample >> gtSpotterSubjectsFor: aStep [
+	<spotterOrder: 102>
+	self subjects ifEmpty: [ ^ self ].
+	aStep listProcessor
+		title: 'Example Subjects';
+		allCandidates: [ self subjects ];
+		itemName: [ :subject | subject gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
 { #category : #testing }
 GTExample >> hasDependencies [
 	^ self arguments notEmpty
