@@ -39,18 +39,20 @@ select
 			from city 
 			left join country
 				on city.countrycode=country.code'.
-	GTSnippets snippetAt: #PGResultSet asClass put: '| builder models |
-models := (self dataRows
+	GTSnippets snippetAt: #PGResultSet asClass put: 'models := (self dataRows
 		sortDescending: [ :x | x atName: #population ])
-		first: 100.
-builder := GET2DiagramBuilder new.
-builder horizontalBarDiagram
-	models: models;
-	modelLabels: [ :row | row atName: #cityname ];
-	x: [ :row | row atName: #population ]";
-	color: ((RTNIdentityNormalizer 
+		first: 30.
+builder := RTGrapher new.
+data := RTData new.
+data points: models.
+data barShape
+	"color: ((RTNIdentityNormalizer 
 		withCommand: [ :row | row atName: #continent ]))".
-builder view canvas when: TRResizeCanvasEvent do: [ 
-		builder view canvas camera translateTo: 0@300. ].
+data 
+	barChartWithBarTitle: [ :row | row atName: #cityname ];
+	y: [ :row | row atName: #population ].
+builder add: data.
+builder axisY.
+builder axisX noTick; noLabel.
 builder'
 ]
