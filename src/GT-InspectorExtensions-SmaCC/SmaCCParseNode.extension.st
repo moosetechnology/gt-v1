@@ -5,7 +5,11 @@ SmaCCParseNode >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	composite text
 		title: 'Source';
-		display: [self source]
+		display: [self topParent source];
+		initialize: [ :presentation | 
+			presentation selectionInterval:
+				((self startPosition - self topParent startPosition + 1) to: 
+				(self stopPosition - self topParent startPosition + 1)) ]
 ]
 
 { #category : #'*GT-InspectorExtensions-SmaCC' }
