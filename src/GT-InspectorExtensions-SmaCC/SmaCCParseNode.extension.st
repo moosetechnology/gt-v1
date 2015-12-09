@@ -18,5 +18,8 @@ SmaCCParseNode >> gtInspectorTreeIn: composite [
 	composite tree
 		title: 'AST';
 		display: [{ self }];
-		children: #children
+		children: #children;
+		format: [ :each | 
+			(each source copyReplaceAll: String cr with: '')
+				copyReplaceAll: String lf with: '' ]
 ]
