@@ -42,6 +42,14 @@ GTEventRecorder class >> cleanUp [
 	self reset.
 ]
 
+{ #category : #initialization }
+GTEventRecorder class >> initializeUniqueInstance [
+	uniqueInstance ifNotNil: [ ^ uniqueInstance ].
+	uniqueInstance := self new.
+	self registerInterestToSystemAnnouncement.
+	^ uniqueInstance
+]
+
 { #category : #testing }
 GTEventRecorder class >> isGlobalRecorder: aGTEventRecorder [
 	^ uniqueInstance 
@@ -49,10 +57,22 @@ GTEventRecorder class >> isGlobalRecorder: aGTEventRecorder [
 			ifNotNil: [ :anInstance | anInstance == aGTEventRecorder  ]
 ]
 
+{ #category : #initialization }
+GTEventRecorder class >> registerInterestToSystemAnnouncement [
+	<systemEventRegistration>
+	uniqueInstance ifNil: [ ^ self ].
+	SystemAnnouncer uniqueInstance 
+		unsubscribe: uniqueInstance;
+		when: PrivacyChangedAnnoucement
+			send: #privacyChanged 
+			to: uniqueInstance.
+]
+
 { #category : #accessing }
 GTEventRecorder class >> reset [
 	"Stop and remove the process for sending usage data. Delete all recorder that from the queue."
 	uniqueInstance ifNil: [ ^ self ].
+	SystemAnnouncer uniqueInstance unsubscribe: uniqueInstance.
 	uniqueInstance deactivateDelivery ifNotNil: [ :aProcess | 
 			[ aProcess terminate ] on: Error do: [ "ignore error" ] ].
 	uniqueInstance := nil.
@@ -60,7 +80,8 @@ GTEventRecorder class >> reset [
 
 { #category : #accessing }
 GTEventRecorder class >> uniqueInstance [
-	^ uniqueInstance ifNil: [ uniqueInstance := self new ].
+	uniqueInstance ifNil: [ self initializeUniqueInstance ].
+	^ uniqueInstance
 ]
 
 { #category : #delivery }
@@ -116,11 +137,14 @@ GTEventRecorder >> gtInspectorItemsIn: composite [
 { #category : #initialization }
 GTEventRecorder >> initialize [
 	super initialize.
+	privacy := [ Privacy sendDiagnosticsAndUsageData ].
 	collectors := GTEventCollectors new.
 	delivery := GTEventDelivery new.
 	delivery recorder: self.
 	packing := GTEventPacking default.
-	privacy := [ Privacy sendDiagnosticsAndUsageData ]
+	self canSendDiagnosticsAndUsageData 
+			ifTrue: [ delivery offerPermission ]
+			ifFalse: [ delivery withdrawPermission ]
 ]
 
 { #category : #testing }
@@ -165,6 +189,14 @@ GTEventRecorder >> pack [
 		bundle := packing pack: eachCollector.
 		bundle data ifNotEmpty: [ delivery add: bundle ] ].
 	self removeLiberatedCollectors.
+]
+
+{ #category : #'event handling' }
+GTEventRecorder >> privacyChanged [
+	self canSendDiagnosticsAndUsageData 
+		ifTrue: [ self numberOfCollectors > 0 
+						ifTrue: [ self activateDelivery ] ]
+		ifFalse: [ self deactivateDelivery ]
 ]
 
 { #category : #removing }

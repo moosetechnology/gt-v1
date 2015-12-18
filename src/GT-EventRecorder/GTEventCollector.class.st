@@ -57,6 +57,12 @@ GTEventCollector >> add: anEvent [
 	^ recordedEvents nextPut: anEvent
 ]
 
+{ #category : #adding }
+GTEventCollector >> addIfAvailable: anEvent [
+	Privacy sendDiagnosticsAndUsageData ifFalse: [ ^ anEvent ].	
+	^ self add: anEvent
+]
+
 { #category : #accessing }
 GTEventCollector >> bundle [
 	^ self bundle: OrderedCollection new.
