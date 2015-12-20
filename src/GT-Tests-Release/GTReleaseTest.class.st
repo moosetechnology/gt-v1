@@ -84,6 +84,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 			OCClassScope. " corrupt package detection "
 			OCInstanceScope. " corrupt package detection "
 			PPBrowserStream. " corrupt package detection "
+			PPCompositeParser. " corrupt package detection "
 			ReCritic. " corrupt package detection "
 			ReAbstractCritic. " corrupt package detection "
 			Slot. " abstract "
