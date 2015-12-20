@@ -54,17 +54,20 @@ Class {
 
 { #category : #adding }
 GTEventCollector >> add: anEvent [ 
+	"And an event (any object) that you want to send to a server."
 	^ recordedEvents nextPut: anEvent
 ]
 
 { #category : #adding }
 GTEventCollector >> addIfAvailable: anEvent [
+	"It add event to a queue only if sending diagnostic and usage data is enabled."
 	Privacy sendDiagnosticsAndUsageData ifFalse: [ ^ anEvent ].	
 	^ self add: anEvent
 ]
 
 { #category : #accessing }
 GTEventCollector >> bundle [
+	"It returns all collected events that are supposed to be sent. If you need to send just a portion of the collected events, this is the place to overwrite."
 	^ self bundle: OrderedCollection new.
 ]
 
@@ -81,16 +84,21 @@ GTEventCollector >> category [
 
 { #category : #accessing }
 GTEventCollector >> category: aString [ 
+	"It is used for distinguishing data from different application on a server.
+	The data are stored separately on a server according to category name."
 	^ category := aString
 ]
 
 { #category : #accessing }
 GTEventCollector >> creationTime [
+	"Creation time helps to keep order of GTEventCollectors objects during delivery action."
 	^ creationTime
 ]
 
 { #category : #configuration }
 GTEventCollector >> defaultCategory [
+	"Default category name. You can set your own by calling #category: or 
+	by overwriting this method if you have a spetialized subclass."
 	^ #unknown
 ]
 
@@ -145,20 +153,24 @@ GTEventCollector >> register [
 
 { #category : #accessing }
 GTEventCollector >> registry [
+	"Registry is a weak holder of my owner. Once it is nil, I can be removed from GTEventRecorder object."
 	^ registry ifNil: [ registry := GTEventRegistry new ]
 ]
 
 { #category : #accessing }
 GTEventCollector >> size [
+	"It returns number of collected events."
 	^ recordedEvents size
 ]
 
 { #category : #accessing }
 GTEventCollector >> url [
+	"It returns URL indicating where to send collected data."
 	^ url ifNil: [ url := GTEventRecorderSettings url ]
 ]
 
 { #category : #accessing }
-GTEventCollector >> url: anObject [
-	url := anObject
+GTEventCollector >> url: aZnUrl [
+	"URL that indicates where to send collected data."
+	url := aZnUrl
 ]

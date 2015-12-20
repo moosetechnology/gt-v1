@@ -30,7 +30,7 @@ Class {
 	#instVars : [
 		'packings'
 	],
-	#category : #'GT-EventRecorder-Core'
+	#category : #'GT-EventRecorder-Support'
 }
 
 { #category : #'instance creation' }

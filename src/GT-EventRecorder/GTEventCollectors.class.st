@@ -20,7 +20,7 @@ Class {
 		'mutex',
 		'collectors'
 	],
-	#category : #'GT-EventRecorder-Core'
+	#category : #'GT-EventRecorder-Support'
 }
 
 { #category : #adding }

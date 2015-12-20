@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'multiBundles'
 	],
-	#category : #'GT-EventRecorder-Core'
+	#category : #'GT-EventRecorder-Support'
 }
 
 { #category : #accessing }
