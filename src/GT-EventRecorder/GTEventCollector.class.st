@@ -47,7 +47,8 @@ Class {
 		'category',
 		'recordedEvents',
 		'registry',
-		'creationTime'
+		'creationTime',
+		'updateAnnouncementBlock'
 	],
 	#category : #'GT-EventRecorder-Core'
 }
@@ -161,6 +162,18 @@ GTEventCollector >> registry [
 GTEventCollector >> size [
 	"It returns number of collected events."
 	^ recordedEvents size
+]
+
+{ #category : #updating }
+GTEventCollector >> updateAnnouncement: aGTEventAnnouncement [ 
+	updateAnnouncementBlock ifNil: [ ^ aGTEventAnnouncement ].
+	updateAnnouncementBlock cull: aGTEventAnnouncement.
+	^ aGTEventAnnouncement
+]
+
+{ #category : #updating }
+GTEventCollector >> updateAnnouncementBlock: aBlockClosure [ 
+	updateAnnouncementBlock := aBlockClosure
 ]
 
 { #category : #accessing }
