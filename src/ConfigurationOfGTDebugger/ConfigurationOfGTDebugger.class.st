@@ -219,6 +219,31 @@ ConfigurationOfGTDebugger >> baseline04: spec [
 
 ]
 
+{ #category : #baselines }
+ConfigurationOfGTDebugger >> baseline05: spec [
+	<version: '0.5-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
+		spec author: 'AndreiChis'.
+		spec description: 'Baseline for integrating GTDebugger in Pharo 5'.
+		
+		spec package: 'GT-Debugger' with: [ spec requires: #( 'GTInspectorCore' )].
+		spec package: 'GT-BytecodeDebugger' with: [ spec	requires: #( 'GTDebugger') ].
+		spec package: 'GT-SUnitDebugger' with: [ spec requires: #( 'GTDebugger') ].
+		spec package: 'GT-Tests-Debugger' with: [ spec requires: #( 'GT-Debugger' 'GT-BytecodeDebugger' 'GT-SUnitDebugger' )].
+		
+		spec group: 'default' with: #('GT-Debugger' 'GT-BytecodeDebugger' 'GT-SUnitDebugger' 'GT-Tests-Debugger').
+		
+		spec project: 'GTInspectorCore' with: [
+				spec
+					className: #ConfigurationOfGTInspectorCore;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ] ].
+
+]
+
 { #category : #accessing }
 ConfigurationOfGTDebugger >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -233,6 +258,7 @@ ConfigurationOfGTDebugger >> development: spec [
 
 	spec for: #'common' version: '0.4-baseline'.
 	spec for: #'pharo4.x' version: '0.4-baseline'.
+	spec for: #'pharo5.x' version: '0.5-baseline'.
 
 ]
 
@@ -286,8 +312,7 @@ ConfigurationOfGTDebugger >> version101: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '05/05/2014'.
 		spec 
-			project: 'GTInspector' with: #'stable';
-			project: 'NewDebugger' with: #'stable'.
+			project: 'GTInspector' with: #'stable'.
 		spec 
 			package: #'GT-Debugger' with: 'GT-Debugger-AndreiChis.240'].
 
