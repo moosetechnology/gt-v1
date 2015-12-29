@@ -15,19 +15,40 @@ GTDebuggerSmokeTest class >> isAbstract [
 ]
 
 { #category : #accessing }
+GTDebuggerSmokeTest >> contextToTest [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 GTDebuggerSmokeTest >> debuggerToTest [
 	self subclassResponsability
 ]
 
 { #category : #accessing }
 GTDebuggerSmokeTest >> instantiateSession [
-	self subclassResponsability
+	| context process |
+	context := self contextToTest.
+
+	process := Process 
+		forContext: context
+		priority: Processor userInterruptPriority.
+	
+	self stepToDebuggerEntryPointIn: process.
+	^ self debuggerToTest spanNewSessionLabeled:  'test session' forContext: process suspendedContext fromProcess: process
 ]
 
 { #category : #running }
 GTDebuggerSmokeTest >> setUp [
 	session := self instantiateSession.
 	debugger := self debuggerToTest new.
+]
+
+{ #category : #utils }
+GTDebuggerSmokeTest >> stepToDebuggerEntryPointIn: aProcess [
+	"Step into the execution until a context is reached 
+	that can be handled by the debugger under test."
+	
+	^ self subclassResponsibility
 ]
 
 { #category : #running }

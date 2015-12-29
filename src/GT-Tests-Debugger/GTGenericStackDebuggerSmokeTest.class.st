@@ -5,19 +5,18 @@ Class {
 }
 
 { #category : #accessing }
+GTGenericStackDebuggerSmokeTest >> contextToTest [
+
+	^ [ 20 factorial ] asContext
+]
+
+{ #category : #accessing }
 GTGenericStackDebuggerSmokeTest >> debuggerToTest [
 
 	^ GTGenericStackDebugger
 ]
 
-{ #category : #accessing }
-GTGenericStackDebuggerSmokeTest >> instantiateSession [
-	| context process |
-	context := [ 20 factorial ] asContext.
-
-	process := Process 
-		forContext: context
-		priority: Processor userInterruptPriority.
-		
-	^ self debuggerToTest spanNewSessionLabeled:  'test session' forContext: process suspendedContext fromProcess: process
+{ #category : #utils }
+GTGenericStackDebuggerSmokeTest >> stepToDebuggerEntryPointIn: aProcess [
+	"The generic debugger can handle any context."
 ]
