@@ -1,7 +1,7 @@
 Class {
 	#name : #GTStepToBytecodeDebugAction,
 	#superclass : #DebugAction,
-	#category : #'GT-BytecodeDebugger'
+	#category : #'GT-BytecodeDebugger-Actions'
 }
 
 { #category : #registration }

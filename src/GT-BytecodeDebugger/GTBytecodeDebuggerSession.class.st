@@ -1,11 +1,11 @@
 "
-A GTBytecodeDebuggerSession provides debugging actions at the level of the bytecode
+A GTBytecodeDebuggerSession provides debugging actions at the level of the bytecode.
 
 "
 Class {
 	#name : #GTBytecodeDebuggerSession,
 	#superclass : #DebugSession,
-	#category : #'GT-BytecodeDebugger'
+	#category : #'GT-BytecodeDebugger-Model'
 }
 
 { #category : #'debugging actions' }

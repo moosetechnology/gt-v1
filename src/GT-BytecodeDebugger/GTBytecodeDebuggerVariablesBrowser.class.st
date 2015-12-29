@@ -1,7 +1,7 @@
 Class {
 	#name : #GTBytecodeDebuggerVariablesBrowser,
 	#superclass : #GTDebuggerVariablesBrowser,
-	#category : #'GT-BytecodeDebugger'
+	#category : #'GT-BytecodeDebugger-UI'
 }
 
 { #category : #'as yet unclassified' }

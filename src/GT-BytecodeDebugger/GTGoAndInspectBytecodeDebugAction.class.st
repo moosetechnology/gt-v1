@@ -5,7 +5,7 @@ GTGoAndInspectBytecodeDebugAction class is a debugging action that opens the cur
 Class {
 	#name : #GTGoAndInspectBytecodeDebugAction,
 	#superclass : #DebugAction,
-	#category : #'GT-BytecodeDebugger'
+	#category : #'GT-BytecodeDebugger-Actions'
 }
 
 { #category : #registration }
