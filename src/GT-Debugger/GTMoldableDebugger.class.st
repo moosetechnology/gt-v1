@@ -293,7 +293,7 @@ GTMoldableDebugger >> debug: aContext using: aDebuggerClass [
 	currentSession updateContextTo: aContext.
 	newDebugger := aDebuggerClass on: (aDebuggerClass spanNewSessionFrom: currentSession).
 	newDebugger openWithFullView.
-	newDebugger window 
+	newDebugger window window "Hack to get this working with SpecDebugger"
 		position: self window position;
 		extent: self window extent
 		
