@@ -1165,12 +1165,15 @@ ConfigurationOfGToolkit >> baseline024: aSpec [
 			package: 'GT-Coder' with: [
 				aSpec
 					requires: #( 'Glamour') ];
+			package: 'GT-DebuggerExtensions' with: [ 
+				aSpec
+					requires: #(GTDebugger) ];
 			package: 'GT-GlamourDebugger' with: [
 				aSpec
-					requires: #( 'GTDebugger' 'Roassal2' 'NewDebugger') ];
+					requires: #( 'GTDebugger' 'Roassal2' 'GT-DebuggerExtensions') ];
 			package: 'GT-PetitParserDebugger' with: [
 				aSpec
-					requires: #( 'GTDebugger' 'PetitParser' 'NewDebugger') ];
+					requires: #( 'GTDebugger' 'PetitParser' 'GT-DebuggerExtensions') ];
 			package: 'GT-Setup';
 			package: 'GT-Tools' with: [
 				aSpec
@@ -1221,13 +1224,7 @@ ConfigurationOfGToolkit >> baseline024: aSpec [
 				aSpec
 					className: #ConfigurationOfGTSpotter;
 					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
-			project: 'NewDebugger' with: [
-				aSpec
-					versionString: #'development';
-					className: 'ConfigurationOfNewDebugger';
-					loads: #('DebuggerExtensions');
-					repository: 'http://www.smalltalkhub.com/mc/Pharo/Debugger/main' ].
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
 			
 		aSpec
 			group: 'Tests' with: #('GT-Tests-Release');
