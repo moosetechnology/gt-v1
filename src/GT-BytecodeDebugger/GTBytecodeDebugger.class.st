@@ -71,9 +71,9 @@ GTBytecodeDebugger >> debuggerStructureIn: browser [
 	browser
 		row: [ :row | 
 					row
-						column: #stack span: 2;
-						column: #bytecode span: 2; 
-						column: #code span: 3 ]
+						column: #stack;
+						column: #code; 
+						column: #bytecode ]
 			span: 2;
 		row: #inspector.
 		
