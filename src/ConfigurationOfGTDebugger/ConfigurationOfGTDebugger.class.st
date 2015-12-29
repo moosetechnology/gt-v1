@@ -312,7 +312,8 @@ ConfigurationOfGTDebugger >> version101: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '05/05/2014'.
 		spec 
-			project: 'GTInspector' with: #'stable'.
+			project: 'GTInspector' with: #'stable';
+			project: 'NewDebugger' with: #'stable'.
 		spec 
 			package: #'GT-Debugger' with: 'GT-Debugger-AndreiChis.240'].
 
