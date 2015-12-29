@@ -464,14 +464,7 @@ GTGenericStackDebugger >> textAttributesForStackEntry: aContext [
 	(self selectedContext isNil or: self class enableStackColoring not) 
 		ifTrue: [ ^ {TextColor color: Smalltalk ui theme textColor} ].
 
-	(self selectedContext == aContext) ifTrue: [ ^ {TextColor black}  ].
-
-	(aContext receiver class = self selectedContext receiver class)
-		ifTrue: [ ^ { TextColor blue } ].
-	(aContext receiver class package = self selectedContext receiver class package)
-		ifTrue: [ ^ { TextColor black } ]. 
-
-	^ {TextColor gray}
+	^ Smalltalk ui theme styleContext: aContext from: self.
 ]
 
 { #category : #updating }
