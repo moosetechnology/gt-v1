@@ -155,7 +155,7 @@ ConfigurationOfGToolkitCore >> baseline31: spec [
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
 		spec author: 'AndreiChis'.
-		spec description: 'Load GTDebugger'
+		spec description: 'Load GTDebugger'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
 		
 		spec project: 'GTPlaygroundCore' with: [
