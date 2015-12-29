@@ -285,13 +285,18 @@ GTMoldableDebugger >> currentMessageName [
 
 { #category : #actions }
 GTMoldableDebugger >> debug: aContext using: aDebuggerClass [
-	| currentSession  |
+	| currentSession newDebugger |
 	
 	currentSession := self session.
 	self detachSession.
 	self browser close.
 	currentSession updateContextTo: aContext.
-	aDebuggerClass debugSession: (aDebuggerClass spanNewSessionFrom: currentSession)
+	newDebugger := aDebuggerClass on: (aDebuggerClass spanNewSessionFrom: currentSession).
+	newDebugger openWithFullView.
+	newDebugger window 
+		position: self window position;
+		extent: self window extent
+		
 ]
 
 { #category : #building }
