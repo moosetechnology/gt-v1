@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'assertionContext',
 		'expectedResult',
-		'actualResult'
+		'actualResult',
+		'testObject'
 	],
 	#category : #'GT-SUnitDebugger'
 }
@@ -47,23 +48,24 @@ GTSUnitDebugSession >> isActive: aContext [
 GTSUnitDebugSession >> process: aProcess context: aContext [
 
 	super process: aProcess context: aContext.
-	
+
 	assertionContext ifNil: [
 		assertionContext := aContext findContextMatchingPredicate: self class activationPredicate.
 		actualResult := assertionContext tempAt: 1.
-		expectedResult := assertionContext tempAt: 2]
+		expectedResult := assertionContext tempAt: 2.
+		testObject := assertionContext sender receiver ]
 ]
 
 { #category : #accessing }
 GTSUnitDebugSession >> setUpMethod [
 
-	^ self testContext receiver class lookupSelector: #setUp
+	^ self testObject class lookupSelector: #setUp
 ]
 
 { #category : #accessing }
 GTSUnitDebugSession >> tearDownMethod [
 
-	^ self testContext receiver class lookupSelector: #tearDown
+	^ self testObject class lookupSelector: #tearDown
 ]
 
 { #category : #accessing }
@@ -75,5 +77,5 @@ GTSUnitDebugSession >> testContext [
 { #category : #accessing }
 GTSUnitDebugSession >> testObject [
 
-	^ self testContext receiver
+	^ testObject
 ]

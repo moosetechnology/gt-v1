@@ -22,9 +22,7 @@ GTSUnitDebugger class >> handlesContext: aContext [
 	| activationPredicate |
 	activationPredicate := self sessionClass activationPredicate.
 	^ (aContext stackOfSize: self lookupStackSize) 
-		detect: [ :ctx | activationPredicate matches: ctx ] 
-		 ifFound: [ true ]
-		 ifNone: [ false ]
+		anySatisfy: [ :ctx | activationPredicate matches: ctx ] 
 ]
 
 { #category : #testing }
@@ -92,7 +90,7 @@ GTSUnitDebugger >> inspectorDiffIn: aComposite [
 			aTabulator 
 				column: #actual;
 				column: #expected.
-			aTabulator when: [ self session isActive ].
+			"aTabulator when: [ self session isActive ]."
 			aTabulator transmit to: #actual; andShow: [ :anotherComposite |
 				anotherComposite  dynamic 
 					display: [:anObject |
@@ -137,7 +135,7 @@ GTSUnitDebugger >> tearDownCodeIn: aComposite [
 GTSUnitDebugger >> textualDiffIn: composite [
 
 	^ composite diff
-			when: [ self session isActive ];
+			"when: [ self session isActive ];"
 			display: [ 
 				{self session actualResult gtDebuggerSUnitPrint. self session expectedResult gtDebuggerSUnitPrint} ]
 ]
