@@ -230,8 +230,8 @@ ConfigurationOfGTDebugger >> baseline05: spec [
 		spec description: 'Baseline for integrating GTDebugger in Pharo 5'.
 		
 		spec package: 'GT-Debugger' with: [ spec requires: #( 'GTInspectorCore' )].
-		spec package: 'GT-BytecodeDebugger' with: [ spec	requires: #( 'GTDebugger') ].
-		spec package: 'GT-SUnitDebugger' with: [ spec requires: #( 'GTDebugger') ].
+		spec package: 'GT-BytecodeDebugger' with: [ spec	requires: #( 'GT-Debugger') ].
+		spec package: 'GT-SUnitDebugger' with: [ spec requires: #( 'GT-Debugger') ].
 		spec package: 'GT-Tests-Debugger' with: [ spec requires: #( 'GT-Debugger' 'GT-BytecodeDebugger' 'GT-SUnitDebugger' )].
 		
 		spec group: 'default' with: #('GT-Debugger' 'GT-BytecodeDebugger' 'GT-SUnitDebugger' 'GT-Tests-Debugger').
