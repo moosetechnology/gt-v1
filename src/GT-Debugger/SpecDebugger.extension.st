@@ -3,7 +3,7 @@ Extension { #name : #SpecDebugger }
 { #category : #'*GT-Debugger' }
 SpecDebugger classSide >> availableAutomatically [
 
-	^ true
+	^ false
 ]
 
 { #category : #'*GT-Debugger' }
