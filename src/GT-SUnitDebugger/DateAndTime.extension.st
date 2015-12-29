@@ -1,7 +1,7 @@
 Extension { #name : #DateAndTime }
 
 { #category : #'*GT-SUnitDebugger' }
-DateAndTime >> gtSUnitPrint [
+DateAndTime >> gtDebuggerSUnitPrint [
 
 	^ String streamContents: [:s | self printSeparateDateAndTimeOn: s]
 ]

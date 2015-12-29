@@ -139,7 +139,7 @@ GTSUnitDebugger >> textualDiffIn: composite [
 	^ composite diff
 			when: [ self session isActive ];
 			display: [ 
-				{self session actualResult gtSUnitPrint. self session expectedResult gtSUnitPrint} ]
+				{self session actualResult gtDebuggerSUnitPrint. self session expectedResult gtDebuggerSUnitPrint} ]
 ]
 
 { #category : #updating }

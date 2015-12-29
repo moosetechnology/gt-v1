@@ -1,7 +1,7 @@
 Extension { #name : #String }
 
 { #category : #'*GT-SUnitDebugger' }
-String >> gtSUnitPrint [
+String >> gtDebuggerSUnitPrint [
 
 	^ self printString
 ]

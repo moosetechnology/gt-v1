@@ -1,7 +1,7 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*GT-SUnitDebugger' }
-Dictionary >> gtSUnitPrint [
+Dictionary >> gtDebuggerSUnitPrint [
 
 	^ String streamContents: [ :aStream | 
 		self keysSortedSafely

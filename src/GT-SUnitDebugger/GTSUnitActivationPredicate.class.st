@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSUnitActivationPredicate,
-	#superclass : #ContextPredicate,
+	#superclass : #GTDebuggerContextPredicate,
 	#category : #'GT-SUnitDebugger'
 }
 
