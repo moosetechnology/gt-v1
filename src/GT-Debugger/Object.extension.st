@@ -1,12 +1,12 @@
 Extension { #name : #Object }
 
-{ #category : #'*gt-debugger' }
+{ #category : #'*GT-Debugger-UI' }
 Object >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 	
 	^ composite custom: (GTDebuggerInspector new startOn: self)
 ]
 
-{ #category : #'*gt-debugger' }
+{ #category : #'*GT-Debugger-UI' }
 Object >> gtDebuggerEvaluatorIn: composite [
 	<gtDebuggerPresentationOrder: 15>
 	
@@ -14,7 +14,7 @@ Object >> gtDebuggerEvaluatorIn: composite [
 		title: 'Evaluator'
 ]
 
-{ #category : #'*gt-debugger' }
+{ #category : #'*GT-Debugger-UI' }
 Object >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 	| pragmas |
 	pragmas := (Pragma 
@@ -35,7 +35,7 @@ Object >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 
 ]
 
-{ #category : #'*gt-debugger' }
+{ #category : #'*GT-Debugger-UI' }
 Object >> gtDebuggerStateIn: composite [
 	<gtDebuggerPresentationOrder: 10>
 	

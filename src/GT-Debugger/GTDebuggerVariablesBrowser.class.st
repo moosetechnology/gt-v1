@@ -6,7 +6,7 @@ GTDebuggerVariablesBrowser is a special browser that is used in the first pane o
 Class {
 	#name : #GTDebuggerVariablesBrowser,
 	#superclass : #GLMCompositePresentation,
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-UI'
 }
 
 { #category : #'as yet unclassified' }

@@ -8,7 +8,7 @@ It is special in two ways:
 Class {
 	#name : #GTDebuggerInspector,
 	#superclass : #GTInspector,
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-UI'
 }
 
 { #category : #building }

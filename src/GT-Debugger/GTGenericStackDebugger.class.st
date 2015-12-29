@@ -14,7 +14,7 @@ Class {
 		'LogDebuggerStackToFile',
 		'LogFileName'
 	],
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-UI'
 }
 
 { #category : #'settings api' }

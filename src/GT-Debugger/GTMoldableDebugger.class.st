@@ -13,7 +13,7 @@ Class {
 	#classVars : [
 		'EnableDebuggerWindowDistinctColor'
 	],
-	#category : #'GT-Debugger'
+	#category : #'GT-Debugger-UI'
 }
 
 { #category : #testing }
@@ -151,6 +151,81 @@ GTMoldableDebugger >> allActionsForPragmas: aSymbolsCollection [
 
 ]
 
+{ #category : #actions }
+GTMoldableDebugger >> browseClassRefs [
+
+	self currentContext ifNotNil: [ :aContext || class|
+		class := aContext methodClass theNonMetaClass.
+		class isTrait 
+			ifTrue: [ self systemNavigation browseAllUsersOfTrait: class ]
+			ifFalse: [ self systemNavigation browseAllCallsOnClass: class ] ]
+
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseClassVarRefs [
+	"1/17/96 sw: devolve responsibility to the class, so that the code that does the real work can be shared"
+
+	| cls |
+	cls := self currentClass.
+	(cls notNil and: [cls isTrait not])
+		ifTrue: [self systemNavigation  browseClassVarRefs: cls]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseClassVariables [
+	"Browse the class variables of the selected class."
+	| cls |
+	cls := self currentClass.
+	(cls notNil and: [cls isTrait not])
+		ifTrue: [self systemNavigation  browseClassVariables: cls]
+
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseInstVarRefs [
+	"1/26/96 sw: real work moved to class, so it can be shared"
+	| cls |
+	cls := self currentClassOrMetaClass.
+	(cls notNil and: [cls isTrait not])
+		ifTrue: [self systemNavigation browseInstVarRefs: cls]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseMessages [
+	"Present a menu of all messages sent by the current message. 
+	Open a message set browser of all implementors of the message chosen."
+
+	self currentMessageName ifNotNil: [   
+		self systemNavigation browseAllImplementorsOf: self currentMessageName ]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseMethodFull [
+	"Create and schedule a full Browser and then select the current class and message."
+
+	self currentClassOrMetaClass ifNotNil: [ 
+		Smalltalk tools browser 
+			openOnClass: self currentClassOrMetaClass
+			selector: self currentMessageName ]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseSendersOfMessages [
+	"Present a menu of the current message, as well as all messages sent by it.  Open a message set browser of all senders of the selector chosen."
+
+	self currentMessageName ifNotNil: [   
+		self systemNavigation browseAllSendersOf: self currentMessageName ]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> browseVersions [
+	"Create and schedule a message set browser on all versions of the 
+	currently selected message selector."
+
+	Smalltalk tools versionBrowser browseVersionsForClass: self currentClassOrMetaClass selector: self currentMessageName
+]
+
 { #category : #accessing }
 GTMoldableDebugger >> browser [ 
 
@@ -175,12 +250,37 @@ GTMoldableDebugger >> compose [
 	self registerActions
 ]
 
+{ #category : #accessing }
+GTMoldableDebugger >> currentClass [
+
+	^ self currentContext methodClass
+]
+
+{ #category : #accessing }
+GTMoldableDebugger >> currentClassOrMetaClass [
+
+	^ self currentContext methodClass
+]
+
 { #category : #'accessing context' }
 GTMoldableDebugger >> currentContext [
 
 	^self selectedContext 
 		ifNil: [ self interruptedContext ] 
 		ifNotNil:  [ self selectedContext  ]
+]
+
+{ #category : #accessing }
+GTMoldableDebugger >> currentMessageCategoryName [
+	"Answer the name of the message category of the message of the currently selected context."
+
+	^ self currentClass organization categoryOfElement: self currentMessageName
+]
+
+{ #category : #accessing }
+GTMoldableDebugger >> currentMessageName [
+
+	^ self currentContext methodSelector
 ]
 
 { #category : #actions }
@@ -211,6 +311,15 @@ GTMoldableDebugger >> detachSession [
 	(self browser pane port: #entity) silentValue: nil
 ]
 
+{ #category : #actions }
+GTMoldableDebugger >> fileOutMessage [
+	"Put a description of the selected message on a file"
+
+	self currentMessageName ifNotNil: [
+		Cursor write showWhile:
+			[ self currentClassOrMetaClass fileOutMethod: self currentMessageName ] ]
+]
+
 { #category : #protocol }
 GTMoldableDebugger >> initialExtent [
 "This code was taken from the standard debugger to get the same behavior. Fell free to refactor"
@@ -224,6 +333,22 @@ GTMoldableDebugger >> initialExtent [
 		(w - (w // 3)) @ (h - (h // 5)) ]
 		on: Error
 		do: [ 850@600 ]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> inspectInstances [
+	"Inspect all instances of the selected class."
+
+	self currentClassOrMetaClass ifNotNil: [ :aClass |
+		aClass theNonMetaClass inspectAllInstances ]
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> inspectSubInstances [
+	"Inspect all instances of the selected class and all its subclasses"
+
+	self currentClassOrMetaClass ifNotNil: [ :aClass |
+		aClass theNonMetaClass inspectSubInstances ]
 ]
 
 { #category : #'building actions' }
@@ -252,6 +377,16 @@ GTMoldableDebugger >> interruptedContext [
 GTMoldableDebugger >> interruptedProcess [
 
 	^ self session interruptedProcess
+]
+
+{ #category : #actions }
+GTMoldableDebugger >> methodHierarchy [
+	"Create and schedule a method browser on the hierarchy of implementors."
+
+	self systemNavigation 
+			methodHierarchyBrowserForClass: self currentClassOrMetaClass 
+			selector: self currentMessageName
+
 ]
 
 { #category : #'scripting opening' }

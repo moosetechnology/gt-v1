@@ -46,12 +46,6 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 ]
 
 { #category : #'*GT-Debugger' }
-Context >> isHaltContext [
-
-	^ self method selector = #halt
-]
-
-{ #category : #'*GT-Debugger' }
 Context >> reservedNames [
 
 	^ #( '_self' '_thisContext' '_stack top')
