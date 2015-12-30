@@ -1,3 +1,6 @@
+"
+I am not a test! I provide usage examples for the SUnit debugger.
+"
 Class {
 	#name : #GTSUnitExampleFailingTest,
 	#superclass : #TestCase,
