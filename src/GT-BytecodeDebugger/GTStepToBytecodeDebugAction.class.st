@@ -1,3 +1,6 @@
+"
+I am a debugging action for stepping to a selected bytecode.
+"
 Class {
 	#name : #GTStepToBytecodeDebugAction,
 	#superclass : #DebugAction,

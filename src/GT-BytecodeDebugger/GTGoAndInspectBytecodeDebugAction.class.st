@@ -1,5 +1,5 @@
 "
-GTGoAndInspectBytecodeDebugAction class is a debugging action that opens the currently selected bytecode in the inspector embeded within the debugger.
+I am a debugging action that inspects the currently selected bytecode.
 
 "
 Class {
