@@ -1,3 +1,6 @@
+"
+I provide various actions for browsing a Context object. These actions are loaded by the debugger in the context menu of a stack.
+"
 Trait {
 	#name : #GTBrowsingActions,
 	#category : #'GT-Debugger-Actions'

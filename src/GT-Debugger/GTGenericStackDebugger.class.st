@@ -1,5 +1,5 @@
 "
-GTGenericStackDebugger is a browser that provides Smalltalk debugging functionality.
+I am a browser that provides Smalltalk debugging functionality.
  
 "
 Class {

@@ -1,5 +1,5 @@
 "
-This is a specialized inspector that is embedded in the GTDebugger.
+This is a specialized inspector that is embedded in  GTDebugger.
 
 It is special in two ways:
 - the first presentation is different in that it shows all variables active in the debugging context

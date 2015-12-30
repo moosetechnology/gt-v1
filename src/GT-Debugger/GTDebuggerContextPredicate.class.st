@@ -1,10 +1,12 @@
 "
 I encapsulate a condition that can be verified against a Context.
 
-Usage: users should send me the mesage message matches: with the context
-that should be verified as a parameter.
+To add concrete conditions a subclass should be create that overrides the method #matchContext:
 
-To add concrete conditions a subclass should be create that implements the method matchContext:
+Public API and Key Messages
+- #matches: 
+- #hasMatched
+- #result
 
 Instance Variables
 result:		the last value returned by matches:
