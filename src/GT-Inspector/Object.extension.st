@@ -40,79 +40,13 @@ Object >> gtExamplesContained [
 ]
 
 { #category : #'*GT-Inspector' }
-Object >> gtInspectorActionBrowse [
-	<gtInspectorAction>
-	^ GLMGenericAction new
-		action: [ self browse ];
-		icon: GLMUIThemeExtraIcons glamorousBrowse;
-		title: 'Browse'
-]
-
-{ #category : #'*GT-Inspector' }
-Object >> gtInspectorActions [
-	"This is a utility method that allows each object to define a set of actions 
-	specific for itself. These actions are used when the object appears in the inspector.
-
-	The actions are collected based on the #gtInspectorAction pragma that are defined in
-	unary methods corresponding to the body of the actions"
-	
-	| all |
-	all := (Pragma 
-				allNamed: #gtInspectorAction
-				from: self class 
-				to: Object) collect: [:eachPragma |
-					self perform: eachPragma selector ].
-	^ all asSortedCollection: [:a :b | 
-		| first second |
-		first := a isCategorized ifTrue: [a category, a title] ifFalse: [a title].
-		second := b isCategorized ifTrue: [b category, b title] ifFalse: [b title].
-		first < second]
-]
-
-{ #category : #'*GT-Inspector' }
 Object >> gtInspectorInterestingObject [
 	^ self
 ]
 
 { #category : #'*GT-Inspector' }
-Object >> gtInspectorMetaIn: composite [
-	"This presentation offers the methods of the class of the current object"
-	<gtInspectorPresentationOrder: 1000>
-	<gtInspectorTag: #basic>
-	^ composite custom: (GTSimpleMethodsBrowser new startOn: self) 
-]
-
-{ #category : #'*GT-Inspector' }
-Object >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
-	"This is a utility method that collects all presentations for the current object.
-	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
-	The inspector can decice whether or not a presentation should be dispayed.
-	Subclasses might want to override it for more special behavior."
-	| pragmas |
-	pragmas := Pragma
-		allNamed: #gtInspectorPresentationOrder:
-		from: self class
-		to: Object
-		sortedUsing: [ :x :y | (x argumentAt: 1) < (y argumentAt: 1) ].
-	pragmas := pragmas select: [ :aPragma | aGTInspector shouldDisplayPresentationCreateBy: aPragma method ].
-	pragmas
-		do: [ :eachPragma | 
-			eachPragma selector numArgs = 0
-				ifTrue: [ 
-					| configurationProvider |
-					configurationProvider := self perform: eachPragma selector.
-					configurationProvider glmPresentation cull: composite cull: aGTInspector cull: self ].
-			eachPragma selector numArgs = 1
-				ifTrue: [ self perform: eachPragma selector with: composite ].
-			eachPragma selector numArgs = 2
-				ifTrue: [ self perform: eachPragma selector with: composite with: aGTInspector ] ]
-]
-
-{ #category : #'*GT-Inspector' }
 Object >> gtInspectorRawIn: composite [
 	"This is the most basic presentation showing the state of the object"
-	<gtInspectorPresentationOrder: 10>
-	<gtInspectorTag: #basic>
 	^ composite custom: GTObjectVariablesBrowser new
 ]
 
