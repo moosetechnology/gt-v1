@@ -58,7 +58,7 @@ FileReference >> gtInspectorActionMaterializeFuel [
 			result := FLMaterializer materializeFromFileNamed: self fullName.
 			composite selection: result ];
 		icon: GLMUIThemeExtraIcons glamorousAdd;
-		condition: [ self extension = 'fuel' ];
+		condition: [ self isFile and: [self extension = 'fuel' ] ];
 		title: 'Materialize'
 ]
 
@@ -77,13 +77,12 @@ FileReference >> gtInspectorContentsIn: composite [
 						ifTrue: [ result, '  ... truncated ...' ]
 						ifFalse: [ result ] ] ];
 			withLineNumbers: true;
-			when: [ self isFile ];
 			act: [ :text |
 				self ensureDelete; writeStreamDo: [ :s | s nextPutAll: text text asString ] ]
 				icon: GLMUIThemeExtraIcons glamorousSave
 				on: $s
 				entitled: 'Save';
-			when: [ #('pillar' 'txt') includes: self extension ]
+			when: [ self isFile and: [ #('pillar' 'txt') includes: self extension ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -104,7 +103,7 @@ FLMaterializer materializeFromFileNamed: 'GTtest.fuel'"
 				(FLMaterializer materializeHeaderFromFileNamed: self fullName) gtGetMetaData ];
 			column: 'Property' evaluated: [:assoc| assoc key ];
 			column: 'Value' evaluated: [:assoc| assoc value];
-			when: [ self extension = 'fuel' ]
+			when: [ self isFile and: [self extension = 'fuel' ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -113,7 +112,7 @@ FileReference >> gtInspectorGifIn: composite [
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | GIFReadWriter formFromStream: stream ] ];
-			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageGif ] ]
+			when: [ self isFile and: [self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageGif ] ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -164,7 +163,7 @@ FileReference >> gtInspectorJpegIn: composite [
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | ImageReadWriter formFromStream: stream ] ];
-			when: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageJpeg ] ]
+			when: [ self isFile and: [self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imageJpeg ] ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -173,7 +172,7 @@ FileReference >> gtInspectorPngIn: composite [
 	composite morph
 			title: 'Picture';
 			display: [ self binaryReadStreamDo: [ :stream | PNGReadWriter formFromStream: stream ] ];
-			when: [ self exists and: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ] ]
+			when: [ self isFile and: [ self mimeTypes notNil and: [ self mimeTypes first matches: ZnMimeType imagePng ] ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
@@ -194,7 +193,7 @@ FileReference >> gtInspectorStScriptIn: composite [
 				icon: GLMUIThemeExtraIcons glamorousSave
 				on: $s
 				entitled: 'Save';
-			when: [ self extension = 'st' or: [self extension = 'ph'] ]
+			when: [ self isFile and: [ self extension = 'st' or: [self extension = 'ph'] ] ]
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
