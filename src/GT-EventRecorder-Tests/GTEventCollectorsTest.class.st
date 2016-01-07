@@ -48,6 +48,7 @@ GTEventCollectorsTest >> testDo [
 	"Ensure that collectors are iterated according to creation time."
 	| collector1 collector2 interatedCollectors |
 	collector1 := GTEventCollector new.
+	1 nanoSecond wait.
 	collector2 := GTEventCollector new.
 	self assert: collector1 creationTime < collector2 creationTime.
 	collectors add: collector2.
@@ -65,6 +66,7 @@ GTEventCollectorsTest >> testDo2 [
 	"Ensure that collectors are iterated according to creation time."
 	| collector1 collector2 interatedCollectors |
 	collector1 := GTEventCollector new.
+	1 nanoSecond wait.
 	collector2 := GTEventCollector new.
 	self assert: collector1 creationTime < collector2 creationTime.
 	collectors add: collector1.
