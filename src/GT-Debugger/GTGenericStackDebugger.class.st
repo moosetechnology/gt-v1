@@ -7,10 +7,8 @@ Class {
 	#superclass : #GTMoldableDebugger,
 	#classVars : [
 		'AlwaysOpenFullDebugger',
-		'EnableStackColoring',
 		'ErrorRecursion',
 		'FilterCommonMessageSends',
-		'GTDebuggerEnabledStatus',
 		'LogDebuggerStackToFile',
 		'LogFileName'
 	],
@@ -43,16 +41,6 @@ GTGenericStackDebugger class >> defaultLogFileName [
 { #category : #accessing }
 GTGenericStackDebugger class >> defaultTitle [
 	^ 'GT Debugger'
-]
-
-{ #category : #'settings api' }
-GTGenericStackDebugger class >> enableStackColoring [
-	^ EnableStackColoring ifNil: [EnableStackColoring := false]
-]
-
-{ #category : #'settings api' }
-GTGenericStackDebugger class >> enableStackColoring: aBoolean [
-	EnableStackColoring := aBoolean.
 ]
 
 { #category : #'settings api' }
@@ -113,12 +101,6 @@ GTGenericStackDebugger class >> handlesContext: aContext [
 ]
 
 { #category : #'settings api' }
-GTGenericStackDebugger class >> isGTDebuggerEnabled [
-
-	^ GTDebuggerEnabledStatus ifNil: [ GTDebuggerEnabledStatus := Smalltalk tools debugger = self ]
-]
-
-{ #category : #'settings api' }
 GTGenericStackDebugger class >> logDebuggerStackToFile [
 	^ LogDebuggerStackToFile ifNil: [LogDebuggerStackToFile := true]
 ]
@@ -162,33 +144,6 @@ GTGenericStackDebugger class >> registerToolsOn: registry [
 GTGenericStackDebugger class >> sessionClass [
 
 	^ DebugSession 
-]
-
-{ #category : #'settings api' }
-GTGenericStackDebugger class >> setGTDebuggerEnabledStatus: aBoolean [
-	| oldStatus |
-	
-	oldStatus := self isGTDebuggerEnabled.
-	GTDebuggerEnabledStatus := aBoolean.
-	oldStatus ~= GTDebuggerEnabledStatus ifTrue: [ 
-		GTDebuggerEnabledStatus 
-			ifTrue: [ self register ]
-			ifFalse: [ SpecDebugger registerToolsOn: Smalltalk tools ] ]
-	
-	
-]
-
-{ #category : #'settings api' }
-GTGenericStackDebugger class >> settingsOn: aBuilder [ 
-	<systemsettings>
-	
-	(aBuilder setting: #GTDebuggerStatus)
-		parent: #gt;
-		target: self;
-		getSelector: #isGTDebuggerEnabled;
-		setSelector: #setGTDebuggerEnabledStatus:; 
-		label: 'GTDebugger';
-		 description: 'Enable or disable the GTDebugger.'
 ]
 
 { #category : #'settings api' }

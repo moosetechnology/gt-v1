@@ -11,7 +11,9 @@ Class {
 	#traits : 'GTBrowsingActions',
 	#classTraits : 'GTBrowsingActions classTrait',
 	#classVars : [
-		'EnableDebuggerWindowDistinctColor'
+		'EnableDebuggerWindowDistinctColor',
+		'EnableStackColoring',
+		'GTDebuggerEnabledStatus'
 	],
 	#category : #'GT-Debugger-UI'
 }
@@ -48,9 +50,25 @@ GTMoldableDebugger class >> enableDebuggerWindowDistinctColor: aBoolean [
 	EnableDebuggerWindowDistinctColor := aBoolean.
 ]
 
+{ #category : #'settings api' }
+GTMoldableDebugger class >> enableStackColoring [
+	^ EnableStackColoring ifNil: [EnableStackColoring := false]
+]
+
+{ #category : #'settings api' }
+GTMoldableDebugger class >> enableStackColoring: aBoolean [
+	EnableStackColoring := aBoolean.
+]
+
 { #category : #testing }
 GTMoldableDebugger class >> handlesContext: aContext [
 	self subclassResponsibility 
+]
+
+{ #category : #'settings api' }
+GTMoldableDebugger class >> isGTDebuggerEnabled [
+
+	^ GTDebuggerEnabledStatus ifNil: [ GTDebuggerEnabledStatus := Smalltalk tools debugger = self ]
 ]
 
 { #category : #'instance creation api' }
@@ -96,6 +114,20 @@ GTMoldableDebugger class >> patchworkUIThemeColor [
 { #category : #accessing }
 GTMoldableDebugger class >> sessionClass [
 	self subclassResponsability
+]
+
+{ #category : #'settings api' }
+GTMoldableDebugger class >> setGTDebuggerEnabledStatus: aBoolean [
+	| oldStatus |
+	
+	oldStatus := self isGTDebuggerEnabled.
+	GTDebuggerEnabledStatus := aBoolean.
+	oldStatus ~= GTDebuggerEnabledStatus ifTrue: [ 
+		GTDebuggerEnabledStatus 
+			ifTrue: [ self register ]
+			ifFalse: [ SpecDebugger registerToolsOn: Smalltalk tools ] ]
+	
+	
 ]
 
 { #category : #private }

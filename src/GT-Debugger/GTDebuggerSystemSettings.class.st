@@ -1,3 +1,6 @@
+"
+I register settings only needed for GTDebugger.
+"
 Class {
 	#name : #GTDebuggerSystemSettings,
 	#superclass : #Object,
@@ -21,6 +24,15 @@ GTDebuggerSystemSettings class >> debugSettingsOn: aBuilder [
 		parent: #debugging;
 		description:
 				'When true, the window border is colored with red to make it distinct from other windows.' translated.
+				
+	(aBuilder setting: #GTDebuggerStatus)
+		parent: #gt;
+		target: GTGenericStackDebugger;
+		getSelector: #isGTDebuggerEnabled;
+		setSelector: #setGTDebuggerEnabledStatus:; 
+		label: 'GTDebugger';
+		description: 
+			'Enable or disable the GTDebugger.'
 	
 
 ]
