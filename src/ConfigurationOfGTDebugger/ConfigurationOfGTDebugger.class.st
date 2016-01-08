@@ -281,7 +281,7 @@ ConfigurationOfGTDebugger >> project [
 ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.1'.
+	spec for: #'common' version: '1.2'.
 
 	spec for: #'pharo3.x' version: '1.0.0'.
 
@@ -339,5 +339,23 @@ Bugfixes (17190, 17206, 17336, 17337, 17225)'.
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.23';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.21';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version12: spec [
+	<version: '1.2' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'This version fixes problems in GTDebugger and updates  Rubric (issues: 17155, 17279, 17152)'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/8/2016 19:27'.
+		spec project: 'GTInspectorCore' with: '2.4'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.267';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.24';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.21';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.5'. ].
 
 ]
