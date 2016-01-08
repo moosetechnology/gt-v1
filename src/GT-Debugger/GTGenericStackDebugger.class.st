@@ -403,6 +403,12 @@ GTGenericStackDebugger >> stackIn: composite [
 		with: [ :stackWidget | self installStackDebuggingActionsFor: stackWidget ]
 ]
 
+{ #category : #accessing }
+GTGenericStackDebugger >> stackPresentation [
+	
+	^ (self browser paneNamed: #stack) presentations first
+]
+
 { #category : #'building presentations' }
 GTGenericStackDebugger >> stackWidgetIn: composite [
 
