@@ -14,8 +14,7 @@ GTDebugSelectionDebugAction class >> gtActionFor: aDebugger [
 { #category : #accessing }
 GTDebugSelectionDebugAction >> defaultKeyText [
 
-	^ nil
-	"^ 'D'"
+	^ 'D'
 ]
 
 { #category : #accessing }
