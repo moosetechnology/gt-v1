@@ -353,7 +353,7 @@ ConfigurationOfGTDebugger >> version12: spec [
 		spec timestamp: '1/8/2016 19:27'.
 		spec project: 'GTInspectorCore' with: '2.4'.
 		spec 
-			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.267';
+			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.268';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.24';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.21';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.5'. ].
