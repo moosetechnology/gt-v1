@@ -229,7 +229,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.4'.
+	spec for: #'common' version: '3.5'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -489,5 +489,22 @@ ConfigurationOfGToolkitCore >> version34: spec [
 			project: 'GTInspectorCore' with: '2.3';
 			project: 'GTSpotter' with: '1.6';
 			project: 'GTDebugger' with: '1.1'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version35: spec [
+	<version: '3.5' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'This version fixes problems in GTDebugger and updates  Rubric (issues: 17155, 17279, 17152)'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/8/2016 19:27'.
+		spec 
+			project: 'GTPlaygroundCore' with: '2.5';
+			project: 'GTInspectorCore' with: '2.4';
+			project: 'GTSpotter' with: '1.7';
+			project: 'GTDebugger' with: '1.2'. ].
 
 ]
