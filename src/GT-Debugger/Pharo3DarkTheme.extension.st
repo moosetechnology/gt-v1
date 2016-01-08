@@ -1,14 +1,19 @@
 Extension { #name : #Pharo3DarkTheme }
 
 { #category : #'*GT-Debugger' }
-Pharo3DarkTheme >> styleContext: aContext from: aDebugger. [
+Pharo3DarkTheme >> sameClassContextStyleFor: aContext [ 
 
-	(aDebugger selectedContext == aContext) ifTrue: [ ^ {TextColor color: Smalltalk ui theme textColor}  ].
+	^ {TextColor cyan}
+]
 
-	(aContext receiver class = aDebugger selectedContext receiver class)
-		ifTrue: [ ^ { TextColor cyan } ].
-	(aContext receiver class package = aDebugger selectedContext receiver class package)
-		ifTrue: [ ^ { TextColor magenta } ]. 
+{ #category : #'*GT-Debugger' }
+Pharo3DarkTheme >> samePackageContextStyleFor: aContext [
+
+	^ {TextColor magenta}
+]
+
+{ #category : #'*GT-Debugger' }
+Pharo3DarkTheme >> unrelatedContextStyleFor: aContext [
 
 	^ {TextColor color: Color white}
 ]
