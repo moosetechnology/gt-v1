@@ -69,12 +69,10 @@ GTBytecodeDebugger >> bytecodePresentation [
 GTBytecodeDebugger >> debuggerStructureIn: browser [
 	
 	browser
-		row: [ :row | 
-					row
-						column: #stack;
-						column: #code; 
-						column: #bytecode ]
-			span: 2;
+		row: #stack;
+		row: [ :c | c
+			column: #code; 
+			column: #bytecode ];
 		row: #inspector.
 		
 ]
