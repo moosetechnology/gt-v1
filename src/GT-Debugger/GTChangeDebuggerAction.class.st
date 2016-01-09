@@ -31,7 +31,7 @@ GTChangeDebuggerAction class >> debuggersForContext: aContext excluding: aDebugg
 
 { #category : #'as yet unclassified' }
 GTChangeDebuggerAction class >> gtChangeDebuggerActionsFor: aDebugger [
-	<gtStackDebuggingAction>
+	<gtDebuggingAction>
 	
 	^ self 
 		changeDebuggerActionsForContext: aDebugger interruptedContext 

@@ -185,11 +185,8 @@ GTGenericStackDebugger >> contextToSelectFrom: aSession [
 GTGenericStackDebugger >> debuggerStructureIn: browser [
 	
 	browser
-		row: [ :row | 
-					row
-						column: #stack;
-						column: #code span: 2 ]
-			span: 2;
+		row: #stack;
+		row: #code;
 		row: #inspector.
 		
 ]
