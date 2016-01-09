@@ -49,5 +49,5 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 { #category : #'*GT-Debugger' }
 Context >> reservedNames [
 
-	^ #( '_self' '_thisContext' '_stack top')
+	^ #( 'self')
 ]
