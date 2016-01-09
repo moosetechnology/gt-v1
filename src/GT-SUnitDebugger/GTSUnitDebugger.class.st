@@ -64,11 +64,9 @@ GTSUnitDebugger >> debuggerStructureIn: browser [
 	
 	browser
 		row: #stack;
-		row: [ :row | 
-					row
-						column: #code;
-						column: #test ]
-			span: 2;
+		row: [ :c | c
+			column: #code; 
+			column: #test ];
 		row: #inspector.
 		
 ]
