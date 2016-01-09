@@ -409,7 +409,7 @@ GTGenericStackDebugger >> stackPresentation [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> stackWidgetIn: composite [
 
-	^ composite fastList	
+	^ composite list	
 		title: 'Stack';
 		showOnly: 50;
 		display: [:aSession | self retrieveStackFrom: aSession];

@@ -71,12 +71,10 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 					compareVariableTypeOf: x key
 					withVariable: y key
 					in: ((self presentations first paneNamed: #variables) port: #entity) value];
-		column: 'Variable' 
-			evaluated: [:assoc | 
+		column: 'Variable' evaluated: [:assoc | 
 			[ Text fromString: assoc key asString ]
 					on: Error
-					do: [ Text string: 'error printing' attribute: TextColor red ] ]
-			width: 175;
+					do: [ Text string: 'error printing' attribute: TextColor red ] ];
 		column: 'Value' evaluated: [:assoc | 
 			[ Text fromString: (assoc value printString contractTo: 50) ]
 					on: Error
