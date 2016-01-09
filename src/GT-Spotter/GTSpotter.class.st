@@ -34,7 +34,7 @@ Class {
 
 { #category : #cleanup }
 GTSpotter class >> cleanUp [
-    self resetHistory.
+	self resetHistory.
 	wasOpened := false
 ]
 
