@@ -40,6 +40,14 @@ TClass >> gtInspectorCommentIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+TClass >> gtInspectorDefinitionIn: composite [
+	<gtInspectorPresentationOrder: 15>
+	composite pharoScript 
+		title: 'Definition';
+		display: [ self definition ] 
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 TClass >> gtInspectorMethodsIn: composite [
 	"This provides a list of all methods provided by the current class"
 	<gtInspectorPresentationOrder: 20>
