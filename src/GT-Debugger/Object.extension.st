@@ -8,7 +8,7 @@ Object >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 
 { #category : #'*GT-Debugger-UI' }
 Object >> gtDebuggerEvaluatorIn: composite [
-	<gtDebuggerPresentationOrder: 15>
+	<gtDebuggerPresentationOrder: 10>
 	
 	(GTObjectVariablesBrowser new evaluatorIn: composite)
 		title: 'Evaluator'
@@ -37,7 +37,7 @@ Object >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 
 { #category : #'*GT-Debugger-UI' }
 Object >> gtDebuggerStateIn: composite [
-	<gtDebuggerPresentationOrder: 10>
+	<gtDebuggerPresentationOrder: 15>
 	
 	(GTObjectVariablesBrowser new variablesIn: composite)
 		title: 'State';
