@@ -63,12 +63,10 @@ GTSUnitDebugger >> contextToSelectFrom: aSession [
 GTSUnitDebugger >> debuggerStructureIn: browser [
 	
 	browser
-		row: [ :row | 
-					row
-						column: #stack;
-						column: #code;
-						column: #test ]
-			span: 2;
+		row: #stack;
+		row: [ :c | c
+			column: #code; 
+			column: #test ];
 		row: #inspector.
 		
 ]
