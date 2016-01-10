@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 GTBytecodeDebugger class >> defaultTitle [
 
-	^ 'Bytecode Debugger'
+	^ 'Bytecode'
 ]
 
 { #category : #'tools registry' }
@@ -72,7 +72,7 @@ GTBytecodeDebugger >> debuggerStructureIn: browser [
 		row: #stack;
 		row: [ :c | c
 			column: #code; 
-			column: #bytecode ];
+			column: #bytecode ] span: 2;
 		row: #inspector.
 		
 ]
