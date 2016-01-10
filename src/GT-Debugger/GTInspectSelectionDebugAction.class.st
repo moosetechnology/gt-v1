@@ -1,3 +1,6 @@
+"
+This action is responsible for inspecting a selected piece of code from the code pane of the debugger.
+"
 Class {
 	#name : #GTInspectSelectionDebugAction,
 	#superclass : #GTCodeDebugAction,

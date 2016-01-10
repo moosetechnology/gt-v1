@@ -1,3 +1,6 @@
+"
+This action is responsible for profiling  a selected piece of code from the code pane of the debugger.
+"
 Class {
 	#name : #GTProfileSelectionDebugAction,
 	#superclass : #GTCodeDebugAction,
