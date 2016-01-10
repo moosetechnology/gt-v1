@@ -39,7 +39,7 @@ GTDummyExamples class >> d: anInteger [
 	<label: 'Dummy #d:, depends #c:'>
 	<description: 'should raise an exception as the argument is not anInteger'>
 	<depends: #c:>
-	<raises: #MessageNotUnderstood>
+	<raises: MessageNotUnderstood>
 	
 	^ 1 + anInteger
 ]
@@ -50,7 +50,7 @@ GTDummyExamples class >> e: aString [
 	<label: 'Dummy #e:, depends #c:'>
 	<description: 'should raise an exception as the argument is not aString'>
 	<depends: #c:>
-	<raises: #Error>
+	<raises: Error>
 	
 	^ 'Hellow World', aString
 ]
@@ -72,7 +72,7 @@ GTDummyExamples class >> g: aBoolean [
 	<label: 'Dummy #g, depends: #c'>
 	<description: 'should raise a ZeroDivide'>
 	<depends: #c:>
-	<raises: #ZeroDivide>
+	<raises: ZeroDivide>
 	
 	self assert: aBoolean.
 	^ 1/0
@@ -95,7 +95,7 @@ GTDummyExamples class >> i [
 	<label: 'Dummy #i'>
 	<description: 'should raise ZeroDivide'>
 
-	<raises: #ZeroDivide>
+	<raises: ZeroDivide>
 	^ 1/0
 ]
 
@@ -104,8 +104,8 @@ GTDummyExamples class >> j [
 	<gtExample>
 	<label: 'Dummy #j'>
 	<description: 'should raise ZeroDivide'>
-	<raises: #ZeroDivide>
-	<raises: #AssertionFailure>
+	<raises: ZeroDivide>
+	<raises: AssertionFailure>
 
 	1/0.	
 	self assert: false

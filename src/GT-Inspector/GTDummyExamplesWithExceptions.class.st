@@ -9,7 +9,7 @@ GTDummyExamplesWithExceptions class >> a [
 	<gtExample>
 	<label: 'Dummy #a'>
 	<description: 'Dummy #a, raises ZeroDivide'>
-	<raises: #ZeroDivide>
+	<raises: ZeroDivide>
 	
 	^ 1/0
 ]
@@ -39,8 +39,8 @@ GTDummyExamplesWithExceptions class >> d [
 	<gtExample>
 	<label: 'Dummy #d'>
 	<description: 'Dummy #d, raises ZeroDivide or AssertionFailure'>
-	<raises: #ZeroDivide>
-	<raises: #AssertionFailure>
+	<raises: ZeroDivide>
+	<raises: AssertionFailure>
 	
 	self assert: #( true false ) atRandom.
 	^ 1/0
@@ -82,8 +82,8 @@ GTDummyExamplesWithExceptions class >> h [
 	<gtExample>
 	<label: 'Dummy #h'>
 	<description: 'Dummy #h, should raise an exception (by declaration) but it does not'>
-	<raises: #AssertionFailure>
-	<raises: #ZeroDivide>
+	<raises: AssertionFailure>
+	<raises: ZeroDivide>
 	<noTest>
 	
 	self assert: true. " no exception raised -> expected exception not raises"
