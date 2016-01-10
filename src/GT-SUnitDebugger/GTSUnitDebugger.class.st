@@ -19,7 +19,7 @@ GTSUnitDebugger class >> availableAutomatically [
 { #category : #accessing }
 GTSUnitDebugger class >> defaultTitle [
 
-	^ 'SUnit Debugger'
+	^ 'SUnit'
 ]
 
 { #category : #testing }
@@ -66,7 +66,7 @@ GTSUnitDebugger >> debuggerStructureIn: browser [
 		row: #stack;
 		row: [ :c | c
 			column: #code; 
-			column: #test ];
+			column: #test ] span: 2;
 		row: #inspector.
 		
 ]
