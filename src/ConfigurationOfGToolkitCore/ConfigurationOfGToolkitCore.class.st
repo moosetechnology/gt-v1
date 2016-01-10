@@ -229,7 +229,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.5'.
+	spec for: #'common' version: '3.6'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -506,5 +506,22 @@ ConfigurationOfGToolkitCore >> version35: spec [
 			project: 'GTInspectorCore' with: '2.4';
 			project: 'GTSpotter' with: '1.7';
 			project: 'GTDebugger' with: '1.2'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version36: spec [
+	<version: '3.6' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Fixes in the debugger, inspector and spotter.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/10/2016 23:53'.
+		spec 
+			project: 'GTPlaygroundCore' with: '2.6';
+			project: 'GTInspectorCore' with: '2.5';
+			project: 'GTSpotter' with: '1.8';
+			project: 'GTDebugger' with: '1.3'. ].
 
 ]
