@@ -129,7 +129,7 @@ GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 	self categoryProcessor: aProcessor.
 	
 	self nameBrick: self newNameBrick.
-	self nameBrick text: aProcessor title.
+	self nameBrick text: '#', aProcessor title.
 			
 	self amountBrick: self newAmountBrick.
 	self amountBrick text: '0/0'.
