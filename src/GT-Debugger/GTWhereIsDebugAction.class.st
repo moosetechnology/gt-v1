@@ -15,7 +15,7 @@ GTWhereIsDebugAction class >> gtActionFor: aDebugger [
 { #category : #accessing }
 GTWhereIsDebugAction >> defaultOrder [
 
-	^ 210
+	^ 200
 ]
 
 { #category : #actions }

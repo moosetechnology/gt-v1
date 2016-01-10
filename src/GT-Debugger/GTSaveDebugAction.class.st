@@ -27,7 +27,7 @@ GTSaveDebugAction >> defaultLabel [
 { #category : #initialization }
 GTSaveDebugAction >> defaultOrder [
 
-	^ 200
+	^ 260
 ]
 
 { #category : #actions }

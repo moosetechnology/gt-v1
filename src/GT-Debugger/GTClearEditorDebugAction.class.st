@@ -34,7 +34,7 @@ GTClearEditorDebugAction >> defaultLabel [
 { #category : #accessing }
 GTClearEditorDebugAction >> defaultOrder [
 
-	^ 215
+	^ 250
 ]
 
 { #category : #actions }
