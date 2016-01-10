@@ -261,6 +261,19 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForSelectorsFor: aStep [
+	<spotterOrder: 29>
+
+	aStep listProcessor
+		title: 'Selectors';
+		filter: GTFilterSubstring item: [ :filter :context | 
+			SystemNavigation default allBehaviorsDo: [ :class | class selectorsDo: [ :symbol | 
+				filter value: (GTSelector new name: symbol) ] ] ];
+		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForSettingsFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor

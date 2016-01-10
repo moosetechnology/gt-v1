@@ -88,11 +88,22 @@ PragmaType >> spotterPragmasFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #ui }
+PragmaType >> spotterPreviewItemsIn: aComposite [
+	<spotterPreview: 10>
+	
+	aComposite list
+		title: '<', self gtDisplayString, '>';
+		display: [ :x | x ];
+		format: [ :pragma | GTSpotterItemBrick new text: pragma method gtDisplayString; disable; yourself ];
+		entity: self pragmas asArray.
+]
+
+{ #category : #ui }
 PragmaType >> spotterSendersFor: aStep [
 	<spotterOrder: 50>
 	^ aStep listProcessor
 		title: 'Senders';
-		allCandidates: [ (SystemNavigation default allSendersOf: self keyword) collect: #compiledMethod ];
+		allCandidates: [ self keyword senders collect: #compiledMethod ];
 		filter: GTFilterSubstring
 ]

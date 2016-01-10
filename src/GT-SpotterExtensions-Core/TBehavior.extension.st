@@ -1,62 +1,6 @@
 Extension { #name : #TBehavior }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleAllSubclasses [
-	<gtExample>
-	<label: 'All Subclasses'>
-	
-	^ Object
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleClassVariables [
-	<gtExample>
-	<label: 'Class Variables'>
-	
-	^ Behavior
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleInstanceVariables [
-	<gtExample>
-	<label: 'Instance Variables'>
-	
-	^ ClassDescription
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleSuperclasses [
-	<gtExample>
-	<label: 'Superclasses'>
-	
-	^ Metaclass
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleTraitComposition [
-	<gtExample>
-	<label: 'Trait Composition'>
-	
-	^ Class
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleTraitUsers [
-	<gtExample>
-	<label: 'Trait Users'>
-	
-	^ TBehavior
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior classSide >> gtExampleTraits [
-	<gtExample>
-	<label: 'Traits'>
-	
-	^ Class
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterClassInstanceVariablesFor: aStep [
 	<spotterOrder: 25>
 	self isTrait ifTrue: [ ^ self ].
