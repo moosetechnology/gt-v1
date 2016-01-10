@@ -11,11 +11,49 @@ Class {
 	#category : #'GT-Debugger-UI'
 }
 
+{ #category : #callbacks }
+GTDebuggerInspector >> actOnPaneAdded: ann [
+
+	self panes size > 1 ifTrue: [ 
+		self updateToolbarsIn: ((self panes before: self panes last) presentations first) ]
+]
+
+{ #category : #building }
+GTDebuggerInspector >> attachExtraBehaviourToPresentationsIn: aComposite [
+
+	aComposite presentations do: [ :aPresentation |
+		aPresentation addAction: 
+			((self closeActionFor: aPresentation)
+				condition: [ :currentPresentation |
+					self panes size > 1 and: [ 
+						self panes last presentations first 
+							cachedPresentation presentations first 
+								includes: currentPresentation ] ] ) ]
+]
+
 { #category : #building }
 GTDebuggerInspector >> compose [
 	self pager
 		minimumPageNumberForScrollbar: 2; 
 		show: [ :a :each | 
 			a dynamic display: [ :x | 
-				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d inContext: self ] ] ]
+				GLMCompositePresentation new with: [ :aComposite | 
+					each gtDebuggerPresentationsIn: aComposite inContext: self.
+					self attachExtraBehaviourToPresentationsIn: aComposite.
+					aComposite ] ] ].
+	self first when: GLMPaneAdded send: #actOnPaneAdded: to: self
+]
+
+{ #category : #actions }
+GTDebuggerInspector >> removeLastPane [
+	super removeLastPane.
+	self updateToolbarsIn: self first panes last presentations first
+]
+
+{ #category : #actions }
+GTDebuggerInspector >> updateToolbarsIn: aPresentation [
+
+	aPresentation
+		withAllPanesAndPresentationsDo: [ :each | 
+			(each isKindOf: GLMPresentation) ifTrue: [ each updateToolbar ] ]
 ]
