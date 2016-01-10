@@ -82,3 +82,13 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 			itemIcon: #systemIcon;
 			filter: GTFilterSubstring
 ]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+TBehavior >> withMethodReferTo: literal do: aBlock [
+	" this is a copy of #whichSelectorsReferTo: "
+	| special byte |
+	special := Smalltalk hasSpecialSelector: literal ifTrueSetByte: [ :b | byte := b].
+	self selectorsAndMethodsDo: [ :sel :met | 
+		((met hasLiteral: literal) or: [ (met refersToLiteral: literal) or: [ special and: [ met scanFor: byte ] ] ])
+			ifTrue: [ aBlock value: met ] ].
+]
