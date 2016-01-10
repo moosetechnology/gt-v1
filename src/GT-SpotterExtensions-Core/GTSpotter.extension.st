@@ -266,11 +266,17 @@ GTSpotter >> spotterForSelectorsFor: aStep [
 
 	aStep listProcessor
 		title: 'Selectors';
-		filter: GTFilterSubstring item: [ :filter :context | 
+		filter: GTNullFilter item: [ :filter :context | 
+			| selectors |
+			selectors := IdentityDictionary new.
 			SystemNavigation default allBehaviorsDo: [ :class | 
-				class selectorsDo: [ :symbol | 
-					filter value: (GTSelector new name: symbol) ] ] ];
-		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];
+				class selectorsAndMethodsDo: [ :selector :method | 
+					(selector asString includesSubstring: context textTrimmed caseSensitive: false) ifTrue: [ 
+						| group newGroup | 
+						group := selectors 
+							at: selector 
+							ifAbsentPut: [ filter value: (newGroup := GTSelectorImplementors new name: selector; yourself). newGroup ].
+						group addMethod: method ] ] ] ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
