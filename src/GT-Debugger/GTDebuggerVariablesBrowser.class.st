@@ -9,7 +9,7 @@ Class {
 	#category : #'GT-Debugger-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTDebuggerVariablesBrowser >> compareVariableTypeOf: x withVariable: y in: aContext [
 
 	^ (self variableTypeOf: x in: aContext) < (self variableTypeOf: y in: aContext)
@@ -37,7 +37,7 @@ GTDebuggerVariablesBrowser >> tagsForVariable: aString from: aContext [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GTDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 	^ (aContext receiver class classThatDefinesInstanceVariable: aString) notNil
 			ifTrue: [ 'attribute' ]

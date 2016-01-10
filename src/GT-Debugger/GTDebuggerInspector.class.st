@@ -15,7 +15,7 @@ Class {
 GTDebuggerInspector >> actOnPaneAdded: ann [
 
 	self panes size > 1 ifTrue: [ 
-		self updateToolbarsIn: ((self panes before: self panes last) presentations first) ]
+		(self panes before: self panes last) presentations first updateToolbar ]
 ]
 
 { #category : #building }
@@ -27,8 +27,11 @@ GTDebuggerInspector >> attachExtraBehaviourToPresentationsIn: aComposite [
 				condition: [ :currentPresentation |
 					self panes size > 1 and: [ 
 						self panes last presentations first 
-							cachedPresentation presentations first 
-								includes: currentPresentation ] ] ) ]
+							cachedPresentation 
+								ifNil: [ false ]
+								ifNotNil: [ :aCachedPresentation |
+									aCachedPresentation first 
+										includes: currentPresentation ]  ] ] ) ]
 ]
 
 { #category : #building }
@@ -47,7 +50,8 @@ GTDebuggerInspector >> compose [
 { #category : #actions }
 GTDebuggerInspector >> removeLastPane [
 	super removeLastPane.
-	self updateToolbarsIn: self first panes last presentations first
+
+	self first panes last presentations first updateToolbar
 ]
 
 { #category : #actions }
