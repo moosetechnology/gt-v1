@@ -84,7 +84,7 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> withMethodReferTo: literal do: aBlock [
+TBehavior >> withMethodSending: literal do: aBlock [
 	" this is a copy of #whichSelectorsReferTo: "
 	| special byte |
 	special := Smalltalk hasSpecialSelector: literal ifTrueSetByte: [ :b | byte := b].

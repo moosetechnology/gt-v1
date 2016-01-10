@@ -275,16 +275,16 @@ GTSpotter >> spotterForSelectorsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForSendsFor: aStep [
+GTSpotter >> spotterForSendersFor: aStep [
 	<spotterOrder: 31>
 
 	aStep listProcessor
-		title: 'Sending';
+		title: 'Senders';
 		filter: GTNullFilter " the filter-block already does the filtering " item: [ :filter :context | 
 			context textTrimmed ifNotEmpty: [ :string |
 				string asSymbol ifNotNil: [ :symbol |
 					SystemNavigation default allBehaviorsDo: [ :class | 
-						class withMethodReferTo: symbol do: filter ] ] ] ];
+						class withMethodSending: symbol do: filter ] ] ] ];
 		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];
 		wantsToDisplayOnEmptyQuery: false
 ]
