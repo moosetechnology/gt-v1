@@ -7,6 +7,12 @@ Class {
 	#category : #'GT-SpotterExtensions-Core'
 }
 
+{ #category : #examples }
+GTSelector class >> gtExampleNew [
+	<gtExample>
+	^ self new name: #new
+]
+
 { #category : #printing }
 GTSelector >> gtDisplayOn: stream [
 	stream nextPutAll: self name
