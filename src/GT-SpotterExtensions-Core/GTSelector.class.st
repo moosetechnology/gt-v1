@@ -37,6 +37,7 @@ GTSelector >> spotterSendersFor: aStep [
 	<spotterOrder: 50>
 	^ aStep listProcessor
 		title: 'Senders';
-		allCandidates: [ self senders collect: #compiledMethod ];
-		filter: GTFilterSubstring
+		filter: GTFilterSubstring item: [ :filter :context | 
+			self senders do: [ :sender | 
+				filter value: sender compiledMethod ] ]
 ]

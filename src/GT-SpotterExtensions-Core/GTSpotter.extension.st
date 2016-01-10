@@ -267,8 +267,9 @@ GTSpotter >> spotterForSelectorsFor: aStep [
 	aStep listProcessor
 		title: 'Selectors';
 		filter: GTFilterSubstring item: [ :filter :context | 
-			SystemNavigation default allBehaviorsDo: [ :class | class selectorsDo: [ :symbol | 
-				filter value: (GTSelector new name: symbol) ] ] ];
+			SystemNavigation default allBehaviorsDo: [ :class | 
+				class selectorsDo: [ :symbol | 
+					filter value: (GTSelector new name: symbol) ] ] ];
 		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];
 		wantsToDisplayOnEmptyQuery: false
 ]

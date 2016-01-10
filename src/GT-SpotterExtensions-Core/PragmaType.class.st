@@ -104,6 +104,7 @@ PragmaType >> spotterSendersFor: aStep [
 	<spotterOrder: 50>
 	^ aStep listProcessor
 		title: 'Senders';
-		allCandidates: [ self keyword senders collect: #compiledMethod ];
-		filter: GTFilterSubstring
+		filter: GTFilterSubstring item: [ :filter :context | 
+			self keyword senders do: [ :sender | 
+				filter value: sender compiledMethod ] ]
 ]
