@@ -281,7 +281,7 @@ ConfigurationOfGTDebugger >> project [
 ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.2'.
+	spec for: #'common' version: '1.3'.
 
 	spec for: #'pharo3.x' version: '1.0.0'.
 
@@ -356,6 +356,24 @@ ConfigurationOfGTDebugger >> version12: spec [
 			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.268';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.24';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.21';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.5'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version13: spec [
+	<version: '1.3' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Fixes in the debugger, inspector and spotter.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/10/2016 23:53'.
+		spec project: 'GTInspectorCore' with: '2.5'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-TudorGirba.287';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.27';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.24';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.5'. ].
 
 ]
