@@ -26,12 +26,7 @@ GTDebuggerInspector >> attachExtraBehaviourToPresentationsIn: aComposite [
 			((self closeActionFor: aPresentation)
 				condition: [ :currentPresentation |
 					self panes size > 1 and: [ 
-						self panes last presentations first 
-							cachedPresentation 
-								ifNil: [ false ]
-								ifNotNil: [ :aCachedPresentation |
-									aCachedPresentation first 
-										includes: currentPresentation ]  ] ] ) ]
+						self isPresentation: aPresentation inPane: self panes last  ] ] ) ]
 ]
 
 { #category : #building }
@@ -45,6 +40,13 @@ GTDebuggerInspector >> compose [
 					self attachExtraBehaviourToPresentationsIn: aComposite.
 					aComposite ] ] ].
 	self first when: GLMPaneAdded send: #actOnPaneAdded: to: self
+]
+
+{ #category : #building }
+GTDebuggerInspector >> isPresentation: aPresentation inPane: aPane [
+	^ aPane presentations first cachedPresentation 
+		ifNil: [ false ] 
+		ifNotNil: [ :aCachedPresentation | aCachedPresentation first includes: aPresentation ]
 ]
 
 { #category : #actions }
