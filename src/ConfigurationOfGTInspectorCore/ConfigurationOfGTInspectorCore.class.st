@@ -181,7 +181,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.4'.
+	spec for: #'common' version: '2.5'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -696,6 +696,23 @@ ConfigurationOfGTInspectorCore >> version24: spec [
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.360';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.188';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.50'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version25: spec [
+	<version: '2.5' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Fixes in the debugger, inspector and spotter.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/10/2016 23:53'.
+		spec project: 'GlamourCore' with: '3.7'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-StefanReichhart.367';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.190';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.50'. ].
 
 ]
