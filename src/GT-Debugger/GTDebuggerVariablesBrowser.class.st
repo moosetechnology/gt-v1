@@ -6,6 +6,9 @@ I am a special browser that is used in the first pane of the inspector that is e
 Class {
 	#name : #GTDebuggerVariablesBrowser,
 	#superclass : #GLMCompositePresentation,
+	#instVars : [
+		'debugger'
+	],
 	#category : #'GT-Debugger-UI'
 }
 
@@ -25,7 +28,32 @@ GTDebuggerVariablesBrowser >> compose [
 		browser row: #variables.
 		browser transmit to: #variables; andShow: [:a | 
 			self variablesIn: a ].
+		browser transmit 
+			from: #variables port: #entity; 
+			to: #variables port: #selection; 
+			when: [ :aContext | self debugger selectedVariableName notNil and: [aContext notNil] ];
+			transformed: [ :aContext | self selectedVariableForContext: aContext ].
 		browser transmit from: #variables; toOutsidePort: #selection ]
+]
+
+{ #category : #accessing }
+GTDebuggerVariablesBrowser >> debugger [
+	^ debugger
+]
+
+{ #category : #accessing }
+GTDebuggerVariablesBrowser >> debugger: anObject [
+	debugger := anObject
+]
+
+{ #category : #building }
+GTDebuggerVariablesBrowser >> selectedVariableForContext: aContext [ 
+	|variablesMappings|
+	
+	variablesMappings := self variablesFromContext: aContext.
+	^ variablesMappings 
+		detect: [ :each | each key = self debugger selectedVariableName ] 
+		ifNone: [ variablesMappings detect: [ :each | each key = 'self' ] ifNone: [ nil ] ]
 ]
 
 { #category : #'private building' }
@@ -89,5 +117,8 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 		morphicSelectionAct: [:list | list selection value inspect ] 
 			icon: GLMUIThemeExtraIcons glamorousInspect 
 			on: $i 
-			entitled: 'Inspect'
+			entitled: 'Inspect';
+		onChangeOfPort: #rawSelection 
+			act: [ :aPresentation | 
+				self debugger selectedVariableName: aPresentation rawSelection key ]
 ]

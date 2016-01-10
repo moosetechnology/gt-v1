@@ -10,7 +10,11 @@ Context >> findContextMatchingPredicate: aPredicate [
 Context >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 	
 	^composite custom: ((GTDebuggerInspector new  
-		showFirst: [ :a | a custom: (aDebugger class variablesBrowserClass new startOn: self)];
+		debugger: aDebugger;
+		notifyPaneRemoved: true;
+		showFirst: [ :a | a custom: (aDebugger class variablesBrowserClass new 
+			debugger: aDebugger;
+			startOn: self)];
 		yourself) 
 			startOn: self)
 ]

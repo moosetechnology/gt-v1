@@ -8,6 +8,10 @@ It is special in two ways:
 Class {
 	#name : #GTDebuggerInspector,
 	#superclass : #GTInspector,
+	#instVars : [
+		'debugger',
+		'notifyPaneRemoved'
+	],
 	#category : #'GT-Debugger-UI'
 }
 
@@ -16,6 +20,14 @@ GTDebuggerInspector >> actOnPaneAdded: ann [
 
 	self panes size > 1 ifTrue: [ 
 		(self panes before: self panes last) presentations first updateToolbar ]
+]
+
+{ #category : #callbacks }
+GTDebuggerInspector >> actOnPaneRemoved: ann [
+
+	self first panes last presentations first updateToolbar.
+	self notifyPaneRemoved ifTrue: [ 
+		self debugger announce: ann ]
 ]
 
 { #category : #building }
@@ -39,7 +51,18 @@ GTDebuggerInspector >> compose [
 					each gtDebuggerPresentationsIn: aComposite inContext: self.
 					self attachExtraBehaviourToPresentationsIn: aComposite.
 					aComposite ] ] ].
-	self first when: GLMPaneAdded send: #actOnPaneAdded: to: self
+	self first when: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	self first when: GLMPaneRemoved send: #actOnPaneRemoved: to: self
+]
+
+{ #category : #accessing }
+GTDebuggerInspector >> debugger [
+	^ debugger
+]
+
+{ #category : #accessing }
+GTDebuggerInspector >> debugger: anObject [
+	debugger := anObject
 ]
 
 { #category : #building }
@@ -49,17 +72,12 @@ GTDebuggerInspector >> isPresentation: aPresentation inPane: aPane [
 		ifNotNil: [ :aCachedPresentation | aCachedPresentation first includes: aPresentation ]
 ]
 
-{ #category : #actions }
-GTDebuggerInspector >> removeLastPane [
-	super removeLastPane.
-
-	self first panes last presentations first updateToolbar
+{ #category : #accessing }
+GTDebuggerInspector >> notifyPaneRemoved [
+	^ notifyPaneRemoved ifNil: [ false ]
 ]
 
-{ #category : #actions }
-GTDebuggerInspector >> updateToolbarsIn: aPresentation [
-
-	aPresentation
-		withAllPanesAndPresentationsDo: [ :each | 
-			(each isKindOf: GLMPresentation) ifTrue: [ each updateToolbar ] ]
+{ #category : #accessing }
+GTDebuggerInspector >> notifyPaneRemoved: anObject [
+	notifyPaneRemoved := anObject
 ]

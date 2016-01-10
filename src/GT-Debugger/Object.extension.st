@@ -3,7 +3,9 @@ Extension { #name : #Object }
 { #category : #'*GT-Debugger-UI' }
 Object >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 	
-	^ composite custom: (GTDebuggerInspector new startOn: self)
+	^ composite custom: (GTDebuggerInspector new 
+		debugger: aDebugger;
+		startOn: self)
 ]
 
 { #category : #'*GT-Debugger-UI' }

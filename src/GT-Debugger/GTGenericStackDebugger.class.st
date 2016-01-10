@@ -5,6 +5,9 @@ I am a browser that provides Smalltalk debugging functionality.
 Class {
 	#name : #GTGenericStackDebugger,
 	#superclass : #GTMoldableDebugger,
+	#instVars : [
+		'selectedVariableName'
+	],
 	#classVars : [
 		'AlwaysOpenFullDebugger',
 		'ErrorRecursion',
@@ -156,6 +159,13 @@ GTGenericStackDebugger class >> stackWidgetClass [
 GTGenericStackDebugger class >> variablesBrowserClass [
 
 	^ GTDebuggerVariablesBrowser
+]
+
+{ #category : #callbacks }
+GTGenericStackDebugger >> actOnInspectorPaneRemoved: ann [ 
+
+	ann browser panes size == 1 ifTrue: [ 
+		self selectedVariableName: nil ]
 ]
 
 { #category : #'building actions' }
@@ -343,6 +353,16 @@ GTGenericStackDebugger >> selectedContext [
 GTGenericStackDebugger >> selectedText [
 
 	^ (self codePane port: #selectedText) value
+]
+
+{ #category : #accessing }
+GTGenericStackDebugger >> selectedVariableName [
+	^ selectedVariableName
+]
+
+{ #category : #accessing }
+GTGenericStackDebugger >> selectedVariableName: anObject [
+	selectedVariableName := anObject
 ]
 
 { #category : #updating }
