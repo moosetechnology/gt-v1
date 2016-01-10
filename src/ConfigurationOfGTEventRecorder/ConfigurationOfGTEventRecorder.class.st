@@ -167,7 +167,7 @@ ConfigurationOfGTEventRecorder >> project [
 ConfigurationOfGTEventRecorder >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '0.6'.
+	spec for: #'common' version: '0.7'.
 
 ]
 
@@ -282,6 +282,22 @@ ConfigurationOfGTEventRecorder >> version06: spec [
 		spec description: 'This version fixes problems in GTDebugger and updates  Rubric (issues: 17155, 17279, 17152)'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '1/8/2016 19:27'.
+		spec project: 'Ston' with: '0.14'.
+		spec 
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.53';
+			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.32'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorder >> version07: spec [
+	<version: '0.7' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Fixes in the debugger, inspector and spotter.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/10/2016 23:53'.
 		spec project: 'Ston' with: '0.14'.
 		spec 
 			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.53';
