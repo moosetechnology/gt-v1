@@ -190,7 +190,7 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.5'.
+	spec for: #'common' version: '2.6'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
@@ -646,6 +646,22 @@ ConfigurationOfGTPlaygroundCore >> version25: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '1/8/2016 19:27'.
 		spec project: 'GTInspectorCore' with: '2.4'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.117';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version26: spec [
+	<version: '2.6' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Fixes in the debugger, inspector and spotter.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/10/2016 23:53'.
+		spec project: 'GTInspectorCore' with: '2.5'.
 		spec 
 			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.117';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
