@@ -14,16 +14,19 @@ Class {
 { #category : #accessing }
 GTChangeDebuggerAction class >> changeDebuggerActionsForContext: aContext excluding: aDebugger [
 	
-	^ (self debuggersForContext: aContext excluding: aDebugger ) collect: [ :aDebuggerClass | 
+	^ (self debuggersForContext: aContext excluding: nil ) collect: [ :aDebuggerClass | 
 		(self forDebugger: aDebugger)
-			debuggerClass: aDebuggerClass ]
+			debuggerClass: aDebuggerClass;
+			icon: (aDebugger class = aDebuggerClass
+				ifTrue: [ Smalltalk ui icons radioButtonOn ]
+				ifFalse: [Smalltalk ui icons radioButtonOff ]) ]
 ]
 
 { #category : #accessing }
 GTChangeDebuggerAction class >> debuggersForContext: aContext excluding: aDebugger [ 
 	"Ungly check to make sure the debugger will work until everything is in the image"
 	(Smalltalk tools respondsTo: #debuggersForContext:) 
-		ifTrue: [ ^ (Smalltalk tools debuggersForContext: aContext)
+		ifTrue: [ ^ (Smalltalk tools debuggersForContext: aContext) reverse
 			remove: aDebugger class ifAbsent: [ ];
 			yourself]
 		ifFalse: [ ^ OrderedCollection new ]
