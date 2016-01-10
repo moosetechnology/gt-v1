@@ -13,7 +13,9 @@ Class {
 
 { #category : #building }
 GTDebuggerInspector >> compose [
-	self pager show: [ :a :each | 
+	self pager
+		minimumPageNumberForScrollbar: 2; 
+		show: [ :a :each | 
 			a dynamic display: [ :x | 
 				GLMCompositePresentation new with: [:d | each gtDebuggerPresentationsIn: d inContext: self ] ] ]
 ]
