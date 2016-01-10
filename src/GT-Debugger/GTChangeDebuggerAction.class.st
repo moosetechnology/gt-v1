@@ -14,12 +14,10 @@ Class {
 { #category : #accessing }
 GTChangeDebuggerAction class >> changeDebuggerActionsForContext: aContext excluding: aDebugger [
 	
-	^ (self debuggersForContext: aContext excluding: nil ) collect: [ :aDebuggerClass | 
+	^ (self debuggersForContext: aContext excluding: aDebugger) collect: [ :aDebuggerClass | 
 		(self forDebugger: aDebugger)
 			debuggerClass: aDebuggerClass;
-			icon: (aDebugger class = aDebuggerClass
-				ifTrue: [ Smalltalk ui icons radioButtonOn ]
-				ifFalse: [Smalltalk ui icons radioButtonOff ]) ]
+			icon: (Form extent: 0@0) ]
 ]
 
 { #category : #accessing }
