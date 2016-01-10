@@ -2,9 +2,7 @@ Class {
 	#name : #GTExampleOrganizer,
 	#superclass : #Object,
 	#instVars : [
-		'running',
 		'examples',
-		'notifying',
 		'systemAnnouncements',
 		'monticelloAnnouncements'
 	],
@@ -94,7 +92,7 @@ GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingClasses [
-	[ self examples ]
+	[ GTExampleFinder allGTExamples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
 			self notifyForMissingClasses: exception ]
@@ -156,17 +154,12 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 		self checkForMissingDependencies ]
 ]
 
-{ #category : #private }
-GTExampleOrganizer >> examples [
-	^ GTExampleFinder allGTExamples
-]
-
 { #category : #ui }
 GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ self examples ];
+		allCandidates: [ GTExampleFinder allGTExamples ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
