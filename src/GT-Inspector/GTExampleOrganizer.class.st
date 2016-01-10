@@ -365,6 +365,7 @@ GTExampleOrganizer >> startSystemAnnouncements [
 
 { #category : #public }
 GTExampleOrganizer >> stop [
+	self stopJobAnnouncements. " obsolete versions ! "
 	self stopMonticelloAnnouncements.
 	self stopSystemAnnouncements
 ]
@@ -372,7 +373,7 @@ GTExampleOrganizer >> stop [
 { #category : #OBSOLETE }
 GTExampleOrganizer >> stopJobAnnouncements [
 	self deprecated: 'a call of this method means, there are still old announcements in this image. we do nothing here except wiping all previous announcers.'.
-	[ self stopThoroughly; reset ] on: Error do: [ " ignore " ]
+	Job jobAnnouncer unsubscribe: self
 ]
 
 { #category : #'private-announcers' }
