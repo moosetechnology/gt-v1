@@ -70,12 +70,13 @@ GTExampleOrganizer >> cachedExamplesDo: aBlock [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> categoryRemoved: anAnnouncement [
+	" TODO: example dependencies and/or proxies might be invalid !!! (string/symbol-references) "
 	self withoutExceptionsDo: [ 
 		examples keys do: [ :className |
-			(Smalltalk classNamed: className) ifNil: [ 
-				(examples removeKey: className ifAbsent: [ nil ]) ifNotNil: [ :dict | 
-					dict do: [ :example | 
-						[ example detachFromSystem ] on: Error do: [ " ignore " ] ] ] ] ].
+			(examples removeKey: className ifAbsent: [ nil ]) ifNotNil: [ :dict | 
+				dict do: [ :example | 
+					[ example detachFromSystem ] on: Error do: [ " ignore " ].
+					"self example: example removed: anAnnouncement" ] ] ].
 		self checkForMissingDependencies.
 		self checkForMissingClasses ]
 ]
@@ -137,21 +138,47 @@ GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> classRemoved: anAnnouncement [
+	" TODO: example dependencies and/or proxies might be invalid !!! (string/symbol-references) "
 	self withoutExceptionsDo: [ 
-		(examples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ])
-			ifNotNil: [ :dict | 
-				dict do: [ :example |
-					[ example detachFromSystem ] on: Error do: [ " ignore " ] ].
-				self checkForMissingDependencies.
-				self checkForMissingClasses ] ]
+		(examples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ]) ifNotNil: [ :dict | 
+			dict do: [ :example |
+				[ example detachFromSystem ] on: Error do: [ " ignore " ].
+				"self example: example removed: anAnnouncement" ].
+			self checkForMissingDependencies.
+			self checkForMissingClasses ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> classRenamed: anAnnouncement [
+	" TODO: example dependencies and/or proxies might be invalid !!! (string/symbol-references) "
 	self withoutExceptionsDo: [ 
 		examples at: anAnnouncement oldName asSymbol ifPresent: [ :oldValue | 
 			examples at: anAnnouncement newName asSymbol put: oldValue ].
 		self checkForMissingDependencies ]
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> example: oldExample modified: anAnnouncement [
+	anAnnouncement method gtExamples do: [ :example |
+		self announcer announce: (GTExampleModified new
+			oldExample: oldExample;
+			example: example;
+			yourself) ]
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> example: oldExample removed: anAnnouncement [
+	self announcer announce: (GTExampleRemoved new
+		example: oldExample;
+		yourself)
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> exampleAdded: anAnnouncement [
+	anAnnouncement method gtExamples do: [ :example |
+		self announcer announce: (GTExampleAdded new 
+			example: example;
+			yourself) ]
 ]
 
 { #category : #ui }
@@ -199,6 +226,7 @@ GTExampleOrganizer >> loadStopped: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodAdded: anAnnouncement [
 	self withoutExceptionsDo: [
+		"self exampleAdded: anAnnouncement."
 		self checkForMissingDependencies: anAnnouncement method.
 		self checkForNumberOfArguments: anAnnouncement method.
 		self checkForMissingClasses: anAnnouncement method.
@@ -211,6 +239,7 @@ GTExampleOrganizer >> methodModified: anAnnouncement [
 		((examples at: anAnnouncement oldMethod methodClass theNonMetaClass name ifAbsent: [ IdentityDictionary new ])
 			removeKey: anAnnouncement oldMethod selector ifAbsent: [ nil ]) ifNotNil: [ :example |
 				[ example detachFromSystem ] on: Error do: [ " ignore " ].
+				"self example: example modified: anAnnouncement."
 				self checkForMissingDependencies: anAnnouncement method.
 				self checkForNumberOfArguments: anAnnouncement method.
 				self checkForMissingClasses: anAnnouncement method.
@@ -225,6 +254,7 @@ GTExampleOrganizer >> methodRemoved: anAnnouncement [
 		((examples at: anAnnouncement method methodClass theNonMetaClass name ifAbsent: [ IdentityDictionary new ])
 			removeKey: anAnnouncement method selector ifAbsent: [ nil ]) ifNotNil: [ :example |
 				[ example detachFromSystem ] on: Error do: [ " ignore " ].
+				"self example: example removed: anAnnouncement."
 				self checkForDependenciesUsing: anAnnouncement method.
 				GTExampleNautilus methodChanged: anAnnouncement method.  ] ]
 ]
