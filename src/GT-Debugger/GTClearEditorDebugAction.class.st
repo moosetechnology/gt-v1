@@ -53,6 +53,6 @@ GTClearEditorDebugAction >> id [
 
 { #category : #initialization }
 GTClearEditorDebugAction >> initialize [
-
+	super initialize.
 	self needsUpdate: false
 ]

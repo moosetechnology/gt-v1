@@ -65,7 +65,6 @@ GTChangeDebuggerAction >> executeAction [
 
 { #category : #initialization }
 GTChangeDebuggerAction >> initialize [
-
 	super initialize.
 	self needsUpdate: false
 ]
