@@ -2,9 +2,10 @@ Class {
 	#name : #GTExampleOrganizer,
 	#superclass : #Object,
 	#instVars : [
+		'running',
 		'examples',
-		'systemAnnouncements',
-		'monticelloAnnouncements'
+		'notifying',
+		'notifyingBeforeJobStarted'
 	],
 	#classInstVars : [
 		'instance'
@@ -48,11 +49,6 @@ GTExampleOrganizer class >> stop [
 ]
 
 { #category : #accessing }
-GTExampleOrganizer >> announcer [
-	^ SystemAnnouncer uniqueInstance
-]
-
-{ #category : #accessing }
 GTExampleOrganizer >> atMethod: aCompiledMethod ifAbsentPut: aBlock [
 	<todo: '#theNonMetaClass is not good since we could not put examples to the instance and class-side at once'>
 	^ (examples 
@@ -70,19 +66,21 @@ GTExampleOrganizer >> cachedExamplesDo: aBlock [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> categoryRemoved: anAnnouncement [
-	" TODO: example dependencies and/or proxies might be invalid !!! (string/symbol-references) "
-	self withoutExceptionsDo: [ 
+	self withCleanupDo: [ 
 		examples keys do: [ :className |
-			(examples removeKey: className ifAbsent: [ nil ]) ifNotNil: [ :dict | 
-				dict do: [ :example | 
-					[ example detachFromSystem ] on: Error do: [ " ignore " ].
-					"self example: example removed: anAnnouncement" ] ] ].
+			(Smalltalk classNamed: className) ifNil: [ 
+				(examples removeKey: className ifAbsent: [ nil ]) ifNotNil: [ :dict | 
+					dict do: [ :example | 
+						[ example detachFromSystem ] on: Error do: [ " ignore " ] ] ] ] ].
+		
 		self checkForMissingDependencies.
 		self checkForMissingClasses ]
 ]
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+	
 	[ self cachedExamplesDo: [ :example |
 		example arguments do: [ :dependency |
 			(dependency exists not and: [ dependency matchesMethod: aCompiledMethod ]) 
@@ -93,7 +91,9 @@ GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingClasses [
-	[ GTExampleFinder allGTExamples ]
+	self notifying ifFalse: [ ^ self ].
+
+	[ self examples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
 			self notifyForMissingClasses: exception ]
@@ -101,6 +101,8 @@ GTExampleOrganizer >> checkForMissingClasses [
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+
 	[ aCompiledMethod gtExamples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
@@ -109,6 +111,8 @@ GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingDependencies [
+	self notifying ifFalse: [ ^ self ].
+
 	[ self cachedExamplesDo: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
@@ -119,6 +123,8 @@ GTExampleOrganizer >> checkForMissingDependencies [
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments do: [ :dependency | 
 			dependency exists 
@@ -129,6 +135,8 @@ GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
 
 { #category : #'private-checking' }
 GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
+	self notifying ifFalse: [ ^ self ].
+
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments size = aCompiledMethod numArgs 
 			ifFalse: [ self notifyForNumberOfArguments: example ] ] ]
@@ -138,47 +146,28 @@ GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> classRemoved: anAnnouncement [
-	" TODO: example dependencies and/or proxies might be invalid !!! (string/symbol-references) "
-	self withoutExceptionsDo: [ 
-		(examples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ]) ifNotNil: [ :dict | 
-			dict do: [ :example |
-				[ example detachFromSystem ] on: Error do: [ " ignore " ].
-				"self example: example removed: anAnnouncement" ].
-			self checkForMissingDependencies.
-			self checkForMissingClasses ] ]
+	self withCleanupDo: [ 
+		(examples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ])
+			ifNotNil: [ :dict | 
+				dict do: [ :example |
+					[ example detachFromSystem ] on: Error do: [ " ignore " ] ].
+			
+				self checkForMissingDependencies.
+				self checkForMissingClasses ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> classRenamed: anAnnouncement [
-	" TODO: example dependencies and/or proxies might be invalid !!! (string/symbol-references) "
-	self withoutExceptionsDo: [ 
+	self withCleanupDo: [ 
 		examples at: anAnnouncement oldName asSymbol ifPresent: [ :oldValue | 
 			examples at: anAnnouncement newName asSymbol put: oldValue ].
+		
 		self checkForMissingDependencies ]
 ]
 
-{ #category : #'private-events' }
-GTExampleOrganizer >> example: oldExample modified: anAnnouncement [
-	anAnnouncement method gtExamples do: [ :example |
-		self announcer announce: (GTExampleModified new
-			oldExample: oldExample;
-			example: example;
-			yourself) ]
-]
-
-{ #category : #'private-events' }
-GTExampleOrganizer >> example: oldExample removed: anAnnouncement [
-	self announcer announce: (GTExampleRemoved new
-		example: oldExample;
-		yourself)
-]
-
-{ #category : #'private-events' }
-GTExampleOrganizer >> exampleAdded: anAnnouncement [
-	anAnnouncement method gtExamples do: [ :example |
-		self announcer announce: (GTExampleAdded new 
-			example: example;
-			yourself) ]
+{ #category : #private }
+GTExampleOrganizer >> examples [
+	^ GTExampleFinder allGTExamples
 ]
 
 { #category : #ui }
@@ -186,7 +175,7 @@ GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ GTExampleFinder allGTExamples ];
+		allCandidates: [ self examples ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -195,38 +184,24 @@ GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 GTExampleOrganizer >> initialize [
 	super initialize.
 	
-	self reset
+	self reset.
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #'private-events' }
 GTExampleOrganizer >> jobEnded: anAnnouncement [
-	self deprecated: 'a call of this method means, there are still old job announcements in this image. we do nothing here except wiping all previous announcers. we reset this instance to use the new announcers'.
-	[ self stopThoroughly; reset; start ] on: Error do: [ " ignore " ]
+	notifying := notifyingBeforeJobStarted.
+	notifyingBeforeJobStarted := nil.
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #'private-events' }
 GTExampleOrganizer >> jobStarted: anAnnouncement [
-	self deprecated: 'a call of this method means, there are still old job announcements in this image. we do nothing here except wiping all previous announcers. we reset this instance to use the new announcers'.
-	[ self stopThoroughly; reset; start ] on: Error do: [ " ignore " ]
-]
-
-{ #category : #'private-events' }
-GTExampleOrganizer >> loadStarted: anAnnouncement [
-	self withoutExceptionsDo: [
-		self stopSystemAnnouncements.
-		self resetQuickly " we must get rid of all example objects lying around - this is really important for consistency " ]
-]
-
-{ #category : #'private-events' }
-GTExampleOrganizer >> loadStopped: anAnnouncement [
-	self withoutExceptionsDo: [ 
-		self startSystemAnnouncements ]
+	notifyingBeforeJobStarted := notifying.
+	notifying := false
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodAdded: anAnnouncement [
-	self withoutExceptionsDo: [
-		"self exampleAdded: anAnnouncement."
+	self withCleanupDo: [
 		self checkForMissingDependencies: anAnnouncement method.
 		self checkForNumberOfArguments: anAnnouncement method.
 		self checkForMissingClasses: anAnnouncement method.
@@ -235,11 +210,11 @@ GTExampleOrganizer >> methodAdded: anAnnouncement [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodModified: anAnnouncement [
-	self withoutExceptionsDo: [ 
+	self withCleanupDo: [ 
 		((examples at: anAnnouncement oldMethod methodClass theNonMetaClass name ifAbsent: [ IdentityDictionary new ])
 			removeKey: anAnnouncement oldMethod selector ifAbsent: [ nil ]) ifNotNil: [ :example |
 				[ example detachFromSystem ] on: Error do: [ " ignore " ].
-				"self example: example modified: anAnnouncement."
+			
 				self checkForMissingDependencies: anAnnouncement method.
 				self checkForNumberOfArguments: anAnnouncement method.
 				self checkForMissingClasses: anAnnouncement method.
@@ -250,11 +225,11 @@ GTExampleOrganizer >> methodModified: anAnnouncement [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodRemoved: anAnnouncement [
-	self withoutExceptionsDo: [ 
+	self withCleanupDo: [ 
 		((examples at: anAnnouncement method methodClass theNonMetaClass name ifAbsent: [ IdentityDictionary new ])
 			removeKey: anAnnouncement method selector ifAbsent: [ nil ]) ifNotNil: [ :example |
 				[ example detachFromSystem ] on: Error do: [ " ignore " ].
-				"self example: example removed: anAnnouncement."
+			
 				self checkForDependenciesUsing: anAnnouncement method.
 				GTExampleNautilus methodChanged: anAnnouncement method.  ] ]
 ]
@@ -305,10 +280,9 @@ GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 		nextPutAll: anExample method selector asString ])
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #public }
 GTExampleOrganizer >> notifying [
-	self deprecated: 'do not use anymore / there is no replacement'.
-	^ false
+	^ notifying ifNil: [ true ]
 ]
 
 { #category : #accessing }
@@ -326,107 +300,57 @@ GTExampleOrganizer >> removeAtMethod: aCompiledMethod ifPresent: aBlock [
 
 { #category : #initializing }
 GTExampleOrganizer >> reset [
-	" this is expensive, but thorough and makes sure the gc will really get rid of all gtexample-related objects "
 	examples := WeakIdentityKeyDictionary new.
 	GTExample allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 	GTExampleProxy allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
-	self resetResultsOnly.
-]
-
-{ #category : #initializing }
-GTExampleOrganizer >> resetQuickly [
-	" we assume the thorough reset was already performed if there are no examples in here "
-	examples isEmptyOrNil ifTrue: [ ^ self ].
-	self reset
-]
-
-{ #category : #OBSOLETE }
-GTExampleOrganizer >> resetResults [
-	self deprecated: 'we wipe everything as a temporar solution'.
-	self resetResultsOnly
-]
-
-{ #category : #initializing }
-GTExampleOrganizer >> resetResultsOnly [
-	" this is expensive, but thorough and makes sure the gc will really get rid of all gtexample-result-related objects "
 	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #initializing }
+GTExampleOrganizer >> resetResults [
+	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
+]
+
+{ #category : #public }
 GTExampleOrganizer >> running [
-	self deprecated: 'do not use anymore / there is no replacement'.
-	^ true
+	^ running ifNil: [ false ]
 ]
 
 { #category : #public }
 GTExampleOrganizer >> start [
-	self startMonticelloAnnouncements.
-	self startSystemAnnouncements
-]
-
-{ #category : #'private-announcers' }
-GTExampleOrganizer >> startMonticelloAnnouncements [
-	monticelloAnnouncements == true ifTrue: [ ^ self ]. " handle: nil | false | true / avoid multiple subscriptions "
-	self announcer
-		when: MCVersionLoaderStarted do: [ :anAnnouncement | self loadStarted: anAnnouncement ] for: self;
-		when: MCVersionLoaderStopped do: [ :anAnnouncement | self loadStopped: anAnnouncement ] for: self.
-	monticelloAnnouncements := true
-]
-
-{ #category : #'private-announcers' }
-GTExampleOrganizer >> startSystemAnnouncements [
-	systemAnnouncements == true ifTrue: [ ^ self ]. " handle: nil | false | true / avoid multiple subscriptions "
-	self announcer
+	self running ifTrue: [ ^ self ].
+	
+	running := true.
+	notifying := true.
+	notifyingBeforeJobStarted := notifying.
+	
+	" MC will load using a Job object, we have to be quiet and fast while this happens "
+	Job jobAnnouncer
+		when: JobStart do: [ :anAnnouncement | self jobStarted: anAnnouncement ] for: self;
+		when: JobEnd do: [ :anAnnouncement | self jobEnded: anAnnouncement ] for: self.
+	
+	" Observe the system for relevant changes, try to keep this cache intact "
+	SystemAnnouncer uniqueInstance
 		when: MethodAdded do: [ :anAnnouncement | self methodAdded: anAnnouncement ] for: self;
 		when: MethodModified do: [ :anAnnouncement | self methodModified: anAnnouncement ] for: self;
 		when: MethodRemoved do: [ :anAnnouncement | self methodRemoved: anAnnouncement ] for: self;
 		when: ClassRemoved do: [ :anAnnouncement | self classRemoved: anAnnouncement ] for: self;
 		when: ClassRenamed do: [ :anAnnouncement | self classRenamed: anAnnouncement ] for: self;
 		when: CategoryRemoved do: [ :anAnnouncement | self categoryRemoved: anAnnouncement ] for: self.
-	systemAnnouncements := true
 ]
 
 { #category : #public }
 GTExampleOrganizer >> stop [
-	self stopJobAnnouncements. " obsolete versions ! "
-	self stopMonticelloAnnouncements.
-	self stopSystemAnnouncements
-]
-
-{ #category : #OBSOLETE }
-GTExampleOrganizer >> stopJobAnnouncements [
-	self deprecated: 'a call of this method means, there are still old announcements in this image. we do nothing here except wiping all previous announcers.'.
-	Job jobAnnouncer unsubscribe: self
-]
-
-{ #category : #'private-announcers' }
-GTExampleOrganizer >> stopMonticelloAnnouncements [
-	self announcer unsubscribe: self.
-	monticelloAnnouncements := false
-]
-
-{ #category : #'private-announcers' }
-GTExampleOrganizer >> stopSystemAnnouncements [
-	self announcer	unsubscribe: self.
-	systemAnnouncements := false
-]
-
-{ #category : #public }
-GTExampleOrganizer >> stopThoroughly [
-	self stop.
-	
-	Announcer allSubInstances do: [ :each | each unsubscribeThoroughly: self class ]
-]
-
-{ #category : #OBSOLETE }
-GTExampleOrganizer >> withCleanupDo: aBlock [
-	self deprecated: 'use #withoutExceptionsDo: instead'.
-	self withoutExceptionsDo: aBlock
+	running := false.
+	notifying := false.
+	SystemAnnouncer uniqueInstance	unsubscribe: self.
+	Job jobAnnouncer unsubscribe: self.
 ]
 
 { #category : #private }
-GTExampleOrganizer >> withoutExceptionsDo: aBlock [
+GTExampleOrganizer >> withCleanupDo: aBlock [
 	[ aBlock value ]
 		on: Error
-		do: [ :exception | " we should not ignore it, but try to continue " ]
+		do: [ :exception | " we should not ignore it, but try to continue " ].
+	"self notifying ifTrue: [ Smalltalk garbageCollect ]"
 ]
