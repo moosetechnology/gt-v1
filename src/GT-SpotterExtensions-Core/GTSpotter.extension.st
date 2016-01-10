@@ -262,7 +262,7 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForSelectorsFor: aStep [
-	<spotterOrder: 29>
+	<spotterOrder: 31>
 
 	aStep listProcessor
 		title: 'Selectors';
