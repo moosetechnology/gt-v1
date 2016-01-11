@@ -1,3 +1,6 @@
+"
+This is a helper class for modeling a selector. We need this in order to support diving in such a selector and to offer specific processors (like implementors or senders) in Spotter .
+"
 Class {
 	#name : #GTSelectorImplementors,
 	#superclass : #Object,
@@ -53,7 +56,7 @@ GTSelectorImplementors >> senders [
 
 { #category : #ui }
 GTSelectorImplementors >> spotterImplementorsFor: aStep [
-	<spotterOrder: 50>
+	<spotterOrder: 40>
 	^ aStep listProcessor
 		title: 'Implementors';
 		filter: GTFilterSubstring item: [ :filter :context | methods do: filter ]

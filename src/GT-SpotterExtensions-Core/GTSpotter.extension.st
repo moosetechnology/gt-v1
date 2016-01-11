@@ -277,6 +277,7 @@ GTSpotter >> spotterForSelectorsFor: aStep [
 							at: selector 
 							ifAbsentPut: [ filter value: (newGroup := GTSelectorImplementors new name: selector; yourself). newGroup ].
 						group addMethod: method ] ] ] ];
+		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];		
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -291,17 +292,6 @@ GTSpotter >> spotterForSendersFor: aStep [
 				string asSymbol ifNotNil: [ :symbol |
 					SystemNavigation default allBehaviorsDo: [ :class | 
 						class withMethodSending: symbol do: filter ] ] ] ];
-		wantsToDisplayOnEmptyQuery: false
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForSettingsFor: aStep [
-	<spotterOrder: 100>
-	aStep listProcessor
-		title: 'Settings';
-		allCandidates: [ (SettingTree new acceptableKeywords: SettingBrowser settingsKeywords) nodeList ];
-		itemName: [ :each | each spotterLabel ];
-		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
