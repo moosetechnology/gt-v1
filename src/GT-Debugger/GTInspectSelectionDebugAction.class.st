@@ -12,7 +12,7 @@ Class {
 
 { #category : #registration }
 GTInspectSelectionDebugAction class >> gtActionFor: aDebugger [
-	<gtContextCodeDebuggingAction>
+	"<gtContextCodeDebuggingAction>"
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousInspect
@@ -20,7 +20,7 @@ GTInspectSelectionDebugAction class >> gtActionFor: aDebugger [
 
 { #category : #registration }
 GTInspectSelectionDebugAction class >> gtBasicInspectActionFor: aDebugger [
-	<gtContextCodeDebuggingAction>
+	"<gtContextCodeDebuggingAction>"
 	
 	^ (self forDebugger: aDebugger)
 			makeBasicInspect;

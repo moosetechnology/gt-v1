@@ -9,7 +9,7 @@ Class {
 
 { #category : #registration }
 GTPrintSelectionDebugAction class >> gtActionFor: aDebugger [
-	<gtContextCodeDebuggingAction>
+	"<gtContextCodeDebuggingAction>"
 	
 	^ (self forDebugger: aDebugger)
 		
