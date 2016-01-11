@@ -267,16 +267,7 @@ GTSpotter >> spotterForSelectorsFor: aStep [
 	aStep listProcessor
 		title: 'Selectors';
 		filter: GTNullFilter item: [ :filter :context | 
-			| selectors |
-			selectors := IdentityDictionary new.
-			SystemNavigation default allBehaviorsDo: [ :class | 
-				class selectorsAndMethodsDo: [ :selector :method | 
-					(selector asString includesSubstring: context textTrimmed caseSensitive: false) ifTrue: [ 
-						| group newGroup | 
-						group := selectors 
-							at: selector 
-							ifAbsentPut: [ filter value: (newGroup := GTSelectorImplementors new name: selector; yourself). newGroup ].
-						group addMethod: method ] ] ] ];
+			GTSelectorImplementors substring: context textTrimmed filter: filter ];
 		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];		
 		wantsToDisplayOnEmptyQuery: false
 ]
@@ -287,11 +278,8 @@ GTSpotter >> spotterForSendersFor: aStep [
 
 	aStep listProcessor
 		title: 'Senders';
-		filter: GTNullFilter " the filter-block already does the filtering " item: [ :filter :context | 
-			context textTrimmed ifNotEmpty: [ :string |
-				string asSymbol ifNotNil: [ :symbol |
-					SystemNavigation default allBehaviorsDo: [ :class | 
-						class withMethodSending: symbol do: filter ] ] ] ];
+		filter: GTNullFilter item: [ :filter :context | 
+			SystemNavigation default allSendersToSubstring: context textTrimmed do: filter ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -333,6 +321,17 @@ GTSpotter >> spotterImplementorsFor: aStep [
 		filter: GTFilterImplementor item: [ :filter :context | 
 			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
 		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterReferenceFor: aStep [
+	<spotterOrder: 30>
+	
+	aStep listProcessor
+		title: 'References';
+		filter: GTNullFilter item: [ :filter :context | 
+			SystemNavigation default allReferencesToSubstring: context textTrimmed do: filter ];
+		itemName: [ :method | method gtDisplayString ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

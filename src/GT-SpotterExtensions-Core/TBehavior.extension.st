@@ -83,12 +83,33 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 			filter: GTFilterSubstring
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> withMethodSending: literal do: aBlock [
-	" this is a copy of #whichSelectorsReferTo: "
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+TBehavior >> withMethodSender: aLiteral do: aBlock [
 	| special byte |
-	special := Smalltalk hasSpecialSelector: literal ifTrueSetByte: [ :b | byte := b].
-	self selectorsAndMethodsDo: [ :sel :met | 
-		((met hasLiteral: literal) or: [ (met refersToLiteral: literal) or: [ special and: [ met scanFor: byte ] ] ])
-			ifTrue: [ aBlock value: met ] ].
+	special := Smalltalk hasSpecialSelector: aLiteral ifTrueSetByte: [ :value | byte := value ].
+	self selectorsAndMethodsDo: [ :selector :method | 
+		((method hasLiteral: aLiteral) 
+			or: [ (method refersToLiteral: aLiteral) 
+				or: [ special and: [ method scanFor: byte ] ] ])
+					ifTrue: [ aBlock value: method ] ].
+]
+
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
+	| special byte |
+	special := Smalltalk hasSpecialSelector: aLiteral ifTrueSetByte: [ :value | byte := value ].
+	self selectorsAndMethodsDo: [ :selector :method | 
+		((method hasLiteral: aLiteral) 
+			or: [ special and: [ method scanFor: byte ] ])
+				ifTrue: [ aBlock value: method ] ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+TBehavior >> withThorougMethodsReferTo: aLiteral do: aBlock [
+	| special byte |
+	special := Smalltalk hasSpecialSelector: aLiteral ifTrueSetByte: [ :value | byte := value ].
+	self selectorsAndMethodsDo: [ :selector :method |
+		((method refersToLiteral: aLiteral) 
+			or: [ special and: [ method scanFor: byte ] ]) 
+				ifTrue: [ aBlock value: method ] ]
 ]
