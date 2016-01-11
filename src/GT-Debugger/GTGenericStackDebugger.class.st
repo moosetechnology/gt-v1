@@ -444,7 +444,8 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 					[ aStream 
 						nextPut: $(;
 						nextPutAll: methodClass name;
-						nextPut: $) ] ]  ];
+						nextPut: $) ] ]  ]
+			width: 400;
 		column: 'Method' evaluated: [ :context |
 			outer := context outerMostContext.
 			String streamContents: [ :aStream |
