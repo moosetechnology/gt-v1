@@ -262,7 +262,7 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForSelectorsFor: aStep [
-	<spotterOrder: 31>
+	<spotterOrder: 35>
 
 	aStep listProcessor
 		title: 'Selectors';
@@ -291,7 +291,6 @@ GTSpotter >> spotterForSendersFor: aStep [
 				string asSymbol ifNotNil: [ :symbol |
 					SystemNavigation default allBehaviorsDo: [ :class | 
 						class withMethodSending: symbol do: filter ] ] ] ];
-		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
