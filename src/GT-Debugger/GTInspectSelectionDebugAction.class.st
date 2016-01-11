@@ -4,6 +4,9 @@ This action is responsible for inspecting a selected piece of code from the code
 Class {
 	#name : #GTInspectSelectionDebugAction,
 	#superclass : #GTCodeDebugAction,
+	#instVars : [
+		'shouldBasicInspect'
+	],
 	#category : #'GT-Debugger-Actions'
 }
 
@@ -12,6 +15,18 @@ GTInspectSelectionDebugAction class >> gtActionFor: aDebugger [
 	<gtContextCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
+			icon: GLMUIThemeExtraIcons glamorousInspect
+]
+
+{ #category : #registration }
+GTInspectSelectionDebugAction class >> gtBasicInspectActionFor: aDebugger [
+	<gtContextCodeDebuggingAction>
+	
+	^ (self forDebugger: aDebugger)
+			makeBasicInspect;
+			label: 'Basic inspect it';
+			keyText: 'I'; 
+			order: 16;
 			icon: GLMUIThemeExtraIcons glamorousInspect
 ]
 
@@ -36,7 +51,10 @@ GTInspectSelectionDebugAction >> defaultOrder [
 { #category : #actions }
 GTInspectSelectionDebugAction >> executeAction [
 	
-	self codePresentation evaluateSelectionAndDo: [ :result | result inspect ]
+	self codePresentation evaluateSelectionAndDo: [ :result |
+		shouldBasicInspect 
+			ifTrue: [ result basicInspect ]
+			ifFalse: [ result inspect ] ]
 		
 
 ]
@@ -50,5 +68,12 @@ GTInspectSelectionDebugAction >> id [
 { #category : #initialization }
 GTInspectSelectionDebugAction >> initialize [
 	super initialize.
-	self needsUpdate: false
+	self needsUpdate: false.
+	shouldBasicInspect := false
+]
+
+{ #category : #actions }
+GTInspectSelectionDebugAction >> makeBasicInspect [
+
+	shouldBasicInspect := true
 ]

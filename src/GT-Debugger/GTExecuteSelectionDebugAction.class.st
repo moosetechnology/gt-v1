@@ -30,7 +30,7 @@ GTExecuteSelectionDebugAction >> defaultLabel [
 { #category : #accessing }
 GTExecuteSelectionDebugAction >> defaultOrder [
 
-	^ 15
+	^ 10
 ]
 
 { #category : #actions }

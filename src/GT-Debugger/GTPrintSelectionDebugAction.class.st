@@ -30,7 +30,7 @@ GTPrintSelectionDebugAction >> defaultLabel [
 { #category : #accessing }
 GTPrintSelectionDebugAction >> defaultOrder [
 
-	^ 10
+	^ 15
 ]
 
 { #category : #actions }
