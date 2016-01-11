@@ -9,7 +9,7 @@ Class {
 
 { #category : #registration }
 GTSaveDebugAction class >> gtActionFor: aDebugger [
-	"<gtCodeDebuggingAction>"
+	<gtCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousAccept
@@ -30,7 +30,7 @@ GTSaveDebugAction >> defaultLabel [
 { #category : #initialization }
 GTSaveDebugAction >> defaultOrder [
 
-	^ 260
+	^ 250
 ]
 
 { #category : #actions }
