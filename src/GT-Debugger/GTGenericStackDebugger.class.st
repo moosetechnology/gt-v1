@@ -452,6 +452,12 @@ GTGenericStackDebugger >> updateBrowser [
 ]
 
 { #category : #updating }
+GTGenericStackDebugger >> updateCodeEditor [
+	self codePane update.
+	self updateSelectionInterval.
+]
+
+{ #category : #updating }
 GTGenericStackDebugger >> updateSelectionInterval [
 
 	self selectedContext ifNil: [ ^ self ].
