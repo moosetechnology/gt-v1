@@ -1,8 +1,8 @@
 Extension { #name : #SubclassResponsabilityDebugAction }
 
 { #category : #'*GT-Debugger' }
-SubclassResponsabilityDebugAction class >> gtActionFor: aDebugger [
-	<gtDebuggingAction>
+SubclassResponsabilityDebugAction class >> gtStackDebuggingActionFor: aDebugger [
+	<gtStackDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousAdd

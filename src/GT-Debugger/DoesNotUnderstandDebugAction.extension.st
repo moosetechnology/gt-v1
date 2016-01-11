@@ -1,8 +1,8 @@
 Extension { #name : #DoesNotUnderstandDebugAction }
 
 { #category : #'*GT-Debugger' }
-DoesNotUnderstandDebugAction class >> gtActionFor: aDebugger [
-	<gtDebuggingAction>
+DoesNotUnderstandDebugAction class >> gtStackDebuggingActionFor: aDebugger [
+	<gtStackDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousAdd
