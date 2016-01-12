@@ -251,7 +251,7 @@ GTSpotter >> spotterForPragmasFor: aStep [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForReferencesFor: aStep [
-	<spotterOrder: 30>
+	<spotterOrder: 32>
 	
 	aStep listProcessor
 		title: 'References';
