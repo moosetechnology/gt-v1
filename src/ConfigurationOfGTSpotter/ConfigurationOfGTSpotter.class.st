@@ -870,7 +870,7 @@ ConfigurationOfGTSpotter >> version18: spec [
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.336';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.107';
-			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-AndreiChis.182';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.185';
 			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-StefanReichhart.15'. ].
 
 ]
