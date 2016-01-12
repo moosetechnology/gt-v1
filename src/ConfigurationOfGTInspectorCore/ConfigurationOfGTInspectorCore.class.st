@@ -712,7 +712,7 @@ ConfigurationOfGTInspectorCore >> version25: spec [
 		spec project: 'GlamourCore' with: '3.7'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-StefanReichhart.367';
-			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.191';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.192';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.50'. ].
 
 ]
