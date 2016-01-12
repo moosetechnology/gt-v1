@@ -236,28 +236,12 @@ GTGenericStackDebugger >> debuggingActionsPragmas [
 ]
 
 { #category : #'printing/formatting' }
-GTGenericStackDebugger >> formatStackClassColumnForContext: aContext [
+GTGenericStackDebugger >> formatStackEntry: aContext [
 
 	^ Text 
-		string: (self printStackClassColumnForContext: aContext )
+		string: (self printStackEntry: aContext )
 		attributes: (self textAttributesForStackEntry: aContext) 
 	 
-]
-
-{ #category : #'printing/formatting' }
-GTGenericStackDebugger >> formatStackExtraColumnForContext: aContext [ 
-
-	^ Text 
-		string: (self printStackExtraColumnForContext: aContext )
-		attributes: (self textAttributesForStackEntry: aContext) 
-]
-
-{ #category : #'printing/formatting' }
-GTGenericStackDebugger >> formatStackMethodColumnForContext: aContext [ 
-
-	^ Text 
-		string: (self printStackMethodColumnForContext: aContext )
-		attributes: (self textAttributesForStackEntry: aContext) 
 ]
 
 { #category : #actions }
@@ -341,46 +325,10 @@ GTGenericStackDebugger >> openWithNotification: aString [
 ]
 
 { #category : #'printing/formatting' }
-GTGenericStackDebugger >> printStackClassColumnForContext: aContext [
-	| outer class methodClass |
-	
-	outer := aContext outerMostContext.
-	^ String streamContents: [ :aStream |
-		class := outer receiver class.
-		aStream nextPutAll: class name.
-		methodClass := outer methodClass.
-		methodClass == class
-			ifFalse:
-				[ aStream 
-						nextPut: $(;
-						nextPutAll: methodClass name;
-						nextPut: $) ] ]  
-]
+GTGenericStackDebugger >> printStackEntry: aContext [
 
-{ #category : #'printing/formatting' }
-GTGenericStackDebugger >> printStackExtraColumnForContext: aContext [ 
-
-	| selector |
-	^ aContext outerContext 
-		ifNil: [ 
-			String streamContents: [ :aStream |
-				selector := aContext selector ifNil: [ aContext method defaultSelector ].
-				selector = #doesNotUnderstand:
-					ifTrue:[ 
-						aStream space.
-						(aContext tempAt: 1) selector printOn: aStream ]
-					ifFalse: [ '' ] ] ]
-		ifNotNil: [ aContext closure printString  ]
-]
-
-{ #category : #'printing/formatting' }
-GTGenericStackDebugger >> printStackMethodColumnForContext: aContext [ 
-	| outer selector |
-	
-	outer := aContext outerMostContext.
-	^ String streamContents: [ :aStream |
-		selector := outer selector ifNil: [ outer method defaultSelector ].
-		aStream nextPutAll: selector ]
+	^ (String streamContents: [:stream | aContext printDebugOn: stream ]) 
+			replaceAll: Character cr with: Character space 
 ]
 
 { #category : #'building presentations' }
@@ -481,16 +429,16 @@ GTGenericStackDebugger >> stackPresentation [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> stackWidgetIn: composite [
 
-	^ composite fastTable	
+	^ composite fastList	
 		title: 'Stack';
+		showOnly: 50;
 		display: [:aSession | self retrieveStackFrom: aSession];
-		column: 'Class' 
-			evaluated: [ :aContext | self formatStackClassColumnForContext: aContext]
-			width: 400;
-		column: 'Method' 
-			evaluated: [ :aContext | self formatStackMethodColumnForContext: aContext ];
-		column: 'Other' 
-			evaluated: [ :aContext | self formatStackExtraColumnForContext: aContext ]
+		format: [ :each | self formatStackEntry: each]
+]
+
+{ #category : #'old api' }
+GTGenericStackDebugger >> sugsContext [
+	^SugsDebuggerContext model: self
 ]
 
 { #category : #'printing/formatting' }
