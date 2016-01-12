@@ -16,7 +16,7 @@ GlobalVariable >> spotterClassFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-GlobalVariable >> spotterReferenceFor: aStep [
+GlobalVariable >> spotterForReferencesFor: aStep [
 	<spotterOrder: 130>
 	aStep listProcessor
 			title: 'References';

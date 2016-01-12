@@ -250,6 +250,17 @@ GTSpotter >> spotterForPragmasFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForReferencesFor: aStep [
+	<spotterOrder: 30>
+	
+	aStep listProcessor
+		title: 'References';
+		filter: GTNullFilter item: [ :filter :context | 
+			SystemNavigation default allReferencesToSubstring: context textTrimmed do: filter ];
+		itemName: [ :method | method gtDisplayString ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForRepositoriesFor: aStep [
 	<spotterOrder: 87>
 	aStep listProcessor
@@ -321,17 +332,6 @@ GTSpotter >> spotterImplementorsFor: aStep [
 		filter: GTFilterImplementor item: [ :filter :context | 
 			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
 		wantsToDisplayOnEmptyQuery: false
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterReferenceFor: aStep [
-	<spotterOrder: 30>
-	
-	aStep listProcessor
-		title: 'References';
-		filter: GTNullFilter item: [ :filter :context | 
-			SystemNavigation default allReferencesToSubstring: context textTrimmed do: filter ];
-		itemName: [ :method | method gtDisplayString ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
