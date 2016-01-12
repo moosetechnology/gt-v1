@@ -429,11 +429,38 @@ GTGenericStackDebugger >> stackPresentation [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> stackWidgetIn: composite [
 
-	^ composite fastList	
+	| class methodClass selector outer |
+	^ composite fastTable	
 		title: 'Stack';
-		showOnly: 50;
 		display: [:aSession | self retrieveStackFrom: aSession];
-		format: [ :each | self formatStackEntry: each]
+		column: 'Class' evaluated: [ :context |
+			outer := context outerMostContext.
+			String streamContents: [ :aStream |
+				class := outer receiver class.
+				aStream nextPutAll: class name.
+				methodClass := outer methodClass.
+				methodClass == class
+				ifFalse:
+					[ aStream 
+						nextPut: $(;
+						nextPutAll: methodClass name;
+						nextPut: $) ] ]  ];
+		column: 'Method' evaluated: [ :context |
+			outer := context outerMostContext.
+			String streamContents: [ :aStream |
+				selector := outer selector ifNil: [ outer method defaultSelector ].
+				aStream nextPutAll: selector ] ]	;
+		column: 'Other' evaluated: [ :context |
+			context outerContext 
+				ifNil: [ 
+					String streamContents: [ :aStream |
+						selector := context selector ifNil: [ context method defaultSelector ].
+						selector = #doesNotUnderstand:
+							ifTrue:
+								[ aStream space.
+								(context tempAt: 1) selector printOn: aStream ]
+							ifFalse: [ '' ] ] ]
+				ifNotNil: [ context closure printString  ] ]
 ]
 
 { #category : #'printing/formatting' }
