@@ -25,6 +25,16 @@ MetacelloVersion >> allProjectsDo: aBlock withTraversedProjects: aCollection [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
+MetacelloVersion >> gtInspectorActionLoad [
+	<gtInspectorAction>
+	
+	^ GLMGenericAction new
+		action: [ self load ];
+		icon: Smalltalk ui icons smallLoadProject;
+		title: 'Load'
+]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
 MetacelloVersion >> gtInspectorPackagesIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite list
