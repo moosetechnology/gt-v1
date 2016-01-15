@@ -229,7 +229,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.6'.
+	spec for: #'common' version: '3.7'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -522,6 +522,23 @@ ConfigurationOfGToolkitCore >> version36: spec [
 			project: 'GTPlaygroundCore' with: '2.6';
 			project: 'GTInspectorCore' with: '2.5';
 			project: 'GTSpotter' with: '1.8';
+			project: 'GTDebugger' with: '1.3'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version37: spec [
+	<version: '3.7' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Bugfixes in Spotter and Glamour'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/15/2016 16:23'.
+		spec 
+			project: 'GTPlaygroundCore' with: '2.7';
+			project: 'GTInspectorCore' with: '2.6';
+			project: 'GTSpotter' with: '1.9';
 			project: 'GTDebugger' with: '1.3'. ].
 
 ]
