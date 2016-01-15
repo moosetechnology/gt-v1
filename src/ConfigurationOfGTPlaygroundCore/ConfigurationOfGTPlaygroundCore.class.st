@@ -190,7 +190,7 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.6'.
+	spec for: #'common' version: '2.7'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
@@ -664,6 +664,22 @@ ConfigurationOfGTPlaygroundCore >> version26: spec [
 		spec project: 'GTInspectorCore' with: '2.5'.
 		spec 
 			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.117';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version27: spec [
+	<version: '2.7' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Bugfixes in Spotter and Glamour'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/15/2016 16:23'.
+		spec project: 'GTInspectorCore' with: '2.6'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.118';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
