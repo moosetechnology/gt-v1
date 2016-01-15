@@ -256,8 +256,8 @@ GTSpotter >> spotterForReferencesFor: aStep [
 	aStep listProcessor
 		title: 'References';
 		filter: GTNullFilter item: [ :filter :context | 
-			context textTrimmed size >= 3 ifTrue: [ 
-				SystemNavigation default allReferencesToSubstring: context textTrimmed do: filter ] ];
+			context textTrimmed asClassIfPresent: [ :class |
+				SystemNavigation default allReferencesTo: class binding do: filter ] ];
 		itemName: [ :method | method gtDisplayString ]
 ]
 
