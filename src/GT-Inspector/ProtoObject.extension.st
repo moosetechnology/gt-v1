@@ -43,19 +43,9 @@ ProtoObject >> gtInspectorMetaIn: composite [
 ]
 
 { #category : #'*GT-Inspector' }
-ProtoObject >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
-	"This is a utility method that collects all presentations for the current object.
-	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
-	The inspector can decice whether or not a presentation should be dispayed.
-	Subclasses might want to override it for more special behavior."
-	| pragmas |
-	pragmas := Pragma
-		allNamed: #gtInspectorPresentationOrder:
-		from: self class
-		to: ProtoObject
-		sortedUsing: [ :x :y | (x argumentAt: 1) < (y argumentAt: 1) ].
-	pragmas := pragmas select: [ :aPragma | aGTInspector shouldDisplayPresentationCreateBy: aPragma method ].
-	pragmas
+ProtoObject >> gtInspectorPresentationsFromPragmas: aCollection In: composite inContext: aGTInspector [
+
+	aCollection
 		do: [ :eachPragma | 
 			eachPragma selector numArgs = 0
 				ifTrue: [ 
@@ -76,6 +66,22 @@ ProtoObject >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 						perform: eachPragma selector 
 						withArguments: { composite . aGTInspector } 
 						inClass: self class ] ]
+]
+
+{ #category : #'*GT-Inspector' }
+ProtoObject >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
+	"This is a utility method that collects all presentations for the current object.
+	By default, it simply looks for the #gtInspectorPresentationOrder: pragma.
+	The inspector can decice whether or not a presentation should be dispayed.
+	Subclasses might want to override it for more special behavior."
+	| pragmas |
+	pragmas := Pragma
+		allNamed: #gtInspectorPresentationOrder:
+		from: self class
+		to: ProtoObject
+		sortedUsing: [ :x :y | (x argumentAt: 1) < (y argumentAt: 1) ].
+	pragmas := pragmas select: [ :aPragma | aGTInspector shouldDisplayPresentationCreateBy: aPragma method ].
+	self gtInspectorPresentationsFromPragmas: pragmas In: composite inContext: aGTInspector
 ]
 
 { #category : #'*GT-Inspector' }
