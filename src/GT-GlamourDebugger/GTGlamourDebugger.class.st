@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 GTGlamourDebugger class >> defaultTitle [
 
-	^ 'Glamour Debugger'
+	^ 'Glamour'
 ]
 
 { #category : #testing }
