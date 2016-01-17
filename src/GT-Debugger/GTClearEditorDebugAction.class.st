@@ -43,9 +43,10 @@ GTClearEditorDebugAction >> defaultOrder [
 { #category : #actions }
 GTClearEditorDebugAction >> executeAction [
 
-	(self confirm:
+	self codePresentation hasUnacceptedEdits ifTrue: [  
+		(self confirm:
 'This action will cancel your changes.
-Is it OK to cancel changes?' translated) ifTrue: [self debugger updateCodeEditor]
+Is it OK to cancel changes?' translated) ifTrue: [self debugger updateCodeEditor] ]
 ]
 
 { #category : #accessing }
