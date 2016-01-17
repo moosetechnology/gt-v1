@@ -490,7 +490,8 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 		column: 'Method' 
 			evaluated: [ :aContext | self formatStackMethodColumnForContext: aContext ];
 		column: 'Other' 
-			evaluated: [ :aContext | self formatStackExtraColumnForContext: aContext ]
+			evaluated: [ :aContext | self formatStackExtraColumnForContext: aContext ];
+		hideHeader
 ]
 
 { #category : #'old api' }
