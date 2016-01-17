@@ -9,7 +9,7 @@ Class {
 
 { #category : #registration }
 GTSaveDebugAction class >> gtActionFor: aDebugger [
-	<gtCodeDebuggingAction>
+	<gtContextCodeDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
 			icon: GLMUIThemeExtraIcons glamorousAccept
