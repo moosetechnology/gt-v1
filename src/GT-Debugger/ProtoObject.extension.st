@@ -26,10 +26,10 @@ ProtoObject >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 ]
 
 { #category : #'*GT-Debugger-UI' }
-ProtoObject >> gtDebuggerStateIn: composite [
+ProtoObject >> gtDebuggerRawIn: composite [
 	<gtDebuggerPresentationOrder: 15>
 	
 	(GTProtoObjectVariablesBrowser new variablesIn: composite)
-		title: 'State';
+		title: 'Raw';
 		send: #value
 ]

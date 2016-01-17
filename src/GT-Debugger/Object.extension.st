@@ -16,9 +16,9 @@ Object >> gtDebuggerEvaluatorIn: composite [
 ]
 
 { #category : #'*GT-Debugger-UI' }
-Object >> gtDebuggerStateIn: composite [
+Object >> gtDebuggerRawIn: composite [
 	
 	(GTObjectVariablesBrowser new variablesIn: composite)
-		title: 'State';
+		title: 'Raw';
 		send: #value
 ]
