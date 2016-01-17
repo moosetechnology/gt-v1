@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Tests-Debugger'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTGenericStackDebuggerUITest >> testNoOverlappingCodeEditorKeyBindings [
 	| context process codeEditor keymaps doubleKeymaps |
 	context := [ 20 factorial ] asContext.
@@ -17,6 +17,6 @@ GTGenericStackDebuggerUITest >> testNoOverlappingCodeEditorKeyBindings [
 	keymaps := OrderedCollection new.
 	codeEditor withAllOwnersDo: [:morph | 
 		keymaps addAll: morph kmDispatcher directKeymaps allEntries keymaps ].
-	doubleKeymaps := (keymaps groupedBy: #shortcut) select: [ :each | each value size > 1 ].
+	doubleKeymaps := (keymaps groupedBy: [:each | each shortcut ]) select: [ :each | each value size > 1 ].
 	self assert: doubleKeymaps isEmpty
 ]
