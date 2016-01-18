@@ -407,7 +407,7 @@ ConfigurationOfGTDebugger >> version15: spec [
 		spec timestamp: '1/18/2016 13:24'.
 		spec project: 'GTInspectorCore' with: '2.8'.
 		spec 
-			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.304';
+			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.307';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.28';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.24';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-TudorGirba.8'. ].
