@@ -190,7 +190,7 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.8'.
+	spec for: #'common' version: '2.9'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
@@ -694,6 +694,22 @@ ConfigurationOfGTPlaygroundCore >> version28: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '1/15/2016 18:14'.
 		spec project: 'GTInspectorCore' with: '2.7'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.118';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version29: spec [
+	<version: '2.9' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Bugfixes and improvements.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/18/2016 13:24'.
+		spec project: 'GTInspectorCore' with: '2.8'.
 		spec 
 			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.118';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
