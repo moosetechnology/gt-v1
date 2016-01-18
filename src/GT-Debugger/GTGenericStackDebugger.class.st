@@ -486,7 +486,7 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 		display: [:aSession | self retrieveStackFrom: aSession];
 		column: 'Class' 
 			evaluated: [ :aContext | self formatStackClassColumnForContext: aContext]
-			width: 400;
+			width: 300;
 		column: 'Method' 
 			evaluated: [ :aContext | self formatStackMethodColumnForContext: aContext ];
 		column: 'Other' 
