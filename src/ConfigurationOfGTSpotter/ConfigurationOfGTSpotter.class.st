@@ -287,7 +287,7 @@ ConfigurationOfGTSpotter >> project [
 ConfigurationOfGTSpotter >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.10'.
+	spec for: #'common' version: '1.11'.
 
 	spec for: #'pharo3.x' version: '1.0.4'.
 
@@ -435,6 +435,26 @@ ConfigurationOfGTSpotter >> version110: spec [
 		spec timestamp: '1/15/2016 18:14'.
 		spec 
 			project: 'GlamourCore' with: '3.9';
+			project: 'GTEventRecorder' with: '0.7'.
+		spec 
+			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.336';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.107';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TudorGirba.187';
+			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-StefanReichhart.15'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTSpotter >> version111: spec [
+	<version: '1.11' imports: #('1.3-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Bugfixes and improvements.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/18/2016 13:24'.
+		spec 
+			project: 'GlamourCore' with: '3.10';
 			project: 'GTEventRecorder' with: '0.7'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-TudorGirba.336';
