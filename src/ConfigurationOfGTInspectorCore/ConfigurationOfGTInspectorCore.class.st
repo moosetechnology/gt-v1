@@ -181,7 +181,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.7'.
+	spec for: #'common' version: '2.8'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -746,6 +746,23 @@ ConfigurationOfGTInspectorCore >> version27: spec [
 		spec project: 'GlamourCore' with: '3.9'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.370';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-YuriyTymchuk.193';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.50'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version28: spec [
+	<version: '2.8' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Bugfixes and improvements.'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '1/18/2016 13:24'.
+		spec project: 'GlamourCore' with: '3.10'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.371';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-YuriyTymchuk.193';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-TudorGirba.50'. ].
 
