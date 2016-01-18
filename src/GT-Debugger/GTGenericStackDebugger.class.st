@@ -491,7 +491,8 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 			evaluated: [ :aContext | self formatStackMethodColumnForContext: aContext ];
 		column: 'Other' 
 			evaluated: [ :aContext | self formatStackExtraColumnForContext: aContext ];
-		hideHeader
+		hideHeader;
+		intercellSpacing: 5
 ]
 
 { #category : #'old api' }
