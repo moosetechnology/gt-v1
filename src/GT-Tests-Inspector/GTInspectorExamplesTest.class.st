@@ -22,7 +22,7 @@ GTInspectorExamplesTest >> allExamplesClasses [
 { #category : #running }
 GTInspectorExamplesTest >> checkAllPresentationsOf: exampleToTest [
 	| browser window |
-	(Pragma allNamed: #gtInspectorPresentationOrder: from: exampleToTest class to: Object) do: [ :eachPragma | 
+	(Pragma allNamed: #gtInspectorPresentationOrder: from: exampleToTest class to: ProtoObject) do: [ :eachPragma | 
 		browser := GLMWrapper new.
 		[	browser
 				show: [ :composite | 
@@ -68,8 +68,8 @@ GTInspectorExamplesTest >> testAllExamples [
 	self allExamplesClasses
 		do: [ :eachClass | 
 			eachClass gtExamples do: [ :exampleToTest | 
-				exampleToTest ignoreTest ifTrue: [ 
-					self checkAllPresentationsOf: exampleToTest ] ] ]
+				exampleToTest ignoreTest ifFalse: [ 
+					self checkAllPresentationsOf: exampleToTest returnValue] ] ]
 ]
 
 { #category : #tests }

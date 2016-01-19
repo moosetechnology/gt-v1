@@ -43,7 +43,7 @@ GTInspectorExamplesManualTest >> basicRunFailures [
 { #category : #private }
 GTInspectorExamplesManualTest >> checkAllPresentationsOf: exampleToTest onError: aBlock [
 	| browser window |
-	(Pragma allNamed: #gtInspectorPresentationOrder: from: exampleToTest class to: Object) do: [ :eachPragma | 
+	(Pragma allNamed: #gtInspectorPresentationOrder: from: exampleToTest class to: ProtoObject) do: [ :eachPragma | 
 		browser := GLMWrapper new.
 		[	browser
 				show: [ :composite | 
