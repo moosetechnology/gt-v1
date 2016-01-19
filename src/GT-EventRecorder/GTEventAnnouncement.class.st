@@ -115,6 +115,17 @@ GTEventAnnouncement >> events [
 ]
 
 { #category : #'gt-inspector-extension' }
+GTEventAnnouncement >> gtInspectorActionUnpackData [
+	<gtInspectorAction>
+	^ GLMGenericAction new
+		action: [ :composite |
+			composite selection: self unpackedData ];
+		icon: GLMUIThemeExtraIcons glamorousAdd;
+		condition: [ self data isNotNil ];
+		title: 'Unpack data'
+]
+
+{ #category : #'gt-inspector-extension' }
 GTEventAnnouncement >> gtInspectorItems [
 	^ OrderedCollection withAll: self associations
 ]
