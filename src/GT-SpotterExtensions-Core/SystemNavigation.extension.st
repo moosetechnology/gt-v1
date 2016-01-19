@@ -23,7 +23,7 @@ SystemNavigation >> allReferencesToSubstring: aString do: aBlock [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-SystemNavigation >> allSendersToSubstring: aString do: aBlock [
+SystemNavigation >> allSendersToString: aString do: aBlock [
 	aString isEmptyOrNil ifTrue: [ ^ self ].
 	aString asSymbol ifNotNil: [ :symbol |
 		self allBehaviorsDo: [ :class | 
