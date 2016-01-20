@@ -297,6 +297,24 @@ GTSpotterWidgetThemer >> headerWidgetStyleFor: aBrick [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> helpButtonStyleFor: aBrick [
+
+	aBrick
+		vSpaceFill;
+		width: [ :m | m height ];
+		margin: 10;
+		marginLeft: 0
+]
+
+{ #category : #'styles-widget' }
+GTSpotterWidgetThemer >> helpButtonWidgetStyleFor: aBrick [
+
+	aBrick
+		normalImage: GLMUIThemeExtraIcons glamorousHelp;
+		pressedColor: self buttonPressedColor
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> hintHideArrowStyleFor: aBrick [
 
 	aBrick ifNil: [ ^ self ].

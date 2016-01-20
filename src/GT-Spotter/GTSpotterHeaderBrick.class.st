@@ -6,7 +6,8 @@ Class {
 		'searchField',
 		'closeButton',
 		'spotterModel',
-		'settingsButton'
+		'settingsButton',
+		'helpButton'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -34,6 +35,24 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 	self addBrickBack: closeButton
 ]
 
+{ #category : #accessing }
+GTSpotterHeaderBrick >> helpButton: aBrick [
+
+	helpButton ifNotNil: [self removeBrick: helpButton].
+	helpButton := aBrick.
+	
+	self themer spotterThemer helpButtonWidgetStyleFor: helpButton.
+	self themer spotterThemer helpButtonStyleFor: helpButton.
+	
+	helpButton
+		hintTitle: 'Spotter help';
+		action: [ 
+			self spotterModel exitDueTo: #actionButton.
+			HelpBrowser openOn: GTSpotterHelp ].
+	
+	self addBrickBack: helpButton
+]
+
 { #category : #initialization }
 GTSpotterHeaderBrick >> initialize [
 	super initialize.
@@ -41,12 +60,19 @@ GTSpotterHeaderBrick >> initialize [
 	self searchField: self newSearchField.
 	#GTEventRecorderSettings asClassIfPresent: [ 
 		self settingsButton: self newSettingsButton ].
+	self helpButton: self newHelpButton.
 	self closeButton: self newCloseButton.
 	
 ]
 
 { #category : #'instance creation' }
 GTSpotterHeaderBrick >> newCloseButton [
+
+	^ GLMHintableActionButtonBrick new
+]
+
+{ #category : #'instance creation' }
+GTSpotterHeaderBrick >> newHelpButton [
 
 	^ GLMHintableActionButtonBrick new
 ]
