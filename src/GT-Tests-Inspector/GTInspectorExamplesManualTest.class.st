@@ -60,8 +60,13 @@ GTInspectorExamplesManualTest >> checkAllPresentationsOf: exampleToTest onError:
 ]
 
 { #category : #private }
+GTInspectorExamplesManualTest >> examplesForClass: aClass [
+	^ aClass gtExamples
+]
+
+{ #category : #private }
 GTInspectorExamplesManualTest >> filenameFor: anExample [
-	^ ((('gtExamplesFailure_' anExample method gtDisplayString		 
+	^ ((('gtExamplesFailure_', anExample method gtDisplayString		 
 			copyReplaceAll: '>' with: '_') 
 			copyReplaceAll: ':' with: '.') 
 			copyReplaceAll: ' ' with: '') 
@@ -152,13 +157,17 @@ GTInspectorExamplesManualTest >> run: aBlock [
 
 { #category : #private }
 GTInspectorExamplesManualTest >> runClasses: aCollectionOfClasses [
-	aCollectionOfClasses 
-		do: [ :class | 
-			class gtExamples
-				do: [ :example | self runExample: example ]
-				displayingProgress: class name.
-			(FileSystem workingDirectory / 'gtExamplesAllTestedClasses.txt') writeStream setToEnd; cr; nextPutAll: class name; flush; close ]
-		displayingProgress: 'Running examples of ', aCollectionOfClasses size asString, ' classes ...'.
+	aCollectionOfClasses
+		do:
+			[ :class | 
+			(self examplesForClass: class) do: [ :example | self runExample: example ] displayingProgress: class name.
+			(FileSystem workingDirectory / 'gtExamplesAllTestedClasses.txt') writeStream
+				setToEnd;
+				cr;
+				nextPutAll: class name;
+				flush;
+				close ]
+		displayingProgress: 'Running examples of ' , aCollectionOfClasses size asString , ' classes ...'
 ]
 
 { #category : #private }
