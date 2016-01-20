@@ -18,6 +18,17 @@ GTSUnitExampleFailingTest class >> isUnitTest [
 ]
 
 { #category : #tests }
+GTSUnitExampleFailingTest >> checkWithFailure [
+	self assert: false description: 'A failure'
+]
+
+{ #category : #tests }
+GTSUnitExampleFailingTest >> intermediaryCheckWithFailure [
+	40 + 2.
+	self checkWithFailure
+]
+
+{ #category : #tests }
 GTSUnitExampleFailingTest >> testArrays [
 	 self
            assert: #(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22
@@ -45,6 +56,12 @@ GTSUnitExampleFailingTest >> testDictionary [
 			ifTrue: [ dict at: nr put: nr<<6 ]
 			ifFalse: [ dict at: nr put: nr<<5 ].
 			dict ])
+]
+
+{ #category : #tests }
+GTSUnitExampleFailingTest >> testFailingAssestionThroughAHelperMethod [
+
+	self intermediaryCheckWithFailure
 ]
 
 { #category : #tests }
