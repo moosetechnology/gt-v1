@@ -10,7 +10,5 @@ Class {
 { #category : #testing }
 GTSUnitActivationPredicate >> matchContext: aContext [
 	
-	^ aContext sender 
-		ifNil: [ false ]
-		ifNotNil: [ :anotherContext | anotherContext method isTestMethod ]
+	^ aContext methodClass isTestCase
 ]

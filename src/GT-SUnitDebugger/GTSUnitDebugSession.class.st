@@ -20,7 +20,8 @@ Class {
 		'assertionContext',
 		'expectedResult',
 		'actualResult',
-		'testObject'
+		'testContext',
+		'assertionCallerContext'
 	],
 	#category : #'GT-SUnitDebugger'
 }
@@ -38,9 +39,41 @@ GTSUnitDebugSession >> actualResult [
 ]
 
 { #category : #accessing }
+GTSUnitDebugSession >> assertionCallerContext [
+
+	^ assertionCallerContext
+]
+
+{ #category : #accessing }
 GTSUnitDebugSession >> expectedResult [
 	
 	^ expectedResult 
+]
+
+{ #category : #initialization }
+GTSUnitDebugSession >> initializeAssestionContextFrom: aContext [
+	| frameworkTestClasses |
+	
+	frameworkTestClasses := {TestCase. TestCase superclass}.
+	
+	assertionContext := aContext findContextSuchThat: [ :anotherContext |
+		anotherContext sender isNil or: [ 
+			 (frameworkTestClasses anySatisfy: [ :aTestClass |
+				 aTestClass includesSelector: anotherContext sender method selector]) not ] ].
+	assertionContext 
+		ifNil: [ assertionContext := aContext ]
+		ifNotNil: [ assertionCallerContext := assertionContext sender].
+	assertionCallerContext ifNil: [ assertionCallerContext := assertionContext ]
+	
+		
+]
+
+{ #category : #initialization }
+GTSUnitDebugSession >> initializeTestContextFrom: aContext [
+
+	testContext := aContext findContextSuchThat: [ :anotherContext |
+		anotherContext method isTestMethod ].
+	testContext ifNil: [ testContext := aContext ]
 ]
 
 { #category : #testing }
@@ -65,11 +98,11 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 	super process: aProcess context: aContext.
 
 	assertionContext ifNil: [
-		assertionContext := aContext findContextMatchingPredicate: self class activationPredicate.
+		self initializeAssestionContextFrom: aContext.
+		self initializeTestContextFrom: assertionContext.
 		self supportsDiff ifTrue: [ 
 			actualResult := assertionContext tempAt: 1.
-			expectedResult := assertionContext tempAt: 2 ].
-		testObject := assertionContext sender receiver ]
+			expectedResult := assertionContext tempAt: 2 ]  ]
 ]
 
 { #category : #accessing }
@@ -93,11 +126,11 @@ GTSUnitDebugSession >> tearDownMethod [
 { #category : #accessing }
 GTSUnitDebugSession >> testContext [
 
-	^ assertionContext sender
+	^ testContext
 ]
 
 { #category : #accessing }
 GTSUnitDebugSession >> testObject [
 
-	^ testObject
+	^ testContext receiver
 ]
