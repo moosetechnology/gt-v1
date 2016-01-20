@@ -32,6 +32,12 @@ Class {
 	#category : #'GT-Inspector-Examples-Core'
 }
 
+{ #category : #examples }
+GTExample class >> gtExample [
+	<gtExample>
+	^ self new
+]
+
 { #category : #testing }
 GTExample >> = anExample [
 	^ self class = anExample class 
