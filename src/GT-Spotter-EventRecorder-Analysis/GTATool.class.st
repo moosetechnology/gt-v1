@@ -130,6 +130,9 @@ GTATool class >> titleForSpotterPragma: aRGMethodDefinition [
 		(aRGMethodDefinition methodClass = MenuItemMorph and: [ 
 			eachAstNode isMessage and: [ eachAstNode selector = #spotterItemsFor: ] ]) ifTrue: [ 
 				^ nil "We obtain the title from other method definition." ].
+		"forwarded to another same method"
+		(eachAstNode isMessage and: [ eachAstNode selector = aRGMethodDefinition selector ]) ifTrue: [ 
+			^ nil "We obtain the title from other method definition." ].
 		"regular method or world menu"
 		(eachAstNode isMessage and: [ (eachAstNode selector = #title:) and: [ 
 			eachAstNode children size = 2 and: [ | first |

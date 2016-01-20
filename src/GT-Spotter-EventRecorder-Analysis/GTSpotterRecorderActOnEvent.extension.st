@@ -48,7 +48,7 @@ GTSpotterRecorderActOnEvent >> removeSelectedElementEvent [
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }
 GTSpotterRecorderActOnEvent >> selectedCategoryLabel [
-	^ self selectedElementEvent selectedCategoryLabel
+	^ self selectedElementEvent ifNotNil: #selectedCategoryLabel ifNil: [ 'undefined' ]
 ]
 
 { #category : #'*GT-Spotter-EventRecorder-Analysis' }

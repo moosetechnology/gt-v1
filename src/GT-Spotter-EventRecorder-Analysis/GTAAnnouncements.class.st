@@ -92,8 +92,10 @@ GTAAnnouncements >> perComputer [
 
 { #category : #enumerating }
 GTAAnnouncements >> sessions [
-	^ GTASessionBuilder fromEvents: (
-			self flatCollect: #events as: OrderedCollection)
+	| events |
+	events := self flatCollect: [ :each | [ each events ] on: STONReaderError, SubscriptOutOfBounds do: [ :anException | #() ] ] as: OrderedCollection.
+	events := events select: [ :each | each isSpotterEvent ].
+	^ GTASessionBuilder fromEvents: events
 ]
 
 { #category : #enumerating }
