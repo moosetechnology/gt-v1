@@ -13,6 +13,40 @@ GTSpotterHelp class >> bookName [
 ]
 
 { #category : #documentation }
+GTSpotterHelp class >> extensions [
+		
+	^ HelpTopic 
+		title: 'Extensions'
+		contents: 'Spotter allows the developer to define custom search processors in different classes the image. These custom processors take effect when Spotter reaches an instance of the extended class. Here is the list of extensions from this image
+
+', self extensionsString
+]
+
+{ #category : #documentation }
+GTSpotterHelp class >> extensionsString [
+	| methods title |
+	^ String streamContents: [ :s |
+		(GTSpotter spotterExtendingMethods groupedBy: #methodClass) 
+		associationsDo: [ :classMethodsAssociation |
+			s nextPutAll: classMethodsAssociation key name; cr.
+			methods := classMethodsAssociation value.
+			methods do: [ :each | 
+				title := each ast allChildren 
+					detect: [ :node | node isMessage and: [ node selector = #title: ] ]
+					ifFound: [ :node | node arguments first value. ]
+					ifNone: [ each selector ].
+				title isString ifFalse: [ title := each selector ].
+				s 
+					nextPutAll: '- '; 
+					nextPutAll: title; 
+					nextPutAll: ' ('; 
+					nextPutAll: each selector; 
+					nextPut: $);
+					cr ].
+			s cr ] ]
+]
+
+{ #category : #documentation }
 GTSpotterHelp class >> keybindings [
 	^ HelpTopic 
 		title: 'Keybindings'
@@ -39,10 +73,12 @@ GTSpotterHelp class >> overview [
 	^ HelpTopic 
 		title: 'Overview'
 		contents: 
-'GT Spotter is a moldable object search tool that is part of Pharo and was developed as part of the Glamorous Toolkit project (http://gt.moosetechnology.org)'
+'GT Spotter is a moldable object search tool that is part of Pharo and was developed as part of the Glamorous Toolkit project (http://gt.moosetechnology.org).
+
+Its goal is to help developers find and navigate through all sorts of objects, including packages, classes, methods, code snippets, or menus.'
 ]
 
 { #category : #accessing }
 GTSpotterHelp class >> pages [
-	^#(overview keybindings)
+	^#(overview keybindings extensions)
 ]
