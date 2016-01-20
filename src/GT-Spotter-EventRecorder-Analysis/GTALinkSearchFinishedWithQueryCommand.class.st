@@ -17,8 +17,10 @@ GTALinkSearchFinishedWithQueryCommand >> execute [
 	self session do: [ :eachEvent |
 		eachEvent isContextChanged ifTrue: [ queries addLast: eachEvent ].
 		eachEvent isSearchFinished ifTrue: [ | query |
-			self assert: [ queries notEmpty ]. 
-			query := queries 
-							detect: [ :eachQuery | eachQuery currentTextInfo = eachEvent query ].
-			eachEvent associatedContextChanged: query ] ]
+			queries ifNotEmpty: [ 
+				self assert: [ queries notEmpty ]. 
+				query := queries 
+								detect: [ :eachQuery | eachQuery currentTextInfo = eachEvent query ]
+								ifNone: [ nil ].
+				query ifNotNil: [ eachEvent associatedContextChanged: query ] ] ] ]
 ]
