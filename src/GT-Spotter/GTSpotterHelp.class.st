@@ -17,7 +17,7 @@ GTSpotterHelp class >> extensions [
 		
 	^ HelpTopic 
 		title: 'Extensions'
-		contents: 'Spotter allows the developer to define custom search processors in different classes the image. These custom processors take effect when Spotter reaches an instance of the extended class. Here is the list of extensions from this image
+		contents: 'Spotter allows the developer to define custom search processors in different classes. These custom processors take effect when Spotter reaches an instance of the extended class. Here is the list of extensions from this image
 
 ', self extensionsString
 ]
@@ -26,8 +26,9 @@ GTSpotterHelp class >> extensions [
 GTSpotterHelp class >> extensionsString [
 	| methods title |
 	^ String streamContents: [ :s |
-		(GTSpotter spotterExtendingMethods groupedBy: #methodClass) 
-		associationsDo: [ :classMethodsAssociation |
+		((GTSpotter spotterExtendingMethods groupedBy: #methodClass) 
+		associations sorted: [ :a :b | a key name < b key name ]) 
+		do: [ :classMethodsAssociation |
 			s nextPutAll: classMethodsAssociation key name; cr.
 			methods := classMethodsAssociation value.
 			methods do: [ :each | 
