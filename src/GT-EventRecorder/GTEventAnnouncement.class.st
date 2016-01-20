@@ -49,9 +49,10 @@ GTEventAnnouncement class >> gtExampleEmptyAnnouncement [
 
 { #category : #updating }
 GTEventAnnouncement >> addInfoFor: aGTSpotterRecorderEvent [ 
-	dictionary keysAndValuesDo: [ :key :value |
-		key = #data ifFalse: [ 
-			aGTSpotterRecorderEvent infoAt: key put: value ] ]
+	(aGTSpotterRecorderEvent respondsTo: #infoAt:put:) ifTrue: [
+		dictionary keysAndValuesDo: [ :key :value |
+			key = #data ifFalse: [ 
+				aGTSpotterRecorderEvent infoAt: key put: value ] ] ]
 ]
 
 { #category : #converting }
