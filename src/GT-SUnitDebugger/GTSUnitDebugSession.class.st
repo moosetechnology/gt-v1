@@ -40,7 +40,7 @@ GTSUnitDebugSession >> actualResult [
 { #category : #accessing }
 GTSUnitDebugSession >> expectedResult [
 	
-	^ expectedResult
+	^ expectedResult 
 ]
 
 { #category : #testing }
@@ -66,8 +66,9 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 
 	assertionContext ifNil: [
 		assertionContext := aContext findContextMatchingPredicate: self class activationPredicate.
-		actualResult := assertionContext tempAt: 1.
-		expectedResult := assertionContext tempAt: 2.
+		self supportsDiff ifTrue: [ 
+			actualResult := assertionContext tempAt: 1.
+			expectedResult := assertionContext tempAt: 2 ].
 		testObject := assertionContext sender receiver ]
 ]
 
@@ -75,6 +76,12 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 GTSUnitDebugSession >> setUpMethod [
 
 	^ self testObject class lookupSelector: #setUp
+]
+
+{ #category : #testing }
+GTSUnitDebugSession >> supportsDiff [
+
+	^ assertionContext selector = #assert:equals:
 ]
 
 { #category : #accessing }

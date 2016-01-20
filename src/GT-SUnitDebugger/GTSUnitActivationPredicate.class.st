@@ -10,5 +10,7 @@ Class {
 { #category : #testing }
 GTSUnitActivationPredicate >> matchContext: aContext [
 	
-	^ aContext selector == #assert:equals:
+	^ aContext sender 
+		ifNil: [ false ]
+		ifNotNil: [ :anotherContext | anotherContext method isTestMethod ]
 ]

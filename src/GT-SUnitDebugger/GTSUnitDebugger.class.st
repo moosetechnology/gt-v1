@@ -90,10 +90,10 @@ GTSUnitDebugger >> inspectorDiffIn: aComposite [
 
 	^ aComposite tabulator 
 		with: [ :aTabulator |
+			aTabulator when: [ self session supportsDiff].
 			aTabulator 
 				column: #actual;
 				column: #expected.
-			"aTabulator when: [ self session isActive ]."
 			aTabulator transmit to: #actual; andShow: [ :anotherComposite |
 				anotherComposite  dynamic 
 					display: [:anObject |
@@ -111,7 +111,9 @@ GTSUnitDebugger >> inspectorIn: aComposite [
 
 	(self textualDiffIn: aComposite) title: 'Diff (actual vs. expected)'.
 	(self inspectorDiffIn: aComposite) title: 'Objects (actual vs. expected)'.
-	(super inspectorIn: aComposite) title: 'Inspector'
+	super inspectorIn: aComposite.
+	self session supportsDiff ifTrue: [ 
+		aComposite last title: 'Inspector' ]
 ]
 
 { #category : #'building presentations' }
@@ -138,7 +140,7 @@ GTSUnitDebugger >> tearDownCodeIn: aComposite [
 GTSUnitDebugger >> textualDiffIn: composite [
 
 	^ composite diff
-			"when: [ self session isActive ];"
+			when: [ self session supportsDiff];
 			display: [ 
 				{self session actualResult gtDebuggerSUnitPrint. self session expectedResult gtDebuggerSUnitPrint} ]
 ]

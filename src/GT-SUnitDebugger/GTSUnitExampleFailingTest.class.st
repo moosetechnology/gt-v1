@@ -87,3 +87,9 @@ GTSUnitExampleFailingTest >> testMultiValuedStreaming [
 	
 	
 ]
+
+{ #category : #tests }
+GTSUnitExampleFailingTest >> testSimpleFailingAssestion [
+
+	self assert: false
+]
