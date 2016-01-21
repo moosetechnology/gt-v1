@@ -1,5 +1,7 @@
 "
 A helper class containing the help for GT Spotter.
+
+I dynamically build and display  the list of extensions available for GT Spotter
 "
 Class {
 	#name : #GTSpotterHelp,
