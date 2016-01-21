@@ -51,6 +51,11 @@ GTSpotterHelp class >> extensionsString [
 			s cr ] ]
 ]
 
+{ #category : #accessing }
+GTSpotterHelp class >> key [
+	^ self name
+]
+
 { #category : #documentation }
 GTSpotterHelp class >> keybindings [
 	^ HelpTopic 

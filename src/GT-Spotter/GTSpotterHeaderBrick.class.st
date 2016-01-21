@@ -38,6 +38,7 @@ GTSpotterHeaderBrick >> closeButton: aBrick [
 { #category : #accessing }
 GTSpotterHeaderBrick >> helpButton: aBrick [
 
+	| tree item |
 	helpButton ifNotNil: [self removeBrick: helpButton].
 	helpButton := aBrick.
 	
@@ -48,7 +49,10 @@ GTSpotterHeaderBrick >> helpButton: aBrick [
 		hintTitle: 'Spotter help';
 		action: [ 
 			self spotterModel exitDueTo: #actionButton.
-			HelpBrowser openOn: GTSpotterHelp ].
+			tree := HelpBrowser open instVarNamed: #treeMorph.
+			item := tree allItems detect: [:each | 
+				each complexContents item key = GTSpotterHelp key].
+			tree selection: item ].
 	
 	self addBrickBack: helpButton
 ]
