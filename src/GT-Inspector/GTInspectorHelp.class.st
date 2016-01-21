@@ -51,6 +51,11 @@ GTInspectorHelp class >> extensionsString [
 			s cr ] ]
 ]
 
+{ #category : #accessing }
+GTInspectorHelp class >> key [
+	^ self name
+]
+
 { #category : #documentation }
 GTInspectorHelp class >> overview [
 	^ HelpTopic 
