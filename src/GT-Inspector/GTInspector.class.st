@@ -30,6 +30,11 @@ GTInspector class >> explore: anObject [
 	^ anObject
 ]
 
+{ #category : #accessing }
+GTInspector class >> extensionsPragma [
+	^ #gtInspectorPresentationOrder:
+]
+
 { #category : #settings }
 GTInspector class >> extentSettingsOn: aBuilder [ 
 	<systemsettings>
@@ -99,7 +104,7 @@ GTInspector class >> inspector: anObject [
 GTInspector class >> inspectorExtendingMethods [
 	^ (Object withAllSubclasses
 		flatCollect: [ :each | 
-			(Pragma allNamed: #gtInspectorPresentationOrder: in: each) 
+			(Pragma allNamed: self extensionsPragma in: each) 
 				collect: [ :p | p method asRingDefinition ] ])
 		sorted
 ]
