@@ -1,5 +1,7 @@
 "
-A utility class containing the help for the GT Inspector.
+A helper class containing the help for GT Inspector.
+
+I dynamically build and display  the list of extensions available for GT Inspector
 "
 Class {
 	#name : #GTInspectorHelp,
