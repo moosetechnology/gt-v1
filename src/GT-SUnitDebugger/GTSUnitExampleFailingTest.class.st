@@ -110,3 +110,10 @@ GTSUnitExampleFailingTest >> testSimpleFailingAssestion [
 
 	self assert: false
 ]
+
+{ #category : #tests }
+GTSUnitExampleFailingTest >> testWithHalt [
+
+	self assert: true.
+	self halt
+]
