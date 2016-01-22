@@ -5,27 +5,22 @@ Class {
 }
 
 { #category : #accessing }
-GTPPDebuggerSmokeTest >> contextToTest [
-
-	^ [ PPArithmeticParser new parse: '1+1'] asContext
-]
-
-{ #category : #accessing }
 GTPPDebuggerSmokeTest >> debuggerToTest [
 
 	^ GTPPDebugger
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GTPPDebuggerSmokeTest >> expectedFailures [
 	^ #(testDebugger)
 ]
 
 { #category : #utils }
-GTPPDebuggerSmokeTest >> stepToDebuggerEntryPointIn: aProcess [
+GTPPDebuggerSmokeTest >> stepToParseOnContext [
 	"Step through the execution until the process reaches a context 
 	that can be handles using the PetitParser debugger"
 	
+	^ [ :aProcess |
 	aProcess 
 		step;
 		step;
@@ -40,5 +35,15 @@ GTPPDebuggerSmokeTest >> stepToDebuggerEntryPointIn: aProcess [
 		completeStep: aProcess suspendedContext;
 		completeStep: aProcess suspendedContext;
 		step. "send the message parseOn: "
-	aProcess stepToSendOrReturn
+		aProcess stepToSendOrReturn ]
+]
+
+{ #category : #tests }
+GTPPDebuggerSmokeTest >> testDebugger [
+
+	self 
+		assertDebuggerInitializationForContext: [PPArithmeticParser new parse: '1+1'] asContext 
+		andStepBlock: self stepToParseOnContext.
+
+ 	self assertDebuggerClosing.
 ]
