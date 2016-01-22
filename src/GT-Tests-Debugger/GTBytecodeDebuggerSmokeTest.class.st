@@ -5,18 +5,17 @@ Class {
 }
 
 { #category : #accessing }
-GTBytecodeDebuggerSmokeTest >> contextToTest [
-
-	^ [ 20 factorial ] asContext
-]
-
-{ #category : #accessing }
 GTBytecodeDebuggerSmokeTest >> debuggerToTest [
 
 	^ GTBytecodeDebugger
 ]
 
-{ #category : #utils }
-GTBytecodeDebuggerSmokeTest >> stepToDebuggerEntryPointIn: aProcess [
-	"The bytecode debugger can handle any context."
+{ #category : #tests }
+GTBytecodeDebuggerSmokeTest >> testDebugger [
+
+	self 
+		assertDebuggerInitializationForContext: [ 20 factorial ] asContext 
+		andStepBlock: [:aProcess | "The bytecode debugger can handle any context" ].
+
+ 	self assertDebuggerClosing.
 ]
