@@ -12,7 +12,7 @@ ProtoObject >> gtDebuggerEvaluatorIn: composite [
 ProtoObject >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 	| pragmas |
 	pragmas := (Pragma 
-				allNamed: aGTInspector class extensionsPragma
+				allNamed: #gtDebuggerPresentationOrder:
 				from: self class 
 				to: ProtoObject) asOrderedCollection.
 	pragmas addAll:((Pragma 
