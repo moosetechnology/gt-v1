@@ -1,3 +1,11 @@
+"
+I provide support for testing GT Debuggers.  
+
+Each subclass can provide test for a debugger. To indicate the debugger a debugger needs to override #debuggerToTest.
+
+In a test subclasses should first create a debugger using #initializeSessionForContext:withStepBlock:.
+To finish a test subclasses should use #assertDebuggerClosing. 
+"
 Class {
 	#name : #GTDebuggerSmokeTest,
 	#superclass : #TestCase,
