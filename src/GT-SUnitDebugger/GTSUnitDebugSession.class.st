@@ -57,13 +57,15 @@ GTSUnitDebugSession >> initializeAssestionContextFrom: aContext [
 	frameworkTestClasses := {TestCase. TestCase superclass}.
 	
 	assertionContext := aContext findContextSuchThat: [ :anotherContext |
-		anotherContext sender isNil or: [ 
+		anotherContext = testContext 
+			ifTrue: [ 
+				"the assestion context should be between the top context and before the test context"
+				^ self  ].
+		anotherContext sender notNil and: [ 
 			 (frameworkTestClasses anySatisfy: [ :aTestClass |
 				 aTestClass includesSelector: anotherContext sender method selector]) not ] ].
 	assertionContext 
-		ifNil: [ assertionContext := aContext ]
-		ifNotNil: [ assertionCallerContext := assertionContext sender].
-	assertionCallerContext ifNil: [ assertionCallerContext := assertionContext ]
+		ifNotNil: [ assertionCallerContext := assertionContext sender]
 	
 		
 ]
@@ -98,8 +100,8 @@ GTSUnitDebugSession >> process: aProcess context: aContext [
 	super process: aProcess context: aContext.
 
 	assertionContext ifNil: [
+		self initializeTestContextFrom: aContext.
 		self initializeAssestionContextFrom: aContext.
-		self initializeTestContextFrom: assertionContext.
 		self supportsDiff ifTrue: [ 
 			actualResult := assertionContext tempAt: 1.
 			expectedResult := assertionContext tempAt: 2 ]  ]
@@ -114,7 +116,9 @@ GTSUnitDebugSession >> setUpMethod [
 { #category : #testing }
 GTSUnitDebugSession >> supportsDiff [
 
-	^ assertionContext selector = #assert:equals:
+	^ assertionContext 
+		ifNil: [ false ]
+		ifNotNil: [ assertionContext selector = #assert:equals: ]
 ]
 
 { #category : #accessing }

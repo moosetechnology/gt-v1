@@ -56,7 +56,7 @@ GTSUnitDebugger class >> sessionClass [
 
 { #category : #'accessing context' }
 GTSUnitDebugger >> contextToSelectFrom: aSession [
-	^ aSession assertionCallerContext
+	^ aSession assertionCallerContext ifNil: [ aSession testContext ]
 ]
 
 { #category : #building }

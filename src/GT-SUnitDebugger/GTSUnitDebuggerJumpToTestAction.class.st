@@ -20,7 +20,8 @@ GTSUnitDebuggerJumpToTestAction class >> gtDebuggerActionFor: aDebugger [
 GTSUnitDebuggerJumpToTestAction >> appliesToDebugger: aDebugger [
 
 	^ aDebugger session class = GTSUnitDebugSession and: [ 
-		aDebugger session testContext ~= aDebugger session assertionCallerContext ]
+		aDebugger session assertionCallerContext notNil and: [ 
+			aDebugger session testContext ~= aDebugger session assertionCallerContext ] ]
 ]
 
 { #category : #accessing }
