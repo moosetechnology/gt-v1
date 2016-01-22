@@ -12,11 +12,11 @@ ProtoObject >> gtDebuggerEvaluatorIn: composite [
 ProtoObject >> gtDebuggerPresentationsIn: composite inContext: aGTInspector [
 	| pragmas |
 	pragmas := (Pragma 
-				allNamed: #gtDebuggerPresentationOrder: 
+				allNamed: aGTInspector class extensionsPragma
 				from: self class 
 				to: ProtoObject) asOrderedCollection.
 	pragmas addAll:((Pragma 
-				allNamed: #gtInspectorPresentationOrder: 
+				allNamed: aGTInspector class extensionsPragma 
 				from: self class 
 				to: ProtoObject)
 					reject: [:pragma| pragma method selector = #gtInspectorRawIn: ]).
