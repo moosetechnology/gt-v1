@@ -62,6 +62,7 @@ GTSpotterContext >> continueFilter [
 	processors := self cache at: #processors ifAbsent: [ ^ self ].
 	nonEmptyProcessors := processors associations select: [ :assoc | assoc key hasFilteredCandidates ].
 	nonEmptyProcessors size = 1 ifFalse: [ ^ self ].
+	
 	self withContinue: true do: [ 
 		nonEmptyProcessors do: [ :assoc | 
 			assoc key continueFilterInContext: self ] ]

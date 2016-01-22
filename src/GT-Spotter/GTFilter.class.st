@@ -81,7 +81,7 @@ GTFilter >> context: anObject [
 
 { #category : #'accessing-defaults' }
 GTFilter >> defaultFilteredItems [
-	^ OrderedCollection new: 100
+	^ OrderedCollection new: 100 " not a limitation, just a reasonable start size "
 ]
 
 { #category : #'accessing-defaults' }
@@ -91,7 +91,7 @@ GTFilter >> defaultStreamed [
 
 { #category : #'accessing-defaults' }
 GTFilter >> defaultStreamedItems [
-	^ OrderedCollection new: 1000
+	^ OrderedCollection new: 100 " not a limitation, just a reasonable start size "
 ]
 
 { #category : #'private-model' }
