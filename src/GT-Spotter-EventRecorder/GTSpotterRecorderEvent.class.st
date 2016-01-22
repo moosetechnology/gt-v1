@@ -87,7 +87,7 @@ GTSpotterRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 { #category : #'gt-inspector-extension' }
 GTSpotterRecorderEvent >> gtInspectorItems [
-	^ OrderedCollection
+	^ Array
 		 with: (#eventTimestamp -> self timestamp) withAll: self associations
 ]
 
