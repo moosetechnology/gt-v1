@@ -6,7 +6,7 @@ I dynamically build and display  the list of extensions available for GT Spotter
 Class {
 	#name : #GTSpotterHelp,
 	#superclass : #CustomHelp,
-	#category : #'GT-Spotter'
+	#category : #'GT-Spotter-Help'
 }
 
 { #category : #accessing }
