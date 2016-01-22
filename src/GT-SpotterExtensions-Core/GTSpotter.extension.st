@@ -210,6 +210,18 @@ GTSpotter >> spotterForHelpTopicFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterForMessagesFor: aStep [
+	<spotterOrder: 35>
+
+	aStep listProcessor
+		title: 'Messages';
+		filter: GTNullFilter item: [ :filter :context | 
+			GTSelectorImplementors substring: context textTrimmed filter: filter ];
+		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];		
+		wantsToDisplayOnEmptyQuery: false
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 GTSpotter >> spotterForMetacelloConfigurationsFor: aStep [
 	<spotterOrder: 86>
 	aStep listProcessor
@@ -270,18 +282,6 @@ GTSpotter >> spotterForRepositoriesFor: aStep [
 		itemIcon: #systemIcon;
 		wantsToDisplayOnEmptyQuery: false;
 		filter: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
-GTSpotter >> spotterForSelectorsFor: aStep [
-	<spotterOrder: 35>
-
-	aStep listProcessor
-		title: 'Selectors';
-		filter: GTNullFilter item: [ :filter :context | 
-			GTSelectorImplementors substring: context textTrimmed filter: filter ];
-		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];		
-		wantsToDisplayOnEmptyQuery: false
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
