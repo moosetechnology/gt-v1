@@ -92,11 +92,6 @@ GTSpotter class >> exampleWorldMenu [
 		openCenteredInWorld
 ]
 
-{ #category : #accessing }
-GTSpotter class >> extensionsPragma [
-	^ #spotterOrder:
-]
-
 { #category : #example }
 GTSpotter class >> gtExamplesProvider [
 
@@ -155,7 +150,7 @@ GTSpotter class >> showPreview [
 GTSpotter class >> spotterExtendingMethods [
 	^(Object withAllSubclasses
 		flatCollect: [ :each | 
-			(Pragma allNamed: self extensionsPragma in: each) 
+			(Pragma allNamed: #spotterOrder: in: each) 
 				collect: [ :p | p method asRingDefinition ] ])
 		sorted
 ]
@@ -368,7 +363,7 @@ GTSpotter >> history: aWeakCollection [
 GTSpotter >> initialize [
 	super initialize.
 	
-	processorsFilter := GTSpotterSettingsProcessorFilter new
+	processorsFilter := GTSpotterNullProcessorFilter new
 ]
 
 { #category : #testing }

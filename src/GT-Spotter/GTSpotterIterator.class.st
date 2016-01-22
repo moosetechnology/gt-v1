@@ -248,6 +248,11 @@ GTSpotterIterator >> size [
 ]
 
 { #category : #public }
+GTSpotterIterator >> value [
+	^ self items
+]
+
+{ #category : #public }
 GTSpotterIterator >> value: aContext [
 	self context: aContext
 ]

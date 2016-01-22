@@ -66,8 +66,8 @@ GTSpotterStep >> asyncTask [
 { #category : #private }
 GTSpotterStep >> basicRelevantProcessorsProcess: aSpotterContext [
 	self basicRelevantProcessorsProcess: aSpotterContext do: [ :processor | 
-		aSpotterContext processor: processor.
-		processor filterInContext: aSpotterContext ]
+		processor filterInContext: aSpotterContext ].
+	aSpotterContext continueFilter
 ]
 
 { #category : #private }

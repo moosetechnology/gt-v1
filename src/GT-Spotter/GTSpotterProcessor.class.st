@@ -21,6 +21,17 @@ GTSpotterProcessor >> allFilteredCandidates [
 ]
 
 { #category : #private }
+GTSpotterProcessor >> basicContinueFilterInContext: aSpotterContext [
+
+	" we DO NOT prepare the context since we could no longer continue producing filtered candidates "
+	(self shouldFilterInContext: aSpotterContext) ifTrue: [
+		allFilteredCandidates := self doContinueFilterInContext: aSpotterContext ].
+	aSpotterContext stream 
+		performSymbol: #onAmountChanged:in:
+		withArguments: { self allFilteredCandidates size . self }
+]
+
+{ #category : #private }
 GTSpotterProcessor >> basicFilterInContext: aSpotterContext [
 	
 	self prepareProcessorInContext: aSpotterContext.
@@ -29,6 +40,21 @@ GTSpotterProcessor >> basicFilterInContext: aSpotterContext [
 	aSpotterContext stream 
 		performSymbol: #onAmountChanged:in: 
 		withArguments: { self allFilteredCandidates size . self }
+]
+
+{ #category : #private }
+GTSpotterProcessor >> continueFilterInContext: aSpotterContext [
+	[ self basicContinueFilterInContext: aSpotterContext ]
+		on: Error 
+		do: [ :exception | 
+			self exceptionHandler 
+				handleException: exception 
+				do: [ ('[Spotter] Exception in continuing processor <', self title asString, '>: ', exception asString) logCr ] ]
+]
+
+{ #category : #private }
+GTSpotterProcessor >> doContinueFilterInContext: aSpotterContext [
+	^ aSpotterContext doContinueFilterForProcessor: self
 ]
 
 { #category : #private }
@@ -62,6 +88,11 @@ GTSpotterProcessor >> gtDisplayOn: stream [
 		nextPutAll: self title asString
 ]
 
+{ #category : #testing }
+GTSpotterProcessor >> hasFilteredCandidates [
+	^ self allFilteredCandidates notEmpty
+]
+
 { #category : #private }
 GTSpotterProcessor >> prepareProcessorInContext: aContext [
 	allFilteredCandidates := nil
@@ -88,4 +119,9 @@ GTSpotterProcessor >> title [
 { #category : #accessing }
 GTSpotterProcessor >> wantsToDisplayOnEmptyQuery [
 	^ true
+]
+
+{ #category : #private }
+GTSpotterProcessor >> withItemsLimit: aLimit do: aBlock [
+	^ aBlock value
 ]
