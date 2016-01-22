@@ -102,9 +102,9 @@ GTReleaseTest >> testAllMissingInternalExamples [
 		excludedPackages: nil
 		ignoredClasses: {
 			AbstractMorphicAdapter. " corrupt package detection "
-			BlMorph. " corrupt package detection "
+			"BlMorph" " corrupt package detection "
 			ComposableModel. " abstract superclass "
-			GTExample	. " makes no sense "
+			"GTExample"	 " makes no sense "
 			GTExampleProxy. " makes no sense "
 			GTSpotterExceptionMock1. " counter-example "
 			GTSpotterExceptionMock2. " counter-example "
@@ -131,8 +131,8 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 		excludedPackages: nil
 		ignoredClasses: {
 			AbstractMorphicAdapter. " corrupt package detection "
-			BlMorph. " corrupt package detection "
-			GTExample	. " makes no sense "
+			"BlMorph" " corrupt package detection "
+			"GTExample" " makes no sense "
 			GTExampleProxy. " makes no sense "
 			ComposableModel. " abstract superclass "
 			MetacelloVersionLoadDirective. " corrupt package detection "
