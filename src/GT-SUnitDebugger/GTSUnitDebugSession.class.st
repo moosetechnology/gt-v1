@@ -45,6 +45,12 @@ GTSUnitDebugSession >> assertionCallerContext [
 ]
 
 { #category : #accessing }
+GTSUnitDebugSession >> assertionContext [
+
+	^ assertionContext
+]
+
+{ #category : #accessing }
 GTSUnitDebugSession >> expectedResult [
 	
 	^ expectedResult 
