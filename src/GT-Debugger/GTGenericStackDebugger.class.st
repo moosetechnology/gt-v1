@@ -420,10 +420,14 @@ GTGenericStackDebugger >> selectedVariableName: anObject [
 { #category : #updating }
 GTGenericStackDebugger >> selectionChanged: aContext [
 	
-	self class enableStackColoring ifTrue: [  
-		UIManager default defer: [
-			(self browser paneNamed: #stack) presentations  presentations ifNotEmpty: [ :p | 
-				self session interruptedProcess ifNotNil: [ p first update ] ] ] ]
+	UIManager default defer: [ 
+		(self browser paneNamed: #stack) presentations updateToolbar ].
+	
+	self class enableStackColoring ifFalse: [ ^ self ].  
+
+	UIManager default defer: [
+		(self browser paneNamed: #stack) presentations presentations ifNotEmpty: [ :p | 
+			self session interruptedProcess ifNotNil: [ p first update ] ] ]
 ]
 
 { #category : #accessing }
