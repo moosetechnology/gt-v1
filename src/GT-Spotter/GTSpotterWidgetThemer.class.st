@@ -778,12 +778,14 @@ GTSpotterWidgetThemer >> spotterPreviewArrowStyleFor: aBrick [
 GTSpotterWidgetThemer >> spotterPreviewArrowWidgetStyleFor: aBrick [
 
 	aBrick owner isTriangleVisible
-		ifTrue: [ aBrick color: self previewArrowColor ]
-		ifFalse: [ aBrick color: Color transparent ].
+		ifTrue: [
+			aBrick color: self previewArrowColor.
+			aBrick renderer borderColor: self borderColor ]
+		ifFalse: [ aBrick color: Color transparent.
+			aBrick renderer borderColor: Color transparent ].
 		
 	aBrick renderer
-		border: self outerBorderWidth;
-		borderColor: self borderColor
+		border: self outerBorderWidth
 ]
 
 { #category : #styles }
