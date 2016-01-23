@@ -474,7 +474,7 @@ ConfigurationOfGTSpotter >> version112: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '1/23/2016 15:54'.
 		spec 
-			project: 'GlamourCore' with: '3.11';
+			project: 'GlamourCore' with: '4.0';
 			project: 'GTEventRecorder' with: '0.8'.
 		spec 
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.353';
