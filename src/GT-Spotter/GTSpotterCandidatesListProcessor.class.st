@@ -65,7 +65,7 @@ GTSpotterCandidatesListProcessor >> defaultItemsLimit [
 
 { #category : #private }
 GTSpotterCandidatesListProcessor >> doFilterInContext: aSpotterContext [
-	^ aSpotterContext doFilter: filterBlock gtFilter forProcessor: self
+	^ filterBlock gtFilter value: aSpotterContext
 ]
 
 { #category : #accessing }
@@ -211,12 +211,4 @@ GTSpotterCandidatesListProcessor >> wantsToDisplayOnEmptyQuery [
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> wantsToDisplayOnEmptyQuery: anObject [
 	wantsToDisplayOnEmptyQuery := anObject
-]
-
-{ #category : #private }
-GTSpotterCandidatesListProcessor >> withItemsLimit: aLimit do: aBlock [
-	| previousCandidatesLimit |
-	previousCandidatesLimit := candidatesLimit.
-	^ [ candidatesLimit := aLimit. aBlock value ] 
-		ensure: [ candidatesLimit := previousCandidatesLimit ]
 ]

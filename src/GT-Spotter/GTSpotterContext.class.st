@@ -8,9 +8,7 @@ Class {
 		'textTrimmed',
 		'textLowercase',
 		'processor',
-		'filter',
-		'cache',
-		'continuing'
+		'cache'
 	],
 	#category : #'GT-Spotter-Model'
 }
@@ -28,7 +26,7 @@ GTSpotterContext >> addItems: aCollection [
 
 { #category : #accessing }
 GTSpotterContext >> cache [
-	^ cache
+	^ cache ifNil: [ cache := self defaultCache ]
 ]
 
 { #category : #accessing }
@@ -56,38 +54,9 @@ GTSpotterContext >> cacheAt: aSymbol put: anObject [
 	^ self cache at: aSymbol put: anObject
 ]
 
-{ #category : #private }
-GTSpotterContext >> continueFilter [
-	| processors nonEmptyProcessors |
-	processors := self cache at: #processors ifAbsent: [ ^ self ].
-	nonEmptyProcessors := processors associations select: [ :assoc | assoc key hasFilteredCandidates ].
-	nonEmptyProcessors size = 1 ifFalse: [ ^ self ].
-	
-	self withContinue: true do: [ 
-		nonEmptyProcessors do: [ :assoc | 
-			assoc key continueFilterInContext: self ] ]
-]
-
-{ #category : #accessing }
-GTSpotterContext >> continuing [
-	^ continuing
-]
-
-{ #category : #accessing }
-GTSpotterContext >> continuing: anObject [
-	continuing := anObject
-]
-
 { #category : #'accessing-defaults' }
 GTSpotterContext >> defaultCache [
 	^ IdentityDictionary new 
-		at: #processors put: IdentityDictionary new;
-		yourself
-]
-
-{ #category : #'accessing-defaults' }
-GTSpotterContext >> defaultContinuing [
-	^ false
 ]
 
 { #category : #'accessing-defaults' }
@@ -105,22 +74,6 @@ GTSpotterContext >> defaultTextTrimmed [
 	^ self text trimBoth
 ]
 
-{ #category : #private }
-GTSpotterContext >> doContinueFilterForProcessor: aGTProcessor [
-	self processor: aGTProcessor.
-	self filter: ((self cache at: #processors) at: aGTProcessor).
-	" any limit above 100 is just insane ! Spotter needs a different kind of visualization canvas ... something like like lazy loading "
-	^ aGTProcessor withItemsLimit: 95 " = 100 - 5 " do: [ filter value: self ]
-]
-
-{ #category : #private }
-GTSpotterContext >> doFilter: aGTFilter forProcessor: aGTProcessor [
-	self processor: aGTProcessor.
-	self filter: aGTFilter.
-	(self cache at: #processors) at: aGTProcessor put: aGTFilter.
-	^ aGTFilter value: self
-]
-
 { #category : #comparing }
 GTSpotterContext >> equals: aContext [
 	aContext ifNil: [ ^ false ].
@@ -133,29 +86,10 @@ GTSpotterContext >> exceptionHandler [
 	^ GTCurrentSpotterExceptionHandler value ifNil: [ self step exceptionHandler ]
 ]
 
-{ #category : #accessing }
-GTSpotterContext >> filter [
-	^ filter
-]
-
-{ #category : #accessing }
-GTSpotterContext >> filter: anObject [
-	filter := anObject
-]
-
-{ #category : #initializing }
-GTSpotterContext >> initialize [
-	super initialize.
-	
-	cache := self defaultCache.
-	text := self defaultText.
-	continuing := self defaultContinuing.
-]
-
 { #category : #testing }
 GTSpotterContext >> isEmpty [
 	^ self text isNil
-		or: [ self textTrimmed isEmpty ]
+		or: [ self text isEmpty ]
 ]
 
 { #category : #public }
@@ -216,12 +150,12 @@ GTSpotterContext >> stream: anObject [
 
 { #category : #accessing }
 GTSpotterContext >> text [
-	^ text
+	^ text ifNil: [ text := self defaultText ]
 ]
 
 { #category : #accessing }
 GTSpotterContext >> text: anObject [
-	text := anObject ifNil: [ self defaultText ]
+	text := anObject
 ]
 
 { #category : #public }
@@ -232,12 +166,4 @@ GTSpotterContext >> textLowercase [
 { #category : #public }
 GTSpotterContext >> textTrimmed [
 	^ textTrimmed ifNil: [ textTrimmed := self defaultTextTrimmed ]
-]
-
-{ #category : #private }
-GTSpotterContext >> withContinue: aBoolean do: aBlock [
-	| previousContinuing |
-	previousContinuing := continuing.
-	^ [ continuing := aBoolean. aBlock value ]
-		ensure: [ continuing := previousContinuing ]
 ]

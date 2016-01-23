@@ -95,6 +95,7 @@ GTSpotterPreviewArrowBrick >> onHideHints [
 { #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onHidePreview [
 
+	self triangleBrick renderer border: self themer spotterThemer outerBorderWidth.
 	self changed
 ]
 
@@ -107,6 +108,7 @@ GTSpotterPreviewArrowBrick >> onRevealHints [
 { #category : #'event handling' }
 GTSpotterPreviewArrowBrick >> onShowPreview [
 
+	self triangleBrick renderer border: 0.
 	self changed
 ]
 

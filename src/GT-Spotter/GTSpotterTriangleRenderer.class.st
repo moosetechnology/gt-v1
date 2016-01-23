@@ -2,15 +2,45 @@ Class {
 	#name : #GTSpotterTriangleRenderer,
 	#superclass : #GLMBrickRenderer,
 	#instVars : [
-		'orientation'
+		'orientation',
+		'border',
+		'borderColor'
 	],
 	#category : #'GT-Spotter-Renderer'
 }
+
+{ #category : #accessing }
+GTSpotterTriangleRenderer >> border [
+	^ border
+]
+
+{ #category : #accessing }
+GTSpotterTriangleRenderer >> border: anInteger [
+	border := anInteger
+]
+
+{ #category : #accessing }
+GTSpotterTriangleRenderer >> borderColor [
+	^ borderColor
+]
+
+{ #category : #accessing }
+GTSpotterTriangleRenderer >> borderColor: aColor [
+	borderColor := aColor
+]
 
 { #category : #'mathematical functions' }
 GTSpotterTriangleRenderer >> findTriangleEdgeLength: anInteger [
 
 	^ 2 / 3 * (3 sqrt) * anInteger
+]
+
+{ #category : #initialization }
+GTSpotterTriangleRenderer >> initialize [
+	super initialize.
+	
+	border := 0.
+	borderColor := Color transparent
 ]
 
 { #category : #accessing }
@@ -44,8 +74,10 @@ GTSpotterTriangleRenderer >> renderBottomTriangle: aBrick on: aCanvas [
 	a := aBrick brickBounds topLeft + (((width / 2 - height) max: 0) @ 0).
 	b := aBrick brickBounds topLeft + (((width / 2 + height) min: width) @ 0).
 	c := aBrick brickBounds bottomLeft + (width / 2 @ 0).
+		
+	self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint . b asIntegerPoint . c asIntegerPoint}.
 	
-	self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint . b asIntegerPoint . c asIntegerPoint}
+	
 ]
 
 { #category : #rendering }
@@ -72,11 +104,14 @@ GTSpotterTriangleRenderer >> renderRightTriangle: aBrick on: aCanvas [
 	width := aBrick brickBounds width - gap.
 	height := aBrick brickBounds height.
 	
-	a := aBrick brickBounds topLeft + (gap @ ((height / 2 - width) max: 0)).
-	b := aBrick brickBounds topLeft + (gap @ ((height / 2 + width) min: height)).
+	a := ((aBrick brickBounds topLeft + (gap @ ((height / 2 - width) max: 0)) - (self border@self border))) rounded.
+	b := aBrick brickBounds topLeft + (gap @ ((height / 2 + width) min: height)) - (self border@self border negated).
 	c := aBrick brickBounds topRight + (0 @ (height / 2)).
 	
-	self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint . b asIntegerPoint . c asIntegerPoint}
+	self border > 0 ifTrue: [
+		self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint . b asIntegerPoint . c asIntegerPoint} color: self borderColor.
+		self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint + (0@self border) . b asIntegerPoint - (0@(self border + 1)) . c asIntegerPoint - ((self border + 1)@0)}. ]
+	ifFalse: [ self renderTriangle: aBrick on: aCanvas with: { a asIntegerPoint . b asIntegerPoint . c asIntegerPoint} ]
 ]
 
 { #category : #rendering }
@@ -96,5 +131,11 @@ GTSpotterTriangleRenderer >> renderTopTriangle: aBrick on: aCanvas [
 { #category : #rendering }
 GTSpotterTriangleRenderer >> renderTriangle: aBrick on: aCanvas with: aCollection [
 
-	aCanvas drawPolygon: aCollection color: aBrick color borderWidth: 0 borderColor: Color transparent
+	self renderTriangle: aBrick on: aCanvas with: aCollection color: aBrick color
+]
+
+{ #category : #rendering }
+GTSpotterTriangleRenderer >> renderTriangle: aBrick on: aCanvas with: aCollection color: aColor [
+
+	aCanvas drawPolygon: aCollection color: aColor borderWidth: 0 borderColor: Color transparent
 ]
