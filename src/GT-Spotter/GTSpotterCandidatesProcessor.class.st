@@ -48,7 +48,7 @@ GTSpotterCandidatesProcessor >> computeCandidatesIn: aContext [
 
 { #category : #private }
 GTSpotterCandidatesProcessor >> doFilterInContext: aSpotterContext [
-	^ GTFilterBlock gtFilter value: aSpotterContext
+	^ aSpotterContext doFilter: GTFilterBlock gtFilter forProcessor: self
 ]
 
 { #category : #private }

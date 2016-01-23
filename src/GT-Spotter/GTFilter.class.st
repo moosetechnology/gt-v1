@@ -10,6 +10,7 @@ Class {
 	#instVars : [
 		'context',
 		'filteredItems',
+		'streamedItems',
 		'streamed'
 	],
 	#category : #'GT-Spotter-Filters'
@@ -27,17 +28,24 @@ GTFilter class >> gtListFilter [
 
 { #category : #'private-model' }
 GTFilter >> addItem: anItem [
+	self streamedItems add: anItem.
 	self context addItem: anItem
 ]
 
 { #category : #'private-model' }
 GTFilter >> addItems: aCollection [
+	self streamedItems addAll: aCollection.
 	self context addItems: aCollection
 ]
 
 { #category : #'private-model' }
 GTFilter >> allItems [
-	^ self processor allItemsIn: self context
+	" WARNING: #allItems might be a list, block or iterator. we have to evaluate it in order to calculate the remaining/unstreamed items. #allItems are/were designed to be polymorphic to collections and streams. so this should be safe "
+	| allItems |
+	allItems := self processor allItemsIn: self context.
+	^ (self context continuing and: [ self streamedItems isEmptyOrNil not ])
+		ifTrue: [ allItems value fasterDifferencePreservingOrder: self streamedItems ]
+		ifFalse: [ allItems ]
 ]
 
 { #category : #'private-model' }
@@ -74,12 +82,17 @@ GTFilter >> context: anObject [
 
 { #category : #'accessing-defaults' }
 GTFilter >> defaultFilteredItems [
-	^ OrderedCollection new
+	^ OrderedCollection new: 100 " not a limitation, just a reasonable start size "
 ]
 
 { #category : #'accessing-defaults' }
 GTFilter >> defaultStreamed [
 	^ true
+]
+
+{ #category : #'accessing-defaults' }
+GTFilter >> defaultStreamedItems [
+	^ OrderedCollection new: 100 " not a limitation, just a reasonable start size "
 ]
 
 { #category : #'private-model' }
@@ -113,6 +126,14 @@ GTFilter >> hasFilteredItems [
 	^ self filteredItems isEmptyOrNil not
 ]
 
+{ #category : #initializing }
+GTFilter >> initialize [
+	super initialize.
+	
+	self filteredItems: self defaultFilteredItems.
+	self streamedItems: self defaultStreamedItems.
+]
+
 { #category : #'private-model' }
 GTFilter >> itemFilterNameFor: anItem [
 	"I return the string/text representation of an item used by the filter."
@@ -130,7 +151,6 @@ GTFilter >> prepareFilterInContext: aSpotterContext [
 	"I provide a hook for preprocessing the query once before performing a search."
 	
 	self context: aSpotterContext.
-	self filteredItems: self defaultFilteredItems.
 ]
 
 { #category : #'private-model' }
@@ -151,6 +171,16 @@ GTFilter >> streamed [
 { #category : #accessing }
 GTFilter >> streamed: anObject [
 	streamed := anObject
+]
+
+{ #category : #accessing }
+GTFilter >> streamedItems [
+	^ streamedItems
+]
+
+{ #category : #accessing }
+GTFilter >> streamedItems: aCollection [
+	streamedItems := aCollection
 ]
 
 { #category : #public }
