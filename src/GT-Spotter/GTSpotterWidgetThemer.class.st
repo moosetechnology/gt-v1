@@ -781,7 +781,9 @@ GTSpotterWidgetThemer >> spotterPreviewArrowWidgetStyleFor: aBrick [
 		ifTrue: [ aBrick color: self previewArrowColor ]
 		ifFalse: [ aBrick color: Color transparent ].
 		
-	aBrick renderer borderColor: self borderColor
+	aBrick renderer
+		border: self outerBorderWidth;
+		borderColor: self borderColor
 ]
 
 { #category : #styles }
