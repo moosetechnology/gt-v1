@@ -30,6 +30,11 @@ GTSUnitDebugger class >> handlesContext: aContext [
 		anySatisfy: [ :ctx | activationPredicate matches: ctx ] 
 ]
 
+{ #category : #accessing }
+GTSUnitDebugger class >> helpClass [
+	^ GTSUnitDebuggerHelp
+]
+
 { #category : #testing }
 GTSUnitDebugger class >> lookupStackSize [
 	^ 10
