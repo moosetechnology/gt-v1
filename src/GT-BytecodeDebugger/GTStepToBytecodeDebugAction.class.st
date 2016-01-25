@@ -15,6 +15,13 @@ GTStepToBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousPlay
 ]
 
+{ #category : #testing }
+GTStepToBytecodeDebugAction >> appliesToDebugger: aDebugger [
+
+	^ aDebugger session isInterruptedContextPostMortem not and: [ 
+		aDebugger bytecodePresentation selection offset > aDebugger currentContext pc ]
+]
+
 { #category : #accessing }
 GTStepToBytecodeDebugAction >> defaultLabel [
 
