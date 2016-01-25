@@ -282,7 +282,7 @@ GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 
 { #category : #public }
 GTExampleOrganizer >> notifying [
-	^ notifying ifNil: [ true ]
+	^ notifying ifNil: [ false ]
 ]
 
 { #category : #accessing }

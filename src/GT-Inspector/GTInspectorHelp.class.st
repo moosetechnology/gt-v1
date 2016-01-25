@@ -1,4 +1,5 @@
 "
+AndreiChis 1/22/2016 16:23
 A utility class containing the help for GT Inspector.
 
 I dynamically build and display  the list of extensions available for GT Inspector
