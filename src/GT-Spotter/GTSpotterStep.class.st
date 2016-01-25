@@ -24,7 +24,8 @@ Class {
 		'candidates',
 		'asyncTask',
 		'spotter',
-		'lastSearchContext'
+		'lastSearchContext',
+		'event'
 	],
 	#category : #'GT-Spotter-Model'
 }
@@ -158,7 +159,7 @@ GTSpotterStep >> diveInCategory [
 GTSpotterStep >> diveInCategoryDueTo: anEventType [
 
 	self spotter
-		requestNextCategoryStepWith: self selected processorLink;
+		requestNextCategoryStepWith: self selected processorLink for: #diveInCategory;
 		notifyDiveInCategory: self selected processor for: anEventType
 	
 ]
@@ -168,8 +169,18 @@ GTSpotterStep >> diveInDueTo: anEventType [
 	self canDiveInSelectedCandidate ifTrue: [ 
 		self spotter
 			historize: self selected;
-			requestNextStepWith: self selectedCandidate;
+			requestNextStepWith: self selectedCandidate for: #diveIn;
 			notifyDiveIn: self selectedCandidate for: anEventType ]
+]
+
+{ #category : #accessing }
+GTSpotterStep >> event [
+	^ event
+]
+
+{ #category : #accessing }
+GTSpotterStep >> event: anObject [
+	event := anObject
 ]
 
 { #category : #'accessing-dynamic' }
