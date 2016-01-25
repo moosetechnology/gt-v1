@@ -65,6 +65,12 @@ GTMoldableDebugger class >> handlesContext: aContext [
 	self subclassResponsibility 
 ]
 
+{ #category : #accessing }
+GTMoldableDebugger class >> helpClass [
+
+	self subclassResponsibility
+]
+
 { #category : #'settings api' }
 GTMoldableDebugger class >> isGTDebuggerEnabled [
 

@@ -103,6 +103,12 @@ GTGenericStackDebugger class >> handlesContext: aContext [
 	^ true
 ]
 
+{ #category : #accessing }
+GTGenericStackDebugger class >> helpClass [
+
+	^ GTDebuggerHelp
+]
+
 { #category : #'settings api' }
 GTGenericStackDebugger class >> logDebuggerStackToFile [
 	^ LogDebuggerStackToFile ifNil: [LogDebuggerStackToFile := true]
