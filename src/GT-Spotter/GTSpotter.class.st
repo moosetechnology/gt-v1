@@ -576,20 +576,20 @@ GTSpotter >> pushStep: stepModel [
 ]
 
 { #category : #'event handling' }
-GTSpotter >> requestNextCategoryStepWith: aProcessorLink for: anEventType [
+GTSpotter >> requestNextCategoryStepWith: aProcessorLink [
 	|collection|
 	
 	collection := aProcessorLink processor allFilteredCandidates
 		collect: [ :each | each asSpotterCandidateLink renderingProcessor: aProcessorLink ].
 		
-	self requestNextStepWith: collection for: anEventType
+	self requestNextStepWith: collection
 ]
 
 { #category : #'event handling' }
-GTSpotter >> requestNextStepWith: origin for: anEventType [
+GTSpotter >> requestNextStepWith: origin [
 
 	text := ''.
-	self pushStep: (self newStep origin: origin; event: anEventType; yourself).
+	self pushStep: (self newStep origin: origin; yourself).
 	self steps last process: nil
 ]
 

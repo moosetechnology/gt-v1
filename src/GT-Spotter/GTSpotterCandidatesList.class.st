@@ -119,7 +119,7 @@ GTSpotterCandidatesList >> getCandidateLinks: aProcessorLink [
 { #category : #processors }
 GTSpotterCandidatesList >> getProcessorLink: aProcessor [
 
-	^ self processorLinksMap at: aProcessor ifAbsent: [ nil ]
+	^ self processorLinksMap at: aProcessor ifAbsentPut: [ self addProcessor: aProcessor ]
 ]
 
 { #category : #processors }
