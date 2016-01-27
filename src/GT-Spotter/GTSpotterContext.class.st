@@ -9,6 +9,7 @@ Class {
 		'textLowercase',
 		'processor',
 		'filter',
+		'streamed',
 		'cache',
 		'continuing'
 	],
@@ -56,12 +57,21 @@ GTSpotterContext >> cacheAt: aSymbol put: anObject [
 	^ self cache at: aSymbol put: anObject
 ]
 
+{ #category : #testing }
+GTSpotterContext >> canContinue [
+	 " divein / really ugly, spotter-step does not really know why it was created or where it comes from :( "
+	" another hack: diveIncategory must never continue because it just streams all items from the previous step. continuing in diveInCategory would duplicate all items! " 
+	^ self step event == #diveIn
+		or: [ self step event isNil ]
+]
+
 { #category : #private }
 GTSpotterContext >> continueFilter [
 	| processors nonEmptyProcessors |
-	processors := self cache at: #processors ifAbsent: [ ^ self ].
+	processors := self cache at: #processorsAndFilters ifAbsent: [ ^ self ].
 	nonEmptyProcessors := processors associations select: [ :assoc | assoc key hasFilteredCandidates ].
 	nonEmptyProcessors size = 1 ifFalse: [ ^ self ].
+	self canContinue ifFalse: [ ^ self ].
 	
 	self withContinue: true do: [ 
 		nonEmptyProcessors do: [ :assoc | 
@@ -81,7 +91,8 @@ GTSpotterContext >> continuing: anObject [
 { #category : #'accessing-defaults' }
 GTSpotterContext >> defaultCache [
 	^ IdentityDictionary new 
-		at: #processors put: (IdentityDictionary new: 100); " not a limitation, just a reasonable start size "
+		at: #processorsAndFilters put: (IdentityDictionary new: 100); " not a limitation, just a reasonable start size "
+		at: #processorsAndStreamed put: (IdentityDictionary new: 100); " not a limitation, just a reasonable start size "
 		yourself
 ]
 
@@ -108,9 +119,10 @@ GTSpotterContext >> defaultTextTrimmed [
 { #category : #private }
 GTSpotterContext >> doContinueFilterForProcessor: aGTProcessor [
 	" TODO: fix the hardcoded 95 = 100 [limit] - 5 [already generated] "
-	self processor: aGTProcessor.
-	self filter: ((self cache at: #processors) at: aGTProcessor).
 	" any limit above 100 is just insane ! Spotter needs a different kind of visualization canvas ... something like like lazy loading "
+	self processor: aGTProcessor.
+	self filter: ((self cache at: #processorsAndFilters) at: aGTProcessor).
+	self streamed: ((self cache at: #processorsAndStreamed) at: aGTProcessor).
 	^ aGTProcessor withItemsLimit: 95 " = 100 - 5 " do: [ filter value: self ]
 ]
 
@@ -118,7 +130,9 @@ GTSpotterContext >> doContinueFilterForProcessor: aGTProcessor [
 GTSpotterContext >> doFilter: aGTFilter forProcessor: aGTProcessor [
 	self processor: aGTProcessor.
 	self filter: aGTFilter.
-	(self cache at: #processors) at: aGTProcessor put: aGTFilter.
+	self streamed: (OrderedCollection new: 100). " not a limitation, just a reasonable start size "
+	(self cache at: #processorsAndFilters) at: aGTProcessor put: aGTFilter.
+	(self cache at: #processorsAndStreamed) at: aGTProcessor put: streamed.
 	^ aGTFilter value: self
 ]
 
@@ -151,6 +165,13 @@ GTSpotterContext >> initialize [
 	cache := self defaultCache.
 	text := self defaultText.
 	continuing := self defaultContinuing.
+]
+
+{ #category : #testing }
+GTSpotterContext >> isContinuing [
+	^ self continuing 
+		and: [ self streamed isEmptyOrNil not 
+			and: [ self canContinue ] ]
 ]
 
 { #category : #testing }
@@ -213,6 +234,16 @@ GTSpotterContext >> stream [
 { #category : #accessing }
 GTSpotterContext >> stream: anObject [
 	stream := anObject
+]
+
+{ #category : #accessing }
+GTSpotterContext >> streamed [
+	^ streamed
+]
+
+{ #category : #accessing }
+GTSpotterContext >> streamed: anObject [
+	streamed := anObject
 ]
 
 { #category : #accessing }
