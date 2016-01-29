@@ -37,7 +37,7 @@ GTEventCollectorTest >> testCategory [
 { #category : #tests }
 GTEventCollectorTest >> testCreationTime [
 	| collector2 |
-	1 nanoSecond wait.
+	1 milliSeconds wait.
 	collector2 := GTEventCollector new.
 	self assert: collector creationTime < collector2 creationTime.
 	self deny: collector creationTime > collector2 creationTime.
