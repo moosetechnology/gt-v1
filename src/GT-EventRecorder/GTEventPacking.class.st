@@ -105,7 +105,7 @@ GTEventPacking >> updateAnnouncement: aGTEventAnnouncement for: aGTEventCollecto
 			imageVersion: SystemVersion current version;
 			latestUpdate: SystemVersion current highestUpdate;
 			computerUUID: GlobalIdentifier uniqueInstance computerUUID asString;
-			sessionUUID: SmalltalkImage current session sid;
+			sessionUUID: SmalltalkImage current session sid asString;
 			sessionCreationTime: SmalltalkImage current session creationTime;
 			yourself
 ]
