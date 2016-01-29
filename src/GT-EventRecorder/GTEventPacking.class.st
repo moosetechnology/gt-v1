@@ -58,7 +58,7 @@ GTEventPacking >> newAnnouncementFor: aGTEventCollector [
 	| announcement |
 	announcement := self 
 		updateAnnouncement: self newAnnouncement 
-		withData: (self serialize: aGTEventCollector bundle).
+		for: aGTEventCollector.
 	aGTEventCollector updateAnnouncement: announcement.
 	^ announcement
 ]
@@ -94,9 +94,10 @@ GTEventPacking >> unpack: aByteArray [
 ]
 
 { #category : #private }
-GTEventPacking >> updateAnnouncement: aGTEventAnnouncement withData: aByteArray [
+GTEventPacking >> updateAnnouncement: aGTEventAnnouncement for: aGTEventCollector [
 	^ aGTEventAnnouncement
-			data: aByteArray;
+			data: (self serialize: aGTEventCollector bundle);
+			category: aGTEventCollector category;
 			serializedBy: self class name;
 			eventRecorderVersion: self version;
 			timestamp: DateAndTime now;

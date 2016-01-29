@@ -73,6 +73,16 @@ GTEventAnnouncement >> at: key put: value [
 ]
 
 { #category : #accessing }
+GTEventAnnouncement >> category [
+	^ self at: #category
+]
+
+{ #category : #accessing }
+GTEventAnnouncement >> category: aSymbol [
+	^ self at: #category put: aSymbol
+]
+
+{ #category : #accessing }
 GTEventAnnouncement >> computerUUID [
 	^ self at: #computerUUID
 ]
