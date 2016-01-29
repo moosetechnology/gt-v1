@@ -47,7 +47,6 @@ Class {
 		'category',
 		'recordedEvents',
 		'registry',
-		'creationTime',
 		'updateAnnouncementBlock'
 	],
 	#category : #'GT-EventRecorder-Core'
@@ -90,12 +89,6 @@ GTEventCollector >> category: aString [
 	^ category := aString
 ]
 
-{ #category : #accessing }
-GTEventCollector >> creationTime [
-	"Creation time helps to keep order of GTEventCollectors objects during delivery action."
-	^ creationTime
-]
-
 { #category : #configuration }
 GTEventCollector >> defaultCategory [
 	"Default category name. You can set your own by calling #category: or 
@@ -113,7 +106,6 @@ GTEventCollector >> flush [
 GTEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
-	creationTime := DateAndTime now.
 ]
 
 { #category : #testing }

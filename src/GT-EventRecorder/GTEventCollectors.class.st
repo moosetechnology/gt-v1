@@ -25,12 +25,15 @@ Class {
 
 { #category : #adding }
 GTEventCollectors >> add: aGTEventCollector [
-	^ mutex critical: [ collectors add: aGTEventCollector ]
+	^ mutex critical: [ 
+		(collectors identityIncludes: aGTEventCollector)
+			ifFalse: [ collectors add: aGTEventCollector ]
+			ifTrue: [ aGTEventCollector ] ]
 ]
 
 { #category : #enumerating }
 GTEventCollectors >> do: oneArgBlock [
-	mutex critical: [ (collectors sorted: [ :a :b | a creationTime < b creationTime ]) do: oneArgBlock ]
+	mutex critical: [ collectors do: oneArgBlock ]
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -46,7 +49,7 @@ GTEventCollectors >> gtInspectorItemsIn: composite [
 GTEventCollectors >> initialize [
 	super initialize.
 	mutex := Mutex new.
-	collectors := IdentitySet new.
+	collectors := OrderedCollection new.
 ]
 
 { #category : #accessing }
