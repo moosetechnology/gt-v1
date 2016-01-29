@@ -13,11 +13,6 @@ GTBytecodeDebugger class >> defaultTitle [
 	^ 'Bytecode'
 ]
 
-{ #category : #accessing }
-GTBytecodeDebugger class >> helpClass [
-	^ GTBytecodeDebuggerHelp
-]
-
 { #category : #'tools registry' }
 GTBytecodeDebugger class >> register [
 
