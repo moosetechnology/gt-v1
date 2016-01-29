@@ -35,16 +35,6 @@ GTEventCollectorTest >> testCategory [
 ]
 
 { #category : #tests }
-GTEventCollectorTest >> testCreationTime [
-	| collector2 |
-	1 milliSeconds wait.
-	collector2 := GTEventCollector new.
-	self assert: collector creationTime < collector2 creationTime.
-	self deny: collector creationTime > collector2 creationTime.
-	self deny: collector creationTime = collector2 creationTime.
-]
-
-{ #category : #tests }
 GTEventCollectorTest >> testIsLiberated [
 	"By default it is liberated."
 	self assert: collector isLiberated
