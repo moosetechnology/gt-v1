@@ -211,6 +211,7 @@ GTEventRecorderTest >> testNotDeliveredDataShouldBeResent [
 
 { #category : #tests }
 GTEventRecorderTest >> testPack [
+	"Ensure that delivery pack is prepared and collector empty."
 	recorder addCollector: collector1.
 	collector1 add: event1.
 	collector1 add: event2.
@@ -232,6 +233,16 @@ GTEventRecorderTest >> testPack2 [
 	self assert: collector1 size equals: 0.
 	self assert: collector2 size equals: 0.
 	self assert: recorder delivery size equals: 1.
+]
+
+{ #category : #tests }
+GTEventRecorderTest >> testPack3 [
+	"Ensure that empty collector is not delivered."
+	recorder addCollector: collector1.
+	self assert: collector1 size equals: 0.
+	recorder pack.
+	self assert: collector1 size equals: 0.
+	self assert: recorder delivery size equals: 0.
 ]
 
 { #category : #tests }
