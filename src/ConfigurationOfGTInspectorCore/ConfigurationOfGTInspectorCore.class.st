@@ -780,7 +780,7 @@ ConfigurationOfGTInspectorCore >> version29: spec [
 		spec project: 'GlamourCore' with: '4.0'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.382';
-			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.199';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.200';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.53'. ].
 
 ]
