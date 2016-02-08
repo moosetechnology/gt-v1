@@ -126,7 +126,7 @@ GTSUnitDebugger >> setUpCodeIn: aComposite [
 
 	aComposite pharoMethod
 		title: 'SetUp';
-		format: [ self session setUpMethod sourceCode ];
+		format: [ self session setUpMethod ifNil: [ '' ] ifNotNil: [:method | method sourceCode] ];
 		smalltalkClass: [  self session testObject class ];
 		doItReceiver: [ self session testObject ].
 ]
@@ -136,7 +136,7 @@ GTSUnitDebugger >> tearDownCodeIn: aComposite [
 
 	aComposite pharoMethod
 		title: 'TearDown';
-		format: [ self session tearDownMethod sourceCode ];
+		format: [ self session tearDownMethod ifNil: [ '' ] ifNotNil: [:method | method sourceCode] ];
 		smalltalkClass: [  self session testObject class ];
 		doItReceiver: [ self session testObject ].
 ]
