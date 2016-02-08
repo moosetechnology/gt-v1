@@ -3,7 +3,7 @@ Extension { #name : #RBCompositeRefactoryChange }
 { #category : #'*GT-InspectorExtensions-Core' }
 RBCompositeRefactoryChange >> gtInspectorPreviewIn: composite [
 	composite list 
-		title: 'Preview';
+		title: 'Changes';
 		display: [ self changes ];
 		when: [ self changes notEmpty ]
 ]

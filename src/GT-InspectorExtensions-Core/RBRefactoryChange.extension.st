@@ -4,6 +4,6 @@ Extension { #name : #RBRefactoryChange }
 RBRefactoryChange >> gtInspectorPreviewIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	composite diff
-		title: 'Preview';
+		title: 'Changes';
 		display: [ { self oldVersionTextToDisplay . self textToDisplay } ]
 ]
