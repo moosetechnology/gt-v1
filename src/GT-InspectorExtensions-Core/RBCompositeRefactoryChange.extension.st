@@ -4,5 +4,6 @@ Extension { #name : #RBCompositeRefactoryChange }
 RBCompositeRefactoryChange >> gtInspectorPreviewIn: composite [
 	composite list 
 		title: 'Preview';
-		display: [ self changes ]
+		display: [ self changes ];
+		when: [ self changes notEmpty ]
 ]
