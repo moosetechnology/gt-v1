@@ -15,6 +15,13 @@ GTStepToBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousPlay
 ]
 
+{ #category : #'as yet unclassified' }
+GTStepToBytecodeDebugAction >> appliesToDebugger: aDebugger [
+
+	^ (aDebugger session isContextPostMortem: aDebugger currentContext) not and: [ 
+		aDebugger bytecodePresentation selection offset > aDebugger currentContext pc ]
+]
+
 { #category : #accessing }
 GTStepToBytecodeDebugAction >> defaultLabel [
 
