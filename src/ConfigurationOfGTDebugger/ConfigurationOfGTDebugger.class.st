@@ -426,7 +426,7 @@ ConfigurationOfGTDebugger >> version16: spec [
 		spec project: 'GTInspectorCore' with: '2.9'.
 		spec 
 			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.312';
-			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.30';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-TudorGirba.31';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.32';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.11'. ].
 
