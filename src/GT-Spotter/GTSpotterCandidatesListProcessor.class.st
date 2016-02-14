@@ -14,7 +14,8 @@ Class {
 		'actBlock',
 		'wantsToDisplayOnEmptyQuery',
 		'filterBlock',
-		'itemFilterNameBlock'
+		'itemFilterNameBlock',
+		'keyBinding'
 	],
 	#category : #'GT-Spotter-Processors'
 }
@@ -159,6 +160,16 @@ GTSpotterCandidatesListProcessor >> itemsLimit [
 { #category : #scripting }
 GTSpotterCandidatesListProcessor >> itemsLimit: anInteger [
 	candidatesLimit := anInteger
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> keyBinding [
+	^ keyBinding
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> keyBinding: anObject [
+	keyBinding := anObject
 ]
 
 { #category : #'scripting-convenience' }
