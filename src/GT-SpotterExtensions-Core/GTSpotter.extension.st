@@ -294,6 +294,7 @@ GTSpotter >> spotterForSendersFor: aStep [
 			SystemNavigation default
 				allSendersToString: context textTrimmed 
 				do: filter ];
+		keyBinding: $n command;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -334,6 +335,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 		title: 'Implementors';
 		filter: GTFilterImplementor item: [ :filter :context | 
 			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
+		keyBinding: $m command;
 		wantsToDisplayOnEmptyQuery: false
 ]
 

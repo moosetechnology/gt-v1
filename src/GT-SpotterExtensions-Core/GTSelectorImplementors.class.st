@@ -74,7 +74,8 @@ GTSelectorImplementors >> spotterImplementorsFor: aStep [
 	<spotterOrder: 40>
 	^ aStep listProcessor
 		title: 'Implementors';
-		filter: GTFilterSubstring item: [ :filter :context | methods do: filter ]
+		filter: GTFilterSubstring item: [ :filter :context | methods do: filter ];
+		keyBinding: $m command
 ]
 
 { #category : #ui }
@@ -94,5 +95,6 @@ GTSelectorImplementors >> spotterSendersFor: aStep [
 		title: 'Senders';
 		filter: GTFilterSubstring item: [ :filter :context | 
 			self senders do: [ :sender | 
-				filter value: sender compiledMethod ] ]
+				filter value: sender compiledMethod ] ];
+		keyBinding: $n command
 ]

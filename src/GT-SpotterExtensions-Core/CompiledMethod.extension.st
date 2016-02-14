@@ -21,7 +21,8 @@ CompiledMethod >> spotterForImplementorsFor: aStep [
 	aStep listProcessor
 			title: 'Implementors';
 			allCandidates: [ self implementors collect: #compiledMethod ];
-			filter: GTFilterSubstring
+			filter: GTFilterSubstring;
+			keyBinding: $m command
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -30,7 +31,8 @@ CompiledMethod >> spotterForSendersFor: aStep [
 	aStep listProcessor
 			title: 'Senders';
 			allCandidates: [ self senders collect: #compiledMethod ];
-			filter: GTFilterSubstring
+			filter: GTFilterSubstring;
+			keyBinding: $n command
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
