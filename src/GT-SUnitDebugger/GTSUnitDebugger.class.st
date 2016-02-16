@@ -161,11 +161,20 @@ GTSUnitDebugger >> session: aSession [
 GTSUnitDebugger >> setUpCodeIn: aComposite [
 
 	aComposite pharoMethod
-		title: 'SetUp';
+		title: [ self setUpPresentationTitle ];
 		format: [ self session setUpMethod sourceCode ];
 		smalltalkClass: [  self session testObject class ];
 		when: [ self session overridesDefaultSetUpMethod ];
 		doItReceiver: [ self session testObject ].
+]
+
+{ #category : #'accessing context' }
+GTSUnitDebugger >> setUpPresentationTitle [
+
+	^ 'SetUp', 
+		(self session setUpMethod methodClass ~= self session testContext methodClass
+			ifTrue: [ ' (', self session setUpMethod methodClass name,')' ]
+			ifFalse: [ '' ])
 ]
 
 { #category : #building }
@@ -178,11 +187,20 @@ GTSUnitDebugger >> shouldDisplayExtraCodePane [
 GTSUnitDebugger >> tearDownCodeIn: aComposite [
 
 	aComposite pharoMethod
-		title: 'TearDown';
+		title: [ self tearDownPresentationTitle ];
 		format: [ self session tearDownMethod sourceCode ];
 		smalltalkClass: [  self session testObject class ];
 		when: [ self session overridesDefaultTearDownMethod ];
 		doItReceiver: [ self session testObject ].
+]
+
+{ #category : #'accessing context' }
+GTSUnitDebugger >> tearDownPresentationTitle [
+
+	^ 'TearDown', 
+		(self session tearDownMethod methodClass ~= self session testContext methodClass
+			ifTrue: [ ' (', self session tearDownMethod methodClass name,')' ]
+			ifFalse: [ '' ])
 ]
 
 { #category : #'building presentations' }
