@@ -33,7 +33,7 @@ GTDebuggerVariablesBrowser >> compose [
 			to: #variables port: #selection; 
 			when: [ :aContext | self debugger selectedVariableName notNil and: [aContext notNil] ];
 			transformed: [ :aContext | self selectedVariableForContext: aContext ].
-		browser transmit from: #variables; toOutsidePort: #selection ]
+		browser transmit from: #variables; toOutsidePort: #selection; transformed: [ :pair | pair value ] ]
 ]
 
 { #category : #accessing }
@@ -109,7 +109,7 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 			[ Text fromString: (assoc value printString contractTo: 50) ]
 					on: Error
 					do: [ Text string: 'error printing' attribute: TextColor red ] ];
-		send: #value;
+		"send: #value;"
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
