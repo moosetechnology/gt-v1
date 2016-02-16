@@ -112,8 +112,20 @@ GTSUnitDebugSession >> isActive: aContext [
 { #category : #testing }
 GTSUnitDebugSession >> overridesDefaultSetOrTearMethods [
 	
-	^ self tearDownMethod methodClass ~= TestCase or: [ 
-		self setUpMethod methodClass ~= TestCase ]
+	^ self overridesDefaultTearDownMethod or: [ 
+		self overridesDefaultSetUpMethod ]
+]
+
+{ #category : #testing }
+GTSUnitDebugSession >> overridesDefaultSetUpMethod [
+	
+	^ self setUpMethod methodClass ~= TestCase
+]
+
+{ #category : #testing }
+GTSUnitDebugSession >> overridesDefaultTearDownMethod [
+	
+	^ self tearDownMethod methodClass ~= TestCase
 ]
 
 { #category : #initialization }
