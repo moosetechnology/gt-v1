@@ -55,7 +55,7 @@ GTSpotterMorph >> bindingDictionnary [
 	Character pageUp -> [ self stepScrollPageUp ].
 	Character pageDown -> [ self stepScrollPageDown ].
 	Character cr asKeyCombination -> [ self actDueTo: #keyPressed ].
-	$p meta shift -> [ self exportAsPNGSilently ]}
+	$p "meta" command shift -> [ self exportAsPNGSilently ]}
 ]
 
 { #category : #accessing }
