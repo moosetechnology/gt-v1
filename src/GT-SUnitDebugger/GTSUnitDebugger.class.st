@@ -59,6 +59,28 @@ GTSUnitDebugger class >> sessionClass [
 	^ GTSUnitDebugSession
 ]
 
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger >> browser [ 
+
+	^ self presentations first cachedPresentation ifNotNil: [ :aComposite | aComposite presentations first ]
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger >> compose [
+	"give the window a dedicated reddish color to ensure it gets noticed"
+	self class enableDebuggerWindowDistinctColor ifTrue: [ 
+		self color: (Color r: 1.0 g: 0.3 b: 0.3) ].
+	self installDebuggingActionsFor: self.
+	self dynamic display: [ :session |
+		GLMTabulator new 
+			with: [ :browser | 
+				self debuggerStructureIn: browser.
+				self debuggerTransmissionsIn: browser ];
+			startOn: session;
+			yourself ].
+	self registerActions
+]
+
 { #category : #'accessing context' }
 GTSUnitDebugger >> contextToSelectFrom: aSession [
 	^ aSession assertionCallerContext ifNil: [ aSession testContext ]
@@ -70,8 +92,9 @@ GTSUnitDebugger >> debuggerStructureIn: browser [
 	browser
 		row: #stack;
 		row: [ :c | c
-			column: #code; 
-			column: #test ] span: 2;
+			column: #code.
+			self shouldDisplayExtraCodePane ifTrue: [ 
+				c column: #test ] ] span: 2;
 		row: #inspector.
 		
 ]
@@ -81,12 +104,13 @@ GTSUnitDebugger >> debuggerTransmissionsIn: browser [
 
 	super debuggerTransmissionsIn: browser.
 	
-	browser transmit
-		from: #stack port: #selection;
-		to: #test;
-		andShow: [ :aComposite :aContext | 
-			self setUpCodeIn: aComposite.
-			self tearDownCodeIn: aComposite ]
+	self shouldDisplayExtraCodePane ifTrue: [ 
+		browser transmit
+			from: #stack port: #selection;
+			to: #test;
+			andShow: [ :aComposite :aContext | 
+				self setUpCodeIn: aComposite.
+				self tearDownCodeIn: aComposite ] ]
 
 ]
 
@@ -121,14 +145,32 @@ GTSUnitDebugger >> inspectorIn: aComposite [
 		aComposite last title: 'Inspector' ]
 ]
 
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger >> session [
+ 
+	^ self entity
+]
+
+{ #category : #'as yet unclassified' }
+GTSUnitDebugger >> session: aSession [
+	self startOn: aSession.
+	self title: aSession name
+]
+
 { #category : #'building presentations' }
 GTSUnitDebugger >> setUpCodeIn: aComposite [
 
 	aComposite pharoMethod
 		title: 'SetUp';
-		format: [ self session setUpMethod ifNil: [ '' ] ifNotNil: [:method | method sourceCode] ];
+		format: [ self session setUpMethod sourceCode ];
 		smalltalkClass: [  self session testObject class ];
 		doItReceiver: [ self session testObject ].
+]
+
+{ #category : #building }
+GTSUnitDebugger >> shouldDisplayExtraCodePane [
+
+	^ self session overridesDefaultSetOrTearMethods
 ]
 
 { #category : #'building presentations' }
@@ -136,7 +178,7 @@ GTSUnitDebugger >> tearDownCodeIn: aComposite [
 
 	aComposite pharoMethod
 		title: 'TearDown';
-		format: [ self session tearDownMethod ifNil: [ '' ] ifNotNil: [:method | method sourceCode] ];
+		format: [ self session tearDownMethod sourceCode ];
 		smalltalkClass: [  self session testObject class ];
 		doItReceiver: [ self session testObject ].
 ]
