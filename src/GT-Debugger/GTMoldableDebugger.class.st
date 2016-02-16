@@ -277,7 +277,7 @@ GTMoldableDebugger >> browser [
 { #category : #actions }
 GTMoldableDebugger >> close [
 
-	self browser close
+	self browser ifNotNil: [ :aBrowser | aBrowser close ]
 ]
 
 { #category : #building }
@@ -290,6 +290,11 @@ GTMoldableDebugger >> compose [
 		self debuggerStructureIn: browser.
 		self debuggerTransmissionsIn: browser ].
 	self registerActions
+]
+
+{ #category : #'accessing context' }
+GTMoldableDebugger >> contextToSelectFrom: aSession [
+	^ aSession context
 ]
 
 { #category : #accessing }
@@ -308,7 +313,7 @@ GTMoldableDebugger >> currentClassOrMetaClass [
 GTMoldableDebugger >> currentContext [
 
 	^self selectedContext 
-		ifNil: [ self interruptedContext ] 
+		ifNil: [ self contextToSelectFrom: self session ] 
 		ifNotNil:  [ self selectedContext  ]
 ]
 
