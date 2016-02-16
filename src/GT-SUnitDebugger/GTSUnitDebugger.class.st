@@ -37,7 +37,7 @@ GTSUnitDebugger class >> helpClass [
 
 { #category : #testing }
 GTSUnitDebugger class >> lookupStackSize [
-	^ 10
+	^ 512
 ]
 
 { #category : #'tools registry' }

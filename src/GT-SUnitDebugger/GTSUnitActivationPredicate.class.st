@@ -10,5 +10,5 @@ Class {
 { #category : #testing }
 GTSUnitActivationPredicate >> matchContext: aContext [
 	
-	^ aContext methodClass isTestCase
+	^ aContext method isTestMethod
 ]
