@@ -6,8 +6,10 @@ Class {
 
 { #category : #testing }
 GTGenericStackDebuggerUITest >> testNoOverlappingCodeEditorKeyBindings [
-	<expectedFailure>
+
 	| context process codeEditor keymaps doubleKeymaps |
+	
+		self skip.
 	context := [ 20 factorial ] asContext.
 	process := Process
 		forContext: context
