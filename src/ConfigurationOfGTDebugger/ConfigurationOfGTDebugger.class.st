@@ -446,6 +446,6 @@ ConfigurationOfGTDebugger >> version17: spec [
 			package: 'GT-Debugger' with: 'GT-Debugger-DenisKudryashov.313';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-TudorGirba.31';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-AndreiChis.32';
-			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.11'. ].
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-TheIntegrator.13'. ].
 
 ]
