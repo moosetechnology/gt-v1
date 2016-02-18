@@ -39,7 +39,7 @@ Announcer >> gtInspectorAnnouncementsIn: composite context: aGTContext [
 		filterOn: [:text :each | Smalltalk compiler evaluate: '| date each | date := self key. each := self value. ', text for: each logged: false ];
 		updateOn: Announcement from: recordedAnnouncements gtAnnouncer;
 		act: [ :table | 
-			recordedAnnouncements := OrderedCollection new.
+			recordedAnnouncements removeAll.
 			table update ] 
 			icon: GLMUIThemeExtraIcons glamorousCancel 
 			entitled: 'Reset'
