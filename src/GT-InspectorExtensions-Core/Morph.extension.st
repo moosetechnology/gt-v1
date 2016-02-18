@@ -29,11 +29,12 @@ Morph >> gtInspectorMappingsIn: composite [
 { #category : #'*GT-InspectorExtensions-Core' }
 Morph >> gtInspectorMorphExtensionIn: composite [
 	<gtInspectorPresentationOrder: 15>
-	extension ifNil: [ ^self ].
+	
 	^ composite table
 		title: 'Extension';
 		showOnly: 50; 
 		display: [ self extension gtInspectorVariableValuePairs asSortedCollection ];
+		when: [ extension notNil ];
 		column: 'Variable' 
 			evaluated: [:assoc | GTObjectPrinter new asNonTruncatedTextFrom: assoc key ];
 		column: 'Value' 
