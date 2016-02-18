@@ -192,11 +192,6 @@ GTGenericStackDebugger >> codePresentation [
 	^ self codePane presentations first
 ]
 
-{ #category : #'accessing context' }
-GTGenericStackDebugger >> contextToSelectFrom: aSession [
-	^ aSession context
-]
-
 { #category : #building }
 GTGenericStackDebugger >> debuggerStructureIn: browser [
 	
@@ -416,7 +411,9 @@ GTGenericStackDebugger >> selectTopContext [
 { #category : #'accessing context' }
 GTGenericStackDebugger >> selectedContext [
 
-	^ ((self browser paneNamed: #stack) port: #selection) value
+	^ self browser ifNotNil: [
+		((self browser paneNamed: #stack) port: #selection) value ]
+	
 ]
 
 { #category : #accessing }
@@ -438,6 +435,7 @@ GTGenericStackDebugger >> selectedVariableName: anObject [
 { #category : #updating }
 GTGenericStackDebugger >> selectionChanged: aContext [
 	
+	self browser ifNil: [ ^ self ].
 	UIManager default defer: [ 
 		(self browser paneNamed: #stack) presentations updateToolbar ].
 	
