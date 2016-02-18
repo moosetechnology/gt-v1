@@ -10,6 +10,12 @@ Class {
 	#category : #'GT-Debugger-UI'
 }
 
+{ #category : #actions }
+GTSpecPreDebugWindow >> clear [
+
+	self debugger ifNotNil: [ :aDebugger | aDebugger windowIsClosing ]
+]
+
 { #category : #printing }
 GTSpecPreDebugWindow >> columnsFor: aContext [
 
