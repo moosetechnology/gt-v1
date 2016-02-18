@@ -5,6 +5,5 @@ DoesNotUnderstandDebugAction class >> gtStackDebuggingActionFor: aDebugger [
 	<gtStackDebuggingAction>
 	
 	^ (self forDebugger: aDebugger)
-			icon: GLMUIThemeExtraIcons glamorousAdd;
-			order: 4
+			icon: GLMUIThemeExtraIcons glamorousAdd
 ]

@@ -15,6 +15,12 @@ GTTemporaryPreDebugChangeDebuggerAction class >> actionType [
 	<preDebuggingAction>
 ]
 
+{ #category : #testing }
+GTTemporaryPreDebugChangeDebuggerAction >> appliesToDebugger: aDebugger [
+
+	^ (aDebugger class inheritsFrom: GTMoldableDebugger) not 
+]
+
 { #category : #accessing }
 GTTemporaryPreDebugChangeDebuggerAction >> defaultLabel [
 

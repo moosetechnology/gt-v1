@@ -146,12 +146,10 @@ GTMoldableDebugger class >> spanNewSessionForContext: aContext fromProcess: aPro
 { #category : #accessing }
 GTMoldableDebugger class >> spanNewSessionFrom: anotherSession [
 
-	^ (self sessionClass 
+	^ self sessionClass 
 		named: anotherSession name 
 		on: anotherSession interruptedProcess 
-		startedAt: anotherSession interruptedContext)
-			errorWasInUIProcess: anotherSession errorWasInUIProcess;
-			yourself
+		startedAt: anotherSession interruptedContext
 ]
 
 { #category : #private }
@@ -179,7 +177,6 @@ GTMoldableDebugger >> actOnInspectorPaneRemoved: ann [
 { #category : #'building actions' }
 GTMoldableDebugger >> actionsForPragmas: aSymbolsCollection [
 
-	self session interruptedContext ifNil: [ ^ #() ].
 	^ (self allActionsForPragmas: aSymbolsCollection)
 				collect: [ :aDebugAction | aDebugAction asGlamourAction ]
 
@@ -280,7 +277,7 @@ GTMoldableDebugger >> browser [
 { #category : #actions }
 GTMoldableDebugger >> close [
 
-	self browser ifNotNil: [ :aBrowser | aBrowser close ]
+	self browser close
 ]
 
 { #category : #building }
@@ -293,11 +290,6 @@ GTMoldableDebugger >> compose [
 		self debuggerStructureIn: browser.
 		self debuggerTransmissionsIn: browser ].
 	self registerActions
-]
-
-{ #category : #'accessing context' }
-GTMoldableDebugger >> contextToSelectFrom: aSession [
-	^ aSession context
 ]
 
 { #category : #accessing }
@@ -316,7 +308,7 @@ GTMoldableDebugger >> currentClassOrMetaClass [
 GTMoldableDebugger >> currentContext [
 
 	^self selectedContext 
-		ifNil: [ self contextToSelectFrom: self session ] 
+		ifNil: [ self interruptedContext ] 
 		ifNotNil:  [ self selectedContext  ]
 ]
 
