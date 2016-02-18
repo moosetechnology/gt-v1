@@ -29,6 +29,7 @@ Morph >> gtInspectorMappingsIn: composite [
 { #category : #'*GT-InspectorExtensions-Core' }
 Morph >> gtInspectorMorphExtensionIn: composite [
 	<gtInspectorPresentationOrder: 15>
+	extension ifNil: [ ^self ].
 	^ composite table
 		title: 'Extension';
 		showOnly: 50; 
