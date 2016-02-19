@@ -150,18 +150,25 @@ GTSpotterStep >> diveIn [
 
 { #category : #actions }
 GTSpotterStep >> diveInCategory [
-
+	"dive in category of selected candidate"
 	^ self diveInCategoryDueTo: #unknown
 	
 ]
 
 { #category : #actions }
-GTSpotterStep >> diveInCategoryDueTo: anEventType [
+GTSpotterStep >> diveInCategory: aProcessor dueTo: anEventType [
+	"dive in specified aCategory"
 
 	self spotter
-		requestNextCategoryStepWith: self selected processorLink for: #diveInCategory;
-		notifyDiveInCategory: self selected processor for: anEventType
-	
+		requestNextCategoryStepWith: (self candidates getProcessorLink: aProcessor) for: #diveInCategory;
+		notifyDiveInCategory: aProcessor for: anEventType
+]
+
+{ #category : #actions }
+GTSpotterStep >> diveInCategoryDueTo: anEventType [
+	"dive in category of selected candidate"
+
+	self diveInCategory: self selected processor dueTo: anEventType
 ]
 
 { #category : #actions }
