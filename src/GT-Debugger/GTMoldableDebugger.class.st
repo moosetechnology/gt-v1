@@ -479,6 +479,12 @@ GTMoldableDebugger >> session: aSession [
 	self title: aSession name
 ]
 
+{ #category : #building }
+GTMoldableDebugger >> taskbarIcon [
+
+	^Smalltalk ui icons glamorousBug
+]
+
 { #category : #accessing }
 GTMoldableDebugger >> title [
 	
