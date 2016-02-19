@@ -59,59 +59,9 @@ GTSUnitDebugger class >> sessionClass [
 	^ GTSUnitDebugSession
 ]
 
-{ #category : #'as yet unclassified' }
-GTSUnitDebugger >> browser [ 
-
-	^ self presentations first cachedPresentation ifNotNil: [ :aComposite | aComposite presentations first ]
-]
-
-{ #category : #'as yet unclassified' }
-GTSUnitDebugger >> compose [
-	"give the window a dedicated reddish color to ensure it gets noticed"
-	self class enableDebuggerWindowDistinctColor ifTrue: [ 
-		self color: (Color r: 1.0 g: 0.3 b: 0.3) ].
-	self installDebuggingActionsFor: self.
-	self dynamic display: [ :session |
-		GLMTabulator new 
-			with: [ :browser | 
-				self debuggerStructureIn: browser.
-				self debuggerTransmissionsIn: browser ];
-			startOn: session;
-			yourself ].
-	self registerActions
-]
-
 { #category : #'accessing context' }
 GTSUnitDebugger >> contextToSelectFrom: aSession [
 	^ aSession assertionCallerContext ifNil: [ aSession testContext ]
-]
-
-{ #category : #building }
-GTSUnitDebugger >> debuggerStructureIn: browser [
-	
-	browser
-		row: #stack;
-		row: [ :c | c
-			column: #code.
-			self shouldDisplayExtraCodePane ifTrue: [ 
-				c column: #test ] ] span: 2;
-		row: #inspector.
-		
-]
-
-{ #category : #building }
-GTSUnitDebugger >> debuggerTransmissionsIn: browser [
-
-	super debuggerTransmissionsIn: browser.
-	
-	self shouldDisplayExtraCodePane ifTrue: [ 
-		browser transmit
-			from: #stack port: #selection;
-			to: #test;
-			andShow: [ :aComposite :aContext | 
-				self setUpCodeIn: aComposite.
-				self tearDownCodeIn: aComposite ] ]
-
 ]
 
 { #category : #'building presentations' }
@@ -145,18 +95,6 @@ GTSUnitDebugger >> inspectorIn: aComposite [
 		aComposite last title: 'Inspector' ]
 ]
 
-{ #category : #'as yet unclassified' }
-GTSUnitDebugger >> session [
- 
-	^ self entity
-]
-
-{ #category : #'as yet unclassified' }
-GTSUnitDebugger >> session: aSession [
-	self startOn: aSession.
-	self title: aSession name
-]
-
 { #category : #'building presentations' }
 GTSUnitDebugger >> setUpCodeIn: aComposite [
 
@@ -175,12 +113,6 @@ GTSUnitDebugger >> setUpPresentationTitle [
 		(self session setUpMethod methodClass ~= self session testContext methodClass
 			ifTrue: [ ' (', self session setUpMethod methodClass name,')' ]
 			ifFalse: [ '' ])
-]
-
-{ #category : #building }
-GTSUnitDebugger >> shouldDisplayExtraCodePane [
-
-	^ self session overridesDefaultSetOrTearMethods
 ]
 
 { #category : #'building presentations' }
@@ -210,6 +142,17 @@ GTSUnitDebugger >> textualDiffIn: composite [
 			when: [ self session supportsDiff];
 			display: [ 
 				{self session actualResult gtDebuggerSUnitPrint. self session expectedResult gtDebuggerSUnitPrint} ]
+]
+
+{ #category : #building }
+GTSUnitDebugger >> transmitFromStackToCodeIn: browser [
+	browser transmit
+		from: #stack port: #selection;
+		to: #code;
+		andShow: [ :composite :aContext | 
+			self methodCodeIn: composite forContext: aContext.
+			self setUpCodeIn: composite.
+			self tearDownCodeIn: composite ]
 ]
 
 { #category : #updating }
