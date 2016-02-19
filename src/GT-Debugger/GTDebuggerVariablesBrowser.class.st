@@ -59,7 +59,7 @@ GTDebuggerVariablesBrowser >> selectedVariableForContext: aContext [
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> tagsForVariable: aString from: aContext [
 	^ (aContext reservedNames includes: aString) 
-		ifTrue: [ #() ]
+		ifTrue: [ 'implicit' ]
 		ifFalse: [ self variableTypeOf: aString in: aContext ]
 			
 	
