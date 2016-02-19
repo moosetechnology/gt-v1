@@ -144,6 +144,7 @@ GTSpotter >> spotterForClassesFor: aStep [
 			title: 'Classes';
 			filter: GTFilterSubstring;
 			itemIcon: #systemIcon;
+			keyBinding: $b meta;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -247,6 +248,7 @@ GTSpotter >> spotterForPackagesFor: aStep [
 			itemName: [ :package | package name ];
 			itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
 			filter: GTFilterSubstring;
+			keyBinding: $p meta;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -270,6 +272,7 @@ GTSpotter >> spotterForReferencesFor: aStep [
 		filter: GTNullFilter item: [ :filter :context | 
 			context textTrimmed asClassIfPresent: [ :class |
 				SystemNavigation default allReferencesTo: class binding do: filter ] ];
+		keyBinding: $r shift meta;
 		itemName: [ :method | method gtDisplayString ]
 ]
 
@@ -294,7 +297,7 @@ GTSpotter >> spotterForSendersFor: aStep [
 			SystemNavigation default
 				allSendersToString: context textTrimmed 
 				do: filter ];
-		keyBinding: $n command;
+		keyBinding: $n meta;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -335,7 +338,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 		title: 'Implementors';
 		filter: GTFilterImplementor item: [ :filter :context | 
 			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
-		keyBinding: $m command;
+		keyBinding: $m meta;
 		wantsToDisplayOnEmptyQuery: false
 ]
 
