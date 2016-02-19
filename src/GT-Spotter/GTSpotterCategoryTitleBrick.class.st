@@ -33,7 +33,7 @@ GTSpotterCategoryTitleBrick >> addDiveInButton [
 	self diveInButton
 		icon: self themer spotterThemer iconDiveInCategory;
 		pressedColor: (self themer spotterThemer itemActionSelectedBackgroundColor alpha: 0.5);
-		action: [ self stepModel diveInCategory: self categoryProcessor dueTo: #actionButton ];
+		action: [ self stepModel diveInCategoryDueTo: #actionButton ];
 		beHelp;
 		hintTitle: 'Show all';
 		hintText: '<cmd+shift+right>'.
@@ -79,14 +79,6 @@ GTSpotterCategoryTitleBrick >> hideActionbar [
 
 	(self hasSubbrick: self actionbarBrick) ifTrue: [ 
 		self removeBrick: self actionbarBrick ]
-]
-
-{ #category : #initialization }
-GTSpotterCategoryTitleBrick >> initialize [
-	super initialize.
-	self enable.
-	self announcer when: #onMouseHover send: #onHovered to: self.
-	self announcer when: #onMouseUnhover send: #onUnhovered to: self
 ]
 
 { #category : #accessing }
@@ -170,11 +162,6 @@ GTSpotterCategoryTitleBrick >> onHideHints [
 	self themer spotterThemer hintHideStyleFor: self diveInButton
 ]
 
-{ #category : #'event-handling' }
-GTSpotterCategoryTitleBrick >> onHovered [
-	self showActionbar
-]
-
 { #category : #layouting }
 GTSpotterCategoryTitleBrick >> onLayoutEvent: aLayoutEvent [
 	super onLayoutEvent: aLayoutEvent.
@@ -196,12 +183,6 @@ GTSpotterCategoryTitleBrick >> onThemerChanged [
 	self themer spotterThemer categoryTitleWidgetStyleFor: self.
 	self themer spotterThemer categoryAmountWidgetStyleFor: self amountBrick.
 	self themer spotterThemer categoryTitleNameWidgetStyleFor: self nameBrick.
-]
-
-{ #category : #'event-handling' }
-GTSpotterCategoryTitleBrick >> onUnhovered [
-	self stepModel selectedCategory == self categoryProcessor
-		ifFalse: [ self hideActionbar ]
 ]
 
 { #category : #adding }
@@ -246,7 +227,7 @@ GTSpotterCategoryTitleBrick >> stepModel: anObject [
 	
 	self stepModel announcer when: GTSpotterSelectedCandidateChanged send: #onCandidateSelected to: self.
 	self stepModel spotter announcer when: GTSpotterRevealHints send: #onRevealHints to: self.
-	self stepModel spotter announcer when: GTSpotterHideHints send: #onHideHints to: self
+	self stepModel spotter announcer when: GTSpotterHideHints send: #onHideHints to: self.
 ]
 
 { #category : #actions }

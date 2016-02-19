@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterCategoryBrick,
-	#superclass : #GLMInteractableBrick,
+	#superclass : #GLMBandBrick,
 	#instVars : [
 		'listBrick',
 		'titleBrick',
@@ -22,38 +22,11 @@ GTSpotterCategoryBrick >> category: aProcessorClass [
 	category := aProcessorClass
 ]
 
-{ #category : #initialization }
-GTSpotterCategoryBrick >> initialize [
-	super initialize.
-	self
-		useVerticalLinearLayout;
-		vShrinkWrap;
-		initializeListeners;
-		enable
-]
-
-{ #category : #initialization }
-GTSpotterCategoryBrick >> initializeListeners [
-	self announcer when: #onMouseHover send: #onHovered to: self. 
-	self announcer when: #onMouseUnhover send: #onUnhovered to: self
-]
-
 { #category : #'instance creation' }
 GTSpotterCategoryBrick >> on: aStepModel category: aProcessor [
 
 	self stepModel: aStepModel.
 	self category: aProcessor.
-]
-
-{ #category : #'event handling' }
-GTSpotterCategoryBrick >> onHovered [
-	self titleBrick showActionbar
-]
-
-{ #category : #'event handling' }
-GTSpotterCategoryBrick >> onUnhovered [
-	self stepModel selectedCategory == self category
-		ifFalse: [ self titleBrick hideActionbar ]
 ]
 
 { #category : #accessing }
