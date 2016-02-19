@@ -192,11 +192,6 @@ GTGenericStackDebugger >> codePresentation [
 	^ self codePane presentations first
 ]
 
-{ #category : #'accessing context' }
-GTGenericStackDebugger >> contextToSelectFrom: aSession [
-	^ aSession context
-]
-
 { #category : #building }
 GTGenericStackDebugger >> debuggerStructureIn: browser [
 	
@@ -224,10 +219,7 @@ GTGenericStackDebugger >> debuggerTransmissionsIn: browser [
 		to: #stack port: #action;
 		transformed: [ :context | 
 			self selectionChanged: context ].
-	browser transmit
-		from: #stack port: #selection;
-		to: #code;
-		andShow: [ :composite :aContext | self methodCodeIn: composite forContext: aContext ].
+	self transmitFromStackToCodeIn: browser.
 	browser transmit
 		from: #stack port: #selection;
 		to: #inspector;
@@ -341,9 +333,21 @@ GTGenericStackDebugger >> openWithFullView [
 ]
 
 { #category : #opening }
-GTGenericStackDebugger >> openWithNotification: aString [
+GTGenericStackDebugger >> openWithNotification: notificationString [
+	"Create and schedule a notifier view with the given label and message.
+	A notifier view shows just the message or the first several lines of the
+	stack, with a menu that allows the user to open a full debugger if so
+	desired. "
 
-	self openWithFullView
+	"NOTE: When this method returns, a new process has been scheduled to
+	run the windows, and thus this notifier, but the previous active porcess
+	has not been suspended. The sender will do this."
+	
+	GTSpecPreDebugWindow new 
+		setTitle: self title;
+		message: notificationString;
+		openWithSpec;
+		debugger: self
 ]
 
 { #category : #'printing/formatting' }
@@ -404,7 +408,9 @@ GTGenericStackDebugger >> selectTopContext [
 { #category : #'accessing context' }
 GTGenericStackDebugger >> selectedContext [
 
-	^ ((self browser paneNamed: #stack) port: #selection) value
+	^ self browser ifNotNil: [
+		((self browser paneNamed: #stack) port: #selection) value ]
+	
 ]
 
 { #category : #accessing }
@@ -426,6 +432,7 @@ GTGenericStackDebugger >> selectedVariableName: anObject [
 { #category : #updating }
 GTGenericStackDebugger >> selectionChanged: aContext [
 	
+	self browser ifNil: [ ^ self ].
 	UIManager default defer: [ 
 		(self browser paneNamed: #stack) presentations updateToolbar ].
 	
@@ -516,6 +523,14 @@ GTGenericStackDebugger >> textAttributesForStackEntry: aContext [
 		ifTrue: [ ^ {TextColor color: Smalltalk ui theme textColor} ].
 
 	^ Smalltalk ui theme styleContext: aContext from: self.
+]
+
+{ #category : #building }
+GTGenericStackDebugger >> transmitFromStackToCodeIn: browser [
+	browser transmit
+		from: #stack port: #selection;
+		to: #code;
+		andShow: [ :composite :aContext | self methodCodeIn: composite forContext: aContext ]
 ]
 
 { #category : #updating }
