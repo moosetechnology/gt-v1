@@ -179,7 +179,6 @@ GTMoldableDebugger >> actOnInspectorPaneRemoved: ann [
 { #category : #'building actions' }
 GTMoldableDebugger >> actionsForPragmas: aSymbolsCollection [
 
-	self session interruptedContext ifNil: [ ^ #() ].
 	^ (self allActionsForPragmas: aSymbolsCollection)
 				collect: [ :aDebugAction | aDebugAction asGlamourAction ]
 
@@ -280,7 +279,7 @@ GTMoldableDebugger >> browser [
 { #category : #actions }
 GTMoldableDebugger >> close [
 
-	self browser ifNotNil: [ :aBrowser | aBrowser close ]
+	self browser close
 ]
 
 { #category : #building }
@@ -293,11 +292,6 @@ GTMoldableDebugger >> compose [
 		self debuggerStructureIn: browser.
 		self debuggerTransmissionsIn: browser ].
 	self registerActions
-]
-
-{ #category : #'accessing context' }
-GTMoldableDebugger >> contextToSelectFrom: aSession [
-	^ aSession context
 ]
 
 { #category : #accessing }
@@ -316,7 +310,7 @@ GTMoldableDebugger >> currentClassOrMetaClass [
 GTMoldableDebugger >> currentContext [
 
 	^self selectedContext 
-		ifNil: [ self contextToSelectFrom: self session ] 
+		ifNil: [ self interruptedContext ] 
 		ifNotNil:  [ self selectedContext  ]
 ]
 
@@ -477,6 +471,12 @@ GTMoldableDebugger >> session: aSession [
 
 	(self browser pane port: #entity) value: aSession.
 	self title: aSession name
+]
+
+{ #category : #building }
+GTMoldableDebugger >> taskbarIcon [
+
+	^Smalltalk ui icons glamorousBug
 ]
 
 { #category : #accessing }
