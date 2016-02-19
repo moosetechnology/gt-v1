@@ -179,7 +179,6 @@ GTMoldableDebugger >> actOnInspectorPaneRemoved: ann [
 { #category : #'building actions' }
 GTMoldableDebugger >> actionsForPragmas: aSymbolsCollection [
 
-	self session interruptedContext ifNil: [ ^ #() ].
 	^ (self allActionsForPragmas: aSymbolsCollection)
 				collect: [ :aDebugAction | aDebugAction asGlamourAction ]
 
@@ -316,7 +315,7 @@ GTMoldableDebugger >> currentClassOrMetaClass [
 GTMoldableDebugger >> currentContext [
 
 	^self selectedContext 
-		ifNil: [ self contextToSelectFrom: self session ] 
+		ifNil: [ self interruptedContext ] 
 		ifNotNil:  [ self selectedContext  ]
 ]
 
