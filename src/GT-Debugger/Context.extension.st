@@ -35,7 +35,11 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 					do: [ value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
 			slot name -> value ] ).
 	
-	context == nil ifTrue: [^fieldList].
+	
+	context isNil ifTrue: [
+		^ fieldList asOrderedCollection 
+			addLast: ('thisContext' -> context);
+			yourself].
 		
 	(context tempNames notEmpty) ifTrue: [
 		fieldList addAll: ((1 to: context tempNames size) collect: [ :index || key value |
@@ -47,6 +51,8 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 	
 	^ fieldList asOrderedCollection 
 		addFirst: ('self' ->  context receiver);
+		addLast: ('thisContext' -> context);
+		addLast: ('stack top' -> ( context stackPtr > 0 ifTrue: [ context top]));
 		yourself
 
 ]
@@ -61,5 +67,5 @@ Context >> outerMostContext [
 { #category : #'*GT-Debugger' }
 Context >> reservedNames [
 
-	^ #( 'self')
+	^ #( 'self' 'thisContext' 'stack top')
 ]
