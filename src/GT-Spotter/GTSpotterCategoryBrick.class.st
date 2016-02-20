@@ -10,9 +10,14 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 GTSpotterCategoryBrick >> addItem: anItem [
 	self addBrickBack: anItem
+]
+
+{ #category : #adding }
+GTSpotterCategoryBrick >> addItems: aCollectionOfItems [
+	self addAllBricks: aCollectionOfItems
 ]
 
 { #category : #accessing }

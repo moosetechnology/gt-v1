@@ -65,6 +65,28 @@ GTSpotterResultsBrick >> addItem: anItemBrick to: aCategoryBrick [
 ]
 
 { #category : #adding }
+GTSpotterResultsBrick >> addItems: aCollectionOfItems to: aCategoryBrick [
+	"Add new items from a collection to the specified category. If category brick has no items
+	it will be added to spotter ui.
+	aCollectionOfItems must not be nil.
+	aCollectionOfItems must not be empty.
+	aCategoryBrick must not be nil"
+	|shouldAddCategory|
+	self assert: aCollectionOfItems isNotNil.
+	self assert: aCollectionOfItems isNotEmpty.
+	self assert: aCategoryBrick isNotNil.
+	
+	"if category has no items we need to add it in the list"
+	shouldAddCategory := aCategoryBrick hasSubbricks not.
+	"add new item"
+	aCategoryBrick addItems: aCollectionOfItems.
+	"add category to the list"
+	shouldAddCategory ifTrue: [ self addCategory: aCategoryBrick ]
+	
+	
+]
+
+{ #category : #adding }
 GTSpotterResultsBrick >> buildCategoryBrick: aProcessor [
 	"Create and initialize new container brick to contain candidates for aProcessor.
 	Also creates a category title brick and assigns it to category brick to be
@@ -137,15 +159,12 @@ GTSpotterResultsBrick >> newTitleBrick [
 ]
 
 { #category : #'event handling' }
-GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
-	|categoryMorph|
-	ann candidateLinks ifEmpty: [ ^ self ].
-	
-	categoryMorph := self categoryBrickFor: ann category.
-	categoryMorph
-		addAllBricks: (ann candidateLinks collect: [ :each | self buildItemFor: each in: ann category ]);
-		setAmountVisible: categoryMorph subbricksCount all: self waitingText.
-	self changed
+GTSpotterResultsBrick >> onAllCandidatesAdded: anAnnouncement [
+	"first exit if collection is empty"
+	anAnnouncement candidateLinks ifEmpty: [ ^ self ].
+	self
+		addItems: (anAnnouncement candidateLinks collect: [ :each | self buildItemFor: each in: anAnnouncement category ])
+		to: (self categoryBrickFor: anAnnouncement category)
 ]
 
 { #category : #'event handling' }
