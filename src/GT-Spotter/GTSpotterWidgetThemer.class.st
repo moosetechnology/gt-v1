@@ -222,6 +222,19 @@ GTSpotterWidgetThemer >> categoryTitleNameWidgetStyleFor: aBrick [
 ]
 
 { #category : #styles }
+GTSpotterWidgetThemer >> categoryTitleShortcutStyleFor: aBrick [
+
+	aBrick
+		vSpaceFill;
+		textPosition: #leftCenter;
+		textColor: self titleTextColor.
+	
+	aBrick label
+		familyName: 'Lucida Grande'.
+	
+]
+
+{ #category : #styles }
 GTSpotterWidgetThemer >> categoryTitleStyleFor: aBrick [
 
 	aBrick
@@ -452,7 +465,7 @@ GTSpotterWidgetThemer >> itemHeight [
 { #category : #values }
 GTSpotterWidgetThemer >> itemHoveredBackgroundColor [
 
-	^ self itemSelectedBackgroundColor alpha: 0.35
+	^ Color transparent
 ]
 
 { #category : #values }

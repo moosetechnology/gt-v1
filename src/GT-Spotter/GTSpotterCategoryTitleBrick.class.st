@@ -7,7 +7,8 @@ Class {
 		'actionbarBrick',
 		'stepModel',
 		'categoryProcessor',
-		'diveInButton'
+		'diveInButton',
+		'shortcutBrick'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -33,7 +34,7 @@ GTSpotterCategoryTitleBrick >> addDiveInButton [
 	self diveInButton
 		icon: self themer spotterThemer iconDiveInCategory;
 		pressedColor: (self themer spotterThemer itemActionSelectedBackgroundColor alpha: 0.5);
-		action: [ self stepModel diveInCategory: self categoryProcessor dueTo: #actionButton ];
+		action: [ self stepModel diveInCategoryDueTo: #actionButton ];
 		beHelp;
 		hintTitle: 'Show all';
 		hintText: '<cmd+shift+right>'.
@@ -81,14 +82,6 @@ GTSpotterCategoryTitleBrick >> hideActionbar [
 		self removeBrick: self actionbarBrick ]
 ]
 
-{ #category : #initialization }
-GTSpotterCategoryTitleBrick >> initialize [
-	super initialize.
-	self enable.
-	self announcer when: #onMouseHover send: #onHovered to: self.
-	self announcer when: #onMouseUnhover send: #onUnhovered to: self
-]
-
 { #category : #accessing }
 GTSpotterCategoryTitleBrick >> nameBrick [
 
@@ -131,6 +124,12 @@ GTSpotterCategoryTitleBrick >> newNameBrick [
 ]
 
 { #category : #'instance creation' }
+GTSpotterCategoryTitleBrick >> newShortcutBrick [
+
+	^ GLMLabelBrick new
+]
+
+{ #category : #'instance creation' }
 GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 
 	self stepModel: aStepModel.
@@ -138,6 +137,10 @@ GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 	
 	self nameBrick: self newNameBrick.
 	self nameBrick text: '#', aProcessor title.
+	
+	aProcessor keyBinding ifNotNil: [ 
+		self shortcutBrick: self newShortcutBrick.
+		self setShortcutBrickTextFor: aProcessor ].
 			
 	self amountBrick: self newAmountBrick.
 	self amountBrick text: '0/0'.
@@ -160,13 +163,7 @@ GTSpotterCategoryTitleBrick >> onCandidateSelected [
 	self stepModel selected ifNil: [ ^ self ].
 	self stepModel selectedCategory = self categoryProcessor
 		ifTrue: [ self showActionbar ]
-		ifFalse: [
-			"well, we need to check first if there are not hovered candidates for my category"
-			(self isSelected not and: [
-				self owner isNotNil and: [
-					(self owner owner categories includesKey: self categoryProcessor) and: [ 
-						(self owner owner categoryMorphOf: self categoryProcessor) isSelected not  ] ] ] )
-			ifTrue: [ self hideActionbar ] ]
+		ifFalse: [ self hideActionbar ]
 ]
 
 { #category : #'event-handling' }
@@ -174,11 +171,6 @@ GTSpotterCategoryTitleBrick >> onHideHints [
 
 	(self hasSubbrick: self actionbarBrick) ifFalse: [ ^ self ].
 	self themer spotterThemer hintHideStyleFor: self diveInButton
-]
-
-{ #category : #'event-handling' }
-GTSpotterCategoryTitleBrick >> onHovered [
-	self showActionbar
 ]
 
 { #category : #layouting }
@@ -204,12 +196,6 @@ GTSpotterCategoryTitleBrick >> onThemerChanged [
 	self themer spotterThemer categoryTitleNameWidgetStyleFor: self nameBrick.
 ]
 
-{ #category : #'event-handling' }
-GTSpotterCategoryTitleBrick >> onUnhovered [
-	self stepModel selectedCategory == self categoryProcessor
-		ifFalse: [ self hideActionbar ]
-]
-
 { #category : #adding }
 GTSpotterCategoryTitleBrick >> pushActionButton: aButton [
 
@@ -232,6 +218,34 @@ GTSpotterCategoryTitleBrick >> setAmountVisible: visible all: all [
 	self doLayoutForce
 ]
 
+{ #category : #'instance creation' }
+GTSpotterCategoryTitleBrick >> setShortcutBrickTextFor: aProcessor [
+	
+	self shortcutBrick text: (ToggleMenuItemShortcut 
+		owner: nil 
+		keyText: 
+			(aProcessor keyBinding printString 
+				copyReplaceAll: 'Meta' 
+				with: OSPlatform current defaultModifier name)) text
+]
+
+{ #category : #accessing }
+GTSpotterCategoryTitleBrick >> shortcutBrick [
+
+	^ shortcutBrick
+]
+
+{ #category : #accessing }
+GTSpotterCategoryTitleBrick >> shortcutBrick: aBrick [
+
+	shortcutBrick ifNotNil: [self removeBrick: shortcutBrick].
+	shortcutBrick := aBrick.
+	
+	self themer spotterThemer categoryTitleShortcutStyleFor: shortcutBrick.
+	
+	self addBrickBack: shortcutBrick
+]
+
 { #category : #actions }
 GTSpotterCategoryTitleBrick >> showActionbar [
 
@@ -252,7 +266,7 @@ GTSpotterCategoryTitleBrick >> stepModel: anObject [
 	
 	self stepModel announcer when: GTSpotterSelectedCandidateChanged send: #onCandidateSelected to: self.
 	self stepModel spotter announcer when: GTSpotterRevealHints send: #onRevealHints to: self.
-	self stepModel spotter announcer when: GTSpotterHideHints send: #onHideHints to: self
+	self stepModel spotter announcer when: GTSpotterHideHints send: #onHideHints to: self.
 ]
 
 { #category : #actions }

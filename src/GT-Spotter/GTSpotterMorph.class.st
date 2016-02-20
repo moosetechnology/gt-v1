@@ -236,7 +236,7 @@ GTSpotterMorph >> onKeyProcessor: aProcessor [
 	" create and set the new text "
 	newText := newTextFragment , newSeparator , oldText.
 	" set the new cursor position "
-	newSelection := (oldSelectionOffset + newTextFragment size + oldSelection first + 1) to: (oldSelectionOffset + newTextFragment size + oldSelection last + 1).
+	newSelection := Interval from: (oldSelectionOffset + newTextFragment size + oldSelection first) to: (oldSelectionOffset + newTextFragment size + oldSelection last).
 	searchField
 		text: newText;
 		selectFrom: newSelection first to: newSelection last
