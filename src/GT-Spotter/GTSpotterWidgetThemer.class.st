@@ -465,7 +465,7 @@ GTSpotterWidgetThemer >> itemHeight [
 { #category : #values }
 GTSpotterWidgetThemer >> itemHoveredBackgroundColor [
 
-	^ Color transparent
+	^ self itemSelectedBackgroundColor alpha: 0.35
 ]
 
 { #category : #values }

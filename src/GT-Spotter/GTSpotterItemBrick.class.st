@@ -64,6 +64,12 @@ GTSpotterItemBrick >> checkOrUncheck [
 ]
 
 { #category : #'event handling' }
+GTSpotterItemBrick >> deselect [
+	super deselect.
+	self isChecked ifFalse: [ self hideActionbar ]
+]
+
+{ #category : #'event handling' }
 GTSpotterItemBrick >> doubleClick: evt [
 
 	self stepModel actDueTo: #doubleClick
@@ -116,7 +122,7 @@ GTSpotterItemBrick >> initialize [
 	
 	self iconBrick: self newIconBrick.
 	self labelBrick: self newLabelBrick.
-	self actionbarBrick: self newActionbarBrick.
+	self actionbarBrick: self newActionbarBrick
 ]
 
 { #category : #accessing }
@@ -220,6 +226,12 @@ GTSpotterItemBrick >> onThemerChanged [
 	self themer spotterThemer itemNormalWidgetStyleFor: self
 ]
 
+{ #category : #'event handling' }
+GTSpotterItemBrick >> select [
+	super select.
+	self showActionbar
+]
+
 { #category : #actions }
 GTSpotterItemBrick >> showActionbar [
 
@@ -264,5 +276,5 @@ GTSpotterItemBrick >> uncheck [
 	
 	super uncheck.
 	
-	self hideActionbar
+	self isSelected ifFalse: [ self hideActionbar ]
 ]
