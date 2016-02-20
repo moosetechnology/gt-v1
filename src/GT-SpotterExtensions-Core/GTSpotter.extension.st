@@ -248,7 +248,6 @@ GTSpotter >> spotterForPackagesFor: aStep [
 			itemName: [ :package | package name ];
 			itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];
 			filter: GTFilterSubstring;
-			keyBinding: $p meta;
 			wantsToDisplayOnEmptyQuery: false
 ]
 
