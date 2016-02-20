@@ -15,7 +15,8 @@ Class {
 		'wantsToDisplayOnEmptyQuery',
 		'filterBlock',
 		'itemFilterNameBlock',
-		'keyBinding'
+		'keyBinding',
+		'sortBlock'
 	],
 	#category : #'GT-Spotter-Processors'
 }
@@ -202,6 +203,16 @@ GTSpotterCandidatesListProcessor >> matchSubstring [
 { #category : #'scripting-convenience' }
 GTSpotterCandidatesListProcessor >> matchSubstrings [
 	self filter: GTFilterSubstrings
+]
+
+{ #category : #accessing }
+GTSpotterCandidatesListProcessor >> sort [
+	^ sortBlock
+]
+
+{ #category : #scripting }
+GTSpotterCandidatesListProcessor >> sort: aBlockWithTwoArguments [
+	sortBlock := aBlockWithTwoArguments
 ]
 
 { #category : #accessing }
