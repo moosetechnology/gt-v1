@@ -10,6 +10,11 @@ Class {
 	#category : #'GT-Spotter-UI'
 }
 
+{ #category : #'as yet unclassified' }
+GTSpotterCategoryBrick >> addItem: anItem [
+	self addBrickBack: anItem
+]
+
 { #category : #accessing }
 GTSpotterCategoryBrick >> category [
 
@@ -54,6 +59,17 @@ GTSpotterCategoryBrick >> onHovered [
 GTSpotterCategoryBrick >> onUnhovered [
 	self stepModel selectedCategory == self category
 		ifFalse: [ self titleBrick hideActionbar ]
+]
+
+{ #category : #accessing }
+GTSpotterCategoryBrick >> order [
+	^ self category order
+]
+
+{ #category : #'event handling' }
+GTSpotterCategoryBrick >> privateAddIntoWorld: aBrick [
+	super privateAddIntoWorld: aBrick.
+	self setAmountVisible: self subbricksCount all: '...'
 ]
 
 { #category : #accessing }

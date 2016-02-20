@@ -5,7 +5,8 @@ Class {
 	#name : #GTSpotterProcessor,
 	#superclass : #Object,
 	#instVars : [
-		'allFilteredCandidates'
+		'allFilteredCandidates',
+		'order'
 	],
 	#category : #'GT-Spotter-Processors'
 }
@@ -91,6 +92,21 @@ GTSpotterProcessor >> gtDisplayOn: stream [
 { #category : #testing }
 GTSpotterProcessor >> hasFilteredCandidates [
 	^ self allFilteredCandidates notEmpty
+]
+
+{ #category : #accessing }
+GTSpotterProcessor >> order [
+	"Return assigned spotter order used to arrange categories in spotter UI"
+	<return: Number>
+	
+	^ order
+]
+
+{ #category : #accessing }
+GTSpotterProcessor >> order: aNumber [
+	"Assign to processor its spotter order to arrange categories
+	within spotter ui"
+	order := aNumber
 ]
 
 { #category : #private }

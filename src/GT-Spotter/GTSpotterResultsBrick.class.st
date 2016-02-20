@@ -9,18 +9,79 @@ Class {
 }
 
 { #category : #adding }
-GTSpotterResultsBrick >> addCategory: aProcessor [
+GTSpotterResultsBrick >> addCategory: aCategoryBrick [
+	"Add a category brick as one of my children including category title.
+	New category is added on position defined by spotter order of its processor.
+	If there are two categories with the same order they are arranged using FIFO order.
+	aCategoryBrick must not be nil.
+	aCategoryBrick must not be already added
+	aCategoryBrick must have at least one child item"
+	self assert: aCategoryBrick isNotNil.
+	self assert: aCategoryBrick hasOwner not.
+	self assert: aCategoryBrick hasSubbricks.
+	
+	self band hasSubbricks
+		ifFalse: [ 
+			self band addBrickBack: aCategoryBrick titleBrick.
+			self band addBrickBack: aCategoryBrick	]
+		ifTrue: [ 
+			|index|
+			"initialize index with 2 because every second child in the list
+			is category itself and all others are category titles"
+			index := 2.
+			[ index <= self band subbricksCount and: [ 
+				(self band subbricks at: index) order <= aCategoryBrick order ] ]
+			whileTrue: [ index := index + 2 ].
+			index > self band subbricksCount
+				"If all existing categories has order less than new one we just add to back"
+				ifTrue: [
+					self band addBrickBack: aCategoryBrick titleBrick.
+					self band addBrickBack: aCategoryBrick ]
+				"otherwise add after the last category with the same or smaller order"
+				ifFalse: [ 
+					self band addBrick: aCategoryBrick titleBrick after: (self band subbricks at: index).
+					self band addBrick: aCategoryBrick titleBrick after: aCategoryBrick titleBrick ] ]
+	
+]
+
+{ #category : #adding }
+GTSpotterResultsBrick >> addItem: anItemBrick to: aCategoryBrick [
+	"Add new item brick to the specified category. If category brick has no items
+	it will be added to spotter ui.
+	anItemBrick must not be nil.
+	aCategoryBrick must not be nil"
+	|shouldAddCategory|
+	self assert: anItemBrick isNotNil.
+	self assert: aCategoryBrick isNotNil.
+	
+	"if category has no items we need to add it in the list"
+	shouldAddCategory := aCategoryBrick hasSubbricks not.
+	"add new item"
+	aCategoryBrick addItem: anItemBrick.
+	"add category to the list"
+	shouldAddCategory ifTrue: [ self addCategory: aCategoryBrick ]
+	
+	
+]
+
+{ #category : #adding }
+GTSpotterResultsBrick >> buildCategoryBrick: aProcessor [
+	"Create and initialize new container brick to contain candidates for aProcessor.
+	Also creates a category title brick and assigns it to category brick to be
+	added later to results brick as soon as there is more than one candidate"
+	<return: GTSpotterCategoryBrick>
 	|titleBrick categoryBrick|
 	
+	"Initialize and style category title"
 	titleBrick := self newTitleBrick on: self stepModel category: aProcessor.
 	self themer spotterThemer categoryTitleStyleFor: titleBrick.
-	self addBrickBack: titleBrick.
 	
-	categoryBrick := (self newCategoryBrick on: self stepModel category: aProcessor) titleBrick: titleBrick.
-	self themer spotterThemer categoryStyleFor: categoryBrick .
-	self addBrickBack: categoryBrick.
+	"Initialize and style category container"
+	categoryBrick := self newCategoryBrick on: self stepModel category: aProcessor.
+	self themer spotterThemer categoryStyleFor: categoryBrick.
 	
-	self changed.
+	"Assign title to category which will be added later to results brick"
+	categoryBrick titleBrick: titleBrick.
 	
 	^ categoryBrick
 ]
@@ -38,21 +99,29 @@ GTSpotterResultsBrick >> buildItemFor: aCandidateLink in: aProcessor [
 
 { #category : #accessing }
 GTSpotterResultsBrick >> categories [
-
-	^ categories ifNil: [ categories := Dictionary new ]
+	<return: Dictionary>
+	^ categories
 ]
 
 { #category : #accessing }
-GTSpotterResultsBrick >> categoryMorphOf: aProcessor [
-
-	^ self categories at: aProcessor ifAbsentPut: [ self addCategory: aProcessor ]
+GTSpotterResultsBrick >> categoryBrickFor: aProcessor [
+	"Return a container brick that contains candidates for aProcessor.
+	If category brick for aProcessor is used requested for the first time
+	it gets created without being added to spotter UI"
+	<return: GTSpotterCategoryBrick>
+	
+	^ self categories
+		at: aProcessor
+		ifAbsentPut: [ self buildCategoryBrick: aProcessor ]
 ]
 
 { #category : #initialization }
 GTSpotterResultsBrick >> initialize [
 	super initialize.
+	
+	categories := Dictionary new.
 	self band hSpaceFill.
-	self announcer weak when: GLMBrickScrollPositionChanged send: #onScrolled to: self
+	self announcer when: GLMBrickScrollPositionChanged send: #onScrolled to: self.
 ]
 
 { #category : #'instance creation' }
@@ -70,69 +139,58 @@ GTSpotterResultsBrick >> newTitleBrick [
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onAllCandidatesAdded: ann [
 	|categoryMorph|
-	ann candidateLinks isEmpty ifTrue: [ ^ self ].
+	ann candidateLinks ifEmpty: [ ^ self ].
 	
-	categoryMorph := self categoryMorphOf: ann category.
+	categoryMorph := self categoryBrickFor: ann category.
 	categoryMorph
-		addAllBricks: (ann candidateLinks collect: [ :each | self buildItemFor: each in: ann category ]).
-	categoryMorph
-		titleBrick setAmountVisible: (categoryMorph submorphs size) all: self waitingText.
-	self changed.
+		addAllBricks: (ann candidateLinks collect: [ :each | self buildItemFor: each in: ann category ]);
+		setAmountVisible: categoryMorph subbricksCount all: self waitingText.
+	self changed
 ]
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onAllCandidatesRemoved [
 	
 	self removeAllBricks.
-	categories := nil.
-	
-	self band fullReleaseCachedState.
-	self band releaseCachedState.
-	self changed.
+	categories := Dictionary new.
+	self changed
 	
 ]
 
 { #category : #'event handling' }
-GTSpotterResultsBrick >> onCandidateAdded: ann [
-	
-	(self categoryMorphOf: ann category)
-		addBrickBack: (self buildItemFor: ann candidateLink in: ann category);
-		setAmountVisible: ((self categoryMorphOf: ann category) submorphs size) all: self waitingText.
-	self changed.
+GTSpotterResultsBrick >> onCandidateAdded: anAnnouncement [
+	self
+		addItem: (self buildItemFor: anAnnouncement candidateLink in: anAnnouncement category)
+		to: (self categoryBrickFor: anAnnouncement category)
 ]
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidateSelected: ann [
-	self flag: 'version from march 20 - solves the empty category problem on diveout, but may have other side-effects'.
-	self scrollTo: ann candidateBrick
-	"
-	|titleBrick|
-	titleBrick := (self categoryMorphOf: ann candidateBrick candidateLink processor) subbrickBefore.
+	|categoryBrick titleBrick processor|
+	processor := ann candidateBrick candidateLink processor.
+	categoryBrick := self categoryBrickFor: processor.
+	titleBrick := categoryBrick titleBrick.
 	self scrollTo: ((ann candidateBrick candidateLink isFirst and: [ titleBrick isFirstInOwner ])
 		ifTrue: [ titleBrick ]
 		ifFalse: [ ann candidateBrick ])
-	"
 ]
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	|categoryMorph|
 	
-	ann amount < 1 ifTrue: [ ^ self changed ].
-	
-	categoryMorph := self categoryMorphOf: ann category.
-	categoryMorph ifNil: [ ^ self ].
-	
-	categoryMorph titleBrick setAmountVisible: (categoryMorph submorphs size) all: ann amount.
+	categoryMorph := self categoryBrickFor: ann category.
+	categoryMorph setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
 ]
 
-{ #category : #'brick-structure-events' }
+{ #category : #'event handling' }
 GTSpotterResultsBrick >> onRemovedFrom: aBrick [
 	super onRemovedFrom: aBrick.
 	
 	self stepModel spotter announcer unsubscribe: self.
 	self stepModel announcer unsubscribe: self.
+	self stepModel candidates announcer unsubscribe: self
 ]
 
 { #category : #'event handling' }

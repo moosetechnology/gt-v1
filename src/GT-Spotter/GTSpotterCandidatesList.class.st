@@ -174,12 +174,6 @@ GTSpotterCandidatesList >> notifyAllCandidatesRemoved [
 ]
 
 { #category : #notifying }
-GTSpotterCandidatesList >> notifyAmountChanged: anInteger in: aProcessor [
-	
-	self announcer announce: (GTSpotterCandidatesAmountChanged new amount: anInteger; category: aProcessor; yourself)
-]
-
-{ #category : #notifying }
 GTSpotterCandidatesList >> notifyCandidateAdded: aCandidateLink in: aProcessor [
 
 	self announcer announce: (GTSpotterCandidateAdded new candidateLink: aCandidateLink; category: aProcessor; yourself).

@@ -176,7 +176,7 @@ GTSpotterCategoryTitleBrick >> onCandidateSelected [
 			(self isSelected not and: [
 				self owner isNotNil and: [
 					(self owner owner categories includesKey: self categoryProcessor) and: [ 
-						(self owner owner categoryMorphOf: self categoryProcessor) isSelected not  ] ] ] )
+						(self owner owner categoryBrickFor: self categoryProcessor) isSelected not  ] ] ] )
 			ifTrue: [ self hideActionbar ] ]
 ]
 

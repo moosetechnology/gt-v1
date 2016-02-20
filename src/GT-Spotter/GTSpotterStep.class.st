@@ -458,7 +458,7 @@ GTSpotterStep >> selectedCandidate [
 { #category : #accessing }
 GTSpotterStep >> selectedCategory [
 
-	^ self selected processor
+	^ self selected ifNotNil: #processor
 ]
 
 { #category : #accessing }
