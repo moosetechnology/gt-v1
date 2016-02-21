@@ -7,9 +7,99 @@ Class {
 	#category : #'GT-Spotter-Help'
 }
 
+{ #category : #documentation }
+GTSpotterHelp class >> basicExamples [
+	^ HelpTopic 
+		title: 'Basic Examples'
+		contents: 
+'There are many things to search for using Spotter. Here are some basic examples to get started.
+
+Searching for the GTSpotter class:
+	GTSpotterMorph
+	
+Searching for a GT-Spotter package:
+	GT-Spotter
+	
+Searching for a menu item:
+	Monticello Browser
+
+Searching for implementors of the #do: message:
+	do:
+	
+Searching for a published playground page:
+	http://ws.stfx.eu/G5LPL4Z68MJU
+'
+]
+
 { #category : #accessing }
 GTSpotterHelp class >> bookName [ 
 	^'GT Spotter'
+]
+
+{ #category : #documentation }
+GTSpotterHelp class >> categoryFilterExamples [
+	^ HelpTopic 
+		title: 'Category Filter Examples'
+		contents: 
+'By default, Spotter searches for multiple things at the same time through search processors. Each of the processor offers the results in a separate category. For a list of all categories see the extensions help item.
+
+While this is useful to discover different alternatives, when we know what we are looking for, we want to narrow the search for only one processor.
+
+Let''s take an example. Suppose we want to search for packages related to Spotter. We start by searching for:
+	spotter
+
+The first item in the list is the Spotter item from the #Menu search category. This is certainly not what we are looking for. The next category shows us #Classes. This is again not what we are interested in. And then lower down the list, we see the #Packages category. That is what we are after.
+
+One option is to navigate to that category. Another option is to scope the search to only show that category:
+	spotter #packages
+
+Now we get only the packages because # introduces a special search that matches the name of the category instead of the name of the item. In fact, to get the same result it is enough to say:
+	spotter #pa
+
+... because #Packages is the only category that begins with #pa.
+
+This search scoping mechanism can be used for any category available in the current search step.'
+]
+
+{ #category : #documentation }
+GTSpotterHelp class >> diveInCategoryExamples [
+	^ HelpTopic 
+		title: 'Dive-in Category Examples'
+		contents:
+'Dive-in (Meta+ArrowRight) allows you to go inside one element. Dive-in-category allows you to refine the search for the current category.
+
+Let''s look at an example.
+
+Suppose you want to search for all classes that have both Spotter and Morph in their names. Essentially, this is a search that involves two queries connected through an logical AND operation. 
+
+So, you first search for:
+	Spotter #classes
+
+Then you dive-in category (Meta+Shift+ArrowRight, or click on the arrow button next to #Classes category name). This will get you in another step that contains only the elements from the collection. Then you refine the search:
+	Morph
+	
+... and you get the classes that have both Spotter and Morph in their name. 
+'
+]
+
+{ #category : #documentation }
+GTSpotterHelp class >> diveInExamples [
+	^ HelpTopic 
+		title: 'Dive-in Examples'
+		contents: 
+'Spotter allows you to navigate and search through nested objects.
+
+Let''s see an example.
+
+Suppose we want to see all Spotter extensions from the Behavior class. We know that an extension is marked with the #spotterOrder: pragma. So, we first look for the pragma:
+	spotterOrder: #pragma
+	
+We find our pragma. Then we dive-in it through Meta+ArrowRight (or clicking on the arrow button). This gets us inside a PragmaType object and provides several search possibilities relevant for only this object. Note how the breadbrumb from on top of the search input box shows us two steps: Spotter and spotterOrder:. The first category give us the concrete usages of the pragma. As we are interested in only Behavior, we type:
+	Behavior
+
+We then ensure that the preview is open (Meta+p), and we can browse the methods from Behavior that are the #spotterOrder: pragma.
+
+The dive-in activity is useful when the search involves multiple steps.'
 ]
 
 { #category : #documentation }
@@ -90,5 +180,5 @@ Its goal is to help developers find and navigate through all sorts of objects, i
 
 { #category : #accessing }
 GTSpotterHelp class >> pages [
-	^#(overview keybindings extensions)
+	^#(overview keybindings basicExamples categoryFilterExamples diveInExamples diveInCategoryExamples extensions)
 ]
