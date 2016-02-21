@@ -65,6 +65,8 @@ GTFilter >> applyFilterInContext: aSpotterContext [
 
 { #category : #private }
 GTFilter >> applyFilterInContext: aSpotterContext error: anException [
+	ContextStackSignal log.
+	(aSpotterContext -> anException) asBeaconSignal log.
 	('[Spotter] Exception in filter <', self class name, '>: ', anException asString) logCr.
 	^ self defaultFilteredItems
 ]
