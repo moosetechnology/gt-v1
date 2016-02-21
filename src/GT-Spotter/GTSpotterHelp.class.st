@@ -42,9 +42,9 @@ GTSpotterHelp class >> extensionsString [
 					ifNone: [ each selector ].
 				title isString ifFalse: [ title := each selector ].
 				s 
-					nextPutAll: '- '; 
+					nextPutAll: '- #'; 
 					nextPutAll: title; 
-					nextPutAll: ' ('; 
+					nextPutAll: ' (in '; 
 					nextPutAll: each selector; 
 					nextPut: $);
 					cr ].
