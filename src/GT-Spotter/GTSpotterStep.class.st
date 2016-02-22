@@ -80,7 +80,10 @@ GTSpotterStep >> basicRelevantProcessorsProcess: aSpotterContext do: aBlock [
 			aSpotterContext text: (aSpotterContext text copyReplaceAll: categoryQuery with: '').
 			categoryQueryPrefix := categoryQuery allButFirst asLowercase.
 			self processors 
-				select: [ :each | each title asLowercase beginsWith: categoryQueryPrefix ]
+				select: [ :each | 
+					self 
+						processor: each 
+						isRelevantForQuery: categoryQueryPrefix ]
 				thenDo: aBlock ]
 		ifNone: [ 
 			self processors do: aBlock ]
@@ -322,6 +325,15 @@ GTSpotterStep >> processContext: aSpotterContext [
 	self spotter handleExceptionsDuring: [ 
 		self stream removeAllCandidates.
 		self relevantProcessorsProcess: aSpotterContext  ]
+]
+
+{ #category : #private }
+GTSpotterStep >> processor: aProcessor isRelevantForQuery: aString [
+	| trimmedProcessorTitle |
+	trimmedProcessorTitle := aProcessor title asLowercase 
+										copyReplaceAll: String space
+										with: ''.
+	^ trimmedProcessorTitle beginsWith: aString
 ]
 
 { #category : #accessing }
