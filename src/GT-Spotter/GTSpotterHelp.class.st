@@ -56,9 +56,19 @@ One option is to navigate to that category. Another option is to scope the searc
 Now we get only the packages because # introduces a special search that matches the name of the category instead of the name of the item. In fact, to get the same result it is enough to say:
 	spotter #pa
 
-... because #Packages is the only category that begins with #pa.
+... because #Packages is the only top search category that begins with #pa.
 
-This search scoping mechanism can be used for any category available in the current search step.'
+This search scoping mechanism can be used for any category available in the current search step.
+
+A less obvious situation happens when we have category names that contain a space. For example, in the top search we have:
+- #Playground cached pages
+- #Playground stashed pages
+
+In this situation, it is possible to specify the scoping by ignoring the whitespace. For example:
+	#playgroundcached
+	#playgroundcachedpa
+	#playgroundst
+	#playgrounds'
 ]
 
 { #category : #documentation }
