@@ -6,7 +6,7 @@ Class {
 
 { #category : #private }
 GTFilterSubstring >> applyFilterWithQuery [
-	| exactMatches prefixMatches otherMatches all |
+	| exactMatches prefixMatches otherMatches nonExactMatches |
 	"we want to distinguish between exact matches"
 	exactMatches := OrderedCollection new.
 	"... results for which the query matches the prefix"
@@ -23,15 +23,18 @@ GTFilterSubstring >> applyFilterWithQuery [
 			index = 1 
 				ifTrue: [ 
 					itemName size = queryString size 
-						ifTrue: [ exactMatches add: each ]
+						ifTrue: [ 
+							exactMatches add: each.
+							exactMatches size < self itemsLimit ifTrue: [ 
+								self addItem: each  ] ]
 						ifFalse: [ prefixMatches add: each ] ]
 				ifFalse: [ otherMatches add: each ] ] ].
-	all := exactMatches, prefixMatches, otherMatches.
-	(all size > self itemsLimit 
-		ifTrue: [ all first: self itemsLimit ]
-		ifFalse: [ all ]) 
-		do: [ :each | self addItem: each ].
-	self filteredItems: all
+	nonExactMatches := prefixMatches, otherMatches.
+	(exactMatches size < self itemsLimit) ifTrue: [ 
+		| restVisibleItems |
+		restVisibleItems := nonExactMatches first: ((self itemsLimit - exactMatches size) min: nonExactMatches size).
+		self addItems: restVisibleItems ].
+	self filteredItems: exactMatches, nonExactMatches
 ]
 
 { #category : #private }

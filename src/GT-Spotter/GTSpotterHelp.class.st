@@ -113,13 +113,22 @@ The dive-in activity is useful when the search involves multiple steps.'
 ]
 
 { #category : #documentation }
+GTSpotterHelp class >> extensionExamples [
+
+	^ HelpTopic 
+		title: 'Extending Spotter with custom search processors'
+		contents:
+''
+]
+
+{ #category : #documentation }
 GTSpotterHelp class >> extensions [
 		
 	^ HelpTopic 
-		title: 'Extensions'
-		contents: 'Spotter allows the developer to define custom search processors in different classes. These custom processors take effect when Spotter reaches an instance of the extended class. You can find below the list of extensions from this image.
-		
-You can also browse this list by inspecting:
+		title: 'Extensions installed in the image'
+		contents: 'Spotter allows the developer to define custom search processors in different classes. These custom processors take effect when Spotter reaches an instance of the extended class. You can find below the complete list of extensions from this image.
+
+The list is computed automatically. You can also browse it by inspecting:
 
 		GTSpotter spotterExtendingMethods
 
