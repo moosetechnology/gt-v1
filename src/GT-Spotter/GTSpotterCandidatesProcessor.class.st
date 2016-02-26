@@ -47,6 +47,11 @@ GTSpotterCandidatesProcessor >> computeCandidatesIn: aContext [
 ]
 
 { #category : #private }
+GTSpotterCandidatesProcessor >> continueItemsLimit [
+	^ (self defaultContinueItemsLimit - self itemsLimit) max: 0
+]
+
+{ #category : #private }
 GTSpotterCandidatesProcessor >> doFilterInContext: aSpotterContext [
 	^ aSpotterContext doFilter: GTFilterBlock gtFilter forProcessor: self
 ]

@@ -24,9 +24,10 @@ GTSpotterProcessor >> allFilteredCandidates [
 { #category : #private }
 GTSpotterProcessor >> basicContinueFilterInContext: aSpotterContext [
 
-	" we DO NOT prepare the context since we could no longer continue producing filtered candidates "
+	" We DO NOT prepare the context since we could no longer continue producing filtered candidates. "
 	(self shouldFilterInContext: aSpotterContext) ifTrue: [
-		allFilteredCandidates := self doContinueFilterInContext: aSpotterContext ].
+		" The continue-filter only puts more items on the previous stream but doesn't do any filtering at all by itself. Therefore the original collection (=result/candidates) and its size remains the same and can be reused after the continue-filter has added more items. So we do not ressign the result "
+		self doContinueFilterInContext: aSpotterContext ].
 	aSpotterContext stream 
 		performSymbol: #onAmountChanged:in:
 		withArguments: { self allFilteredCandidates size . self }
