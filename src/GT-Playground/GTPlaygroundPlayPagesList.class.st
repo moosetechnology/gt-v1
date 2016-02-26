@@ -26,7 +26,7 @@ GTPlaygroundPlayPagesList >> newAcceptButtonFor: aPlayPage [
 	^ self newActionButton
 		hintTitle: 'Accept';
 		hintText: 'load saved page into playground';
-		icon: self themer bindingThemer goIcon;
+		icon: Smalltalk ui icons glamorousAccept;
 		action: [ : b | self remove. self announce: #pageAccepted event: aPlayPage. ]
 ]
 
@@ -41,6 +41,7 @@ GTPlaygroundPlayPagesList >> newActionButton [
 		visible: false;
 		margin: { 0 . padding };
 		hShrinkWrap;
+		vAlign: #center;
 		pressedColor: self themer buttonPressedColor
 ]
 
@@ -91,7 +92,8 @@ GTPlaygroundPlayPagesList >> newRow [
 		selectedColor: self themer bindingThemer selectedColor;
 		vShrinkWrap;
 		hSpaceFill;
-		padding: self themer bindingThemer padding
+		padding: self themer bindingThemer padding;
+		paddingRight: 0
 ]
 
 { #category : #'instance creation' }

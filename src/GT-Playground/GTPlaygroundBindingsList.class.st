@@ -32,6 +32,7 @@ GTPlaygroundBindingsList >> newActionButton [
 		margin: {0 . padding};
 		marginRight: margin;
 		hShrinkWrap;
+		vAlign: #center;
 		pressedColor: self themer buttonPressedColor
 ]
 
