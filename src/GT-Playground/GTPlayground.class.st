@@ -287,18 +287,6 @@ GTPlayground >> actOnBrowserClosing: ann [
 	GTPlayBook instance addPageIfInteresting: self entity
 ]
 
-{ #category : #'building actions' }
-GTPlayground >> actionsForPreviousContents [
-	^ GTPlayBook instance pages
-		collect: [ :each | 
-			GLMGenericAction new
-				title: (each content asString contractTo: 50);
-				action: [ :text | 
-					text entity saveContent: each content.
-					text update ];
-				yourself ]
-]
-
 { #category : #building }
 GTPlayground >> codeIn: a [
 	^ (self codePresentationIn: a)
@@ -329,7 +317,17 @@ GTPlayground >> codeIn: a [
 				icon: Smalltalk ui icons glamorousTable;
 				title: 'Bindings';
 				yourself);
-		dynamicActions: [ self actionsForPreviousContents ];
+		addAction:
+			(GLMPopupAction new
+				action: [ :text :page :popup | GTPlaygroundPlayPagesList new
+					on: GTPlayBook instance;
+					when: #pageAccepted do: [ :playPage |
+						text entity saveContent: playPage content.
+						text update];
+					yourself ]; 
+				icon: Smalltalk ui icons glamorousMore;
+				title: 'Bindings';
+				yourself);
 		dynamicActionsOnSelection: [ self contextMenuActions ];
 		onChangeOfPort: #text act: [ :text :page | 
 			page saveContent: text text.
