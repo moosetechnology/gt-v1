@@ -247,6 +247,7 @@ GTSpotterStep >> newContextForQuery: aString [
 		step: self;
 		stream: self stream;
 		text: aString;
+		search: aString;
 		yourself
 ]
 

@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'step',
 		'stream',
+		'search',
 		'text',
 		'textTrimmed',
 		'textLowercase',
@@ -138,7 +139,7 @@ GTSpotterContext >> doFilter: aGTFilter forProcessor: aGTProcessor [
 { #category : #comparing }
 GTSpotterContext >> equals: aContext [
 	aContext ifNil: [ ^ false ].
-   ^ self matches: aContext text
+   ^ self matches: aContext search
 ]
 
 { #category : #public }
@@ -187,7 +188,7 @@ GTSpotterContext >> itemsLimit [
 { #category : #testing }
 GTSpotterContext >> matches: aString [
 	^ self isEmpty not
-		and: [ self text = aString ]
+		and: [ self search = aString ]
 ]
 
 { #category : #testing }
@@ -208,6 +209,17 @@ GTSpotterContext >> processor: anObject [
 { #category : #public }
 GTSpotterContext >> removeCacheAt: aSymbol [
 	^ self cache removeKey: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #initializing }
+GTSpotterContext >> search [
+	^ search
+]
+
+{ #category : #initializing }
+GTSpotterContext >> search: anObject [
+	" search stores the fully entered text (including categories) "
+	search := anObject
 ]
 
 { #category : #'accessing-dynamic' }
