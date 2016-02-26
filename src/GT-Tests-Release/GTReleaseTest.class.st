@@ -79,17 +79,8 @@ GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: 
 GTReleaseTest >> testAllMissingExternalExamples [
 	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: nil
-		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
-		ignoredClasses: { 
-			OCClassScope. " corrupt package detection "
-			OCInstanceScope. " corrupt package detection "
-			PPBrowserStream. " corrupt package detection "
-			PPCompositeParser. " corrupt package detection "
-			ReCritic. " corrupt package detection "
-			ReAbstractCritic. " corrupt package detection "
-			Slot. " abstract "
-			RTAbstractExample.  " abstract factory for collecting examples "
-		}
+		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. 'Petit'. 'Renraku'. 'Slot'. 'Opal'. 'Roassal' }
+		ignoredClasses: { }
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing external examples'
@@ -101,23 +92,24 @@ GTReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
 		ignoredClasses: {
-			AbstractMorphicAdapter. " corrupt package detection "
-			"BlMorph" " corrupt package detection "
-			ComposableModel. " abstract superclass "
-			"GTExample"	 " makes no sense "
-			GTExampleProxy. " makes no sense "
-			GTSpotterExceptionMock1. " counter-example "
-			GTSpotterExceptionMock2. " counter-example "
-			GTSpotterExceptionMock3. " counter-example "
-			GTSpotterExceptionMock4. " counter-example "
-			GTSpotterExceptionMock5. " counter-example "
+			AbstractMorphicAdapter. 
+			ComposableModel. 
+			GTEventCollectors. 
+			GTEventRecorder. 
+			GTMCAbstractVersion. 
+			GTNamespace. 
+			GTExampleProxy. " dummy "
+			GTSpotterExceptionMock1. " mock "
+			GTSpotterExceptionMock2. " mock "
+			GTSpotterExceptionMock3. " mock "
+			GTSpotterExceptionMock4. " mock "
+			GTSpotterExceptionMock5. " mock "
 			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
-			Slot. " abstract "
-			TClass. " spotter/processor tests would be ulimatively slow "
-			ZnMessage. " abstract factory & superclass / subclasses provide examples "
-			GTEventRecorder. GTEventCollectors. "Do not instantiate an event recorder"
-			
+			Slot. " corrupt package detection "
+			TClass. " corrupt package detection "
+			TClassDescription. " corrupt package detection "
+			ZnMessage " corrupt package detection "
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
@@ -138,6 +130,7 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
 			TClass. " spotter/processor tests would be ulimatively slow "
+			TClassDescription.
 			ZnMessage. " abstract factory & superclass / subclasses provide examples "
 		}
 		pragmas: #( #gtInspectorPresentationOrder: )
@@ -153,6 +146,7 @@ GTReleaseTest >> testMissingGTSpotterExamples [
 		ignoredClasses: { 
 			Slot. " abstract "
 			TClass. " spotter/processor tests would be ulimatively slow "
+			TClassDescription
 		}
 		pragmas: #( #spotterOrder: )
 		examples: #( #gtExample #gtExample: )
