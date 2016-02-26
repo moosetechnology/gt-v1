@@ -207,13 +207,13 @@ GTExampleOrganizer >> initialize [
 { #category : #OBSOLETE }
 GTExampleOrganizer >> jobEnded: anAnnouncement [
 	<deprecated: 'a call of this method means, there are still old job announcements in this image based on this instance. we do nothing here except wiping all previous announcers. we reset/fix this instance to use the new announcers'>
-	[ self stopThoroughly; reset; start ] on: Error do: [ " ignore " ]
+	[ self stopThoroughly; reset; start; loadStopped: anAnnouncement ] on: Error do: [ " ignore " ]
 ]
 
 { #category : #OBSOLETE }
 GTExampleOrganizer >> jobStarted: anAnnouncement [
 	<deprecated: 'a call of this method means, there are still old job announcements in this image based on this instance. we do nothing here except wiping all previous announcers. we reset/fix this instance to use the new announcers'>
-	[ self stopThoroughly; reset; start ] on: Error do: [ " ignore " ]
+	[ self stopThoroughly; reset; start; loadStarted: anAnnouncement ] on: Error do: [ " ignore " ]
 ]
 
 { #category : #'private-events' }
@@ -402,7 +402,7 @@ GTExampleOrganizer >> stop [
 { #category : #OBSOLETE }
 GTExampleOrganizer >> stopJobAnnouncements [
 	<deprecated: 'a call of this method means, there are still old announcements in this image. we do nothing here except wiping all previous announcers.'>
-	Job jobAnnouncer unsubscribe: self
+	Job jobAnnouncer unsubscribeThoroughly: self
 ]
 
 { #category : #'private-announcers' }
