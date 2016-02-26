@@ -4,6 +4,11 @@ Class {
 	#category : #'GT-Playground'
 }
 
+{ #category : #actions }
+GTPlaygroundBindingsList >> hideActionsOf: aRowBrick [
+	aRowBrick subbricks select: [ :each | each isKindOf: GLMHintableActionButtonBrick ] thenDo: [ :each | each visible: false ]
+]
+
 { #category : #initialization }
 GTPlaygroundBindingsList >> initialize [
 	super initialize.
@@ -23,6 +28,7 @@ GTPlaygroundBindingsList >> newActionButton [
 	
 	^ GLMHintableActionButtonBrick new
 		padding: padding;
+		visible: false;
 		margin: {0 . padding};
 		marginRight: margin;
 		hShrinkWrap;
@@ -54,6 +60,9 @@ GTPlaygroundBindingsList >> newBindingRow: anAssociation in: aCollection [
 			self newInspectButtonFor: anAssociation.
 			self newGoButtonFor: anAssociation.
 			self newRemoveButtonFor: anAssociation };
+		with: [ :aRow | aRow 	
+			when: #onMouseHover do: [ self showActionsOf: aRow ];
+			when: #onMouseUnhover do: [ self hideActionsOf: aRow ] ];
 		yourself
 ]
 
@@ -142,4 +151,9 @@ GTPlaygroundBindingsList >> remove [
 
 	(self ownerThatIsA:  GLMFoundationBrick)
 		ifNotNil: [ :o | o delete ]
+]
+
+{ #category : #actions }
+GTPlaygroundBindingsList >> showActionsOf: aRowBrick [
+	aRowBrick subbricks select: [ :each | each isKindOf: GLMHintableActionButtonBrick ] thenDo: [ :each | each visible: true ]
 ]

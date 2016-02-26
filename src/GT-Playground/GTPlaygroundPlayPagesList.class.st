@@ -4,6 +4,11 @@ Class {
 	#category : #'GT-Playground'
 }
 
+{ #category : #actions }
+GTPlaygroundPlayPagesList >> hideActionsOf: aRowBrick [
+	aRowBrick subbricks select: [ :each | each isKindOf: GLMHintableActionButtonBrick ] thenDo: [ :each | each visible: false ]
+]
+
 { #category : #initialization }
 GTPlaygroundPlayPagesList >> initialize [
 	super initialize.
@@ -13,6 +18,30 @@ GTPlaygroundPlayPagesList >> initialize [
 		maxHeight: 350;
 		height: [ :b | b band height ];
 		width: 250
+]
+
+{ #category : #'instance creation' }
+GTPlaygroundPlayPagesList >> newAcceptButtonFor: aPlayPage [
+
+	^ self newActionButton
+		hintTitle: 'Accept';
+		hintText: 'load saved page into playground';
+		icon: self themer bindingThemer goIcon;
+		action: [ : b | self remove. self announce: #pageAccepted event: aPlayPage. ]
+]
+
+{ #category : #'instance creation' }
+GTPlaygroundPlayPagesList >> newActionButton [
+	|margin padding|
+	margin := self themer bindingThemer padding + self themer bindingThemer borderWidth.
+	padding := (margin / 2) rounded.
+	
+	^ GLMHintableActionButtonBrick new
+		padding: padding;
+		visible: false;
+		margin: { 0 . padding };
+		hShrinkWrap;
+		pressedColor: self themer buttonPressedColor
 ]
 
 { #category : #'instance creation' }
@@ -32,7 +61,6 @@ GTPlaygroundPlayPagesList >> newEmptyText [
 GTPlaygroundPlayPagesList >> newPageLabel [
 
 	^ GLMLabelBrick new
-		enable;
 		hSpaceFill;
 		vShrinkWrap;
 		textPosition: #leftCenter;
@@ -43,13 +71,27 @@ GTPlaygroundPlayPagesList >> newPageLabel [
 { #category : #'instance creation' }
 GTPlaygroundPlayPagesList >> newPageRow: playPage in: aGTPlayBook [
 
-	^ self newPageLabel
-		textColor: self themer textColor;
-		text: (playPage content asString contractTo: 50);
-		selectedColor: self themer bindingThemer selectedColor;
-		padding: self themer bindingThemer padding;
-		when: #onClicked do: [ self remove. self announce: #pageAccepted event: playPage ];
+	^ self newRow
+		addBrickBack: (self newPageLabel
+			textColor: self themer textColor;
+			text: (playPage content asString contractTo: 50));
+		addBrickBack: (self newAcceptButtonFor: playPage);
+		when: #onDoubleClicked do: [ self remove. self announce: #pageAccepted event: playPage ];
+		with: [ :aRow | aRow 	
+			when: #onMouseHover do: [ self showActionsOf: aRow ];
+			when: #onMouseUnhover do: [ self hideActionsOf: aRow ] ];
 		yourself
+]
+
+{ #category : #'instance creation' }
+GTPlaygroundPlayPagesList >> newRow [
+	^ GLMInteractableBrick new
+		enable;
+		enableDoubleClick;
+		selectedColor: self themer bindingThemer selectedColor;
+		vShrinkWrap;
+		hSpaceFill;
+		padding: self themer bindingThemer padding
 ]
 
 { #category : #'instance creation' }
@@ -74,4 +116,9 @@ GTPlaygroundPlayPagesList >> remove [
 
 	(self ownerThatIsA:  GLMFoundationBrick)
 		ifNotNil: [ :o | o delete ]
+]
+
+{ #category : #actions }
+GTPlaygroundPlayPagesList >> showActionsOf: aRowBrick [
+	aRowBrick subbricks select: [ :each | each isKindOf: GLMHintableActionButtonBrick ] thenDo: [ :each | each visible: true ]
 ]
