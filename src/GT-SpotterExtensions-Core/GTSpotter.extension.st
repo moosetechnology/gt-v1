@@ -50,7 +50,6 @@ GTSpotter >> evaluateExpressionInContext: aSpotterContext usingFilter: filter [
 GTSpotter >> fileReferencesBy: aSelector inContext: aSpotterContext usingFilter: aBlock [
 	| split rootDirectory query |
 	split := aSpotterContext textLowercase piecesCutWhere: [ :a :b | a = FileSystem disk delimiter ].
-	split logCr.
 	split size < 1
 		ifTrue: [ 
 			query := aSpotterContext textLowercase.
