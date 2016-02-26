@@ -4,7 +4,7 @@ Extension { #name : #Announcer }
 Announcer >> unsubscribe: anAnnouncementClass thoroughlyfor: aSubscriber [
 	^ registry protected: [
 		registry subscriptions removeAllSuchThat: [ :subscription | 
-			subscription subscriber class == aSubscriber class " !!! "
+			subscription subscriber class == aSubscriber class " class !!! "
 			 and: [ subscription announcementClass == anAnnouncementClass ] ] ]
 
 ]
@@ -13,6 +13,6 @@ Announcer >> unsubscribe: anAnnouncementClass thoroughlyfor: aSubscriber [
 Announcer >> unsubscribeThoroughly: aSubscriber [
 	^ registry protected: [
 		registry subscriptions removeAllSuchThat: [ :subscription | 
-			subscription subscriber class == aSubscriber class " !!! " ] ]
+			subscription subscriber class == aSubscriber class " class !!! " ] ]
 
 ]
