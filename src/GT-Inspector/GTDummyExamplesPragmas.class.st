@@ -98,7 +98,7 @@ GTDummyExamplesPragmas class >> j [
 	<gtExample>
 	<label: 'Dummy #i'>
 	<description: 'Dummy #i with an icon based on the given bytes'>
-	<iconClass: GTDummyExamplesPragmas selector: #iconForJ>
+	<iconClass: #GTDummyExamplesPragmas selector: #iconForJ>
 
 ]
 
@@ -107,7 +107,7 @@ GTDummyExamplesPragmas class >> k [
 	<gtExample>
 	<label: 'Dummy #k'>
 	<description: 'Dummy #k, with subject Boolean (returns true)'>
-	<subject: Boolean>
+	<subject: #Boolean>
 	
 	^ true & ( false == false ) | true | ( false ~= true )
 ]
@@ -117,8 +117,8 @@ GTDummyExamplesPragmas class >> l [
 	<gtExample>
 	<label: 'Dummy #l'>
 	<description: 'Dummy #l, with subjects Boolean and Number (returns true)'>
-	<subject: Boolean>
-	<subject: Number>
+	<subject: #Boolean>
+	<subject: #Number>
 	
 	^ true & ( 1 == 1 ) & (1 + 1 = 2)
 ]
