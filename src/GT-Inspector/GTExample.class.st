@@ -288,7 +288,7 @@ GTExample >> gtExampleFrom: aSelector [
 GTExample >> gtInspectorActionEvaluateResultAndGo [
 	<gtInspectorAction>
 	^ GLMGenericAction new
-		action: [ :p | p selection: self result ];
+		action: [ :p | p selection: self result returnValue ];
 		icon: Smalltalk ui icons glamorousRight;
 		title: 'Evaluate result and go'
 ]
