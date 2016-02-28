@@ -181,7 +181,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.2'.
+	spec for: #'common' version: '3.3'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -831,6 +831,23 @@ ConfigurationOfGTInspectorCore >> version32: spec [
 		spec project: 'GlamourCore' with: '4.3'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.382';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.203';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.53'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version33: spec [
+	<version: '3.3' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GToolkit version 3.14'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '2/28/2016 12:07'.
+		spec project: 'GlamourCore' with: '4.4'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-TudorGirba.388';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.203';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.53'. ].
 
