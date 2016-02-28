@@ -75,7 +75,7 @@ GTSpotter >> gtSpotterExamplesFor: aStep [
 	aStep listProcessor
 		title: 'Examples';
 		allCandidates: [ GTExampleFinder allGTExamples ];
-		itemName: [ :example | example gtDisplayString ];
+		itemName: [ :example | String streamContents: [:s | example gtDisplaySummaryOn: s] ];
 		filter: GTFilterSubstring;
 		wantsToDisplayOnEmptyQuery: false
 ]
