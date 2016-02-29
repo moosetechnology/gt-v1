@@ -9,8 +9,8 @@ Class {
 
 { #category : #comparing }
 GTExampleImpostorPragma >> = aImpostorPragma [
-	^ self class = aImpostorPragma class
-		and: [ self method = aImpostorPragma method ]
+	^ self class == aImpostorPragma class
+		and: [ self method == aImpostorPragma method ]
 ]
 
 { #category : #'accessing-method' }
