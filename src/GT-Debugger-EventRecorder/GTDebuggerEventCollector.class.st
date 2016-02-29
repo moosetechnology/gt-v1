@@ -39,7 +39,7 @@ GTDebuggerEventCollector >> runDebugActionsIn: aDebugger [
 		event := events next.
 		(event class == GTDebuggerDebugActionEvent) ifTrue: [
 			action := event asDebugActionFor: aDebugger.
-			(action class == RedoDebugAction) ifFalse: [.
+			(action isNil or: [action class == RedoDebugAction]) ifFalse: [
 				action executeAction.
 				aDebugger updateBrowser
 			].

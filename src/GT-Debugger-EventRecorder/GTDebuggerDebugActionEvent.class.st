@@ -6,7 +6,11 @@ Class {
 
 { #category : #initialization }
 GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
-	^ (info at: #debugActionClass) asSymbol asClass gtGlobalDebuggingActionFor: aDebugger.
+	| actionClass |
+	actionClass := (info at: #debugActionClass) asSymbol asClass.
+	(actionClass respondsTo: #gtGlobalDebuggingActionFor:) ifTrue: [
+		^ actionClass gtGlobalDebuggingActionFor: aDebugger ].
+	^ nil
 ]
 
 { #category : #initialization }
