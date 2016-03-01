@@ -8,7 +8,7 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 ]

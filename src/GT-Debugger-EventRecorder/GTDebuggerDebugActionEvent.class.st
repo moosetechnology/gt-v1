@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
-{ #category : #initialization }
+{ #category : #accessing }
 GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
 	| actionClass |
 	actionClass := (info at: #debugActionClass) asSymbol asClass.

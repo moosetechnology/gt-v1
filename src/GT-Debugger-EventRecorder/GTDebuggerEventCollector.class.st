@@ -1,17 +1,19 @@
 Class {
 	#name : #GTDebuggerEventCollector,
 	#superclass : #GTEventCollector,
+	#instVars : [
+		'announcer'
+	],
 	#category : #'GT-Debugger-EventRecorder'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTDebuggerEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := SharedQueue  new.
-	creationTime := DateAndTime now.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTDebuggerEventCollector >> linkToDebugger: aDebugger [
 
 	aDebugger announcer weak when: Announcement send: #recordAnnouncement: to: self
@@ -19,9 +21,12 @@ GTDebuggerEventCollector >> linkToDebugger: aDebugger [
 
 { #category : #'as yet unclassified' }
 GTDebuggerEventCollector >> recordAnnouncement: anAnnouncement [
+	| event |
 	"Privacy sendDiagnosticsAndUsageData ifFalse: [ ^ self ]."	
 	(anAnnouncement respondsTo: #asRecorderEvent) ifTrue: [	
-		self add: anAnnouncement asRecorderEvent ]
+		event := anAnnouncement asRecorderEvent.
+		self add: event.
+		GTEventRecorder uniqueInstance announcer announce: (DebuggerEventRecorded forEvent: event). ]
 ]
 
 { #category : #'as yet unclassified' }

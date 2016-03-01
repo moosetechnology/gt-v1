@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMRecorderBrowserClosingEvent class >> fromAnnouncement: anAnnouncement [
 
 	^ self new fromAnnouncement: anAnnouncement
