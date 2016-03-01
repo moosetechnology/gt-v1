@@ -58,7 +58,7 @@ GTSpotterItemBrick >> check [
 { #category : #'event handling' }
 GTSpotterItemBrick >> checkOrUncheck [
 
-	self stepModel selected = self candidateLink
+	self stepModel selected == self candidateLink
 		ifTrue: [ self isChecked ifFalse: [ self check ] ]
 		ifFalse: [ self isChecked ifTrue: [ self uncheck ] ]
 ]
@@ -224,6 +224,11 @@ GTSpotterItemBrick >> onThemerChanged [
 	super onThemerChanged.
 	
 	self themer spotterThemer itemNormalWidgetStyleFor: self
+]
+
+{ #category : #accessing }
+GTSpotterItemBrick >> processor [
+	^ self candidateLink processor
 ]
 
 { #category : #'event handling' }
