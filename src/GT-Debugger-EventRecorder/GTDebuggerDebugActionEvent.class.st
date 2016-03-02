@@ -16,6 +16,9 @@ GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
 { #category : #initialization }
 GTDebuggerDebugActionEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #debugActionClass put: aDebugAction class name.
+	self infoAt: #methodClass put: aDebugAction currentContext methodClass name.
+	self infoAt: #methodSelector put: aDebugAction currentContext methodSelector.
+	self infoAt: #pc put: aDebugAction currentContext pc.
 	"self addWindowHashFor: aDebugAction debugger"
 	
 ]
