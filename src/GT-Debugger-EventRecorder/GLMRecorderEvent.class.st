@@ -14,6 +14,11 @@ GLMRecorderEvent >> fromAnnouncement: anAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
+GLMRecorderEvent >> infoAt: aSymbol [
+	^ info at: aSymbol
+]
+
+{ #category : #'as yet unclassified' }
 GLMRecorderEvent >> infoAt: key put: value [
 	info ifNil: [ info := Dictionary new ].
 	^ info at: key put: value
