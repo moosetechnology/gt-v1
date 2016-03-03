@@ -19,8 +19,6 @@ GTBrowsingActions >> browseClassRefs [
 
 { #category : #actions }
 GTBrowsingActions >> browseClassVarRefs [
-	"1/17/96 sw: devolve responsibility to the class, so that the code that does the real work can be shared"
-
 	| cls |
 	cls := self currentClass.
 	(cls notNil and: [cls isTrait not])
@@ -39,7 +37,6 @@ GTBrowsingActions >> browseClassVariables [
 
 { #category : #actions }
 GTBrowsingActions >> browseInstVarRefs [
-	"1/26/96 sw: real work moved to class, so it can be shared"
 	| cls |
 	cls := self currentClassOrMetaClass.
 	(cls notNil and: [cls isTrait not])
@@ -97,13 +94,6 @@ GTBrowsingActions >> currentClassOrMetaClass [
 GTBrowsingActions >> currentContext [
 	
 	^ self debugger currentContext
-]
-
-{ #category : #accessing }
-GTBrowsingActions >> currentMessageCategoryName [
-	"Answer the name of the message category of the message of the currently selected context."
-
-	^ self currentClass organization categoryOfElement: self currentMessageName
 ]
 
 { #category : #accessing }
