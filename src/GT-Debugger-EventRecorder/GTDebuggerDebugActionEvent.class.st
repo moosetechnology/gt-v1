@@ -4,6 +4,13 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
+{ #category : #private }
+GTDebuggerDebugActionEvent >> addNewWindowHashFor: aPresentation [
+
+	aPresentation window ifNotNil: [ :aWindow |
+		self infoAt: #newWindowHash put: aWindow identityHash ]
+]
+
 { #category : #accessing }
 GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
 	| actionClass |
@@ -19,6 +26,7 @@ GTDebuggerDebugActionEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #methodClass put: aDebugAction currentContext methodClass name.
 	self infoAt: #methodSelector put: aDebugAction currentContext methodSelector.
 	self infoAt: #pc put: aDebugAction currentContext pc.
-	"self addWindowHashFor: aDebugAction debugger"
-	
+	self addWindowHashFor: aDebugAction debugger.
+	(aDebugAction class == GTChangeDebuggerAction) ifTrue:[
+		self addNewWindowHashFor: aDebugAction newDebugger. ].
 ]
