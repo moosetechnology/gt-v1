@@ -31,8 +31,11 @@ GTDebuggerEventCollector >> recordAnnouncement: anAnnouncement [
 
 { #category : #'as yet unclassified' }
 GTDebuggerEventCollector >> recordDebuggerOpenEventFor: aDebugger [
+	| event |
 	"Privacy sendDiagnosticsAndUsageData ifFalse: [ ^ self ]."	
-	self add: (GTDebuggerRecorderOpenEvent new fromDebugger: aDebugger)
+	event := GTDebuggerRecorderOpenEvent new fromDebugger: aDebugger.
+	self add: event.
+	GTEventRecorder uniqueInstance announcer announce: (DebuggerEventRecorded forEvent: event).
 ]
 
 { #category : #'as yet unclassified' }
