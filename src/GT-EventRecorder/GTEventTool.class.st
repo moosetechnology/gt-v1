@@ -6,10 +6,6 @@ You likely want to use #ensureLocalDirectory that downloads and extracts server 
 Class {
 	#name : #GTEventTool,
 	#superclass : #Object,
-	#instVars : [
-		'semaphore',
-		'process'
-	],
 	#category : #'GT-EventRecorder-Core'
 }
 
@@ -31,7 +27,7 @@ GTEventTool >> defaultDownloadDirectory [
 
 { #category : #configuration }
 GTEventTool >> defaultDownloadFilename [
-	^ self defaultDownloadDirectory / 'gt-events.tar.gz'
+	^ self defaultDownloadDirectory / 'gt-events.zip'
 ]
 
 { #category : #configuration }
@@ -41,7 +37,7 @@ GTEventTool >> defaultEventsDirectory [
 
 { #category : #private }
 GTEventTool >> defaultUrl [
-	^ 'http://gc.dcc.uchile.cl/gt-events.tar.gz'
+	^ 'http://gc.dcc.uchile.cl/gt-events.zip'
 ]
 
 { #category : #api }
@@ -70,7 +66,7 @@ GTEventTool >> ensureDownloadedData [
 ]
 
 { #category : #api }
-GTEventTool >> ensureExctractedData [
+GTEventTool >> ensureExtractedData [
 	self defaultEventsDirectory exists ifFalse: [ self extract ]
 ]
 
@@ -79,29 +75,18 @@ GTEventTool >> ensureLocalDirectory [
 	"self default ensureLocalDirectory"
 	self 
 		ensureDownloadedData;
-		ensureExctractedData
+		ensureExtractedData
 ]
 
 { #category : #api }
 GTEventTool >> extract [
-	semaphore := Semaphore new.
-	(Smalltalk hasClassNamed: #ExternalUnixOSProcess) ifFalse: [ ^ self ].
-	process := #ExternalUnixOSProcess asClass forkAndExec: '/usr/bin/tar' 
-			arguments: (Array with: 'xzf' with: self defaultDownloadFilename fullName)
-			environment: nil 
-			descriptors: nil 
-			workingDir: self defaultDownloadDirectory fullName.
-	process addDependent: self.
-	self checkProcess.
-	semaphore wait.
-	process := nil.
-	semaphore := nil.
+	(ZipArchive new readFrom: self defaultDownloadFilename) extractAllTo: FileLocator workingDirectory.
 ]
 
 { #category : #printing }
 GTEventTool >> printHumanReadableSize: aTotalNumber [
 	| humanReadable length unit |
-	length := (aTotalNumber decimalDigitLength / 3) truncated.
+	length := ((aTotalNumber decimalDigitLength / 3) truncated) - 1 max: 0.
 	humanReadable := (aTotalNumber / (1024 raisedTo: (length min: 3))) rounded.
 	length = 0 ifTrue: [ unit := 'bytes' ].
 	length = 1 ifTrue: [ unit := 'KB' ].
