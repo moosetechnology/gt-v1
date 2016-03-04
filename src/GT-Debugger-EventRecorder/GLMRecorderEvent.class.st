@@ -8,11 +8,6 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
-{ #category : #testing }
-GLMRecorderEvent >> changesContext [
-	^ false
-]
-
 { #category : #initialization }
 GLMRecorderEvent >> fromAnnouncement: anAnnouncement [
 
@@ -27,9 +22,4 @@ GLMRecorderEvent >> infoAt: aSymbol [
 GLMRecorderEvent >> infoAt: key put: value [
 	info ifNil: [ info := Dictionary new ].
 	^ info at: key put: value
-]
-
-{ #category : #testing }
-GLMRecorderEvent >> isActionForClass: aClassName Method: aMethodName PC: anInteger [
-	^ false.
 ]
