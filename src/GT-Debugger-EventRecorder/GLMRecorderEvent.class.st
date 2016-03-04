@@ -8,23 +8,28 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
+{ #category : #testing }
+GLMRecorderEvent >> changesContext [
+	^ false
+]
+
 { #category : #initialization }
 GLMRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMRecorderEvent >> infoAt: aSymbol [
 	^ info at: aSymbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMRecorderEvent >> infoAt: key put: value [
 	info ifNil: [ info := Dictionary new ].
 	^ info at: key put: value
 ]
 
 { #category : #testing }
-GLMRecorderEvent >> isDebugAction [
-	^ false
+GLMRecorderEvent >> isActionForClass: aClassName Method: aMethodName PC: anInteger [
+	^ false.
 ]

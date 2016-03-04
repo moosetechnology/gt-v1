@@ -19,18 +19,6 @@ GTDebuggerDebugActionEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #methodClass put: aDebugAction currentContext methodClass name.
 	self infoAt: #methodSelector put: aDebugAction currentContext methodSelector.
 	self infoAt: #pc put: aDebugAction currentContext pc.
+	changesContext := aDebugAction changesContext.
 	self addWindowHashFor: aDebugAction debugger.
-]
-
-{ #category : #testing }
-GTDebuggerDebugActionEvent >> isActionForClass: aClassName Method: aMethodName PC: anInteger [
-	((self infoAt: #methodClass) == aClassName) ifFalse: [ ^ false ].
-	((self infoAt: #methodSelector) == aMethodName) ifFalse: [ ^ false ].
-	((self infoAt: #pc) == anInteger) ifFalse: [ ^ false ].
-	^ true.
-]
-
-{ #category : #testing }
-GTDebuggerDebugActionEvent >> isDebugAction [
-	^ true
 ]

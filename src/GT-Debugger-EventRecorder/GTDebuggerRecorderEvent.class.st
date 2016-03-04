@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'timestamp',
-		'info'
+		'info',
+		'changesContext'
 	],
 	#category : #'GT-Debugger-EventRecorder'
 }
@@ -19,6 +20,11 @@ GTDebuggerRecorderEvent >> addWindowHashFor: aPresentation [
 
 	aPresentation window ifNotNil: [ :aWindow |
 		self infoAt: #windowHash put: aWindow identityHash ]
+]
+
+{ #category : #testing }
+GTDebuggerRecorderEvent >> changesContext [
+	^ changesContext
 ]
 
 { #category : #initialization }
@@ -37,7 +43,10 @@ GTDebuggerRecorderEvent >> infoAt: key put: value [
 	^ info at: key put: value
 ]
 
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> isDebugAction [
-	^ false
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isActionForClass: aClassName Method: aMethodName PC: anInteger [
+	((self infoAt: #methodClass) == aClassName) ifFalse: [ ^ false ].
+	((self infoAt: #methodSelector) == aMethodName) ifFalse: [ ^ false ].
+	((self infoAt: #pc) == anInteger) ifFalse: [ ^ false ].
+	^ true.
 ]
