@@ -1,7 +1,7 @@
 Extension { #name : #GTChangeDebuggerAction }
 
 { #category : #'*GT-Debugger-EventRecorder' }
-GTChangeDebuggerAction >> asRecorderEvent [
+GTChangeDebuggerAction >> asExecutedRecorderEvent [
 
-	^ GTDebuggerChangeDebuggerEvent new fromDebugAction: self
+	^ GTDebuggerChangeDebuggerExecutedEvent new fromDebugAction: self
 ]
