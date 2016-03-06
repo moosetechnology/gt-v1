@@ -234,5 +234,17 @@ Its goal is to help developers find and navigate through all sorts of objects, i
 
 { #category : #accessing }
 GTSpotterHelp class >> pages [
-	^#(overview keybindings basicExamples categoryFilterExamples diveInExamples diveInCategoryExamples extensionExamples extensions)
+	^#(overview keybindings basicExamples categoryFilterExamples diveInExamples diveInCategoryExamples extensionExamples extensions resettingSpotter)
+]
+
+{ #category : #documentation }
+GTSpotterHelp class >> resettingSpotter [
+
+	^ HelpTopic 
+		title: 'Resetting Spotter'
+		contents:
+'If you want to reset the Spotter to its initial state (no history and no preview), you can execute this code:
+
+	GTSpotter cleanUp.
+   GTSpotter dontShowPreview'
 ]
