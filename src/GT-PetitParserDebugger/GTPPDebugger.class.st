@@ -53,16 +53,11 @@ GTPPDebugger >> debugViewIn: composite [
 GTPPDebugger >> debuggerStructureIn: browser [
 	
 	browser
-		row: [ :row | 
-					row
-						column: #stack span: 2;
-						column: [ :column |
-							column 
-								row: [ :row2 | 
-									row2
-										column: #code;
-										column: #stream ];
-								row: #workspace ] span: 3 ];
+		row: #stack;
+		row: [ :row |
+			row 
+				column: #code;
+				column: #stream ];
 		row: #inspector.
 ]
 
@@ -76,20 +71,7 @@ GTPPDebugger >> debuggerTransmissionsIn: browser [
 		to: #stream;
 		when: [ :aSession | aSession notNil ];
 		andShow: [ :aComposite | self streamIn: aComposite ].
-		
-	browser transmit
-		from: #stack port: #entity;
-		from: #stack port: #selection;
-		to: #workspace;
-		when: [ :aSession :aContext | (aSession notNil & aContext notNil) ];
-		andShow: [ :aComposite :aSession :aContext | self workspaceIn: aComposite forSession: aSession forContext: aContext ].
 	
-]
-
-{ #category : #'building actions' }
-GTPPDebugger >> debuggingActionsPragmas [
-
-	^ super debuggingActionsPragmas, { #PPDebuggingAction }
 ]
 
 { #category : #'building presentations' }
@@ -183,6 +165,15 @@ GTPPDebugger >> mapIn: aComposite forSession: aSession forParser: parser [
 
 ]
 
+{ #category : #'building presentations' }
+GTPPDebugger >> methodCodeIn: aComposite forContext: aContext [
+
+	super methodCodeIn: aComposite forContext: aContext.
+	aContext ifNotNil: [ 
+		self workspaceIn: aComposite forSession: self session forContext: aContext ]
+	
+]
+
 { #category : #'printing/formatting' }
 GTPPDebugger >> printStackEntry: aContext [
 
@@ -263,10 +254,16 @@ GTPPDebugger >> sourceCodeFrom: parser inContext: aPPContext [
 GTPPDebugger >> sourceIn: aComposite forSession: aSession forParser: selectedParser [
 
 	aComposite pharoMethod
-		title: 'Source';
+		title: 'Production';
 		useExplicitNotNil;
 		display: [ self sourceCodeFrom: selectedParser inContext: self session stream ];
 		smalltalkClass: [ aSession rootParser class ]
+]
+
+{ #category : #'building actions' }
+GTPPDebugger >> stackDebuggingActionsPragmas [
+
+	^ super stackDebuggingActionsPragmas, { #PPDebuggingAction }
 ]
 
 { #category : #'building presentations' }
