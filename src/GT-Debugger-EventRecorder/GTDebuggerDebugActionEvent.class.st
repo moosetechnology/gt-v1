@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #accessing }
+GTDebuggerDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
+	(self infoAt: #debugActionClass) == (otherGTDebuggerDebugActionEvent infoAt: #debugActionClass) ifFalse: [ ^ false ].
+	(self infoAt: #methodClass) == (otherGTDebuggerDebugActionEvent infoAt: #methodClass) ifFalse: [ ^ false ].
+	(self infoAt: #methodSelector) == (otherGTDebuggerDebugActionEvent infoAt: #methodSelector) ifFalse: [ ^ false ].
+	(self infoAt: #pc) == (otherGTDebuggerDebugActionEvent infoAt: #pc) ifFalse: [ ^ false ].
+	(self infoAt: #windowHash) == (otherGTDebuggerDebugActionEvent infoAt: #windowHash) ifFalse: [ ^ false ].
+	^ true
+]
+
+{ #category : #accessing }
 GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
 	| actionClass |
 	actionClass := (info at: #debugActionClass) asSymbol asClass.
@@ -33,6 +43,11 @@ GTDebuggerDebugActionEvent >> isActionForClass: aClassName Method: aMethodName P
 	((self infoAt: #methodSelector) == aMethodName) ifFalse: [ ^ false ].
 	((self infoAt: #pc) == anInteger) ifFalse: [ ^ false ].
 	^ true.
+]
+
+{ #category : #testing }
+GTDebuggerDebugActionEvent >> isActionForContext: aContext [
+	^ self isActionForClass: aContext methodClass name Method: aContext methodSelector PC: aContext pc.
 ]
 
 { #category : #testing }
