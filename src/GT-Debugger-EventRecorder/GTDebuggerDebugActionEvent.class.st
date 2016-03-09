@@ -6,6 +6,7 @@ Class {
 
 { #category : #accessing }
 GTDebuggerDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
+	(otherGTDebuggerDebugActionEvent isKindOf: self class) ifFalse: [ ^ false ].
 	(self infoAt: #debugActionClass) == (otherGTDebuggerDebugActionEvent infoAt: #debugActionClass) ifFalse: [ ^ false ].
 	(self infoAt: #methodClass) == (otherGTDebuggerDebugActionEvent infoAt: #methodClass) ifFalse: [ ^ false ].
 	(self infoAt: #methodSelector) == (otherGTDebuggerDebugActionEvent infoAt: #methodSelector) ifFalse: [ ^ false ].
