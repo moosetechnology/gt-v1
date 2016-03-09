@@ -37,21 +37,3 @@ GTDebuggerEventCollector >> recordDebuggerOpenEventFor: aDebugger [
 	self add: event.
 	GTEventRecorder uniqueInstance announcer announce: (DebuggerEventRecorded forEvent: event).
 ]
-
-{ #category : #'as yet unclassified' }
-GTDebuggerEventCollector >> runDebugActionsIn: aDebugger [
-	| action event events |
-	
-	events := recordedEvents copy.
-	[events isEmpty] whileFalse: [
-		event := events next.
-		(event class == GTDebuggerDebugActionEvent) ifTrue: [
-			action := event asDebugActionFor: aDebugger.
-			(action isNil or: [action class == RedoDebugAction]) ifFalse: [
-				action executeAction.
-				aDebugger updateBrowser
-			].
-		].
-	].
-	
-]
