@@ -36,3 +36,14 @@ GTDebuggerRecorderEvent >> infoAt: key put: value [
 	info ifNil: [ info := Dictionary new ].
 	^ info at: key put: value
 ]
+
+{ #category : #initialization }
+GTDebuggerRecorderEvent >> initialize [
+	super initialize.
+	timestamp := DateAndTime now.
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> timestamp [
+	^ timestamp
+]
