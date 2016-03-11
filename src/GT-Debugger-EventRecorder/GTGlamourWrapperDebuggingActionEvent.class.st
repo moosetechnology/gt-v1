@@ -6,7 +6,7 @@ Class {
 
 { #category : #initialization }
 GTGlamourWrapperDebuggingActionEvent >> fromDebugAction: aDebugAction [
-	self flag: 'Find a way to get type of action'.
+	self flag: 'Find a better way to get type of action'.
 	super fromDebugAction: aDebugAction.
-	"self infoAt: #debugActionClass put: aDebugAction class name."
+	self infoAt: #glamourActionTitle put: aDebugAction asGlamourAction title.
 ]
