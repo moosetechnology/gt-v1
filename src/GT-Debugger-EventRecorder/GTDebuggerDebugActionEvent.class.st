@@ -1,6 +1,9 @@
 Class {
 	#name : #GTDebuggerDebugActionEvent,
 	#superclass : #GTDebuggerRecorderEvent,
+	#instVars : [
+		'isExecuted'
+	],
 	#category : #'GT-Debugger-EventRecorder'
 }
 
@@ -53,5 +56,10 @@ GTDebuggerDebugActionEvent >> isActionForContext: aContext [
 
 { #category : #testing }
 GTDebuggerDebugActionEvent >> isExecuted [
-	self subclassResponsibility
+	^ isExecuted
+]
+
+{ #category : #testing }
+GTDebuggerDebugActionEvent >> isExecuted: aBoolean [
+	isExecuted := aBoolean
 ]

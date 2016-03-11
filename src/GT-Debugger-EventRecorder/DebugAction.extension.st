@@ -1,13 +1,7 @@
 Extension { #name : #DebugAction }
 
 { #category : #'*GT-Debugger-EventRecorder' }
-DebugAction >> asAboutToExecuteRecorderEvent [
+DebugAction >> asRecorderEvent [
 
-	^ GTDebuggerDebugActionAboutToExecuteEvent new fromDebugAction: self
-]
-
-{ #category : #'*GT-Debugger-EventRecorder' }
-DebugAction >> asExecutedRecorderEvent [
-
-	^ GTDebuggerDebugActionExecutedEvent new fromDebugAction: self
+	^ GTDebuggerDebugActionEvent new fromDebugAction: self
 ]
