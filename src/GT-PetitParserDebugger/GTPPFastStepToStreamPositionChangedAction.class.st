@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #registration }
-GTPPFastStepToStreamPositionChangedAction class >> gtSelectedStreamPositionActionFor: aDebugger [
+GTPPFastStepToStreamPositionChangedAction class >> gStreamPositionChangedActionFor: aDebugger [
 	"<gtPPStreamDebuggingAction>
 	<gtContextPPStreamDebuggingAction>"
 	
