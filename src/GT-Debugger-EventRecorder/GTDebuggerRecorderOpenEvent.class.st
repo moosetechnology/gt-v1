@@ -4,6 +4,12 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
+{ #category : #'instance creation' }
+GTDebuggerRecorderOpenEvent class >> fromDebugger: aDebugger [
+
+	^ self new fromDebugger: aDebugger
+]
+
 { #category : #initialization }
 GTDebuggerRecorderOpenEvent >> fromDebugger: aDebugger [
 

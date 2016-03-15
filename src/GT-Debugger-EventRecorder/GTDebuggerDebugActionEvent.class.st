@@ -7,6 +7,12 @@ Class {
 	#category : #'GT-Debugger-EventRecorder'
 }
 
+{ #category : #'instance creation' }
+GTDebuggerDebugActionEvent class >> fromDebugAction: aDebugAction [
+
+	^ self new fromDebugAction: aDebugAction
+]
+
 { #category : #accessing }
 GTDebuggerDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
 	(otherGTDebuggerDebugActionEvent isKindOf: self class) ifFalse: [ ^ false ].
