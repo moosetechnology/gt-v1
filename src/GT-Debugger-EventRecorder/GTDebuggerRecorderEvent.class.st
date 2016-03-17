@@ -14,7 +14,7 @@ GTDebuggerRecorderEvent class >> fromAnnouncement: anAnnouncement [
 	^ self new fromAnnouncement: anAnnouncement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTDebuggerRecorderEvent >> addWindowHashFor: aPresentation [
 
 	aPresentation window ifNotNil: [ :aWindow |
