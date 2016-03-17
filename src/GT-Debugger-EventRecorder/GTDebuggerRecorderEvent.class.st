@@ -37,6 +37,24 @@ GTDebuggerRecorderEvent >> infoAt: aSymbol [
 ]
 
 { #category : #accessing }
+GTDebuggerRecorderEvent >> infoAt: key ifAbsent: absentBlock [
+	info ifNil: [ ^ absentBlock value].
+	^ info at: key ifAbsent: absentBlock
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> infoAt: key ifAbsentPut: putBlock [
+	info ifNil: [ info := Dictionary new ].
+	^ info at: key ifAbsentPut: putBlock
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> infoAt: key ifPresent: presentBlock ifAbsent: absentBlock [
+	info ifNil: [ ^ absentBlock value].
+	^ info at: key ifPresent: presentBlock ifAbsent: absentBlock
+]
+
+{ #category : #accessing }
 GTDebuggerRecorderEvent >> infoAt: key put: value [
 	info ifNil: [ info := Dictionary new ].
 	^ info at: key put: value
