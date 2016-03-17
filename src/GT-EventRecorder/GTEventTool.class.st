@@ -14,12 +14,6 @@ GTEventTool class >> default [
 	^ self new
 ]
 
-{ #category : #private }
-GTEventTool >> checkProcess [
-	process isComplete ifTrue: [ semaphore signal ].
-
-]
-
 { #category : #configuration }
 GTEventTool >> defaultDownloadDirectory [
 	^ FileSystem disk workingDirectory
@@ -109,9 +103,4 @@ GTEventTool >> unpackAll: aFileReference [
 	" 
 	self ensureLocalDirectory.
 	^ GTEventUnpacking default safeUnpackDirectory: aFileReference.
-]
-
-{ #category : #updating }
-GTEventTool >> update: aParameter [
-	aParameter = #runState ifTrue: [ self checkProcess ]
 ]
