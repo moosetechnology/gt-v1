@@ -27,6 +27,11 @@ GTDebuggerRecorderEvent >> fromAnnouncement: anAnnouncement [
 ]
 
 { #category : #accessing }
+GTDebuggerRecorderEvent >> hashForText: aString [
+	^ self settings obfuscateIfNecessary: aString
+]
+
+{ #category : #accessing }
 GTDebuggerRecorderEvent >> infoAt: aSymbol [
 	^ info at: aSymbol
 ]
@@ -37,10 +42,37 @@ GTDebuggerRecorderEvent >> infoAt: key put: value [
 	^ info at: key put: value
 ]
 
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> infoAt: key putHashForText: valueString [ 
+	^ self 
+		infoAt: key 
+		put: (self hashForText: valueString)
+]
+
 { #category : #initialization }
 GTDebuggerRecorderEvent >> initialize [
 	super initialize.
 	timestamp := DateAndTime now.
+]
+
+{ #category : #initialization }
+GTDebuggerRecorderEvent >> initializeObfuscated [
+	self obfuscated: Privacy sendEntityNames not.
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> obfuscated [
+	^ self infoAt: #obfuscated ifAbsent: true
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> obfuscated: aBoolean [
+	^ self infoAt: #obfuscated put: aBoolean
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> settings [
+	^ GlobalIdentifier uniqueInstance
 ]
 
 { #category : #accessing }

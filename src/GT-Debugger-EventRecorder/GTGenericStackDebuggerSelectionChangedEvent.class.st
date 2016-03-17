@@ -12,6 +12,6 @@ Class {
 GTGenericStackDebuggerSelectionChangedEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.
 	
-	self infoAt: #newContext put: anAnnouncement newContext asString.
+	self infoAt: #newContext putHashForText: anAnnouncement newContext asString.
 	self addWindowHashFor: anAnnouncement debugger.
 ]

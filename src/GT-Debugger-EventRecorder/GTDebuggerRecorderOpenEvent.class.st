@@ -16,3 +16,9 @@ GTDebuggerRecorderOpenEvent >> fromDebugger: aDebugger [
 	self infoAt: #debuggerClass put: aDebugger class name.
 	self addWindowHashFor: aDebugger
 ]
+
+{ #category : #initialization }
+GTDebuggerRecorderOpenEvent >> initialize [
+	super initialize.
+	self initializeObfuscated.
+]
