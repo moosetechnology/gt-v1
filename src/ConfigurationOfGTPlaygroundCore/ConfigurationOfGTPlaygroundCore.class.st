@@ -190,7 +190,7 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.3'.
+	spec for: #'common' version: '3.4'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
@@ -773,6 +773,22 @@ ConfigurationOfGTPlaygroundCore >> version33: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '2/28/2016 12:11'.
 		spec project: 'GTInspectorCore' with: '3.3'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-AliakseiSyrel.122';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version34: spec [
+	<version: '3.4' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GTools Version 3.15'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '3/17/2016 10:49'.
+		spec project: 'GTInspectorCore' with: '3.4'.
 		spec 
 			package: 'GT-Playground' with: 'GT-Playground-AliakseiSyrel.122';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
