@@ -18,6 +18,11 @@ GTDebuggerRecorderEvent class >> fromAnnouncement: anAnnouncement [
 	^ self new fromAnnouncement: anAnnouncement
 ]
 
+{ #category : #comparing }
+GTDebuggerRecorderEvent >> = otherGTDebuggerRecorderEvent [
+	^ (self info = otherGTDebuggerRecorderEvent info)
+]
+
 { #category : #accessing }
 GTDebuggerRecorderEvent >> addWindowHashFor: aPresentation [
 
@@ -30,9 +35,19 @@ GTDebuggerRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 ]
 
+{ #category : #comparing }
+GTDebuggerRecorderEvent >> hash [
+	^ info hash
+]
+
 { #category : #accessing }
 GTDebuggerRecorderEvent >> hashForText: aString [
 	^ self settings obfuscateIfNecessary: aString
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderEvent >> info [
+	^ info ifNil: [ info := Dictionary new ].
 ]
 
 { #category : #accessing }

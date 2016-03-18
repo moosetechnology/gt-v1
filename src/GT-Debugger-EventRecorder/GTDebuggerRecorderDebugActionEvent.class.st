@@ -17,17 +17,6 @@ GTDebuggerRecorderDebugActionEvent class >> fromDebugAction: aDebugAction [
 ]
 
 { #category : #accessing }
-GTDebuggerRecorderDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
-	(otherGTDebuggerDebugActionEvent isKindOf: self class) ifFalse: [ ^ false ].
-	(self infoAt: #debugActionClass) == (otherGTDebuggerDebugActionEvent infoAt: #debugActionClass) ifFalse: [ ^ false ].
-	(self infoAt: #methodClass) == (otherGTDebuggerDebugActionEvent infoAt: #methodClass) ifFalse: [ ^ false ].
-	(self infoAt: #methodSelector) == (otherGTDebuggerDebugActionEvent infoAt: #methodSelector) ifFalse: [ ^ false ].
-	(self infoAt: #pc) == (otherGTDebuggerDebugActionEvent infoAt: #pc) ifFalse: [ ^ false ].
-	(self infoAt: #windowHash) == (otherGTDebuggerDebugActionEvent infoAt: #windowHash) ifFalse: [ ^ false ].
-	^ true
-]
-
-{ #category : #accessing }
 GTDebuggerRecorderDebugActionEvent >> asDebugActionFor: aDebugger [
 	| actionClass |
 	actionClass := (info at: #debugActionClass) asSymbol asClass.
