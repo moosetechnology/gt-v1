@@ -37,7 +37,7 @@ GTDebuggerRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 { #category : #comparing }
 GTDebuggerRecorderEvent >> hash [
-	^ info hash
+	^ self info hash
 ]
 
 { #category : #accessing }
