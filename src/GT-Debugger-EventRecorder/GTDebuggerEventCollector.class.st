@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'announcer'
 	],
-	#category : #'GT-Debugger-EventRecorder'
+	#category : #'GT-Debugger-EventRecorder-Base'
 }
 
 { #category : #initialization }

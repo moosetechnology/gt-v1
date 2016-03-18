@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'isExecuted'
 	],
-	#category : #'GT-Debugger-EventRecorder'
+	#category : #'GT-Debugger-EventRecorder-Events'
 }
 
 { #category : #'instance creation' }

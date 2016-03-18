@@ -5,7 +5,7 @@ Class {
 		'timestamp',
 		'info'
 	],
-	#category : #'GT-Debugger-EventRecorder'
+	#category : #'GT-Debugger-EventRecorder-Events'
 }
 
 { #category : #'instance creation' }

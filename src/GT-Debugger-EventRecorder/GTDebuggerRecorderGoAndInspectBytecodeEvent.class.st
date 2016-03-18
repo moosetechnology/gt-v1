@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDebuggerRecorderGoAndInspectBytecodeEvent,
 	#superclass : #GTDebuggerRecorderDebugActionEvent,
-	#category : #'GT-Debugger-EventRecorder'
+	#category : #'GT-Debugger-EventRecorder-Events'
 }
 
 { #category : #initialization }

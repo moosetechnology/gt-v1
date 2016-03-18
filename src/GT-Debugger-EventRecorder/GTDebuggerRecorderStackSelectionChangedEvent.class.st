@@ -5,7 +5,7 @@ Class {
 		'debugger',
 		'newContext'
 	],
-	#category : #'GT-Debugger-EventRecorder'
+	#category : #'GT-Debugger-EventRecorder-Events'
 }
 
 { #category : #initialization }

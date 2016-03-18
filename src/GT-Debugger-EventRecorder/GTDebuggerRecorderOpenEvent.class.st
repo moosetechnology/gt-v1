@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDebuggerRecorderOpenEvent,
 	#superclass : #GTDebuggerRecorderEvent,
-	#category : #'GT-Debugger-EventRecorder'
+	#category : #'GT-Debugger-EventRecorder-Events'
 }
 
 { #category : #'instance creation' }
