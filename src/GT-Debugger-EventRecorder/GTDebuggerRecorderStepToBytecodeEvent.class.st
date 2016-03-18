@@ -1,11 +1,11 @@
 Class {
-	#name : #GTGoAndInspectBytecodeDebugActionEvent,
-	#superclass : #GTDebuggerDebugActionEvent,
+	#name : #GTDebuggerRecorderStepToBytecodeEvent,
+	#superclass : #GTDebuggerRecorderDebugActionEvent,
 	#category : #'GT-Debugger-EventRecorder'
 }
 
 { #category : #initialization }
-GTGoAndInspectBytecodeDebugActionEvent >> fromDebugAction: aDebugAction [
+GTDebuggerRecorderStepToBytecodeEvent >> fromDebugAction: aDebugAction [
 	super fromDebugAction: aDebugAction.
 	self infoAt: #selection put: aDebugAction debugger bytecodePresentation selection.
 ]

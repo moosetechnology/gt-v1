@@ -1,18 +1,18 @@
 Class {
-	#name : #GTDebuggerChangeDebuggerEvent,
-	#superclass : #GTDebuggerDebugActionEvent,
+	#name : #GTDebuggerRecorderChangeDebuggerEvent,
+	#superclass : #GTDebuggerRecorderDebugActionEvent,
 	#category : #'GT-Debugger-EventRecorder'
 }
 
 { #category : #private }
-GTDebuggerChangeDebuggerEvent >> addNewWindowHashFor: aPresentation [
+GTDebuggerRecorderChangeDebuggerEvent >> addNewWindowHashFor: aPresentation [
 
 	aPresentation window ifNotNil: [ :aWindow |
 		self infoAt: #newWindowHash put: aWindow identityHash ]
 ]
 
 { #category : #initialization }
-GTDebuggerChangeDebuggerEvent >> fromDebugAction: aDebugAction [
+GTDebuggerRecorderChangeDebuggerEvent >> fromDebugAction: aDebugAction [
 	super fromDebugAction: aDebugAction.
 	aDebugAction newDebugger isNotNil ifTrue: [ self addNewWindowHashFor: aDebugAction newDebugger ]
 ]

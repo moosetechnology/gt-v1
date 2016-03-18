@@ -26,7 +26,7 @@ GTDebuggerEventCollector >> recordAnnouncement: anAnnouncement [
 	(anAnnouncement respondsTo: #asRecorderEvent) ifTrue: [	
 		event := anAnnouncement asRecorderEvent.
 		self add: event.
-		GTEventRecorder uniqueInstance announcer announce: (DebuggerEventRecorded forEvent: event). ]
+		GTEventRecorder uniqueInstance announcer announce: (GTDebuggerRecorderEventRecorded forEvent: event). ]
 ]
 
 { #category : #events }
@@ -35,5 +35,5 @@ GTDebuggerEventCollector >> recordDebuggerOpenEventFor: aDebugger [
 	Privacy sendDiagnosticsAndUsageData ifFalse: [ ^ self ].
 	event := GTDebuggerRecorderOpenEvent new fromDebugger: aDebugger.
 	self add: event.
-	GTEventRecorder uniqueInstance announcer announce: (DebuggerEventRecorded forEvent: event).
+	GTEventRecorder uniqueInstance announcer announce: (GTDebuggerRecorderEventRecorded forEvent: event).
 ]

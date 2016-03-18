@@ -1,5 +1,5 @@
 Class {
-	#name : #DebuggerEventRecorded,
+	#name : #GTDebuggerRecorderEventRecorded,
 	#superclass : #Announcement,
 	#instVars : [
 		'recordedEvent'
@@ -8,18 +8,18 @@ Class {
 }
 
 { #category : #'instance creation' }
-DebuggerEventRecorded class >> forEvent: aRecorderEvent [
+GTDebuggerRecorderEventRecorded class >> forEvent: aRecorderEvent [
 	^ self new
 		recordedEvent: aRecorderEvent;
 		yourself.
 ]
 
 { #category : #accessing }
-DebuggerEventRecorded >> recordedEvent [
+GTDebuggerRecorderEventRecorded >> recordedEvent [
 	^ recordedEvent
 ]
 
 { #category : #accessing }
-DebuggerEventRecorded >> recordedEvent: aRecorderEvent [
+GTDebuggerRecorderEventRecorded >> recordedEvent: aRecorderEvent [
 	recordedEvent := aRecorderEvent
 ]

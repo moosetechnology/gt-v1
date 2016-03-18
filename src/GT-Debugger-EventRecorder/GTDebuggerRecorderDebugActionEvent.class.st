@@ -1,5 +1,5 @@
 Class {
-	#name : #GTDebuggerDebugActionEvent,
+	#name : #GTDebuggerRecorderDebugActionEvent,
 	#superclass : #GTDebuggerRecorderEvent,
 	#instVars : [
 		'isExecuted'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-GTDebuggerDebugActionEvent class >> fromDebugAction: aDebugAction [
+GTDebuggerRecorderDebugActionEvent class >> fromDebugAction: aDebugAction [
 
 	^ self new fromDebugAction: aDebugAction
 ]
 
 { #category : #accessing }
-GTDebuggerDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
+GTDebuggerRecorderDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
 	(otherGTDebuggerDebugActionEvent isKindOf: self class) ifFalse: [ ^ false ].
 	(self infoAt: #debugActionClass) == (otherGTDebuggerDebugActionEvent infoAt: #debugActionClass) ifFalse: [ ^ false ].
 	(self infoAt: #methodClass) == (otherGTDebuggerDebugActionEvent infoAt: #methodClass) ifFalse: [ ^ false ].
@@ -25,7 +25,7 @@ GTDebuggerDebugActionEvent >> = otherGTDebuggerDebugActionEvent [
 ]
 
 { #category : #accessing }
-GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
+GTDebuggerRecorderDebugActionEvent >> asDebugActionFor: aDebugger [
 	| actionClass |
 	actionClass := (info at: #debugActionClass) asSymbol asClass.
 	(actionClass respondsTo: #gtGlobalDebuggingActionFor:) ifTrue: [
@@ -34,7 +34,7 @@ GTDebuggerDebugActionEvent >> asDebugActionFor: aDebugger [
 ]
 
 { #category : #initialization }
-GTDebuggerDebugActionEvent >> fromDebugAction: aDebugAction [
+GTDebuggerRecorderDebugActionEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #debugActionClass put: aDebugAction class name.
 	self infoAt: #methodClass putHashForText: aDebugAction currentContext methodClass name.
 	self infoAt: #methodSelector putHashForText: aDebugAction currentContext methodSelector.
@@ -43,12 +43,12 @@ GTDebuggerDebugActionEvent >> fromDebugAction: aDebugAction [
 ]
 
 { #category : #testing }
-GTDebuggerDebugActionEvent >> isAboutToExectute [
+GTDebuggerRecorderDebugActionEvent >> isAboutToExectute [
 	^ self isExecuted not
 ]
 
 { #category : #testing }
-GTDebuggerDebugActionEvent >> isActionForClass: aClassName Method: aMethodName PC: anInteger [
+GTDebuggerRecorderDebugActionEvent >> isActionForClass: aClassName Method: aMethodName PC: anInteger [
 	((self infoAt: #methodClass) == aClassName) ifFalse: [ ^ false ].
 	((self infoAt: #methodSelector) == aMethodName) ifFalse: [ ^ false ].
 	((self infoAt: #pc) == anInteger) ifFalse: [ ^ false ].
@@ -56,16 +56,16 @@ GTDebuggerDebugActionEvent >> isActionForClass: aClassName Method: aMethodName P
 ]
 
 { #category : #testing }
-GTDebuggerDebugActionEvent >> isActionForContext: aContext [
+GTDebuggerRecorderDebugActionEvent >> isActionForContext: aContext [
 	^ self isActionForClass: aContext methodClass name Method: aContext methodSelector PC: aContext pc.
 ]
 
 { #category : #testing }
-GTDebuggerDebugActionEvent >> isExecuted [
+GTDebuggerRecorderDebugActionEvent >> isExecuted [
 	^ isExecuted
 ]
 
 { #category : #testing }
-GTDebuggerDebugActionEvent >> isExecuted: aBoolean [
+GTDebuggerRecorderDebugActionEvent >> isExecuted: aBoolean [
 	isExecuted := aBoolean
 ]

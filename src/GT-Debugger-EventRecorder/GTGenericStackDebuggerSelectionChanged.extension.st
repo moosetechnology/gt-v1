@@ -3,5 +3,5 @@ Extension { #name : #GTGenericStackDebuggerSelectionChanged }
 { #category : #'*GT-Debugger-EventRecorder' }
 GTGenericStackDebuggerSelectionChanged >> asRecorderEvent [
 
-	^ GTGenericStackDebuggerSelectionChangedEvent fromAnnouncement: self
+	^ GTDebuggerRecorderStackSelectionChangedEvent fromAnnouncement: self
 ]

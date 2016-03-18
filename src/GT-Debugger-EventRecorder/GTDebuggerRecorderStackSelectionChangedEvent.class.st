@@ -1,5 +1,5 @@
 Class {
-	#name : #GTGenericStackDebuggerSelectionChangedEvent,
+	#name : #GTDebuggerRecorderStackSelectionChangedEvent,
 	#superclass : #GTDebuggerRecorderEvent,
 	#instVars : [
 		'debugger',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-GTGenericStackDebuggerSelectionChangedEvent >> fromAnnouncement: anAnnouncement [
+GTDebuggerRecorderStackSelectionChangedEvent >> fromAnnouncement: anAnnouncement [
 	super fromAnnouncement: anAnnouncement.
 	
 	self infoAt: #newContext putHashForText: anAnnouncement newContext asString.

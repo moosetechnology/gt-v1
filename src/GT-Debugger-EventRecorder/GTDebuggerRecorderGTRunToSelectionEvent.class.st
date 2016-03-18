@@ -1,11 +1,11 @@
 Class {
-	#name : #GTCodeDebugActionEvent,
-	#superclass : #GTDebuggerDebugActionEvent,
+	#name : #GTDebuggerRecorderGTRunToSelectionEvent,
+	#superclass : #GTDebuggerRecorderDebugActionEvent,
 	#category : #'GT-Debugger-EventRecorder'
 }
 
 { #category : #initialization }
-GTCodeDebugActionEvent >> fromDebugAction: aDebugAction [
+GTDebuggerRecorderGTRunToSelectionEvent >> fromDebugAction: aDebugAction [
 	super fromDebugAction: aDebugAction.
 	self infoAt: #selection put: aDebugAction debugger selectionInterval.
 ]
