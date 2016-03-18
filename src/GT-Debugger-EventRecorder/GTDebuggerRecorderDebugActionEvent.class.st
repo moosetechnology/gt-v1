@@ -1,3 +1,6 @@
+"
+I model the debugging actions in the debugger.
+"
 Class {
 	#name : #GTDebuggerRecorderDebugActionEvent,
 	#superclass : #GTDebuggerRecorderEvent,

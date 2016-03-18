@@ -1,9 +1,9 @@
+"
+I represent a GTEventCollector for GTDebugger application.
+"
 Class {
 	#name : #GTDebuggerEventCollector,
 	#superclass : #GTEventCollector,
-	#instVars : [
-		'announcer'
-	],
 	#category : #'GT-Debugger-EventRecorder-Base'
 }
 

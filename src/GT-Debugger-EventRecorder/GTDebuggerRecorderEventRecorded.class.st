@@ -1,3 +1,6 @@
+"
+I am an event that is sent after an action in the debugger was recorded.
+"
 Class {
 	#name : #GTDebuggerRecorderEventRecorded,
 	#superclass : #Announcement,

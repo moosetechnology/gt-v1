@@ -1,3 +1,6 @@
+"
+I model the action of closing the debugger.
+"
 Class {
 	#name : #GTDebuggerRecorderClosingEvent,
 	#superclass : #GTDebuggerRecorderEvent,
