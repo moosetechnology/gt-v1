@@ -26,8 +26,17 @@ CompiledMethod >> spotterForImplementorsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
+CompiledMethod >> spotterForMessagesFor: aStep [
+	<spotterOrder: 12>
+	aStep listProcessor
+			title: 'Messages';
+			allCandidates: [ self messages asSortedCollection collect: [:each | GTSelectorImplementors new name: each ] ];
+			filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
 CompiledMethod >> spotterForSendersFor: aStep [
-	<spotterOrder: 10>
+	<spotterOrder: 11>
 	aStep listProcessor
 			title: 'Senders';
 			allCandidates: [ self senders collect: #compiledMethod ];
