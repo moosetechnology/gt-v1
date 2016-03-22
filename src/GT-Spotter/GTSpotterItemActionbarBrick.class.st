@@ -75,6 +75,11 @@ GTSpotterItemActionbarBrick >> diveInButton [
 	^ diveInButton
 ]
 
+{ #category : #testing }
+GTSpotterItemActionbarBrick >> hasStepModel [
+	^ stepModel isNotNil
+]
+
 { #category : #'instance creation' }
 GTSpotterItemActionbarBrick >> newActionButtonBrick [
 
