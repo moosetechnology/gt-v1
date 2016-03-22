@@ -230,7 +230,7 @@ GTSpotterStep >> hasCandidates [
 	false otherwise"
 	<return: #Boolean>
 	
-	^ self candidates isNotEmpty
+	^ self candidates isEmpty not
 ]
 
 { #category : #testing }

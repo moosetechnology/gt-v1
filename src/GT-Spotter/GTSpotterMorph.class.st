@@ -16,8 +16,8 @@ Class {
 { #category : #actions }
 GTSpotterMorph >> actDueTo: anEventType [
 	self spotterModelDo: [
-		self spotterModel isEmpty ifTrue: [ ^self ].
-		self spotterModel currentStep isEmpty ifTrue: [ ^ self ].
+		self spotterModel hasSteps ifFalse: [ ^self ].
+		self spotterModel currentStep hasCandidates ifFalse: [ ^ self ].
 		self spotterModel currentStep actDueTo: anEventType ]
 ]
 
