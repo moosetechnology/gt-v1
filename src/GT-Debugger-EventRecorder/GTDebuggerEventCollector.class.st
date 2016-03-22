@@ -14,6 +14,8 @@ GTDebuggerEventCollector >> collectDataFrom: aDebugger [
 		register;
 		linkToDebugger: aDebugger;
 		recordDebuggerOpenEventFor: aDebugger.
+		
+	aDebugger announcer announce: (GTGenericStackDebuggerSelectionChanged forDebugger: aDebugger).
 ]
 
 { #category : #initialization }
