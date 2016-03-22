@@ -14,6 +14,11 @@ GTDebuggerRecorderOpenEvent class >> fromDebugger: aDebugger [
 ]
 
 { #category : #accessing }
+GTDebuggerRecorderOpenEvent >> addSourceFor: aDebugger [
+	(Privacy sendSourceCode and: [ self isTitleAKernelException: aDebugger title ]) ifTrue: [ self infoAt: #source put: aDebugger currentContext sourceCode ].
+]
+
+{ #category : #accessing }
 GTDebuggerRecorderOpenEvent >> addTitleFor: aDebugger [
 	(Privacy sendEntityNames or: [ self isTitleAKernelException: aDebugger title ]) ifTrue: [ self infoAt: #title put: aDebugger title ].
 ]
@@ -24,6 +29,7 @@ GTDebuggerRecorderOpenEvent >> fromDebugger: aDebugger [
 	self infoAt: #debuggerClass put: aDebugger class name.
 	self addWindowHashFor: aDebugger.
 	self addTitleFor: aDebugger.
+	self addSourceFor: aDebugger.
 ]
 
 { #category : #initialization }
@@ -34,5 +40,5 @@ GTDebuggerRecorderOpenEvent >> initialize [
 
 { #category : #private }
 GTDebuggerRecorderOpenEvent >> isTitleAKernelException: aString [
-	^ (#Kernel asPackage classTagNamed: #Exceptions) classes anySatisfy: [ :e | e name = aString asSymbol ]
+	^ (#Kernel asPackage classTagNamed: #Exceptions) classes anySatisfy: [ :e | e name == aString asSymbol ]
 ]
