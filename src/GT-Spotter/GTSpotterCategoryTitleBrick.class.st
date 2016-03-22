@@ -37,7 +37,7 @@ GTSpotterCategoryTitleBrick >> addDiveInButton [
 		action: [ self stepModel diveInCategory: self category dueTo: #actionButton ];
 		beHelp;
 		hintTitle: 'Show all';
-		hintText: '<cmd+shift+right>'.
+		hintText: '<',OSPlatform current defaultModifier name asLowercase,'+shift+right>'.
 		
 	self pushActionButton: self diveInButton
 	
