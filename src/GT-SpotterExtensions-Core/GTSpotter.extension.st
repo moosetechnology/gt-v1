@@ -89,7 +89,9 @@ GTSpotter >> spotterClipboardFor: aStep [
 		itemName: [ :item | item asString contractTo: 100 ];
 		itemFilterName: [ :item | item asString ];
 		filter: GTFilterSubstrings;
-		actLogic: [ :item | item asString inspect ];
+		actLogic: [ :item :step |
+			step exit.
+			item asString inspect ];
 		wantsToDisplayOnEmptyQuery: false
 ]
 
@@ -218,7 +220,9 @@ GTSpotter >> spotterForMessagesFor: aStep [
 		title: 'Messages';
 		filter: GTNullFilter item: [ :filter :context | 
 			GTSelector substring: context textTrimmed filter: filter ];
-		actLogic: [ :each | self systemNavigation browseAllImplementorsOf: each name ];		
+		actLogic: [ :each :step|
+			step exit.
+			self systemNavigation browseAllImplementorsOf: each name ];		
 		wantsToDisplayOnEmptyQuery: false
 ]
 

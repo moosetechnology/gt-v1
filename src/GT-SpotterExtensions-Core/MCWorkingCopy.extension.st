@@ -41,7 +41,9 @@ MCWorkingCopy >> spotterAllRepositoriesFor: aStep [
 		title: 'All other repositories';
 		allCandidates: [ MCRepositoryGroup default repositories \ self repositoryGroup repositories ];
 		itemName: [ :item | item description ];
-		actLogic: [ :item | self spotterCommit: self in: item ];
+		actLogic: [ :item :step | 
+			step exit.
+			self spotterCommit: self in: item ];
 		filter: GTFilterSubstring
 ]
 
@@ -98,7 +100,9 @@ MCWorkingCopy >> spotterPackageRepositoriesFor: aStep [
 		title: 'Package repositories';
 		allCandidates: [ self repositoryGroup repositories ];
 		itemName: [ :item | item description ];
-		actLogic: [ :item | self spotterCommit: self in: item ];
+		actLogic: [ :item :step |
+			step exit.
+			self spotterCommit: self in: item ];
 		filter: GTFilterSubstring
 ]
 
