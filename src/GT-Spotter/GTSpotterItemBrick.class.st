@@ -58,7 +58,7 @@ GTSpotterItemBrick >> check [
 { #category : #'event handling' }
 GTSpotterItemBrick >> checkOrUncheck [
 
-	self stepModel selected == self candidateLink
+	(self stepModel isSelected: self candidateLink)
 		ifTrue: [ self isChecked ifFalse: [ self check ] ]
 		ifFalse: [ self isChecked ifTrue: [ self uncheck ] ]
 ]
@@ -184,8 +184,8 @@ GTSpotterItemBrick >> newLabelBrick [
 
 { #category : #notifying }
 GTSpotterItemBrick >> notifySelected [
-
-	self stepModel spotter announce: (GTSpotterCandidateSelected new candidateBrick: self)
+	self stepModel spotter announce: (GTSpotterCandidateSelected new itemBrick: self).
+	self stepModel announcer announce: (GTSpotterCandidateSelected new itemBrick: self)
 ]
 
 { #category : #'brick-layout-events' }
@@ -267,7 +267,7 @@ GTSpotterItemBrick >> stepModel: aModel [
 	
 	self
 		highlightQuery;
-		checkOrUncheck.
+		checkOrUncheck
 ]
 
 { #category : #accessing }

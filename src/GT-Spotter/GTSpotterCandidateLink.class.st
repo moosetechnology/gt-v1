@@ -27,6 +27,11 @@ GTSpotterCandidateLink >> asSpotterCandidateLink [
 	^ self
 ]
 
+{ #category : #accessing }
+GTSpotterCandidateLink >> candidate [
+	^ self value
+]
+
 { #category : #copying }
 GTSpotterCandidateLink >> copy [
 	|link|
@@ -47,6 +52,16 @@ GTSpotterCandidateLink >> gtDisplayOn: stream [
 GTSpotterCandidateLink >> isFirst [
 
 	^ (self previousLink processorLink = self processorLink) not
+]
+
+{ #category : #accessing }
+GTSpotterCandidateLink >> next [
+	^ self nextLink
+]
+
+{ #category : #accessing }
+GTSpotterCandidateLink >> previous [
+	^ self previousLink
 ]
 
 { #category : #private }

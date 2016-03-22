@@ -128,13 +128,36 @@ GTSpotterResultsBrick >> categories [
 { #category : #accessing }
 GTSpotterResultsBrick >> categoryBrickFor: aProcessor [
 	"Return a container brick that contains candidates for aProcessor.
-	If category brick for aProcessor is used requested for the first time
+	If category brick for aProcessor is requested for the first time
 	it gets created without being added to spotter UI"
 	<return: #GTSpotterCategoryBrick>
 	
 	^ self categories
 		at: aProcessor
 		ifAbsentPut: [ self buildCategoryBrick: aProcessor ]
+]
+
+{ #category : #accessing }
+GTSpotterResultsBrick >> categoryBrickOf: aProcessor [
+	"Return a container brick that contains candidates for aProcessor.
+	If category brick for aProcessor does not exist throw an error"
+	<return: #GTSpotterCategoryBrick>
+	<throws: #Error when: 'Category for aProcessor does not exist'>
+	
+	^ self categories
+		at: aProcessor
+		ifAbsent: [ Error signal: 'Category for ', aProcessor asString, ' does not exist' ]
+]
+
+{ #category : #accessing }
+GTSpotterResultsBrick >> categoryBrickOf: aProcessor ifAbsent: aBlock [
+	"Return a container brick that contains candidates for aProcessor.
+	If category brick for aProcessor does not exist evaluate aBlock"
+	<return: #GTSpotterCategoryBrick>
+	
+	^ self categories
+		at: aProcessor
+		ifAbsent: aBlock
 ]
 
 { #category : #initialization }
@@ -185,21 +208,23 @@ GTSpotterResultsBrick >> onCandidateAdded: anAnnouncement [
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidateSelected: ann [
-	|categoryBrick titleBrick processor|
-		
-	processor := ann candidateBrick processor.
-	categoryBrick := self categoryBrickFor: processor.
+	|processor categoryBrick itemBrick titleBrick scrollTo|
+
+	processor := ann itemBrick processor.	
+	categoryBrick := self categoryBrickOf: processor ifAbsent: [ ^ self ].
+	itemBrick := ann itemBrick.
 	titleBrick := categoryBrick titleBrick.
-	self scrollTo: ((ann candidateBrick candidateLink isFirst and: [ titleBrick isFirstInOwner ])
+	scrollTo := (itemBrick candidateLink isFirst and: [ titleBrick isFirstInOwner ])
 		ifTrue: [ titleBrick ]
-		ifFalse: [ ann candidateBrick ])
+		ifFalse: [ itemBrick ].
+	self scrollTo: scrollTo
 ]
 
 { #category : #'event handling' }
 GTSpotterResultsBrick >> onCandidatesAmountChanged: ann [
 	|categoryMorph|
 	
-	categoryMorph := self categoryBrickFor: ann category.
+	categoryMorph := self categoryBrickOf: ann category.
 	categoryMorph setAmountVisible: (categoryMorph submorphs size) all: ann amount.
 	
 ]
@@ -234,7 +259,7 @@ GTSpotterResultsBrick >> stepModel: aModel [
 	stepModel candidates announcer weak when: GTSpotterCandidatesAmountChanged send: #onCandidatesAmountChanged: to: self.
 	stepModel announcer weak when: GTSpotterScrollPageDown send: #scrollPageDown to: self.
 	stepModel announcer weak when: GTSpotterScrollPageUp send: #scrollPageUp to: self.
-	stepModel spotter announcer weak when: GTSpotterCandidateSelected send: #onCandidateSelected: to: self.
+	stepModel announcer weak when: GTSpotterCandidateSelected send: #onCandidateSelected: to: self
 ]
 
 { #category : #accessing }

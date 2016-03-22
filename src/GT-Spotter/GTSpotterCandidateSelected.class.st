@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-GTSpotterCandidateSelected >> candidateBrick [
+GTSpotterCandidateSelected >> itemBrick [
 	^ candidateBrick
 ]
 
 { #category : #accessing }
-GTSpotterCandidateSelected >> candidateBrick: anObject [
+GTSpotterCandidateSelected >> itemBrick: anObject [
 	candidateBrick := anObject
 ]

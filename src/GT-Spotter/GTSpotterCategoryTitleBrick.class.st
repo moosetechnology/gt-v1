@@ -6,9 +6,9 @@ Class {
 		'amountBrick',
 		'actionbarBrick',
 		'stepModel',
-		'categoryProcessor',
 		'diveInButton',
-		'shortcutBrick'
+		'shortcutBrick',
+		'category'
 	],
 	#category : #'GT-Spotter-UI'
 }
@@ -34,7 +34,7 @@ GTSpotterCategoryTitleBrick >> addDiveInButton [
 	self diveInButton
 		icon: self themer spotterThemer iconDiveInCategory;
 		pressedColor: (self themer spotterThemer itemActionSelectedBackgroundColor alpha: 0.5);
-		action: [ self stepModel diveInCategory: self categoryProcessor dueTo: #actionButton ];
+		action: [ self stepModel diveInCategory: self category dueTo: #actionButton ];
 		beHelp;
 		hintTitle: 'Show all';
 		hintText: '<cmd+shift+right>'.
@@ -61,13 +61,15 @@ GTSpotterCategoryTitleBrick >> amountBrick: aBrick [
 ]
 
 { #category : #accessing }
-GTSpotterCategoryTitleBrick >> categoryProcessor [
-	^ categoryProcessor
+GTSpotterCategoryTitleBrick >> category [
+	self assert: category isNotNil.
+	^ category
 ]
 
 { #category : #accessing }
-GTSpotterCategoryTitleBrick >> categoryProcessor: anObject [
-	categoryProcessor := anObject
+GTSpotterCategoryTitleBrick >> category: aProcessor [
+	self assert: aProcessor isNotNil.
+	category := aProcessor
 ]
 
 { #category : #accessing }
@@ -141,7 +143,7 @@ GTSpotterCategoryTitleBrick >> newShortcutBrick [
 GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 
 	self stepModel: aStepModel.
-	self categoryProcessor: aProcessor.
+	self category: aProcessor.
 	
 	self nameBrick: self newNameBrick.
 	self nameBrick text: '#', aProcessor title.
@@ -168,15 +170,14 @@ GTSpotterCategoryTitleBrick >> on: aStepModel category: aProcessor [
 { #category : #'event-handling' }
 GTSpotterCategoryTitleBrick >> onCandidateSelected [
 	
-	self stepModel selected ifNil: [ ^ self ].
-	self stepModel selectedCategory = self categoryProcessor
+	(self stepModel isCategorySelected: self category)
 		ifTrue: [ self showActionbar ]
 		ifFalse: [
 			"well, we need to check first if there are not hovered candidates for my category"
 			(self isSelected not and: [
 				self owner isNotNil and: [
-					(self owner owner categories includesKey: self categoryProcessor) and: [ 
-						(self owner owner categoryBrickFor: self categoryProcessor) isSelected not  ] ] ] )
+					(self owner owner categories includesKey: self category) and: [ 
+						(self owner owner categoryBrickOf: self category) isSelected not  ] ] ] )
 			ifTrue: [ self hideActionbar ] ]
 ]
 
@@ -217,7 +218,7 @@ GTSpotterCategoryTitleBrick >> onThemerChanged [
 
 { #category : #'event-handling' }
 GTSpotterCategoryTitleBrick >> onUnhovered [
-	self stepModel selectedCategory == self categoryProcessor
+	(self stepModel isCategorySelected: self category)
 		ifFalse: [ self hideActionbar ]
 ]
 

@@ -41,8 +41,8 @@ GTSpotterStep >> actDueTo: anEventType [
 	self selected ifNil: [ ^ self ].
 	self spotter
 		historize: self selected;
-		notifyActOn: self selectedCandidate for: anEventType.
-	self selected processor actOn: self selectedCandidate for: self
+		notifyActOn: self selected candidate for: anEventType.
+	self selected processor actOn: self selected candidate for: self
 
 ]
 
@@ -100,7 +100,7 @@ GTSpotterStep >> canDiveIn: aCandidate [
 { #category : #actions }
 GTSpotterStep >> canDiveInSelectedCandidate [
 
-	^ self canDiveIn: self selectedCandidate
+	^ self canDiveIn: self selected candidate
 ]
 
 { #category : #accessing }
@@ -108,9 +108,9 @@ GTSpotterStep >> candidates [
 
 	^ candidates ifNil: [
 		candidates := GTSpotterCandidatesList new.
-		candidates announcer weak subscribe: GTSpotterCandidateAdded do: [ self candidates hasOnlyOneItem ifTrue: [ self selectFirst ] ].
-		candidates announcer weak subscribe: GTSpotterAllCandidatesAdded do: [ self selectFirst ].
-		candidates announcer weak subscribe: GTSpotterAllCandidatesRemoved do: [ self selected: nil ].
+		candidates announcer weak subscribe: GTSpotterCandidateAdded send: #onCandidateAdded to: self.
+		candidates announcer weak subscribe: GTSpotterAllCandidatesAdded send: #onCandidateAdded to: self.
+		candidates announcer subscribe: GTSpotterAllCandidatesRemoved do: [ self deselect ].
 		candidates ]
 ]
 
@@ -146,6 +146,12 @@ GTSpotterStep >> defaultTask [
 	^ GLMAsyncTask new
 ]
 
+{ #category : #selecting }
+GTSpotterStep >> deselect [
+	"Deselects a candidate without notifying anyone"
+	selected := nil
+]
+
 { #category : #actions }
 GTSpotterStep >> diveIn [
 	self diveInDueTo: #undefined
@@ -179,8 +185,8 @@ GTSpotterStep >> diveInDueTo: anEventType [
 	self canDiveInSelectedCandidate ifTrue: [ 
 		self spotter
 			historize: self selected;
-			requestNextStepWith: self selectedCandidate for: #diveIn;
-			notifyDiveIn: self selectedCandidate for: anEventType ]
+			requestNextStepWith: self selected candidate for: #diveIn;
+			notifyDiveIn: self selected candidate for: anEventType ]
 ]
 
 { #category : #accessing }
@@ -215,22 +221,64 @@ GTSpotterStep >> gtInspectorProcessorsIn: composite [
 ]
 
 { #category : #testing }
-GTSpotterStep >> hasPreviousNavigationFromClass: aClass [
+GTSpotterStep >> hasCandidates [
+	"Return true if there are any candidates in all categories,
+	false otherwise"
+	<return: #Boolean>
+	
+	^ self candidates isNotEmpty
+]
 
+{ #category : #testing }
+GTSpotterStep >> hasPreviousNavigationFromClass: aClass [
+	"Return true if origin of the previous step is kind of aClass.
+	Return false if there is no previous step or if origin is not a kind of aClass"
+	<return: #Boolean>
+	
 	^ self hasPreviousStep and: [
 		self previousStep origin isKindOf: aClass ]
 ]
 
 { #category : #testing }
 GTSpotterStep >> hasPreviousStep [
+	"Return true if there is previous step,
+	meaning that I am not a first step in spotter,
+	false otherwise"
+	<return: #Boolean>
 	
-	^ (self spotter steps indexOf: self) > 1
+	^ self spotter steps first ~= self
 ]
 
 { #category : #testing }
-GTSpotterStep >> isEmpty [
+GTSpotterStep >> hasSelected [
+	"Return true if there is selected candidate, false otherwise"
+	<return: #Boolean>
+	
+	^ selected isNotNil
+]
 
-	^ self candidates isEmpty
+{ #category : #testing }
+GTSpotterStep >> isCategorySelected: aProcessor [
+	"Return true if a category assigned to aProcessor is currently selected,
+	false otherwise"
+	<return: #Boolean>
+	
+	^ self hasSelected and: [ self selected processor == aProcessor ]
+]
+
+{ #category : #'zz-deprecated' }
+GTSpotterStep >> isEmpty [
+	self deprecated: 'Use hasCandidates instead'.
+	^ self hasCandidates not
+]
+
+{ #category : #testing }
+GTSpotterStep >> isSelected: aCandidateLink [
+	"Return true if aCandidateLink is currently selected,
+	false otherwise"
+	<return: #Boolean>
+	
+	^ self hasSelected and: [ self selected == aCandidateLink ]
 ]
 
 { #category : #accessing }
@@ -266,6 +314,14 @@ GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink for: anEventType [
 	self spotter notifyCandidateSelected: candidate for: anEventType
 ]
 
+{ #category : #'event processing' }
+GTSpotterStep >> onCandidateAdded [
+	"Select first candidate item in the list if there is no already selected
+	candidate and candidate list has at least one candidate"
+	(self hasSelected or: [ self candidates isEmpty ])
+		ifFalse: [ self selectFirst ]
+]
+
 { #category : #accessing }
 GTSpotterStep >> origin [
 
@@ -290,6 +346,10 @@ GTSpotterStep >> previousProcessorFrom: aCollection [
 
 { #category : #'accessing-dynamic' }
 GTSpotterStep >> previousStep [
+	"Return a spotter step before me which must exist,
+	otherwise behavior is undefined."
+	<return: #GTSpotterStep>
+	self assert: self hasPreviousStep.
 	
 	^ self spotter steps at: 
 			(self spotter steps indexOf: self) - 1
@@ -374,15 +434,16 @@ GTSpotterStep >> relevantProcessorsProcess: aSpotterContext [
 
 { #category : #selecting }
 GTSpotterStep >> selectFirst [
+	self
+		assert: self candidates isEmpty not
+		description: 'There must be at least one candidate in order to selected first'.
 	
-	self candidates isEmpty ifTrue: [ ^ self ].
 	self selected: self candidates head
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectNextCategory [
 	|currentCategory nextCategory|
-	self selected ifNil: [ ^ self ].
 	
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	nextCategory := self candidates nextProcessorLinkOf: currentCategory.
@@ -397,10 +458,7 @@ GTSpotterStep >> selectNextCategory [
 { #category : #selecting }
 GTSpotterStep >> selectNextDueTo: anEventType [
 	
-	self selected ifNil: [ ^ self ].
-	self selected: self selected nextLink dueTo: anEventType
-	
-	
+	self selected: self selected next dueTo: anEventType
 ]
 
 { #category : #selecting }
@@ -417,20 +475,29 @@ GTSpotterStep >> selectPreviousCategory [
 { #category : #selecting }
 GTSpotterStep >> selectPreviousDueTo: anEventType [
 
-	self selected ifNil: [ ^ self ].
-	self selected: self selected previousLink dueTo: anEventType
+	self selected: self selected previous dueTo: anEventType
 ]
 
 { #category : #accessing }
 GTSpotterStep >> selected [
+	"Return a candidate represented by double link to allow fast access to
+	next and previous candidate. In order to get actual candidate object behind
+	the link send #candidate to it.
 
-	^ selected ifNil: [
+	selected can not be nil (always use hasSelected before using me)"
+	<return: #GTSpotterCandidateLink>
+	self assert: selected isNotNil.
+	
+	^ selected
+	
+	" ifNil: [
 		selected := (self candidates isEmpty
 			ifTrue: [ ^ nil ]
 			ifFalse: [ self candidates head ]).
+		self assert: selected isNotNil.
 		self notifySelectedCandidateChanged: selected.
-		selected ifNotNil: [ self spotter notifyCategorySelected: self selected processor ].
-		selected ]
+		self spotter notifyCategorySelected: self selected processor.
+		selected ]"
 ]
 
 { #category : #selecting }
@@ -443,35 +510,26 @@ GTSpotterStep >> selected: aDoubleLink [
 
 { #category : #selecting }
 GTSpotterStep >> selected: aDoubleLink dueTo: anEvenType [
+	self assert: aDoubleLink isNotNil.
+	self assert: aDoubleLink processor isNotNil.
 	
-	self selected = aDoubleLink ifTrue: [ ^ self ].
+	(self isSelected: aDoubleLink)
+		ifTrue: [ ^ self ].
 	
 	self spotter
 		after: [
 			selected := aDoubleLink.
 			self notifySelectedCandidateChanged: selected for: anEvenType]
-		do: [ self spotter notifyCategorySelected: self selected processor ]
-		ifTrue: [ aDoubleLink
-			ifNotNil: [ self selected
-				ifNotNil: [ (self selected processor = aDoubleLink processor) not ]
-				ifNil: [ true ] ]
-			ifNil: [ false ] ]
+		do: [ 		
+			self spotter notifyCategorySelected: self selected processor ]
+		ifTrue: [ (self isCategorySelected: aDoubleLink processor) not ]
 	
 	
-]
-
-{ #category : #accessing }
-GTSpotterStep >> selectedCandidate [
-
-	^ self selected
-		ifNotNil: [ self selected value ]
-		ifNil: [ nil ]
 ]
 
 { #category : #accessing }
 GTSpotterStep >> selectedCategory [
-
-	^ self selected ifNotNil: #processor
+	^ self selected processor
 ]
 
 { #category : #accessing }

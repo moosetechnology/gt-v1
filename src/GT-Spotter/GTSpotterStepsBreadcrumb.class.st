@@ -160,7 +160,7 @@ GTSpotterStepsBreadcrumb >> onStepAdded: ann [
 	
 	step := ann stepModel.
 	previousStep := (step spotter steps at: step spotter steps size - 1).
-	selectedCandidate := previousStep selectedCandidate.
+	selectedCandidate := previousStep selected candidate.
 	origin := step origin.
 	
 	self push: (GTSpotterStepBreadcrumbItem new

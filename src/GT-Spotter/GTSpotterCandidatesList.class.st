@@ -128,13 +128,6 @@ GTSpotterCandidatesList >> getProcessorLinkByCandidateLink: aCandidateLink [
 	^ aCandidateLink processorLink
 ]
 
-{ #category : #testing }
-GTSpotterCandidatesList >> hasOnlyOneItem [
-
-	self isEmpty ifTrue: [ ^ self ].
-	^ self head = self tail
-]
-
 { #category : #candidates }
 GTSpotterCandidatesList >> head [
 
@@ -181,7 +174,11 @@ GTSpotterCandidatesList >> notifyCandidateAdded: aCandidateLink in: aProcessor [
 
 { #category : #'stream handling' }
 GTSpotterCandidatesList >> onAmountChanged: anInteger in: aProcessor [
+	"Amount must be non-negative"
+	self assert: anInteger >= 0.
 	
+	"If amount is not positive there is no need to do anything"
+	anInteger = 0 ifTrue: [ ^ self ].
 	self announcer announce: (GTSpotterCandidatesAmountChanged new amount: anInteger; category: aProcessor; yourself)
 ]
 

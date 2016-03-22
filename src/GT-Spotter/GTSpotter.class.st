@@ -213,11 +213,10 @@ GTSpotter >> beDeployment [
 
 { #category : #accessing }
 GTSpotter >> currentStep [
-	
-	^ currentStep ifNil: [ 
-			self isEmpty 
-				ifTrue: [ self newStep origin: self foundationOrigin ]
-				ifFalse: [ currentStep := self steps last ] ]
+	^ currentStep
+		ifNil: [ self hasSteps
+				ifTrue: [ currentStep := self steps last ]
+				ifFalse: [ self newStep origin: self foundationOrigin ] ]
 ]
 
 { #category : #accessing }
@@ -335,6 +334,16 @@ GTSpotter >> hasMultipleSteps [
 	^ self steps size > 1
 ]
 
+{ #category : #testing }
+GTSpotter >> hasSelected [
+	^ self hasSteps and: [ self currentStep hasSelected ]
+]
+
+{ #category : #testing }
+GTSpotter >> hasSteps [
+	^ 	self steps isNotEmpty
+]
+
 { #category : #'actions api' }
 GTSpotter >> hidePreview [
 
@@ -373,8 +382,8 @@ GTSpotter >> initialize [
 
 { #category : #testing }
 GTSpotter >> isEmpty [
-
-	^ self steps isEmpty
+	self deprecated: 'Use hasSteps instead'.
+	^ self hasSteps not
 ]
 
 { #category : #testing }

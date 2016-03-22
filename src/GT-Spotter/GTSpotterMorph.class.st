@@ -91,19 +91,17 @@ GTSpotterMorph >> defaultLabel [
 { #category : #actions }
 GTSpotterMorph >> diveInCategoryDueTo: anEventType [
 
-	self spotterModelDo: [
-		self spotterModel isEmpty
-			ifFalse: [ self spotterModel currentStep isEmpty 
-				ifFalse: [ self spotterModel currentStep diveInCategoryDueTo: anEventType ] ] ]
+	self spotterModelDo: [ :aSpotter |
+		aSpotter hasSelected
+			ifTrue: [ aSpotter currentStep diveInCategoryDueTo: anEventType ] ]
 ]
 
 { #category : #actions }
 GTSpotterMorph >> diveInDueTo: anEventType [
 
-	self spotterModelDo: [
-		self spotterModel isEmpty ifFalse: [ 
-			self spotterModel currentStep isEmpty ifFalse: [ 
-				self spotterModel currentStep diveInDueTo: anEventType ] ] ]
+	self spotterModelDo: [ :aSpotter |
+		aSpotter hasSelected
+			ifTrue: [ aSpotter currentStep diveInDueTo: anEventType ] ]
 ]
 
 { #category : #actions }
@@ -331,32 +329,31 @@ GTSpotterMorph >> processorKeyBindingsDo: aBlock [
 { #category : #actions }
 GTSpotterMorph >> selectNextCandidateDueTo: anEventType [
 
-	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep selectNextDueTo: anEventType ]
-	
+	self spotterModel hasSelected
+		ifTrue: [ self spotterModel currentStep selectNextDueTo: anEventType ]
 ]
 
 { #category : #actions }
 GTSpotterMorph >> selectNextCategory [
 
-	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep selectNextCategory ]
+	self spotterModel hasSelected
+		ifTrue: [ self spotterModel currentStep selectNextCategory ]
 	
 ]
 
 { #category : #actions }
 GTSpotterMorph >> selectPreviousCandidateDueTo: anEventType [
 
-	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep selectPreviousDueTo: anEventType ]
+	self spotterModel hasSelected
+		ifTrue: [ self spotterModel currentStep selectPreviousDueTo: anEventType ]
 	
 ]
 
 { #category : #actions }
 GTSpotterMorph >> selectPreviousCategory [
 
-	self spotterModel isEmpty
-		ifFalse: [ self spotterModel currentStep selectPreviousCategory ]
+	self spotterModel hasSelected
+		ifTrue: [ self spotterModel currentStep selectPreviousCategory ]
 	
 ]
 
@@ -398,7 +395,7 @@ GTSpotterMorph >> spotterModel: aSpotter [
 { #category : #private }
 GTSpotterMorph >> spotterModelDo: aBlock [
 	self spotterModel handleExceptionsDuring: [ 
-		aBlock value.
+		aBlock cull: self spotterModel.
 		self handleProcessorKeyBindings ]
 ]
 
