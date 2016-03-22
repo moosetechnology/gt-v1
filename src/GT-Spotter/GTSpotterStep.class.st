@@ -91,10 +91,14 @@ GTSpotterStep >> basicRelevantProcessorsProcess: aSpotterContext do: aBlock [
 
 { #category : #actions }
 GTSpotterStep >> canDiveIn: aCandidate [
-	| newFakeStep |
+	| newFakeStep canDiveIn|
+	canDiveIn := false.
 	newFakeStep := self spotter newStep origin: self origin.
-	aCandidate spotterProcessorsFor: newFakeStep.
-	^ newFakeStep processors notEmpty
+	self spotter
+		addStep: newFakeStep
+		during: [ aCandidate spotterProcessorsFor: newFakeStep.
+			canDiveIn := newFakeStep processors notEmpty ].
+	^ canDiveIn
 ]
 
 { #category : #actions }
@@ -246,7 +250,8 @@ GTSpotterStep >> hasPreviousStep [
 	false otherwise"
 	<return: #Boolean>
 	
-	^ self spotter steps first ~= self
+	^ self spotter hasSteps
+		and: [ self spotter steps first ~= self ]
 ]
 
 { #category : #testing }
