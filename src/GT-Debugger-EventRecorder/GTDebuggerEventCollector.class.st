@@ -8,6 +8,15 @@ Class {
 }
 
 { #category : #initialization }
+GTDebuggerEventCollector >> collectDataFrom: aDebugger [
+	self occupant: aDebugger;
+		category: #gtdebugger;
+		register;
+		linkToDebugger: aDebugger;
+		recordDebuggerOpenEventFor: aDebugger.
+]
+
+{ #category : #initialization }
 GTDebuggerEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := SharedQueue  new.
