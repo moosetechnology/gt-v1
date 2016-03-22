@@ -83,8 +83,7 @@ GTImageSetupCommandLineHandler >> installGLMWhitespaceTheme [
 	GLMWhitespaceTheme 
 		defaultSettings: nil;
 		setPreferredWorldBackground;
-		beCurrent;
-		setPreferredShoutColors
+		beCurrent
 ]
 
 { #category : #utilities }
@@ -120,7 +119,7 @@ GTImageSetupCommandLineHandler >> setPreferredSettings [
 		expandPrefixes: true;
 		popupShowWithShortcut: Character tab asShortcut.
 	GTGenericStackDebugger enableStackColoring: true.
-	GLMWhitespaceTheme setPreferredShoutColors.
+"	GLMWhitespaceTheme setPreferredShoutColors."
 	KMRepository reset.
 	"ThemeIcons current: GLMThemeIcons new"
 ]
