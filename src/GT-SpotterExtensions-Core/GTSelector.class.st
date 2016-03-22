@@ -2,7 +2,7 @@
 This is a helper class for modeling a selector. We need this in order to support diving in such a selector and to offer specific processors (like implementors or senders) in Spotter .
 "
 Class {
-	#name : #GTSelectorImplementors,
+	#name : #GTSelector,
 	#superclass : #Object,
 	#instVars : [
 		'name',
@@ -12,13 +12,13 @@ Class {
 }
 
 { #category : #examples }
-GTSelectorImplementors class >> gtExampleNew [
+GTSelector class >> gtExampleNew [
 	<gtExample>
 	^ self new name: #new
 ]
 
 { #category : #private }
-GTSelectorImplementors class >> substring: aString filter: aFilter [
+GTSelector class >> substring: aString filter: aFilter [
 	| selectors |
 	aString isEmptyOrNil ifTrue: [ ^ self ].
 	selectors := IdentityDictionary new.
@@ -28,68 +28,73 @@ GTSelectorImplementors class >> substring: aString filter: aFilter [
 				| group newGroup | 
 				group := selectors 
 					at: selector 
-					ifAbsentPut: [ aFilter value: (newGroup := GTSelectorImplementors new name: selector; yourself). newGroup ].
+					ifAbsentPut: [ aFilter value: (newGroup := GTSelector new name: selector; yourself). newGroup ].
 				group addMethod: method ] ] ] 
 ]
 
-{ #category : #accessing }
-GTSelectorImplementors >> addMethod: aCompiledMethod [
+{ #category : #'private accessing' }
+GTSelector >> addMethod: aCompiledMethod [
+	"this is a private method that can be used by the constructor on the class side
+	exclusively within the context of Spotter"
+	methods ifNil: [ methods := OrderedCollection new ].
 	methods add: aCompiledMethod
 ]
 
 { #category : #printing }
-GTSelectorImplementors >> gtDisplayOn: stream [
+GTSelector >> gtDisplayOn: stream [
 	stream nextPutAll: self name
 ]
 
 { #category : #querying }
-GTSelectorImplementors >> implementors [
-	^ SystemNavigation default allImplementorsOf: self name
+GTSelector >> implementors [
+	^ methods ifNil: [ 
+		methods := (SystemNavigation default allImplementorsOf: self name) 
+			collect: [ :each | each compiledMethod ] ]
 ]
 
 { #category : #initialization }
-GTSelectorImplementors >> initialize [
+GTSelector >> initialize [
 	super initialize.
 	
-	methods := OrderedCollection new.
+	methods := nil
 ]
 
 { #category : #accessing }
-GTSelectorImplementors >> name [
+GTSelector >> name [
 	^ name
 ]
 
 { #category : #accessing }
-GTSelectorImplementors >> name: anObject [
+GTSelector >> name: anObject [
 	name := anObject
 ]
 
 { #category : #querying }
-GTSelectorImplementors >> senders [
+GTSelector >> senders [
 	^ SystemNavigation default allSendersOf: self name
 ]
 
 { #category : #ui }
-GTSelectorImplementors >> spotterImplementorsFor: aStep [
+GTSelector >> spotterImplementorsFor: aStep [
 	<spotterOrder: 40>
 	^ aStep listProcessor
 		title: 'Implementors';
-		filter: GTFilterSubstring item: [ :filter :context | methods do: filter ];
+		filter: GTFilterSubstring item: [ :filter :context | self implementors do: filter ];
 		keyBinding: $m meta
 ]
 
 { #category : #ui }
-GTSelectorImplementors >> spotterPreviewIn: aComposite [
+GTSelector >> spotterPreviewIn: aComposite [
 	<spotterPreview: 10>
 	aComposite list
 		title: 'Preview';
 		display: [ :x | x ];
 		format: [ :method | GTSpotterItemBrick new text: method gtDisplayString; disable; yourself ];
-		entity: (self systemNavigation allImplementorsOf: self name)
+		entity: self implementors
 ]
 
 { #category : #ui }
-GTSelectorImplementors >> spotterSendersFor: aStep [
+GTSelector >> spotterSendersFor: aStep [
 	<spotterOrder: 50>
 	^ aStep listProcessor
 		title: 'Senders';
