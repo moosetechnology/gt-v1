@@ -19,6 +19,6 @@ GTDebuggerRecorderStackSelectionChangedEvent >> fromAnnouncement: anAnnouncement
 	self infoAt: #methodSelector putHashForText: anAnnouncement newContext methodSelector.
 	self infoAt: #pc put: anAnnouncement newContext pc.
 	self infoAt: #stackPosition put: anAnnouncement newContext stack size.
-	self infoAt: #nextInstruction put: anAnnouncement newContext peekInstruction asString.
+	self infoAt: #nextInstruction putHashForText: anAnnouncement newContext peekInstruction asString.
 	self addWindowHashFor: anAnnouncement debugger.
 ]
