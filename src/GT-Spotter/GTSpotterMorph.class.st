@@ -187,7 +187,7 @@ GTSpotterMorph >> newPaneBrick [
 { #category : #'instance creation' }
 GTSpotterMorph >> newPrivacyAgreementNotificationBrick [
 
-	^ GTSpotterPrivacyAgreementNotificationBrick new
+	^ GLMPrivacyAgreementBrick new
 ]
 
 { #category : #'events-processing' }
@@ -314,6 +314,7 @@ GTSpotterMorph >> privacyAgreementNotificationBrick: aBrick [
 			ifFalse: [self themer spotterThemer previewArrowWidth - (2*self themer spotterThemer previewBorderWidth)] 
 			ifTrue: [0])].
 	
+	privacyAgreementNotificationBrick settingsButtonBrick when: #onClicked send: #closeSpotter to: self.
 	self addBrickBack: privacyAgreementNotificationBrick
 ]
 
