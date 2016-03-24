@@ -111,7 +111,6 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			TClass. " corrupt package detection "
 			TClassDescription. " corrupt package detection "
 			ZnMessage. " corrupt package detection "
-			Behavior. "Has abstract methods"
 			TBehavior. 
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
