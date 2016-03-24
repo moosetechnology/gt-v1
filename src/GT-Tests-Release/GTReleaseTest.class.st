@@ -80,7 +80,10 @@ GTReleaseTest >> testAllMissingExternalExamples [
 	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: nil
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. 'Petit'. 'Renraku'. 'Slot'. 'Opal'. 'Roassal' }
-		ignoredClasses: { }
+		ignoredClasses: {
+			Behavior. "Has abstract methods"
+			TraitBehavior. "Has abstract methods"
+			TBehavior. }
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing external examples'
@@ -96,8 +99,6 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			ComposableModel. 
 			GTEventCollectors. 
 			GTEventRecorder. 
-			GTMCAbstractVersion. 
-			GTNamespace. 
 			GTExampleProxy. " dummy "
 			GTSpotterExceptionMock1. " mock "
 			GTSpotterExceptionMock2. " mock "
@@ -109,7 +110,9 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			Slot. " corrupt package detection "
 			TClass. " corrupt package detection "
 			TClassDescription. " corrupt package detection "
-			ZnMessage " corrupt package detection "
+			ZnMessage. " corrupt package detection "
+			Behavior. "Has abstract methods"
+			TBehavior. 
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
@@ -146,7 +149,8 @@ GTReleaseTest >> testMissingGTSpotterExamples [
 		ignoredClasses: { 
 			Slot. " abstract "
 			TClass. " spotter/processor tests would be ulimatively slow "
-			TClassDescription
+			TClassDescription.
+			TBehavior. 
 		}
 		pragmas: #( #spotterOrder: )
 		examples: #( #gtExample #gtExample: )
