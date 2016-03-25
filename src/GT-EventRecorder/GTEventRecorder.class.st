@@ -29,8 +29,7 @@ Class {
 		'collectors',
 		'delivery',
 		'packing',
-		'privacy',
-		'announcer'
+		'privacy'
 	],
 	#classInstVars : [
 		'uniqueInstance'
@@ -90,15 +89,17 @@ GTEventRecorder >> activateDelivery [
 	^ delivery activate
 ]
 
-{ #category : #adding }
-GTEventRecorder >> addCollector: aGTEventCollector [
-	self activateDelivery.
-	^ collectors add: aGTEventCollector
+{ #category : #delivery }
+GTEventRecorder >> activateDeliveryIfAvailable [
+	^ self canSendDiagnosticsAndUsageData 
+		ifTrue: [ self activateDelivery ]
+		ifFalse: [ nil ]
 ]
 
-{ #category : #accessing }
-GTEventRecorder >> announcer [
-	^ announcer ifNil: [ announcer := Announcer new ]
+{ #category : #adding }
+GTEventRecorder >> addCollector: aGTEventCollector [
+	self activateDeliveryIfAvailable.
+	^ collectors add: aGTEventCollector
 ]
 
 { #category : #testing }
