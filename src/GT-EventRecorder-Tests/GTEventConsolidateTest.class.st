@@ -13,7 +13,7 @@ Class {
 		'consolidated',
 		'data'
 	],
-	#category : #'GT-EventRecorder-Tests-Core'
+	#category : #'GT-EventRecorder-Tests-Support'
 }
 
 { #category : #running }

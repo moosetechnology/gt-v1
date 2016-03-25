@@ -245,6 +245,65 @@ GTEventRecorderTest >> testPack3 [
 	self assert: recorder delivery size equals: 0.
 ]
 
+{ #category : #'as yet unclassified' }
+GTEventRecorderTest >> testPrivacyChanged [
+	"Ensure that delivery is turn off when privacy is disabled."
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self assert: recorder delivery hasPermission.
+	recorder withdrawPrivacy.
+	self deny: recorder canSendDiagnosticsAndUsageData.
+	self assert: recorder delivery hasPermission.
+	recorder privacyChanged.
+	self deny: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+
+]
+
+{ #category : #'as yet unclassified' }
+GTEventRecorderTest >> testPrivacyChanged2 [
+	"Ensure that delivery is turn off when privacy is available, but there is no any collector."
+	self testPrivacyChanged.
+	recorder offerPrivacy.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+	recorder privacyChanged.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+
+]
+
+{ #category : #'as yet unclassified' }
+GTEventRecorderTest >> testPrivacyChanged3 [
+	"Ensure that delivery is turn on when privacy is available and there is a collector."
+	self testPrivacyChanged.
+	recorder addCollector: collector1.
+	self deny: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+	recorder offerPrivacy.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+	recorder privacyChanged.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self assert: recorder delivery hasPermission.
+
+]
+
+{ #category : #'as yet unclassified' }
+GTEventRecorderTest >> testPrivacyChanged4 [
+	"Ensure that delivery is turn on when privacy is available and there is a collector."
+	self testPrivacyChanged.
+	recorder offerPrivacy.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+	recorder privacyChanged.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self deny: recorder delivery hasPermission.
+	recorder addCollector: collector1.
+	self assert: recorder canSendDiagnosticsAndUsageData.
+	self assert: recorder delivery hasPermission.
+
+]
+
 { #category : #tests }
 GTEventRecorderTest >> testRemoveCollector [
 	recorder removeCollector: GTEventCollector new.
