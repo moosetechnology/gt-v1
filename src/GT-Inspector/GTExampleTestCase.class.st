@@ -47,9 +47,9 @@ GTExampleTestCase >> runExample: example fromContainer: aContainer [
 	example ignoreTest ifTrue: [ ^ self ].
 	self shouldnt: [ exampleResult := example run ] raise: Error.
 	exampleResult isError 
-		ifTrue: [ ^ result class signalErrorWith: exampleResult gtDisplayString  ].
+		ifTrue: [ ^ self classForTestResult signalErrorWith: exampleResult gtDisplayString  ].
 	exampleResult isFailure 
-		ifTrue: [ ^ result class signalFailureWith: exampleResult gtDisplayString  ] 
+		ifTrue: [ ^ self classForTestResult signalFailureWith: exampleResult gtDisplayString  ] 
 ]
 
 { #category : #private }

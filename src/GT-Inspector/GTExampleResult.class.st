@@ -45,12 +45,19 @@ GTExampleResult >> expectedError: anObject [
 ]
 
 { #category : #ui }
-GTExampleResult >> gtDisplayOn: aStream [
-	self printOn: aStream.
-	aStream nextPutAll: ' ('.
-	self gtDisplaySummaryOn: aStream.
-	aStream nextPutAll: ')'
+GTExampleResult >> gtDisplayDetailsOn: aStream [
+	self unexpectedError ifNil: [ ^ self ].
+	aStream cr.
+	self unexpectedError gtDisplayDetailsOn: aStream
+]
 
+{ #category : #ui }
+GTExampleResult >> gtDisplayOn: aStream [
+	self example gtDisplayOn: aStream.
+	aStream nextPutAll: ' ['.
+	self gtDisplaySummaryOn: aStream.
+	aStream nextPutAll: ']'.
+	self gtDisplayDetailsOn: aStream.
 ]
 
 { #category : #ui }
