@@ -27,7 +27,7 @@ GTDebuggerEventCollector >> initialize [
 { #category : #initialization }
 GTDebuggerEventCollector >> linkToDebugger: aDebugger [
 
-	aDebugger announcer weak when: Announcement send: #recordAnnouncement: to: self
+	aDebugger announcer weak when: Announcement send: #recordAnnouncementIgnoreExecuted: to: self
 ]
 
 { #category : #events }
@@ -38,6 +38,11 @@ GTDebuggerEventCollector >> recordAnnouncement: anAnnouncement [
 		event := anAnnouncement asRecorderEvent.
 		self add: event.
 		GTEventRecorder uniqueInstance announcer announce: (GTDebuggerRecorderEventRecorded forEvent: event). ]
+]
+
+{ #category : #events }
+GTDebuggerEventCollector >> recordAnnouncementIgnoreExecuted: anAnnouncement [
+	(anAnnouncement class ~= DebugActionExecuted) ifTrue: [ self recordAnnouncement: anAnnouncement ]
 ]
 
 { #category : #events }
