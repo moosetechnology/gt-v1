@@ -118,6 +118,12 @@ GTExampleProxy >> matchesMethod: aCompiledMethod [
 	^ self owner finder proxy: self matchesMethod: aCompiledMethod
 ]
 
+{ #category : #public }
+GTExampleProxy >> method [
+	" todo ... "
+	^ self provider class >> self selector
+]
+
 { #category : #accessing }
 GTExampleProxy >> owner [
 	^ owner
