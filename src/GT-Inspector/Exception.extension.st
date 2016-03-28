@@ -4,8 +4,3 @@ Extension { #name : #Exception }
 Exception >> isExampleError [
 	^ false
 ]
-
-{ #category : #'*GT-Inspector-Examples-Exceptions' }
-Exception >> signalContext [
-	^ signalContext
-]

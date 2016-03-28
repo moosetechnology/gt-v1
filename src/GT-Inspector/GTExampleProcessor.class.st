@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'example',
+		'context',
 		'processing',
 		'onProcess',
 		'onRecursionError',
@@ -25,6 +26,16 @@ GTExampleProcessor >> canProcess [
 		on: GTExampleError
 		do: [ ^ false ].
 	^ true
+]
+
+{ #category : #accessing }
+GTExampleProcessor >> context [
+	^ context
+]
+
+{ #category : #accessing }
+GTExampleProcessor >> context: anObject [
+	^ context := anObject
 ]
 
 { #category : #'accessing-defaults' }
@@ -96,7 +107,7 @@ GTExampleProcessor >> initialize [
 	super initialize.
 	
 	processing := IdentitySet new.
-	
+	context := GTExampleContext new
 ]
 
 { #category : #accessing }
@@ -166,5 +177,10 @@ GTExampleProcessor >> process: anExample withoutLoopsDo: aBlock [
 
 { #category : #public }
 GTExampleProcessor >> value [ 
-	^ self process: self example
+	^ self withContextDo: [ self process: self example ]
+]
+
+{ #category : #private }
+GTExampleProcessor >> withContextDo: aBlock [
+	GTCurrentExampleContext use: context during: aBlock
 ]

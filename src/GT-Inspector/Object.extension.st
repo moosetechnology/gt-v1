@@ -27,6 +27,16 @@ Object >> gtDisplayString [
 	^ limitedString , ' ...'
 ]
 
+{ #category : #'*GT-Inspector-Examples-Core' }
+Object class >> gtExampleContext [
+	^ GTCurrentExampleContext value
+]
+
+{ #category : #'*GT-Inspector-Examples-Core' }
+Object >> gtExampleContext [
+	^ self class gtExampleContext
+]
+
 { #category : #'*GT-Inspector-Examples-UI' }
 Object >> gtExampleSourceIn: composite inContext: aGTInspector [
 	<gtInspectorPresentationOrder: 100>

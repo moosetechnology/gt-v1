@@ -27,7 +27,8 @@ Class {
 		'parents',
 		'children',
 		'result',
-		'properties'
+		'properties',
+		'after'
 	],
 	#category : #'GT-Inspector-Examples-Core'
 }
@@ -45,6 +46,28 @@ GTExample >> = anExample [
 			and: [ self method = anExample method
 				and: [ self method selector = anExample method selector
 					and: [ self method methodClass = anExample method methodClass ] ] ] ]
+]
+
+{ #category : #accessing }
+GTExample >> after [
+	^ after
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> after: aSelector [
+	<gtExamplePragma>
+	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	
+	after := self proxyForSelector: aSelector
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> afterClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	
+	self classNamed: aClassOrClassName do: [ :class | 
+		after := self proxyForClass: class selector: aSelector ]
 ]
 
 { #category : #public }
@@ -138,27 +161,28 @@ GTExample >> dependents [
 
 { #category : #'pragma-selectors' }
 GTExample >> depends: aSelector [
-	children add: (GTExampleProxy new
-		owner: self;
-		provider: self provider;
-		selector: aSelector asSymbol;
-		yourself)
+	<gtExamplePragma>
+	<description: 'This example depends on the example declared by the given selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
+	
+	children add: (self proxyForSelector: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> dependsAll: aString [
+	<gtExamplePragma>
+	<description: 'This example depends on all given selectors found in the given string. Any dependency will be performed before this example is performed. Order of declaration is important'>
+	
 	self substrings: aString do: [ :each | 
 		self depends: aString ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> dependsClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
+	
 	self classNamed: aClassOrClassName do: [ :class | 
-		children add: (GTExampleProxy new
-			owner: self;
-			provider: class gtExamplesProvider; " we have to resolve the kind of example again - it could be implemented in #class or in the provider of #class ! "
-			selector: aSelector asSymbol;
-			yourself) ]
+		children add: (self proxyForClass: class selector: aSelector) ]
 ]
 
 { #category : #accessing }
@@ -168,6 +192,9 @@ GTExample >> description [
 
 { #category : #'pragma-selectors' }
 GTExample >> description: anObject [
+	<gtExamplePragma>
+	<description: 'A full description of this example'>
+	
 	description := anObject
 ]
 
@@ -268,6 +295,9 @@ GTExample >> gtDisplaySummaryOn: aStream. [
 
 { #category : #'pragma-selectors' }
 GTExample >> gtExample [
+	<gtExamplePragma>
+	<description: 'This method is turned into a gtExample if provided'>
+	
 	^ self
 ]
 
@@ -458,18 +488,27 @@ GTExample >> icon [
 
 { #category : #'pragma-selectors' }
 GTExample >> icon: aSelector [
+	<gtExamplePragma>
+	<description: 'This is a shortcut for: #iconThemeSelector:'>
+	
 	self initializeIconWith: [ 
 		self iconThemeSelector: aSelector ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconBase64: aString [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The string must represent a base64 string'>
+	
 	self initializeIconWith: [ 
 		form := (Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)) ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconBytes: aByteArray [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The icon form is described by the given byte-array'>
+	
 	self initializeIconWith: [ 
 		form := (Form
 			extent: 16@16
@@ -480,6 +519,9 @@ GTExample >> iconBytes: aByteArray [
 
 { #category : #'pragma-selectors' }
 GTExample >> iconClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The method described by the given class and selector must return a form-icon'>
+	
 	self initializeIconWith: [ 
 		self classNamed: aClassOrClassName do: [ :class | 
 			form := (class perform: aSelector) ] ]
@@ -487,18 +529,27 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 
 { #category : #'pragma-selectors' }
 GTExample >> iconSelector: aSelector [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The selector must return an icon form'>
+	
 	self initializeIconWith: [ 
 		form := (self provider perform: aSelector) ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconSelectorBase64: aSelector [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The selector must return a base64 string'>
+	
 	self initializeIconWith: [ 
 		self iconBase64: (self provider perform: aSelector) ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> iconThemeSelector: aSelector [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
+	
 	self initializeIconWith: [ 
 		form := (Smalltalk ui icons perform: aSelector) ]
 ]
@@ -561,6 +612,9 @@ GTExample >> label [
 
 { #category : #'pragma-selectors' }
 GTExample >> label: anObject [
+	<gtExamplePragma>
+	<description: 'A short identifier of the name of this example'>
+	
 	label := anObject
 ]
 
@@ -584,16 +638,25 @@ GTExample >> methodReference [
 
 { #category : #'pragma-selectors' }
 GTExample >> noCache [
+	<gtExamplePragma>
+	<description: 'Never cache the result/returnValue of this example'>
+	
 	self propertyAt: #noCache put: true
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> noTest [
+	<gtExamplePragma>
+	<description: 'Do not run this example while running SUnit tests'>
+	
 	self propertyAt: #noTest put: true
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> notTestReport [
+	<gtExamplePragma>
+	<description: 'Do not run this example while running HDTestReport (not yet implemented)'>
+	
 	self propertyAt: #notTestReport put: true
 ]
 
@@ -648,14 +711,40 @@ GTExample >> provider: aClassOrInstance [
 	self shouldNotImplement
 ]
 
+{ #category : #private }
+GTExample >> proxyForClass: aClass selector: aSelector [
+	" we have to resolve the kind of example again - it could be implemented in #class or in the provider of #class ! "
+	^ self proxyForProvider: aClass gtExamplesProvider selector: aSelector
+]
+
+{ #category : #private }
+GTExample >> proxyForProvider: aProvider selector: aSelector [
+	^ GTExampleProxy new
+		owner: self;
+		provider: aProvider;
+		selector: aSelector asSymbol;
+		yourself
+]
+
+{ #category : #private }
+GTExample >> proxyForSelector: aSelector [
+	^ self proxyForProvider: self provider selector: aSelector
+]
+
 { #category : #'pragma-selectors' }
 GTExample >> raises: aClassOrClassName [
+	<gtExamplePragma>
+	<description: 'This example is expected to raise the given exception. The example will fail if the exception is not raised.'>
+	
 	self classNamed: aClassOrClassName do: [ :class | 
 		self exceptions add: class ]
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> raisesAny: aString [
+	<gtExamplePragma>
+	<description: 'This example is expected to raise any of the given exceptions. The example will fail if none of the exceptions is raised.'>
+	
 	self substrings: aString do: [ :each | 
 		self raises: each ]
 ]
@@ -726,6 +815,8 @@ GTExample >> spotterPreviewIn: aComposite inContext: aSpotter [
 
 { #category : #'pragma-selectors' }
 GTExample >> subject: aClassOrClassName [
+	<gtExamplePragma>
+	
 	self classNamed: aClassOrClassName do: [ :class | 
 		self subjects add: class ]
 ]
@@ -737,6 +828,8 @@ GTExample >> subjects [
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectsAll: aString [
+	<gtExamplePragma>
+	
 	self substrings: aString do: [ :each | 
 		self subject: each ]
 ]

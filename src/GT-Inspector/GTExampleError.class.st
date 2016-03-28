@@ -17,10 +17,6 @@ GTExampleError >> example: anObject [
 	example := anObject
 ]
 
-{ #category : #ui }
-GTExampleError >> gtDisplayDetailsOn: aStream [
-]
-
 { #category : #testing }
 GTExampleError >> isExampleError [
 	^ true

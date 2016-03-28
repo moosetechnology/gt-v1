@@ -3,12 +3,23 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'example',
+		'context',
 		'returnValue',
 		'expectedError',
 		'unexpectedError'
 	],
 	#category : #'GT-Inspector-Examples-Utils'
 }
+
+{ #category : #accessing }
+GTExampleResult >> context [
+	^ context
+]
+
+{ #category : #accessing }
+GTExampleResult >> context: anObject [
+	context := anObject
+]
 
 { #category : #actions }
 GTExampleResult >> debug [
@@ -45,19 +56,12 @@ GTExampleResult >> expectedError: anObject [
 ]
 
 { #category : #ui }
-GTExampleResult >> gtDisplayDetailsOn: aStream [
-	self unexpectedError ifNil: [ ^ self ].
-	aStream cr.
-	self unexpectedError gtDisplayDetailsOn: aStream
-]
-
-{ #category : #ui }
 GTExampleResult >> gtDisplayOn: aStream [
-	self example gtDisplayOn: aStream.
-	aStream nextPutAll: ' ['.
+	self printOn: aStream.
+	aStream nextPutAll: ' ('.
 	self gtDisplaySummaryOn: aStream.
-	aStream nextPutAll: ']'.
-	self gtDisplayDetailsOn: aStream.
+	aStream nextPutAll: ')'
+
 ]
 
 { #category : #ui }
