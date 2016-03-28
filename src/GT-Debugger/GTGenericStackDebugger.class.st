@@ -430,8 +430,6 @@ GTGenericStackDebugger >> selectedVariableName: anObject [
 { #category : #updating }
 GTGenericStackDebugger >> selectionChanged: aContext [
 
-	aContext isNotNil ifTrue: [ self announce: (GTGenericStackDebuggerSelectionChanged forDebugger: self) ].
-
 	UIManager default defer: [ 
 		(self browser paneNamed: #stack) presentations updateToolbar ].
 	
@@ -549,4 +547,16 @@ GTGenericStackDebugger >> updateSelectionInterval [
 
 	self selectedContext ifNil: [ ^ self ].
 	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
+]
+
+{ #category : #accessing }
+GTGenericStackDebugger >> window [
+	"The default debugger from Pharo defines this method.
+	Some tools use it and break. Try to return the window
+	if possible. Kind of a hack."
+	^ self dependents ifNotNil: [ :dependentsArray |
+		dependentsArray ifNotEmpty: [ 
+			(dependentsArray at: 1) isSystemWindow
+				ifTrue: [ dependentsArray at: 1 ]
+				ifFalse: [ nil ] ] ]
 ]

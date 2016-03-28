@@ -6,8 +6,7 @@ Class {
 	#name : #GTChangeDebuggerAction,
 	#superclass : #DebugAction,
 	#instVars : [
-		'debuggerClass',
-		'newDebugger'
+		'debuggerClass'
 	],
 	#category : #'GT-Debugger-Actions'
 }
@@ -62,16 +61,11 @@ GTChangeDebuggerAction >> defaultOrder [
 { #category : #actions }
 GTChangeDebuggerAction >> executeAction [
 
-	 newDebugger := self debugger debug: self interruptedContext using: debuggerClass
+	 self debugger debug: self interruptedContext using: debuggerClass
 ]
 
 { #category : #initialization }
 GTChangeDebuggerAction >> initialize [
 	super initialize.
 	self needsUpdate: false
-]
-
-{ #category : #accessing }
-GTChangeDebuggerAction >> newDebugger [
-	^ newDebugger
 ]

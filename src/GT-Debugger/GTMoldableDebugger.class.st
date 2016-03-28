@@ -37,7 +37,7 @@ GTMoldableDebugger class >> debugSession: aSession [
 
 { #category : #accessing }
 GTMoldableDebugger class >> defaultTitle [
-	self subclassResponsability
+	self subclassResponsibility
 ]
 
 { #category : #'settings api' }
@@ -119,7 +119,7 @@ GTMoldableDebugger class >> patchworkUIThemeColor [
 
 { #category : #accessing }
 GTMoldableDebugger class >> sessionClass [
-	self subclassResponsability
+	self subclassResponsibility
 ]
 
 { #category : #'settings api' }
@@ -245,14 +245,13 @@ GTMoldableDebugger >> debug: aContext using: aDebuggerClass [
 	newDebugger openWithFullView.
 	newDebugger window window "Hack to get this working with SpecDebugger"
 		position: self window position;
-		extent: self window extent.
-	^ newDebugger
+		extent: self window extent
 		
 ]
 
 { #category : #building }
 GTMoldableDebugger >> debuggerStructureIn: browser [
-	self subclassResponsability
+	self subclassResponsibility
 		
 ]
 
@@ -311,28 +310,11 @@ GTMoldableDebugger >> interruptedProcess [
 ]
 
 { #category : #'scripting opening' }
-GTMoldableDebugger >> open [		
-	| window |
-	window := super open.
-	
-	(Smalltalk hasClassNamed: #GTDebuggerEventCollector) ifTrue: [ 
-		#GTDebuggerEventCollector asClass new collectDataFrom: self ].
-		
-	^ window.
-]
-
-{ #category : #'scripting opening' }
-GTMoldableDebugger >> openOn: anObject [
-	| window |
-	window := (super openOn: anObject)
+GTMoldableDebugger >> openOn: anObject [ 
+	^ (super openOn: anObject)
 		extent: self initialExtent;
 		title: self session name;
-		yourself.
-		
-	(Smalltalk hasClassNamed: #GTDebuggerEventCollector) ifTrue: [ 
-		#GTDebuggerEventCollector asClass new collectDataFrom: self ].
-		
-	^ window.
+		yourself
 ]
 
 { #category : #building }
@@ -396,6 +378,5 @@ GTMoldableDebugger >> updateBrowserFrom: anAnnouncement [
 
 { #category : #callbacks }
 GTMoldableDebugger >> windowIsClosing [ 
-	self flag: 'bug here when an announcement is inspected?'.
-	self announce: (GLMBrowserClosing new presentation: self)
+	self announce: GLMBrowserClosing new
 ]
