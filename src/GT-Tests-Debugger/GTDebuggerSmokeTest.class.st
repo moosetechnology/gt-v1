@@ -49,7 +49,7 @@ GTDebuggerSmokeTest >> assertDebuggerInitializationForContext: aContext andStepB
 
 { #category : #accessing }
 GTDebuggerSmokeTest >> debuggerToTest [
-	self subclassResponsability
+	self subclassResponsibility
 ]
 
 { #category : #initialization }
