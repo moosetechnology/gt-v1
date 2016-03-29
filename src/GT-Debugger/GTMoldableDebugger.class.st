@@ -323,16 +323,11 @@ GTMoldableDebugger >> open [
 
 { #category : #'scripting opening' }
 GTMoldableDebugger >> openOn: anObject [
-	| window |
-	window := (super openOn: anObject)
+	
+	^ (super openOn: anObject)
 		extent: self initialExtent;
 		title: self session name;
-		yourself.
-		
-	(Smalltalk hasClassNamed: #GTDebuggerEventCollector) ifTrue: [ 
-		#GTDebuggerEventCollector asClass new collectDataFrom: self ].
-		
-	^ window.
+		yourself
 ]
 
 { #category : #building }
@@ -391,7 +386,9 @@ GTMoldableDebugger >> updateBrowser [
 GTMoldableDebugger >> updateBrowserFrom: anAnnouncement [
 	
 	anAnnouncement action needsUpdate ifTrue: [
-		self updateBrowser ]
+		self updateBrowser ].
+	
+	self announcer announce: ( GTDebuggerBrowserUpdateRequest from: anAnnouncement )
 ]
 
 { #category : #callbacks }
