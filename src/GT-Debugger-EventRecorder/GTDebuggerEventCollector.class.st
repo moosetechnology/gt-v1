@@ -19,12 +19,6 @@ GTDebuggerEventCollector >> collectDataFrom: aDebugger [
 ]
 
 { #category : #initialization }
-GTDebuggerEventCollector >> initialize [
-	super initialize.	
-	recordedEvents := SharedQueue  new.
-]
-
-{ #category : #initialization }
 GTDebuggerEventCollector >> linkToDebugger: aDebugger [
 
 	aDebugger announcer weak when: Announcement send: #recordAnnouncementIgnoreExecuted: to: self
