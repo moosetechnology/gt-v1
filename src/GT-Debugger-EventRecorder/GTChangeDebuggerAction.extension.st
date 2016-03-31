@@ -5,3 +5,9 @@ GTChangeDebuggerAction >> asRecorderEvent [
 
 	^ GTDebuggerRecorderChangeDebuggerEvent fromDebugAction: self
 ]
+
+{ #category : #'*GT-Debugger-EventRecorder' }
+GTChangeDebuggerAction >> debuggerClass [
+
+	^ debuggerClass
+]
