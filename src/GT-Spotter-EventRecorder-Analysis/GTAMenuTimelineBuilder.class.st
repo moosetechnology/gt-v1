@@ -139,6 +139,11 @@ GTAMenuTimelineBuilder >> highlightSessionsWithEvents: aBlock [
 	timelineBuilder view signalUpdate
 ]
 
+{ #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightShowPreview [
+	self highlightSessionsWithEvents: [ :eachEvent | eachEvent isShowPreview ]
+]
+
 { #category : #initialization }
 GTAMenuTimelineBuilder >> initialize [
 	super initialize.
@@ -226,6 +231,7 @@ GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In All' callback: [ self highlightDivesIn ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In Element' callback: [ self highlightDivesInElement ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In Category' callback: [ self highlightDivesInCategory ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Show Preview' callback: [ self highlightShowPreview ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Selection Categories' callback: [ self highlightSelectionCategories ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Act-On and Close Categories' callback: [ self highlightActOnAndCloseCategories ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries' callback: [ self highlightComposedQueries ].
