@@ -19,7 +19,7 @@ GTAMenuTimelineBuilder >> build [
 
 { #category : #accessing }
 GTAMenuTimelineBuilder >> categoryLabels [
-	^ categoryLabels ifNil: [ categoryLabels := self computers categoryLabels removeDuplicates sorted ]
+	^ categoryLabels ifNil: [ categoryLabels := self computers categoryLabels asSet asSortedCollection ]
 ]
 
 { #category : #accessing }
@@ -102,6 +102,16 @@ GTAMenuTimelineBuilder >> highlightCustomizedSpotterExtenstions [
 { #category : #'event handling - usage' }
 GTAMenuTimelineBuilder >> highlightDivesIn [
 	self highlightSessionsWithEvents: [ :eachEvent | eachEvent isDiveIn ]
+]
+
+{ #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightDivesInCategory [
+	self highlightSessionsWithEvents: [ :eachEvent | eachEvent isCategoryDiveIn ]
+]
+
+{ #category : #'event handling - usage' }
+GTAMenuTimelineBuilder >> highlightDivesInElement [
+	self highlightSessionsWithEvents: [ :eachEvent | eachEvent isElementDiveIn ]
 ]
 
 { #category : #'event handling - usage' }
@@ -213,7 +223,9 @@ GTAMenuTimelineBuilder >> renderIn: aView [
 	menuBuilder menu: 'Feature Intensity' submenu: 'Unknown items' callback: [ self unknownItems ].
 
 	menuBuilder menu: 'Feature Usage' submenu: 'Category Filter' callback: [ self highlightCategoryFilters ].
-	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In' callback: [ self highlightDivesIn ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In All' callback: [ self highlightDivesIn ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In Element' callback: [ self highlightDivesInElement ].
+	menuBuilder menu: 'Feature Usage' submenu: 'Dive-In Category' callback: [ self highlightDivesInCategory ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Selection Categories' callback: [ self highlightSelectionCategories ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Act-On and Close Categories' callback: [ self highlightActOnAndCloseCategories ].
 	menuBuilder menu: 'Feature Usage' submenu: 'Composed Queries' callback: [ self highlightComposedQueries ].

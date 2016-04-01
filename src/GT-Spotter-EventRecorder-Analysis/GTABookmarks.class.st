@@ -74,6 +74,8 @@ GTABookmarks >> removeBookmark: aBookmark [
 
 { #category : #storing }
 GTABookmarks >> save [
-	GTAConfiguration saveBookmarks: self.
-	self announcer announce: GTASaved
+	self flag: 'Someghing is wrong because bookmarks contains bookmarks as items.'.
+	
+	"GTAConfiguration saveBookmarks: self.
+	self announcer announce: GTASaved"
 ]
