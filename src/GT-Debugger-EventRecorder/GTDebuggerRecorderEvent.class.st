@@ -20,7 +20,9 @@ GTDebuggerRecorderEvent class >> fromAnnouncement: anAnnouncement [
 
 { #category : #comparing }
 GTDebuggerRecorderEvent >> = otherGTDebuggerRecorderEvent [
-	^ (self info = otherGTDebuggerRecorderEvent info)
+
+	^ self class == otherGTDebuggerRecorderEvent class
+	  and: [ self info = otherGTDebuggerRecorderEvent info ]
 ]
 
 { #category : #accessing }
