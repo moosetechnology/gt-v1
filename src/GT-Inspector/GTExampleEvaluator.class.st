@@ -38,6 +38,15 @@ GTExampleEvaluator >> primitiveProcessExampleAfter: anExample [
 		arguments: #() " context, example, result ? -> try some examples first, then decide "
 ]
 
+{ #category : #primitives }
+GTExampleEvaluator >> primitiveProcessExampleAfterFinish: anExample [
+	anExample afterFinish ifNil: [ ^ self ].
+	anExample == self example ifFalse: [ ^ self ].
+	anExample afterFinish method 
+		valueWithReceiver: anExample afterFinish provider 
+		arguments: #() " context, example, result ? -> try some examples first, then decide "
+]
+
 { #category : #private }
 GTExampleEvaluator >> process: anExample withArguments: aBlock [
 	| value arguments signaledException |
@@ -51,7 +60,8 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 		do: [ :exception | ^ self onDependencyError value: self value: anExample value: exception ].
 	self do: [ 
 			value := self primitiveProcessExample: anExample withArguments: arguments.
-			self primitiveProcessExampleAfter: anExample ]
+			self primitiveProcessExampleAfter: anExample.
+			self primitiveProcessExampleAfterFinish: anExample ]
 		on: (anExample exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. })
 		do: [ :exception | signaledException := exception ].
 	processed add: { anExample. value. signaledException }.

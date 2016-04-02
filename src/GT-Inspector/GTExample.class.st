@@ -28,7 +28,8 @@ Class {
 		'children',
 		'result',
 		'properties',
-		'after'
+		'after',
+		'afterFinish'
 	],
 	#category : #'GT-Inspector-Examples-Core'
 }
@@ -42,10 +43,7 @@ GTExample class >> gtExample [
 { #category : #testing }
 GTExample >> = anExample [
 	^ self class = anExample class 
-		and: [ self pragma = anExample pragma 
-			and: [ self method = anExample method
-				and: [ self method selector = anExample method selector
-					and: [ self method methodClass = anExample method methodClass ] ] ] ]
+		and: [ self method = anExample method ]
 ]
 
 { #category : #accessing }
@@ -58,7 +56,7 @@ GTExample >> after: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self proxyForSelector: aSelector
+	after := self methodForSelector: aSelector
 ]
 
 { #category : #'pragma-selectors' }
@@ -66,8 +64,28 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	self classNamed: aClassOrClassName do: [ :class | 
-		after := self proxyForClass: class selector: aSelector ]
+	after := self methodForClass: aClassOrClassName selector: aSelector
+]
+
+{ #category : #accessing }
+GTExample >> afterFinish [
+	^ afterFinish
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> afterFinish: aSelector [
+	<gtExamplePragma>
+	<description: 'A method, provided by the given selector, to be performed after this example has run as the very last one of a chain of depending examples ~ similar but not identical to teardown of sunit'>
+	
+	afterFinish := self methodForSelector: aSelector
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> afterFinishClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run as the very last one of a chain of depending examples ~ similar but not identical to teardown of sunit'>
+	
+	afterFinish := self methodForClass: aClassOrClassName selector: aSelector
 ]
 
 { #category : #public }
@@ -474,11 +492,7 @@ GTExample >> hasValidDependencies [
 
 { #category : #public }
 GTExample >> hash [
-	^ (((self class hash 
-		bitXor: self pragma hash) 
-			bitXor: self method hash)
-				bitXor: self method selector hash)
-					bitXor: self method methodClass hash
+	^ self class hash bitXor: self method hash
 ]
 
 { #category : #accessing }
@@ -628,6 +642,36 @@ GTExample >> matchesMethod: aCompiledMethod [
 { #category : #public }
 GTExample >> method [
 	^ self pragma method
+]
+
+{ #category : #private }
+GTExample >> methodForClass: aClassOrClassName selector: aSelector [
+	^ aClassOrClassName isClass 
+		ifTrue: [ self methodForProvider: aClassOrClassName gtExamplesProvider selector: aSelector ]
+		ifFalse: [ self methodForClassNamed: aClassOrClassName selector: aSelector ]
+]
+
+{ #category : #private }
+GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
+	^ self classNamed: aClassOrClassName 
+		do: [ :class | self methodForClass: class selector: aSelector ] 
+		ifNone: [ GTExampleMethod new 
+						providerName: aClassOrClassName;
+						selector: aSelector asSymbol;
+						yourself ]
+]
+
+{ #category : #private }
+GTExample >> methodForProvider: aProvider selector: aSelector [
+	^ GTExampleMethod new
+		provider: aProvider;
+		selector: aSelector asSymbol;
+		yourself
+]
+
+{ #category : #private }
+GTExample >> methodForSelector: aSelector [
+	^ self methodForProvider: self provider selector: aSelector
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }

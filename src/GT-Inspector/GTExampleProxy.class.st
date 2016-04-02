@@ -1,10 +1,8 @@
 Class {
 	#name : #GTExampleProxy,
-	#superclass : #Object,
+	#superclass : #GTExampleMethod,
 	#instVars : [
 		'owner',
-		'provider',
-		'selector',
 		'example'
 	],
 	#category : #'GT-Inspector-Examples-Utils'
@@ -12,9 +10,8 @@ Class {
 
 { #category : #testing }
 GTExampleProxy >> = anExampleProxy [
-	^ self class = anExampleProxy class 
-		and: [ self owner = anExampleProxy owner 
-			and: [ self selector = anExampleProxy selector ] ]
+	^ super = anExampleProxy
+		and: [ self owner = anExampleProxy owner ]
 ]
 
 { #category : #private }
@@ -103,9 +100,8 @@ GTExampleProxy >> gtSpotterPreviewIn: aComposite [
 
 { #category : #public }
 GTExampleProxy >> hash [
-	^ (self class hash 
-		bitXor: self owner hash) 
-			bitXor: self selector hash
+	^ super hash
+		bitXor: self owner hash
 ]
 
 { #category : #testing }
@@ -118,12 +114,6 @@ GTExampleProxy >> matchesMethod: aCompiledMethod [
 	^ self owner finder proxy: self matchesMethod: aCompiledMethod
 ]
 
-{ #category : #public }
-GTExampleProxy >> method [
-	" todo ... "
-	^ self provider class >> self selector
-]
-
 { #category : #accessing }
 GTExampleProxy >> owner [
 	^ owner
@@ -134,32 +124,12 @@ GTExampleProxy >> owner: anObject [
 	owner := anObject
 ]
 
-{ #category : #accessing }
-GTExampleProxy >> provider [
-	^ provider
-]
-
-{ #category : #accessing }
-GTExampleProxy >> provider: anObject [
-	provider := anObject
-]
-
 { #category : #private }
 GTExampleProxy >> resolve [
 	example := (self owner finder copy
 		subjects: nil; " do not inherit subjects from the owner -> #initializeFromFinder:withPragma: "
 		yourself) proxy: self.
 	example ifNotNil: [ example parents add: self ]
-]
-
-{ #category : #accessing }
-GTExampleProxy >> selector [
-	^ selector
-]
-
-{ #category : #accessing }
-GTExampleProxy >> selector: anObject [
-	selector := anObject
 ]
 
 { #category : #private }
