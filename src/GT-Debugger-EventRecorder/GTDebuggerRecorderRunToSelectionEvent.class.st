@@ -13,5 +13,5 @@ Class {
 { #category : #initialization }
 GTDebuggerRecorderRunToSelectionEvent >> fromDebugAction: aDebugAction [
 	super fromDebugAction: aDebugAction.
-	self infoAt: #selection put: aDebugAction debugger code getSelection.
+	self infoAt: #selectionInterval put: aDebugAction debugger code getSelection.
 ]
