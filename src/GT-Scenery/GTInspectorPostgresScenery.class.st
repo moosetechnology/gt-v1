@@ -41,18 +41,18 @@ select
 				on city.countrycode=country.code'.
 	GTSnippets snippetAt: #PGResultSet asClass put: 'models := (self dataRows
 		sortDescending: [ :x | x atName: #population ])
-		first: 30.
+		first: 20.
 builder := RTGrapher new.
 data := RTData new.
 data points: models.
-data barShape
-	"color: ((RTNIdentityNormalizer 
-		withCommand: [ :row | row atName: #continent ]))".
-data 
-	barChartWithBarTitle: [ :row | row atName: #cityname ];
+data barShape "color: (RTNIdentityNormalizer 
+		withCommand: [ :row | row atName: #continent ])".
+data barChartWithBarTitle: [ :row | 
+	row atName: #cityname ];
 	y: [ :row | row atName: #population ].
 builder add: data.
 builder axisY.
 builder axisX noTick; noLabel.
+builder extent: 400@300.
 builder'
 ]
