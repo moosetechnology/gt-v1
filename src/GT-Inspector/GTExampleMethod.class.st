@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'provider',
-		'providerName',
 		'selector'
 	],
 	#category : #'GT-Inspector-Examples-Utils'
@@ -20,6 +19,11 @@ GTExampleMethod >> = anExampleMethod [
 GTExampleMethod >> exists [
 	^ self providerClass notNil
 		and: [ self providerClass includesSelector: self selector ]
+]
+
+{ #category : #testing }
+GTExampleMethod >> hasValidArguments [
+	^ true
 ]
 
 { #category : #public }
@@ -42,24 +46,17 @@ GTExampleMethod >> method [
 
 { #category : #accessing }
 GTExampleMethod >> provider [
-	^ provider ifNil: [ provider := Smalltalk classNamed: providerName ]
+	^ provider
 ]
 
 { #category : #accessing }
 GTExampleMethod >> provider: anObject [
-	provider := anObject.
-	providerName := nil.
+	provider := anObject
 ]
 
 { #category : #public }
 GTExampleMethod >> providerClass [
 	^ self provider class
-]
-
-{ #category : #accessing }
-GTExampleMethod >> providerName: anObject [
-	providerName := anObject.
-	provider := nil.
 ]
 
 { #category : #accessing }

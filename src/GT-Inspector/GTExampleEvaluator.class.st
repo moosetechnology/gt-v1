@@ -3,7 +3,8 @@ Class {
 	#superclass : #GTExampleProcessor,
 	#instVars : [
 		'processed',
-		'result'
+		'result',
+		'linkContext'
 	],
 	#category : #'GT-Inspector-Examples-Tools'
 }
@@ -25,9 +26,14 @@ GTExampleEvaluator >> initialize [
 
 { #category : #primitives }
 GTExampleEvaluator >> primitiveProcessExample: anExample withArguments: arguments [
-	^ anExample method 
-		valueWithReceiver: anExample provider 
-		arguments: arguments
+	| value |
+	self withLinkContextFor: anExample do: [ 
+		value := anExample provider perform: anExample method selector withArguments: arguments.
+		" does not work with ReflectiveMethod: 
+		value := anExample method valueWithReceiver: anExample provider arguments: arguments "
+		self primitiveProcessExampleAfter: anExample.
+		self primitiveProcessExampleAfterFinish: anExample ].
+	^ value 
 ]
 
 { #category : #primitives }
@@ -35,7 +41,7 @@ GTExampleEvaluator >> primitiveProcessExampleAfter: anExample [
 	anExample after ifNil: [ ^ self ].
 	anExample after method 
 		valueWithReceiver: anExample after provider 
-		arguments: #() " context, example, result ? -> try some examples first, then decide "
+		arguments: linkContext arguments
 ]
 
 { #category : #primitives }
@@ -44,7 +50,7 @@ GTExampleEvaluator >> primitiveProcessExampleAfterFinish: anExample [
 	anExample == self example ifFalse: [ ^ self ].
 	anExample afterFinish method 
 		valueWithReceiver: anExample afterFinish provider 
-		arguments: #() " context, example, result ? -> try some examples first, then decide "
+		arguments: linkContext arguments
 ]
 
 { #category : #private }
@@ -58,10 +64,7 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 	[ arguments := aBlock value ]
 		on: Error
 		do: [ :exception | ^ self onDependencyError value: self value: anExample value: exception ].
-	self do: [ 
-			value := self primitiveProcessExample: anExample withArguments: arguments.
-			self primitiveProcessExampleAfter: anExample.
-			self primitiveProcessExampleAfterFinish: anExample ]
+	self do: [ value := self primitiveProcessExample: anExample withArguments: arguments ]
 		on: (anExample exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. })
 		do: [ :exception | signaledException := exception ].
 	processed add: { anExample. value. signaledException }.
@@ -79,4 +82,11 @@ GTExampleEvaluator >> result [
 		on: Error
 		do: [ :exception | result returnValue: nil; unexpectedError: exception ].
 	^ result
+]
+
+{ #category : #private }
+GTExampleEvaluator >> withLinkContextFor: anExample do: aBlock [
+	^ (linkContext := GTExampleLinkContext new 
+		example: anExample;
+		yourself) do: aBlock
 ]

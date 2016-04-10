@@ -60,11 +60,31 @@ GTExample >> after: aSelector [
 ]
 
 { #category : #'pragma-selectors' }
+GTExample >> after: aSelector arguments: aCollection [
+	<gtExamplePragma>
+	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	
+	after := (self methodForSelector: aSelector)
+		arguments: aCollection;
+		yourself
+]
+
+{ #category : #'pragma-selectors' }
 GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
 	after := self methodForClass: aClassOrClassName selector: aSelector
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> afterClass: aClassOrClassName selector: aSelector arguments: aCollection [
+	<gtExamplePragma>
+	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	
+	after := (self methodForClass: aClassOrClassName selector: aSelector)
+		arguments: aCollection;
+		yourself
 ]
 
 { #category : #accessing }
@@ -478,6 +498,12 @@ GTExample >> hasSubject: aSubject [
 ]
 
 { #category : #testing }
+GTExample >> hasValidAfterArguments [
+	^ self after isNil
+		or: [ self after hasValidArguments ]
+]
+
+{ #category : #testing }
 GTExample >> hasValidArguments [
 	^ self arguments size = self method numArgs
 ]
@@ -641,7 +667,9 @@ GTExample >> matchesMethod: aCompiledMethod [
 
 { #category : #public }
 GTExample >> method [
-	^ self pragma method
+	<hack>
+	<todo: 'do not reference pragma or compiledmethod'>
+	^ self pragma method methodClass >> self pragma method selector
 ]
 
 { #category : #private }
@@ -655,7 +683,7 @@ GTExample >> methodForClass: aClassOrClassName selector: aSelector [
 GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
 	^ self classNamed: aClassOrClassName 
 		do: [ :class | self methodForClass: class selector: aSelector ] 
-		ifNone: [ GTExampleMethod new 
+		ifNone: [ GTExampleProviderMethod new 
 						providerName: aClassOrClassName;
 						selector: aSelector asSymbol;
 						yourself ]
@@ -663,7 +691,7 @@ GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
 
 { #category : #private }
 GTExample >> methodForProvider: aProvider selector: aSelector [
-	^ GTExampleMethod new
+	^ GTExampleProviderMethod new
 		provider: aProvider;
 		selector: aSelector asSymbol;
 		yourself
@@ -753,6 +781,11 @@ GTExample >> provider [
 GTExample >> provider: aClassOrInstance [
 	self deprecated: 'Please define your examples using pragmas'.
 	self shouldNotImplement
+]
+
+{ #category : #public }
+GTExample >> providerClass [
+	^ self provider class
 ]
 
 { #category : #private }
