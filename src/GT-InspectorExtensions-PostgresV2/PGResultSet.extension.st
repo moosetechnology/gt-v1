@@ -6,7 +6,7 @@ PGResultSet >> gtInspectorResultTableIn: composite [
 	composite dynamic 
 		title: 'Result';
 		display: [ | table |
-		table := GLMTablePresentation new.
+		table := GLMFastTablePresentation new.
 		table 
 			display: [ self rows ];
 			showOnly: 50.
