@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 GTExampleProviderMethod >> arguments [
-	^ arguments
+	^ arguments ifNil: [ #() ]
 ]
 
 { #category : #accessing }

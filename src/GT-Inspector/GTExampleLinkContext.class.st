@@ -9,24 +9,15 @@ Class {
 }
 
 { #category : #public }
-GTExampleLinkContext >> afterArguments [
-	self example after ifNil: [ ^ #() ].
-	^ self example after arguments ifNil: [ ^ #() ]
-]
-
-{ #category : #public }
 GTExampleLinkContext >> arguments [
-	^ self afterArguments collect: [ :each | 
+	^ self example afterArguments collect: [ :each | 
 		self at: each ifAbsent: [ nil ] ]
 ]
 
 { #category : #public }
 GTExampleLinkContext >> do: aBlock [
-	| returnValue |
 	self hasLinks ifFalse: [ ^ aBlock value ].
-	[ self install. returnValue := aBlock value ] 
-		ensure: [ self uninstall ].
-	^ returnValue
+	^ self withLinksDo: aBlock
 ]
 
 { #category : #accessing }
@@ -39,10 +30,10 @@ GTExampleLinkContext >> example: anObject [
 	example := anObject
 ]
 
-{ #category : #public }
+{ #category : #testing }
 GTExampleLinkContext >> hasLinks [
-	^ self example after notNil
-		and: [ self afterArguments notEmpty ]
+	^ self example afterArguments notEmpty
+		and: [ Smalltalk hasClassNamed: #MetaLink ]
 ]
 
 { #category : #private }
@@ -58,7 +49,7 @@ GTExampleLinkContext >> install [
 	links add: link.
 	ast link: link.
 	ast variableWriteNodes do: [ :node | 
-		(self afterArguments includes: node name) ifTrue: [ 
+		(self example afterArguments includes: node name) ifTrue: [ 
 			link := MetaLink new 
 				metaObject: self; 
 				selector: #onLinkNode:at:put:;
@@ -84,4 +75,12 @@ GTExampleLinkContext >> onLinkNode: aNode at: key put: value [
 GTExampleLinkContext >> uninstall [
 	links do: [ :link | link uninstall ].
 	links := nil.
+]
+
+{ #category : #private }
+GTExampleLinkContext >> withLinksDo: aBlock [
+	| returnValue |
+	[ self install. returnValue := aBlock value ] 
+		ensure: [ self uninstall ].
+	^ returnValue
 ]

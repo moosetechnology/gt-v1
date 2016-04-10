@@ -69,6 +69,12 @@ GTExample >> after: aSelector arguments: aCollection [
 		yourself
 ]
 
+{ #category : #public }
+GTExample >> afterArguments [
+	self after ifNil: [ ^ #() ].
+	^ self after arguments
+]
+
 { #category : #'pragma-selectors' }
 GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
