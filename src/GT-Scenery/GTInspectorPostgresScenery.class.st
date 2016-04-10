@@ -29,12 +29,9 @@ conn connectionArgs:
 conn startup.
 conn').
 	GTSnippets reset.
-	GTSnippets snippetAt: #'PGConnection-SQL' put: 'select * from city
-select 
-		city.countrycode, 
+	GTSnippets snippetAt: #'PGConnection-SQL' put: 'select 
 		city.name as cityname, 
 		city.population, 
-		country.lifeexpectancy as life, 
 		country.continent 
 			from city 
 			left join country
