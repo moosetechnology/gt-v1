@@ -70,7 +70,7 @@ GTSpotterMorph >> breadcrumbBrick: aBrick [
 	breadcrumbBrick ifNotNil: [self removeBrick: breadcrumbBrick].
 	breadcrumbBrick := aBrick.
 	
-	breadcrumbBrick announcer weak when: GTSpotterBreadcrumbVisibilityChanged send: #onBreadcrumbVisibilityChanged to: self.
+	breadcrumbBrick announcer when: GTSpotterBreadcrumbVisibilityChanged send: #onBreadcrumbVisibilityChanged to: self.
 	self themer spotterThemer breadcrumbStyleFor: breadcrumbBrick.
 	breadcrumbBrick width: [ self paneBrick contentsBrick width ].
 	breadcrumbBrick layout widthDependency: [ self paneBrick contentsBrick ].
@@ -375,9 +375,9 @@ GTSpotterMorph >> spotterModel: aSpotter [
 
 	spotterModel := aSpotter.
 	
-	spotterModel announcer weak when: GTSpotterExitAnnouncement send: #closeSpotter to: self.
-	spotterModel announcer weak when: GTSpotterShowPreview send: #onShowPreview to: self.
-	spotterModel announcer weak when: GTSpotterHidePreview send: #onHidePreview to: self.
+	spotterModel announcer when: GTSpotterExitAnnouncement send: #closeSpotter to: self.
+	spotterModel announcer when: GTSpotterShowPreview send: #onShowPreview to: self.
+	spotterModel announcer when: GTSpotterHidePreview send: #onHidePreview to: self.
 	
 	self breadcrumbBrick spotterModel: spotterModel.
 	self paneBrick spotterModel: spotterModel.
