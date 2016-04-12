@@ -23,7 +23,7 @@ GTSpotterEventCollector >> defaultCategory [
 
 { #category : #initialization }
 GTSpotterEventCollector >> linkToSpotter: aSpotterModel [
-	aSpotterModel announcer weak when: Announcement send: #recordAnnouncement: to: self
+	aSpotterModel announcer when: Announcement send: #recordAnnouncement: to: self
 ]
 
 { #category : #accessing }
