@@ -23,8 +23,10 @@ GTProtoObjectVariablesBrowser >> printStringOf: anObject [
 { #category : #'private building' }
 GTProtoObjectVariablesBrowser >> variableValuePairsFor: anObject [
 
-	^ (anObject class instVarNames 
+	^ ((anObject class instVarNames 
 			collectWithIndex: [ :ivName :index | 
 				ivName -> (thisContext object: anObject instVarAt: index) ]) 
-					sort asOrderedCollection
+					sort asOrderedCollection)
+			addFirst: 'self' -> anObject; 
+			yourself
 ]
