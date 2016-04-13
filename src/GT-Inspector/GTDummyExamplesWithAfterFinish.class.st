@@ -10,6 +10,7 @@ GTDummyExamplesWithAfterFinish class >> a: b [
 	<depends: #b:>
 	<after: #afterA>
 	<afterFinish: #afterAfinish>
+	" START -> C -> afterC -> B -> afterB -> A -> afterA -> afterAfinish -> END "
 	
 	self assert: (self gtExampleContext includesKey: #c).
 	self assert: (self gtExampleContext includesKey: #b).
@@ -71,6 +72,7 @@ GTDummyExamplesWithAfterFinish class >> b: c [
 	<depends: #c>
 	<after: #afterB>
 	<afterFinish: #afterBfinish>
+	" START -> C -> afterC -> B -> afterB -> afterBfinish -> END "
 	
 	self assert: (self gtExampleContext includesKey: #c).
 	self assert: (self gtExampleContext includesKey: #b) not
@@ -81,6 +83,7 @@ GTDummyExamplesWithAfterFinish class >> c [
 	<gtExample>
 	<after: #afterC>
 	<afterFinish: #afterCfinish>
+	" START -> C -> afterC -> afterCfinish -> END "
 	
 	self assert: (self gtExampleContext includesKey: #c) not
 ]

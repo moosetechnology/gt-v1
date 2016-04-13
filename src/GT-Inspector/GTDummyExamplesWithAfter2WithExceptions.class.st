@@ -46,6 +46,8 @@ GTDummyExamplesWithAfter2WithExceptions class >> b2: argB [
 	<depends: #c:>
 	<after: #afterB:b: arguments: #( varA varB argB )> " mistake "
 	<raises: #KeyNotFound> 
+	" START -> D -> afterD:d:d: -> C -> afterC:c:c: -> B -> afterB:b: [ERROR] -> END "
+	
 	| varA varB |
 	
 	self assert: argB = 2.
@@ -62,6 +64,8 @@ GTDummyExamplesWithAfter2WithExceptions class >> b3: argB [
 	<depends: #c:>
 	<after: #afterB:b:b: arguments: #( varA varB varC )> " mistake "
 	<raises: #AssertionFailure> " todo: THIS IS WRONG ! better: verify the static setup first "
+	" START -> D -> afterD:d:d: -> C -> afterC:c:c: -> B -> afterB:b:b: -> END "
+	
 	| varA varB |
 	
 	self assert: argB = 2.
@@ -77,6 +81,8 @@ GTDummyExamplesWithAfter2WithExceptions class >> c: argC [
 	<gtExample>
 	<depends: #d>
 	<after: #afterC:c:c: arguments: #( varA varB varC )>
+	" START -> D -> afterD:d:d: -> C -> afterC:c:c: -> END "
+	
 	| varA varB varC |
 	
 	self assert: argC = 1.
@@ -92,6 +98,8 @@ GTDummyExamplesWithAfter2WithExceptions class >> c: argC [
 GTDummyExamplesWithAfter2WithExceptions class >> d [
 	<gtExample>
 	<after: #afterD:d:d: arguments: #( varA varB varC )>
+	" START -> D -> afterD:d:d: -> END "
+	
 	| varA varB varC |
 	
 	varA := Object new.
