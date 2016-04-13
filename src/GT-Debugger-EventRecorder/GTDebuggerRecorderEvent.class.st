@@ -140,11 +140,6 @@ GTDebuggerRecorderEvent >> isDebugAction [
 ]
 
 { #category : #testing }
-GTDebuggerRecorderEvent >> isDebuggerEvent [
-	^ true
-]
-
-{ #category : #testing }
 GTDebuggerRecorderEvent >> isOpenDebugger [
 	^ false
 ]
