@@ -114,6 +114,16 @@ GTExample >> afterFinishClass: aClassOrClassName selector: aSelector [
 	afterFinish := self methodForClass: aClassOrClassName selector: aSelector
 ]
 
+{ #category : #'pragma-selectors' }
+GTExample >> afterFinishClass: aClassOrClassName selector: aSelector arguments: aCollection [
+	<gtExamplePragma>
+	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run as the very last one of a chain of depending examples ~ similar but not identical to teardown of sunit'>
+	
+	afterFinish := (self methodForClass: aClassOrClassName selector: aSelector)
+		arguments: aCollection;
+		yourself
+]
+
 { #category : #public }
 GTExample >> allDependencies [
 	| examples |
@@ -506,7 +516,8 @@ GTExample >> hasSubject: aSubject [
 { #category : #testing }
 GTExample >> hasValidAfterArguments [
 	^ self after isNil
-		or: [ self after hasValidArguments ]
+		or: [ self after hasValidArguments
+			and: [ (self method variableNodes collect: [ :e | e name ]) includesAll: self after arguments ] ]
 ]
 
 { #category : #testing }

@@ -18,14 +18,22 @@ GTExampleProviderMethod >> arguments: anObject [
 	arguments := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing-defaults' }
+GTExampleProviderMethod >> defaultProvider [
+	^ [ (Smalltalk classNamed: providerName) gtExamplesProvider ]
+		on: Error
+		do: [ nil ]
+]
+
+{ #category : #testing }
 GTExampleProviderMethod >> hasValidArguments [
-	^ self arguments size = self method numArgs
+	^ self exists 
+		and: [ self arguments size = self method numArgs ]
 ]
 
 { #category : #accessing }
 GTExampleProviderMethod >> provider [
-	^ provider ifNil: [ provider := Smalltalk classNamed: providerName ]
+	^ provider ifNil: [ provider := self defaultProvider ]
 ]
 
 { #category : #accessing }
