@@ -19,3 +19,8 @@ GLMSystemWindow >> acceptContents: aString [
 
 	
 ]
+
+{ #category : #'*GT-Playground' }
+GLMSystemWindow >> model: anObject [
+	model := anObject
+]
