@@ -37,6 +37,11 @@ GTDebuggerRecorderDebugActionEvent >> isAboutToExectute [
 ]
 
 { #category : #testing }
+GTDebuggerRecorderDebugActionEvent >> isDebugAction [
+	^ true
+]
+
+{ #category : #testing }
 GTDebuggerRecorderDebugActionEvent >> isExecuted [
 	^ isExecuted
 ]
