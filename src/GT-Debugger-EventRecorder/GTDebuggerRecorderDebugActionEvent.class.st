@@ -16,6 +16,11 @@ GTDebuggerRecorderDebugActionEvent class >> fromDebugAction: aDebugAction [
 	^ self new fromDebugAction: aDebugAction
 ]
 
+{ #category : #accessing }
+GTDebuggerRecorderDebugActionEvent >> debugActionClass [
+	^ self infoAt: #debugActionClass
+]
+
 { #category : #initialization }
 GTDebuggerRecorderDebugActionEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #debugActionClass put: aDebugAction class name.
@@ -39,4 +44,29 @@ GTDebuggerRecorderDebugActionEvent >> isExecuted [
 { #category : #testing }
 GTDebuggerRecorderDebugActionEvent >> isExecuted: aBoolean [
 	isExecuted := aBoolean
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderDebugActionEvent >> methodClass [
+	^ self infoAt: #methodClass
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderDebugActionEvent >> methodSelector [
+	^ self infoAt: #methodSelector
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderDebugActionEvent >> nextInstruction [
+	^ self infoAt: #nextInstruction
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderDebugActionEvent >> pc [
+	^ self infoAt: #pc
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderDebugActionEvent >> windowHash [
+	^ self infoAt: #windowHash
 ]

@@ -17,9 +17,24 @@ GTDebuggerRecorderChangeDebuggerEvent >> addNewWindowHashFor: aPresentation [
 		self infoAt: #newWindowHash put: aWindow identityHash ]
 ]
 
+{ #category : #accessing }
+GTDebuggerRecorderChangeDebuggerEvent >> debuggerClass [
+	^ self infoAt: #debuggerClass
+]
+
 { #category : #initialization }
 GTDebuggerRecorderChangeDebuggerEvent >> fromDebugAction: aDebugAction [
 	super fromDebugAction: aDebugAction.
 	self infoAt: #debuggerClass put: aDebugAction debuggerClass name.
 	aDebugAction newDebugger isNotNil ifTrue: [ self addNewWindowHashFor: aDebugAction newDebugger ]
+]
+
+{ #category : #testing }
+GTDebuggerRecorderChangeDebuggerEvent >> isChangeDebugger [
+	^ true
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderChangeDebuggerEvent >> newWindowHash [
+	^ self infoAt: #newWindowHash
 ]

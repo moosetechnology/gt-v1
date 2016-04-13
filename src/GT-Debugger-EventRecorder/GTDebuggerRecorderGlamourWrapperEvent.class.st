@@ -17,3 +17,13 @@ GTDebuggerRecorderGlamourWrapperEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #glamourActionTitle put: aDebugAction asGlamourAction title.
 	self infoAt: #selectionInterval put: aDebugAction debugger selectionInterval.
 ]
+
+{ #category : #accessing }
+GTDebuggerRecorderGlamourWrapperEvent >> glamourActionTitle [
+	^ self infoAt: #glamourActionTitle
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderGlamourWrapperEvent >> selectionInterval [
+	^ self infoAt: #selectionInterval
+]

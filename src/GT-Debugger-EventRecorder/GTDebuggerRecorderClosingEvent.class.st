@@ -13,3 +13,13 @@ GTDebuggerRecorderClosingEvent >> fromAnnouncement: anAnnouncement [
 	
 	self addWindowHashFor: anAnnouncement presentation.
 ]
+
+{ #category : #testing }
+GTDebuggerRecorderClosingEvent >> isCloseDebugger [
+	^ true
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderClosingEvent >> windowHash [
+	^ self infoAt: #windowHash
+]

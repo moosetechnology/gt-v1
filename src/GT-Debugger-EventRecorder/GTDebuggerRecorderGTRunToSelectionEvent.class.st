@@ -15,3 +15,8 @@ GTDebuggerRecorderGTRunToSelectionEvent >> fromDebugAction: aDebugAction [
 	super fromDebugAction: aDebugAction.
 	self infoAt: #selectionInterval put: aDebugAction debugger selectionInterval.
 ]
+
+{ #category : #accessing }
+GTDebuggerRecorderGTRunToSelectionEvent >> selectionInterval [
+	^ self infoAt: #selectionInterval
+]

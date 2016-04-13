@@ -23,6 +23,11 @@ GTDebuggerRecorderOpenEvent >> addTitleFor: aDebugger [
 	(Privacy sendEntityNames or: [ self isTitleAKernelException: aDebugger title ]) ifTrue: [ self infoAt: #title put: aDebugger title ].
 ]
 
+{ #category : #accessing }
+GTDebuggerRecorderOpenEvent >> debuggerClass [
+	^ self infoAt: #debuggerClass
+]
+
 { #category : #initialization }
 GTDebuggerRecorderOpenEvent >> fromDebugger: aDebugger [
 
@@ -38,7 +43,27 @@ GTDebuggerRecorderOpenEvent >> initialize [
 	self initializeObfuscated.
 ]
 
+{ #category : #testing }
+GTDebuggerRecorderOpenEvent >> isOpenDebugger [
+	^ true
+]
+
 { #category : #private }
 GTDebuggerRecorderOpenEvent >> isTitleAKernelException: aString [
 	^ (#Kernel asPackage classTagNamed: #Exceptions) classes anySatisfy: [ :e | e name == aString asSymbol ]
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderOpenEvent >> source [
+	^ self infoAt: #source ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderOpenEvent >> title [
+	^ self infoAt: #title ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderOpenEvent >> windowHash [
+	^ self infoAt: #windowHash
 ]

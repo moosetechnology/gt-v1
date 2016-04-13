@@ -20,3 +20,23 @@ GTDebuggerRecorderResumeEvent >> fromDebugAction: aDebugAction [
 		self infoAt: #nextInstruction putHashForText: aDebugAction currentContext peekInstruction asString ].
 	self addWindowHashFor: aDebugAction debugger.
 ]
+
+{ #category : #accessing }
+GTDebuggerRecorderResumeEvent >> methodClass [
+	^ self infoAt: #methodClass ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderResumeEvent >> methodSelector [
+	^ self infoAt: #methodSelector ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderResumeEvent >> nextInstruction [
+	^ self infoAt: #nextInstruction ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+GTDebuggerRecorderResumeEvent >> pc [
+	^ self infoAt: #pc ifAbsent: [ nil ]
+]

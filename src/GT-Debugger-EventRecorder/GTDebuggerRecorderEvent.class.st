@@ -32,6 +32,21 @@ GTDebuggerRecorderEvent >> addWindowHashFor: aPresentation [
 		self infoAt: #windowHash put: aWindow identityHash ]
 ]
 
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> announcementTimestamp [
+	^ self infoAt: #timestamp ifAbsent: [ self timestamp ]
+]
+
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> computerUUID [
+	^ self infoAt: #computerUUID ifAbsent: [ GlobalIdentifier uniqueInstance computerUUID asString ]
+]
+
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> eventRecorderVersion [
+	^ self infoAt: #eventRecorderVersion ifAbsent: [ GTEventPacking new version ]
+]
+
 { #category : #initialization }
 GTDebuggerRecorderEvent >> fromAnnouncement: anAnnouncement [
 
@@ -45,6 +60,16 @@ GTDebuggerRecorderEvent >> hash [
 { #category : #accessing }
 GTDebuggerRecorderEvent >> hashForText: aString [
 	^ self settings obfuscateIfNecessary: aString
+]
+
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> imageHash [
+	^ self infoAt: #imageHash ifAbsent: [ SmalltalkImage current imagePath hash ]
+]
+
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> imageVersion [
+	^ self infoAt: #imageVersion ifAbsent: [ SystemVersion current version ]
 ]
 
 { #category : #accessing }
@@ -99,6 +124,41 @@ GTDebuggerRecorderEvent >> initializeObfuscated [
 	self obfuscated: Privacy sendEntityNames not.
 ]
 
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isChangeDebugger [
+	^ false
+]
+
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isCloseDebugger [
+	^ false
+]
+
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isDebuggerEvent [
+	^ true
+]
+
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isOpenDebugger [
+	^ false
+]
+
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isOpenOrCloseDebugger [
+	^ self isOpenDebugger or: [ self isCloseDebugger ]
+]
+
+{ #category : #testing }
+GTDebuggerRecorderEvent >> isStackSelectionChange [
+	^ false
+]
+
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> latestUpdate [
+	^ self infoAt: #latestUpdate ifAbsent: [ SystemVersion current highestUpdate ]
+]
+
 { #category : #accessing }
 GTDebuggerRecorderEvent >> obfuscated [
 	^ self infoAt: #obfuscated ifAbsent: true
@@ -107,6 +167,11 @@ GTDebuggerRecorderEvent >> obfuscated [
 { #category : #accessing }
 GTDebuggerRecorderEvent >> obfuscated: aBoolean [
 	^ self infoAt: #obfuscated put: aBoolean
+]
+
+{ #category : #'accessing - announcement info' }
+GTDebuggerRecorderEvent >> sessionCreationTime [
+	^ self infoAt: #sessionCreationTime ifAbsent: [ SmalltalkImage current session creationTime ]
 ]
 
 { #category : #accessing }
