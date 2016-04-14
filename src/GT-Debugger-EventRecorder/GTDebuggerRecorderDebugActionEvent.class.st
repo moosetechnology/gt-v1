@@ -32,7 +32,7 @@ GTDebuggerRecorderDebugActionEvent >> fromDebugAction: aDebugAction [
 ]
 
 { #category : #testing }
-GTDebuggerRecorderDebugActionEvent >> isAboutToExectute [
+GTDebuggerRecorderDebugActionEvent >> isAboutToExecute [
 	^ self isExecuted not
 ]
 
