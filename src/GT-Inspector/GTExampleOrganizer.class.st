@@ -49,7 +49,7 @@ GTExampleOrganizer class >> stop [
 
 { #category : #accessing }
 GTExampleOrganizer >> announcer [
-	^ SystemAnnouncer uniqueInstance
+	^ SystemAnnouncer uniqueInstance weak
 ]
 
 { #category : #accessing }
