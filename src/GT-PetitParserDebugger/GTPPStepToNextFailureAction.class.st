@@ -19,7 +19,7 @@ GTPPStepToNextFailureAction >> defaultIcon [
 { #category : #accessing }
 GTPPStepToNextFailureAction >> defaultLabel [ 
 	
-	^ 'Step to next parser failure'
+	^ 'Next failure'
 ]
 
 { #category : #accessing }

@@ -175,12 +175,11 @@ GTPPDebugger >> methodCodeIn: aComposite forContext: aContext [
 ]
 
 { #category : #'printing/formatting' }
-GTPPDebugger >> printStackEntry: aContext [
+GTPPDebugger >> printStackClassColumnForContext: aContext [
 
 	^ (self session isPPParser: aContext receiver)
 		ifTrue: [ 
 			String streamContents: [:stream | 
-				| str |
 				
 				stream nextPutAll: aContext receiver class name.
 				aContext methodClass == aContext receiver class 
@@ -191,12 +190,12 @@ GTPPDebugger >> printStackEntry: aContext [
 				stream nextPut: $(.
 				aContext receiver printNameOn: stream.
 				stream nextPut: $).
-				stream nextPutAll: '>>'.
+				"stream nextPutAll: '>>'.
 				
-				str := super printStackEntry: aContext.
+				str := super printStackClassColumnForContext: aContext.
 				str := str allButFirst: (str indexOf: $> ifAbsent: [ -1 ]) + 1.
-				stream nextPutAll: str ]  ]
-		ifFalse: [ super printStackEntry: aContext ]
+				stream nextPutAll: str" ]  ]
+		ifFalse: [ super printStackClassColumnForContext: aContext ]
 	
 ]
 

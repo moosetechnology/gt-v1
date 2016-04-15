@@ -25,7 +25,7 @@ GTPPStepToNextParserAction >> defaultIcon [
 { #category : #accessing }
 GTPPStepToNextParserAction >> defaultLabel [ 
 
-	^ 'Step to next parser'
+	^ 'Next parser'
 ]
 
 { #category : #accessing }
