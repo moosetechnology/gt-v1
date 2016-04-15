@@ -62,9 +62,9 @@ GTEventRecorder class >> isGlobalRecorder: aGTEventRecorder [
 GTEventRecorder class >> registerInterestToSystemAnnouncement [
 	<systemEventRegistration>
 	uniqueInstance ifNil: [ ^ self ].
-	SystemAnnouncer uniqueInstance 
-		unsubscribe: uniqueInstance;
-		when: PrivacyChangedAnnoucement
+	SystemAnnouncer uniqueInstance
+		unsubscribe: uniqueInstance.
+	SystemAnnouncer uniqueInstance weak subscribe: PrivacyChangedAnnoucement
 			send: #privacyChanged 
 			to: uniqueInstance.
 ]
