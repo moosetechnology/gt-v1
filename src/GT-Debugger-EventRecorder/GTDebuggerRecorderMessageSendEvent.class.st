@@ -16,6 +16,12 @@ GTDebuggerRecorderMessageSendEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #selector put: aDebugAction selector.
 ]
 
+{ #category : #printing }
+GTDebuggerRecorderMessageSendEvent >> printOn: stream [
+	stream nextPutAll: 'Message send: '.
+	stream nextPutAll: self selector.
+]
+
 { #category : #accessing }
 GTDebuggerRecorderMessageSendEvent >> selector [
 	^ self infoAt: #selector

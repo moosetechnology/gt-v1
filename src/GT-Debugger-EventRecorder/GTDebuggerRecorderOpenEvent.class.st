@@ -53,6 +53,11 @@ GTDebuggerRecorderOpenEvent >> isTitleAKernelException: aString [
 	^ (#Kernel asPackage classTagNamed: #Exceptions) classes anySatisfy: [ :e | e name == aString asSymbol ]
 ]
 
+{ #category : #printing }
+GTDebuggerRecorderOpenEvent >> printOn: stream [
+	stream nextPutAll: 'Open debugger'
+]
+
 { #category : #accessing }
 GTDebuggerRecorderOpenEvent >> source [
 	^ self infoAt: #source ifAbsent: [ nil ]

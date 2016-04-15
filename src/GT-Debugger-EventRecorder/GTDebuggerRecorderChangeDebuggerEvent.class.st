@@ -38,3 +38,9 @@ GTDebuggerRecorderChangeDebuggerEvent >> isChangeDebugger [
 GTDebuggerRecorderChangeDebuggerEvent >> newWindowHash [
 	^ self infoAt: #newWindowHash
 ]
+
+{ #category : #printing }
+GTDebuggerRecorderChangeDebuggerEvent >> printOn: aStream [
+	aStream nextPutAll: 'Change to '.
+	aStream nextPutAll: self debuggerClass asString
+]

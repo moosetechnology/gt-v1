@@ -39,6 +39,11 @@ GTDebuggerRecorderStackSelectionChangedEvent >> pc [
 	^ self infoAt: #pc
 ]
 
+{ #category : #printing }
+GTDebuggerRecorderStackSelectionChangedEvent >> printOn: aStream [
+	aStream nextPutAll: 'Stack selection change'
+]
+
 { #category : #accessing }
 GTDebuggerRecorderStackSelectionChangedEvent >> stackPosition [
 	^ self infoAt: #stackPosition

@@ -23,6 +23,11 @@ GTDebuggerRecorderGlamourWrapperEvent >> glamourActionTitle [
 	^ self infoAt: #glamourActionTitle
 ]
 
+{ #category : #printing }
+GTDebuggerRecorderGlamourWrapperEvent >> printOn: aStream [
+	aStream nextPutAll: self glamourActionTitle asString
+]
+
 { #category : #accessing }
 GTDebuggerRecorderGlamourWrapperEvent >> selectionInterval [
 	^ self infoAt: #selectionInterval

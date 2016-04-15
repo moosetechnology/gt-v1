@@ -71,6 +71,15 @@ GTDebuggerRecorderDebugActionEvent >> pc [
 	^ self infoAt: #pc
 ]
 
+{ #category : #printing }
+GTDebuggerRecorderDebugActionEvent >> printOn: aStream [
+	| actionClass label |
+	
+	actionClass := self debugActionClass asSymbol asClass.
+	label := actionClass new label.
+	label ifNotEmpty: [ aStream nextPutAll: label ] ifEmpty: [ super printOn: aStream ]
+]
+
 { #category : #accessing }
 GTDebuggerRecorderDebugActionEvent >> windowHash [
 	^ self infoAt: #windowHash
