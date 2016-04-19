@@ -51,5 +51,5 @@ GTDebuggerRecorderStackSelectionChangedEvent >> stackPosition [
 
 { #category : #accessing }
 GTDebuggerRecorderStackSelectionChangedEvent >> windowHash [
-	^ self infoAt: #windowHash
+	^ self infoAt: #windowHash ifAbsent: [ nil ]
 ]

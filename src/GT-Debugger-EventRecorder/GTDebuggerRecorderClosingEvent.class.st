@@ -26,5 +26,5 @@ GTDebuggerRecorderClosingEvent >> printOn: stream [
 
 { #category : #accessing }
 GTDebuggerRecorderClosingEvent >> windowHash [
-	^ self infoAt: #windowHash
+	^ self infoAt: #windowHash ifAbsent: [ nil ]
 ]

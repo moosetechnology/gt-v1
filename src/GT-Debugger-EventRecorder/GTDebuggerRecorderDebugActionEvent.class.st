@@ -82,5 +82,5 @@ GTDebuggerRecorderDebugActionEvent >> printOn: aStream [
 
 { #category : #accessing }
 GTDebuggerRecorderDebugActionEvent >> windowHash [
-	^ self infoAt: #windowHash
+	^ self infoAt: #windowHash ifAbsent: [ nil ]
 ]

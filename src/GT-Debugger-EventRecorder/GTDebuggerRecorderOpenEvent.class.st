@@ -70,5 +70,5 @@ GTDebuggerRecorderOpenEvent >> title [
 
 { #category : #accessing }
 GTDebuggerRecorderOpenEvent >> windowHash [
-	^ self infoAt: #windowHash
+	^ self infoAt: #windowHash ifAbsent: [ nil ]
 ]
