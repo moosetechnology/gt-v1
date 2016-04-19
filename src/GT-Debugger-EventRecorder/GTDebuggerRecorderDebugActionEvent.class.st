@@ -16,6 +16,12 @@ GTDebuggerRecorderDebugActionEvent class >> fromDebugAction: aDebugAction [
 	^ self new fromDebugAction: aDebugAction
 ]
 
+{ #category : #comparing }
+GTDebuggerRecorderDebugActionEvent >> = otherGTDebuggerRecorderDebugActionEvent [
+	^ (super = otherGTDebuggerRecorderDebugActionEvent)
+		and: [ self isExecuted = otherGTDebuggerRecorderDebugActionEvent isExecuted ]
+]
+
 { #category : #accessing }
 GTDebuggerRecorderDebugActionEvent >> debugActionClass [
 	^ self infoAt: #debugActionClass
@@ -29,6 +35,11 @@ GTDebuggerRecorderDebugActionEvent >> fromDebugAction: aDebugAction [
 	self infoAt: #pc put: aDebugAction currentContext pc.
 	self infoAt: #nextInstruction putHashForText: aDebugAction currentContext peekInstruction asString.
 	self addWindowHashFor: aDebugAction debugger.
+]
+
+{ #category : #comparing }
+GTDebuggerRecorderDebugActionEvent >> hash [
+	^ super hash bitXor: self isExecuted hash
 ]
 
 { #category : #testing }

@@ -22,7 +22,8 @@ GTDebuggerRecorderEvent class >> fromAnnouncement: anAnnouncement [
 GTDebuggerRecorderEvent >> = otherGTDebuggerRecorderEvent [
 
 	^ self class == otherGTDebuggerRecorderEvent class
-	  and: [ self info = otherGTDebuggerRecorderEvent info ]
+	and: [ (self info = otherGTDebuggerRecorderEvent info)
+	and: [ self timestamp = otherGTDebuggerRecorderEvent timestamp ] ].
 ]
 
 { #category : #accessing }
@@ -54,7 +55,7 @@ GTDebuggerRecorderEvent >> fromAnnouncement: anAnnouncement [
 
 { #category : #comparing }
 GTDebuggerRecorderEvent >> hash [
-	^ self info hash
+	^ self info hash bitXor: self timestamp hash
 ]
 
 { #category : #accessing }
