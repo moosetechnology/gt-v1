@@ -4,6 +4,9 @@ This is a helper browser for the Raw view in the GTInspector. It provides an ove
 Class {
 	#name : #GTRawObjectVariablesBrowser,
 	#superclass : #GLMCompositePresentation,
+	#instVars : [
+		'cachedHashes'
+	],
 	#category : #'GT-Inspector'
 }
 
@@ -45,6 +48,41 @@ GTRawObjectVariablesBrowser >> evaluatorIn: composite [
 		installDefaultSelectionActions
 ]
 
+{ #category : #'private - updating' }
+GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
+	| valuesCache |
+	
+	valuesCache := OrderedDictionary new.
+	(anObject gtInspectorVariableValuePairs do: [ :assoc | 
+		valuesCache 
+			at: assoc key 
+			put: (self generateHashFor: assoc value) ]).
+	
+	^ valuesCache
+]
+
+{ #category : #'private - updating' }
+GTRawObjectVariablesBrowser >> generateHashFor: anObject [ 
+
+	^ anObject gtInspectorVariableValuePairs 
+		inject: self gtInspectorHash
+		into: [ :hashValue :assoc | hashValue bitXor: assoc value gtInspectorHash ].
+	
+	
+]
+
+{ #category : #'private - updating' }
+GTRawObjectVariablesBrowser >> generateHashFor: anObject untilLevel: anInteger [
+
+	anInteger = 0 ifTrue: [ ^ anObject identityHash ].
+		
+	^ anObject gtInspectorVariableValuePairs 
+		inject: anObject identityHash
+		into: [ :hashValue :assoc | hashValue bitXor: (self generateHashFor: assoc value untilLevel: anInteger-1) ].
+	
+	
+]
+
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> iconFor: anObject [
 		
@@ -62,6 +100,22 @@ GTRawObjectVariablesBrowser >> iconFor: anEyeElement error: error [
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> printStringOf: anObject [
 	self subclassResponsibility
+]
+
+{ #category : #'private - updating' }
+GTRawObjectVariablesBrowser >> rebuildCacheFor: anObject [
+
+	cachedHashes := self generateCacheFor: anObject
+]
+
+{ #category : #'private - updating' }
+GTRawObjectVariablesBrowser >> shouldRefresh [
+	|newCache result|
+
+	newCache := self generateCacheFor: self entity.
+	result := cachedHashes ~= newCache.
+	cachedHashes := newCache.
+	^ result
 ]
 
 { #category : #'private building' }
@@ -116,12 +170,15 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 		shouldValidate: false;
 		allowsRecursiveSearch: false;
 		"wantsSteps: true;"
+		stepCondition: [ self shouldRefresh ];
+		stepTime: 1000;
 		children: [ :assoc | 
 			assoc key = 'self'
 				ifTrue: [ #() ]
 				ifFalse: [ self variableValuePairsFor: assoc value ] ];
 		icon: [ :assoc | self iconFor: assoc value ];
 		display: [ :anObject | 
+			self rebuildCacheFor: anObject.
 			self variableValuePairsFor: anObject ];
 		column: 'Variable' 
 			evaluated: [:assoc | '  ', (GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
