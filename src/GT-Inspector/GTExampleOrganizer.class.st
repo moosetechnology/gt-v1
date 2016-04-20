@@ -31,6 +31,17 @@ GTExampleOrganizer class >> new [
 ]
 
 { #category : #public }
+GTExampleOrganizer class >> registerInterestToSystemAnnouncement [
+	<systemEventRegistration>
+	
+	self instance 
+		stopSystemAnnouncements;
+		stopMonticelloAnnouncements;
+		startSystemAnnouncements;
+		startMonticelloAnnouncements.
+]
+
+{ #category : #public }
 GTExampleOrganizer class >> restart [
 	self stop.
 	self start.
