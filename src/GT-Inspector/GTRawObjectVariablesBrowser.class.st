@@ -71,18 +71,6 @@ GTRawObjectVariablesBrowser >> generateHashFor: anObject [
 	
 ]
 
-{ #category : #'private - updating' }
-GTRawObjectVariablesBrowser >> generateHashFor: anObject untilLevel: anInteger [
-
-	anInteger = 0 ifTrue: [ ^ anObject identityHash ].
-		
-	^ anObject gtInspectorVariableValuePairs 
-		inject: anObject identityHash
-		into: [ :hashValue :assoc | hashValue bitXor: (self generateHashFor: assoc value untilLevel: anInteger-1) ].
-	
-	
-]
-
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> iconFor: anObject [
 		
