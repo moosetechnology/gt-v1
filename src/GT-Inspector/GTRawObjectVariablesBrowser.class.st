@@ -10,6 +10,12 @@ Class {
 	#category : #'GT-Inspector'
 }
 
+{ #category : #'private building' }
+GTRawObjectVariablesBrowser >> basicVariableValuePairsFor: anObject [
+
+	self subclassResponsibility 
+]
+
 { #category : #building }
 GTRawObjectVariablesBrowser >> compose [
 	self title: 'Raw'.
@@ -53,7 +59,7 @@ GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
 	| valuesCache |
 	
 	valuesCache := OrderedDictionary new.
-	(anObject gtInspectorVariableValuePairs do: [ :assoc | 
+	((self basicVariableValuePairsFor: anObject) do: [ :assoc | 
 		valuesCache 
 			at: assoc key 
 			put: (self generateHashFor: assoc value) ]).
@@ -64,8 +70,8 @@ GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
 { #category : #'private - updating' }
 GTRawObjectVariablesBrowser >> generateHashFor: anObject [ 
 
-	^ anObject gtInspectorVariableValuePairs 
-		inject: self gtInspectorHash
+	^ (self basicVariableValuePairsFor: anObject)
+		inject: anObject gtInspectorHash
 		into: [ :hashValue :assoc | hashValue bitXor: assoc value gtInspectorHash ].
 	
 	
@@ -148,7 +154,10 @@ GTRawObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject ba
 
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> variableValuePairsFor: anObject [
-	self subclassResponsibility 
+
+	^ (self basicVariableValuePairsFor: anObject) asOrderedCollection 
+		addFirst: 'self' -> anObject; 
+		yourself
 ]
 
 { #category : #'private building' }
