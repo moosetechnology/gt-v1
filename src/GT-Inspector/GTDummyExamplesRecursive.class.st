@@ -10,6 +10,7 @@ GTDummyExamplesRecursive class >> a: aBoolean [
 	<label: 'Dummy #a:, depends: #a:'>
 	<depends: #a:> " loop "
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -20,6 +21,7 @@ GTDummyExamplesRecursive class >> b: aBoolean [
 	<label: 'Dummy #b:, depends: #a:'>
 	<depends: #a:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -30,6 +32,7 @@ GTDummyExamplesRecursive class >> c: aBoolean [
 	<label: 'Dummy #c:, depends: #b:'>
 	<depends: #b:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -40,6 +43,7 @@ GTDummyExamplesRecursive class >> d: aBoolean [
 	<label: 'Dummy #d:, depends: #f:'>
 	<depends: #f:> " loop "
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -50,6 +54,7 @@ GTDummyExamplesRecursive class >> e: aBoolean [
 	<label: 'Dummy #e:, depends: #d:'>
 	<depends: #d:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -60,6 +65,7 @@ GTDummyExamplesRecursive class >> f: aBoolean [
 	<label: 'Dummy #f:, depends: #e:'>
 	<depends: #e:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -71,6 +77,7 @@ GTDummyExamplesRecursive class >> g: aBoolean1 g: aBoolean2 [
 	<depends: #i:i:>
 	<depends: #h>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -80,6 +87,7 @@ GTDummyExamplesRecursive class >> h [
 	<gtExample>
 	<label: 'Dummy #h, (the only successful example in this example provider)'>
 	<noTest>
+	<noNotification>
 	
 	^ true
 ]
@@ -91,6 +99,7 @@ GTDummyExamplesRecursive class >> i: aBoolean1 i: aBoolean2 [
 	<depends: #j:>
 	<depends: #h>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -101,6 +110,7 @@ GTDummyExamplesRecursive class >> j: aBoolean1 [
 	<label: 'Dummy #j:, depends: #g:'>
 	<depends: #g:g:> " loop "
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -112,6 +122,7 @@ GTDummyExamplesRecursive class >> k: aBoolean1 k: aBoolean2 [
 	<depends: #l:l:>
 	<depends: #m:m:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -123,6 +134,7 @@ GTDummyExamplesRecursive class >> l: aBoolean1 l: aBoolean2 [
 	<depends: #k:k:> " loop "
 	<depends: #n:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -134,6 +146,7 @@ GTDummyExamplesRecursive class >> m: aBoolean1 m: aBoolean2 [
 	<depends: #l:l:>
 	<depends: #n:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -144,6 +157,7 @@ GTDummyExamplesRecursive class >> n: aBoolean1 [
 	<label: 'Dummy #n:, depends: #k:k:'>
 	<depends: #k:k:> " loop "
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -154,6 +168,7 @@ GTDummyExamplesRecursive class >> o: aBoolean1 [
 	<label: 'Dummy #o:, depends: #p:'>
 	<depends: #p:> 
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -164,6 +179,7 @@ GTDummyExamplesRecursive class >> p: aBoolean1 [
 	<label: 'Dummy #p:, depends: #o:'>
 	<depends: #o:> " loop " 
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -175,6 +191,7 @@ GTDummyExamplesRecursive class >> q: aBoolean1 q: aBoolean2 [
 	<depends: #r:> 
 	<depends: #r:> 
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -185,6 +202,7 @@ GTDummyExamplesRecursive class >> r: aBoolean1 [
 	<label: 'Dummy #r:, depends: #s:'>
 	<depends: #s:> 
 	<noTest>
+	<noNotification>
 		
 	^ aBoolean1
 ]
@@ -195,6 +213,7 @@ GTDummyExamplesRecursive class >> s: aBoolean1 [
 	<label: 'Dummy #s:, depends: #q:q:'>
 	<depends: #q:q:> " loop " 
 	<noTest>
+	<noNotification>
 		
 	^ aBoolean1
 ]
@@ -206,6 +225,7 @@ GTDummyExamplesRecursive class >> t: aBoolean1 t: aBoolean2 [
 	<depends: #u:u:> 
 	<depends: #v:> 
 	<noTest>
+	<noNotification>
 		
 	^ aBoolean1 & aBoolean2
 ]
@@ -217,6 +237,7 @@ GTDummyExamplesRecursive class >> u: aBoolean1 u: aBoolean2 [
 	<depends: #w:w:> 
 	<depends: #v:> 
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -227,6 +248,7 @@ GTDummyExamplesRecursive class >> v: aBoolean1 [
 	<label: 'Dummy #v:, depends: #x:'>
 	<depends: #x:> 
 	<noTest>
+	<noNotification>
 		
 	^ aBoolean1
 ]
@@ -238,6 +260,7 @@ GTDummyExamplesRecursive class >> w: aBoolean1 w: aBoolean2 [
 	<depends: #x:> 
 	<depends: #y:> 
 	<noTest>
+	<noNotification>
 		
 	^ aBoolean1 & aBoolean2
 ]
@@ -248,6 +271,7 @@ GTDummyExamplesRecursive class >> x: aBoolean1 [
 	<label: 'Dummy #x:, depends: #y:'>
 	<depends: #y:> 
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -258,6 +282,7 @@ GTDummyExamplesRecursive class >> y: aBoolean1 [
 	<label: 'Dummy #y:, depends: #z:'>
 	<depends: #z:> 
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]
@@ -268,6 +293,7 @@ GTDummyExamplesRecursive class >> z: aBoolean1 [
 	<label: 'Dummy #z:, depends: #t:t:'>
 	<depends: #t:t:>  " loop "
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1
 ]

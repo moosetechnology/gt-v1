@@ -85,6 +85,7 @@ GTDummyExamples class >> h: aBoolean [
 	<description: 'shouldnt raise any exception, but dependency should'>
 	<depends: #e:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean & false
 ]
@@ -187,6 +188,7 @@ GTDummyExamples class >> s: aBoolean [
 	<label: 'Dummy #s, invalid recursion'>
 	<depends: #s:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -197,6 +199,7 @@ GTDummyExamples class >> t: aBoolean [
 	<label: 'Dummy #s, invalid recursion'>
 	<depends: #s:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -207,6 +210,7 @@ GTDummyExamples class >> u: aBoolean [
 	<label: 'Dummy #u, invalid recursion'>
 	<depends: #v:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -217,6 +221,7 @@ GTDummyExamples class >> v: aBoolean [
 	<label: 'Dummy #v, invalid recursion'>
 	<depends: #u:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -227,6 +232,7 @@ GTDummyExamples class >> w: aBoolean [
 	<label: 'Dummy #w'>
 	<depends: #z:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -237,6 +243,7 @@ GTDummyExamples class >> x: aBoolean [
 	<label: 'Dummy #x:, depends: w:'>
 	<depends: #w:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
@@ -248,6 +255,7 @@ GTDummyExamples class >> y: aBoolean1 y: aBoolean2 [
 	<depends: #x:>
 	<depends: #w:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -258,6 +266,7 @@ GTDummyExamples class >> z: aBoolean [
 	<label: 'Dummy #z, depends: #y:y:'>
 	<depends: #y:y:>
 	<noTest>
+	<noNotification>
 	
 	^ aBoolean
 ]
