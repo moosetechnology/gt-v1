@@ -305,15 +305,7 @@ ConfigurationOfGTInspector >> baseline21: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
-		spec description: 'Explicitly depend on roassal'.
-		spec author: 'AndreiChis'.
-		spec timestamp: '2015-10-16'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
-		
-		spec 
-			package: 'GT-InspectorExtensions-CoreRoassal' with: [
-				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2') ].
-			
 		spec 
 			project: 'GTInspectorCore' with: [
 				spec
@@ -327,18 +319,20 @@ ConfigurationOfGTInspector >> baseline21: spec [
 					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];
 			project: 'Roassal2' with: [
 				spec
-					className: 'ConfigurationOfRoassal2';
-					file: 'ConfigurationOfRoassal2';
-					version: #development;
+					className: #ConfigurationOfRoassal2;
+					versionString: #'development';
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
 			project: 'DeepTraverser' with: [
 				spec
 					className: #ConfigurationOfDeepTraverser;
 					versionString: #'development';
 					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ].
-		
 		spec 
-			group: 'default' with: #('GTInspectorCore' 'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser' ) ].
+			package: 'GT-InspectorExtensions-CoreRoassal' with: [
+				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2' ). ];
+			package: 'GT-Examples-Dummies' with: [
+				spec requires: #('GTInspectorCore' ). ].
+		spec group: 'default' with: #('GTInspectorCore' 'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser' 'GT-Examples-Dummies' ). ].
 
 ]
 
