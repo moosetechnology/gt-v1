@@ -617,18 +617,13 @@ GTExample >> ignoreCache [
 ]
 
 { #category : #testing }
-GTExample >> ignoreNotification [
-	^ self propertyAt: #noNotification ifAbsent: [ false ]
-]
-
-{ #category : #testing }
 GTExample >> ignoreTest [
 	^ self propertyAt: #noTest ifAbsent: [ false ]
 ]
 
 { #category : #testing }
 GTExample >> ignoreTestReport [
-	^ self propertyAt: #noTestReport ifAbsent: [ false ]
+	^ self propertyAt: #notTestReport ifAbsent: [ false ]
 ]
 
 { #category : #initializing }
@@ -739,14 +734,6 @@ GTExample >> noCache [
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> noNotification [
-	<gtExamplePragma>
-	<description: 'Do not show any notification for this example'>
-	
-	self propertyAt: #noNotification put: true
-]
-
-{ #category : #'pragma-selectors' }
 GTExample >> noTest [
 	<gtExamplePragma>
 	<description: 'Do not run this example while running SUnit tests'>
@@ -755,11 +742,11 @@ GTExample >> noTest [
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> noTestReport [
+GTExample >> notTestReport [
 	<gtExamplePragma>
 	<description: 'Do not run this example while running HDTestReport (not yet implemented)'>
 	
-	self propertyAt: #noTestReport put: true
+	self propertyAt: #notTestReport put: true
 ]
 
 { #category : #'*GT-Inspector-Examples-DEPRECATED' }

@@ -31,17 +31,6 @@ GTExampleOrganizer class >> new [
 ]
 
 { #category : #public }
-GTExampleOrganizer class >> registerInterestToSystemAnnouncement [
-	<systemEventRegistration>
-	
-	self instance 
-		stopSystemAnnouncements;
-		stopMonticelloAnnouncements;
-		startSystemAnnouncements;
-		startMonticelloAnnouncements.
-]
-
-{ #category : #public }
 GTExampleOrganizer class >> restart [
 	self stop.
 	self start.
@@ -286,7 +275,6 @@ GTExampleOrganizer >> notify: aString exception: anException [
 
 { #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForDependencyUsing: aCompiledMethod example: anExample [
-	anExample ignoreNotification ifTrue: [ ^ self ].
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Obsolete example dependency in' ;
 		cr;
@@ -305,7 +293,6 @@ GTExampleOrganizer >> notifyForMissingClasses: anException [
 
 { #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForMissingDependency: aDependency example: anExample [
-	anExample ignoreNotification ifTrue: [ ^ self ].
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Missing example dependency' ;
 		cr;
@@ -316,7 +303,6 @@ GTExampleOrganizer >> notifyForMissingDependency: aDependency example: anExample
 
 { #category : #'private-notifying' }
 GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
-	anExample ignoreNotification ifTrue: [ ^ self ].
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Invalid number of arguments in' ;
 		cr;
