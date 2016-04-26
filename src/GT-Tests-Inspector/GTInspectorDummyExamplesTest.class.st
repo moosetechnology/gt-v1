@@ -6,14 +6,14 @@ Class {
 
 { #category : #accessing }
 GTInspectorDummyExamplesTest >> allExamplesDummiesProviders [
-	^ { 
-		GTDummyExamples. 
-		GTDummyExamplesPragmas. 
-		GTDummyExamplesRecursive. 
-		GTDummyExamplesWithDependencies. 
-		GTDummyExamplesWithExternalDependencies.
-		GTDummyExamplesWithExceptions 
-	}
+	^ (#( 
+		#GTDummyExamples. 
+		#GTDummyExamplesPragmas. 
+		#GTDummyExamplesRecursive. 
+		#GTDummyExamplesWithDependencies. 
+		#GTDummyExamplesWithExternalDependencies.
+		#GTDummyExamplesWithExceptions 
+	) collect: [:className | Smalltalk at: className ifAbsent: [nil]]) select: #notNil
 ]
 
 { #category : #utils }
@@ -28,16 +28,16 @@ GTInspectorDummyExamplesTest >> examplesInClasses: aSelector do: aBlock [
 
 { #category : #accessing }
 GTInspectorDummyExamplesTest >> invalidExamplesDummiesProviders [
-	^ { 
+	^ (#( 
 		GTDummyExamplesInvalid.
-	}
+	) collect: [:className | Smalltalk at: className ifAbsent: [nil]]) select: #notNil
 ]
 
 { #category : #accessing }
 GTInspectorDummyExamplesTest >> recursiveExamplesDummiesProviders [
-	^ { 
-		GTDummyExamplesRecursive.
-	}
+	^ (#( 
+		#GTDummyExamplesRecursive.
+	) collect: [:className | Smalltalk at: className ifAbsent: [nil]  ]) select: #notNil
 ]
 
 { #category : #tests }
