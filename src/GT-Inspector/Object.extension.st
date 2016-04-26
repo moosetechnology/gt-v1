@@ -63,6 +63,12 @@ Object >> gtExamplesContained [
 ]
 
 { #category : #'*GT-Inspector' }
+Object >> gtInspectorHash [
+
+	^ self identityHash.
+]
+
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorInterestingObject [
 	^ self
 ]
