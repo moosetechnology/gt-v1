@@ -16,7 +16,7 @@ Class {
 
 { #category : #settings }
 GTSpotterExtensionSettings class >> catalogSettingsOn: aBuilder [
-	"<systemsettings>"
+	<systemsettings>
 	(aBuilder group: #gtspotter)
 		parent: #gt;
 		label: 'GT Spotter extensions';
@@ -25,11 +25,14 @@ GTSpotterExtensionSettings class >> catalogSettingsOn: aBuilder [
 				[ GTSpotter spotterExtendingMethods
 				do:
 					[ :each | 
-					(aBuilder setting: (self internalKeyForMethod: each))
+					| setting |
+					setting := (aBuilder setting: (self internalKeyForMethod: each)).
+					setting
 						target: self;
 						label: each displayString;
 						description: each sourceCode;
-						default: true ] ]
+						default: true.
+					setting asBeaconSignal log ] ]
 ]
 
 { #category : #settings }
@@ -47,9 +50,13 @@ GTSpotterExtensionSettings class >> doesNotUnderstand: aMessage [
 	aMessage arguments isEmpty
 		ifTrue: [ ^ (self disabledExtensions includes: aMessage selector) not ].
 	aMessage arguments size = 1
-		ifTrue: [ ^ 
-			aMessage arguments first 
-				ifTrue: [ self disabledExtensions remove: aMessage selector allButLast ]
+		ifTrue: [ 
+			^ aMessage arguments first
+				ifTrue: [ self disabledExtensions 
+						remove: aMessage selector allButLast 
+						ifAbsent: [ "ignore all settings that are re-enabled but 
+										that were not disabled before
+										(it can happen when the property was renamed)" ] ]
 				ifFalse: [ self disabledExtensions add: aMessage selector allButLast ] ].
 	^ super doesNotUnderstand: aMessage
 ]
