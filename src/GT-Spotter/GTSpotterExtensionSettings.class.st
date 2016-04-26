@@ -25,14 +25,11 @@ GTSpotterExtensionSettings class >> catalogSettingsOn: aBuilder [
 				[ GTSpotter spotterExtendingMethods
 				do:
 					[ :each | 
-					| setting |
-					setting := (aBuilder setting: (self internalKeyForMethod: each)).
-					setting
+					(aBuilder setting: (self internalKeyForMethod: each))
 						target: self;
 						label: each displayString;
 						description: each sourceCode;
-						default: true.
-					setting asBeaconSignal log ] ]
+						default: true] ]
 ]
 
 { #category : #settings }
