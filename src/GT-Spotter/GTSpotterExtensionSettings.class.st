@@ -16,7 +16,7 @@ Class {
 
 { #category : #settings }
 GTSpotterExtensionSettings class >> catalogSettingsOn: aBuilder [
-	<systemsettings>
+	"<systemsettings>"
 	(aBuilder group: #gtspotter)
 		parent: #gt;
 		label: 'GT Spotter extensions';
