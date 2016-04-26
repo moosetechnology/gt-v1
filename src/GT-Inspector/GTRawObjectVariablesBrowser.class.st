@@ -166,9 +166,6 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 		showOnly: 50;
 		shouldValidate: false;
 		allowsRecursiveSearch: false;
-		wantsSteps: true;
-		stepCondition: [ self shouldRefresh ];
-		stepTime: 1000;
 		children: [ :assoc | 
 			assoc key = 'self'
 				ifTrue: [ #() ]
