@@ -229,7 +229,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.20'.
+	spec for: #'common' version: '3.21'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -596,17 +596,18 @@ ConfigurationOfGToolkitCore >> version320: spec [
 
 { #category : #versions }
 ConfigurationOfGToolkitCore >> version321: spec [
-	<version: '3.2.1' imports: #('3.0-baseline' )>
+	<version: '3.21' imports: #('3.1-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'Changes in the use of #garbageCollect'.
+		spec description: 'GToolkit version 3.21 (case 18112)'.
 		spec author: 'AndreiChis'.
-		spec timestamp: '11/25/2015 18:00'.
+		spec timestamp: '4/27/2016 19:10'.
 		spec 
-			project: 'GTPlaygroundCore' with: '2.3.1';
-			project: 'GTInspectorCore' with: '2.2.1';
-			project: 'GTSpotter' with: '1.4.1'. ].
+			project: 'GTPlaygroundCore' with: '3.9';
+			project: 'GTInspectorCore' with: '3.12';
+			project: 'GTSpotter' with: '2.10';
+			project: 'GTDebugger' with: '2.8'. ].
 
 ]
 
