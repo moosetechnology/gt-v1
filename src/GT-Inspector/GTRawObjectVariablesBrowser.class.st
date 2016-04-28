@@ -39,7 +39,11 @@ GTRawObjectVariablesBrowser >> compose [
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> evaluatorIn: composite [
 	^ composite pharoScript
-		doItReceiver: [:x | x ];
+		doItReceiver: [ :object | object ];
+		variableBindings: [ :object | 
+			object class instVarNames 
+				collectWithIndex: [ :ivName :index | 
+					ivName -> (thisContext object: object instVarAt: index) ] ];
 		display: [ :object | 
 			String streamContents: [ :stream | 
 				stream 
