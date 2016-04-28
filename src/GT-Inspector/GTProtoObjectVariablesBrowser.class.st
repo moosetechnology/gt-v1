@@ -13,7 +13,7 @@ Class {
 { #category : #'private building' }
 GTProtoObjectVariablesBrowser >> basicVariableValuePairsFor: anObject [
 
-	^ (anObject class instVarNames 
+	^ (anObject class allInstVarNames 
 			collectWithIndex: [ :ivName :index | 
 				ivName -> (thisContext object: anObject instVarAt: index) ]) 
 					sort

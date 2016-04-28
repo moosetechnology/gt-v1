@@ -41,7 +41,7 @@ GTRawObjectVariablesBrowser >> evaluatorIn: composite [
 	^ composite pharoScript
 		doItReceiver: [ :object | object ];
 		variableBindings: [ :object | 
-			object class instVarNames 
+			object class allInstVarNames 
 				collectWithIndex: [ :ivName :index | 
 					ivName -> (thisContext object: object instVarAt: index) ] ];
 		display: [ :object | 
