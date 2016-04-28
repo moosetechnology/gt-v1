@@ -40,10 +40,7 @@ GTRawObjectVariablesBrowser >> compose [
 GTRawObjectVariablesBrowser >> evaluatorIn: composite [
 	^ composite pharoScript
 		doItReceiver: [ :object | object ];
-		variableBindings: [ :object | 
-			object class allInstVarNames 
-				collectWithIndex: [ :ivName :index | 
-					ivName -> (thisContext object: object instVarAt: index) ] ];
+		smalltalkClass: [ :object | object class ];
 		display: [ :object | 
 			String streamContents: [ :stream | 
 				stream 
