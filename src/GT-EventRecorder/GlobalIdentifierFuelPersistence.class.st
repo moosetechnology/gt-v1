@@ -14,7 +14,7 @@ GlobalIdentifierFuelPersistence >> fileName [
 
 { #category : #'load and saving' }
 GlobalIdentifierFuelPersistence >> load [
-	^ FLMaterializer materializeFromFileNamed: self preferences
+	^ FLMaterializer materializeFromFileNamed: self preferences fullName
 ]
 
 { #category : #'load and saving' }
