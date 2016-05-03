@@ -4,8 +4,27 @@ I represent a GTEventCollector for windows.
 Class {
 	#name : #GTWindowEventCollector,
 	#superclass : #GTEventCollector,
+	#classInstVars : [
+		'uniqueInstance'
+	],
 	#category : #'GT-Window-EventRecorder'
 }
+
+{ #category : #cleanup }
+GTWindowEventCollector class >> cleanUp [
+	self reset
+]
+
+{ #category : #'instance creation' }
+GTWindowEventCollector class >> reset [
+	uniqueInstance unregisterToWorldAnnouncements.
+	uniqueInstance := nil.
+]
+
+{ #category : #'instance creation' }
+GTWindowEventCollector class >> uniqueInstance [
+	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
+]
 
 { #category : #initialization }
 GTWindowEventCollector >> initialize [
@@ -27,7 +46,7 @@ GTWindowEventCollector >> recordAnnouncement: anAnnouncement [
 { #category : #'announcement registration' }
 GTWindowEventCollector >> registerToWindowAnnouncementsFor: aWindow [
 
-	^ aWindow announcer weak
+	^ aWindow announcer
 		when: WindowActivated send: #windowActivated: to: self;
 		when: WindowDeActivated send: #windowDeActivated: to: self.
 ]
