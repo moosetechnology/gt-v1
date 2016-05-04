@@ -17,8 +17,9 @@ GTWindowEventCollector class >> cleanUp [
 
 { #category : #'instance creation' }
 GTWindowEventCollector class >> reset [
-	uniqueInstance unregisterToWorldAnnouncements.
-	uniqueInstance := nil.
+	uniqueInstance ifNotNil: [
+		uniqueInstance unregisterToWorldAnnouncements.
+		uniqueInstance := nil ]
 ]
 
 { #category : #'instance creation' }
