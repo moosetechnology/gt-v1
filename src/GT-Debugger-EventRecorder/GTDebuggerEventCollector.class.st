@@ -21,7 +21,7 @@ GTDebuggerEventCollector >> collectDataFrom: aDebugger [
 { #category : #initialization }
 GTDebuggerEventCollector >> linkToDebugger: aDebugger [
 
-	aDebugger announcer weak when: Announcement send: #recordAnnouncementIgnoreExecuted: to: self
+	aDebugger announcer when: Announcement send: #recordAnnouncementIgnoreExecuted: to: self
 ]
 
 { #category : #events }
