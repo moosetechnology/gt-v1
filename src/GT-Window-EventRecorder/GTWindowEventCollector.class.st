@@ -24,14 +24,16 @@ GTWindowEventCollector class >> reset [
 
 { #category : #'instance creation' }
 GTWindowEventCollector class >> uniqueInstance [
-	^ uniqueInstance ifNil: [ uniqueInstance := self new ]
+	^ uniqueInstance ifNil: [
+		uniqueInstance := self new
+			registerToWorldAnnouncements;
+			yourself ]
 ]
 
 { #category : #initialization }
 GTWindowEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := SharedQueue new.
-	self registerToWorldAnnouncements.
 ]
 
 { #category : #initialization }
