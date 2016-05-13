@@ -3,8 +3,7 @@ Class {
 	#superclass : #GTExampleProcessor,
 	#instVars : [
 		'processed',
-		'result',
-		'linkContext'
+		'result'
 	],
 	#category : #'GT-Inspector-Examples-Tools'
 }
@@ -20,73 +19,64 @@ GTExampleEvaluator >> do: aBlock on: anException do: anotherBlock [
 GTExampleEvaluator >> initialize [
 	super initialize.
 	
-	processed := OrderedCollection new.
-	result := GTExampleResult new
+	processed := OrderedCollection new
+]
+
+{ #category : #private }
+GTExampleEvaluator >> newResultFor: anExample [
+	^ GTExampleResult new 
+		example: anExample;
+		context: self context;
+		yourself.
 ]
 
 { #category : #primitives }
 GTExampleEvaluator >> primitiveProcessExample: anExample withArguments: arguments [
-	| value |
-	self withLinkContextFor: anExample do: [ 
-		value := anExample provider perform: anExample method selector withArguments: arguments.
-		" does not work with ReflectiveMethod: 
-		value := anExample method valueWithReceiver: anExample provider arguments: arguments "
-		self primitiveProcessExampleAfter: anExample.
-		self primitiveProcessExampleAfterFinish: anExample ].
-	^ value 
-]
-
-{ #category : #primitives }
-GTExampleEvaluator >> primitiveProcessExampleAfter: anExample [
-	anExample after ifNil: [ ^ self ].
-	anExample after method 
-		valueWithReceiver: anExample after provider 
-		arguments: linkContext arguments
-]
-
-{ #category : #primitives }
-GTExampleEvaluator >> primitiveProcessExampleAfterFinish: anExample [
-	anExample afterFinish ifNil: [ ^ self ].
-	anExample == self example ifFalse: [ ^ self ].
-	anExample afterFinish method 
-		valueWithReceiver: anExample afterFinish provider 
-		arguments: linkContext arguments
+	^ anExample provider perform: anExample method selector withArguments: arguments
 ]
 
 { #category : #private }
 GTExampleEvaluator >> process: anExample withArguments: aBlock [
-	| value arguments signaledException |
-	value := nil.
+	| currentResult arguments |
+	currentResult := self newResultFor: anExample.
 	arguments := nil.
-	signaledException := nil.
 	anExample hasValidArguments 
 		ifFalse: [ ^ self onArgumentError value: self value: anExample value: arguments ].
 	[ arguments := aBlock value ]
 		on: Error
 		do: [ :exception | ^ self onDependencyError value: self value: anExample value: exception ].
-	self do: [ value := self primitiveProcessExample: anExample withArguments: arguments ]
-		on: (anExample exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. })
-		do: [ :exception | signaledException := exception ].
-	processed add: { anExample. value. signaledException }.
-	result returnValue: value.
-	anExample exceptions signaledBy: signaledException.
-	result expectedError: signaledException.
-	^ value
+	self do: [ currentResult returnValue: (self primitiveProcessExample: anExample withArguments: arguments) ]
+		on: anExample signalableExceptions
+		do: [ :exception | currentResult expectedError: exception ].
+	processed add: currentResult.
+	self do: [ self processAfter: anExample ]
+		on: anExample signalableExceptions
+		do: [ :exception | currentResult expectedError: exception ].
+	anExample == self example ifTrue: [ result := currentResult ].
+	anExample exceptions signaledBy: currentResult expectedError.
+	^ currentResult returnValue
+]
+
+{ #category : #private }
+GTExampleEvaluator >> processAfter: anExample [
+	anExample == self example ifFalse: [ ^ self ].
+	processed do: [ :processedResult |
+		self processAfter: processedResult example withResult: processedResult returnValue ]
+]
+
+{ #category : #private }
+GTExampleEvaluator >> processAfter: anExample withResult: anObject [
+	anExample after ifNil: [ ^ self ].
+	anExample after method
+		valueWithReceiver: anExample after provider 
+		arguments: { anObject }
 ]
 
 { #category : #public }
 GTExampleEvaluator >> result [
-	result example: self example.
-	result context: self context.
+	result := self newResultFor: self example.
 	self do: [ self value ] 
 		on: Error
 		do: [ :exception | result returnValue: nil; unexpectedError: exception ].
 	^ result
-]
-
-{ #category : #private }
-GTExampleEvaluator >> withLinkContextFor: anExample do: aBlock [
-	^ (linkContext := GTExampleLinkContext new 
-		example: anExample;
-		yourself) do: aBlock
 ]
