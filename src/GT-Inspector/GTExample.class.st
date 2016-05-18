@@ -35,12 +35,6 @@ Class {
 }
 
 { #category : #examples }
-GTExample class >> gtExampleFromMethod [
-	<gtExample>
-	^ GTExampleFinder new newExampleFromMethod: (self class>>#gtExampleFromMethod)
-]
-
-{ #category : #examples }
 GTExample class >> gtExampleFromPragma [
 	<gtExample>
 	^ GTExampleFinder new newExampleFromPragma: (self class>>#gtExampleFromPragma) pragmas first
