@@ -157,6 +157,14 @@ GTExampleFinder >> newExample [
 ]
 
 { #category : #private }
+GTExampleFinder >> newExampleFromMethod: aCompiledMethod [
+	^ self newExample
+		initializeFromFinder: self 
+		withPragma: (aCompiledMethod pragmas detect: [:each | each keyword = #gtExample]);
+		yourself 
+]
+
+{ #category : #private }
 GTExampleFinder >> newExampleFromPragma: aPragma [
 	^ self newExample
 		initializeFromFinder: self withPragma: aPragma;
