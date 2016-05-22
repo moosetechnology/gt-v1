@@ -14,11 +14,19 @@ FileReference >> gtInspectorPillarIn: composite [
 					inPresentation: rubPresentation
 					fileReference: self)];
 		display: [ self readStreamDo: #contents ];
+		act: [ :rub | 
+			| newContents |
+			newContents := GTOldCodeSnippet new parse: self contents.
+			self 
+				ensureDelete; 
+				writeStreamDo: [ :s | s nextPutAll: newContents ].
+			rub update ]
+			entitled: 'Transform code snippets to new format';
 		act: [:rub | 
 			self 
 				ensureDelete; 
 				writeStreamDo: [ :s | s nextPutAll: rub text asString ]] 
 			icon: GLMUIThemeExtraIcons glamorousSave 
-			on: $s 
+			on: $s
 			entitled: 'Save')
 ]
