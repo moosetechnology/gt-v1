@@ -61,6 +61,7 @@ MessageTally >> gtInspectorSunburstIn: composite [
 			b shape current
 				color: normalizer.
 			b
+				leafWeight: #tally;
 				angularSpacing: 1;
 				from: (Array with: self) using: #children ];
 		when: [ self children notEmpty ]
