@@ -234,7 +234,7 @@ GTSpotterStepTest >> pragmas: aSelector inPackages: anArray [
 					cm methodClass isTrait ifFalse: [ 
 						(cm pragmas 
 							detect: [ :p | p keyword = aSelector ] 
-							ifNone: [ nil ]) ifNotNilDo: [ :p | pragmas add: p ] ] ] ] ] ].
+							ifNone: [ nil ]) ifNotNil: [ :p | pragmas add: p ] ] ] ] ] ].
 	^ pragmas
 ]
 
