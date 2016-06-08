@@ -18,7 +18,7 @@ Context >> gtBytecodeDebuggerRetrieveContextValues [
 			key := key, ' [', (context tempNames at: index) asString, ']'.
 			displayedTemp add: (context tempNames at: index) ].
 		fieldList add: (key -> (context at: index)) ].
-	(context tempNames copy asOrderedCollection removeAll: displayedTemp; yourself) ifNotEmptyDo: [ :uninitializedTemps |
+	(context tempNames copy asOrderedCollection removeAll: displayedTemp; yourself) ifNotEmpty: [ :uninitializedTemps |
 		uninitializedTemps do: [ :each |
 			fieldList add: ('- [', each, ']') -> nil ] ].
 	slotsSize := context receiver class allSlots size.
