@@ -178,6 +178,12 @@ GTASession >> imageHashes [
 ]
 
 { #category : #testing }
+GTASession >> isActOn [
+	"polymorphic with the event query of isActOn"
+	^ self last isActOn
+]
+
+{ #category : #testing }
 GTASession >> isComplexSession [
 	^ self isFirstLevelDiveInSession not and: [ 
 		self isDirectSession not and: [ 
