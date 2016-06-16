@@ -163,8 +163,7 @@ GTMoldableDebugger class >> spanNewSessionLabeled: aString forContext: aContext 
 
 { #category : #icons }
 GTMoldableDebugger class >> taskbarIcon [
-
-	^ Smalltalk ui icons smallDebugIcon
+	^ Smalltalk ui icons iconNamed: #smallDebugIcon
 ]
 
 { #category : #callbacks }
@@ -359,8 +358,7 @@ GTMoldableDebugger >> session: aSession [
 
 { #category : #building }
 GTMoldableDebugger >> taskbarIcon [
-
-	^Smalltalk ui icons glamorousBug
+	^ Smalltalk ui icons iconNamed: #glamorousBug
 ]
 
 { #category : #accessing }
