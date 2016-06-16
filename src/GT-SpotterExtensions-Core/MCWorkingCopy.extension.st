@@ -3,7 +3,7 @@ Extension { #name : #MCWorkingCopy }
 { #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> allAncestors [
 	^ self versionInfo 
-		ifNotNil: [ :versionInfo | versionInfo allAncestors ]
+		ifNotNilDo: [ :versionInfo | versionInfo allAncestors ]
 		ifNil: [ #() ]
 ]
 
@@ -24,13 +24,13 @@ MCWorkingCopy class >> gtExampleWorkingCopy [
 	<label: 'Metacello working-copy'>
 	
 	^ (RPackageOrganizer default packageOf: GTSpotter) mcPackage 
-		ifNotNil: [ :mcp | mcp workingCopy ]
+		ifNotNilDo: [ :mcp | mcp workingCopy ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> nextAncestors [
 	^ self versionInfo 
-		ifNotNil: [ :versionInfo | versionInfo ancestors ]
+		ifNotNilDo: [ :versionInfo | versionInfo ancestors ]
 		ifNil: [ #() ]
 ]
 
@@ -86,7 +86,7 @@ MCWorkingCopy >> spotterPackageFor: aStep [
 	aStep listProcessor
 		title: 'Packages';
 		allCandidates: [ self package correspondingRPackage 
-			ifNotNil: [ :rpackage | { rpackage } ] 
+			ifNotNilDo: [ :rpackage | { rpackage } ] 
 			ifNil: [ { } ] ];
 		itemName: [ :item | item name ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #packageIcon ];

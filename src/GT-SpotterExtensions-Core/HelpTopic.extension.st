@@ -21,9 +21,9 @@ HelpTopic >> gtBreadcrumbTitle [
 
 { #category : #'*GT-SpotterExtensions-Core' }
 HelpTopic >> gtTopicIcon [
-	^self hasSubtopics 
-			ifTrue: [ Smalltalk ui icons bookIcon ] 
-	    	ifFalse: [ Smalltalk ui icons pageIcon ]
+	^ self hasSubtopics
+		ifTrue: [ Smalltalk ui icons iconNamed: #bookIcon ]
+		ifFalse: [ Smalltalk ui icons iconNamed: #pageIcon ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
