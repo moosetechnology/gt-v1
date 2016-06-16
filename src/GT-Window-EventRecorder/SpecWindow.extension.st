@@ -1,7 +1,7 @@
 Extension { #name : #SpecWindow }
 
 { #category : #'*GT-Window-EventRecorder' }
-SpecWindow >> windowType [
+SpecWindow >> eventRecorderWindowType [
 
-	^ super windowType model ifNil: [ self ]
+	^ super eventRecorderWindowType model ifNil: [ self ]
 ]

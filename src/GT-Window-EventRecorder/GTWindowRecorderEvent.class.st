@@ -44,7 +44,7 @@ GTWindowRecorderEvent >> eventRecorderVersion [
 { #category : #initialization }
 GTWindowRecorderEvent >> fromAnnouncement: anAnnouncement [
 	
-	self infoAt: #type put: anAnnouncement window windowType class name.
+	self infoAt: #type put: anAnnouncement window eventRecorderWindowType class name.
 	self infoAt: #label putHashForText: anAnnouncement window label.
 	self infoAt: #event put: anAnnouncement class name.
 	self infoAt: #windowHash put: anAnnouncement window identityHash.

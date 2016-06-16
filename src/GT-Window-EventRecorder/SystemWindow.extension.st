@@ -1,7 +1,7 @@
 Extension { #name : #SystemWindow }
 
 { #category : #'*GT-Window-EventRecorder' }
-SystemWindow >> windowType [
+SystemWindow >> eventRecorderWindowType [
 
 	^ model ifNil: [ self ]
 ]
