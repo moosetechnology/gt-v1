@@ -400,20 +400,17 @@ GTSpotterWidgetThemer >> hintRevealStyleFor: aBrick [
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconAct [
-
-	^ Smalltalk ui icons glamorousAccept
+	^ Smalltalk ui icons iconNamed: #glamorousAccept
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveIn [
-
-	^ Smalltalk ui icons glamorousDiveRightIcon
+	^ Smalltalk ui icons iconNamed: #glamorousDiveRightIcon
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveInCategory [
-
-	^ Smalltalk ui icons glamorousDiveAllRightIcon
+	^ Smalltalk ui icons iconNamed: #glamorousDiveAllRightIcon
 ]
 
 { #category : #values }
@@ -698,9 +695,8 @@ GTSpotterWidgetThemer >> settingsButtonStyleFor: aBrick [
 
 { #category : #'styles-widget' }
 GTSpotterWidgetThemer >> settingsButtonWidgetStyleFor: aBrick [
-
 	aBrick
-		normalImage: Smalltalk ui icons glamorousPreferences;
+		normalImage: (Smalltalk ui icons iconNamed: #glamorousPreferences);
 		pressedColor: self buttonPressedColor
 ]
 
