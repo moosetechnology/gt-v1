@@ -21,10 +21,10 @@ FileReference class >> gtExampleDirectory [
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExampleGif [
 	<gtExample>
-	^ FileSystem memory workingDirectory / 'pharoicon.gif' 
-		writeStreamDo: [ :stream |
-			GIFReadWriter 
-				putForm: Smalltalk ui icons pharoIcon
+	^ (FileSystem memory workingDirectory / 'pharoicon.gif')
+		writeStreamDo: [ :stream | 
+			GIFReadWriter
+				putForm: (Smalltalk ui icons iconNamed: #pharoIcon)
 				onStream: stream ];
 		yourself
 ]
@@ -32,10 +32,10 @@ FileReference class >> gtExampleGif [
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference class >> gtExamplePng [
 	<gtExample>
-	^ FileSystem memory workingDirectory / 'pharoicon.png' 
-		writeStreamDo: [ :stream |
-			PNGReadWriter 
-				putForm: Smalltalk ui icons pharoIcon 
+	^ (FileSystem memory workingDirectory / 'pharoicon.png')
+		writeStreamDo: [ :stream | 
+			PNGReadWriter
+				putForm: (Smalltalk ui icons iconNamed: #pharoIcon)
 				onStream: stream ];
 		yourself
 ]

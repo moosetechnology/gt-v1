@@ -31,10 +31,9 @@ HelpTopic class >> gtExampleSingleTopic [
 { #category : #'*GT-InspectorExtensions-Core' }
 HelpTopic >> gtInspectorActionOpenHelpBrowser [
 	<gtInspectorAction>
-	
 	^ GLMGenericAction new
 		action: [ HelpBrowser openOn: self ];
-		icon: Smalltalk ui icons bookIcon;
+		icon: (Smalltalk ui icons iconNamed: #bookIcon);
 		title: 'Browse'
 ]
 
