@@ -9,7 +9,7 @@ Class {
 		'timestamp',
 		'info'
 	],
-	#category : #'GT-Window-EventRecorder'
+	#category : #'GT-Window-EventRecorder-Events'
 }
 
 { #category : #'instance creation' }
@@ -46,9 +46,7 @@ GTWindowRecorderEvent >> fromAnnouncement: anAnnouncement [
 	
 	self infoAt: #type put: anAnnouncement window eventRecorderWindowType class name.
 	self infoAt: #label putHashForText: anAnnouncement window label.
-	self infoAt: #event put: anAnnouncement class name.
 	self infoAt: #windowHash put: anAnnouncement window identityHash.
-	
 ]
 
 { #category : #comparing }
@@ -125,22 +123,38 @@ GTWindowRecorderEvent >> initializeObfuscated [
 
 { #category : #testing }
 GTWindowRecorderEvent >> isWindowActivated [
-	^ self infoAt: #event ifPresent: [ :event | event == #WindowActivated ] ifAbsent: [ false ]
+
+	^ false
 ]
 
 { #category : #testing }
 GTWindowRecorderEvent >> isWindowClosed [
-	^ self infoAt: #event ifPresent: [ :event | event == #WindowClosed ] ifAbsent: [ false ]
+	^ false
+]
+
+{ #category : #testing }
+GTWindowRecorderEvent >> isWindowCollapsed [
+	^ false
 ]
 
 { #category : #testing }
 GTWindowRecorderEvent >> isWindowDeActivated [
-	^ self infoAt: #event ifPresent: [ :event | event == #WindowDeActivated ] ifAbsent: [ false ]
+	^ false
+]
+
+{ #category : #testing }
+GTWindowRecorderEvent >> isWindowExpanded [
+	^ false
+]
+
+{ #category : #testing }
+GTWindowRecorderEvent >> isWindowLabelled [
+	^ false
 ]
 
 { #category : #testing }
 GTWindowRecorderEvent >> isWindowOpened [
-	^ self infoAt: #event ifPresent: [ :event | event == #WindowOpened ] ifAbsent: [ false ]
+	^ false
 ]
 
 { #category : #'accessing - announcement info' }
