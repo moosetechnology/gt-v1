@@ -26,6 +26,17 @@ GTWindowRecorderEvent >> = otherGTWindowRecorderEvent [
 	and: [ self timestamp = otherGTWindowRecorderEvent timestamp ] ].
 ]
 
+{ #category : #initialization }
+GTWindowRecorderEvent >> addTypeFor: anAnnouncement [
+	| type |
+
+	type := anAnnouncement window eventRecorderWindowType class name.
+	
+	(GTWindowEventCollector commonWindowTypes includes: type)
+		ifTrue: [ self infoAt: #type put: type ]
+		ifFalse: [ self infoAt: #type putHashForText: type ]
+]
+
 { #category : #'accessing - announcement info' }
 GTWindowRecorderEvent >> announcementTimestamp [
 	^ self infoAt: #timestamp ifAbsent: [ self timestamp ]
@@ -44,7 +55,7 @@ GTWindowRecorderEvent >> eventRecorderVersion [
 { #category : #initialization }
 GTWindowRecorderEvent >> fromAnnouncement: anAnnouncement [
 	
-	self infoAt: #type put: anAnnouncement window eventRecorderWindowType class name.
+	self addTypeFor: anAnnouncement.
 	self infoAt: #label putHashForText: anAnnouncement window label.
 	self infoAt: #windowHash put: anAnnouncement window identityHash.
 ]
