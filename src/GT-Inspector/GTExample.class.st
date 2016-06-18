@@ -35,9 +35,9 @@ Class {
 }
 
 { #category : #examples }
-GTExample class >> gtExample [
+GTExample class >> gtExampleFromPragma [
 	<gtExample>
-	^ GTExampleFinder new newExampleFromPragma: (self class>>#gtExample) pragmas first
+	^ GTExampleFinder new newExampleFromPragma: (self class>>#gtExampleFromPragma) pragmas first
 ]
 
 { #category : #testing }
@@ -59,16 +59,6 @@ GTExample >> after: aSelector [
 	after := self methodForSelector: aSelector
 ]
 
-{ #category : #'pragma-selectors' }
-GTExample >> after: aSelector arguments: aCollection [
-	<gtExamplePragma>
-	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
-	
-	after := (self methodForSelector: aSelector)
-		arguments: aCollection;
-		yourself
-]
-
 { #category : #public }
 GTExample >> afterArguments [
 	self after ifNil: [ ^ #() ].
@@ -83,45 +73,9 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	after := self methodForClass: aClassOrClassName selector: aSelector
 ]
 
-{ #category : #'pragma-selectors' }
-GTExample >> afterClass: aClassOrClassName selector: aSelector arguments: aCollection [
-	<gtExamplePragma>
-	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
-	
-	after := (self methodForClass: aClassOrClassName selector: aSelector)
-		arguments: aCollection;
-		yourself
-]
-
 { #category : #accessing }
 GTExample >> afterFinish [
 	^ afterFinish
-]
-
-{ #category : #'pragma-selectors' }
-GTExample >> afterFinish: aSelector [
-	<gtExamplePragma>
-	<description: 'A method, provided by the given selector, to be performed after this example has run as the very last one of a chain of depending examples ~ similar but not identical to teardown of sunit'>
-	
-	afterFinish := self methodForSelector: aSelector
-]
-
-{ #category : #'pragma-selectors' }
-GTExample >> afterFinishClass: aClassOrClassName selector: aSelector [
-	<gtExamplePragma>
-	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run as the very last one of a chain of depending examples ~ similar but not identical to teardown of sunit'>
-	
-	afterFinish := self methodForClass: aClassOrClassName selector: aSelector
-]
-
-{ #category : #'pragma-selectors' }
-GTExample >> afterFinishClass: aClassOrClassName selector: aSelector arguments: aCollection [
-	<gtExamplePragma>
-	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run as the very last one of a chain of depending examples ~ similar but not identical to teardown of sunit'>
-	
-	afterFinish := (self methodForClass: aClassOrClassName selector: aSelector)
-		arguments: aCollection;
-		yourself
 ]
 
 { #category : #public }
@@ -373,7 +327,7 @@ GTExample >> gtInspectorActionEvaluateResultAndGo [
 	<gtInspectorAction>
 	^ GLMGenericAction new
 		action: [ :p | p selection: self result returnValue ];
-		icon: (Smalltalk ui icons iconNamed: #glamorousRight);
+		icon: Smalltalk ui icons glamorousRight;
 		title: 'Evaluate result and go'
 ]
 
@@ -903,6 +857,11 @@ GTExample >> selector [
 GTExample >> selector: aSelector [
 	self deprecated: 'Please define your examples using pragmas'.
 	self shouldNotImplement
+]
+
+{ #category : #public }
+GTExample >> signalableExceptions [
+	^ self exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. }
 ]
 
 { #category : #accessing }
