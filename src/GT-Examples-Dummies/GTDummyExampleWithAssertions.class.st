@@ -1,6 +1,6 @@
 Class {
 	#name : #GTDummyExampleWithAssertions,
-	#superclass : #TestCase,
+	#superclass : #Object,
 	#category : #'GT-Examples-Dummies-Set-2'
 }
 
@@ -26,6 +26,6 @@ GTDummyExampleWithAssertions >> c: aBoolean c: anotherBoolean [
 	<gtExample>
 	<depends: #a>
 	<depends: #b>
-	self assert: aBoolean equals: anotherBoolean.
+	self assert: aBoolean = anotherBoolean.
 	^ aBoolean & anotherBoolean
 ]

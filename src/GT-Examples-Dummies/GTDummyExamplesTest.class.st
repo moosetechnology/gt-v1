@@ -1,11 +1,11 @@
 Class {
-	#name : #GTInspectorDummyExamplesTest,
+	#name : #GTDummyExamplesTest,
 	#superclass : #TestCase,
 	#category : #'GT-Examples-Dummies-Tests'
 }
 
 { #category : #accessing }
-GTInspectorDummyExamplesTest >> allExamplesDummiesProviders [
+GTDummyExamplesTest >> allExamplesDummiesProviders [
 	^ { 
 		GTDummyExamples. 
 		GTDummyExamplesPragmas. 
@@ -17,7 +17,7 @@ GTInspectorDummyExamplesTest >> allExamplesDummiesProviders [
 ]
 
 { #category : #utils }
-GTInspectorDummyExamplesTest >> examplesInClasses: aSelector do: aBlock [
+GTDummyExamplesTest >> examplesInClasses: aSelector do: aBlock [
 	| classes examples |
 	self shouldnt: [ classes  := (self perform: aSelector) ] raise: Error.
 	classes do: [ :each |
@@ -27,52 +27,52 @@ GTInspectorDummyExamplesTest >> examplesInClasses: aSelector do: aBlock [
 ]
 
 { #category : #accessing }
-GTInspectorDummyExamplesTest >> invalidExamplesDummiesProviders [
+GTDummyExamplesTest >> invalidExamplesDummiesProviders [
 	^ { 
 		GTDummyExamplesInvalid.
 	}
 ]
 
 { #category : #accessing }
-GTInspectorDummyExamplesTest >> recursiveExamplesDummiesProviders [
+GTDummyExamplesTest >> recursiveExamplesDummiesProviders [
 	^ { 
 		GTDummyExamplesRecursive.
 	}
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testExists [
+GTDummyExamplesTest >> testExists [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self assert: example exists ]
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testInvalidDefinitions [
+GTDummyExamplesTest >> testInvalidDefinitions [
 	self examplesInClasses: #invalidExamplesDummiesProviders do: [ :example | 
 		self assert: example exists.
 		self deny: example isValid ]
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testIsEquals [
+GTDummyExamplesTest >> testIsEquals [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self assert: (example = example) ]
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testIsGTExample [
+GTDummyExamplesTest >> testIsGTExample [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self assert: example isGTExample ]
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testMatchesMethod [
+GTDummyExamplesTest >> testMatchesMethod [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self assert: (example matchesMethod: example method) ]
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testRecursiveDefinitions [
+GTDummyExamplesTest >> testRecursiveDefinitions [
 	self examplesInClasses: #recursiveExamplesDummiesProviders do: [ :example | 
 		self assert: example exists.
 		self assert: example hasValidArguments.
@@ -81,7 +81,7 @@ GTInspectorDummyExamplesTest >> testRecursiveDefinitions [
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testResult [
+GTDummyExamplesTest >> testResult [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self shouldnt: [ example result ] raise: Error.
 		self shouldnt: [ example returnValue ] raise: Error.
@@ -91,7 +91,7 @@ GTInspectorDummyExamplesTest >> testResult [
 ]
 
 { #category : #tests }
-GTInspectorDummyExamplesTest >> testRun [
+GTDummyExamplesTest >> testRun [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self shouldnt: [ example run ] raise: Error ]
 ]

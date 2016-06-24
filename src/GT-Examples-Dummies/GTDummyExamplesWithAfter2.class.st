@@ -9,7 +9,7 @@ GTDummyExamplesWithAfter2 class >> a: b [
 	<gtExample>
 	<depends: #b:>
 	<after: #afterA:>
-	" START -> C B A -> afterC -> afterB -> afterA -> END "
+	" START -> C B A -> afterA -> afterB -> afterC -> END "
 	
 	self assert: (self gtExampleContext includesKey: #c).
 	self assert: (self gtExampleContext includesKey: #b).
@@ -24,29 +24,39 @@ GTDummyExamplesWithAfter2 class >> a: b [
 GTDummyExamplesWithAfter2 class >> afterA: arg [
 	self assert: arg = #a2.
 	
-	self assert: (self gtExampleContext includesKey: #c) not.
-	self assert: (self gtExampleContext includesKey: #b) not.
-	self gtExampleContext removeKey: #a.
-	self assert: (self gtExampleContext includesKey: #a) not.
+	self assert: (self gtExampleContext includesKey: #b).
+	self assert: (self gtExampleContext includesKey: #c).
 	
-	self assert: self gtExampleContext isEmpty
+	self gtExampleContext removeKey: #a.
+	
+	self assert: (self gtExampleContext includesKey: #a) not.
+	self assert: self gtExampleContext notEmpty
 ]
 
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter2 class >> afterB: arg [
 	self assert: arg = #b2.
 	
-	self assert: (self gtExampleContext includesKey: #c) not.
+	self assert: (self gtExampleContext includesKey: #a) not.
+	self assert: (self gtExampleContext includesKey: #c).
+	
 	self gtExampleContext removeKey: #b.
+	
 	self assert: (self gtExampleContext includesKey: #b) not.
+	self assert: self gtExampleContext notEmpty
 ]
 
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter2 class >> afterC: arg [
 	self assert: arg = #c2.
 	
+	self assert: (self gtExampleContext includesKey: #a) not.
+	self assert: (self gtExampleContext includesKey: #b) not.
+	
 	self gtExampleContext removeKey: #c.
+	
 	self assert: (self gtExampleContext includesKey: #c) not.
+	self assert: self gtExampleContext isEmpty
 ]
 
 { #category : #'as yet unclassified' }
@@ -54,7 +64,7 @@ GTDummyExamplesWithAfter2 class >> b: c [
 	<gtExample>
 	<depends: #c>
 	<after: #afterB:>
-	" START -> C B -> afterC -> afterB -> END "
+	" START -> C B -> afterB -> afterC -> END "
 	
 	self assert: (self gtExampleContext includesKey: #c).
 	
