@@ -112,6 +112,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 			TClassDescription. " corrupt package detection "
 			ZnMessage. " corrupt package detection "
 			TBehavior. 
+			RBAbstractCondition.
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
