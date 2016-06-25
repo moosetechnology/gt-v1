@@ -29,7 +29,7 @@ RPackage >> spotterMonticelloPackageFor: aStep [
 	aStep listProcessor
 		title: 'Monticello Package';
 		allCandidates: [ self mcPackage 
-			ifNotNilDo: [ :mcPackage | Array with: mcPackage ] 
+			ifNotNil: [ :mcPackage | Array with: mcPackage ] 
 			ifNil: [ #() ] ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #monticelloPackageIcon ];
 		filter: GTFilterSubstring
@@ -41,7 +41,7 @@ RPackage >> spotterMonticelloWorkingCopyFor: aStep [
 	aStep listProcessor
 		title: 'Monticello Working Copy';
 		allCandidates: [ self mcPackage 
-			ifNotNilDo: [ :mcPackage | Array with: mcPackage workingCopy ] 
+			ifNotNil: [ :mcPackage | Array with: mcPackage workingCopy ] 
 			ifNil: [ #() ] ];
 		itemIcon: [ Smalltalk ui icons iconNamed: #versionControlIcon ];
 		filter: GTFilterSubstring
