@@ -60,7 +60,7 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 { #category : #private }
 GTExampleEvaluator >> processAfter: anExample [
 	anExample == self example ifFalse: [ ^ self ].
-	processed reverseDo: [ :processedResult |
+	processed do: [ :processedResult |
 		self processAfter: processedResult example withResult: processedResult returnValue ]
 ]
 
@@ -69,7 +69,7 @@ GTExampleEvaluator >> processAfter: anExample withResult: anObject [
 	anExample after ifNil: [ ^ self ].
 	anExample after method
 		valueWithReceiver: anExample after provider 
-		possibleArguments: { anObject }
+		arguments: { anObject }
 ]
 
 { #category : #public }

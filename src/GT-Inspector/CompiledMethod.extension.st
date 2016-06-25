@@ -22,10 +22,3 @@ CompiledMethod >> gtExamples [
 	self methodClass theNonMetaClass gtExamplesFinder method: self to: examples.
 	^ examples
 ]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-CompiledMethod >> valueWithReceiver: aReceiver possibleArguments: anArray [ 
-	^ anArray size = self numArgs 
-		ifTrue: [ self valueWithReceiver: aReceiver arguments: anArray  ]
-		ifFalse: [ self valueWithReceiver: aReceiver arguments: (anArray copyFrom: 1 to: self numArgs) ]
-]
