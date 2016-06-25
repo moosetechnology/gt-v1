@@ -40,10 +40,19 @@ PragmaType class >> gtExampleAnyOne [
 
 { #category : #ui }
 PragmaType >> gtInspectorPragmasIn: composite [
-	<gtInspectorPresentationOrder: 40>
+	<gtInspectorPresentationOrder: 0>
 	composite list
 		title: 'Pragmas';
 		display: [ self pragmas ];
+		format: #gtDisplayString
+]
+
+{ #category : #ui }
+PragmaType >> gtInspectorUsersIn: composite [
+	<gtInspectorPresentationOrder: 1>
+	composite list
+		title: 'Users';
+		display: [ self users ];
 		format: #gtDisplayString
 ]
 
@@ -61,7 +70,7 @@ PragmaType >> keyword: anObject [
 PragmaType >> pragmas [
 	^ pragmas ifNil: [
 		pragmas := OrderedCollection new.
-		Object withAllSubclassesDo: [ :each |
+		Smalltalk allClassesAndTraitsDo: [ :each |
 			Pragma withPragmasIn: each do: [ :p |
 				p keyword = self keyword ifTrue: [ 
 					pragmas add: p ] ] ].
@@ -100,11 +109,15 @@ PragmaType >> spotterPreviewItemsIn: aComposite [
 ]
 
 { #category : #ui }
-PragmaType >> spotterSendersFor: aStep [
+PragmaType >> spotterUsersFor: aStep [
 	<spotterOrder: 50>
 	^ aStep listProcessor
-		title: 'Senders';
+		title: 'Users';
 		filter: GTFilterSubstring item: [ :filter :context | 
-			self keyword senders do: [ :sender | 
-				filter value: sender compiledMethod ] ]
+			self users do: [ :sender | filter value: sender ] ]
+]
+
+{ #category : #accessing }
+PragmaType >> users [
+	^ (self keyword senders collect: [ :each | each compiledMethod ]) \ (self pragmas collect: [ :each | each method ])
 ]

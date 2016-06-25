@@ -94,7 +94,7 @@ GTSelector >> spotterPreviewIn: aComposite [
 ]
 
 { #category : #ui }
-GTSelector >> spotterSendersFor: aStep [
+GTSelector >> spotterUsersFor: aStep [
 	<spotterOrder: 50>
 	^ aStep listProcessor
 		title: 'Senders';
