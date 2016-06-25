@@ -70,7 +70,7 @@ PragmaType >> keyword: anObject [
 PragmaType >> pragmas [
 	^ pragmas ifNil: [
 		pragmas := OrderedCollection new.
-		Smalltalk allClassesAndTraitsDo: [ :each |
+		SystemNavigation new allBehaviorsDo: [ :each |
 			Pragma withPragmasIn: each do: [ :p |
 				p keyword = self keyword ifTrue: [ 
 					pragmas add: p ] ] ].
