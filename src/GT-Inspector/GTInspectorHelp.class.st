@@ -71,7 +71,7 @@ GTInspectorHelp class >> overview [
 
 { #category : #accessing }
 GTInspectorHelp class >> pages [
-	^#(overview table roassal extensions)
+	^#(overview table extensions)
 ]
 
 { #category : #documentation }

@@ -102,7 +102,8 @@ GTInspector class >> inspector: anObject [
 
 { #category : #inspecting }
 GTInspector class >> inspectorExtendingMethods [
-	^ (SystemNavigation default allBehaviors flatCollect: [ :each | 
+	^ (Object withAllSubclasses
+		flatCollect: [ :each | 
 			(Pragma allNamed: self extensionsPragma in: each) 
 				collect: [ :p | p method asRingDefinition ] ])
 		sorted
@@ -246,11 +247,10 @@ GTInspector >> compose [
 	self title: [:anObject | 'Inspector on ', (self printObjectAsAnItem: anObject)].
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	self act: [:b | 
-		| tree item |
-		tree := (HelpBrowser open instVarNamed: #treeMorph).
-		item := tree allItems detect: [:each | 
-			each complexContents item key = GTInspectorHelp key].
-		tree selection: item ] 
+		HelpBrowser open selectTopicSatisfying: [:each |
+			each owner notNil and:  [
+			(each owner key = GTInspectorHelp key) and: [
+				each title = 'Overview' ] ] ] ] 
 		icon: GLMUIThemeExtraIcons glamorousHelp 
 		entitled: 'Help'.
 	self act: [:b | b presentationFilter ifNotNil: [ :filter | filter changeFilterRequestFor: b] ] entitled: 'Filter presentations'.

@@ -6,13 +6,8 @@ CompiledMethod >> gtExample [
 		ifNotEmpty: [ :examples | 
 			" there should only be one example per compiled-method, otherwise something is really messed up "
 			self assert: examples size = 1. 
-			examples first ]
-		ifEmpty: [ self error: self printString, ' does not define any gt-example' ]
-]
-
-{ #category : #'*GT-Inspector-Examples-Convenience' }
-CompiledMethod >> gtExampleValue [
-	^ self gtExample returnValue
+			examples first ] 
+		ifEmpty: [ nil ]
 ]
 
 { #category : #'*GT-Inspector-Examples-Core' }
@@ -21,11 +16,4 @@ CompiledMethod >> gtExamples [
 	examples := OrderedCollection new.
 	self methodClass theNonMetaClass gtExamplesFinder method: self to: examples.
 	^ examples
-]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-CompiledMethod >> valueWithReceiver: aReceiver possibleArguments: anArray [ 
-	^ anArray size = self numArgs 
-		ifTrue: [ self valueWithReceiver: aReceiver arguments: anArray  ]
-		ifFalse: [ self valueWithReceiver: aReceiver arguments: (anArray copyFrom: 1 to: self numArgs) ]
 ]
