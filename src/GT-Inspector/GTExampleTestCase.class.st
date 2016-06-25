@@ -41,7 +41,7 @@ GTExampleTestCase >> runCase [
 ]
 
 { #category : #private }
-GTExampleTestCase >> runExample: example fromContainer: aContainer [
+GTExampleTestCase >> runExample: example [
 	" this is not the testing tool we have in mind, but a temporary solution to integrate examples into the currently existing testing tools "
 	| exampleResult |
 	example ignoreTest ifTrue: [ ^ self ].
@@ -54,9 +54,10 @@ GTExampleTestCase >> runExample: example fromContainer: aContainer [
 
 { #category : #private }
 GTExampleTestCase >> runExampleContainers: aCollection [
-	aCollection do: [ :container | 
-		container gtExamplesContained do: [ :example | 
-			self runExample: example fromContainer: container ] ]
+	| allExamples |
+	(allExamples := aCollection gather: [ :container | container gtExamplesContained ])
+		do: [ :example | self runExample: example ]
+		displayingProgress: 'Running ' , allExamples size asString , ' Examples'
 ]
 
 { #category : #tests }
