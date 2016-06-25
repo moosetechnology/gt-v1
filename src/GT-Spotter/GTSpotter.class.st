@@ -153,7 +153,7 @@ GTSpotter class >> showPreview [
 
 { #category : #inspecting }
 GTSpotter class >> spotterExtendingMethods [
-	^(Object withAllSubclasses
+	^(SystemNavigation default allBehaviors
 		flatCollect: [ :each | 
 			(Pragma allNamed: self extensionsPragma in: each) 
 				collect: [ :p | p method asRingDefinition ] ])
