@@ -168,6 +168,12 @@ GTWindowRecorderEvent >> isWindowOpened [
 	^ false
 ]
 
+{ #category : #accessing }
+GTWindowRecorderEvent >> label [
+
+	^ self infoAt: #label
+]
+
 { #category : #'accessing - announcement info' }
 GTWindowRecorderEvent >> latestUpdate [
 	^ self infoAt: #latestUpdate ifAbsent: [ SystemVersion current highestUpdate ]
@@ -196,4 +202,16 @@ GTWindowRecorderEvent >> settings [
 { #category : #accessing }
 GTWindowRecorderEvent >> timestamp [
 	^ timestamp
+]
+
+{ #category : #accessing }
+GTWindowRecorderEvent >> windowHash [
+
+	^ self infoAt: #windowHash
+]
+
+{ #category : #accessing }
+GTWindowRecorderEvent >> windowType [
+
+	^ self infoAt: #type
 ]

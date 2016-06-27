@@ -14,7 +14,7 @@ Class {
 GTWindowRecorderWindowLabelledEvent >> fromAnnouncement: anAnnouncement [
 	
 	super fromAnnouncement: anAnnouncement.
-	self infoAt: #label putHashForText: anAnnouncement label.
+	self infoAt: #newLabel putHashForText: anAnnouncement label.
 ]
 
 { #category : #testing }
@@ -23,6 +23,7 @@ GTWindowRecorderWindowLabelledEvent >> isWindowLabelled [
 ]
 
 { #category : #accessing }
-GTWindowRecorderWindowLabelledEvent >> label [
-	^ self infoAt: #label
+GTWindowRecorderWindowLabelledEvent >> newLabel [
+
+	^ self infoAt: #newLabel
 ]
