@@ -47,6 +47,12 @@ GTWindowEventCollector class >> commonWindowTypes [
 		FileDialogWindow ).
 ]
 
+{ #category : #'as yet unclassified' }
+GTWindowEventCollector class >> initialize [
+
+	self uniqueInstance registerToWorldAnnouncements
+]
+
 { #category : #'instance creation' }
 GTWindowEventCollector class >> reset [
 	uniqueInstance ifNotNil: [
@@ -57,15 +63,13 @@ GTWindowEventCollector class >> reset [
 { #category : #'instance creation' }
 GTWindowEventCollector class >> uniqueInstance [
 	^ uniqueInstance ifNil: [
-		uniqueInstance := self new
-			registerToWorldAnnouncements;
-			yourself ]
+		uniqueInstance := self new ]
 ]
 
 { #category : #initialization }
 GTWindowEventCollector >> initialize [
 	super initialize.	
-	recordedEvents := SharedQueue new.
+	recordedEvents := WaitfreeQueue new.
 ]
 
 { #category : #initialization }
