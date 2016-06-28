@@ -1899,6 +1899,8 @@ ConfigurationOfGToolkit >> development: spec [
 	spec for: #'pharo4.x' version: '0.22-baseline'.
 	
 	spec for: #'pharo5.x' version: '0.25-baseline'.
+	
+	spec for: #'pharo6.x' version: '0.25-baseline'.
 
 ]
 
