@@ -50,14 +50,16 @@ GTWindowEventCollector class >> commonWindowTypes [
 { #category : #'as yet unclassified' }
 GTWindowEventCollector class >> initialize [
 
-	self uniqueInstance registerToWorldAnnouncements
+	Privacy sendDiagnosticsAndUsageData
+		ifTrue: [ self uniqueInstance registerToWorldAnnouncements ]
 ]
 
 { #category : #'instance creation' }
 GTWindowEventCollector class >> reset [
 	uniqueInstance ifNotNil: [
 		uniqueInstance unregisterToWorldAnnouncements.
-		uniqueInstance := nil ]
+		uniqueInstance := nil ].
+	self initialize.
 ]
 
 { #category : #'instance creation' }
@@ -70,6 +72,18 @@ GTWindowEventCollector class >> uniqueInstance [
 GTWindowEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
+	
+	SystemAnnouncer uniqueInstance 
+		when: PrivacyChangedAnnoucement
+			send: #privacyChanged 
+			to: self.
+]
+
+{ #category : #'announcement registration' }
+GTWindowEventCollector >> privacyChanged [
+	Privacy sendDiagnosticsAndUsageData
+		ifTrue: [ self registerToWorldAnnouncements ]
+		ifFalse: [ self unregisterToWorldAnnouncements ]
 ]
 
 { #category : #initialization }
