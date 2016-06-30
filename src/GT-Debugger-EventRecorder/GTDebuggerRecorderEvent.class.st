@@ -141,6 +141,11 @@ GTDebuggerRecorderEvent >> isDebugAction [
 ]
 
 { #category : #testing }
+GTDebuggerRecorderEvent >> isInspectorSelectionChange [
+	^ false
+]
+
+{ #category : #testing }
 GTDebuggerRecorderEvent >> isOpenDebugger [
 	^ false
 ]
