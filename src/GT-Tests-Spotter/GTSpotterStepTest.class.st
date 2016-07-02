@@ -372,14 +372,16 @@ GTSpotterStepTest >> testProcessorForPragmasThenDiveIn [
 	self testProcessorForPragmas.
 	
 	self assertDiveIn.
+	
+	self assertSearch: ''.
 
 	self assertProcessorByTitle: 'Pragmas'.
 	self assertProcessorNotEmpty.
 	self assertProcessorIncludesAll: (self pragmas: #spotterOrder:).
 		
-	self assertProcessorByTitle: 'Senders'.
+	self assertProcessorByTitle: 'Users'.
 	self assertProcessorNotEmpty.
-	self assertProcessorIncludesAll: (self senders: #spotterOrder:).
+	self assertProcessorIncludesAll: (self users: #spotterOrder:).
 	
 	self assertSearch: 'spotterForClassesFor:'.
 	
@@ -387,16 +389,18 @@ GTSpotterStepTest >> testProcessorForPragmasThenDiveIn [
 	self assertProcessorNotEmpty.
 	self assertProcessorIncludes: (self pragma: #spotterOrder: of: (GTSpotter >> #spotterForClassesFor:)).
 	
-	self assertProcessorByTitle: 'Senders'.
+	self assertSearch: 'extensionsPragma'.
+	
+	self assertProcessorByTitle: 'Users'.
 	self assertProcessorNotEmpty.
-	self assertProcessorIncludes: (GTSpotter >> #spotterForClassesFor:).
+	self assertProcessorIncludes: (GTSpotter class >> #extensionsPragma).
 	
 	self assertSearch: 'spotterForF'.
 	
-	self assertProcessorByTitle: 'Senders'.
+	self assertProcessorByTitle: 'Pragmas'.
 	self assertProcessorNotEmpty.
-	self assertProcessorIncludes: (GTSpotter >> #spotterForFilesFor:).
-	self assertProcessorIncludes: (FileReference >> #spotterForFilesFor:).
+	self assertProcessorIncludes: (self pragma: #spotterOrder: of: (GTSpotter >> #spotterForFilesFor:)).
+	self assertProcessorIncludes: (self pragma: #spotterOrder: of: (FileReference >> #spotterForFilesFor:)).
 	
 	self assertDiveOut.
 	
@@ -420,4 +424,23 @@ GTSpotterStepTest >> testProcessorForPragmasThenDiveInCategory [
 		self assertDiveOut ].
 	
 	self assert: currentStep context text = 'spotterOrder:'
+]
+
+{ #category : #'private-navigation' }
+GTSpotterStepTest >> users: aSelector [
+	^ self users: aSelector inPackages: self defaultPackages
+]
+
+{ #category : #'private-navigation' }
+GTSpotterStepTest >> users: aSelector inPackages: anArray [
+	| users |
+	users := OrderedCollection new.
+	RPackageOrganizer default packages do: [ :package |
+		anArray do: [ :packageName |
+			package packageName = packageName ifTrue: [ 
+				package methods do: [ :cm | 
+					((cm refersToLiteral: aSelector) 
+						and: [ (cm hasPragmaNamed: aSelector) not ]) ifTrue: [ 
+							users add: cm ] ] ] ] ].
+	^ users
 ]
