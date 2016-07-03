@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleDeclaredClassMissing,
-	#superclass : #GTExampleError,
+	#superclass : #GTExamplePragmaError,
 	#instVars : [
 		'classNamed'
 	],

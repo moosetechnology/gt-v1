@@ -2,7 +2,8 @@ Class {
 	#name : #GTExampleError,
 	#superclass : #Error,
 	#instVars : [
-		'example'
+		'example',
+		'signaledException'
 	],
 	#category : #'GT-Examples-Exceptions'
 }
@@ -20,4 +21,14 @@ GTExampleError >> example: anObject [
 { #category : #testing }
 GTExampleError >> isExampleError [
 	^ true
+]
+
+{ #category : #accessing }
+GTExampleError >> signaledException [
+	^ signaledException
+]
+
+{ #category : #accessing }
+GTExampleError >> signaledException: anObject [
+	signaledException := anObject
 ]

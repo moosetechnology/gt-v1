@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleSubjectError,
-	#superclass : #GTSignaledExampleError,
+	#superclass : #GTExamplePragmaError,
 	#instVars : [
 		'subject'
 	],

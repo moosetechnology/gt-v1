@@ -15,6 +15,8 @@ Class {
 	#name : #GTExample,
 	#superclass : #Object,
 	#instVars : [
+		'methodClass',
+		'selector',
 		'label',
 		'description',
 		'form',
@@ -23,7 +25,8 @@ Class {
 		'parents',
 		'children',
 		'properties',
-		'after'
+		'after',
+		'failures'
 	],
 	#category : #'GT-Examples-Core'
 }
@@ -37,7 +40,8 @@ GTExample class >> gtExampleFromPragma [
 { #category : #testing }
 GTExample >> = anExample [
 	^ self class = anExample class 
-		and: [ self method = anExample method ]
+		and: [ self methodClass = anExample methodClass 
+			and: [ self selector = anExample selector ] ]
 ]
 
 { #category : #accessing }
@@ -53,7 +57,7 @@ GTExample >> after: aSelector [
 	after := self methodForSelector: aSelector
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> afterArguments [
 	self after ifNil: [ ^ #() ].
 	^ self after arguments
@@ -97,7 +101,7 @@ GTExample >> arguments [
 	^ children asArray
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> children [
 	^ children
 ]
@@ -131,12 +135,12 @@ GTExample >> classNamed: aClassName do: aBlock1 ifNone: aBlock2 [
 		ifNil: aBlock2
 ]
 
-{ #category : #public }
+{ #category : #actions }
 GTExample >> debug [
 	^ self debugger result
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> debugger [
 	^ GTExampleDebugger new 
 		example: self;
@@ -148,7 +152,7 @@ GTExample >> dependencies [
 	^ self arguments collect: [ :each | each example ]
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> dependenciesOrErrors [
 	^ self arguments collect: [ :each | 
 		[ each example ] 
@@ -226,14 +230,14 @@ GTExample >> equalsExample: anExampleOrExampleProxy [
 		ifFalse: [ anExampleOrExampleProxy equalsExample: self ]
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> evaluator [
 	^ GTExampleEvaluator new 
 		example: self;
 		yourself
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> example [
 	^ self
 ]
@@ -245,7 +249,7 @@ GTExample >> exceptions [
 
 { #category : #testing }
 GTExample >> exists [
-	^ self method methodClass includesSelector: self method selector
+	^ self methodClass includesSelector: self selector
 ]
 
 { #category : #DEPRECATED }
@@ -412,12 +416,12 @@ GTExample >> gtSpotterSubjectsFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasDependencies [
 	^ self arguments notEmpty
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasDependency: anExample [
 	(self traverser
 		action: [ :example | (example equalsExample: anExample) ifTrue: [ ^ true ] ];
@@ -425,12 +429,12 @@ GTExample >> hasDependency: anExample [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasDependent [
 	^ self dependents notEmpty
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasDependent: anExample [
 	(self traverser reversed
 		action: [ :example | (example equalsExample: anExample) ifTrue: [ ^ true ] ];
@@ -438,7 +442,7 @@ GTExample >> hasDependent: anExample [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasDependents [
 	^ self dependents notEmpty
 ]
@@ -449,7 +453,7 @@ GTExample >> hasParentExample [
 	^ self hasDependent
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasRelationships [
 	^ self hasDependents
 		or: [ self hasDependencies ]
@@ -457,22 +461,24 @@ GTExample >> hasRelationships [
 
 { #category : #testing }
 GTExample >> hasSubject: aSubject [
-	^ self classNamed: aSubject do: [ :class | self subjects includes: class ] ifNone: [ false ]
+	^ self classNamed: aSubject 
+		do: [ :class | self subjects includes: class ] 
+		ifNone: [ self subjects includes: aSubject ]
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasValidAfterArguments [
 	^ self after isNil
 		or: [ self after hasValidArguments
 			and: [ (self method variableNodes collect: [ :e | e name ]) includesAll: self after arguments ] ]
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasValidArguments [
 	^ self arguments size = self method numArgs
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> hasValidDependencies [
 	[ self dependencies ]
 		on: Error
@@ -480,9 +486,11 @@ GTExample >> hasValidDependencies [
 	^ true
 ]
 
-{ #category : #public }
+{ #category : #testing }
 GTExample >> hash [
-	^ self class hash bitXor: self method hash
+	^ (self class hash 
+		bitXor: self methodClass hash) 
+			bitXor: self selector hash
 ]
 
 { #category : #accessing }
@@ -495,8 +503,7 @@ GTExample >> icon: aSelector [
 	<gtExamplePragma>
 	<description: 'This is a shortcut for: #iconThemeSelector:'>
 	
-	self initializeIconWith: [ 
-		self iconThemeSelector: aSelector ]
+	self iconThemeSelector: aSelector
 ]
 
 { #category : #'pragma-selectors' }
@@ -504,8 +511,7 @@ GTExample >> iconBase64: aString [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The string must represent a base64 string'>
 	
-	self initializeIconWith: [ 
-		form := (Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)) ]
+	form := Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)
 ]
 
 { #category : #'pragma-selectors' }
@@ -513,12 +519,11 @@ GTExample >> iconBytes: aByteArray [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the given byte-array'>
 	
-	self initializeIconWith: [ 
-		form := (Form
-			extent: 16@16
-			depth: 32
-			fromArray: aByteArray 
-			offset: 0@0) ]
+	form := (Form
+		extent: 16@16
+		depth: 32
+		fromArray: aByteArray 
+		offset: 0@0)
 ]
 
 { #category : #'pragma-selectors' }
@@ -526,9 +531,8 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The method described by the given class and selector must return a form-icon'>
 	
-	self initializeIconWith: [ 
-		self classNamed: aClassOrClassName do: [ :class | 
-			form := (class perform: aSelector) ] ]
+	self classNamed: aClassOrClassName do: [ :class | 
+		form := class perform: aSelector ]
 ]
 
 { #category : #'pragma-selectors' }
@@ -536,8 +540,7 @@ GTExample >> iconSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return an icon form'>
 	
-	self initializeIconWith: [ 
-		form := (self provider perform: aSelector) ]
+	form := (self provider perform: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -545,8 +548,7 @@ GTExample >> iconSelectorBase64: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return a base64 string'>
 	
-	self initializeIconWith: [ 
-		self iconBase64: (self provider perform: aSelector) ]
+	self iconBase64: (self provider perform: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -554,16 +556,15 @@ GTExample >> iconThemeSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
 	
-	self initializeIconWith: [ 
-		form := (Smalltalk ui icons perform: aSelector) ]
+	form := Smalltalk ui icons perform: aSelector
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> ignoreCache [
 	^ self propertyAt: #noCache ifAbsent: [ false ]
 ]
 
-{ #category : #testing }
+{ #category : #DEPRECATED }
 GTExample >> ignoreNotification [
 	^ self propertyAt: #noNotification ifAbsent: [ false ]
 ]
@@ -608,7 +609,7 @@ GTExample >> initializeFromFinder: aFinder withPragma: aPragma [
 			ifTrue: [ self perform: p keyword withArguments: p arguments ] ].
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> initializeIconWith: aBlock [
 	<todo: 'come up with something better than an empty & generic exception handler'>
 	" We don't want to throw exceptions while examples are being created. We regard those as optional / nice-to-have. "
@@ -643,15 +644,23 @@ GTExample >> label: anObject [
 { #category : #testing }
 GTExample >> matchesMethod: aCompiledMethod [
 	^ aCompiledMethod class = CompiledMethod
-		and: [ self method methodClass = aCompiledMethod methodClass
-			and: [ self method selector = aCompiledMethod selector ] ]
+		and: [ self methodClass = aCompiledMethod methodClass
+			and: [ self selector = aCompiledMethod selector ] ]
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> method [
-	<hack>
-	<todo: 'do not reference pragma or compiledmethod'>
-	^ self pragma method methodClass >> self pragma method selector
+	^ self methodClass >> self selector
+]
+
+{ #category : #accessing }
+GTExample >> methodClass [
+	^ methodClass
+]
+
+{ #category : #accessing }
+GTExample >> methodClass: aClass [
+	methodClass := aClass
 ]
 
 { #category : #private }
@@ -663,9 +672,11 @@ GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
 		yourself
 ]
 
-{ #category : #private }
-GTExample >> methodForClass: aClass selector: aSelector [
-	^ self methodForClass: aClass named: aClass name selector: aSelector
+{ #category : #DEPRECATED }
+GTExample >> methodForClass: aClassOrClassName selector: aSelector [
+	^ aClassOrClassName isClass 
+		ifTrue: [ self methodForProvider: aClassOrClassName gtExamplesProvider selector: aSelector ]
+		ifFalse: [ self methodForClassNamed: aClassOrClassName selector: aSelector ]
 ]
 
 { #category : #private }
@@ -675,7 +686,7 @@ GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
 		ifNone: [ self methodForClass: nil named: aClassOrClassName selector: aSelector ]
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> methodForProvider: aProvider selector: aSelector [
 	^ GTExampleProviderMethod new
 		provider: aProvider;
@@ -685,7 +696,7 @@ GTExample >> methodForProvider: aProvider selector: aSelector [
 
 { #category : #private }
 GTExample >> methodForSelector: aSelector [
-	^ self methodForClass: self methodClass selector: aSelector
+	^ self methodForProvider: self provider selector: aSelector
 ]
 
 { #category : #DEPRECATED }
@@ -694,7 +705,7 @@ GTExample >> methodReference [
 	^ self method asRingDefinition
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #DEPRECATED }
 GTExample >> noCache [
 	<gtExamplePragma>
 	<description: 'Never cache the result/returnValue of this example'>
@@ -702,7 +713,7 @@ GTExample >> noCache [
 	self propertyAt: #noCache put: true
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #DEPRECATED }
 GTExample >> noNotification [
 	<gtExamplePragma>
 	<description: 'Do not show any notification for this example'>
@@ -732,7 +743,7 @@ GTExample >> parentExample: anObject [
 	self shouldNotImplement
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> parents [
 	^ parents
 ]
@@ -742,39 +753,35 @@ GTExample >> pragma [
 	^ pragma
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 GTExample >> propertyAt: aKey [
 	^ (properties ifNil: [ KeyNotFound signalFor: aKey ])
 		at: aKey
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 GTExample >> propertyAt: aKey ifAbsent: aBlock [
 	^ (properties ifNil: [ ^ aBlock value ])
 		at: aKey ifAbsent: aBlock
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 GTExample >> propertyAt: aKey ifAbsentPut: aBlock [
 	^ (properties ifNil: [ properties := IdentityDictionary new ])
 		at: aKey ifAbsentPut: aBlock
 ]
 
-{ #category : #public }
+{ #category : #accessing }
 GTExample >> propertyAt: aKey put: aValue [
 	^ (properties ifNil: [ properties := IdentityDictionary new ])
 		at: aKey put: aValue
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> provider [
-	^ provider
-]
-
-{ #category : #DEPRECATED }
-GTExample >> provider: aClassOrInstance [
-	self deprecated: 'Please define your examples using pragmas'.
-	self shouldNotImplement
+{ #category : #'accessing-dynamic' }
+GTExample >> provider [ 
+	^ self methodClass isMeta
+		ifTrue: [ self methodClass theNonMetaClass ]
+		ifFalse: [ self methodClass theNonMetaClass new ]
 ]
 
 { #category : #public }
@@ -782,13 +789,13 @@ GTExample >> providerClass [
 	^ self provider class
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> proxyForClass: aClass selector: aSelector [
 	" we have to resolve the kind of example again - it could be implemented in #class or in the provider of #class ! "
 	^ self proxyForProvider: aClass gtExamplesProvider selector: aSelector
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> proxyForProvider: aProvider selector: aSelector [
 	^ GTExampleProxy new
 		owner: self;
@@ -797,7 +804,7 @@ GTExample >> proxyForProvider: aProvider selector: aSelector [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> proxyForSelector: aSelector [
 	^ self proxyForProvider: self provider selector: aSelector
 ]
@@ -818,6 +825,13 @@ GTExample >> raisesAny: aString [
 	
 	self substrings: aString do: [ :each | 
 		self raises: each ]
+]
+
+{ #category : #initializing }
+GTExample >> reinitialize [
+	| method |
+	(method := self method) gtExamplesFactory 
+		initializeFromMethod: method forExample: self
 ]
 
 { #category : #public }
@@ -847,29 +861,27 @@ GTExample >> resultCached: aResult [
 	^ aResult
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> returnValue [
 	^ self result returnValue
 ]
 
-{ #category : #private }
+{ #category : #actions }
 GTExample >> run [
 	^ self evaluator result 
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #accessing }
 GTExample >> selector [
-	self deprecated: 'Please define your examples using pragmas'.
-	^ self shouldNotImplement
+	^ selector
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #accessing }
 GTExample >> selector: aSelector [
-	self deprecated: 'Please define your examples using pragmas'.
-	self shouldNotImplement
+	selector := aSelector
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> signalableExceptions [
 	^ self exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. }
 ]
@@ -879,7 +891,7 @@ GTExample >> source [
 	^ source
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> sourceCode [
 	^ self method sourceCode
 ]
@@ -894,7 +906,7 @@ GTExample >> subject: aClassOrClassName [
 	<gtExamplePragma>
 	
 	self classNamed: aClassOrClassName do: [ :class | 
-		self subjects add: class ]
+		self subjects add: class asGTExampleSubject ]
 ]
 
 { #category : #accessing }
@@ -928,7 +940,7 @@ GTExample >> title: aString [
 	self label: aString
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> traverser [
 	^ GTExampleTraverser new 
 		example: self;

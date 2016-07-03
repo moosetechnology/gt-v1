@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'cache',
 		'source',
+		'providers',
 		'exampleClass'
 	],
 	#category : #'GT-Examples-Utils'
@@ -85,6 +86,8 @@ GTAbstractExampleFactory >> gtExamplesContained [
 
 { #category : #private }
 GTAbstractExampleFactory >> initializeFromMethod: aCompiledMethod forExample: aGTExample [
+	aGTExample methodClass: aCompiledMethod methodClass.
+	aGTExample selector: aCompiledMethod selector.
 ]
 
 { #category : #private }
@@ -94,9 +97,9 @@ GTAbstractExampleFactory >> initializePragmasFromMethod: aCompiledMethod forExam
 			[ aGTExample perform: pragma keyword withArguments: pragma arguments ]
 				on:Error
 				do:[ :exception | 
-					aGTExample failures add: (GTExamplePragmaError new 
+					aGTExample failures add: (exception asGTExamplePragmaError 
+						example: aGTExample;
 						pragma: pragma;
-						signaledException: exception;
 						yourself) ] ] ]
 ]
 
@@ -107,8 +110,9 @@ GTAbstractExampleFactory >> initializeSubjectsFromClass: aClass forExample: aGTE
 			on:Error
 			do: [ :exception | 
 				aGTExample failures add: (GTExampleSubjectError new 
-					signaledException: exception;
+					example: aGTExample;
 					subject: subject;
+					signaledException: exception;
 					yourself) ] ] 
 ]
 
@@ -119,7 +123,17 @@ GTAbstractExampleFactory >> isExampleMethod: aCompiledMethod [
 
 { #category : #testing }
 GTAbstractExampleFactory >> isGTExampleMethod: aCompiledMethod [
-	^ aCompiledMethod isGTExampleMethod
+	^ (aCompiledMethod pragmas anySatisfy: [ :pragma | pragma isGTExamplePragma ])
+]
+
+{ #category : #accessing }
+GTAbstractExampleFactory >> provider [
+	^ provider ifNil: [ provider := self defaultProvider ]
+]
+
+{ #category : #accessing }
+GTAbstractExampleFactory >> provider: anObject [
+	provider := anObject
 ]
 
 { #category : #accessing }
