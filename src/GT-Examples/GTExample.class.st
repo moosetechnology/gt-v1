@@ -30,12 +30,6 @@ Class {
 	#category : #'GT-Examples-Core'
 }
 
-{ #category : #examples }
-GTExample class >> gtExampleFromPragma [
-	<gtExample>
-	^ GTExampleFinderOLD new newExampleFromPragma: (self class>>#gtExampleFromPragma) pragmas first
-]
-
 { #category : #testing }
 GTExample >> = anExample [
 	^ self class = anExample class 

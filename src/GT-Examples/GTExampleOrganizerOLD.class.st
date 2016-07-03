@@ -104,7 +104,7 @@ GTExampleOrganizerOLD >> checkForDependenciesUsing: aCompiledMethod [
 
 { #category : #'private-checking' }
 GTExampleOrganizerOLD >> checkForMissingClasses [
-	[ GTExampleFinderOLD allGTExamples ]
+	[ GTExampleFinder allGTExamples ]
 		on: GTExampleDeclaredClassMissing
 		do: [ :exception | 
 			self notifyForMissingClasses: exception ]
@@ -195,7 +195,7 @@ GTExampleOrganizerOLD >> exampleAdded: anAnnouncement [
 { #category : #OBSOLETE }
 GTExampleOrganizerOLD >> examples [
 	self deprecated: 'do not use anymore / there is no replacement'.
-	^ GTExampleFinderOLD allGTExamples
+	^ GTExampleFinder allGTExamples
 ]
 
 { #category : #ui }
@@ -203,7 +203,7 @@ GTExampleOrganizerOLD >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ GTExampleFinderOLD allGTExamples ];
+		allCandidates: [ GTExampleFinder allGTExamples ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]

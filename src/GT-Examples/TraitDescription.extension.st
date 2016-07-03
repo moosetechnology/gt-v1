@@ -2,7 +2,7 @@ Extension { #name : #TraitDescription }
 
 { #category : #'*GT-Examples-Core' }
 TraitDescription >> gtExamplesFinder [
-	^ GTExampleFinderOLD new
+	^ GTExampleFinder new
 		source: self gtExamplesSource;
 		provider: self gtExamplesProvider;
 		subjects: self gtExamplesSubjects;
