@@ -5,24 +5,6 @@ Class {
 }
 
 { #category : #private }
-GTExampleNautilus class >> methodChanged: aCompiledMethod [
-	[	MethodWidget methodsIconsCache removeKey: aCompiledMethod. 
-		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
-			on: Error
-			do: [ " ignore and continue " ]
-]
-
-{ #category : #private }
-GTExampleNautilus class >> methodUpdated: aCompiledMethod with: aResult [
-	[	MethodWidget methodsIconsCache 
-			at: aCompiledMethod 
-			put: (GTExampleNautilusAction iconForMethod: aCompiledMethod result: aResult). 
-		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
-			on: Error
-			do: [ " ignore and continue " ]
-]
-
-{ #category : #private }
 GTExampleNautilus >> examples: aBlock [
 	^ aBlock value
 ]

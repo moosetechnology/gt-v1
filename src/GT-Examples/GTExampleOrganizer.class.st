@@ -180,7 +180,8 @@ GTExampleOrganizer >> loadStopped: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodAdded: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		anAnnouncement method gtExample ]
+		anAnnouncement method gtExample.
+		GTExampleNautilusAction methodChanged: anAnnouncement method. ]
 ]
 
 { #category : #'private-events' }
@@ -190,7 +191,8 @@ GTExampleOrganizer >> methodModified: anAnnouncement [
 			methodDict removeKey: anAnnouncement method selector ifAbsent: [  ] ].
 		theMetaClassExamples removeKey: anAnnouncement classRemoved theNonMetaClass name thenDo: [ :methodDict |
 			methodDict removeKey: anAnnouncement method selector ifAbsent: [  ] ].
-		anAnnouncement method gtExample ]
+		anAnnouncement method gtExample.
+		GTExampleNautilusAction methodChanged: anAnnouncement method. ]
 ]
 
 { #category : #'private-events' }
@@ -199,7 +201,8 @@ GTExampleOrganizer >> methodRemoved: anAnnouncement [
 		theNonMetaClassExamples removeKey: anAnnouncement oldMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
 			methodDict removeKey: anAnnouncement oldMethod selector ifAbsent: [  ] ].
 		theMetaClassExamples removeKey: anAnnouncement oldMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
-			methodDict removeKey: anAnnouncement oldMethod selector ifAbsent: [  ] ] ]
+			methodDict removeKey: anAnnouncement oldMethod selector ifAbsent: [  ] ].
+		GTExampleNautilusAction methodChanged: anAnnouncement method. ]
 ]
 
 { #category : #public }

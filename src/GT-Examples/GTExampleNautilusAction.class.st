@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #private }
+GTExampleNautilusAction class >> iconForMethod: aCompiledMethod [
+	^ MethodWidget methodsIconsCache 
+		at: aCompiledMethod 
+		ifAbsent: [ self iconForMethod: aCompiledMethod result: nil ]
+]
+
+{ #category : #private }
 GTExampleNautilusAction class >> iconForMethod: aCompiledMethod result: aResult [
 	aResult
 		ifNil: [ ^ Smalltalk ui icons iconNamed: #testNotRunIcon ].
@@ -17,6 +24,24 @@ GTExampleNautilusAction class >> iconForMethod: aCompiledMethod result: aResult 
 	^ Smalltalk ui icons iconNamed: #testNotRunIcon
 ]
 
+{ #category : #private }
+GTExampleNautilusAction class >> methodChanged: aCompiledMethod [
+	[	MethodWidget methodsIconsCache removeKey: aCompiledMethod. 
+		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
+			on: Error
+			do: [ " ignore and continue " ]
+]
+
+{ #category : #private }
+GTExampleNautilusAction class >> methodUpdated: aCompiledMethod with: aResult [
+	[	MethodWidget methodsIconsCache 
+			at: aCompiledMethod 
+			put: (self iconForMethod: aCompiledMethod result: aResult). 
+		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
+			on: Error
+			do: [ " ignore and continue " ]
+]
+
 { #category : #order }
 GTExampleNautilusAction >> actionOrder [
 	"Return the priority of this action"
@@ -24,14 +49,9 @@ GTExampleNautilusAction >> actionOrder [
 	^ 0
 ]
 
-{ #category : #private }
-GTExampleNautilusAction >> iconForMethod: aCompiledMethod [
-	^ self class iconForMethod: aCompiledMethod result: (self resultForMethod: aCompiledMethod)
-]
-
 { #category : #order }
 GTExampleNautilusAction >> isActionHandled [
-	^ method pragmas anySatisfy: [ :each | each isGTExamplePragma ]
+	^ method isGTExampleMethod
 ]
 
 { #category : #order }
@@ -41,23 +61,15 @@ GTExampleNautilusAction >> privateActionIcon [
 		target: self;
 		actionSelector: #run:;
 		arguments: { method };
-		labelGraphic: (self iconForMethod: method);
+		labelGraphic: (self class iconForMethod: method);
 		color: Color transparent;
 		helpText: 'Run';
 		extent: 12 @ 12;
 		borderWidth: 0
 ]
 
-{ #category : #private }
-GTExampleNautilusAction >> resultForMethod: aCompiledMethod [
-	^	nil
-	"^ aCompiledMethod gtExamples 
-		ifNotEmpty: [ :examples | examples first resultCached ]
-		ifEmpty: [ nil ]"
-]
-
 { #category : #order }
 GTExampleNautilusAction >> run: aCompiledMethod [
-	aCompiledMethod gtExamples do: [ :example | 
+	aCompiledMethod gtExample ifNotNil: [ :example | 
 		example run isSuccess ifFalse: [ example debug ] ]
 ]

@@ -695,6 +695,11 @@ GTExample >> reinitialize [
 ]
 
 { #category : #'accessing-dynamic' }
+GTExample >> result [
+	^ self run
+]
+
+{ #category : #'accessing-dynamic' }
 GTExample >> returnValue [
 	^ self result returnValue
 ]

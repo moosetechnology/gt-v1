@@ -5,7 +5,7 @@ Class {
 		'example',
 		'elements'
 	],
-	#category : #'GT-Examples-UI'
+	#category : #'GT-Examples-TODO'
 }
 
 { #category : #private }
