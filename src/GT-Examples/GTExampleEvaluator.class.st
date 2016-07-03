@@ -44,7 +44,10 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 		ifFalse: [ ^ self onArgumentError value: self value: anExample value: arguments ].
 	[ arguments := aBlock value ]
 		on: Error
-		do: [ :exception | ^ self onDependencyError value: self value: anExample value: exception ].
+		do: [ :exception | 
+			currentResult unexpectedError: exception.
+			exception class = GTExampleRecursionDetected ifTrue: [ exception pass ].
+			^ self onDependencyError value: self value: anExample value: exception ].
 	self do: [ currentResult returnValue: (self primitiveProcessExample: anExample withArguments: arguments) ]
 		on: anExample signalableExceptions
 		do: [ :exception | currentResult expectedError: exception ].

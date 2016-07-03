@@ -172,7 +172,7 @@ GTExample >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #'accessing-dynamic' }
+{ #category : #TODO }
 GTExample >> directDependents [
 	<todo: 'better name -> #myDependents and #dependents is taken - wtf!'>
 	^ (GTExampleOrganizer instance examplesSelect: [ :each | each hasDependency: self ]) asSet
