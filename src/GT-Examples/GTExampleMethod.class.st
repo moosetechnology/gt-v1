@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'methodClassName',
 		'methodClass',
+		'meta',
 		'selector',
 		'arguments'
 	],
@@ -15,7 +16,8 @@ GTExampleMethod >> = anExampleMethod [
 	^ self class = anExampleMethod class 
 		and: [ self methodClassName = anExampleMethod methodClassName 
 			and: [ self methodClass = anExampleMethod methodClass
-				and: [ self selector = anExampleMethod selector ] ] ]
+				and: [ self meta = anExampleMethod meta
+					and: [ self selector = anExampleMethod selector ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -31,7 +33,9 @@ GTExampleMethod >> arguments: anObject [
 { #category : #private }
 GTExampleMethod >> ensure [
 	methodClass 
-		ifNil: [ methodClass := Smalltalk classNamed: self methodClassName ]
+		ifNil: [ methodClass := self meta 
+			ifTrue: [ (Smalltalk classNamed: self methodClassName) class ] 
+			ifFalse: [ Smalltalk classNamed: self methodClassName ] ]
 		ifNotNil: [ methodClass isObsolete ifTrue: [ methodClass := nil ] ]
 ]
 
@@ -63,10 +67,11 @@ GTExampleMethod >> hasValidArguments [
 
 { #category : #testing }
 GTExampleMethod >> hash [
-	^ ((self class hash 
+	^ (((self class hash 
 		bitXor: self methodClassName hash)
 			bitXor: self methodClass hash)
-				bitXor: self selector hash
+				bitXor: self meta hash)
+					bitXor: self selector hash
 ]
 
 { #category : #testing }
@@ -89,6 +94,16 @@ GTExampleMethod >> matchesMethod: aCompiledMethod [
 			and: [ self selector = aCompiledMethod selector ] ]
 ]
 
+{ #category : #accessing }
+GTExampleMethod >> meta [
+	^ meta ifNil: [ meta := false ]
+]
+
+{ #category : #accessing }
+GTExampleMethod >> meta: anObject [
+	meta := anObject
+]
+
 { #category : #'accessing-dynamic' }
 GTExampleMethod >> method [
 	^ self exists 
@@ -98,6 +113,7 @@ GTExampleMethod >> method [
 
 { #category : #accessing }
 GTExampleMethod >> methodClass [
+	self ensure.
 	^ methodClass
 ]
 
@@ -114,6 +130,13 @@ GTExampleMethod >> methodClassName [
 { #category : #accessing }
 GTExampleMethod >> methodClassName: anObject [
 	methodClassName := anObject
+]
+
+{ #category : #'accessing-dynamic' }
+GTExampleMethod >> provider [ 
+	^ self meta
+		ifTrue: [ self methodClass ]
+		ifFalse: [ self methodClass new ]
 ]
 
 { #category : #accessing }

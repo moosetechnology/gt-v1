@@ -61,7 +61,15 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodForClassNamed: aClassOrClassName selector: aSelector
+	after := self methodForClassNamed: aClassOrClassName meta: false selector: aSelector
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> afterMetaClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	
+	after := self methodForClassNamed: aClassOrClassName meta: true selector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
@@ -156,7 +164,14 @@ GTExample >> dependsClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self methodForClassNamed: aClassOrClassName selector: aSelector)
+	children add: (self methodForClassNamed: aClassOrClassName meta: false selector: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> dependsMetaClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
+	children add: (self methodForClassNamed: aClassOrClassName meta: true selector: aSelector)
 ]
 
 { #category : #accessing }
@@ -432,10 +447,10 @@ GTExample >> hasValidArguments [
 
 { #category : #testing }
 GTExample >> hasValidDependencies [
-	^ self hasDependencies
-		and: [ self hasValidArguments 
-			and: [ self dependencies allSatisfy: [ :each | 
-					each notNil and: [ each exists ] ] ] ]
+	^ self hasValidArguments 
+		and: [ self hasDependencies not
+			or: [ self dependencies allSatisfy: [ :each | 
+				each notNil and: [ each exists ] ] ] ]
 ]
 
 { #category : #testing }
@@ -541,6 +556,7 @@ GTExample >> isGTExample [
 { #category : #testing }
 GTExample >> isValid [
 	^ self failures isEmpty
+		and: [ self traverser canProcess ]
 ]
 
 { #category : #accessing }
@@ -579,24 +595,25 @@ GTExample >> methodClass: aClass [
 ]
 
 { #category : #private }
-GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
+GTExample >> methodForClass: aClass named: aClassName meta: aBoolean selector: aSelector [
 	^ GTExampleMethod new
 		methodClass: aClass;
 		methodClassName: aClassName;
+		meta: aBoolean;
 		selector: aSelector asSymbol;
 		yourself
 ]
 
 { #category : #private }
 GTExample >> methodForClass: aClass selector: aSelector [
-	^ self methodForClass: aClass named: aClass name selector: aSelector
+	^ self methodForClass: aClass named: aClass name meta: aClass isMeta selector: aSelector
 ]
 
 { #category : #private }
-GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
+GTExample >> methodForClassNamed: aClassOrClassName meta: aBoolean selector: aSelector [
 	^ self classNamed: aClassOrClassName 
-		do: [ :class | self methodForClass: class named: class name selector: aSelector ] 
-		ifNone: [ self methodForClass: nil named: aClassOrClassName selector: aSelector ]
+		do: [ :class | self methodForClass: (aBoolean ifTrue: [ class class ] ifFalse: [ class ]) named: class name meta: aBoolean selector: aSelector ] 
+		ifNone: [ self methodForClass: nil named: aClassOrClassName meta: aBoolean selector: aSelector ]
 ]
 
 { #category : #private }
