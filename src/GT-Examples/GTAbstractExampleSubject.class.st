@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self
 ]

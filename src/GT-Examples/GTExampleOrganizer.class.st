@@ -81,7 +81,7 @@ GTExampleOrganizer >> atMethod: aCompiledMethod ifAbsentPut: aBlock [
 			ifAbsentPut: aBlock
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> cachedExamplesDo: aBlock [
 	examples do: [ :selectorsAndExamples |
 		selectorsAndExamples do: aBlock ]
@@ -93,7 +93,7 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 		self reset ]
 ]
 
-{ #category : #'private-checking' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 	[ self cachedExamplesDo: [ :example |
 		example arguments do: [ :dependency |
@@ -103,7 +103,7 @@ GTExampleOrganizer >> checkForDependenciesUsing: aCompiledMethod [
 		do: [ :exception | " ignore " ]
 ]
 
-{ #category : #'private-checking' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> checkForMissingClasses [
 	[ GTExampleFinder allGTExamples ]
 		on: GTExampleDeclaredClassMissing
@@ -111,7 +111,7 @@ GTExampleOrganizer >> checkForMissingClasses [
 			self notifyForMissingClasses: exception ]
 ]
 
-{ #category : #'private-checking' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
 	[ aCompiledMethod gtExamples ]
 		on: GTExampleDeclaredClassMissing
@@ -119,7 +119,7 @@ GTExampleOrganizer >> checkForMissingClasses: aCompiledMethod [
 			self notifyForMissingClasses: exception ]
 ]
 
-{ #category : #'private-checking' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> checkForMissingDependencies [
 	[ self cachedExamplesDo: [ :example | 
 		example arguments do: [ :dependency | 
@@ -129,7 +129,7 @@ GTExampleOrganizer >> checkForMissingDependencies [
 		do: [ :exception | " ignore " ]
 ]
 
-{ #category : #'private-checking' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments do: [ :dependency | 
@@ -139,7 +139,7 @@ GTExampleOrganizer >> checkForMissingDependencies: aCompiledMethod [
 		do: [ :exception | " ignore " ]
 ]
 
-{ #category : #'private-checking' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> checkForNumberOfArguments: aCompiledMethod [
 	[ aCompiledMethod gtExamples do: [ :example | 
 		example arguments size = aCompiledMethod numArgs 
@@ -162,7 +162,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 		theMetaClassExamples removeKey: anAnnouncement oldName asSymbol ifAbsent: [  ] ]
 ]
 
-{ #category : #'private-events' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> example: oldExample modified: anAnnouncement [
 	anAnnouncement method gtExamples do: [ :example |
 		self announcer announce: (GTExampleModified new
@@ -171,14 +171,14 @@ GTExampleOrganizer >> example: oldExample modified: anAnnouncement [
 			yourself) ]
 ]
 
-{ #category : #'private-events' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> example: oldExample removed: anAnnouncement [
 	self announcer announce: (GTExampleRemoved new
 		example: oldExample;
 		yourself)
 ]
 
-{ #category : #'private-events' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> exampleAdded: anAnnouncement [
 	anAnnouncement method gtExamples do: [ :example |
 		self announcer announce: (GTExampleAdded new 
@@ -202,7 +202,7 @@ GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlo
 				ifAbsentPut: aBlock
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> examples [
 	self deprecated: 'do not use anymore / there is no replacement'.
 	^ GTExampleFinder allGTExamples
@@ -257,13 +257,13 @@ GTExampleOrganizer >> initialize [
 	theMetaClassExamples := WeakIdentityKeyDictionary new.
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> jobEnded: anAnnouncement [
 	<deprecated: 'a call of this method means, there are still old job announcements in this image based on this instance. we do nothing here except wiping all previous announcers. we reset/fix this instance to use the new announcers'>
 	[ self stopThoroughly; reset; start; loadStopped: anAnnouncement ] on: Error do: [ " ignore " ]
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> jobStarted: anAnnouncement [
 	<deprecated: 'a call of this method means, there are still old job announcements in this image based on this instance. we do nothing here except wiping all previous announcers. we reset/fix this instance to use the new announcers'>
 	[ self stopThoroughly; reset; start; loadStarted: anAnnouncement ] on: Error do: [ " ignore " ]
@@ -305,7 +305,7 @@ GTExampleOrganizer >> methodRemoved: anAnnouncement [
 			methodDict removeKey: anAnnouncement oldMethod selector ifAbsent: [  ] ] ]
 ]
 
-{ #category : #'private-notifying' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> notify: aString exception: anException [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: aString;
@@ -313,7 +313,7 @@ GTExampleOrganizer >> notify: aString exception: anException [
 		nextPutAll: anException messageText ])
 ]
 
-{ #category : #'private-notifying' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> notifyForDependencyUsing: aCompiledMethod example: anExample [
 	anExample ignoreNotification ifTrue: [ ^ self ].
 	UIManager default inform: (String streamContents: [ :stream | stream 
@@ -324,7 +324,7 @@ GTExampleOrganizer >> notifyForDependencyUsing: aCompiledMethod example: anExamp
 		nextPutAll: anExample method selector asString ])
 ]
 
-{ #category : #'private-notifying' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> notifyForMissingClasses: anException [
 	UIManager default inform: (String streamContents: [ :stream | stream 
 		nextPutAll: 'Referenced class missing' ;
@@ -332,7 +332,7 @@ GTExampleOrganizer >> notifyForMissingClasses: anException [
 		nextPutAll: anException classNamed asString ])
 ]
 
-{ #category : #'private-notifying' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> notifyForMissingDependency: aDependency example: anExample [
 	anExample ignoreNotification ifTrue: [ ^ self ].
 	UIManager default inform: (String streamContents: [ :stream | stream 
@@ -343,7 +343,7 @@ GTExampleOrganizer >> notifyForMissingDependency: aDependency example: anExample
 		nextPutAll: aDependency selector asString ])
 ]
 
-{ #category : #'private-notifying' }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 	anExample ignoreNotification ifTrue: [ ^ self ].
 	UIManager default inform: (String streamContents: [ :stream | stream 
@@ -354,7 +354,7 @@ GTExampleOrganizer >> notifyForNumberOfArguments: anExample [
 		nextPutAll: anExample method selector asString ])
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> notifying [
 	self deprecated: 'do not use anymore / there is no replacement'.
 	^ false
@@ -383,26 +383,26 @@ GTExampleOrganizer >> reset [
 	self initialize
 ]
 
-{ #category : #initializing }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> resetQuickly [
 	" we assume the thorough reset was already performed if there are no examples in here "
 	examples isEmptyOrNil ifTrue: [ ^ self ].
 	self reset
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> resetResults [
 	self deprecated: 'do not use anymore / we wipe everything as a temporar solution'.
 	self resetResultsOnly
 ]
 
-{ #category : #initializing }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> resetResultsOnly [
 	" this is expensive, but thorough and makes sure the gc will really get rid of all gtexample-result-related objects "
 	GTExampleResult allSubInstances do: [ :each | [ each detachFromSystem ] on: Error do: [ " ignore / do not abort " ] ].
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> running [
 	self deprecated: 'do not use anymore / there is no replacement'.
 	^ true
@@ -442,7 +442,7 @@ GTExampleOrganizer >> stop [
 	self stopSystemAnnouncements
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> stopJobAnnouncements [
 	<deprecated: 'a call of this method means, there are still old announcements in this image. we do nothing here except wiping all previous announcers.'>
 	Job jobAnnouncer unsubscribeThoroughly: self
@@ -475,7 +475,7 @@ GTExampleOrganizer >> stopThoroughly [
 	Announcer allSubInstances do: [ :each | each unsubscribeThoroughly: self ]
 ]
 
-{ #category : #OBSOLETE }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> withCleanupDo: aBlock [
 	self deprecated: 'use #withoutExceptionsDo: instead'.
 	self withoutExceptionsDo: aBlock

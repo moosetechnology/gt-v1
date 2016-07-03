@@ -13,8 +13,9 @@ Class {
 { #category : #testing }
 GTExampleMethod >> = anExampleMethod [
 	^ self class = anExampleMethod class 
-		and: [ self provider = anExampleMethod provider 
-			and: [ self selector = anExampleMethod selector ] ]
+		and: [ self methodClassName = anExampleMethod methodClassName 
+			and: [ self methodClass = anExampleMethod methodClass
+				and: [ self selector = anExampleMethod selector ] ] ]
 ]
 
 { #category : #accessing }
@@ -36,9 +37,9 @@ GTExampleMethod >> ensure [
 
 { #category : #testing }
 GTExampleMethod >> exists [
-	^ self provider notNil
-		and: [ self providerClass notNil
-			and: [ self providerClass includesSelector: self selector ] ]
+	^ self methodClassName notNil
+		and: [ self methodClass notNil
+			and: [ self methodClass includesSelector: self selector ] ]
 ]
 
 { #category : #'accessing-dynamic' }
@@ -56,25 +57,30 @@ GTExampleMethod >> hasExample [
 
 { #category : #testing }
 GTExampleMethod >> hasValidArguments [
-	^ true
+	^ self exists 
+		and: [ self method numArgs = self arguments size ]
 ]
 
-{ #category : #public }
+{ #category : #testing }
 GTExampleMethod >> hash [
-	^ (self class hash 
-		bitXor: self provider hash)
-			bitXor: self selector hash
+	^ ((self class hash 
+		bitXor: self methodClassName hash)
+			bitXor: self methodClass hash)
+				bitXor: self selector hash
 ]
 
 { #category : #testing }
 GTExampleMethod >> matchesMethod: aCompiledMethod [
 	^ self exists
-		and: [ self method = aCompiledMethod ]
+		and: [ self methodClass = aCompiledMethod methodClass
+			and: [ self selector = aCompiledMethod selector ] ]
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExampleMethod >> method [
-	^ self providerClass >> self selector
+	^ self exists 
+		ifTrue: [ self methodClass >> self selector ]
+		ifFalse: [ nil ]
 ]
 
 { #category : #accessing }
@@ -95,21 +101,6 @@ GTExampleMethod >> methodClassName [
 { #category : #accessing }
 GTExampleMethod >> methodClassName: anObject [
 	methodClassName := anObject
-]
-
-{ #category : #accessing }
-GTExampleMethod >> provider [
-	^ provider
-]
-
-{ #category : #accessing }
-GTExampleMethod >> provider: anObject [
-	provider := anObject
-]
-
-{ #category : #public }
-GTExampleMethod >> providerClass [
-	^ self provider class
 ]
 
 { #category : #accessing }
