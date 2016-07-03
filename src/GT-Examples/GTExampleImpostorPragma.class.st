@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'method'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-DEPRECATED'
 }
 
 { #category : #comparing }

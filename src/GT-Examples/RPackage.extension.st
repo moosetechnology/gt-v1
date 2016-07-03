@@ -2,7 +2,12 @@ Extension { #name : #RPackage }
 
 { #category : #'*GT-Examples-UI' }
 RPackage >> gtExamplesContained [
-	^ self classes gather: [ :each | each gtExamples ]
+	| examples |
+	examples := OrderedCollection new.
+	self methods do: [ :method |
+		method gtExamplesFactory exampleMethod: method do: [ :example | 
+			examples add: example ] ].
+	^ examples
 ]
 
 { #category : #'*GT-Examples-Tools' }

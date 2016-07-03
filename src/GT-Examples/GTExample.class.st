@@ -15,10 +15,6 @@ Class {
 	#name : #GTExample,
 	#superclass : #Object,
 	#instVars : [
-		'source',
-		'provider',
-		'finder',
-		'pragma',
 		'label',
 		'description',
 		'form',
@@ -26,10 +22,8 @@ Class {
 		'subjects',
 		'parents',
 		'children',
-		'result',
 		'properties',
-		'after',
-		'afterFinish'
+		'after'
 	],
 	#category : #'GT-Examples-Core'
 }
@@ -37,7 +31,7 @@ Class {
 { #category : #examples }
 GTExample class >> gtExampleFromPragma [
 	<gtExample>
-	^ GTExampleFinder new newExampleFromPragma: (self class>>#gtExampleFromPragma) pragmas first
+	^ GTExampleFinderOLD new newExampleFromPragma: (self class>>#gtExampleFromPragma) pragmas first
 ]
 
 { #category : #testing }
@@ -73,7 +67,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	after := self methodForClass: aClassOrClassName selector: aSelector
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExample >> afterFinish [
 	^ afterFinish
 ]
@@ -108,7 +102,7 @@ GTExample >> children [
 	^ children
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> childrenExamples [
 	self deprecated: 'Please use #dependencies instead'.
 	^ self dependencies
@@ -206,7 +200,7 @@ GTExample >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> detachFromSystem [
 	self detachResultFromSystem.
 	(self traverser reversed
@@ -219,7 +213,7 @@ GTExample >> detachFromSystem [
 	parents := Set new.
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> detachResultFromSystem [
 	result ifNil: [ ^ self ].
 	result detachFromSystem.
@@ -255,19 +249,19 @@ GTExample >> exists [
 	^ self method methodClass includesSelector: self method selector
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> extractionStrategy [
 	self deprecated: 'Please define your examples using pragmas'.
 	^ self shouldNotImplement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> extractionStrategy: anObject [
 	self deprecated: 'Please define your examples using pragmas'.
 	self shouldNotImplement
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExample >> finder [ 
 	^ finder
 ]
@@ -286,7 +280,7 @@ GTExample >> gtDisplayOn: aStream [
 	aStream nextPutAll: ')'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> gtDisplaySourceIn: composite [
 	self deprecated: 'Please use #gtInspectorSourceIn: instead'.
 	^ self gtInspectorSourceIn: composite
@@ -309,14 +303,14 @@ GTExample >> gtExample [
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> gtExample: anObject [
 	<toBeDeprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'>
 	self label: anObject.
 	self gtExample
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> gtExampleFrom: aSelector [
 	self deprecated: 'Please define your example-dependencies using the pragma #depends: or #dependsClass:selector: or #dependsAll:'.
 	self depends: aSelector
@@ -450,7 +444,7 @@ GTExample >> hasDependents [
 	^ self dependents notEmpty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> hasParentExample [
 	self deprecated: 'Please use #hasDependent instead'.
 	^ self hasDependent
@@ -586,6 +580,19 @@ GTExample >> ignoreTestReport [
 ]
 
 { #category : #initializing }
+GTExample >> initialize [
+	super initialize.
+	
+	parents := Set new.
+	children := OrderedCollection new.
+	subjects := Set new.
+	failures := Set new.
+	exceptions := ExceptionSet new.
+	
+	properties := IdentityDictionary new.
+]
+
+{ #category : #DEPRECATED }
 GTExample >> initializeFromFinder: aFinder withPragma: aPragma [
 	finder := aFinder.
 	pragma := aPragma.
@@ -678,7 +685,7 @@ GTExample >> methodForSelector: aSelector [
 	^ self methodForProvider: self provider selector: aSelector
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> methodReference [
 	self deprecated: 'The selector #methodReference is obsolete'.
 	^ self method asRingDefinition
@@ -716,7 +723,7 @@ GTExample >> noTestReport [
 	self propertyAt: #noTestReport put: true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> parentExample: anObject [
 	self deprecated: 'Please use #dependencies or #children instead'.
 	self shouldNotImplement
@@ -727,7 +734,7 @@ GTExample >> parents [
 	^ parents
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExample >> pragma [
 	^ pragma
 ]
@@ -756,12 +763,12 @@ GTExample >> propertyAt: aKey put: aValue [
 		at: aKey put: aValue
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExample >> provider [
 	^ provider
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> provider: aClassOrInstance [
 	self deprecated: 'Please define your examples using pragmas'.
 	self shouldNotImplement
@@ -815,22 +822,22 @@ GTExample >> removeFromSystem [
 	self finder remove: self ifPresent: [ self detachFromSystem ]
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExample >> result [
 	^ result ifNil: [ self run ]
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> result: aResult [
 	result := aResult
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> resultCached [
 	^ result
 ]
 
-{ #category : #private }
+{ #category : #DEPRECATED }
 GTExample >> resultCached: aResult [
 	self ignoreCache ifFalse: [ result := aResult ].
 	GTExampleNautilus methodUpdated: self method with: aResult.
@@ -844,16 +851,16 @@ GTExample >> returnValue [
 
 { #category : #private }
 GTExample >> run [
-	^ self resultCached: self evaluator result 
+	^ self evaluator result 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> selector [
 	self deprecated: 'Please define your examples using pragmas'.
 	^ self shouldNotImplement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> selector: aSelector [
 	self deprecated: 'Please define your examples using pragmas'.
 	self shouldNotImplement
@@ -864,7 +871,7 @@ GTExample >> signalableExceptions [
 	^ self exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. }
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExample >> source [
 	^ source
 ]
@@ -906,13 +913,13 @@ GTExample >> substrings: aString do: aBlock [
 		aBlock value: each trimBoth ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> title [
 	self deprecated: 'Please define your examples using pragmas'.
 	^ self label
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #DEPRECATED }
 GTExample >> title: aString [
 	self deprecated: 'Please define your examples using pragmas'.
 	self label: aString

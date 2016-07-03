@@ -2,7 +2,19 @@ Extension { #name : #TClassDescription }
 
 { #category : #'*GT-Examples-Core' }
 TClassDescription >> gtExamples [
-	^ self gtExamplesFinder gtExamplesContained
+	^ self gtExamplesFactory gtExamplesContained
+]
+
+{ #category : #'*GT-Examples-Core' }
+TClassDescription >> gtExamplesDo: aBlock [
+	self gtExamplesFactory gtExamplesContainedDo: aBlock
+]
+
+{ #category : #'*GT-Examples-Core' }
+TClassDescription >> gtExamplesFactory [
+	^ GTExampleFactory new
+		source: self;
+		yourself
 ]
 
 { #category : #'*GT-Examples-Core' }
@@ -28,6 +40,5 @@ TClassDescription >> gtExamplesSource [
 
 { #category : #'*GT-Examples-Core' }
 TClassDescription >> gtExamplesSubjects [
-	" by default let a class be the (implicit) subject for examples "
-	^ nil
+	^ {  }
 ]

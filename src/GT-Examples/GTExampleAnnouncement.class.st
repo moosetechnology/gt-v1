@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'example'
 	],
-	#category : #'GT-Examples-Announcements'
+	#category : #'GT-Examples-DEPRECATED'
 }
 
 { #category : #accessing }

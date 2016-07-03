@@ -1,6 +1,14 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*GT-Examples-Core' }
+CompiledMethod >> asGTExampleSubject [
+	^ GTExampleMethodSubject new 
+		subjectClass: self methodClass;
+		subjectSelector: self selector;
+		yourself
+]
+
+{ #category : #'*GT-Examples-Core' }
 CompiledMethod >> gtExample [
 	^ self gtExamples 
 		ifNotEmpty: [ :examples | 

@@ -1,5 +1,19 @@
 Extension { #name : #Object }
 
+{ #category : #'*GT-Examples-Core' }
+Object class >> asGTExampleSubject [
+	^ GTExampleClassSubject new 
+		subjectClass: self;
+		yourself
+]
+
+{ #category : #'*GT-Examples-Core' }
+Object >> asGTExampleSubject [
+	^ GTExampleInstanceSubject new 
+		instance: self;
+		yourself
+]
+
 { #category : #'*GT-Examples-Core-private' }
 Object >> detachFromSystem [
 ]
@@ -10,13 +24,13 @@ Object >> equalsExample: anExampleOrExampleFutureOrSomethingElse [
 ]
 
 { #category : #'*GT-Examples-Core' }
-Object >> gtExampleContext [
-	^ self class gtExampleContext
+Object class >> gtExampleContext [
+	^ GTCurrentExampleContext value
 ]
 
 { #category : #'*GT-Examples-Core' }
-Object class >> gtExampleContext [
-	^ GTCurrentExampleContext value
+Object >> gtExampleContext [
+	^ self class gtExampleContext
 ]
 
 { #category : #'*GT-Examples-UI' }
@@ -39,9 +53,22 @@ Object >> gtExamples [
 
 { #category : #'*GT-Examples-UI' }
 Object >> gtExamplesContained [
-	^ [ self gtExamples ]
-		on: Error
-		do: [ #() ]
+	^ self gtExamples
+]
+
+{ #category : #'*GT-Examples-UI' }
+Object >> gtExamplesFactory [
+	^ self class gtExamplesFactory
+]
+
+{ #category : #'*GT-Examples-Core' }
+Object class >> gtExamplesSubjects [
+	^ {  }
+]
+
+{ #category : #'*GT-Examples-Core' }
+Object >> gtExamplesSubjects [
+	^ {  }
 ]
 
 { #category : #'*GT-Examples-Core' }

@@ -1,0 +1,10 @@
+Extension { #name : #TraitDescription }
+
+{ #category : #'*GT-Examples-Core' }
+TraitDescription >> gtExamplesFinder [
+	^ GTExampleFinderOLD new
+		source: self gtExamplesSource;
+		provider: self gtExamplesProvider;
+		subjects: self gtExamplesSubjects;
+		yourself
+]
