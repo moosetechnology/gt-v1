@@ -43,13 +43,7 @@ GTExampleNautilus >> onClass: aBuilder [
 	
 	target := aBuilder model.
 	(class := target selectedClass) ifNil: [ ^ self ].
-	
-	"
-	self onReferences: class theNonMetaClass name builder: aBuilder.
-	self onProvider: class theNonMetaClass builder: aBuilder.
-	self onSource: class theNonMetaClass builder: aBuilder.
-	"
-	
+		
 	self onExamples: [ (class isMeta 
 		ifTrue: [ class ] 
 		ifFalse: [ class theNonMetaClass ]) gtExamplesContained ] builder: aBuilder
@@ -57,36 +51,55 @@ GTExampleNautilus >> onClass: aBuilder [
 
 { #category : #public }
 GTExampleNautilus >> onCompiledMethod: aBuilder [
-	| target method examples |
+	| target method |
 	
 	target := aBuilder model.
 	(method := target selectedMethod) ifNil: [ ^ self ].
+
+	self onExamples: [ method gtExamples ] builder: aBuilder.
 	self onReferences: method selector builder: aBuilder.
-	
-	self onExamples: [ method gtExamples ] builder: aBuilder
 ]
 
-{ #category : #private }
+{ #category : #public }
 GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
+	
+	(aBuilder item: #gte)
+		order: -90000;
+		label: 'Examples ...';
+		withSeparatorAfter.
+	
 	(aBuilder item: #'Inspect Examples')
+		parent: #gte;
 		order: 90000;
-		action: [ (self examples: aBlock) inspect ].
+		keyText: 'e, i' if: Nautilus useOldStyleKeys not;
+		action: [ (self examples: aBlock) inspect ];
+		withSeparatorAfter.
 	
 	(aBuilder item: #'Inspect Return-Values')
+		parent: #gte;
 		order: 90001;
+		keyText: 'e, v' if: Nautilus useOldStyleKeys not;
 		action: [ (self examples: aBlock collect: [ :example | example returnValue ]) inspect ].
 		
 	(aBuilder item: #'Inspect Results (full)')
+		parent: #gte;
 		order: 90002;
-		action: [ (self examples: aBlock collect: [ :example | example result ]) inspect ].
+		keyText: 'e, r' if: Nautilus useOldStyleKeys not;
+		action: [ (self examples: aBlock collect: [ :example | example result ]) inspect ];
+		withSeparatorAfter.
 		
 	(aBuilder item: #'Run Examples')
+		parent: #gte;
 		order: 90003;
+		keyText: 'e, r' if: Nautilus useOldStyleKeys not;
 		action: [ self examples: aBlock do: #run ].
 		
-	(aBuilder item: #'Debug Examples')
+	(aBuilder item: 'Debug Examples')
+		parent: #gte;
 		order: 90004;
-		action: [ self examples: aBlock do: #debug ].
+		keyText: 'e, d' if: Nautilus useOldStyleKeys not;
+		action: [ self examples: aBlock do: #debug ];
+		withSeparatorAfter.
 		
 		
 ]
@@ -103,33 +116,13 @@ GTExampleNautilus >> onPackage: aBuilder [
 ]
 
 { #category : #public }
-GTExampleNautilus >> onProvider: aClass builder: aBuilder [
-	aClass gtExamplesProvider = aClass ifTrue: [ ^ self ].
-	aClass gtExamplesSource = aClass ifTrue: [ ^ self ].
-	
-	(aBuilder item: #'Browse Example Source ...')
-		order: 90002;
-		action: [ aClass gtExamplesSource browse ].
-]
-
-{ #category : #public }
 GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
-	(aBuilder item: #'Examples of ...')
-		order: 90000;
+	(aBuilder item: #'Examples referencing #' ,  aLiteral , '>')
+		parent: #gte;
+		order: 90100;
+		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
 		action: [
 			(SystemNavigation default examplesReferencesTo: aLiteral) 
 				ifNotEmpty: [ :examples | examples inspect ]
 				ifEmpty: [ UIManager default inform: 'No examples found for #', aLiteral asString ] ].
-				
-
-]
-
-{ #category : #public }
-GTExampleNautilus >> onSource: aClass builder: aBuilder [
-	aClass gtExamplesProvider = aClass ifTrue: [ ^ self ].
-	aClass gtExamplesProvider class = aClass ifTrue: [ ^ self ].
-	
-	(aBuilder item: #'Browse Example Provider ...')
-		order: 90001;
-		action: [ aClass gtExamplesProvider browse ].
 ]

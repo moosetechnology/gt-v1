@@ -8,3 +8,8 @@ Class {
 GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self
 ]
+
+{ #category : #testing }
+GTAbstractExampleSubject >> hasLiteralThorough: aLiteral [
+	^ false
+]

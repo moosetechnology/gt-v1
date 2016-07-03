@@ -7,6 +7,14 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #testing }
+GTExampleInstanceSubject >> hasLiteralThorough: aLiteral [
+	^ (self instance class name = aLiteral)
+		or: [ self instance class methods anySatisfy: [ :method | 
+					method selector = aLiteral
+						or: [ 	method hasLiteralThorough: aLiteral ] ] ]
+]
+
 { #category : #accessing }
 GTExampleInstanceSubject >> instance [
 	^ instance
