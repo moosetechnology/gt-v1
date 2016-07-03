@@ -140,11 +140,6 @@ GTExample >> dependenciesOrArguments [
 	^ self arguments collect: [ :each | each gtExample ifNil: [ each ] ]
 ]
 
-{ #category : #'accessing-dynamic' }
-GTExample >> dependents [
-	^ Smalltalk gtExamplesContained select: [ :each | each hasDependency: self ]
-]
-
 { #category : #'pragma-selectors' }
 GTExample >> depends: aSelector [
 	<gtExamplePragma>
@@ -181,6 +176,11 @@ GTExample >> description: anObject [
 	<description: 'A full description of this example'>
 	
 	description := anObject
+]
+
+{ #category : #'accessing-dynamic' }
+GTExample >> directDependents [
+	^ (GTExampleOrganizer instance select: [ :each | each hasDependency: self ]) asSet
 ]
 
 { #category : #testing }
@@ -286,7 +286,7 @@ GTExample >> gtInspectorDependenciesIn: composite [
 GTExample >> gtInspectorDependentsIn: composite [
 	<gtInspectorPresentationOrder: 3>
 	self hasDependents ifFalse: [ ^ self ].
-	^ (self dependents gtInspectorItemsIn: composite)
+	^ (self directDependents gtInspectorItemsIn: composite)
 			title: 'Dependents'
 ]
 
@@ -322,7 +322,7 @@ GTExample >> gtSpotterDependentsFor: aStep [
 	self hasDependents ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependents';
-		allCandidates: [ self dependents ];
+		allCandidates: [ self directDependents ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -388,12 +388,12 @@ GTExample >> hasDependency: aGTExample [
 
 { #category : #testing }
 GTExample >> hasDependent: anExample [
-	^ self dependents anySatisfy: [ :each | each matchesExample: anExample ]
+	^ self directDependents anySatisfy: [ :each | each matchesExample: anExample ]
 ]
 
 { #category : #testing }
 GTExample >> hasDependents [
-	^ self dependents notEmpty
+	^ self directDependents notEmpty
 ]
 
 { #category : #testing }

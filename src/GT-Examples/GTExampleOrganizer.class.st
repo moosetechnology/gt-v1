@@ -161,6 +161,25 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 		theMetaClassExamples removeKey: anAnnouncement oldName asSymbol ifAbsent: [  ] ]
 ]
 
+{ #category : #enumeration }
+GTExampleOrganizer >> collect: aBlock [
+	| examples |
+	examples := OrderedCollection new.
+	self do: [ :class :method :example | 
+		examples add: (aBlock value: example) ].
+	^ examples
+]
+
+{ #category : #enumeration }
+GTExampleOrganizer >> do: aBlock [
+	theNonMetaClassExamples keysAndValuesDo: [ :className :methodDict |
+		methodDict keysAndValuesDo: [ :selector :example | 
+			aBlock value: className value: selector value: example ] ].
+	theMetaClassExamples keysAndValuesDo: [ :className :methodDict |
+		methodDict keysAndValuesDo: [ :selector :example | 
+			aBlock value: className value: selector value: example ] ]
+]
+
 { #category : #DEPRECATED }
 GTExampleOrganizer >> example: oldExample modified: anAnnouncement [
 	anAnnouncement method gtExamples do: [ :example |
@@ -405,6 +424,15 @@ GTExampleOrganizer >> resetResultsOnly [
 GTExampleOrganizer >> running [
 	self deprecated: 'do not use anymore / there is no replacement'.
 	^ true
+]
+
+{ #category : #enumeration }
+GTExampleOrganizer >> select: aBlock [
+	| examples |
+	examples := OrderedCollection new.
+	self do: [ :class :selector :example | 
+		(aBlock value: example) ifTrue: [ examples add: example ] ].
+	^ examples
 ]
 
 { #category : #public }
