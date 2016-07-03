@@ -58,7 +58,7 @@ GTExampleMethod >> hasExample [
 { #category : #testing }
 GTExampleMethod >> hasValidArguments [
 	^ self exists 
-		and: [ self method numArgs = self arguments size ]
+		and: [ self arguments size = self method numArgs ]
 ]
 
 { #category : #testing }
@@ -67,6 +67,14 @@ GTExampleMethod >> hash [
 		bitXor: self methodClassName hash)
 			bitXor: self methodClass hash)
 				bitXor: self selector hash
+]
+
+{ #category : #testing }
+GTExampleMethod >> matchesExample: aGTExample [
+	^ self exists 
+		and: [ aGTExample isGTExample
+			and: [ aGTExample methodClass = self methodClass
+				and: [ aGTExample selector = self selector ] ] ]
 ]
 
 { #category : #testing }

@@ -22,7 +22,6 @@ Class {
 		'form',
 		'exceptions',
 		'subjects',
-		'parents',
 		'children',
 		'properties',
 		'after',
@@ -76,7 +75,7 @@ GTExample >> afterFinish [
 	^ afterFinish
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> allDependencies [
 	| examples |
 	examples := Set new.
@@ -86,7 +85,7 @@ GTExample >> allDependencies [
 	^ examples
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> allDependents [
 	| examples |
 	examples := Set new.
@@ -96,7 +95,7 @@ GTExample >> allDependents [
 	^ examples
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> arguments [
 	^ children asArray
 ]
@@ -147,9 +146,14 @@ GTExample >> debugger [
 		yourself
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> dependencies [
-	^ self arguments collect: [ :each | each example ]
+	^ self arguments collect: [ :each | each gtExample ]
+]
+
+{ #category : #'accessing-dynamic' }
+GTExample >> dependenciesOrArguments [
+	^ self arguments collect: [ :each | each gtExample ifNil: [ each ] ]
 ]
 
 { #category : #DEPRECATED }
@@ -160,9 +164,9 @@ GTExample >> dependenciesOrErrors [
 			do: [ :exception | exception ] ]
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExample >> dependents [
-	^ self parents asArray collect: [ :each | each owner ]
+	^ Smalltalk gtExamplesContained select: [ :each | each hasDependency: self ]
 ]
 
 { #category : #'pragma-selectors' }
@@ -237,11 +241,6 @@ GTExample >> evaluator [
 		yourself
 ]
 
-{ #category : #'accessing-dynamic' }
-GTExample >> example [
-	^ self
-]
-
 { #category : #accessing }
 GTExample >> exceptions [
 	^ exceptions
@@ -272,6 +271,7 @@ GTExample >> finder [
 { #category : #ui }
 GTExample >> gtDebuggerSourceIn: composite [
 	<gtDebuggerPresentationOrder: 1>
+	self hasMethod ifFalse: [ ^ self ].
 	self method gtInspectorSourceIn: composite
 ]
 
@@ -295,7 +295,8 @@ GTExample >> gtDisplaySummaryOn: aStream. [
 		ifFalse: [ ^ aStream nextPutAll: self label ].
 	self description isEmptyOrNil 
 		ifFalse: [ ^ aStream nextPutAll: self description ].
-	aStream nextPutAll: self method printString
+	self hasMethod ifTrue: [ 
+		aStream nextPutAll: self method printString ]
 ]
 
 { #category : #'pragma-selectors' }
@@ -306,7 +307,7 @@ GTExample >> gtExample [
 	^ self
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #'pragma-selectors' }
 GTExample >> gtExample: anObject [
 	<toBeDeprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'>
 	self label: anObject.
@@ -319,11 +320,21 @@ GTExample >> gtExampleFrom: aSelector [
 	self depends: aSelector
 ]
 
+{ #category : #'accessing-dynamic' }
+GTExample >> gtExamplesContained [
+	^ { self }
+]
+
+{ #category : #'accessing-dynamic' }
+GTExample >> gtExamplesFactory [
+	^ self method gtExamplesFactory
+]
+
 { #category : #ui }
 GTExample >> gtInspectorActionEvaluateResultAndGo [
 	<gtInspectorAction>
 	^ GLMGenericAction new
-		action: [ :p | p selection: self result returnValue ];
+		action: [ :p | p selection: self returnValue ];
 		icon: (Smalltalk ui icons iconNamed: #glamorousRight);
 		title: 'Evaluate result and go'
 ]
@@ -331,22 +342,30 @@ GTExample >> gtInspectorActionEvaluateResultAndGo [
 { #category : #ui }
 GTExample >> gtInspectorDependenciesIn: composite [
 	<gtInspectorPresentationOrder: 2>
-	self arguments ifEmpty: [ ^ self ].
-	^ ((self dependenciesOrErrors ifEmpty: [ ^ self ]) gtInspectorItemsIn: composite)
+	self hasDependencies ifFalse: [ ^ self ].
+	^ (self dependenciesOrArguments gtInspectorItemsIn: composite)
 			title: 'Dependencies'
 ]
 
 { #category : #ui }
 GTExample >> gtInspectorDependentsIn: composite [
 	<gtInspectorPresentationOrder: 3>
-	self dependents ifEmpty: [ ^ self ].
+	self hasDependents ifFalse: [ ^ self ].
 	^ (self dependents gtInspectorItemsIn: composite)
 			title: 'Dependents'
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorRoassalIn: composite [
+	<gtInspectorPresentationOrder: 1>
+	self hasRelationships ifFalse: [ ^ self ].
+	^ self painter gtInspectorRoassalIn: composite
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
+	self hasMethod ifFalse: [ ^ self ].
 	^ (self method gtInspectorSourceIn: composite)
 		title: 'Source'
 ]
@@ -354,10 +373,10 @@ GTExample >> gtInspectorSourceIn: composite [
 { #category : #ui }
 GTExample >> gtSpotterDependenciesFor: aStep [
 	<spotterOrder: 100>
-	self arguments ifEmpty: [ ^ self ].
+	self hasDependencies ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependencies';
-		allCandidates: [ self arguments ];
+		allCandidates: [ self dependenciesOrArguments ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -365,7 +384,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 { #category : #ui }
 GTExample >> gtSpotterDependentsFor: aStep [
 	<spotterOrder: 101>
-	self dependents ifEmpty: [ ^ self ].
+	self hasDependents ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependents';
 		allCandidates: [ self dependents ];
@@ -374,9 +393,21 @@ GTExample >> gtSpotterDependentsFor: aStep [
 ]
 
 { #category : #ui }
+GTExample >> gtSpotterMethodFor: aStep [
+	<spotterOrder: 103>
+	self hasMethod ifFalse: [ ^ self ].
+	aStep listProcessor
+		title: 'Example Method';
+		items: [ Array with: self method ];
+		itemName: [ :aSource | aSource gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #ui }
 GTExample >> gtSpotterPreviewIn: aComposite [
 	<spotterPreview: 1>
-	^ aComposite pharoMethod
+	self hasMethod ifFalse: [ ^ self ].
+	aComposite pharoMethod
 		title: [ self gtDisplayString ]; 
 		display: [ :entity | entity method sourceCode ];
 		smalltalkClass: [ self method methodClass ];
@@ -384,31 +415,9 @@ GTExample >> gtSpotterPreviewIn: aComposite [
 ]
 
 { #category : #ui }
-GTExample >> gtSpotterProviderFor: aStep [
-	<spotterOrder: 103>
-	self provider ifNil: [ ^ self ].
-	aStep listProcessor
-		title: 'Example Provider';
-		items: [ Array with: self provider ];
-		itemName: [ :aProvider | aProvider gtDisplayString ];
-		filter: GTFilterSubstring
-]
-
-{ #category : #ui }
-GTExample >> gtSpotterSourceFor: aStep [
-	<spotterOrder: 103>
-	self source ifNil: [ ^ self ].
-	aStep listProcessor
-		title: 'Example Source';
-		items: [ Array with: self source ];
-		itemName: [ :aSource | aSource gtDisplayString ];
-		filter: GTFilterSubstring
-]
-
-{ #category : #ui }
 GTExample >> gtSpotterSubjectsFor: aStep [
 	<spotterOrder: 102>
-	self subjects ifEmpty: [ ^ self ].
+	self hasSubjects ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Subjects';
 		allCandidates: [ self subjects ];
@@ -416,17 +425,30 @@ GTExample >> gtSpotterSubjectsFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #testing }
+GTExample >> hasAfter [
+	^ after notNil
+]
+
+{ #category : #testing }
+GTExample >> hasAfterArguments [
+	^ self hasAfter
+		and: [ self after hasArguments ]
+]
+
+{ #category : #testing }
+GTExample >> hasArguments [
+	^ self arguments notEmpty
+]
+
+{ #category : #testing }
 GTExample >> hasDependencies [
 	^ self arguments notEmpty
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> hasDependency: anExample [
-	(self traverser
-		action: [ :example | (example equalsExample: anExample) ifTrue: [ ^ true ] ];
-		yourself) value.
-	^ false
+{ #category : #testing }
+GTExample >> hasDependency: aGTExample [
+	^ self arguments anySatisfy: [ :each | each matchesExample: aGTExample ]
 ]
 
 { #category : #DEPRECATED }
@@ -434,17 +456,24 @@ GTExample >> hasDependent [
 	^ self dependents notEmpty
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #testing }
 GTExample >> hasDependent: anExample [
-	(self traverser reversed
-		action: [ :example | (example equalsExample: anExample) ifTrue: [ ^ true ] ];
-		yourself) value.
-	^ false
+	^ self dependents anySatisfy: [ :each | each matchesExample: anExample ]
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #testing }
 GTExample >> hasDependents [
 	^ self dependents notEmpty
+]
+
+{ #category : #testing }
+GTExample >> hasFailures [
+	^ failures notEmpty
+]
+
+{ #category : #testing }
+GTExample >> hasMethod [
+	^ self exists
 ]
 
 { #category : #DEPRECATED }
@@ -453,7 +482,7 @@ GTExample >> hasParentExample [
 	^ self hasDependent
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #testing }
 GTExample >> hasRelationships [
 	^ self hasDependents
 		or: [ self hasDependencies ]
@@ -466,24 +495,28 @@ GTExample >> hasSubject: aSubject [
 		ifNone: [ self subjects includes: aSubject ]
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> hasValidAfterArguments [
-	^ self after isNil
-		or: [ self after hasValidArguments
-			and: [ (self method variableNodes collect: [ :e | e name ]) includesAll: self after arguments ] ]
+{ #category : #testing }
+GTExample >> hasSubjects [
+	^ self subjects notEmpty
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #testing }
+GTExample >> hasValidAfterArguments [
+	^ self hasAfterArguments not
+		or: [ self after hasValidArguments ]
+]
+
+{ #category : #testing }
 GTExample >> hasValidArguments [
 	^ self arguments size = self method numArgs
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #testing }
 GTExample >> hasValidDependencies [
-	[ self dependencies ]
-		on: Error
-		do: [ ^ false ].
-	^ true
+	^ self hasDependencies
+		and: [ self hasValidArguments 
+			and: [ self dependencies allSatisfy: [ :each | 
+					each notNil and: [ each exists ] ] ] ]
 ]
 
 { #category : #testing }
@@ -540,7 +573,7 @@ GTExample >> iconSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return an icon form'>
 	
-	form := (self provider perform: aSelector)
+	form := self provider perform: aSelector
 ]
 
 { #category : #'pragma-selectors' }
@@ -587,8 +620,7 @@ GTExample >> initialize [
 	children := OrderedCollection new.
 	subjects := Set new.
 	failures := Set new.
-	exceptions := ExceptionSet new.
-	
+	exceptions := ExceptionSet new.	
 	properties := IdentityDictionary new.
 ]
 
@@ -699,9 +731,8 @@ GTExample >> methodForSelector: aSelector [
 	^ self methodForProvider: self provider selector: aSelector
 ]
 
-{ #category : #DEPRECATED }
+{ #category : #'accessing-dynamic' }
 GTExample >> methodReference [
-	self deprecated: 'The selector #methodReference is obsolete'.
 	^ self method asRingDefinition
 ]
 
@@ -735,6 +766,13 @@ GTExample >> noTestReport [
 	<description: 'Do not run this example while running HDTestReport (not yet implemented)'>
 	
 	self propertyAt: #noTestReport put: true
+]
+
+{ #category : #ui }
+GTExample >> painter [
+	^ GTExamplePainter new 
+		example: self;
+		yourself
 ]
 
 { #category : #DEPRECATED }
@@ -784,7 +822,7 @@ GTExample >> provider [
 		ifFalse: [ self methodClass theNonMetaClass new ]
 ]
 
-{ #category : #public }
+{ #category : #DEPRECATED }
 GTExample >> providerClass [
 	^ self provider class
 ]
@@ -834,7 +872,7 @@ GTExample >> reinitialize [
 		initializeFromMethod: method forExample: self
 ]
 
-{ #category : #public }
+{ #category : #DEPRECATED }
 GTExample >> removeFromSystem [
 	self finder remove: self ifPresent: [ self detachFromSystem ]
 ]

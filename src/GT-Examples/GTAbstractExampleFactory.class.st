@@ -30,7 +30,7 @@ GTAbstractExampleFactory >> createExample: aCompiledMethod [
 
 { #category : #'accessing-defaults' }
 GTAbstractExampleFactory >> defaultCache [
-	^ GTExampleOrganizer instance
+	^ self "GTExampleOrganizer instance"
 ]
 
 { #category : #private }
