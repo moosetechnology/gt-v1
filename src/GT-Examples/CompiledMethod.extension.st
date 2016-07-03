@@ -14,7 +14,7 @@ CompiledMethod >> gtExample [
 	^ nil
 ]
 
-{ #category : #'*GT-Examples-Convenience' }
+{ #category : #'*GT-Examples-Core' }
 CompiledMethod >> gtExampleValue [
 	^ self gtExample returnValue
 ]

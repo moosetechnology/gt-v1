@@ -53,13 +53,13 @@ GTAbstractExampleFactory >> exampleFromMethod: aCompiledMethod do: aBlock [
 	aBlock value: (self cache exampleAt: aCompiledMethod ifAbsentPut: [ self createExample: aCompiledMethod ])
 ]
 
-{ #category : #enumeration }
+{ #category : #private }
 GTAbstractExampleFactory >> exampleMethod: aCompiledMethod do: aBlock [
 	(self isExampleMethod: aCompiledMethod) ifFalse: [ ^ self ].
 	self exampleFromMethod: aCompiledMethod do: aBlock
 ]
 
-{ #category : #enumeration }
+{ #category : #private }
 GTAbstractExampleFactory >> exampleMethodsDo: aBlock [
 	self source theNonMetaClass methods
 		select: [ :each | self isExampleMethod: each ]
@@ -70,7 +70,7 @@ GTAbstractExampleFactory >> exampleMethodsDo: aBlock [
 		
 ]
 
-{ #category : #enumeration }
+{ #category : #private }
 GTAbstractExampleFactory >> examplesDo: aBlock [
 	self exampleMethodsDo: [ :method |
 		self exampleFromMethod: method do: aBlock ]

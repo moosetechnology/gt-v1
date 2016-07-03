@@ -27,14 +27,6 @@ GTExampleResult >> debug [
 	^ self example debug
 ]
 
-{ #category : #private }
-GTExampleResult >> detachFromSystem [
-	example ifNotNil: [ 
-		example result: nil.
-		GTExampleNautilusAction methodChanged: example method ].
-	example := returnValue := expectedError := unexpectedError := nil.
-]
-
 { #category : #accessing }
 GTExampleResult >> example [
 	^ example

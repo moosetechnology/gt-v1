@@ -1,6 +1,6 @@
 Extension { #name : #SystemNavigation }
 
-{ #category : #'*GT-Examples-UI' }
+{ #category : #'*GT-Examples-Core' }
 SystemNavigation >> examplesReferencesTo: aLiteral [
 	^ GTExampleOrganizer instance examplesSelect: [ :each | 
 			(each hasSubject: aLiteral)

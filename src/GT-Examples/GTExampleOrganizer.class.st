@@ -10,7 +10,7 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'GT-Examples-Announcements'
+	#category : #'GT-Examples-Utils'
 }
 
 { #category : #examples }
@@ -272,20 +272,20 @@ GTExampleOrganizer >> stop [
 { #category : #private }
 GTExampleOrganizer >> stopMonticelloAnnouncements [
 	self announcer 
-		unsubscribe: MCVersionLoaderStarted thoroughlyfor: self;
-		unsubscribe: MCVersionLoaderStopped thoroughlyfor: self.
+		unsubscribe: MCVersionLoaderStarted thoroughlyFor: self;
+		unsubscribe: MCVersionLoaderStopped thoroughlyFor: self.
 	monticelloAnnouncements := false
 ]
 
 { #category : #private }
 GTExampleOrganizer >> stopSystemAnnouncements [
 	self announcer 
-		unsubscribe: MethodAdded thoroughlyfor: self;
-		unsubscribe: MethodModified thoroughlyfor: self;
-		unsubscribe: MethodRemoved thoroughlyfor: self;
-		unsubscribe: ClassRemoved thoroughlyfor: self;
-		unsubscribe: ClassRenamed thoroughlyfor: self;
-		unsubscribe: CategoryRemoved thoroughlyfor: self.
+		unsubscribe: MethodAdded thoroughlyFor: self;
+		unsubscribe: MethodModified thoroughlyFor: self;
+		unsubscribe: MethodRemoved thoroughlyFor: self;
+		unsubscribe: ClassRemoved thoroughlyFor: self;
+		unsubscribe: ClassRenamed thoroughlyFor: self;
+		unsubscribe: CategoryRemoved thoroughlyFor: self.
 	systemAnnouncements := false
 ]
 

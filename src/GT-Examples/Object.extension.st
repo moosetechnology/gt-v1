@@ -1,26 +1,10 @@
 Extension { #name : #Object }
 
 { #category : #'*GT-Examples-Core' }
-Object class >> asGTExampleSubject [
-	^ GTExampleClassSubject new 
-		subjectClass: self;
-		yourself
-]
-
-{ #category : #'*GT-Examples-Core' }
 Object >> asGTExampleSubject [
 	^ GTExampleInstanceSubject new 
 		instance: self;
 		yourself
-]
-
-{ #category : #'*GT-Examples-Core-private' }
-Object >> detachFromSystem [
-]
-
-{ #category : #'*GT-Examples-Core' }
-Object >> equalsExample: anExampleOrExampleFutureOrSomethingElse [
-	^ false
 ]
 
 { #category : #'*GT-Examples-Core' }
@@ -51,12 +35,12 @@ Object >> gtExamples [
 	^ self class gtExamples
 ]
 
-{ #category : #'*GT-Examples-UI' }
+{ #category : #'*GT-Examples-Core' }
 Object >> gtExamplesContained [
 	^ self gtExamples
 ]
 
-{ #category : #'*GT-Examples-UI' }
+{ #category : #'*GT-Examples-Core' }
 Object >> gtExamplesFactory [
 	^ self class gtExamplesFactory
 ]
@@ -73,7 +57,6 @@ Object >> gtExamplesSubjects [
 
 { #category : #'*GT-Examples-Core' }
 Object >> isGTExample [
-	
 	^ false
 ]
 

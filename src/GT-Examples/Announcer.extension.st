@@ -1,7 +1,7 @@
 Extension { #name : #Announcer }
 
 { #category : #'*GT-Examples-Core' }
-Announcer >> unsubscribe: anAnnouncementClass thoroughlyfor: aSubscriber [
+Announcer >> unsubscribe: anAnnouncementClass thoroughlyFor: aSubscriber [
 	^ registry protected: [
 		registry subscriptions removeAllSuchThat: [ :subscription | 
 			subscription subscriber class == aSubscriber class " class !!! "

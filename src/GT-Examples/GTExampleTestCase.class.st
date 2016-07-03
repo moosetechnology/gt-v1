@@ -12,6 +12,15 @@ GTExampleTestCase class >> isAbstract [
 	^ self name = #GTExampleTestCase
 ]
 
+{ #category : #private }
+GTExampleTestCase >> package: package matchesPackagePattern: packageName [
+	^ package packageName = packageName
+		or: [ (packageName match: package packageName) 
+			or: [ [ package packageName matchesRegexIgnoringCase: packageName ] 
+						on: Error 
+						do: [ false ] ] ]
+]
+
 { #category : #configuration }
 GTExampleTestCase >> packageNames [
 	^ {  }
@@ -23,7 +32,7 @@ GTExampleTestCase >> packages: aCollection [
 	packages := OrderedCollection new.
 	RPackageOrganizer default packages do: [ :package |
 		aCollection do: [ :packageName |
-			(package matchesPackagePattern: packageName) ifTrue: [ 
+			(self package: package matchesPackagePattern: packageName) ifTrue: [ 
 				packages add: package ] ] ].
 	^ packages
 ]

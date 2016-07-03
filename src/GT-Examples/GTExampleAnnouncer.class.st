@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'GT-Examples-Announcements'
+	#category : #'GT-Examples-Utils'
 }
 
 { #category : #public }

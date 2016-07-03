@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : #'GT-Examples-Processing'
+	#category : #'GT-Examples-Utils'
 }
 
 { #category : #accessing }

@@ -193,13 +193,6 @@ GTExample >> directDependents [
 	^ (GTExampleOrganizer instance examplesSelect: [ :each | each hasDependency: self ]) asSet
 ]
 
-{ #category : #testing }
-GTExample >> equalsExample: anExampleOrExampleProxy [
-	^ anExampleOrExampleProxy isGTExample
-		ifTrue: [ self class = anExampleOrExampleProxy class and: [ self = anExampleOrExampleProxy ] ]
-		ifFalse: [ anExampleOrExampleProxy equalsExample: self ]
-]
-
 { #category : #'accessing-dynamic' }
 GTExample >> evaluator [
 	^ GTExampleEvaluator new 

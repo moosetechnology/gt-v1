@@ -1,6 +1,6 @@
 Extension { #name : #RPackageTag }
 
-{ #category : #'*GT-Examples-UI' }
+{ #category : #'*GT-Examples-Core' }
 RPackageTag >> gtExamplesContained [
 	| examples |
 	examples := OrderedCollection new.

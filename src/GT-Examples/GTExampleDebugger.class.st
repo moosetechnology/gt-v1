@@ -1,7 +1,7 @@
 Class {
 	#name : #GTExampleDebugger,
 	#superclass : #GTExampleEvaluator,
-	#category : #'GT-Examples-Processing'
+	#category : #'GT-Examples-Utils'
 }
 
 { #category : #private }

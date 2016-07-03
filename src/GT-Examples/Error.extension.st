@@ -6,8 +6,3 @@ Error >> asGTExamplePragmaError [
 		signaledException: self;
 		yourself
 ]
-
-{ #category : #'*GT-Examples-Exceptions' }
-Error >> isExamplesFailure [
-	^ true
-]
