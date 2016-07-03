@@ -51,7 +51,7 @@ GTExampleMethod >> gtExample [
 
 { #category : #testing }
 GTExampleMethod >> hasExample [
-	self exists
+	^ self exists
 		and: [ self method isGTExampleMethod ]
 ]
 
@@ -67,6 +67,11 @@ GTExampleMethod >> hash [
 		bitXor: self methodClassName hash)
 			bitXor: self methodClass hash)
 				bitXor: self selector hash
+]
+
+{ #category : #testing }
+GTExampleMethod >> isValid [
+	^ self exists
 ]
 
 { #category : #testing }

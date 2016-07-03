@@ -70,11 +70,6 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	after := self methodForClassNamed: aClassOrClassName selector: aSelector
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> afterFinish [
-	^ afterFinish
-]
-
 { #category : #'accessing-dynamic' }
 GTExample >> allDependencies [
 	| examples |
@@ -98,17 +93,6 @@ GTExample >> allDependents [
 { #category : #'accessing-dynamic' }
 GTExample >> arguments [
 	^ children asArray
-]
-
-{ #category : #DEPRECATED }
-GTExample >> children [
-	^ children
-]
-
-{ #category : #DEPRECATED }
-GTExample >> childrenExamples [
-	self deprecated: 'Please use #dependencies instead'.
-	^ self dependencies
 ]
 
 { #category : #private }
@@ -156,14 +140,6 @@ GTExample >> dependenciesOrArguments [
 	^ self arguments collect: [ :each | each gtExample ifNil: [ each ] ]
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> dependenciesOrErrors [
-	^ self arguments collect: [ :each | 
-		[ each example ] 
-			on: Error 
-			do: [ :exception | exception ] ]
-]
-
 { #category : #'accessing-dynamic' }
 GTExample >> dependents [
 	^ Smalltalk gtExamplesContained select: [ :each | each hasDependency: self ]
@@ -207,26 +183,6 @@ GTExample >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> detachFromSystem [
-	self detachResultFromSystem.
-	(self traverser reversed
-		action: [ :example | example detachResultFromSystem ];
-		onRecursionError: [ :aProcessor :anExample | " ignore and continue " ];
-		yourself) value.
-	children do: [ :proxy | proxy detachFromSystem ].
-	parents do: [ :proxy | proxy detachFromSystem ].
-	children := OrderedCollection new.
-	parents := Set new.
-]
-
-{ #category : #DEPRECATED }
-GTExample >> detachResultFromSystem [
-	result ifNil: [ ^ self ].
-	result detachFromSystem.
-	result := nil.
-]
-
 { #category : #testing }
 GTExample >> equalsExample: anExampleOrExampleProxy [
 	^ anExampleOrExampleProxy isGTExample
@@ -251,28 +207,17 @@ GTExample >> exists [
 	^ self methodClass includesSelector: self selector
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> extractionStrategy [
-	self deprecated: 'Please define your examples using pragmas'.
-	^ self shouldNotImplement
-]
-
-{ #category : #DEPRECATED }
-GTExample >> extractionStrategy: anObject [
-	self deprecated: 'Please define your examples using pragmas'.
-	self shouldNotImplement
-]
-
-{ #category : #DEPRECATED }
-GTExample >> finder [ 
-	^ finder
+{ #category : #accessing }
+GTExample >> failures [
+	^ failures
 ]
 
 { #category : #ui }
 GTExample >> gtDebuggerSourceIn: composite [
 	<gtDebuggerPresentationOrder: 1>
 	self hasMethod ifFalse: [ ^ self ].
-	self method gtInspectorSourceIn: composite
+	^ (self method gtInspectorSourceIn: composite)
+		title: 'Method'
 ]
 
 { #category : #ui }
@@ -283,20 +228,16 @@ GTExample >> gtDisplayOn: aStream [
 	aStream nextPutAll: ')'
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> gtDisplaySourceIn: composite [
-	self deprecated: 'Please use #gtInspectorSourceIn: instead'.
-	^ self gtInspectorSourceIn: composite
-]
-
 { #category : #ui }
 GTExample >> gtDisplaySummaryOn: aStream. [
 	self label isEmptyOrNil 
 		ifFalse: [ ^ aStream nextPutAll: self label ].
 	self description isEmptyOrNil 
 		ifFalse: [ ^ aStream nextPutAll: self description ].
-	self hasMethod ifTrue: [ 
-		aStream nextPutAll: self method printString ]
+	aStream 
+		print: self methodClass; 
+		nextPutAll: '>>'; 
+		print: self selector.
 ]
 
 { #category : #'pragma-selectors' }
@@ -312,12 +253,6 @@ GTExample >> gtExample: anObject [
 	<toBeDeprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'>
 	self label: anObject.
 	self gtExample
-]
-
-{ #category : #DEPRECATED }
-GTExample >> gtExampleFrom: aSelector [
-	self deprecated: 'Please define your example-dependencies using the pragma #depends: or #dependsClass:selector: or #dependsAll:'.
-	self depends: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
@@ -356,18 +291,18 @@ GTExample >> gtInspectorDependentsIn: composite [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorMethodIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	self hasMethod ifFalse: [ ^ self ].
+	^ (self method gtInspectorSourceIn: composite)
+		title: 'Method'
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasRelationships ifFalse: [ ^ self ].
 	^ self painter gtInspectorRoassalIn: composite
-]
-
-{ #category : #ui }
-GTExample >> gtInspectorSourceIn: composite [
-	<gtInspectorPresentationOrder: 0>
-	self hasMethod ifFalse: [ ^ self ].
-	^ (self method gtInspectorSourceIn: composite)
-		title: 'Source'
 ]
 
 { #category : #ui }
@@ -397,7 +332,7 @@ GTExample >> gtSpotterMethodFor: aStep [
 	<spotterOrder: 103>
 	self hasMethod ifFalse: [ ^ self ].
 	aStep listProcessor
-		title: 'Example Method';
+		title: 'Method';
 		items: [ Array with: self method ];
 		itemName: [ :aSource | aSource gtDisplayString ];
 		filter: GTFilterSubstring
@@ -451,11 +386,6 @@ GTExample >> hasDependency: aGTExample [
 	^ self arguments anySatisfy: [ :each | each matchesExample: aGTExample ]
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> hasDependent [
-	^ self dependents notEmpty
-]
-
 { #category : #testing }
 GTExample >> hasDependent: anExample [
 	^ self dependents anySatisfy: [ :each | each matchesExample: anExample ]
@@ -474,12 +404,6 @@ GTExample >> hasFailures [
 { #category : #testing }
 GTExample >> hasMethod [
 	^ self exists
-]
-
-{ #category : #DEPRECATED }
-GTExample >> hasParentExample [
-	self deprecated: 'Please use #hasDependent instead'.
-	^ self hasDependent
 ]
 
 { #category : #testing }
@@ -592,16 +516,6 @@ GTExample >> iconThemeSelector: aSelector [
 	form := Smalltalk ui icons perform: aSelector
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> ignoreCache [
-	^ self propertyAt: #noCache ifAbsent: [ false ]
-]
-
-{ #category : #DEPRECATED }
-GTExample >> ignoreNotification [
-	^ self propertyAt: #noNotification ifAbsent: [ false ]
-]
-
 { #category : #testing }
 GTExample >> ignoreTest [
 	^ self propertyAt: #noTest ifAbsent: [ false ]
@@ -624,32 +538,6 @@ GTExample >> initialize [
 	properties := IdentityDictionary new.
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> initializeFromFinder: aFinder withPragma: aPragma [
-	finder := aFinder.
-	pragma := aPragma.
-	source := aFinder source.
-	provider := aFinder provider.	
-	subjects := aFinder subjects.
-	exceptions := ExceptionSet new.
-	children := OrderedCollection new.
-	parents := Set new.
-	properties := IdentityDictionary new.
-	
-	aPragma method pragmas do: [ :p |
-		(self class canPerform: p keyword) 
-			ifTrue: [ self perform: p keyword withArguments: p arguments ] ].
-]
-
-{ #category : #DEPRECATED }
-GTExample >> initializeIconWith: aBlock [
-	<todo: 'come up with something better than an empty & generic exception handler'>
-	" We don't want to throw exceptions while examples are being created. We regard those as optional / nice-to-have. "
-	[ aBlock value ]
-		on: Error
-		do: [ :exception | ]
-]
-
 { #category : #testing }
 GTExample >> isGTExample [
 	^ true
@@ -657,7 +545,7 @@ GTExample >> isGTExample [
 
 { #category : #testing }
 GTExample >> isValid [
-	^ self traverser canProcess
+	^ self failures isEmpty
 ]
 
 { #category : #accessing }
@@ -704,11 +592,9 @@ GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
 		yourself
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> methodForClass: aClassOrClassName selector: aSelector [
-	^ aClassOrClassName isClass 
-		ifTrue: [ self methodForProvider: aClassOrClassName gtExamplesProvider selector: aSelector ]
-		ifFalse: [ self methodForClassNamed: aClassOrClassName selector: aSelector ]
+{ #category : #private }
+GTExample >> methodForClass: aClass selector: aSelector [
+	^ self methodForClass: aClass named: aClass name selector: aSelector
 ]
 
 { #category : #private }
@@ -718,38 +604,14 @@ GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
 		ifNone: [ self methodForClass: nil named: aClassOrClassName selector: aSelector ]
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> methodForProvider: aProvider selector: aSelector [
-	^ GTExampleProviderMethod new
-		provider: aProvider;
-		selector: aSelector asSymbol;
-		yourself
-]
-
 { #category : #private }
 GTExample >> methodForSelector: aSelector [
-	^ self methodForProvider: self provider selector: aSelector
+	^ self methodForClass: self methodClass selector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
 GTExample >> methodReference [
 	^ self method asRingDefinition
-]
-
-{ #category : #DEPRECATED }
-GTExample >> noCache [
-	<gtExamplePragma>
-	<description: 'Never cache the result/returnValue of this example'>
-	
-	self propertyAt: #noCache put: true
-]
-
-{ #category : #DEPRECATED }
-GTExample >> noNotification [
-	<gtExamplePragma>
-	<description: 'Do not show any notification for this example'>
-	
-	self propertyAt: #noNotification put: true
 ]
 
 { #category : #'pragma-selectors' }
@@ -773,22 +635,6 @@ GTExample >> painter [
 	^ GTExamplePainter new 
 		example: self;
 		yourself
-]
-
-{ #category : #DEPRECATED }
-GTExample >> parentExample: anObject [
-	self deprecated: 'Please use #dependencies or #children instead'.
-	self shouldNotImplement
-]
-
-{ #category : #DEPRECATED }
-GTExample >> parents [
-	^ parents
-]
-
-{ #category : #DEPRECATED }
-GTExample >> pragma [
-	^ pragma
 ]
 
 { #category : #accessing }
@@ -822,31 +668,6 @@ GTExample >> provider [
 		ifFalse: [ self methodClass theNonMetaClass new ]
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> providerClass [
-	^ self provider class
-]
-
-{ #category : #DEPRECATED }
-GTExample >> proxyForClass: aClass selector: aSelector [
-	" we have to resolve the kind of example again - it could be implemented in #class or in the provider of #class ! "
-	^ self proxyForProvider: aClass gtExamplesProvider selector: aSelector
-]
-
-{ #category : #DEPRECATED }
-GTExample >> proxyForProvider: aProvider selector: aSelector [
-	^ GTExampleProxy new
-		owner: self;
-		provider: aProvider;
-		selector: aSelector asSymbol;
-		yourself
-]
-
-{ #category : #DEPRECATED }
-GTExample >> proxyForSelector: aSelector [
-	^ self proxyForProvider: self provider selector: aSelector
-]
-
 { #category : #'pragma-selectors' }
 GTExample >> raises: aClassOrClassName [
 	<gtExamplePragma>
@@ -872,33 +693,6 @@ GTExample >> reinitialize [
 		initializeFromMethod: method forExample: self
 ]
 
-{ #category : #DEPRECATED }
-GTExample >> removeFromSystem [
-	self finder remove: self ifPresent: [ self detachFromSystem ]
-]
-
-{ #category : #DEPRECATED }
-GTExample >> result [
-	^ result ifNil: [ self run ]
-]
-
-{ #category : #DEPRECATED }
-GTExample >> result: aResult [
-	result := aResult
-]
-
-{ #category : #DEPRECATED }
-GTExample >> resultCached [
-	^ result
-]
-
-{ #category : #DEPRECATED }
-GTExample >> resultCached: aResult [
-	self ignoreCache ifFalse: [ result := aResult ].
-	GTExampleNautilus methodUpdated: self method with: aResult.
-	^ aResult
-]
-
 { #category : #'accessing-dynamic' }
 GTExample >> returnValue [
 	^ self result returnValue
@@ -922,11 +716,6 @@ GTExample >> selector: aSelector [
 { #category : #'accessing-dynamic' }
 GTExample >> signalableExceptions [
 	^ self exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. }
-]
-
-{ #category : #DEPRECATED }
-GTExample >> source [
-	^ source
 ]
 
 { #category : #'accessing-dynamic' }
@@ -964,18 +753,6 @@ GTExample >> subjectsAll: aString [
 GTExample >> substrings: aString do: aBlock [
 	(aString substrings: ' .,;') do: [ :each | 
 		aBlock value: each trimBoth ]
-]
-
-{ #category : #DEPRECATED }
-GTExample >> title [
-	self deprecated: 'Please define your examples using pragmas'.
-	^ self label
-]
-
-{ #category : #DEPRECATED }
-GTExample >> title: aString [
-	self deprecated: 'Please define your examples using pragmas'.
-	self label: aString
 ]
 
 { #category : #'accessing-dynamic' }

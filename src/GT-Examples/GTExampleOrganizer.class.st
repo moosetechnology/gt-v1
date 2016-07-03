@@ -2,7 +2,6 @@ Class {
 	#name : #GTExampleOrganizer,
 	#superclass : #Object,
 	#instVars : [
-		'examples',
 		'theNonMetaClassExamples',
 		'theMetaClassExamples',
 		'systemAnnouncements',
@@ -193,7 +192,7 @@ GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsentPut: aBlock [
 
 { #category : #DEPRECATED }
 GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlock [
-	((class isMeta 
+	^ ((class isMeta 
 		ifTrue: [ theMetaClassExamples ]
 		ifFalse: [ theNonMetaClassExamples ]) 
 			at: class name

@@ -21,10 +21,7 @@ CompiledMethod >> gtExampleValue [
 
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> gtExamples [
-	| examples |
-	examples := OrderedCollection new.
-	self methodClass theNonMetaClass gtExamplesFinder method: self to: examples.
-	^ examples
+	^ { self gtExample }
 ]
 
 { #category : #'*GT-Examples-Core' }
