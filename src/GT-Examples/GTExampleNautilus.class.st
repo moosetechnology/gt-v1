@@ -23,71 +23,83 @@ GTExampleNautilus class >> methodUpdated: aCompiledMethod with: aResult [
 ]
 
 { #category : #private }
-GTExampleNautilus >> examples: aCollection [
-	^ aCollection size = 1
-		ifTrue: [ aCollection anyOne ]
-		ifFalse: [ aCollection ]
+GTExampleNautilus >> examples: aBlock [
+	^ aBlock value
 ]
 
 { #category : #private }
-GTExampleNautilus >> examples: aCollection do: aSelector [
-	^ aCollection size = 1
-		ifTrue: [ aCollection anyOne perform: aSelector ]
-		ifFalse: [ aCollection collect: aSelector ]
+GTExampleNautilus >> examples: aBlock1 collect: aBlock2 [
+	^ aBlock1 value collect: [ :example | example -> (aBlock2 value: example) ]
+]
+
+{ #category : #private }
+GTExampleNautilus >> examples: aBlock1 do: aBlock2 [
+	^ aBlock1 value do: aBlock2
 ]
 
 { #category : #public }
 GTExampleNautilus >> onClass: aBuilder [
-	| target class examples |
+	| target class |
+	
 	target := aBuilder model.
 	(class := target selectedClass) ifNil: [ ^ self ].
+	
+	"
 	self onReferences: class theNonMetaClass name builder: aBuilder.
 	self onProvider: class theNonMetaClass builder: aBuilder.
 	self onSource: class theNonMetaClass builder: aBuilder.
-	(examples := class theNonMetaClass gtExamplesContained) isEmptyOrNil ifTrue: [ ^ self ].
-	self onExamples: examples builder: aBuilder
+	"
+	
+	self onExamples: [ (class isMeta 
+		ifTrue: [ class ] 
+		ifFalse: [ class theNonMetaClass ]) gtExamplesContained ] builder: aBuilder
 ]
 
 { #category : #public }
 GTExampleNautilus >> onCompiledMethod: aBuilder [
 	| target method examples |
+	
 	target := aBuilder model.
 	(method := target selectedMethod) ifNil: [ ^ self ].
 	self onReferences: method selector builder: aBuilder.
-	(examples := method gtExamplesContained) isEmptyOrNil ifTrue: [ ^ self ].
-	self onExamples: examples builder: aBuilder
-
+	
+	self onExamples: [ method gtExamples ] builder: aBuilder
 ]
 
-{ #category : #public }
-GTExampleNautilus >> onExamples: aCollection builder: aBuilder [
+{ #category : #private }
+GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
 	(aBuilder item: #'Inspect Examples')
-		order: 90003;
-		action: [ (self examples: aCollection) inspect ].
+		order: 90000;
+		action: [ (self examples: aBlock) inspect ].
 	
 	(aBuilder item: #'Inspect Return-Values')
-		order: 90004;
-		action: [ (self examples: aCollection do: #returnValue) inspect ].
+		order: 90001;
+		action: [ (self examples: aBlock collect: [ :example | example returnValue ]) inspect ].
+		
+	(aBuilder item: #'Inspect Results (full)')
+		order: 90002;
+		action: [ (self examples: aBlock collect: [ :example | example result ]) inspect ].
 		
 	(aBuilder item: #'Run Examples')
-		order: 10004;
-		action: [ (self examples: aCollection do: #run) inspect ].
+		order: 90003;
+		action: [ self examples: aBlock do: #run ].
 		
 	(aBuilder item: #'Debug Examples')
-		order: 10005;
-		action: [ (self examples: aCollection do: #debug) ].
+		order: 90004;
+		action: [ self examples: aBlock do: #debug ].
 		
 		
 ]
 
 { #category : #public }
 GTExampleNautilus >> onPackage: aBuilder [
-	| target package examples |
+	| target package |
+	
 	target := aBuilder model.
 	(package := target selectedPackage) ifNil: [ ^ self ].
 	package item ifNil: [ ^ self ].
-	(examples := package item gtExamplesContained) isEmptyOrNil ifTrue: [ ^ self ].
-	self onExamples: examples builder: aBuilder
+	
+	self onExamples: [ package gtExamplesContained ] builder: aBuilder
 ]
 
 { #category : #public }

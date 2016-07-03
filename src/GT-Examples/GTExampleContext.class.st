@@ -1,5 +1,5 @@
 Class {
 	#name : #GTExampleContext,
 	#superclass : #IdentityDictionary,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Tools'
 }

@@ -4,25 +4,25 @@ Extension { #name : #AbstractNautilusUI }
 AbstractNautilusUI classSide >> examplesClassMenu: aBuilder [
 	<contextMenu>
 	<nautilusGlobalClassMenu>
-	"^ GTExampleNautilus new
+	^ GTExampleNautilus new
 		onClass: aBuilder;
-		yourself"
+		yourself
 ]
 
 { #category : #'*GT-Examples-UI' }
 AbstractNautilusUI classSide >> examplesMethodMenu: aBuilder [
 	<contextMenu>
 	<nautilusGlobalMethodMenu>
-	"^ GTExampleNautilus new
+	^ GTExampleNautilus new
 		onCompiledMethod: aBuilder;
-		yourself"
+		yourself
 ]
 
 { #category : #'*GT-Examples-UI' }
 AbstractNautilusUI classSide >> examplesPackageMenu: aBuilder [
 	<contextMenu>
 	<nautilusGlobalPackageMenu>
-	"^ GTExampleNautilus new
+	^ GTExampleNautilus new
 		onPackage: aBuilder;
-		yourself"
+		yourself
 ]
