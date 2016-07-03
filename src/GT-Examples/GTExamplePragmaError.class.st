@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-Examples-Exceptions'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #converting }
 GTExamplePragmaError >> asGTExamplePragmaError [
 	^ self
 ]

@@ -25,7 +25,7 @@ Class {
 		'children',
 		'properties',
 		'after',
-		'failures'
+		'problems'
 	],
 	#category : #'GT-Examples-Core'
 }
@@ -208,11 +208,6 @@ GTExample >> exceptions [
 { #category : #testing }
 GTExample >> exists [
 	^ self methodClass includesSelector: self selector
-]
-
-{ #category : #accessing }
-GTExample >> failures [
-	^ failures
 ]
 
 { #category : #ui }
@@ -400,13 +395,13 @@ GTExample >> hasDependents [
 ]
 
 { #category : #testing }
-GTExample >> hasFailures [
-	^ failures notEmpty
+GTExample >> hasMethod [
+	^ self exists
 ]
 
 { #category : #testing }
-GTExample >> hasMethod [
-	^ self exists
+GTExample >> hasProblems [
+	^ problems notEmpty
 ]
 
 { #category : #testing }
@@ -533,10 +528,9 @@ GTExample >> ignoreTestReport [
 GTExample >> initialize [
 	super initialize.
 	
-	parents := Set new.
 	children := OrderedCollection new.
 	subjects := Set new.
-	failures := Set new.
+	problems := Set new.
 	exceptions := ExceptionSet new.	
 	properties := IdentityDictionary new.
 ]
@@ -548,7 +542,7 @@ GTExample >> isGTExample [
 
 { #category : #testing }
 GTExample >> isValid [
-	^ self failures isEmpty
+	^ self hasProblems not
 		and: [ self traverser canProcess ]
 ]
 
@@ -640,6 +634,11 @@ GTExample >> painter [
 	^ GTExamplePainter new 
 		example: self;
 		yourself
+]
+
+{ #category : #accessing }
+GTExample >> problems [
+	^ problems
 ]
 
 { #category : #accessing }

@@ -5,13 +5,21 @@ Class {
 }
 
 { #category : #private }
+GTExampleNautilus >> browseReferencesTo: aLiteral [ 
+	(SystemNavigation default examplesReferencesTo: aLiteral) 
+		ifNotEmpty: [ :examples | examples inspect ]
+		ifEmpty: [ UIManager default inform: 'No examples found for #', aLiteral asString ] 
+]
+
+{ #category : #private }
 GTExampleNautilus >> examples: aBlock [
 	^ aBlock value
 ]
 
 { #category : #private }
 GTExampleNautilus >> examples: aBlock1 collect: aBlock2 [
-	^ aBlock1 value collect: [ :example | example -> (aBlock2 value: example) ]
+	^ aBlock1 value collect: [ :example | 
+		example -> (aBlock2 value: example) ]
 ]
 
 { #category : #private }
@@ -103,8 +111,5 @@ GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
 		parent: #gte;
 		order: 90100;
 		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
-		action: [
-			(SystemNavigation default examplesReferencesTo: aLiteral) 
-				ifNotEmpty: [ :examples | examples inspect ]
-				ifEmpty: [ UIManager default inform: 'No examples found for #', aLiteral asString ] ].
+		action: [ self browseReferencesTo: aLiteral ].
 ]

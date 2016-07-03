@@ -58,6 +58,13 @@ GTExampleResult >> gtDisplayOn: aStream [
 ]
 
 { #category : #testing }
+GTExampleResult >> hasProblems [
+	^ self example hasProblems
+		or: [ self isFailure
+			or: [ self isError ] ]
+]
+
+{ #category : #testing }
 GTExampleResult >> isError [
 	^ self isSuccess not
 		and: [ self unexpectedError isExampleError ]
