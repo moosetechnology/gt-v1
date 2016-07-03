@@ -71,7 +71,7 @@ GTExampleOrganizer >> announcer [
 	^ SystemAnnouncer uniqueInstance weak
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> atMethod: aCompiledMethod ifAbsentPut: aBlock [
 	<todo: '#theNonMetaClass is not good since we could not put examples to the instance and class-side at once'>
 	^ (examples 
@@ -244,7 +244,7 @@ GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ GTExampleFinder allGTExamples ];
+		allCandidates: [ Smalltalk gtExamplesContained ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -365,7 +365,7 @@ GTExampleOrganizer >> regenerate [
 	SmalltalkImage current gtExamplesContained
 ]
 
-{ #category : #accessing }
+{ #category : #DEPRECATED }
 GTExampleOrganizer >> removeAtMethod: aCompiledMethod ifPresent: aBlock [
 	(examples 
 		at: aCompiledMethod methodClass theNonMetaClass name 
