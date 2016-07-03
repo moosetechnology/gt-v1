@@ -64,7 +64,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodForClass: aClassOrClassName selector: aSelector
+	after := self methodForClassNamed: aClassOrClassName selector: aSelector
 ]
 
 { #category : #DEPRECATED }
@@ -166,7 +166,7 @@ GTExample >> depends: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self proxyForSelector: aSelector)
+	children add: (self methodForSelector: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -183,8 +183,7 @@ GTExample >> dependsClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	self classNamed: aClassOrClassName do: [ :class | 
-		children add: (self proxyForClass: class selector: aSelector) ]
+	children add: (self methodForClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #accessing }
@@ -656,20 +655,24 @@ GTExample >> method [
 ]
 
 { #category : #private }
-GTExample >> methodForClass: aClassOrClassName selector: aSelector [
-	^ aClassOrClassName isClass 
-		ifTrue: [ self methodForProvider: aClassOrClassName gtExamplesProvider selector: aSelector ]
-		ifFalse: [ self methodForClassNamed: aClassOrClassName selector: aSelector ]
+GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
+	^ GTExampleMethod new
+		methodClass: aClass;
+		methodClassName: aClassName;
+		selector: aSelector asSymbol;
+		yourself
+]
+
+{ #category : #private }
+GTExample >> methodForClass: aClass selector: aSelector [
+	^ self methodForClass: aClass named: aClass name selector: aSelector
 ]
 
 { #category : #private }
 GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
 	^ self classNamed: aClassOrClassName 
-		do: [ :class | self methodForClass: class selector: aSelector ] 
-		ifNone: [ GTExampleProviderMethod new 
-						providerName: aClassOrClassName;
-						selector: aSelector asSymbol;
-						yourself ]
+		do: [ :class | self methodForClass: class named: class name selector: aSelector ] 
+		ifNone: [ self methodForClass: nil named: aClassOrClassName selector: aSelector ]
 ]
 
 { #category : #private }
@@ -682,7 +685,7 @@ GTExample >> methodForProvider: aProvider selector: aSelector [
 
 { #category : #private }
 GTExample >> methodForSelector: aSelector [
-	^ self methodForProvider: self provider selector: aSelector
+	^ self methodForClass: self methodClass selector: aSelector
 ]
 
 { #category : #DEPRECATED }

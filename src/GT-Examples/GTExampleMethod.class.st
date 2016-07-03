@@ -2,8 +2,10 @@ Class {
 	#name : #GTExampleMethod,
 	#superclass : #Object,
 	#instVars : [
-		'provider',
-		'selector'
+		'methodClassName',
+		'methodClass',
+		'selector',
+		'arguments'
 	],
 	#category : #'GT-Examples-Utils'
 }
@@ -11,27 +13,62 @@ Class {
 { #category : #testing }
 GTExampleMethod >> = anExampleMethod [
 	^ self class = anExampleMethod class 
-		and: [ self provider = anExampleMethod provider 
-			and: [ self selector = anExampleMethod selector ] ]
+		and: [ self methodClassName = anExampleMethod methodClassName 
+			and: [ self methodClass = anExampleMethod methodClass 
+				and: [ self selector = anExampleMethod selector ] ] ]
+]
+
+{ #category : #accessing }
+GTExampleMethod >> arguments [
+	^ arguments ifNil: [ #() ]
+]
+
+{ #category : #accessing }
+GTExampleMethod >> arguments: anObject [
+	arguments := anObject
+]
+
+{ #category : #private }
+GTExampleMethod >> ensure [
+	methodClass 
+		ifNil: [ methodClass := Smalltalk classNamed: self methodClassName ]
+		ifNotNil: [ methodClass isObsolete ifTrue: [ methodClass := nil ] ]
 ]
 
 { #category : #testing }
 GTExampleMethod >> exists [
-	^ self provider notNil
-		and: [ self providerClass notNil
-			and: [ self providerClass includesSelector: self selector ] ]
+	self ensure.
+	^ self methodClassName notNil
+		and: [ self methodClass notNil
+			and: [ self selector notNil
+				and: [ self methodClass includesSelector: self selector ] ] ]
+]
+
+{ #category : #'accessing-dynamic' }
+GTExampleMethod >> gtExample [
+	^ self hasExample 
+		ifTrue: [ self method gtExample ]
+		ifFalse: [ nil ]
+]
+
+{ #category : #testing }
+GTExampleMethod >> hasExample [
+	self exists
+		and: [ self method isGTExampleMethod ]
 ]
 
 { #category : #testing }
 GTExampleMethod >> hasValidArguments [
-	^ true
+	^ self exists 
+		and: [ self arguments size = self method numArgs ]
 ]
 
-{ #category : #public }
+{ #category : #testing }
 GTExampleMethod >> hash [
-	^ (self class hash 
-		bitXor: self provider hash)
-			bitXor: self selector hash
+	^ ((self class hash 
+		bitXor: self methodClassName hash)
+			bitXor: self methodClass hash)
+				bitXor: self selector hash
 ]
 
 { #category : #testing }
@@ -40,24 +77,31 @@ GTExampleMethod >> matchesMethod: aCompiledMethod [
 		and: [ self method = aCompiledMethod ]
 ]
 
-{ #category : #public }
+{ #category : #'accessing-dynamic' }
 GTExampleMethod >> method [
-	^ self providerClass >> self selector
+	^ self exists 
+		ifTrue: [ self methodClass >> self selector ]
+		ifFalse: [ nil ]
 ]
 
 { #category : #accessing }
-GTExampleMethod >> provider [
-	^ provider
+GTExampleMethod >> methodClass [
+	^ methodClass
 ]
 
 { #category : #accessing }
-GTExampleMethod >> provider: anObject [
-	provider := anObject
+GTExampleMethod >> methodClass: anObject [
+	methodClass := anObject
 ]
 
-{ #category : #public }
-GTExampleMethod >> providerClass [
-	^ self provider class
+{ #category : #accessing }
+GTExampleMethod >> methodClassName [
+	^ methodClassName
+]
+
+{ #category : #accessing }
+GTExampleMethod >> methodClassName: anObject [
+	methodClassName := anObject
 ]
 
 { #category : #accessing }

@@ -1,11 +1,11 @@
 Class {
 	#name : #GTExampleProviderMethod,
-	#superclass : #GTExampleMethod,
+	#superclass : #GTExampleMethodOLD,
 	#instVars : [
 		'providerName',
 		'arguments'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-DEPRECATED'
 }
 
 { #category : #accessing }

@@ -1,11 +1,11 @@
 Class {
 	#name : #GTExampleProxy,
-	#superclass : #GTExampleMethod,
+	#superclass : #GTExampleMethodOLD,
 	#instVars : [
 		'owner',
 		'example'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-DEPRECATED'
 }
 
 { #category : #testing }

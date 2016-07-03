@@ -119,7 +119,7 @@ GTAbstractExampleFactory >> isExampleMethod: aCompiledMethod [
 
 { #category : #testing }
 GTAbstractExampleFactory >> isGTExampleMethod: aCompiledMethod [
-	^ (aCompiledMethod pragmas anySatisfy: [ :pragma | pragma isGTExamplePragma ])
+	^ aCompiledMethod isGTExampleMethod
 ]
 
 { #category : #accessing }

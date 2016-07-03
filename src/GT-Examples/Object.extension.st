@@ -76,3 +76,8 @@ Object >> isGTExample [
 	
 	^ false
 ]
+
+{ #category : #'*GT-Examples-Core' }
+Object >> isGTExampleMethod [
+	^ false
+]

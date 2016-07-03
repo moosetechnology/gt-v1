@@ -50,9 +50,10 @@ GTExampleNautilusAction >> privateActionIcon [
 
 { #category : #private }
 GTExampleNautilusAction >> resultForMethod: aCompiledMethod [
-	^ aCompiledMethod gtExamples 
+	"^ aCompiledMethod gtExamples 
 		ifNotEmpty: [ :examples | examples first resultCached ]
-		ifEmpty: [ nil ]
+		ifEmpty: [ nil ]"
+	^ nil
 ]
 
 { #category : #order }
