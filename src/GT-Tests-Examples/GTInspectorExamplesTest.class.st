@@ -69,7 +69,8 @@ GTInspectorExamplesTest >> testAllExamples [
 		do: [ :eachClass | 
 			eachClass gtExamples do: [ :exampleToTest | 
 				exampleToTest ignoreTest ifFalse: [ 
-					self checkAllPresentationsOf: exampleToTest returnValue] ] ]
+					self checkAllPresentationsOf: exampleToTest returnValue ] ] ]
+		displayingProgress: 'Checking Example Presentations'
 ]
 
 { #category : #tests }
