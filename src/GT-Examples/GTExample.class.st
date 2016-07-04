@@ -546,6 +546,14 @@ GTExample >> isGTExample [
 ]
 
 { #category : #testing }
+GTExample >> isReferencing: aLiteral [
+	^ (self hasSubject: aLiteral)
+		or: [ (self subjects anySatisfy: [ :subject | subject hasLiteralThorough: aLiteral ])
+			or: [ (self hasMethod and: [ self method hasLiteralThorough: aLiteral ])
+				or: [ (self methodClass name asString = aLiteral name asString) ] ] ]
+]
+
+{ #category : #testing }
 GTExample >> isValid [
 	^ self hasProblems not
 		and: [ self traverser canProcess ]

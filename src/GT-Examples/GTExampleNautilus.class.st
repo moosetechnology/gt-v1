@@ -11,21 +11,39 @@ GTExampleNautilus class >> browseAllExamples [
 ]
 
 { #category : #public }
+GTExampleNautilus class >> browseAllExamplesIgnoredByTests [
+	" self browseAllExamplesIgnoredByTests "
+	self browseExamples: 'Examples ignored by Tests' select: [ :example | 
+		example ignoreTest 
+			or: [ example ignoreTestReport ] ]
+]
+
+{ #category : #public }
+GTExampleNautilus class >> browseAllExamplesReferencing: aLiteral [
+	" self browseAllExamplesReferencing: #and: "
+	self browseExamples: 'Examples referencing #', aLiteral asString select: [ :example | 
+		example isReferencing: aLiteral ]
+]
+
+{ #category : #public }
 GTExampleNautilus class >> browseAllExamplesWithDependencies [
 	" self browseAllExamplesWithDependencies "
-	self browseExamples: 'Examples with Dependencies' select: [ :example | example hasArguments ]
+	self browseExamples: 'Examples with Dependencies' select: [ :example | 
+		example hasArguments ]
 ]
 
 { #category : #public }
 GTExampleNautilus class >> browseAllExamplesWithProblems [
 	" self browseAllExamplesWithProblems "
-	self browseExamples: 'Examples with Problems' select: [ :example | example hasProblems ]
+	self browseExamples: 'Examples with Problems' select: [ :example | 
+		example hasProblems ]
 ]
 
 { #category : #public }
 GTExampleNautilus class >> browseAllExamplesWithSubject: aClass [
 	" self browseAllExamplesWithSubject: GTExample "
-	self browseExamples: 'Examples with Subject #', aClass name select: [ :example | example hasSubject: aClass ]
+	self browseExamples: 'Examples with Subject #', aClass name select: [ :example | 
+		example hasSubject: aClass ]
 ]
 
 { #category : #private }
@@ -35,14 +53,9 @@ GTExampleNautilus class >> browseExamples: aString select: aBlock [
 	Smalltalk gtExamplesContained do: [ :example |
 		(aBlock value: example) ifTrue: [ 
 			env addClass: example methodClass selector: example selector ] ].
+	env isEmpty 
+		ifTrue: [ ^ UIManager default inform: 'No examples found' ].
 	^ env gtBrowseFor: aString
-]
-
-{ #category : #private }
-GTExampleNautilus >> browseReferencesTo: aLiteral [ 
-	(SystemNavigation default examplesReferencesTo: aLiteral) 
-		ifNotEmpty: [ :examples | examples inspect ]
-		ifEmpty: [ UIManager default inform: 'No examples found for #', aLiteral asString ] 
 ]
 
 { #category : #private }
@@ -75,7 +88,7 @@ GTExampleNautilus >> onClass: aBuilder [
 	(aBuilder item: #'Browse Examples having subject #' ,  class theNonMetaClass name asString)
 		parent: #gte;
 		order: 90101;
-		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
+		keyText: 'e, s' if: Nautilus useOldStyleKeys not;
 		action: [ self class browseAllExamplesWithSubject: class theNonMetaClass name ]
 ]
 
@@ -139,17 +152,22 @@ GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
 		
 	(aBuilder item: 'Browse all Examples with Problems')
 		parent: #gte;
-		order: 90005;
+		order: 90006;
 		keyText: 'e, p' if: Nautilus useOldStyleKeys not;
 		action: [ self class browseAllExamplesWithProblems ].
 
 	(aBuilder item: 'Browse all Examples with Dependencies')
 		parent: #gte;
-		order: 90006;
+		order: 90007;
 		keyText: 'e, c' if: Nautilus useOldStyleKeys not;
-		action: [ self class browseAllExamplesWithDependencies ];
+		action: [ self class browseAllExamplesWithDependencies ].
+		
+	(aBuilder item: 'Browse all Examples ignored by Tests')
+		parent: #gte;
+		order: 90008;
+		keyText: 'e, t' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamplesIgnoredByTests ];
 		withSeparatorAfter.		
-			
 ]
 
 { #category : #public }
@@ -165,15 +183,15 @@ GTExampleNautilus >> onPackage: aBuilder [
 
 { #category : #public }
 GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
-	(aBuilder item: #'Examples referencing #' ,  aLiteral)
+	(aBuilder item: #'Browse Examples referencing #' ,  aLiteral)
 		parent: #gte;
 		order: 90100;
 		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
-		action: [ self browseReferencesTo: aLiteral ].
+		action: [ self class browseAllExamplesReferencing: aLiteral ].
 		
-	(aBuilder item: #'Browse examples having subject #' ,  aLiteral asString)
+	(aBuilder item: #'Browse Examples with subject #' ,  aLiteral asString)
 		parent: #gte;
 		order: 90101;
-		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
+		keyText: 'e, s' if: Nautilus useOldStyleKeys not;
 		action: [ self class browseAllExamplesWithSubject: aLiteral ]
 ]
