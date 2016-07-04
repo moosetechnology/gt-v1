@@ -14,9 +14,8 @@ Class {
 GTAbstractExampleMethod >> = anExampleMethod [
 	^ self class = anExampleMethod class 
 		and: [ self methodClassName = anExampleMethod methodClassName 
-			and: [ self methodClass = anExampleMethod methodClass
-				and: [ self meta = anExampleMethod meta
-					and: [ self selector = anExampleMethod selector ] ] ] ]
+			and: [ self meta = anExampleMethod meta
+				and: [ self selector = anExampleMethod selector ] ] ]
 ]
 
 { #category : #private }
@@ -58,11 +57,10 @@ GTAbstractExampleMethod >> hasMethod [
 
 { #category : #testing }
 GTAbstractExampleMethod >> hash [
-	^ (((self class hash 
+	^ ((self class hash 
 		bitXor: self methodClassName hash)
-			bitXor: self methodClass hash)
-				bitXor: self meta hash)
-					bitXor: self selector hash
+			bitXor: self meta hash)
+				bitXor: self selector hash
 ]
 
 { #category : #testing }

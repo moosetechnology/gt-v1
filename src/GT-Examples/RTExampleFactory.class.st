@@ -1,6 +1,6 @@
 Class {
 	#name : #RTExampleFactory,
-	#superclass : #GTAbstractExampleFactory,
+	#superclass : #GTExampleFactory,
 	#category : #'GT-Examples-Utils'
 }
 
@@ -11,7 +11,7 @@ RTExampleFactory >> defaultExampleClass [
 
 { #category : #testing }
 RTExampleFactory >> isExampleMethod: aCompiledMethod [
-	^ (self isGTExampleMethod: aCompiledMethod)
+	^ (super isExampleMethod: aCompiledMethod)
 		or: [ self isOldStyleRTExampleMethod: aCompiledMethod ]
 ]
 

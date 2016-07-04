@@ -8,6 +8,12 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #testing }
+GTExamplePackageSubject >> = anExampleSubject [
+	^ self class = anExampleSubject class
+		and: [ self thePackageName = anExampleSubject thePackageName ]
+]
+
 { #category : #UI }
 GTExamplePackageSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self thePackage ifNotNil: [ :pkg | 
@@ -46,6 +52,12 @@ GTExamplePackageSubject >> hasLiteralThorough: aLiteral [
 	^ self thePackageName = aLiteral
 		or: [ (self thePackage classes anySatisfy: [ :each | each name = aLiteral ])
 			or: [ self thePackage methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ] ]
+]
+
+{ #category : #testing }
+GTExamplePackageSubject >> hash [
+	^ self class hash
+		bitXor: self thePackageName hash
 ]
 
 { #category : #accessing }

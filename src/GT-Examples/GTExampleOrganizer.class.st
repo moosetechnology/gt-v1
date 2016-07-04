@@ -185,6 +185,12 @@ GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 		filter: GTFilterSubstring
 ]
 
+{ #category : #'private-maintenance' }
+GTExampleOrganizer >> handleGTReservedMethod: aCompiledMethod for: announcement [
+	aCompiledMethod isGTReservedMethod ifFalse: [ ^ self ].
+	self removeExamplesOfClass: aCompiledMethod methodClass theNonMetaClass name for: announcement
+]
+
 { #category : #initializing }
 GTExampleOrganizer >> initialize [
 	super initialize.
@@ -211,6 +217,7 @@ GTExampleOrganizer >> loadStopped: anAnnouncement [
 GTExampleOrganizer >> methodAdded: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement method for: ann.
 			ann addExample: anAnnouncement method gtExample ] ]
 ]
@@ -219,6 +226,8 @@ GTExampleOrganizer >> methodAdded: anAnnouncement [
 GTExampleOrganizer >> methodModified: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+			self handleGTReservedMethod: anAnnouncement oldMethod for: ann.
+			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement oldMethod for: ann.
 			self removeExamplesOfMethod: anAnnouncement method for: ann.
 			ann addExample: anAnnouncement method gtExample ] ]
@@ -228,6 +237,7 @@ GTExampleOrganizer >> methodModified: anAnnouncement [
 GTExampleOrganizer >> methodRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement method for: ann ] ]
 ]
 

@@ -9,6 +9,13 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #testing }
+GTExampleClassSubject >> = anExampleSubject [
+	^ self class = anExampleSubject class
+		and: [ self theClassName = anExampleSubject theClassName 
+			and: [ self meta = anExampleSubject meta ] ]
+]
+
 { #category : #UI }
 GTExampleClassSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	aSelectorEnvironment addClass: self theClass
@@ -48,6 +55,13 @@ GTExampleClassSubject >> hasLiteralThorough: aLiteral [
 			or: [ self theClass methods anySatisfy: [ :method | 
 						method selector = aLiteral
 							or: [ 	method hasLiteralThorough: aLiteral ] ] ] ]
+]
+
+{ #category : #testing }
+GTExampleClassSubject >> hash [
+	^ (self class hash
+		bitXor: self theClassName hash)
+			bitXor: self meta hash
 ]
 
 { #category : #accessing }

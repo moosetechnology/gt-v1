@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #testing }
+GTExampleInstanceSubject >> = anExampleSubject [
+	^ self class = anExampleSubject class
+		and: [ self instance = anExampleSubject instance ]
+]
+
+{ #category : #testing }
 GTExampleInstanceSubject >> exists [
 	^ self theClass notNil
 ]
@@ -25,6 +31,12 @@ GTExampleInstanceSubject >> hasLiteralThorough: aLiteral [
 		or: [ self theClass methods anySatisfy: [ :method | 
 					method selector = aLiteral
 						or: [ 	method hasLiteralThorough: aLiteral ] ] ]
+]
+
+{ #category : #testing }
+GTExampleInstanceSubject >> hash [
+	^ self class hash
+		bitXor: self instance hash
 ]
 
 { #category : #accessing }

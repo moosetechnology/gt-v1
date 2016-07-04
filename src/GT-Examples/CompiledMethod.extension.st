@@ -29,8 +29,21 @@ CompiledMethod >> gtExamples [
 ]
 
 { #category : #'*GT-Examples-Core' }
+CompiledMethod >> gtExamplesFactory [
+	^ GTExampleFactory new
+		source: self methodClass;
+		yourself
+]
+
+{ #category : #'*GT-Examples-Core' }
 CompiledMethod >> isGTExampleMethod [
 	^ self pragmas anySatisfy: [ :each | each isGTExamplePragma ]
+]
+
+{ #category : #'*GT-Examples-Core' }
+CompiledMethod >> isGTReservedMethod [
+	^ #( gtExamplesSubjects gtExamplesFactory gtExample gtExamples ) 
+			anySatisfy: [ :selector | selector = self selector ]
 ]
 
 { #category : #'*GT-Examples-Core' }

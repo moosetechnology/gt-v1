@@ -8,6 +8,12 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #testing }
+GTExampleTagSubject >> = anExampleSubject [
+	^ super = anExampleSubject
+		and: [ self theTagName = anExampleSubject theTagName ]
+]
+
 { #category : #UI }
 GTExampleTagSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self thePackage ifNotNil: [ :pkg | 
@@ -45,6 +51,12 @@ GTExampleTagSubject >> hasLiteralThorough: aLiteral [
 		or: [ self theTag categoryName = aLiteral
 			or: [ (self theTag classes anySatisfy: [ :each | each name = aLiteral ])
 				"or: [ self theTag methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ]" ] ]
+]
+
+{ #category : #testing }
+GTExampleTagSubject >> hash [
+	^ super hash
+		bitXor: self theTagName hash
 ]
 
 { #category : #accessing }

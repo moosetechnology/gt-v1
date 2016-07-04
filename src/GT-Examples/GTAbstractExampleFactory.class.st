@@ -4,8 +4,9 @@ Class {
 	#instVars : [
 		'cache',
 		'source',
-		'providers',
-		'exampleClass'
+		'provider',
+		'exampleClass',
+		'selectorProvidingSubjects'
 	],
 	#category : #'GT-Examples-Utils'
 }
@@ -31,6 +32,20 @@ GTAbstractExampleFactory >> createExample: aCompiledMethod [
 { #category : #'accessing-defaults' }
 GTAbstractExampleFactory >> defaultCache [
 	^ GTExampleOrganizer instance
+]
+
+{ #category : #'accessing-defaults' }
+GTAbstractExampleFactory >> defaultProvider [
+	^ self source isMeta
+		ifTrue: [ self source ]
+		ifFalse: [ self source new ]
+]
+
+{ #category : #'accessing-defaults' }
+GTAbstractExampleFactory >> defaultSelectorsProvidingSubjects [
+	^ self source methods select: [ :each | 
+		each pragmas anySatisfy: [ :pragma | 
+			pragma keyword = #gtExamplesSubjects ] ]
 ]
 
 { #category : #private }
@@ -104,8 +119,10 @@ GTAbstractExampleFactory >> initializePragmasFromMethod: aCompiledMethod forExam
 ]
 
 { #category : #private }
-GTAbstractExampleFactory >> initializeSubjectsFromClass: aClass forExample: aGTExample [
-	aClass gtExamplesSubjects do: [ :subject | 
+GTAbstractExampleFactory >> initializeSubjects: aCollection forExample: aGTExample [
+	aCollection isEmptyOrNil ifTrue: [ ^ self ].
+	
+	aCollection do: [ :subject | 
 		[ aGTExample subjects add: subject asGTExampleSubject ]
 			on:Error
 			do: [ :exception | 
@@ -114,6 +131,30 @@ GTAbstractExampleFactory >> initializeSubjectsFromClass: aClass forExample: aGTE
 					subject: subject;
 					signaledException: exception;
 					yourself) ] ] 
+]
+
+{ #category : #private }
+GTAbstractExampleFactory >> initializeSubjectsFromPragma: aProvider forExample: aGTExample [
+	[ self selectorsProvidingSubjects do: [ :each |
+			self initializeSubjects: (aProvider perform: each) forExample: aGTExample ] ]
+		on: Error
+		do: [ :exception | 
+			aGTExample failures add: (GTExampleSubjectError new 
+				example: aGTExample;
+				signaledException: exception;
+				yourself) ]
+]
+
+{ #category : #private }
+GTAbstractExampleFactory >> initializeSubjectsFromSelector: aProvider forExample: aGTExample [
+	[ (aProvider class includesSelector: #gtExamplesSubjects) ifTrue: [
+			self initializeSubjects: aProvider gtExamplesSubjects forExample: aGTExample ] ]
+		on: Error
+		do: [ :exception | 
+			aGTExample failures add: (GTExampleSubjectError new 
+				example: aGTExample;
+				signaledException: exception;
+				yourself) ]
 ]
 
 { #category : #testing }
@@ -126,14 +167,14 @@ GTAbstractExampleFactory >> isGTExampleMethod: aCompiledMethod [
 	^ aCompiledMethod isGTExampleMethod
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTAbstractExampleFactory >> provider [
 	^ provider ifNil: [ provider := self defaultProvider ]
 ]
 
-{ #category : #accessing }
-GTAbstractExampleFactory >> provider: anObject [
-	provider := anObject
+{ #category : #private }
+GTAbstractExampleFactory >> selectorsProvidingSubjects [
+	^ selectorProvidingSubjects ifNil: [ selectorProvidingSubjects := self defaultSelectorsProvidingSubjects ]
 ]
 
 { #category : #accessing }

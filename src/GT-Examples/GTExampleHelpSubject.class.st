@@ -9,6 +9,13 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #testing }
+GTExampleHelpSubject >> = anExampleSubject [
+	^ self class = anExampleSubject class
+		and: [ self bookName = anExampleSubject bookName 
+			and: [ self title = anExampleSubject title ] ]
+]
+
 { #category : #accessing }
 GTExampleHelpSubject >> bookName [
 	^ bookName
@@ -51,6 +58,13 @@ GTExampleHelpSubject >> hasLiteralThorough: aLiteral [
 	^ self topic notNil 
 		and: [ self topic contents notNil
 			and: [ self topic contents includesSubstring: aLiteral asString caseSensitive: false ] ]
+]
+
+{ #category : #testing }
+GTExampleHelpSubject >> hash [
+	^ (self class hash
+		bitXor: self bookName hash)
+			bitXor: self title hash
 ]
 
 { #category : #accessing }
