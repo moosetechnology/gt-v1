@@ -774,6 +774,19 @@ GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 ]
 
 { #category : #'pragma-selectors' }
+GTExample >> subjectHelp: aString1 [
+	self subjectHelp: aString1 page: nil
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectHelp: aString1 page: aString2 [
+	self subjects add: (GTExampleHelpSubject new 
+		bookName: aString1;
+		title: aString2;
+		yourself)
+]
+
+{ #category : #'pragma-selectors' }
 GTExample >> subjectMetaClass: aClassOrClassName [
 	<gtExamplePragma>
 	
@@ -786,6 +799,20 @@ GTExample >> subjectMetaClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	
 	self subjects add: (self methodForClassNamed: aClassOrClassName meta: true selector: aSelector) asGTExampleSubject
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectPackage: aString [
+	self subjects add: (GTExamplePackageSubject new 
+		thePackageName: aString;
+		yourself)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectTag: aString [
+	self subjects add: (GTExampleTagSubject new 
+		theTagName: aString;
+		yourself)
 ]
 
 { #category : #accessing }

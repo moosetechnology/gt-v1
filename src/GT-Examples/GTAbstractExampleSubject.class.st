@@ -10,6 +10,16 @@ GTAbstractExampleSubject >> asGTExampleSubject [
 ]
 
 { #category : #testing }
+GTAbstractExampleSubject >> exists [
+	self subclassResponsibility
+]
+
+{ #category : #UI }
+GTAbstractExampleSubject >> forNautilus: aBlock [
+	
+]
+
+{ #category : #testing }
 GTAbstractExampleSubject >> hasLiteralThorough: aLiteral [
 	^ false
 ]

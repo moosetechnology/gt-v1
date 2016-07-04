@@ -9,6 +9,13 @@ GTExampleMethodSubject >> asGTExampleSubject [
 	^ self
 ]
 
+{ #category : #UI }
+GTExampleMethodSubject >> forNautilus: aBlock [
+	aBlock
+		value: #'Browse method ' ,  self method gtDisplayString
+		value: [ self method browse ]
+]
+
 { #category : #testing }
 GTExampleMethodSubject >> hasLiteralThorough: aLiteral [
 	^ self selector = aLiteral

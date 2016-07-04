@@ -101,6 +101,7 @@ GTExampleNautilus >> onCompiledMethod: aBuilder [
 
 	self onExamples: [ method gtExamples ] builder: aBuilder.
 	self onReferences: method selector builder: aBuilder.
+	self onSubjects: method gtExamples builder: aBuilder.
 ]
 
 { #category : #public }
@@ -193,5 +194,16 @@ GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
 		parent: #gte;
 		order: 90101;
 		keyText: 'e, s' if: Nautilus useOldStyleKeys not;
-		action: [ self class browseAllExamplesWithSubject: aLiteral ]
+		action: [ self class browseAllExamplesWithSubject: aLiteral ];
+		withSeparatorAfter
+]
+
+{ #category : #public }
+GTExampleNautilus >> onSubjects: examples builder: aBuilder [
+	examples do: [ :example |
+		example subjects do: [ :subject |
+			subject forNautilus: [ :title :action |
+				(aBuilder item: title)
+					parent: #gte;
+					action: [ action value ] ] ] ]
 ]

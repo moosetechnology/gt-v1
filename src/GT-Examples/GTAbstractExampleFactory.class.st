@@ -97,7 +97,7 @@ GTAbstractExampleFactory >> initializePragmasFromMethod: aCompiledMethod forExam
 			[ aGTExample perform: pragma keyword withArguments: pragma arguments ]
 				on:Error
 				do:[ :exception | 
-					aGTExample failures add: (exception asGTExamplePragmaError 
+					aGTExample problems add: (exception asGTExamplePragmaError 
 						example: aGTExample;
 						pragma: pragma;
 						yourself) ] ] ]

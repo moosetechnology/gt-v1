@@ -26,6 +26,16 @@ GTExampleClassSubject >> exists [
 	^ self theClass notNil
 ]
 
+{ #category : #UI }
+GTExampleClassSubject >> forNautilus: aBlock [
+	self exists ifFalse: [ ^ self ].
+	
+	aBlock 
+		value: #'Browse class ' ,  self theClassName 
+		value: [ self theClass browse ]
+
+]
+
 { #category : #testing }
 GTExampleClassSubject >> hasLiteralThorough: aLiteral [
 	^ self theClass = aLiteral

@@ -12,6 +12,13 @@ GTExampleInstanceSubject >> exists [
 	^ self theClass notNil
 ]
 
+{ #category : #UI }
+GTExampleInstanceSubject >> forNautilus: aBlock [
+	aBlock
+		value: #'Inspect instance ' ,  self instance gtDisplayString
+		value: [ self instance inspect ]
+]
+
 { #category : #testing }
 GTExampleInstanceSubject >> hasLiteralThorough: aLiteral [
 	^ (self theClass name = aLiteral)
