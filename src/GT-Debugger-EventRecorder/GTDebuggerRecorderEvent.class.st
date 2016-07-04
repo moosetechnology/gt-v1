@@ -4,11 +4,7 @@ All events have a timestamp.
 "
 Class {
 	#name : #GTDebuggerRecorderEvent,
-	#superclass : #Object,
-	#instVars : [
-		'timestamp',
-		'info'
-	],
+	#superclass : #GTBasicRecorderEvent,
 	#category : #'GT-Debugger-EventRecorder-Events'
 }
 
@@ -18,14 +14,6 @@ GTDebuggerRecorderEvent class >> fromAnnouncement: anAnnouncement [
 	^ self new fromAnnouncement: anAnnouncement
 ]
 
-{ #category : #comparing }
-GTDebuggerRecorderEvent >> = otherGTDebuggerRecorderEvent [
-
-	^ self class == otherGTDebuggerRecorderEvent class
-	and: [ (self info = otherGTDebuggerRecorderEvent info)
-	and: [ self timestamp = otherGTDebuggerRecorderEvent timestamp ] ].
-]
-
 { #category : #accessing }
 GTDebuggerRecorderEvent >> addWindowHashFor: aPresentation [
 
@@ -33,96 +21,9 @@ GTDebuggerRecorderEvent >> addWindowHashFor: aPresentation [
 		self infoAt: #windowHash put: aWindow identityHash ]
 ]
 
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> announcementTimestamp [
-	^ self infoAt: #timestamp ifAbsent: [ self timestamp ]
-]
-
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> computerUUID [
-	^ self infoAt: #computerUUID ifAbsent: [ GlobalIdentifier uniqueInstance computerUUID asString ]
-]
-
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> eventRecorderVersion [
-	^ self infoAt: #eventRecorderVersion ifAbsent: [ GTEventPacking new version ]
-]
-
 { #category : #initialization }
 GTDebuggerRecorderEvent >> fromAnnouncement: anAnnouncement [
 
-]
-
-{ #category : #comparing }
-GTDebuggerRecorderEvent >> hash [
-	^ self info hash bitXor: self timestamp hash
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> hashForText: aString [
-	^ self settings obfuscateIfNecessary: aString
-]
-
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> imageHash [
-	^ self infoAt: #imageHash ifAbsent: [ SmalltalkImage current imagePath hash ]
-]
-
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> imageVersion [
-	^ self infoAt: #imageVersion ifAbsent: [ SystemVersion current version ]
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> info [
-	^ info ifNil: [ info := Dictionary new ].
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> infoAt: aSymbol [
-	^ info at: aSymbol
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> infoAt: key ifAbsent: absentBlock [
-	info ifNil: [ ^ absentBlock value].
-	^ info at: key ifAbsent: absentBlock
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> infoAt: key ifAbsentPut: putBlock [
-	info ifNil: [ info := Dictionary new ].
-	^ info at: key ifAbsentPut: putBlock
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> infoAt: key ifPresent: presentBlock ifAbsent: absentBlock [
-	info ifNil: [ ^ absentBlock value].
-	^ info at: key ifPresent: presentBlock ifAbsent: absentBlock
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> infoAt: key put: value [
-	info ifNil: [ info := Dictionary new ].
-	^ info at: key put: value
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> infoAt: key putHashForText: valueString [ 
-	^ self 
-		infoAt: key 
-		put: (self hashForText: valueString)
-]
-
-{ #category : #initialization }
-GTDebuggerRecorderEvent >> initialize [
-	super initialize.
-	timestamp := DateAndTime now.
-]
-
-{ #category : #initialization }
-GTDebuggerRecorderEvent >> initializeObfuscated [
-	self obfuscated: Privacy sendEntityNames not.
 ]
 
 { #category : #testing }
@@ -158,34 +59,4 @@ GTDebuggerRecorderEvent >> isOpenOrCloseDebugger [
 { #category : #testing }
 GTDebuggerRecorderEvent >> isStackSelectionChange [
 	^ false
-]
-
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> latestUpdate [
-	^ self infoAt: #latestUpdate ifAbsent: [ SystemVersion current highestUpdate ]
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> obfuscated [
-	^ self infoAt: #obfuscated ifAbsent: true
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> obfuscated: aBoolean [
-	^ self infoAt: #obfuscated put: aBoolean
-]
-
-{ #category : #'accessing - announcement info' }
-GTDebuggerRecorderEvent >> sessionCreationTime [
-	^ self infoAt: #sessionCreationTime ifAbsent: [ SmalltalkImage current session creationTime ]
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> settings [
-	^ GlobalIdentifier uniqueInstance
-]
-
-{ #category : #accessing }
-GTDebuggerRecorderEvent >> timestamp [
-	^ timestamp
 ]
