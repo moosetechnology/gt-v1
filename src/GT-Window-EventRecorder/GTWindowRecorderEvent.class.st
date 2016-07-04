@@ -4,11 +4,7 @@ All events have a timestamp.
 "
 Class {
 	#name : #GTWindowRecorderEvent,
-	#superclass : #Object,
-	#instVars : [
-		'timestamp',
-		'info'
-	],
+	#superclass : #GTBasicRecorderEvent,
 	#category : #'GT-Window-EventRecorder-Events'
 }
 
@@ -16,14 +12,6 @@ Class {
 GTWindowRecorderEvent class >> fromAnnouncement: anAnnouncement [
 
 	^ self new fromAnnouncement: anAnnouncement
-]
-
-{ #category : #comparing }
-GTWindowRecorderEvent >> = otherGTWindowRecorderEvent [
-
-	^ self class == otherGTWindowRecorderEvent class
-	and: [ (self info = otherGTWindowRecorderEvent info)
-	and: [ self timestamp = otherGTWindowRecorderEvent timestamp ] ].
 ]
 
 { #category : #initialization }
@@ -37,99 +25,12 @@ GTWindowRecorderEvent >> addTypeFor: anAnnouncement [
 		ifFalse: [ self infoAt: #type putHashForText: type ]
 ]
 
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> announcementTimestamp [
-	^ self infoAt: #timestamp ifAbsent: [ self timestamp ]
-]
-
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> computerUUID [
-	^ self infoAt: #computerUUID ifAbsent: [ GlobalIdentifier uniqueInstance computerUUID asString ]
-]
-
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> eventRecorderVersion [
-	^ self infoAt: #eventRecorderVersion ifAbsent: [ GTEventPacking new version ]
-]
-
 { #category : #initialization }
 GTWindowRecorderEvent >> fromAnnouncement: anAnnouncement [
 	
 	self addTypeFor: anAnnouncement.
 	self infoAt: #label putHashForText: anAnnouncement window label.
 	self infoAt: #windowHash put: anAnnouncement window identityHash.
-]
-
-{ #category : #comparing }
-GTWindowRecorderEvent >> hash [
-	^ self info hash bitXor: self timestamp hash
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> hashForText: aString [
-	^ self settings obfuscateIfNecessary: aString
-]
-
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> imageHash [
-	^ self infoAt: #imageHash ifAbsent: [ SmalltalkImage current imagePath hash ]
-]
-
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> imageVersion [
-	^ self infoAt: #imageVersion ifAbsent: [ SystemVersion current version ]
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> info [
-	^ info ifNil: [ info := Dictionary new ].
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> infoAt: aSymbol [
-	^ info at: aSymbol
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> infoAt: key ifAbsent: absentBlock [
-	info ifNil: [ ^ absentBlock value].
-	^ info at: key ifAbsent: absentBlock
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> infoAt: key ifAbsentPut: putBlock [
-	info ifNil: [ info := Dictionary new ].
-	^ info at: key ifAbsentPut: putBlock
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> infoAt: key ifPresent: presentBlock ifAbsent: absentBlock [
-	info ifNil: [ ^ absentBlock value].
-	^ info at: key ifPresent: presentBlock ifAbsent: absentBlock
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> infoAt: key put: value [
-	info ifNil: [ info := Dictionary new ].
-	^ info at: key put: value
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> infoAt: key putHashForText: valueString [ 
-	^ self 
-		infoAt: key 
-		put: (self hashForText: valueString)
-]
-
-{ #category : #initialization }
-GTWindowRecorderEvent >> initialize [
-	super initialize.
-	timestamp := DateAndTime now.
-]
-
-{ #category : #initialization }
-GTWindowRecorderEvent >> initializeObfuscated [
-	self obfuscated: Privacy sendEntityNames not.
 ]
 
 { #category : #testing }
@@ -172,36 +73,6 @@ GTWindowRecorderEvent >> isWindowOpened [
 GTWindowRecorderEvent >> label [
 
 	^ self infoAt: #label
-]
-
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> latestUpdate [
-	^ self infoAt: #latestUpdate ifAbsent: [ SystemVersion current highestUpdate ]
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> obfuscated [
-	^ self infoAt: #obfuscated ifAbsent: true
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> obfuscated: aBoolean [
-	^ self infoAt: #obfuscated put: aBoolean
-]
-
-{ #category : #'accessing - announcement info' }
-GTWindowRecorderEvent >> sessionCreationTime [
-	^ self infoAt: #sessionCreationTime ifAbsent: [ SmalltalkImage current session creationTime ]
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> settings [
-	^ GlobalIdentifier uniqueInstance
-]
-
-{ #category : #accessing }
-GTWindowRecorderEvent >> timestamp [
-	^ timestamp
 ]
 
 { #category : #accessing }
