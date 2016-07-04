@@ -415,9 +415,11 @@ GTExample >> hasRelationships [
 
 { #category : #testing }
 GTExample >> hasSubject: aSubject [
-	^ self classNamed: aSubject 
-		do: [ :class | self subjects includes: class ] 
-		ifNone: [ self subjects includes: aSubject ]
+	| subject |
+	subject := self classNamed: aSubject do: [ :class | class ] ifNone: [ aSubject ].
+	^ self subjects anySatisfy: [ :each | each hasLiteralThorough: subject ]
+	
+	
 ]
 
 { #category : #testing }

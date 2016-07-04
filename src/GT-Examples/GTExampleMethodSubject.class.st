@@ -10,8 +10,9 @@ Class {
 
 { #category : #testing }
 GTExampleMethodSubject >> hasLiteralThorough: aLiteral [
-	^ self hasMethod
-		and: [ self method hasLiteralThorough: aLiteral ]
+	^ subjectSelector = aLiteral
+		or: [ self hasMethod
+			and: [ self method hasLiteralThorough: aLiteral ] ]
 ]
 
 { #category : #testing }

@@ -22,6 +22,12 @@ GTExampleNautilus class >> browseAllExamplesWithProblems [
 	self browseExamples: 'Examples with Problems' select: [ :example | example hasProblems ]
 ]
 
+{ #category : #public }
+GTExampleNautilus class >> browseAllExamplesWithSubject: aClass [
+	" self browseAllExamplesWithSubject: GTExample "
+	self browseExamples: 'Examples with Subject #', aClass name select: [ :example | example hasSubject: aClass ]
+]
+
 { #category : #private }
 GTExampleNautilus class >> browseExamples: aString select: aBlock [
 	| env |
@@ -64,7 +70,13 @@ GTExampleNautilus >> onClass: aBuilder [
 		
 	self onExamples: [ (class isMeta 
 		ifTrue: [ class ] 
-		ifFalse: [ class theNonMetaClass ]) gtExamplesContained ] builder: aBuilder
+		ifFalse: [ class theNonMetaClass ]) gtExamplesContained ] builder: aBuilder.
+	
+	(aBuilder item: #'Browse Examples having subject #' ,  class theNonMetaClass name asString)
+		parent: #gte;
+		order: 90101;
+		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamplesWithSubject: class theNonMetaClass name ]
 ]
 
 { #category : #public }
@@ -153,9 +165,15 @@ GTExampleNautilus >> onPackage: aBuilder [
 
 { #category : #public }
 GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
-	(aBuilder item: #'Examples referencing #' ,  aLiteral , '>')
+	(aBuilder item: #'Examples referencing #' ,  aLiteral)
 		parent: #gte;
 		order: 90100;
 		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
 		action: [ self browseReferencesTo: aLiteral ].
+		
+	(aBuilder item: #'Browse examples having subject #' ,  aLiteral asString)
+		parent: #gte;
+		order: 90101;
+		keyText: 'e, u' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamplesWithSubject: aLiteral ]
 ]
