@@ -38,6 +38,12 @@ GTExampleMethod >> hasValidArguments [
 		and: [ self arguments size = self method numArgs ]
 ]
 
+{ #category : #testing }
+GTExampleMethod >> isValid [
+	^ super isValid 
+		and: [ self hasValidArguments ]
+]
+
 { #category : #accessing }
 GTExampleMethod >> meta [
 	^ meta ifNil: [ meta := false ]

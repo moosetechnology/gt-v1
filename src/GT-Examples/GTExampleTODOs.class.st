@@ -37,15 +37,3 @@ GTExampleTODOs >> inspectorIntegration [
 	"
 	
 ]
-
-{ #category : #todos }
-GTExampleTODOs >> spotterIntegration [
-	<todo>
-	"
-	FIX / OLD MODEL
-	- diveinto subjects <-> examples
-	- diveinto dependencies | dependents
-	- diveinto source <-> examples
-	"
-	
-]

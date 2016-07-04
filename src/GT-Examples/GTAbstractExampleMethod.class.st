@@ -39,7 +39,10 @@ GTAbstractExampleMethod >> exists [
 
 { #category : #ui }
 GTAbstractExampleMethod >> gtDisplayOn: aStream [
-	self method gtDisplayOn: aStream
+	super gtDisplayOn: aStream.
+	aStream nextPutAll: ' ('.
+	self method gtDisplayOn: aStream.
+	aStream nextPut: $).
 ]
 
 { #category : #'accessing-dynamic' }

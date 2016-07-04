@@ -93,6 +93,11 @@ GTExample >> allDependents [
 ]
 
 { #category : #'accessing-dynamic' }
+GTExample >> allProblems [
+	^ self problems, self invalidArguments
+]
+
+{ #category : #'accessing-dynamic' }
 GTExample >> arguments [
 	^ children asArray
 ]
@@ -297,6 +302,14 @@ GTExample >> gtInspectorMethodIn: composite [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorProblemsIn: composite [
+	<gtInspectorPresentationOrder: 4>
+	self hasProblems ifFalse: [ ^ self ].
+	^ (self allProblems gtInspectorItemsIn: composite)
+			title: 'Problems'
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasRelationships ifFalse: [ ^ self ].
@@ -305,7 +318,7 @@ GTExample >> gtInspectorRoassalIn: composite [
 
 { #category : #ui }
 GTExample >> gtSpotterDependenciesFor: aStep [
-	<spotterOrder: 100>
+	<spotterOrder: 101>
 	self hasDependencies ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependencies';
@@ -316,7 +329,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 
 { #category : #ui }
 GTExample >> gtSpotterDependentsFor: aStep [
-	<spotterOrder: 101>
+	<spotterOrder: 102>
 	self hasDependents ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependents';
@@ -326,8 +339,19 @@ GTExample >> gtSpotterDependentsFor: aStep [
 ]
 
 { #category : #ui }
-GTExample >> gtSpotterMethodFor: aStep [
+GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 	<spotterOrder: 103>
+	self hasSubjects ifFalse: [ ^ self ].
+	aStep listProcessor
+		title: 'Example Subjects';
+		items: [ self subjects asArray ];
+		itemName: [ :subject | subject gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #ui }
+GTExample >> gtSpotterMethodFor: aStep [
+	<spotterOrder: 100>
 	self hasMethod ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Method';
@@ -348,13 +372,13 @@ GTExample >> gtSpotterPreviewIn: aComposite [
 ]
 
 { #category : #ui }
-GTExample >> gtSpotterSubjectsFor: aStep [
-	<spotterOrder: 102>
-	self hasSubjects ifFalse: [ ^ self ].
+GTExample >> gtSpotterProblemsFor: aStep [
+	<spotterOrder: 104>
+	self hasProblems ifFalse: [ ^ self ].
 	aStep listProcessor
-		title: 'Example Subjects';
-		items: [ self subjects asArray ];
-		itemName: [ :subject | subject gtDisplayString ];
+		title: 'Example Problems';
+		items: [ self problems asArray ];
+		itemName: [ :problem | problem gtDisplayString ];
 		filter: GTFilterSubstring
 ]
 
@@ -415,11 +439,9 @@ GTExample >> hasRelationships [
 
 { #category : #testing }
 GTExample >> hasSubject: aSubject [
-	| subject |
-	(self subjects anySatisfy: [ :each | each = aSubject ]) ifTrue: [ ^ true ].
-	 subject := self classNamed: aSubject do: [ :class | class ] ifNone: [ aSubject ].
-	^ self subjects anySatisfy: [ :each | each hasLiteralThorough: subject ]
-	
+	^ self subjects anySatisfy: [ :each | 
+		each == aSubject 
+			or: [ each = aSubject ] ]
 ]
 
 { #category : #testing }
@@ -538,6 +560,11 @@ GTExample >> initialize [
 	problems := Set new.
 	exceptions := ExceptionSet new.	
 	properties := IdentityDictionary new.
+]
+
+{ #category : #'accessing-dynamic' }
+GTExample >> invalidArguments [
+	^ self arguments reject: [ :each | each isValid ]
 ]
 
 { #category : #testing }

@@ -43,6 +43,25 @@ CompiledMethod class >> gtExamplesFactory [
 		yourself
 ]
 
+{ #category : #'*GT-Examples-UI' }
+CompiledMethod >> gtSpotterGTExampleSubjectsFor: aStep [
+	<spotterOrder: 101>
+	aStep listProcessor
+		title: 'Example Subject';
+		items: [ { self asGTExampleSubject } ];
+		itemName: [ :subject | subject gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-Examples-UI' }
+CompiledMethod >> gtSpotterGTExamplesFor: aStep [
+	<spotterOrder: 12>
+	aStep listProcessor
+		title: 'Examples';
+		items: [ self gtExamples ];
+		filter: GTFilterSubstring
+]
+
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> isGTExampleMethod [
 	^ self pragmas anySatisfy: [ :each | each isGTExamplePragma ]
@@ -52,15 +71,6 @@ CompiledMethod >> isGTExampleMethod [
 CompiledMethod >> isGTReservedMethod [
 	^ #( gtExamplesSubjects gtExamplesFactory gtExample gtExamples ) 
 			anySatisfy: [ :selector | selector = self selector ]
-]
-
-{ #category : #'*GT-Examples-UI' }
-CompiledMethod >> spotterForExamplesFor: aStep [
-	<spotterOrder: 12>
-	aStep listProcessor
-		title: 'Examples';
-		items: [ self gtExamples ];
-		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-Examples-Core' }

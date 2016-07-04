@@ -47,7 +47,7 @@ GTExampleTagSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleTagSubject >> gtDisplayOn: aStream [
-	aStream printOn: self theTagName
+	self theTagName gtDisplayOn: aStream
 ]
 
 { #category : #testing }

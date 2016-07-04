@@ -202,9 +202,8 @@ GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ Smalltalk gtExamplesContained ];
-		itemName: [ :example | example gtDisplayString ];
-		filter: GTFilterSubstring
+		filter: GTNullFilter item: [ :filter :context | 
+			self examplesDo: [ :cn :s :example | filter value: example ] ]
 ]
 
 { #category : #'private-maintenance' }

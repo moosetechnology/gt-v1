@@ -50,7 +50,7 @@ GTExampleClassSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleClassSubject >> gtDisplayOn: aStream [
-	aStream printOn: self theClassName
+	self theClassName gtDisplayOn: aStream
 ]
 
 { #category : #testing }

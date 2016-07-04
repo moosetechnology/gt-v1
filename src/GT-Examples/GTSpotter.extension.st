@@ -1,7 +1,7 @@
 Extension { #name : #GTSpotter }
 
 { #category : #'*GT-Examples-UI' }
-GTSpotter >> gtSpotterExamplesFor: aStep [
+GTSpotter >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 41>
 	aStep listProcessor
 		title: 'Examples';

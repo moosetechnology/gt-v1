@@ -13,11 +13,21 @@ TClass >> gtInspectorGTExamplesIn: composite [
 ]
 
 { #category : #'*GT-Examples-UI' }
+TClass >> gtSpotterGTExampleSubjectsFor: aStep [
+	<spotterOrder: 101>
+	aStep listProcessor
+		title: 'Example Subject';
+		items: [ { self asGTExampleSubject } ];
+		itemName: [ :subject | subject gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #'*GT-Examples-UI' }
 TClass >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor
 		title: 'Examples';
-		allCandidates: [ self gtExamples ];
+		items: [ self gtExamples ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]

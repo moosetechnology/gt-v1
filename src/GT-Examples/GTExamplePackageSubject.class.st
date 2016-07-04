@@ -49,7 +49,7 @@ GTExamplePackageSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExamplePackageSubject >> gtDisplayOn: aStream [
-	aStream printOn: self thePackageName
+	self thePackageName gtDisplayOn: aStream
 ]
 
 { #category : #testing }
