@@ -402,6 +402,9 @@ GTExample >> hasMethod [
 { #category : #testing }
 GTExample >> hasProblems [
 	^ problems notEmpty
+		or: [ self hasValidArguments not
+			or: [ self hasValidAfterArguments not 
+				or: [ self hasValidDependencies not ] ] ]
 ]
 
 { #category : #testing }

@@ -54,6 +54,11 @@ GTExampleMethod >> gtExample [
 ]
 
 { #category : #testing }
+GTExampleMethod >> hasArguments [
+	^ self arguments notEmpty
+]
+
+{ #category : #testing }
 GTExampleMethod >> hasExample [
 	^ self exists
 		and: [ self method isGTExampleMethod ]

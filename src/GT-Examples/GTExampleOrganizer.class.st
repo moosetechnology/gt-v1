@@ -70,6 +70,15 @@ GTExampleOrganizer >> announcer [
 	^ SystemAnnouncer uniqueInstance weak
 ]
 
+{ #category : #public }
+GTExampleOrganizer >> browserEnvironment [
+	| environment |
+	environment := RBSelectorEnvironment new.
+	self examplesDo: [ :className :selector :example |
+		environment addClass: example methodClass selector: example selector ].
+	^ environment
+]
+
 { #category : #'private-events' }
 GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
@@ -108,7 +117,7 @@ GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlo
 		ifTrue: [ theMetaClassExamples ]
 		ifFalse: [ theNonMetaClassExamples ]) 
 			at: class name
-			ifAbsentPut: [ WeakIdentityKeyDictionary new ]) 
+			ifAbsentPut: [ WeakIdentityKeyDictionary new: 100 ]) 
 				at: selector 
 				ifAbsentPut: aBlock
 ]
@@ -158,6 +167,11 @@ GTExampleOrganizer >> examplesSelect: aBlock [
 	^ examples
 ]
 
+{ #category : #public }
+GTExampleOrganizer >> gtExamplesContained [
+	^ self examplesCollect: [ :each | each ]
+]
+
 { #category : #ui }
 GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
@@ -172,8 +186,8 @@ GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 GTExampleOrganizer >> initialize [
 	super initialize.
 	
-	theNonMetaClassExamples := WeakIdentityKeyDictionary new.
-	theMetaClassExamples := WeakIdentityKeyDictionary new.
+	theNonMetaClassExamples := WeakIdentityKeyDictionary new: 10000.
+	theMetaClassExamples := WeakIdentityKeyDictionary new: 10000.
 ]
 
 { #category : #'private-events' }

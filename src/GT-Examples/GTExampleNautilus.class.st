@@ -4,6 +4,34 @@ Class {
 	#category : #'GT-Examples-UI'
 }
 
+{ #category : #public }
+GTExampleNautilus class >> browseAllExamples [
+	" self browseAllExamples "
+	self browseExamples: 'Examples' select: [ :example | true ]
+]
+
+{ #category : #public }
+GTExampleNautilus class >> browseAllExamplesWithDependencies [
+	" self browseAllExamplesWithDependencies "
+	self browseExamples: 'Examples with Dependencies' select: [ :example | example hasArguments ]
+]
+
+{ #category : #public }
+GTExampleNautilus class >> browseAllExamplesWithProblems [
+	" self browseAllExamplesWithProblems "
+	self browseExamples: 'Examples with Problems' select: [ :example | example hasProblems ]
+]
+
+{ #category : #private }
+GTExampleNautilus class >> browseExamples: aString select: aBlock [
+	| env |
+	env := RBSelectorEnvironment new.
+	Smalltalk gtExamplesContained do: [ :example |
+		(aBlock value: example) ifTrue: [ 
+			env addClass: example methodClass selector: example selector ] ].
+	^ env gtBrowseFor: aString
+]
+
 { #category : #private }
 GTExampleNautilus >> browseReferencesTo: aLiteral [ 
 	(SystemNavigation default examplesReferencesTo: aLiteral) 
@@ -91,7 +119,25 @@ GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
 		action: [ self examples: aBlock do: #debug ];
 		withSeparatorAfter.
 		
+	(aBuilder item: #'Browse all Examples')
+		parent: #gte;
+		order: 90005;
+		keyText: 'e, a' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamples ].
 		
+	(aBuilder item: 'Browse all Examples with Problems')
+		parent: #gte;
+		order: 90005;
+		keyText: 'e, p' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamplesWithProblems ].
+
+	(aBuilder item: 'Browse all Examples with Dependencies')
+		parent: #gte;
+		order: 90006;
+		keyText: 'e, c' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamplesWithDependencies ];
+		withSeparatorAfter.		
+			
 ]
 
 { #category : #public }
