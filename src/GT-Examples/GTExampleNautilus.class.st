@@ -40,10 +40,10 @@ GTExampleNautilus class >> browseAllExamplesWithProblems [
 ]
 
 { #category : #public }
-GTExampleNautilus class >> browseAllExamplesWithSubject: aClass [
+GTExampleNautilus class >> browseAllExamplesWithSubject: aGTExampleSubject [
 	" self browseAllExamplesWithSubject: GTExample "
-	self browseExamples: 'Examples with Subject #', aClass name select: [ :example | 
-		example hasSubject: aClass ]
+	self browseExamples: 'Examples with Subject ', aGTExampleSubject gtDisplayString select: [ :example | 
+		example hasSubject: aGTExampleSubject ]
 ]
 
 { #category : #private }
@@ -65,13 +65,22 @@ GTExampleNautilus >> examples: aBlock [
 
 { #category : #private }
 GTExampleNautilus >> examples: aBlock1 collect: aBlock2 [
-	^ aBlock1 value collect: [ :example | 
-		example -> (aBlock2 value: example) ]
+	^ aBlock1 value 
+		select: [ :each | each isGTExample ] 
+		thenCollect: [ :example | example -> (aBlock2 value: example) ]
 ]
 
 { #category : #private }
 GTExampleNautilus >> examples: aBlock1 do: aBlock2 [
-	^ aBlock1 value do: aBlock2
+	^ aBlock1 value 
+		select: [ :each | each isGTExample ] 
+		thenDo: aBlock2
+]
+
+{ #category : #private }
+GTExampleNautilus >> examples: aBlock1 select: aBlock2 [
+	^ aBlock1 value 
+		select: [ :example | example isGTExample and: [ aBlock2 value: example ] ]
 ]
 
 { #category : #public }
@@ -89,19 +98,24 @@ GTExampleNautilus >> onClass: aBuilder [
 		parent: #gte;
 		order: 90101;
 		keyText: 'e, s' if: Nautilus useOldStyleKeys not;
-		action: [ self class browseAllExamplesWithSubject: class theNonMetaClass name ]
+		action: [ self class browseAllExamplesWithSubject: class theNonMetaClass asGTExampleSubject ]
 ]
 
 { #category : #public }
 GTExampleNautilus >> onCompiledMethod: aBuilder [
-	| target method |
+	| target method examples |
 	
 	target := aBuilder model.
 	(method := target selectedMethod) ifNil: [ ^ self ].
-
-	self onExamples: [ method gtExamples ] builder: aBuilder.
-	self onReferences: method selector builder: aBuilder.
-	self onSubjects: method gtExamples builder: aBuilder.
+	(examples := method gtExamples) ifNotEmpty: [ 
+		self onExamples: [ examples ] builder: aBuilder.
+		self onReferences: method selector builder: aBuilder.
+		self onSubjects: method gtExamples builder: aBuilder ].
+	(aBuilder item: #'Browse Examples having subject #' ,  method gtDisplayString)
+		parent: #gte;
+		order: 90101;
+		keyText: 'e, s' if: Nautilus useOldStyleKeys not;
+		action: [ self class browseAllExamplesWithSubject: method asGTExampleSubject ]
 ]
 
 { #category : #public }
@@ -114,11 +128,15 @@ GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
 	
 	(aBuilder item: #'Inspect Examples')
 		parent: #gte;
-		order: 90000;
 		keyText: 'e, i' if: Nautilus useOldStyleKeys not;
 		action: [ (self examples: aBlock) inspect ];
 		withSeparatorAfter.
 	
+	(aBuilder item: #'Inspect Problems')
+		parent: #gte;
+		order: 90001;
+		action: [ (self examples: aBlock select: [ :example | example hasProblems ]) inspect ].
+		
 	(aBuilder item: #'Inspect Return-Values')
 		parent: #gte;
 		order: 90001;
@@ -128,7 +146,6 @@ GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
 	(aBuilder item: #'Inspect Results (full)')
 		parent: #gte;
 		order: 90002;
-		keyText: 'e, r' if: Nautilus useOldStyleKeys not;
 		action: [ (self examples: aBlock collect: [ :example | example result ]) inspect ];
 		withSeparatorAfter.
 		
@@ -154,19 +171,16 @@ GTExampleNautilus >> onExamples: aBlock builder: aBuilder [
 	(aBuilder item: 'Browse all Examples with Problems')
 		parent: #gte;
 		order: 90006;
-		keyText: 'e, p' if: Nautilus useOldStyleKeys not;
 		action: [ self class browseAllExamplesWithProblems ].
 
 	(aBuilder item: 'Browse all Examples with Dependencies')
 		parent: #gte;
 		order: 90007;
-		keyText: 'e, c' if: Nautilus useOldStyleKeys not;
 		action: [ self class browseAllExamplesWithDependencies ].
 		
 	(aBuilder item: 'Browse all Examples ignored by Tests')
 		parent: #gte;
 		order: 90008;
-		keyText: 'e, t' if: Nautilus useOldStyleKeys not;
 		action: [ self class browseAllExamplesIgnoredByTests ];
 		withSeparatorAfter.		
 ]

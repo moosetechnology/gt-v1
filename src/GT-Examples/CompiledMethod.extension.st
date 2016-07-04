@@ -3,7 +3,7 @@ Extension { #name : #CompiledMethod }
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> asGTExampleSubject [
 	^ GTExampleMethodSubject new 
-		methodClassName: self methodClassName;
+		methodClassName: self methodClass theNonMetaClass name;
 		methodClass: self methodClass;
 		selector: self selector;
 		meta: self methodClass isMeta;
@@ -23,7 +23,9 @@ CompiledMethod >> gtExampleValue [
 
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> gtExamples [
-	^ { self gtExample }
+	^ self gtExample 
+		ifNotNil: [ :example | { example } ]
+		ifNil: [ {  } ]
 ]
 
 { #category : #'*GT-Examples-Core' }

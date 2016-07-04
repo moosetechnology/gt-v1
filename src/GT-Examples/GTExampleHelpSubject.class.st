@@ -39,7 +39,7 @@ GTExampleHelpSubject >> exists [
 { #category : #UI }
 GTExampleHelpSubject >> forNautilus: aBlock [
 	aBlock 
-		value: #'Open help ' ,  self topic gtDisplayString , (self title ifNotNil: [ ' > ', self title ])
+		value: #'Open help ' ,  self topic gtDisplayString , (self title ifNotNil: [ ' > ', self title ] ifNil: [ '' ])
 		value: [ 
 			| browser |
 			browser := (HelpBrowser openOn: self topic).
