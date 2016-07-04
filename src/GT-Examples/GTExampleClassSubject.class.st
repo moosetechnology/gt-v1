@@ -9,6 +9,11 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #UI }
+GTExampleClassSubject >> addToSelectorEnvironment: aSelectorEnvironment [
+	aSelectorEnvironment addClass: self theClass
+]
+
 { #category : #private }
 GTExampleClassSubject >> ensure [
 	" 1) reset "

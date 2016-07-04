@@ -8,6 +8,13 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #UI }
+GTExampleTagSubject >> addToSelectorEnvironment: aSelectorEnvironment [
+	self thePackage ifNotNil: [ :pkg | 
+		pkg classes do: [ :class | 
+			aSelectorEnvironment addClass: class ] ]
+]
+
 { #category : #private }
 GTExampleTagSubject >> ensure [
 	theTag ifNotNil: [ theTag isEmpty ifTrue: [ theTag := nil ] ].

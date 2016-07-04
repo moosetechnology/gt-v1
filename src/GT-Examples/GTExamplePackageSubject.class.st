@@ -8,6 +8,15 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #UI }
+GTExamplePackageSubject >> addToSelectorEnvironment: aSelectorEnvironment [
+	self thePackage ifNotNil: [ :pkg | 
+		pkg classes do: [ :class | 
+			aSelectorEnvironment addClass: class ].
+		pkg extensionMethods do: [ :method | 
+			aSelectorEnvironment addClass: method methodClass selector: method selector ] ]
+]
+
 { #category : #private }
 GTExamplePackageSubject >> ensure [
 	thePackage ifNotNil: [ thePackage isEmpty ifTrue: [ thePackage := nil ] ].

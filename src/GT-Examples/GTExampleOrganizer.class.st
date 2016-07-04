@@ -65,7 +65,13 @@ GTExampleOrganizer class >> stop [
 	self reset
 ]
 
-{ #category : #private }
+{ #category : #'private-maintenance' }
+GTExampleOrganizer >> addExamplesOfClass: aClassName for: announcement [
+	(Smalltalk classNamed: aClassName asString) ifNotNil: [ :class | 
+		announcement addExamples: class theNonMetaClass gtExamples ]
+]
+
+{ #category : #accessing }
 GTExampleOrganizer >> announcer [
 	^ SystemAnnouncer uniqueInstance weak
 ]
@@ -84,7 +90,7 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
 			self examplesDo: [ :example | ann removeExample: example ].
-			self reset; reinitialize.
+			self reset.
 			self examplesDo: [ :example | ann addExample: example ]. ] ]
 ]
 
@@ -92,18 +98,15 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 GTExampleOrganizer >> classRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
-			ann removeExamples: (theNonMetaClassExamples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ]).
-			ann removeExamples: (theMetaClassExamples removeKey: anAnnouncement classRemoved theNonMetaClass name ifAbsent: [ nil ]) ] ]
+			self removeExamplesOfClass: anAnnouncement classRemoved theNonMetaClass name for: ann ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> classRenamed: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
-			ann removeExamples: (theNonMetaClassExamples removeKey: anAnnouncement oldName asSymbol ifAbsent: [ nil ]).
-			ann removeExamples: (theMetaClassExamples removeKey: anAnnouncement oldName asSymbol ifAbsent: [ nil ]).
-			(Smalltalk classNamed: anAnnouncement newName) ifNotNil: [ :class | 
-				ann addExamples: class gtExamples ] ] ]
+			self removeExamplesOfClass: anAnnouncement oldName for: ann.
+			self addExamplesOfClass: anAnnouncement newName for: ann ] ]
 ]
 
 { #category : #accessing }
@@ -122,7 +125,7 @@ GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlo
 				ifAbsentPut: aBlock
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTExampleOrganizer >> examplesAnnouncer [
 	^ GTExampleAnnouncer instance
 ]
@@ -193,49 +196,59 @@ GTExampleOrganizer >> initialize [
 { #category : #'private-events' }
 GTExampleOrganizer >> loadStarted: anAnnouncement [
 	self withoutExceptionsDo: [
-		self stopSystemAnnouncements ]
+		self stopSystemAnnouncements.
+		self reset ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> loadStopped: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self startSystemAnnouncements ]
+		self startSystemAnnouncements.
+		self reinitialize ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodAdded: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
-			ann addExample: anAnnouncement method gtExample ].
-		GTExampleNautilusAction methodChanged: anAnnouncement method. ]
+			self removeExamplesOfMethod: anAnnouncement method for: ann.
+			ann addExample: anAnnouncement method gtExample ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodModified: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
-			theNonMetaClassExamples removeKey: anAnnouncement classRemoved theNonMetaClass name thenDo: [ :methodDict |
-				ann removeExample: (methodDict removeKey: anAnnouncement method selector ifAbsent: [ nil ]) ].
-			theMetaClassExamples removeKey: anAnnouncement classRemoved theNonMetaClass name thenDo: [ :methodDict |
-				ann removeExample: (methodDict removeKey: anAnnouncement method selector ifAbsent: [ nil ]) ].
-			ann addExample: anAnnouncement method gtExample ].
-		GTExampleNautilusAction methodChanged: anAnnouncement method. ]
+			self removeExamplesOfMethod: anAnnouncement oldMethod for: ann.
+			self removeExamplesOfMethod: anAnnouncement method for: ann.
+			ann addExample: anAnnouncement method gtExample ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> methodRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
 		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
-			theNonMetaClassExamples removeKey: anAnnouncement oldMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
-				ann removeExample: (methodDict removeKey: anAnnouncement oldMethod selector ifAbsent: [ nil ]) ].
-			theMetaClassExamples removeKey: anAnnouncement oldMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
-				ann removeExample: (methodDict removeKey: anAnnouncement oldMethod selector ifAbsent: [ nil ]) ] ].
-		GTExampleNautilusAction methodChanged: anAnnouncement method. ]
+			self removeExamplesOfMethod: anAnnouncement method for: ann ] ]
 ]
 
 { #category : #public }
 GTExampleOrganizer >> reinitialize [
 	SmalltalkImage current gtExamplesContained
+]
+
+{ #category : #'private-maintenance' }
+GTExampleOrganizer >> removeExamplesOfClass: aClassName for: announcement [
+	announcement removeExamples: (theNonMetaClassExamples removeKey: aClassName ifAbsent: [ nil ]).
+	announcement removeExamples: (theMetaClassExamples removeKey: aClassName	ifAbsent: [ nil ])
+]
+
+{ #category : #'private-maintenance' }
+GTExampleOrganizer >> removeExamplesOfMethod: aCompiledMethod for: announcement [
+	theNonMetaClassExamples removeKey: aCompiledMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
+		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ].
+	theMetaClassExamples removeKey: aCompiledMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
+		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ].
+	GTExampleNautilusAction methodChanged: aCompiledMethod
 ]
 
 { #category : #public }

@@ -4,6 +4,10 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #UI }
+GTAbstractExampleSubject >> addToSelectorEnvironment: aSelectorEnvironment [
+]
+
 { #category : #converting }
 GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self

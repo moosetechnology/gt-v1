@@ -4,6 +4,11 @@ Class {
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #UI }
+GTExampleMethodSubject >> addToSelectorEnvironment: aSelectorEnvironment [
+	aSelectorEnvironment addClass: self methodClass selector: self selector
+]
+
 { #category : #'accessing-dynamic' }
 GTExampleMethodSubject >> asGTExampleSubject [
 	^ self
