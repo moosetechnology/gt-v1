@@ -44,6 +44,15 @@ GlobalIdentifier class >> cleanUp [
 	self reset.
 ]
 
+{ #category : #'class initialization' }
+GlobalIdentifier class >> initialize [
+
+	SessionManager default
+		register: (ClassSessionHandler forClassNamed: self name)
+		inCategory: SessionManager default systemCategory  
+		atPriority: SessionManager default defaultPriority - 100.
+]
+
 { #category : #initialization }
 GlobalIdentifier class >> initializeUniqueInstance [
 	uniqueInstance := self basicNew initialize.
@@ -61,6 +70,12 @@ GlobalIdentifier class >> new [
 GlobalIdentifier class >> reset [
 	"self reset"
 	uniqueInstance := nil
+]
+
+{ #category : #'system startup' }
+GlobalIdentifier class >> startUp: resuming [
+
+	self reset
 ]
 
 { #category : #accessing }
