@@ -190,7 +190,7 @@ GTExample >> description: anObject [
 { #category : #TODO }
 GTExample >> directDependents [
 	<todo: 'better name -> #myDependents and #dependents is taken - wtf!'>
-	^ (GTExampleOrganizer instance examplesSelect: [ :each | each hasDependency: self ]) asSet
+	^ (GTExampleOrganizer instance examplesSelect: [ :each | each hasDependency: self ]) asSet asArray
 ]
 
 { #category : #'accessing-dynamic' }
@@ -309,7 +309,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 	self hasDependencies ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependencies';
-		allCandidates: [ self dependenciesOrArguments ];
+		items: [ self dependenciesOrArguments ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -320,7 +320,7 @@ GTExample >> gtSpotterDependentsFor: aStep [
 	self hasDependents ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependents';
-		allCandidates: [ self directDependents ];
+		items: [ self directDependents ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -353,7 +353,7 @@ GTExample >> gtSpotterSubjectsFor: aStep [
 	self hasSubjects ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Subjects';
-		allCandidates: [ self subjects ];
+		items: [ self subjects asArray ];
 		itemName: [ :subject | subject gtDisplayString ];
 		filter: GTFilterSubstring
 ]

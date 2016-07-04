@@ -32,6 +32,14 @@ CompiledMethod >> gtExamples [
 CompiledMethod >> gtExamplesFactory [
 	^ GTExampleFactory new
 		source: self methodClass;
+		provider: self;
+		yourself
+]
+
+{ #category : #'*GT-Examples-Core' }
+CompiledMethod class >> gtExamplesFactory [
+	^ super gtExamplesFactory
+		provider: self class;
 		yourself
 ]
 
@@ -44,6 +52,15 @@ CompiledMethod >> isGTExampleMethod [
 CompiledMethod >> isGTReservedMethod [
 	^ #( gtExamplesSubjects gtExamplesFactory gtExample gtExamples ) 
 			anySatisfy: [ :selector | selector = self selector ]
+]
+
+{ #category : #'*GT-Examples-UI' }
+CompiledMethod >> spotterForExamplesFor: aStep [
+	<spotterOrder: 12>
+	aStep listProcessor
+		title: 'Examples';
+		items: [ self gtExamples ];
+		filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-Examples-Core' }

@@ -38,7 +38,7 @@ GTAbstractExampleFactory >> defaultCache [
 GTAbstractExampleFactory >> defaultProvider [
 	^ self source isMeta
 		ifTrue: [ self source ]
-		ifFalse: [ self source new ]
+		ifFalse: [ self source basicNew " this might not work for all sources ! " ]
 ]
 
 { #category : #'accessing-defaults' }
@@ -167,9 +167,14 @@ GTAbstractExampleFactory >> isGTExampleMethod: aCompiledMethod [
 	^ aCompiledMethod isGTExampleMethod
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GTAbstractExampleFactory >> provider [
 	^ provider ifNil: [ provider := self defaultProvider ]
+]
+
+{ #category : #accessing }
+GTAbstractExampleFactory >> provider: anObject [
+	provider := anObject
 ]
 
 { #category : #private }

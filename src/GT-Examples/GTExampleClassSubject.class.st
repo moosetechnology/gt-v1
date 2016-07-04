@@ -48,6 +48,11 @@ GTExampleClassSubject >> forNautilus: aBlock [
 
 ]
 
+{ #category : #UI }
+GTExampleClassSubject >> gtDisplayOn: aStream [
+	aStream printOn: self theClassName
+]
+
 { #category : #testing }
 GTExampleClassSubject >> hasLiteralThorough: aLiteral [
 	^ self theClass = aLiteral

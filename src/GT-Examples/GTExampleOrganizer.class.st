@@ -110,19 +110,41 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 ]
 
 { #category : #accessing }
+GTExampleOrganizer >> exampleAt: aCompiledMethod [
+	^ self exampleAt: aCompiledMethod ifAbsent: [ aCompiledMethod gtExample ]
+]
+
+{ #category : #accessing }
+GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsent: aBlock [
+	^ self exampleAtClass: aCompiledMethod methodClass selector: aCompiledMethod selector ifAbsent: aBlock
+]
+
+{ #category : #accessing }
 GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsentPut: aBlock [
 	^ self exampleAtClass: aCompiledMethod methodClass selector: aCompiledMethod selector ifAbsentPut: aBlock
 ]
 
 { #category : #private }
-GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlock [
+GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsent: aBlock [
 	^ ((class isMeta 
 		ifTrue: [ theMetaClassExamples ]
 		ifFalse: [ theNonMetaClassExamples ]) 
-			at: class name
-			ifAbsentPut: [ WeakIdentityKeyDictionary new: 100 ]) 
+			at: class theNonMetaClass name
+			ifAbsentPut: [ WeakIdentityKeyDictionary new: 100 ])
 				at: selector 
-				ifAbsentPut: aBlock
+				ifAbsent: aBlock
+]
+
+{ #category : #private }
+GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlock [
+	| methodDict |
+	methodDict := (class isMeta 
+		ifTrue: [ theMetaClassExamples ]
+		ifFalse: [ theNonMetaClassExamples ]) 
+			at: class theNonMetaClass name
+			ifAbsentPut: [ WeakIdentityKeyDictionary new: 100 ].
+	^ methodDict at: selector ifAbsent: [ 
+		aBlock value ifNotNil: [ :example | methodDict at: selector put: example ] ]
 ]
 
 { #category : #accessing }

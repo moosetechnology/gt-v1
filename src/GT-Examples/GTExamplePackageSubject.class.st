@@ -47,6 +47,11 @@ GTExamplePackageSubject >> forNautilus: aBlock [
 		value: [ self thePackage browse ]
 ]
 
+{ #category : #UI }
+GTExamplePackageSubject >> gtDisplayOn: aStream [
+	aStream printOn: self thePackageName
+]
+
 { #category : #testing }
 GTExamplePackageSubject >> hasLiteralThorough: aLiteral [
 	^ self thePackageName = aLiteral

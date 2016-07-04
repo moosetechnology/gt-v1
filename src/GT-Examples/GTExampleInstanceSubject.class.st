@@ -25,6 +25,11 @@ GTExampleInstanceSubject >> forNautilus: aBlock [
 		value: [ self instance inspect ]
 ]
 
+{ #category : #UI }
+GTExampleInstanceSubject >> gtDisplayOn: aStream [
+	self instance gtDisplayOn: aStream
+]
+
 { #category : #testing }
 GTExampleInstanceSubject >> hasLiteralThorough: aLiteral [
 	^ (self theClass name = aLiteral)

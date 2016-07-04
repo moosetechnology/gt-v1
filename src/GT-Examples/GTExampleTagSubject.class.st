@@ -45,6 +45,11 @@ GTExampleTagSubject >> forNautilus: aBlock [
 		value: [ self theTag browse ]
 ]
 
+{ #category : #UI }
+GTExampleTagSubject >> gtDisplayOn: aStream [
+	aStream printOn: self theTagName
+]
+
 { #category : #testing }
 GTExampleTagSubject >> hasLiteralThorough: aLiteral [
 	^ self theTag name = aLiteral

@@ -53,6 +53,11 @@ GTExampleHelpSubject >> forNautilus: aBlock [
 			self title ifNotNil: [ browser selectTopicSatisfying: [ :subhelp | subhelp title = self title ] ] ]
 ]
 
+{ #category : #UI }
+GTExampleHelpSubject >> gtDisplayOn: aStream [
+	self topic gtDisplayOn: aStream
+]
+
 { #category : #testing }
 GTExampleHelpSubject >> hasLiteralThorough: aLiteral [
 	^ self topic notNil 

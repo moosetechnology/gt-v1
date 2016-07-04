@@ -37,6 +37,11 @@ GTAbstractExampleMethod >> exists [
 			and: [ self methodClass includesSelector: self selector ] ]
 ]
 
+{ #category : #ui }
+GTAbstractExampleMethod >> gtDisplayOn: aStream [
+	self method gtDisplayOn: aStream
+]
+
 { #category : #'accessing-dynamic' }
 GTAbstractExampleMethod >> gtExample [
 	^ self hasExample 
