@@ -2,31 +2,66 @@ Class {
 	#name : #GTExampleClassSubject,
 	#superclass : #GTAbstractExampleSubject,
 	#instVars : [
-		'subjectClass'
+		'theClassName',
+		'theClass',
+		'meta'
 	],
 	#category : #'GT-Examples-Utils'
 }
 
+{ #category : #private }
+GTExampleClassSubject >> ensure [
+	" 1) reset "
+	theClass ifNotNil: [ theClass isObsolete ifTrue: [ theClass := nil ] ].
+	
+	" 2) reinitialize "
+	theClass ifNil: [ theClass := self meta 
+			ifTrue: [ (Smalltalk classNamed: self theClassName) class ] 
+			ifFalse: [ Smalltalk classNamed: self theClassName ] ]
+		
+]
+
 { #category : #testing }
 GTExampleClassSubject >> exists [
-	^ self subclassResponsibility
+	^ self theClass notNil
 ]
 
 { #category : #testing }
 GTExampleClassSubject >> hasLiteralThorough: aLiteral [
-	^ self subjectClass = aLiteral
-		or: [ self subjectClass name = aLiteral
-			or: [ self subjectClass methods anySatisfy: [ :method | 
+	^ self theClass = aLiteral
+		or: [ self theClass name = aLiteral
+			or: [ self theClass methods anySatisfy: [ :method | 
 						method selector = aLiteral
 							or: [ 	method hasLiteralThorough: aLiteral ] ] ] ]
 ]
 
 { #category : #accessing }
-GTExampleClassSubject >> subjectClass [
-	^ subjectClass
+GTExampleClassSubject >> meta [
+	^ meta
 ]
 
 { #category : #accessing }
-GTExampleClassSubject >> subjectClass: anObject [
-	subjectClass := anObject
+GTExampleClassSubject >> meta: anObject [
+	meta := anObject
+]
+
+{ #category : #accessing }
+GTExampleClassSubject >> theClass [
+	self ensure.
+	^ theClass
+]
+
+{ #category : #accessing }
+GTExampleClassSubject >> theClass: anObject [
+	theClass := anObject
+]
+
+{ #category : #accessing }
+GTExampleClassSubject >> theClassName [
+	^ theClassName
+]
+
+{ #category : #accessing }
+GTExampleClassSubject >> theClassName: anObject [
+	theClassName := anObject
 ]

@@ -8,9 +8,14 @@ Class {
 }
 
 { #category : #testing }
+GTExampleInstanceSubject >> exists [
+	^ self theClass notNil
+]
+
+{ #category : #testing }
 GTExampleInstanceSubject >> hasLiteralThorough: aLiteral [
-	^ (self instance class name = aLiteral)
-		or: [ self instance class methods anySatisfy: [ :method | 
+	^ (self theClass name = aLiteral)
+		or: [ self theClass methods anySatisfy: [ :method | 
 					method selector = aLiteral
 						or: [ 	method hasLiteralThorough: aLiteral ] ] ]
 ]
@@ -23,4 +28,9 @@ GTExampleInstanceSubject >> instance [
 { #category : #accessing }
 GTExampleInstanceSubject >> instance: anObject [
 	instance := anObject
+]
+
+{ #category : #'accessing-dynamic' }
+GTExampleInstanceSubject >> theClass [
+	^ self instance class
 ]

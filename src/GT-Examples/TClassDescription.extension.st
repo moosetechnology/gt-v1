@@ -3,7 +3,9 @@ Extension { #name : #TClassDescription }
 { #category : #'*GT-Examples-Core' }
 TClassDescription >> asGTExampleSubject [
 	^ GTExampleClassSubject new 
-		subjectClass: self;
+		theClassName: self name;
+		theClass: self;
+		meta: self isMeta;
 		yourself
 ]
 

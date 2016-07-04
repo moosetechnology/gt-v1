@@ -3,8 +3,10 @@ Extension { #name : #CompiledMethod }
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> asGTExampleSubject [
 	^ GTExampleMethodSubject new 
-		subjectClass: self methodClass;
-		subjectSelector: self selector;
+		methodClassName: self methodClassName;
+		methodClass: self methodClass;
+		selector: self selector;
+		meta: self methodClass isMeta;
 		yourself
 ]
 

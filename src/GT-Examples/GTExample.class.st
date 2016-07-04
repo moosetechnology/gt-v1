@@ -758,6 +758,36 @@ GTExample >> subject: aClassOrClassName [
 		self subjects add: class asGTExampleSubject ]
 ]
 
+{ #category : #'pragma-selectors' }
+GTExample >> subjectClass: aClassOrClassName [
+	<gtExamplePragma>
+	
+	self classNamed: aClassOrClassName do: [ :class | 
+		self subjects add: class theNonMetaClass asGTExampleSubject ]
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	
+	self subjects add: (self methodForClassNamed: aClassOrClassName meta: false selector: aSelector) asGTExampleSubject
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectMetaClass: aClassOrClassName [
+	<gtExamplePragma>
+	
+	self classNamed: aClassOrClassName do: [ :class | 
+		self subjects add: class theMetaClass asGTExampleSubject ]
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectMetaClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	
+	self subjects add: (self methodForClassNamed: aClassOrClassName meta: true selector: aSelector) asGTExampleSubject
+]
+
 { #category : #accessing }
 GTExample >> subjects [
 	^ subjects
