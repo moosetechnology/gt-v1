@@ -37,6 +37,11 @@ GTExample >> = anExample [
 			and: [ self selector = anExample selector ] ]
 ]
 
+{ #category : #private }
+GTExample >> addProblem: aProblem [
+	problems add: aProblem
+]
+
 { #category : #accessing }
 GTExample >> after [
 	^ after
@@ -94,7 +99,8 @@ GTExample >> allDependents [
 
 { #category : #'accessing-dynamic' }
 GTExample >> allProblems [
-	^ self problems, self invalidArguments
+	" some problems are static -> #problems / other problems are dynamic (and changing) and not stored in #problems -> arguments+examples "
+	^ (problems , self invalidArguments) asArray
 ]
 
 { #category : #'accessing-dynamic' }
@@ -377,7 +383,7 @@ GTExample >> gtSpotterProblemsFor: aStep [
 	self hasProblems ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Problems';
-		items: [ self problems asArray ];
+		items: [ self allProblems ];
 		itemName: [ :problem | problem gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -684,11 +690,6 @@ GTExample >> painter [
 	^ GTExamplePainter new 
 		example: self;
 		yourself
-]
-
-{ #category : #accessing }
-GTExample >> problems [
-	^ problems
 ]
 
 { #category : #accessing }
