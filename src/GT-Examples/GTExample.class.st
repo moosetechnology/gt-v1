@@ -316,13 +316,6 @@ GTExample >> gtInspectorProblemsIn: composite [
 ]
 
 { #category : #ui }
-GTExample >> gtInspectorRoassalIn: composite [
-	<gtInspectorPresentationOrder: 1>
-	self hasRelationships ifFalse: [ ^ self ].
-	^ self viewer gtInspectorRoassalIn: composite
-]
-
-{ #category : #ui }
 GTExample >> gtSpotterDependenciesFor: aStep [
 	<spotterOrder: 101>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -685,13 +678,6 @@ GTExample >> noTestReport [
 	self propertyAt: #noTestReport put: true
 ]
 
-{ #category : #ui }
-GTExample >> painter [
-	^ GTExamplePainter new 
-		example: self;
-		yourself
-]
-
 { #category : #accessing }
 GTExample >> propertyAt: aKey [
 	^ (properties ifNil: [ KeyNotFound signalFor: aKey ])
@@ -875,13 +861,6 @@ GTExample >> substrings: aString do: aBlock [
 { #category : #'accessing-dynamic' }
 GTExample >> traverser [
 	^ GTExampleTraverser new 
-		example: self;
-		yourself
-]
-
-{ #category : #ui }
-GTExample >> viewer [
-	^ GTExampleView new 
 		example: self;
 		yourself
 ]
