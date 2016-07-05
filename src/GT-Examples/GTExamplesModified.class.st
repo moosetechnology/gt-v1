@@ -39,6 +39,12 @@ GTExamplesModified >> initialize [
 	removed := OrderedCollection new: 100.
 ]
 
+{ #category : #testing }
+GTExamplesModified >> isEmpty [
+	^ added isEmptyOrNil 
+		or: [ removed isEmptyOrNil ]
+]
+
 { #category : #public }
 GTExamplesModified >> removeExample: anExample [
 	anExample ifNil: [ ^ self ].

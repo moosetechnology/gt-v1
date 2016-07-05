@@ -4,3 +4,8 @@ Extension { #name : #WeakSubscriptionBuilder }
 WeakSubscriptionBuilder >> unsubscribe: anAnnouncementClass thoroughlyFor: aSubscriber [
 	announcer unsubscribe: anAnnouncementClass thoroughlyFor: aSubscriber
 ]
+
+{ #category : #'*GT-Examples-Core' }
+WeakSubscriptionBuilder >> unsubscribeThoroughly: aSubscriber [
+	announcer unsubscribeThoroughly: aSubscriber
+]

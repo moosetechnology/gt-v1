@@ -35,11 +35,7 @@ GTExampleOrganizer class >> new [
 GTExampleOrganizer class >> registerInterestToSystemAnnouncement [
 	<systemEventRegistration>
 	
-	self instance 
-		stopSystemAnnouncements;
-		stopMonticelloAnnouncements;
-		startSystemAnnouncements;
-		startMonticelloAnnouncements.
+	self restart
 ]
 
 { #category : #public }
@@ -147,15 +143,10 @@ GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlo
 		aBlock value ifNotNil: [ :example | methodDict at: selector put: example ] ]
 ]
 
-{ #category : #accessing }
-GTExampleOrganizer >> examplesAnnouncer [
-	^ GTExampleAnnouncer instance
-]
-
 { #category : #enumeration }
 GTExampleOrganizer >> examplesCollect: aBlock [
 	| examples |
-	examples := OrderedCollection new.
+	examples := OrderedCollection new: 1000.
 	self examplesDo: [ :class :method :example | 
 		examples add: (aBlock value: example) ].
 	^ examples
@@ -186,9 +177,20 @@ GTExampleOrganizer >> examplesReject: aBlock [
 { #category : #enumeration }
 GTExampleOrganizer >> examplesSelect: aBlock [
 	| examples |
-	examples := OrderedCollection new.
+	examples := OrderedCollection new: 1000.
 	self examplesDo: [ :class :selector :example | 
 		(aBlock value: example) ifTrue: [ examples add: example ] ].
+	^ examples
+]
+
+{ #category : #enumeration }
+GTExampleOrganizer >> examplesSelect: aBlock1 thenDo: aBlock2 [
+	| examples |
+	examples := OrderedCollection new: 1000.
+	self examplesDo: [ :example |
+		(aBlock2 value: example) ifTrue: [ 
+			examples add: example.
+			aBlock1 value: example ] ].
 	^ examples
 ]
 
@@ -278,8 +280,7 @@ GTExampleOrganizer >> removeExamplesOfMethod: aCompiledMethod for: announcement 
 	theNonMetaClassExamples removeKey: aCompiledMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
 		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ].
 	theMetaClassExamples removeKey: aCompiledMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
-		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ].
-	GTExampleNautilusAction methodChanged: aCompiledMethod
+		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ]
 ]
 
 { #category : #public }
@@ -302,7 +303,7 @@ GTExampleOrganizer >> start [
 { #category : #private }
 GTExampleOrganizer >> startMonticelloAnnouncements [
 	monticelloAnnouncements == true ifTrue: [ ^ self ].
-	self announcer
+	SystemAnnouncer uniqueInstance weak
 		when: MCVersionLoaderStarted send: #loadStarted: to: self;
 		when: MCVersionLoaderStopped send: #loadStopped: to: self.
 	monticelloAnnouncements := true
@@ -311,7 +312,7 @@ GTExampleOrganizer >> startMonticelloAnnouncements [
 { #category : #private }
 GTExampleOrganizer >> startSystemAnnouncements [
 	systemAnnouncements == true ifTrue: [ ^ self ].
-	self announcer
+	SystemAnnouncer uniqueInstance weak
 		when: MethodAdded send: #methodAdded: to: self;
 		when: MethodModified send: #methodModified: to: self;
 		when: MethodRemoved send: #methodRemoved: to: self;
@@ -329,7 +330,7 @@ GTExampleOrganizer >> stop [
 
 { #category : #private }
 GTExampleOrganizer >> stopMonticelloAnnouncements [
-	self announcer 
+	SystemAnnouncer uniqueInstance
 		unsubscribe: MCVersionLoaderStarted thoroughlyFor: self;
 		unsubscribe: MCVersionLoaderStopped thoroughlyFor: self.
 	monticelloAnnouncements := false
@@ -337,7 +338,7 @@ GTExampleOrganizer >> stopMonticelloAnnouncements [
 
 { #category : #private }
 GTExampleOrganizer >> stopSystemAnnouncements [
-	self announcer 
+	SystemAnnouncer uniqueInstance
 		unsubscribe: MethodAdded thoroughlyFor: self;
 		unsubscribe: MethodModified thoroughlyFor: self;
 		unsubscribe: MethodRemoved thoroughlyFor: self;
@@ -361,7 +362,8 @@ GTExampleOrganizer >> with: aClass announcement: announcement do: aBlock [
 		announcement: announcement;
 		yourself.
 	aBlock value: wrappedAnnouncement.
-	self examplesAnnouncer announce: wrappedAnnouncement
+	wrappedAnnouncement isEmpty ifTrue: [ ^ self ].
+	SystemAnnouncer uniqueInstance announce: wrappedAnnouncement
 ]
 
 { #category : #private }

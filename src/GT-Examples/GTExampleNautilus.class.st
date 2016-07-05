@@ -4,6 +4,17 @@ Class {
 	#category : #'GT-Examples-UI'
 }
 
+{ #category : #private }
+GTExampleNautilus class >> browse: aString examples: aCollection [
+	| env |
+	env := RBSelectorEnvironment new.
+	aCollection do: [ :example |
+		env addClass: example methodClass selector: example selector ].
+	env isEmpty 
+		ifTrue: [ ^ UIManager default inform: 'No examples found' ].
+	^ env gtBrowseFor: aString
+]
+
 { #category : #public }
 GTExampleNautilus class >> browseAllExampleSubjects: aCollectionOfExamples [
 	" self browseAllExamplesWithSubject: GTExample "
@@ -59,14 +70,7 @@ GTExampleNautilus class >> browseAllExamplesWithSubject: aGTExampleSubject [
 
 { #category : #private }
 GTExampleNautilus class >> browseExamples: aString select: aBlock [
-	| env |
-	env := RBSelectorEnvironment new.
-	Smalltalk gtExamplesContained do: [ :example |
-		(aBlock value: example) ifTrue: [ 
-			env addClass: example methodClass selector: example selector ] ].
-	env isEmpty 
-		ifTrue: [ ^ UIManager default inform: 'No examples found' ].
-	^ env gtBrowseFor: aString
+	^ self browse: aString examples: (Smalltalk gtExamplesContained select: [ :example | aBlock value: example ])
 ]
 
 { #category : #private }
