@@ -107,6 +107,16 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 ]
 
 { #category : #TODO }
+GTExampleOrganizer >> exampleAt: aCompiledMethod [
+	^ self exampleAt: aCompiledMethod ifAbsent: [ aCompiledMethod gtExample ]
+]
+
+{ #category : #TODO }
+GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsent: aBlock [
+	^ self exampleAtClass: aCompiledMethod methodClass selector: aCompiledMethod selector ifAbsent: aBlock
+]
+
+{ #category : #TODO }
 GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsentPut: aBlock [
 	^ self exampleAtClass: aCompiledMethod methodClass selector: aCompiledMethod selector ifAbsentPut: aBlock
 ]
@@ -130,8 +140,9 @@ GTExampleOrganizer >> exampleAtClass: class selector: selector ifAbsentPut: aBlo
 		ifFalse: [ theNonMetaClassExamples ]) 
 			at: class theNonMetaClass name
 			ifAbsentPut: [ WeakIdentityKeyDictionary new: 100 ].
-	^ methodDict at: selector ifAbsent: [ 
-		aBlock value ifNotNil: [ :example | methodDict at: selector put: example ] ]
+	^ methodDict 
+		at: selector 
+		ifAbsent: [ aBlock value ifNotNil: [ :example | methodDict at: selector put: example ] ]
 ]
 
 { #category : #enumeration }

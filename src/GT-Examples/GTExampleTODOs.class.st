@@ -14,7 +14,6 @@ GTExampleTODOs >> coreModel [
 	- deprecations of GTExampleFInder // cannot be deleted just like that 
 	
 	NEW
-	- lru cache for results (max last 10)
 	- debugger runtime end with #success if debugger is proceeded (bad!)
 	- better exception handling for running examples / ugly
 	"
