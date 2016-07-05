@@ -49,12 +49,12 @@ GTPlayBook class >> customDirectory: aFileReference [
 
 { #category : #'accessing-defaults' }
 GTPlayBook class >> defaultCacheDirectory [
-	^ 'play-cache/' asFileReference
+	^ (FileLocator localDirectory / 'play-cache') asFileReference
 ]
 
 { #category : #'accessing-defaults' }
 GTPlayBook class >> defaultStashDirectory [
-	^ 'play-stash/' asFileReference
+	^ (FileLocator localDirectory / 'play-stash') asFileReference
 ]
 
 { #category : #private }

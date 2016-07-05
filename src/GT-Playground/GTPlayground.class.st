@@ -356,10 +356,11 @@ GTPlayground >> compose [
 	self title: self defaultPlaygroundTitle.
 	self act: [:b | b update] icon: GLMUIThemeExtraIcons glamorousRefresh entitled: 'Update'.
 	self act: [:b | 
-		HelpBrowser open selectTopicSatisfying: [:each |
-			each owner notNil and:  [
-			(each owner key = GTPlaygroundHelp key) and: [
-				each title = 'Overview' ] ] ] ] 
+		| tree item |
+		tree := (HelpBrowser open instVarNamed: #treeMorph).
+		item := tree allItems detect: [:each | 
+			each complexContents item key = GTPlaygroundHelp key].
+		tree selection: item ] 
 		icon: GLMUIThemeExtraIcons glamorousHelp 
 		entitled: 'Help'.
 	self custom:
@@ -375,11 +376,12 @@ GTPlayground >> compose [
 
 { #category : #'building actions' }
 GTPlayground >> contextMenuActions [
-	^ (Pragma 
+	^ (Pragma
 		allNamed: self contextMenuPragma
 		from: self class class
-		to: Object class) flatCollect: [ :eachPragma |
-			self class perform: eachPragma selector with: self ]
+		to: Object class)
+		flatCollect:
+			[ :eachPragma | self class perform: eachPragma methodSelector with: self ]
 ]
 
 { #category : #accessing }
