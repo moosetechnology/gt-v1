@@ -319,7 +319,7 @@ GTExample >> gtInspectorProblemsIn: composite [
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasRelationships ifFalse: [ ^ self ].
-	^ self painter gtInspectorRoassalIn: composite
+	^ self viewer gtInspectorRoassalIn: composite
 ]
 
 { #category : #ui }
@@ -875,6 +875,13 @@ GTExample >> substrings: aString do: aBlock [
 { #category : #'accessing-dynamic' }
 GTExample >> traverser [
 	^ GTExampleTraverser new 
+		example: self;
+		yourself
+]
+
+{ #category : #ui }
+GTExample >> viewer [
+	^ GTExampleView new 
 		example: self;
 		yourself
 ]
