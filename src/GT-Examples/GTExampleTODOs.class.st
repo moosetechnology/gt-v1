@@ -11,7 +11,6 @@ GTExampleTODOs >> coreModel [
 	FIX / OLD MODEL
 	- GTExampleOrganizer #atClass:, ... <-> lazy generate if not present
 		--> invert lookup !
-	- notifications on system change
 	- deprecations of GTExampleFInder // cannot be deleted just like that 
 	
 	NEW

@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'theNonMetaClassExamples',
 		'theMetaClassExamples',
+		'results',
 		'systemAnnouncements',
 		'monticelloAnnouncements'
 	],
@@ -105,17 +106,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 			self addExamplesOfClass: anAnnouncement newName for: ann ] ]
 ]
 
-{ #category : #accessing }
-GTExampleOrganizer >> exampleAt: aCompiledMethod [
-	^ self exampleAt: aCompiledMethod ifAbsent: [ aCompiledMethod gtExample ]
-]
-
-{ #category : #accessing }
-GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsent: aBlock [
-	^ self exampleAtClass: aCompiledMethod methodClass selector: aCompiledMethod selector ifAbsent: aBlock
-]
-
-{ #category : #accessing }
+{ #category : #TODO }
 GTExampleOrganizer >> exampleAt: aCompiledMethod ifAbsentPut: aBlock [
 	^ self exampleAtClass: aCompiledMethod methodClass selector: aCompiledMethod selector ifAbsentPut: aBlock
 ]
@@ -220,6 +211,9 @@ GTExampleOrganizer >> initialize [
 	
 	theNonMetaClassExamples := WeakIdentityKeyDictionary new: 10000.
 	theMetaClassExamples := WeakIdentityKeyDictionary new: 10000.
+	results := LRUCache new
+		maximumWeight: 20;
+		yourself
 ]
 
 { #category : #'private-events' }
@@ -292,6 +286,17 @@ GTExampleOrganizer >> reset [
 GTExampleOrganizer >> restart [
 	self stopThoroughly.
 	self start.
+]
+
+{ #category : #TODO }
+GTExampleOrganizer >> resultAt: aGTExample ifAbsent: aBlock [
+	^ results at: { aGTExample methodClass. aGTExample selector } ifAbsent: aBlock
+]
+
+{ #category : #TODO }
+GTExampleOrganizer >> resultAt: aGTExample put: aGTExampleResult [
+	GTExampleNautilusActionButton methodUpdated: aGTExample method with: aGTExampleResult.
+	^ results at: { aGTExample methodClass. aGTExample selector } put: aGTExampleResult
 ]
 
 { #category : #public }
