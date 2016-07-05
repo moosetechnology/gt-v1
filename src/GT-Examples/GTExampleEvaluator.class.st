@@ -81,6 +81,6 @@ GTExampleEvaluator >> result [
 	self do: [ self value ] 
 		on: Error
 		do: [ :exception | result returnValue: nil; unexpectedError: exception ].
-	GTExampleNautilusAction methodUpdated: self example method with: result.
+	GTExampleNautilusActionButton methodUpdated: self example method with: result.
 	^ result
 ]

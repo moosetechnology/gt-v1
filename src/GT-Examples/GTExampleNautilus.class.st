@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Examples-UI'
 }
 
-{ #category : #private }
+{ #category : #public }
 GTExampleNautilus class >> browse: aString examples: aCollection [
 	| env |
 	env := RBSelectorEnvironment new.

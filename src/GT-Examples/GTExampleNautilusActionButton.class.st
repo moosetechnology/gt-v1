@@ -1,18 +1,18 @@
 Class {
-	#name : #GTExampleNautilusAction,
+	#name : #GTExampleNautilusActionButton,
 	#superclass : #AbstractMethodIconAction,
 	#category : #'GT-Examples-UI'
 }
 
 { #category : #private }
-GTExampleNautilusAction class >> iconForMethod: aCompiledMethod [
+GTExampleNautilusActionButton class >> iconForMethod: aCompiledMethod [
 	^ MethodWidget methodsIconsCache 
 		at: aCompiledMethod 
 		ifAbsent: [ self iconForMethod: aCompiledMethod result: nil ]
 ]
 
 { #category : #private }
-GTExampleNautilusAction class >> iconForMethod: aCompiledMethod result: aResult [
+GTExampleNautilusActionButton class >> iconForMethod: aCompiledMethod result: aResult [
 	aResult
 		ifNil: [ ^ Smalltalk ui icons iconNamed: #testNotRunIcon ].
 	aResult isSuccess
@@ -25,7 +25,7 @@ GTExampleNautilusAction class >> iconForMethod: aCompiledMethod result: aResult 
 ]
 
 { #category : #private }
-GTExampleNautilusAction class >> methodUpdated: aCompiledMethod with: aResult [
+GTExampleNautilusActionButton class >> methodUpdated: aCompiledMethod with: aResult [
 	[	MethodWidget methodsIconsCache 
 			at: aCompiledMethod 
 			put: (self iconForMethod: aCompiledMethod result: aResult). 
@@ -35,19 +35,19 @@ GTExampleNautilusAction class >> methodUpdated: aCompiledMethod with: aResult [
 ]
 
 { #category : #order }
-GTExampleNautilusAction >> actionOrder [
+GTExampleNautilusActionButton >> actionOrder [
 	"Return the priority of this action"
 	
 	^ 0
 ]
 
 { #category : #order }
-GTExampleNautilusAction >> isActionHandled [
+GTExampleNautilusActionButton >> isActionHandled [
 	^ method isGTExampleMethod
 ]
 
 { #category : #order }
-GTExampleNautilusAction >> privateActionIcon [
+GTExampleNautilusActionButton >> privateActionIcon [
 	"Return the icon for this action"
 	^ IconicButton new
 		target: self;
@@ -61,7 +61,7 @@ GTExampleNautilusAction >> privateActionIcon [
 ]
 
 { #category : #order }
-GTExampleNautilusAction >> run: aCompiledMethod [
+GTExampleNautilusActionButton >> run: aCompiledMethod [
 	aCompiledMethod gtExample ifNotNil: [ :example | 
 		example run isSuccess ifFalse: [ example debug ] ]
 ]
