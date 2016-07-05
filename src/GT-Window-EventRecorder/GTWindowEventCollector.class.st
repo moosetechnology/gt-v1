@@ -73,10 +73,9 @@ GTWindowEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
 	
-	SystemAnnouncer uniqueInstance 
-		when: PrivacyChangedAnnoucement
-			send: #privacyChanged 
-			to: self.
+	SystemAnnouncer uniqueInstance weak subscribe: PrivacyChangedAnnoucement
+		send: #privacyChanged 
+		to: self.
 ]
 
 { #category : #'announcement registration' }
