@@ -275,12 +275,21 @@ GTExample >> gtExamplesFactory [
 ]
 
 { #category : #ui }
-GTExample >> gtInspectorActionEvaluateResultAndGo [
+GTExample >> gtInspectorActionReturnValue [
 	<gtInspectorAction>
 	^ GLMGenericAction new
-		action: [ :p | p selection: self returnValue ];
-		icon: (Smalltalk ui icons iconNamed: #glamorousRight);
-		title: 'Evaluate result and go'
+		action: [ :p | p selection: (self runThenDo: [ :r | r returnValue ] onErrorDo: [ :r | r ]) ];
+		icon: (Smalltalk ui icons iconNamed: #glamorousGo);
+		title: 'Evaluate and inspect return-value'
+]
+
+{ #category : #ui }
+GTExample >> gtInspectorActionSubjects [
+	<gtInspectorAction>
+	^ GLMGenericAction new
+		action: [ GTExampleNautilus browseAllExampleSubjects: { self } ];
+		icon: (Smalltalk ui icons iconNamed: #glamorousBookmark);
+		title: 'Subjects'
 ]
 
 { #category : #ui }
@@ -747,6 +756,14 @@ GTExample >> returnValue [
 { #category : #actions }
 GTExample >> run [
 	^ self evaluator result 
+]
+
+{ #category : #actions }
+GTExample >> runThenDo: aBlock1 onErrorDo: aBlock2 [
+	| result |
+	^ (result := self run) isSuccess 
+		ifTrue: [ aBlock1 value: result ]
+		ifFalse: [ aBlock2 value: result ]
 ]
 
 { #category : #accessing }

@@ -84,6 +84,7 @@ GTExampleResult >> isFailure [
 { #category : #testing }
 GTExampleResult >> isSuccess [
 	^ self unexpectedError isNil
+		and: [ self example isValid ]
 ]
 
 { #category : #testing }

@@ -40,9 +40,19 @@ GTAbstractExampleMethod >> exists [
 { #category : #ui }
 GTAbstractExampleMethod >> gtDisplayOn: aStream [
 	super gtDisplayOn: aStream.
-	aStream nextPutAll: ' ('.
-	self method gtDisplayOn: aStream.
-	aStream nextPut: $).
+	self isValid 
+		ifTrue: [ 
+			aStream nextPutAll: ' ('. 
+			self method gtDisplayOn: aStream. 
+			aStream nextPut: $) ] 
+		ifFalse: [ 
+			aStream 
+				nextPutAll: ' (';
+				nextPutAll: self methodClassName asString; 
+				nextPutAll: ' >> #'; 
+				nextPutAll: self selector asString;
+				nextPut: $);
+				nextPutAll: ' [ invalid ]' ]
 ]
 
 { #category : #'accessing-dynamic' }
