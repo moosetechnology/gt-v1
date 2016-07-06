@@ -12,9 +12,9 @@ GTExampleFactory >> defaultExampleClass [
 { #category : #private }
 GTExampleFactory >> initializeFromMethod: aCompiledMethod forExample: aGTExample [
 	super initializeFromMethod: aCompiledMethod forExample: aGTExample.
-	
-	self initializeSubjectsFromSelector: self provider forExample: aGTExample.
-	"self initializeSubjectsFromPragma: self provider forExample: aGTExample."
+
+	self initializeSubjectsFromSelector: aCompiledMethod forExample: aGTExample.
+	"self initializeSubjectsFromPragma: aCompiledMethod forExample: aGTExample."
 	self initializePragmasFromMethod: aCompiledMethod forExample: aGTExample.
 
 ]

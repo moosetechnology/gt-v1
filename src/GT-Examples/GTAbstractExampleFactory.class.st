@@ -34,20 +34,6 @@ GTAbstractExampleFactory >> defaultCache [
 	^ GTExampleOrganizer instance
 ]
 
-{ #category : #'accessing-defaults' }
-GTAbstractExampleFactory >> defaultProvider [
-	^ self source isMeta
-		ifTrue: [ self source ]
-		ifFalse: [ self source basicNew " this might not work for all sources ! " ]
-]
-
-{ #category : #'accessing-defaults' }
-GTAbstractExampleFactory >> defaultSelectorsProvidingSubjects [
-	^ self source methods select: [ :each | 
-		each pragmas anySatisfy: [ :pragma | 
-			pragma keyword = #gtExamplesSubjects ] ]
-]
-
 { #category : #private }
 GTAbstractExampleFactory >> exampleAt: aCompiledMethod ifAbsentPut: aBlock [
 	^ aBlock value
@@ -126,7 +112,7 @@ GTAbstractExampleFactory >> initializeSubjects: aCollection forExample: aGTExamp
 		[ aGTExample subjects add: subject asGTExampleSubject ]
 			on:Error
 			do: [ :exception | 
-				aGTExample failures add: (GTExampleSubjectError new 
+				aGTExample addProblem: (GTExampleSubjectError new 
 					example: aGTExample;
 					subject: subject;
 					signaledException: exception;
@@ -134,24 +120,29 @@ GTAbstractExampleFactory >> initializeSubjects: aCollection forExample: aGTExamp
 ]
 
 { #category : #private }
-GTAbstractExampleFactory >> initializeSubjectsFromPragma: aProvider forExample: aGTExample [
-	[ self selectorsProvidingSubjects do: [ :each |
-			self initializeSubjects: (aProvider perform: each) forExample: aGTExample ] ]
+GTAbstractExampleFactory >> initializeSubjectsFromPragma: aCompiledMethod forExample: aGTExample [
+	[ 		| tmpProvider tmpSelectorProvidingSubjects |
+			tmpProvider := self providerFor: aCompiledMethod.
+			tmpSelectorProvidingSubjects := self selectorProvidingSubjectsFor: aCompiledMethod.
+			(tmpProvider class includesSelector: tmpSelectorProvidingSubjects) ifTrue: [
+				self initializeSubjects: (tmpProvider perform: tmpSelectorProvidingSubjects) forExample: aGTExample ] ]
 		on: Error
 		do: [ :exception | 
-			aGTExample failures add: (GTExampleSubjectError new 
+			aGTExample addProblem: (GTExampleSubjectError new 
 				example: aGTExample;
 				signaledException: exception;
 				yourself) ]
 ]
 
 { #category : #private }
-GTAbstractExampleFactory >> initializeSubjectsFromSelector: aProvider forExample: aGTExample [
-	[ (aProvider class includesSelector: #gtExamplesSubjects) ifTrue: [
-			self initializeSubjects: aProvider gtExamplesSubjects forExample: aGTExample ] ]
+GTAbstractExampleFactory >> initializeSubjectsFromSelector: aCompiledMethod forExample: aGTExample [
+	[ 		| tmpProvider |		
+			tmpProvider := self providerFor: aCompiledMethod.
+			(tmpProvider class includesSelector: #gtExamplesSubjects) ifTrue: [
+				self initializeSubjects: tmpProvider gtExamplesSubjects forExample: aGTExample ] ]
 		on: Error
 		do: [ :exception | 
-			aGTExample failures add: (GTExampleSubjectError new 
+			aGTExample addProblem: (GTExampleSubjectError new 
 				example: aGTExample;
 				signaledException: exception;
 				yourself) ]
@@ -169,7 +160,7 @@ GTAbstractExampleFactory >> isGTExampleMethod: aCompiledMethod [
 
 { #category : #accessing }
 GTAbstractExampleFactory >> provider [
-	^ provider ifNil: [ provider := self defaultProvider ]
+	^ provider
 ]
 
 { #category : #accessing }
@@ -178,8 +169,31 @@ GTAbstractExampleFactory >> provider: anObject [
 ]
 
 { #category : #private }
-GTAbstractExampleFactory >> selectorsProvidingSubjects [
-	^ selectorProvidingSubjects ifNil: [ selectorProvidingSubjects := self defaultSelectorsProvidingSubjects ]
+GTAbstractExampleFactory >> providerFor: aCompiledMethod [
+	^ provider ifNil: [ 
+		aCompiledMethod methodClass isMeta
+			ifTrue: [ aCompiledMethod methodClass theNonMetaClass ]
+			ifFalse: [ aCompiledMethod methodClass theNonMetaClass new ] ]
+]
+
+{ #category : #accessing }
+GTAbstractExampleFactory >> selectorProvidingSubjects [
+	^ selectorProvidingSubjects
+]
+
+{ #category : #accessing }
+GTAbstractExampleFactory >> selectorProvidingSubjects: aSelector [
+	^ selectorProvidingSubjects := aSelector
+]
+
+{ #category : #private }
+GTAbstractExampleFactory >> selectorProvidingSubjectsFor: aCompiledMethod [
+	^ selectorProvidingSubjects ifNil: [ 
+		aCompiledMethod methodClass methods 
+			detect: [ :each | 
+				each pragmas anySatisfy: [ :pragma | 
+					pragma keyword = #gtExamplesSubjects ] ]
+			ifNone: [ nil ] ]
 ]
 
 { #category : #accessing }

@@ -30,17 +30,7 @@ CompiledMethod >> gtExamples [
 
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> gtExamplesFactory [
-	^ GTExampleFactory new
-		source: self methodClass;
-		provider: self;
-		yourself
-]
-
-{ #category : #'*GT-Examples-Core' }
-CompiledMethod class >> gtExamplesFactory [
-	^ super gtExamplesFactory
-		provider: self class;
-		yourself
+	^ self methodClass gtExamplesFactory
 ]
 
 { #category : #'*GT-Examples-UI' }
