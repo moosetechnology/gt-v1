@@ -451,7 +451,7 @@ GTExample >> hasDependents [
 GTExample >> hasProblems [
 	^ problems notEmpty
 		or: [ self hasValidArguments not
-			or: [ self hasValidAfterArguments not 
+			or: [  self hasValidAfter not
 				or: [ self hasValidDependencies not ] ] ]
 ]
 
@@ -474,9 +474,9 @@ GTExample >> hasSubjects [
 ]
 
 { #category : #testing }
-GTExample >> hasValidAfterArguments [
-	^ self hasAfterArguments not
-		or: [ self after hasValidArguments ]
+GTExample >> hasValidAfter [
+	^ self hasAfter not
+		or: [ self after isValid ]
 ]
 
 { #category : #testing }
