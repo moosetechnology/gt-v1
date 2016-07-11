@@ -1,11 +1,12 @@
 Class {
 	#name : #GTAbstractExampleSubject,
-	#superclass : #Object,
+	#superclass : #GTAbstractExampleObject,
 	#category : #'GT-Examples-Utils'
 }
 
-{ #category : #UI }
-GTAbstractExampleSubject >> addToSelectorEnvironment: aSelectorEnvironment [
+{ #category : #testing }
+GTAbstractExampleSubject class >> isAbstract [
+	^ self == GTAbstractExampleSubject
 ]
 
 { #category : #converting }
@@ -13,17 +14,7 @@ GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self
 ]
 
-{ #category : #testing }
-GTAbstractExampleSubject >> exists [
-	self subclassResponsibility
-]
-
-{ #category : #UI }
-GTAbstractExampleSubject >> forNautilus: aBlock [
-	
-]
-
-{ #category : #UI }
+{ #category : #ui }
 GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>
 	aStep listProcessor
@@ -32,9 +23,4 @@ GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 			GTExampleOrganizer instance examplesDo: [ :cn :s :example |
 				(example hasSubject: self) ifTrue: [ filter value: example ] ] ];
 		wantsToDisplayOnEmptyQuery: true
-]
-
-{ #category : #testing }
-GTAbstractExampleSubject >> hasLiteralThorough: aLiteral [
-	^ false
 ]

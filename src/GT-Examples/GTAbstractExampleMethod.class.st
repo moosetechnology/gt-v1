@@ -1,32 +1,38 @@
 Class {
 	#name : #GTAbstractExampleMethod,
-	#superclass : #Object,
+	#superclass : #GTAbstractExampleObject,
 	#instVars : [
 		'methodClassName',
 		'methodClass',
-		'meta',
 		'selector'
 	],
 	#category : #'GT-Examples-Utils'
 }
 
 { #category : #testing }
+GTAbstractExampleMethod class >> isAbstract [
+	^ self == GTAbstractExampleMethod
+]
+
+{ #category : #testing }
 GTAbstractExampleMethod >> = anExampleMethod [
 	^ self class = anExampleMethod class 
 		and: [ self methodClassName = anExampleMethod methodClassName 
-			and: [ self meta = anExampleMethod meta
-				and: [ self selector = anExampleMethod selector ] ] ]
+			and: [ self selector = anExampleMethod selector ] ]
+]
+
+{ #category : #ui }
+GTAbstractExampleMethod >> addToSelectorEnvironment: aSelectorEnvironment [
+	self exists ifFalse: [ ^ self ].
+	
+	aSelectorEnvironment addClass: self methodClass selector: self selector
 ]
 
 { #category : #private }
-GTAbstractExampleMethod >> ensure [
-	" 1) reset "
+GTAbstractExampleMethod >> ensureInitialized [
+	" 1) reset -> 2) reinitialize  "
 	methodClass ifNotNil: [ methodClass isObsolete ifTrue: [ methodClass := nil ] ].
-	
-	" 1) reinitialize "
-	methodClass	ifNil: [ methodClass := self meta 
-			ifTrue: [ (Smalltalk classNamed: self methodClassName) theMetaClass ] 
-			ifFalse: [ Smalltalk classNamed: self methodClassName ] theNonMetaClass ]
+	methodClass	ifNil: [ methodClass := Smalltalk classNamed: methodClassName ]
 		
 ]
 
@@ -35,6 +41,15 @@ GTAbstractExampleMethod >> exists [
 	^ self methodClassName notNil
 		and: [ self methodClass notNil
 			and: [ self methodClass includesSelector: self selector ] ]
+]
+
+{ #category : #ui }
+GTAbstractExampleMethod >> forNautilus: aBlock [
+	self exists ifFalse: [ ^ self ].
+	
+	aBlock
+		value: #'Browse method ' ,  self method gtDisplayString
+		value: [ self method browse ]
 ]
 
 { #category : #ui }
@@ -62,6 +77,18 @@ GTAbstractExampleMethod >> gtExample [
 		ifFalse: [ nil ]
 ]
 
+{ #category : #ui }
+GTAbstractExampleMethod >> gtSpotterPreviewIn: aComposite [
+	<spotterPreview: 1>
+	self exists ifFalse: [ ^ self ].
+	
+	aComposite pharoMethod
+		title: [ self gtDisplayString ]; 
+		display: [ :entity | entity method sourceCode ];
+		smalltalkClass: [ self method methodClass ];
+		entity: self
+]
+
 { #category : #testing }
 GTAbstractExampleMethod >> hasExample [
 	^ self exists
@@ -69,16 +96,18 @@ GTAbstractExampleMethod >> hasExample [
 ]
 
 { #category : #testing }
-GTAbstractExampleMethod >> hasMethod [
-	^ self exists
+GTAbstractExampleMethod >> hasLiteralThorough: aLiteral [
+	^ self methodClassName = aLiteral 
+		or: [ self selector = aLiteral
+			or: [ self exists 
+				and: [ self method hasLiteralThorough: aLiteral ] ] ]
 ]
 
 { #category : #testing }
 GTAbstractExampleMethod >> hash [
-	^ ((self class hash 
+	^ (self class hash 
 		bitXor: self methodClassName hash)
-			bitXor: self meta hash)
-				bitXor: self selector hash
+			bitXor: self selector hash
 ]
 
 { #category : #testing }
@@ -101,16 +130,6 @@ GTAbstractExampleMethod >> matchesMethod: aCompiledMethod [
 			and: [ self selector = aCompiledMethod selector ] ]
 ]
 
-{ #category : #accessing }
-GTAbstractExampleMethod >> meta [
-	^ meta
-]
-
-{ #category : #accessing }
-GTAbstractExampleMethod >> meta: anObject [
-	meta := anObject
-]
-
 { #category : #'accessing-dynamic' }
 GTAbstractExampleMethod >> method [
 	^ self exists 
@@ -120,7 +139,6 @@ GTAbstractExampleMethod >> method [
 
 { #category : #accessing }
 GTAbstractExampleMethod >> methodClass [
-	self ensure.
 	^ methodClass
 ]
 
@@ -141,7 +159,8 @@ GTAbstractExampleMethod >> methodClassName: anObject [
 
 { #category : #'accessing-dynamic' }
 GTAbstractExampleMethod >> provider [ 
-	^ self meta
+	self exists ifFalse: [ ^ nil ].
+	^ self methodClass isMeta
 		ifTrue: [ self methodClass ]
 		ifFalse: [ self methodClass new ]
 ]

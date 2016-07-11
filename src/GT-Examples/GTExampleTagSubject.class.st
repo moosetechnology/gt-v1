@@ -16,19 +16,20 @@ GTExampleTagSubject >> = anExampleSubject [
 
 { #category : #UI }
 GTExampleTagSubject >> addToSelectorEnvironment: aSelectorEnvironment [
-	self thePackage ifNotNil: [ :pkg | 
-		pkg classes do: [ :class | 
-			aSelectorEnvironment addClass: class ] ]
+	self thePackage ifNil: [ ^ self ].
+	
+	self thePackage classes do: [ :class | 
+		aSelectorEnvironment addClass: class ]
 ]
 
 { #category : #private }
-GTExampleTagSubject >> ensure [
+GTExampleTagSubject >> ensureInitialized [
 	theTag ifNotNil: [ theTag isEmpty ifTrue: [ theTag := nil ] ].
 	theTag ifNil: [ 
 		RPackageOrganizer default packages do: [ :package |
 			package classTags do: [ :tag | 
-				(tag name = self theTagName
-					or: [ tag categoryName = self theTagName ]) ifTrue: [ ^ theTag := tag ] ] ] ]
+				(tag name = theTagName
+					or: [ tag categoryName = theTagName ]) ifTrue: [ ^ theTag := tag ] ] ] ]
 ]
 
 { #category : #testing }
@@ -52,10 +53,11 @@ GTExampleTagSubject >> gtDisplayOn: aStream [
 
 { #category : #testing }
 GTExampleTagSubject >> hasLiteralThorough: aLiteral [
-	^ self theTag name = aLiteral
-		or: [ self theTag categoryName = aLiteral
-			or: [ (self theTag classes anySatisfy: [ :each | each name = aLiteral ])
-				"or: [ self theTag methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ]" ] ]
+	^ self theTagName = aLiteral
+		or: [ self exists
+			and: [ self theTag categoryName = aLiteral
+				or: [ (self theTag classes anySatisfy: [ :each | each name = aLiteral ])
+					"or: [ self theTag methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ]" ] ] ]
 ]
 
 { #category : #testing }
@@ -66,7 +68,6 @@ GTExampleTagSubject >> hash [
 
 { #category : #accessing }
 GTExampleTagSubject >> theTag [
-	self ensure.
 	^ theTag
 ]
 

@@ -23,7 +23,7 @@ GTExampleMethod >> asGTExampleSubject [
 		methodClassName: self methodClassName;
 		methodClass: self methodClass;
 		selector: self selector;
-		meta: self meta;
+		ensureInitialized;
 		yourself
 ]
 
@@ -45,18 +45,7 @@ GTExampleMethod >> isValid [
 ]
 
 { #category : #accessing }
-GTExampleMethod >> meta [
-	^ meta ifNil: [ meta := false ]
-]
-
-{ #category : #accessing }
-GTExampleMethod >> meta: anObject [
-	meta := anObject
-]
-
-{ #category : #accessing }
 GTExampleMethod >> methodClass [
-	self ensure.
 	^ methodClass
 ]
 

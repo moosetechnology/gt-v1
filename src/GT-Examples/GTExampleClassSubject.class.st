@@ -3,8 +3,7 @@ Class {
 	#superclass : #GTAbstractExampleSubject,
 	#instVars : [
 		'theClassName',
-		'theClass',
-		'meta'
+		'theClass'
 	],
 	#category : #'GT-Examples-Utils'
 }
@@ -12,24 +11,21 @@ Class {
 { #category : #testing }
 GTExampleClassSubject >> = anExampleSubject [
 	^ self class = anExampleSubject class
-		and: [ self theClassName = anExampleSubject theClassName 
-			and: [ self meta = anExampleSubject meta ] ]
+		and: [ self theClassName = anExampleSubject theClassName ]
 ]
 
 { #category : #UI }
 GTExampleClassSubject >> addToSelectorEnvironment: aSelectorEnvironment [
-	aSelectorEnvironment addClass: self theClass
+	self exists ifFalse: [ ^ self ].
+	
+	aSelectorEnvironment addClass: theClass
 ]
 
 { #category : #private }
-GTExampleClassSubject >> ensure [
-	" 1) reset "
+GTExampleClassSubject >> ensureInitialized [
+	" 1) reset -> 2) reinitialize "
 	theClass ifNotNil: [ theClass isObsolete ifTrue: [ theClass := nil ] ].
-	
-	" 2) reinitialize "
-	theClass ifNil: [ theClass := self meta 
-			ifTrue: [ (Smalltalk classNamed: self theClassName) class ] 
-			ifFalse: [ Smalltalk classNamed: self theClassName ] ]
+	theClass ifNil: [ theClass := Smalltalk classNamed: theClassName ]
 		
 ]
 
@@ -55,33 +51,22 @@ GTExampleClassSubject >> gtDisplayOn: aStream [
 
 { #category : #testing }
 GTExampleClassSubject >> hasLiteralThorough: aLiteral [
-	^ self theClass = aLiteral
-		or: [ self theClass name = aLiteral
-			or: [ self theClass methods anySatisfy: [ :method | 
-						method selector = aLiteral
-							or: [ 	method hasLiteralThorough: aLiteral ] ] ] ]
+	^ self theClassName = aLiteral
+		or: [ self exists 
+			and: [ self theClass = aLiteral
+				or: [ self theClass methods anySatisfy: [ :method | 
+							method selector = aLiteral
+								or: [ 	method hasLiteralThorough: aLiteral ] ] ] ] ]
 ]
 
 { #category : #testing }
 GTExampleClassSubject >> hash [
-	^ (self class hash
-		bitXor: self theClassName hash)
-			bitXor: self meta hash
-]
-
-{ #category : #accessing }
-GTExampleClassSubject >> meta [
-	^ meta
-]
-
-{ #category : #accessing }
-GTExampleClassSubject >> meta: anObject [
-	meta := anObject
+	^ self class hash
+		bitXor: self theClassName hash
 ]
 
 { #category : #accessing }
 GTExampleClassSubject >> theClass [
-	self ensure.
 	^ theClass
 ]
 

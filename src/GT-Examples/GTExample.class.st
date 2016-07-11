@@ -71,15 +71,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodForClassNamed: aClassOrClassName meta: false selector: aSelector
-]
-
-{ #category : #'pragma-selectors' }
-GTExample >> afterMetaClass: aClassOrClassName selector: aSelector [
-	<gtExamplePragma>
-	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
-	
-	after := self methodForClassNamed: aClassOrClassName meta: true selector: aSelector
+	after := self methodForClassNamed: aClassOrClassName selector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
@@ -183,14 +175,7 @@ GTExample >> dependsClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self methodForClassNamed: aClassOrClassName meta: false selector: aSelector)
-]
-
-{ #category : #'pragma-selectors' }
-GTExample >> dependsMetaClass: aClassOrClassName selector: aSelector [
-	<gtExamplePragma>
-	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
-	children add: (self methodForClassNamed: aClassOrClassName meta: true selector: aSelector)
+	children add: (self methodForClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #accessing }
@@ -232,7 +217,7 @@ GTExample >> exists [
 { #category : #ui }
 GTExample >> gtDebuggerSourceIn: composite [
 	<gtDebuggerPresentationOrder: 1>
-	self hasMethod ifFalse: [ ^ self ].
+	self exists ifFalse: [ ^ self ].
 	^ (self method gtInspectorSourceIn: composite)
 		title: 'Method'
 ]
@@ -319,7 +304,7 @@ GTExample >> gtInspectorDependentsIn: composite [
 { #category : #ui }
 GTExample >> gtInspectorMethodIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	self hasMethod ifFalse: [ ^ self ].
+	self exists ifFalse: [ ^ self ].
 	^ (self method gtInspectorSourceIn: composite)
 		title: 'Method'
 ]
@@ -368,7 +353,7 @@ GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 { #category : #ui }
 GTExample >> gtSpotterMethodFor: aStep [
 	<spotterOrder: 100>
-	self hasMethod ifFalse: [ ^ self ].
+	self exists ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Method';
 		items: [ Array with: self method ];
@@ -379,7 +364,7 @@ GTExample >> gtSpotterMethodFor: aStep [
 { #category : #ui }
 GTExample >> gtSpotterPreviewIn: aComposite [
 	<spotterPreview: 1>
-	self hasMethod ifFalse: [ ^ self ].
+	self exists ifFalse: [ ^ self ].
 	aComposite pharoMethod
 		title: [ self gtDisplayString ]; 
 		display: [ :entity | entity method sourceCode ];
@@ -432,11 +417,6 @@ GTExample >> hasDependent: anExample [
 { #category : #testing }
 GTExample >> hasDependents [
 	^ self directDependents notEmpty
-]
-
-{ #category : #testing }
-GTExample >> hasMethod [
-	^ self exists
 ]
 
 { #category : #testing }
@@ -599,7 +579,7 @@ GTExample >> isGTExample [
 GTExample >> isReferencing: aLiteral [
 	^ (self hasSubject: aLiteral)
 		or: [ (self subjects anySatisfy: [ :subject | subject hasLiteralThorough: aLiteral ])
-			or: [ (self hasMethod and: [ self method hasLiteralThorough: aLiteral ])
+			or: [ (self exists and: [ self method hasLiteralThorough: aLiteral ])
 				or: [ (self methodClass name asString = aLiteral name asString) ] ] ]
 ]
 
@@ -650,25 +630,25 @@ GTExample >> methodClass [
 ]
 
 { #category : #private }
-GTExample >> methodForClass: aClass named: aClassName meta: aBoolean selector: aSelector [
+GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
 	^ GTExampleMethod new
 		methodClass: aClass;
 		methodClassName: aClassName;
-		meta: aBoolean;
 		selector: aSelector asSymbol;
+		ensureInitialized;
 		yourself
 ]
 
 { #category : #private }
 GTExample >> methodForClass: aClass selector: aSelector [
-	^ self methodForClass: aClass named: aClass name meta: aClass isMeta selector: aSelector
+	^ self methodForClass: aClass named: aClass name selector: aSelector
 ]
 
 { #category : #private }
-GTExample >> methodForClassNamed: aClassOrClassName meta: aBoolean selector: aSelector [
+GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
 	^ self classNamed: aClassOrClassName 
-		do: [ :class | self methodForClass: (self class: class meta: aBoolean) named: class theNonMetaClass name meta: aBoolean selector: aSelector ] 
-		ifNone: [ self methodForClass: nil named: aClassOrClassName meta: aBoolean selector: aSelector ]
+		do: [ :class | self methodForClass: class named: aClassOrClassName selector: aSelector ] 
+		ifNone: [ self methodForClass: nil named: aClassOrClassName selector: aSelector ]
 ]
 
 { #category : #private }
@@ -809,30 +789,35 @@ GTExample >> subject: aClassOrClassName [
 GTExample >> subjectClass: aClassOrClassName [
 	<gtExamplePragma>
 	
-	self addSubject: (self subjectForClassNamed: aClassOrClassName meta: false)
+	self addSubject: (self subjectForClassNamed: aClassOrClassName)
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	
-	self subjects add: (self methodForClassNamed: aClassOrClassName meta: false selector: aSelector) asGTExampleSubject
+	self addSubject: (self methodForClassNamed: aClassOrClassName selector: aSelector) asGTExampleSubject
 ]
 
 { #category : #private }
-GTExample >> subjectForClass: aClass named: aClassName meta: aBoolean [
+GTExample >> subjectForClass: aClass [
+	^ self subjectForClass: aClass named: aClass name
+]
+
+{ #category : #private }
+GTExample >> subjectForClass: aClass named: aClassName [
 	^ GTExampleClassSubject new 
 		theClass: aClass;
 		theClassName: aClassName;
-		meta: aBoolean;
+		ensureInitialized;
 		yourself
 ]
 
 { #category : #private }
-GTExample >> subjectForClassNamed: aClassName meta: aBoolean [
+GTExample >> subjectForClassNamed: aClassName [
 	^ self classNamed: aClassName 
-		do: [ :class | self subjectForClass: (self class: class meta: aBoolean) named: class theNonMetaClass name meta: aBoolean ] 
-		ifNone: [ self subjectForClass: nil named: aClassName meta: aBoolean ]
+		do: [ :class | self subjectForClass: class named: aClassName ] 
+		ifNone: [ self subjectForClass: nil named: aClassName ]
 ]
 
 { #category : #'pragma-selectors' }
@@ -842,37 +827,26 @@ GTExample >> subjectHelp: aString1 [
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectHelp: aString1 page: aString2 [
-	self subjects add: (GTExampleHelpSubject new 
+	self addSubject: (GTExampleHelpSubject new 
 		bookName: aString1;
 		title: aString2;
+		ensureInitialized;
 		yourself)
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectMetaClass: aClassOrClassName [
-	<gtExamplePragma>
-	
-	self addSubject: (self subjectForClassNamed: aClassOrClassName meta: true)
-]
-
-{ #category : #'pragma-selectors' }
-GTExample >> subjectMetaClass: aClassOrClassName selector: aSelector [
-	<gtExamplePragma>
-	
-	self subjects add: (self methodForClassNamed: aClassOrClassName meta: true selector: aSelector) asGTExampleSubject
-]
-
-{ #category : #'pragma-selectors' }
 GTExample >> subjectPackage: aString [
-	self subjects add: (GTExamplePackageSubject new 
+	self addSubject: (GTExamplePackageSubject new 
 		thePackageName: aString;
+		ensureInitialized;
 		yourself)
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectTag: aString [
-	self subjects add: (GTExampleTagSubject new 
+	self addSubject: (GTExampleTagSubject new 
 		theTagName: aString;
+		ensureInitialized;
 		yourself)
 ]
 

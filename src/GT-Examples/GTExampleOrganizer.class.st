@@ -85,7 +85,7 @@ GTExampleOrganizer >> browserEnvironment [
 { #category : #'private-events' }
 GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self examplesDo: [ :example | ann removeExample: example ].
 			self reset.
 			self examplesDo: [ :example | ann addExample: example ]. ] ]
@@ -94,16 +94,23 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> classRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+		self ensureInitializedStubs.
+		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self removeExamplesOfClass: anAnnouncement classRemoved theNonMetaClass name for: ann ] ]
 ]
 
 { #category : #'private-events' }
 GTExampleOrganizer >> classRenamed: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+		self ensureInitializedStubs.
+		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self removeExamplesOfClass: anAnnouncement oldName for: ann.
 			self addExamplesOfClass: anAnnouncement newName for: ann ] ]
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> ensureInitializedStubs [
+	GTAbstractExampleObject allSubInstancesDo: [ :each | each ensureInitialized ]
 ]
 
 { #category : #TODO }
@@ -244,7 +251,7 @@ GTExampleOrganizer >> loadStopped: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodAdded: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement method for: ann.
 			ann addExample: anAnnouncement method gtExample ] ]
@@ -253,7 +260,8 @@ GTExampleOrganizer >> methodAdded: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodModified: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+		self ensureInitializedStubs.
+		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self handleGTReservedMethod: anAnnouncement oldMethod for: ann.
 			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement oldMethod for: ann.
@@ -264,7 +272,8 @@ GTExampleOrganizer >> methodModified: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self with: GTExamplesModified announcement: anAnnouncement do: [ :ann |
+		self ensureInitializedStubs.
+		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement method for: ann ] ]
 ]

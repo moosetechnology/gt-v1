@@ -27,15 +27,16 @@ GTExampleHelpSubject >> bookName: anObject [
 ]
 
 { #category : #private }
-GTExampleHelpSubject >> ensure [
-	self bookName ifNotNil: [ 
-		CustomHelp withAllSubclassesDo: [ :class | 
-			class asHelpTopic ifNotNil: [ :help |
-				(help title = self bookName
-						and: [ self title isNil 
-							or: [ help subtopics anySatisfy: [ :subhelp | 
-									subhelp title = self title ] ] ]) ifTrue: [ 
-					topic := help ] ] ] ]
+GTExampleHelpSubject >> ensureInitialized [
+	self bookName ifNil: [ ^ self ].
+
+	CustomHelp withAllSubclassesDo: [ :class | 
+		class asHelpTopic ifNotNil: [ :help |
+			(help title = bookName
+					and: [ title isNil 
+						or: [ help subtopics anySatisfy: [ :subhelp | 
+								subhelp title = title ] ] ]) ifTrue: [ 
+				topic := help ] ] ]
 ]
 
 { #category : #testing }
@@ -84,7 +85,6 @@ GTExampleHelpSubject >> title: anObject [
 
 { #category : #accessing }
 GTExampleHelpSubject >> topic [
-	self ensure.
 	^ topic
 ]
 

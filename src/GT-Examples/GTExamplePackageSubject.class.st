@@ -16,19 +16,20 @@ GTExamplePackageSubject >> = anExampleSubject [
 
 { #category : #UI }
 GTExamplePackageSubject >> addToSelectorEnvironment: aSelectorEnvironment [
-	self thePackage ifNotNil: [ :pkg | 
-		pkg classes do: [ :class | 
-			aSelectorEnvironment addClass: class ].
-		pkg extensionMethods do: [ :method | 
-			aSelectorEnvironment addClass: method methodClass selector: method selector ] ]
+	self thePackage ifNil: [ ^ self ].
+	
+	self thePackage classes do: [ :class | 
+		aSelectorEnvironment addClass: class ].
+	self thePackage extensionMethods do: [ :method | 
+		aSelectorEnvironment addClass: method methodClass selector: method selector ]
 ]
 
 { #category : #private }
-GTExamplePackageSubject >> ensure [
+GTExamplePackageSubject >> ensureInitialized [
 	thePackage ifNotNil: [ thePackage isEmpty ifTrue: [ thePackage := nil ] ].
 	thePackage ifNil: [ 
 		thePackage := RPackageOrganizer default packages 
-			detect: [ :each | each packageName = self thePackageName ]
+			detect: [ :each | each packageName = thePackageName ]
 			ifNone: [ nil ] ].
 	
 ]
@@ -55,8 +56,9 @@ GTExamplePackageSubject >> gtDisplayOn: aStream [
 { #category : #testing }
 GTExamplePackageSubject >> hasLiteralThorough: aLiteral [
 	^ self thePackageName = aLiteral
-		or: [ (self thePackage classes anySatisfy: [ :each | each name = aLiteral ])
-			or: [ self thePackage methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ] ]
+		or: [ self exists
+			and: [ (self thePackage classes anySatisfy: [ :each | each name = aLiteral ])
+				or: [ self thePackage methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ] ] ]
 ]
 
 { #category : #testing }
@@ -67,7 +69,6 @@ GTExamplePackageSubject >> hash [
 
 { #category : #accessing }
 GTExamplePackageSubject >> thePackage [
-	self ensure.
 	^ thePackage
 ]
 

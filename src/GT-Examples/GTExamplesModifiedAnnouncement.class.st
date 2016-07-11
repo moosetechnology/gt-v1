@@ -1,6 +1,6 @@
 Class {
-	#name : #GTExamplesModified,
-	#superclass : #Announcement,
+	#name : #GTExamplesModifiedAnnouncement,
+	#superclass : #GTAbstractExampleAnnouncement,
 	#instVars : [
 		'announcement',
 		'added',
@@ -10,29 +10,29 @@ Class {
 }
 
 { #category : #public }
-GTExamplesModified >> addExample: anExample [
+GTExamplesModifiedAnnouncement >> addExample: anExample [
 	anExample ifNil: [ ^ self ].
 	added add: anExample
 ]
 
 { #category : #public }
-GTExamplesModified >> addExamples: aCollection [
+GTExamplesModifiedAnnouncement >> addExamples: aCollection [
 	aCollection ifNil: [ ^ self ].
 	aCollection do: [ :value | self addExample: value ]
 ]
 
 { #category : #accessing }
-GTExamplesModified >> announcement [
+GTExamplesModifiedAnnouncement >> announcement [
 	^ announcement
 ]
 
 { #category : #accessing }
-GTExamplesModified >> announcement: anObject [
+GTExamplesModifiedAnnouncement >> announcement: anObject [
 	announcement := anObject
 ]
 
 { #category : #initializing }
-GTExamplesModified >> initialize [
+GTExamplesModifiedAnnouncement >> initialize [
 	super initialize.
 	
 	added := OrderedCollection new: 100.
@@ -40,19 +40,19 @@ GTExamplesModified >> initialize [
 ]
 
 { #category : #testing }
-GTExamplesModified >> isEmpty [
+GTExamplesModifiedAnnouncement >> isEmpty [
 	^ added isEmptyOrNil 
 		or: [ removed isEmptyOrNil ]
 ]
 
 { #category : #public }
-GTExamplesModified >> removeExample: anExample [
+GTExamplesModifiedAnnouncement >> removeExample: anExample [
 	anExample ifNil: [ ^ self ].
 	removed add: anExample
 ]
 
 { #category : #public }
-GTExamplesModified >> removeExamples: aCollection [
+GTExamplesModifiedAnnouncement >> removeExamples: aCollection [
 	aCollection ifNil: [ ^ self ].
 	aCollection do: [ :value | self removeExample: value ]
 ]
