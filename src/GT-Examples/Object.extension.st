@@ -60,6 +60,11 @@ Object >> isGTExample [
 	^ false
 ]
 
+{ #category : #'*GT-Examples-Exceptions' }
+Object >> isGTExampleError [
+	^ false
+]
+
 { #category : #'*GT-Examples-Core' }
 Object >> isGTExampleMethod [
 	^ false

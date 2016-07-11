@@ -170,6 +170,7 @@ GTExampleProcessor >> process: anExample withoutLoopsDo: aBlock [
 		(processingExample = anExample) ifTrue: [
 			^ self onRecursionError value: self value: anExample ] ].	
 	processing add: anExample. " prepare processing this example "
+	context example: anExample.
 	value := aBlock value. " process this example "
 	processing remove: anExample. " done processing "
 	^ value

@@ -18,8 +18,8 @@ GTExampleDependencyError >> exception: anObject [
 ]
 
 { #category : #testing }
-GTExampleDependencyError >> isExampleError [
+GTExampleDependencyError >> isGTExampleError [
 	^ self exception 
-		ifNotNil: [ self exception isExampleError ]
-		ifNil: [ super isExampleError ]
+		ifNotNil: [ self exception isGTExampleError ]
+		ifNil: [ super isGTExampleError ]
 ]

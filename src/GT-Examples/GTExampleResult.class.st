@@ -67,7 +67,8 @@ GTExampleResult >> hasProblems [
 { #category : #testing }
 GTExampleResult >> isError [
 	^ self isSuccess not
-		and: [ self unexpectedError isExampleError ]
+		and: [ self isUnexpectedError
+			and: [ self unexpectedError isGTExampleError ] ]
 ]
 
 { #category : #testing }
@@ -78,7 +79,8 @@ GTExampleResult >> isExpectedError [
 { #category : #testing }
 GTExampleResult >> isFailure [
 	^ self isSuccess not
-		and: [ self unexpectedError isExampleError not ]
+		and: [ self isUnexpectedError
+			and: [ self unexpectedError isGTExampleError not ] ]
 ]
 
 { #category : #testing }

@@ -42,6 +42,11 @@ GTExample >> addProblem: aProblem [
 	problems add: aProblem
 ]
 
+{ #category : #private }
+GTExample >> addSubject: aGTExampleSubject [
+	subjects add: aGTExampleSubject
+]
+
 { #category : #accessing }
 GTExample >> after [
 	^ after
@@ -98,14 +103,17 @@ GTExample >> allDependents [
 ]
 
 { #category : #'accessing-dynamic' }
-GTExample >> allProblems [
-	" some problems are static -> #problems / other problems are dynamic (and changing) and not stored in #problems -> arguments+examples "
-	^ (problems , self invalidArguments) asArray
-]
-
-{ #category : #'accessing-dynamic' }
 GTExample >> arguments [
 	^ children asArray
+]
+
+{ #category : #private }
+GTExample >> class: aClass meta: aBoolean [
+	(aClass isMeta not and: [ aBoolean ]) 
+		ifTrue: [ ^ aClass theMetaClass ].
+	(aClass isMeta and: [ aBoolean not ]) 
+		ifTrue: [ ^ aClass theNonMetaClass ].
+	^ aClass
 ]
 
 { #category : #private }
@@ -320,7 +328,7 @@ GTExample >> gtInspectorMethodIn: composite [
 GTExample >> gtInspectorProblemsIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	self hasProblems ifFalse: [ ^ self ].
-	^ (self allProblems gtInspectorItemsIn: composite)
+	^ (self problems gtInspectorItemsIn: composite)
 			title: 'Problems'
 ]
 
@@ -385,7 +393,7 @@ GTExample >> gtSpotterProblemsFor: aStep [
 	self hasProblems ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Problems';
-		items: [ self allProblems ];
+		items: [ self problems ];
 		itemName: [ :problem | problem gtDisplayString ];
 		filter: GTFilterSubstring
 ]
@@ -570,6 +578,13 @@ GTExample >> initialize [
 	properties := IdentityDictionary new.
 ]
 
+{ #category : #initializing }
+GTExample >> initializeFromMethod: aCompiledMethod usingFactory: aGTExampleFactory [
+	methodClass := aCompiledMethod methodClass.
+	selector := aCompiledMethod selector.
+	aGTExampleFactory initializeExample: self fromMethod: aCompiledMethod
+]
+
 { #category : #'accessing-dynamic' }
 GTExample >> invalidArguments [
 	^ self arguments reject: [ :each | each isValid ]
@@ -634,11 +649,6 @@ GTExample >> methodClass [
 	^ methodClass
 ]
 
-{ #category : #accessing }
-GTExample >> methodClass: aClass [
-	methodClass := aClass
-]
-
 { #category : #private }
 GTExample >> methodForClass: aClass named: aClassName meta: aBoolean selector: aSelector [
 	^ GTExampleMethod new
@@ -657,7 +667,7 @@ GTExample >> methodForClass: aClass selector: aSelector [
 { #category : #private }
 GTExample >> methodForClassNamed: aClassOrClassName meta: aBoolean selector: aSelector [
 	^ self classNamed: aClassOrClassName 
-		do: [ :class | self methodForClass: (aBoolean ifTrue: [ class class ] ifFalse: [ class ]) named: class name meta: aBoolean selector: aSelector ] 
+		do: [ :class | self methodForClass: (self class: class meta: aBoolean) named: class theNonMetaClass name meta: aBoolean selector: aSelector ] 
 		ifNone: [ self methodForClass: nil named: aClassOrClassName meta: aBoolean selector: aSelector ]
 ]
 
@@ -688,27 +698,29 @@ GTExample >> noTestReport [
 ]
 
 { #category : #accessing }
+GTExample >> problems [
+	" some problems are static -> #problems / other problems are dynamic (and changing) and not stored in #problems -> arguments+examples "
+	^ (problems , self invalidArguments) asArray
+]
+
+{ #category : #accessing }
 GTExample >> propertyAt: aKey [
-	^ (properties ifNil: [ KeyNotFound signalFor: aKey ])
-		at: aKey
+	^ properties at: aKey
 ]
 
 { #category : #accessing }
 GTExample >> propertyAt: aKey ifAbsent: aBlock [
-	^ (properties ifNil: [ ^ aBlock value ])
-		at: aKey ifAbsent: aBlock
+	^ properties at: aKey ifAbsent: aBlock
 ]
 
 { #category : #accessing }
 GTExample >> propertyAt: aKey ifAbsentPut: aBlock [
-	^ (properties ifNil: [ properties := IdentityDictionary new ])
-		at: aKey ifAbsentPut: aBlock
+	^ properties at: aKey ifAbsentPut: aBlock
 ]
 
 { #category : #accessing }
 GTExample >> propertyAt: aKey put: aValue [
-	^ (properties ifNil: [ properties := IdentityDictionary new ])
-		at: aKey put: aValue
+	^ properties at: aKey put: aValue
 ]
 
 { #category : #'accessing-dynamic' }
@@ -771,11 +783,6 @@ GTExample >> selector [
 	^ selector
 ]
 
-{ #category : #accessing }
-GTExample >> selector: aSelector [
-	selector := aSelector
-]
-
 { #category : #'accessing-dynamic' }
 GTExample >> signalableExceptions [
 	^ self exceptions copyWithAll: { Halt. Error. Exit. UnhandledError. TestFailure. Deprecation. }
@@ -795,16 +802,14 @@ GTExample >> spotterPreviewIn: aComposite inContext: aSpotter [
 GTExample >> subject: aClassOrClassName [
 	<gtExamplePragma>
 	
-	self classNamed: aClassOrClassName do: [ :class | 
-		self subjects add: class asGTExampleSubject ]
+	self subjectClass: aClassOrClassName
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectClass: aClassOrClassName [
 	<gtExamplePragma>
 	
-	self classNamed: aClassOrClassName do: [ :class | 
-		self subjects add: class theNonMetaClass asGTExampleSubject ]
+	self addSubject: (self subjectForClassNamed: aClassOrClassName meta: false)
 ]
 
 { #category : #'pragma-selectors' }
@@ -812,6 +817,22 @@ GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	
 	self subjects add: (self methodForClassNamed: aClassOrClassName meta: false selector: aSelector) asGTExampleSubject
+]
+
+{ #category : #private }
+GTExample >> subjectForClass: aClass named: aClassName meta: aBoolean [
+	^ GTExampleClassSubject new 
+		theClass: aClass;
+		theClassName: aClassName;
+		meta: aBoolean;
+		yourself
+]
+
+{ #category : #private }
+GTExample >> subjectForClassNamed: aClassName meta: aBoolean [
+	^ self classNamed: aClassName 
+		do: [ :class | self subjectForClass: (self class: class meta: aBoolean) named: class theNonMetaClass name meta: aBoolean ] 
+		ifNone: [ self subjectForClass: nil named: aClassName meta: aBoolean ]
 ]
 
 { #category : #'pragma-selectors' }
@@ -831,8 +852,7 @@ GTExample >> subjectHelp: aString1 page: aString2 [
 GTExample >> subjectMetaClass: aClassOrClassName [
 	<gtExamplePragma>
 	
-	self classNamed: aClassOrClassName do: [ :class | 
-		self subjects add: class theMetaClass asGTExampleSubject ]
+	self addSubject: (self subjectForClassNamed: aClassOrClassName meta: true)
 ]
 
 { #category : #'pragma-selectors' }
@@ -858,7 +878,7 @@ GTExample >> subjectTag: aString [
 
 { #category : #accessing }
 GTExample >> subjects [
-	^ subjects
+	^ subjects asArray
 ]
 
 { #category : #'pragma-selectors' }

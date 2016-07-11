@@ -25,8 +25,8 @@ GTAbstractExampleMethod >> ensure [
 	
 	" 1) reinitialize "
 	methodClass	ifNil: [ methodClass := self meta 
-			ifTrue: [ (Smalltalk classNamed: self methodClassName) class ] 
-			ifFalse: [ Smalltalk classNamed: self methodClassName ] ]
+			ifTrue: [ (Smalltalk classNamed: self methodClassName) theMetaClass ] 
+			ifFalse: [ Smalltalk classNamed: self methodClassName ] theNonMetaClass ]
 		
 ]
 

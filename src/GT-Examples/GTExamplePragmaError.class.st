@@ -7,11 +7,6 @@ Class {
 	#category : #'GT-Examples-Exceptions'
 }
 
-{ #category : #converting }
-GTExamplePragmaError >> asGTExamplePragmaError [
-	^ self
-]
-
 { #category : #accessing }
 GTExamplePragmaError >> pragma [
 	^ pragma

@@ -19,7 +19,7 @@ GTExampleError >> example: anObject [
 ]
 
 { #category : #testing }
-GTExampleError >> isExampleError [
+GTExampleError >> isGTExampleError [
 	^ true
 ]
 
