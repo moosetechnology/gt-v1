@@ -26,6 +26,15 @@ GTExampleMethod >> asGTExampleSubject [
 		yourself
 ]
 
+{ #category : #ui }
+GTExampleMethod >> forNautilus: aBlock [
+	self exists ifFalse: [ ^ self ].
+	
+	aBlock
+		value: #'Browse dependency Method ' ,  self method gtDisplayString
+		value: [ self method browse ]
+]
+
 { #category : #testing }
 GTExampleMethod >> hasArguments [
 	^ self arguments notEmpty

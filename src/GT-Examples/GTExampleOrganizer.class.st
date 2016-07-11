@@ -110,7 +110,7 @@ GTExampleOrganizer >> classRenamed: anAnnouncement [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> ensureInitializedStubs [
-	GTAbstractExampleObject allSubInstancesDo: [ :each | each ensureInitialized ]
+	[ GTAbstractExampleObject allSubInstancesDo: [ :each | each ensureInitialized ] ] forkNamed: 'GTExample'
 ]
 
 { #category : #TODO }

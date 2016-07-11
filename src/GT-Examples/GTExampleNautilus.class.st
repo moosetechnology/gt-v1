@@ -16,13 +16,25 @@ GTExampleNautilus class >> browse: aString examples: aCollection [
 ]
 
 { #category : #public }
+GTExampleNautilus class >> browseAllExampleAfterMethods: aCollectionOfExamples [
+	" self browseAllExampleAfterMethods: GTExample "
+	| env |
+	env := RBSelectorEnvironment new.
+	aCollectionOfExamples do: [ :example | 
+		example after ifNotNil: [
+			example after addToSelectorEnvironment: env ] ].
+	^ env gtBrowseFor: 'After Methods'
+]
+
+{ #category : #public }
 GTExampleNautilus class >> browseAllExampleSubjects: aCollectionOfExamples [
 	" self browseAllExamplesWithSubject: GTExample "
 	| env |
 	env := RBSelectorEnvironment new.
 	aCollectionOfExamples do: [ :example | 
 		example subjects do: [ :subject | 
-			subject addToSelectorEnvironment: env ] ].
+			subject ifNotNil: [ 
+				subject addToSelectorEnvironment: env ] ] ].
 	^ env gtBrowseFor: 'Subjects'
 ]
 
@@ -98,6 +110,21 @@ GTExampleNautilus >> examples: aBlock1 select: aBlock2 [
 		select: [ :example | example isGTExample and: [ aBlock2 value: example ] ]
 ]
 
+{ #category : #private }
+GTExampleNautilus >> onAfter: examples builder: aBuilder [
+	| afters |
+	examples isEmptyOrNil ifTrue: [ ^ self ].
+	(afters := (examples collect: [ :each | each after ]) reject: [ :each | each isNil ]) ifEmpty: [ ^ self ].
+	
+	afters withIndexDo: [ :after :index | 
+		after forNautilus: [ :title :action | 
+			| item |
+			(item := aBuilder item: title)
+				parent: #gte;
+				action: [ action value ].
+			index = afters size ifTrue: [ item withSeparatorAfter ] ] ]
+]
+
 { #category : #public }
 GTExampleNautilus >> onClass: aBuilder [
 	| target class |
@@ -122,6 +149,9 @@ GTExampleNautilus >> onCompiledMethod: aBuilder [
 	
 	self onDefault: aBuilder.
 	self onExamples: examples if: examples isEmptyOrNil not builder: aBuilder.
+	self onDependencies: examples builder: aBuilder.
+	self onDependents: examples builder: aBuilder.
+	self onAfter: examples builder: aBuilder.
 	self onSubjects: examples builder: aBuilder.
 	self onReferences: method selector builder: aBuilder.
 ]
@@ -132,6 +162,34 @@ GTExampleNautilus >> onDefault: aBuilder [
 		order: -90000;
 		label: 'Examples ...';
 		withSeparatorAfter.
+]
+
+{ #category : #private }
+GTExampleNautilus >> onDependencies: examples builder: aBuilder [
+	examples isEmptyOrNil ifTrue: [ ^ self ].
+	
+	(aBuilder item: #'Browse Dependencies')
+		parent: #gte;
+		action: [ self class browse: 'Dependencies' examples: (examples gather: [ :each | each dependencies ]) ].
+	
+	(aBuilder item: #'Browse all Dependencies')
+		parent: #gte;
+		action: [ self class browse: 'All Dependencies' examples: (examples gather: [ :each | each allDependencies ]) ];
+		withSeparatorAfter
+]
+
+{ #category : #private }
+GTExampleNautilus >> onDependents: examples builder: aBuilder [
+	examples isEmptyOrNil ifTrue: [ ^ self ].
+
+	(aBuilder item: #'Browse Dependents')
+		parent: #gte;
+		action: [ self class browse: 'Dependents' examples: (examples gather: [ :each | each directDependents ]) ].
+	
+	(aBuilder item: #'Browse all Dependents')
+		parent: #gte;
+		action: [ self class browse: 'All Dependents' examples: (examples gather: [ :each | each allDependents ]) ];
+		withSeparatorAfter
 ]
 
 { #category : #private }
@@ -215,22 +273,20 @@ GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [
 
 { #category : #private }
 GTExampleNautilus >> onSubjects: examples builder: aBuilder [
+	| subjects |
 	examples isEmptyOrNil ifTrue: [ ^ self ].
+	(subjects := examples gather: [ :each | each subjects ]) ifEmpty: [ ^ self ].
 	
-	(aBuilder item: #'Browse subjects')
+	(aBuilder item: #'Browse all Subjects')
 		parent: #gte;
 		action: [ self class browseAllExampleSubjects: examples ].
 		
 	
-	examples do: [ :example |
-		| index |
-		index := 0.
-		example subjects do: [ :subject | 
-			index := index + 1.
-			subject forNautilus: [ :title :action | 
-				| item |
-				(item := aBuilder item: title)
-					parent: #gte;
-					action: [ action value ].
-				index = example subjects size ifTrue: [ item withSeparatorAfter ] ] ] ]
+	subjects withIndexDo: [ :subject :index | 
+		subject forNautilus: [ :title :action | 
+			| item |
+			(item := aBuilder item: title)
+				parent: #gte;
+				action: [ action value ].
+			index = subjects size ifTrue: [ item withSeparatorAfter ] ] ]
 ]

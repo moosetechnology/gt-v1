@@ -62,7 +62,7 @@ GTExample >> after: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := (self methodForSelector: aSelector) ensureInitialized
+	after := (self method: GTExampleMethodAfter forSelector: aSelector) ensureInitialized
 ]
 
 { #category : #'accessing-dynamic' }
@@ -76,7 +76,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := (self methodForClassNamed: aClassOrClassName selector: aSelector) ensureInitialized
+	after := (self method: GTExampleMethodAfter forClassNamed: aClassOrClassName selector: aSelector) ensureInitialized
 ]
 
 { #category : #'accessing-dynamic' }
@@ -102,15 +102,6 @@ GTExample >> allDependents [
 { #category : #'accessing-dynamic' }
 GTExample >> arguments [
 	^ children asArray
-]
-
-{ #category : #private }
-GTExample >> class: aClass meta: aBoolean [
-	(aClass isMeta not and: [ aBoolean ]) 
-		ifTrue: [ ^ aClass theMetaClass ].
-	(aClass isMeta and: [ aBoolean not ]) 
-		ifTrue: [ ^ aClass theNonMetaClass ].
-	^ aClass
 ]
 
 { #category : #private }
@@ -163,7 +154,7 @@ GTExample >> depends: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	self addChild: (self methodForSelector: aSelector)
+	self addChild: (self method: GTExampleMethod forSelector: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -180,7 +171,7 @@ GTExample >> dependsClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self methodForClassNamed: aClassOrClassName selector: aSelector)
+	children add: (self method: GTExampleMethod forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #accessing }
@@ -291,8 +282,16 @@ GTExample >> gtInspectorActionSubjects [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorAfterIn: composite [
+	<gtInspectorPresentationOrder: 3>
+	self hasAfter ifFalse: [ ^ self ].
+	^ ({ self after } gtInspectorItemsIn: composite)
+			title: 'After'
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorDependenciesIn: composite [
-	<gtInspectorPresentationOrder: 2>
+	<gtInspectorPresentationOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
 	^ (self dependenciesOrArguments gtInspectorItemsIn: composite)
 			title: 'Dependencies'
@@ -300,7 +299,7 @@ GTExample >> gtInspectorDependenciesIn: composite [
 
 { #category : #ui }
 GTExample >> gtInspectorDependentsIn: composite [
-	<gtInspectorPresentationOrder: 3>
+	<gtInspectorPresentationOrder: 2>
 	self hasDependents ifFalse: [ ^ self ].
 	^ (self directDependents gtInspectorItemsIn: composite)
 			title: 'Dependents'
@@ -316,15 +315,34 @@ GTExample >> gtInspectorMethodIn: composite [
 
 { #category : #ui }
 GTExample >> gtInspectorProblemsIn: composite [
-	<gtInspectorPresentationOrder: 4>
+	<gtInspectorPresentationOrder: 5>
 	self hasProblems ifFalse: [ ^ self ].
 	^ (self problems gtInspectorItemsIn: composite)
 			title: 'Problems'
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorSubjectsIn: composite [
+	<gtInspectorPresentationOrder: 4>
+	self hasSubjects ifFalse: [ ^ self ].
+	^ (self subjects gtInspectorItemsIn: composite)
+			title: 'Subjects'
+]
+
+{ #category : #ui }
+GTExample >> gtSpotterAfterFor: aStep [
+	<spotterOrder: 3>
+	self hasAfter ifFalse: [ ^ self ].
+	aStep listProcessor
+		title: 'Example After';
+		items: [ { self after } ];
+		itemName: [ :example | example gtDisplayString ];
+		filter: GTFilterSubstring
+]
+
+{ #category : #ui }
 GTExample >> gtSpotterDependenciesFor: aStep [
-	<spotterOrder: 101>
+	<spotterOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependencies';
@@ -335,7 +353,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 
 { #category : #ui }
 GTExample >> gtSpotterDependentsFor: aStep [
-	<spotterOrder: 102>
+	<spotterOrder: 2>
 	self hasDependents ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Dependents';
@@ -346,7 +364,7 @@ GTExample >> gtSpotterDependentsFor: aStep [
 
 { #category : #ui }
 GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
-	<spotterOrder: 103>
+	<spotterOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Subjects';
@@ -357,7 +375,7 @@ GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 
 { #category : #ui }
 GTExample >> gtSpotterMethodFor: aStep [
-	<spotterOrder: 100>
+	<spotterOrder: 0>
 	self exists ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Method';
@@ -379,7 +397,7 @@ GTExample >> gtSpotterPreviewIn: aComposite [
 
 { #category : #ui }
 GTExample >> gtSpotterProblemsFor: aStep [
-	<spotterOrder: 104>
+	<spotterOrder: 5>
 	self hasProblems ifFalse: [ ^ self ].
 	aStep listProcessor
 		title: 'Example Problems';
@@ -391,6 +409,11 @@ GTExample >> gtSpotterProblemsFor: aStep [
 { #category : #testing }
 GTExample >> hasAfter [
 	^ after notNil
+]
+
+{ #category : #testing }
+GTExample >> hasAfter: anAfterMethod [
+	^ after = anAfterMethod
 ]
 
 { #category : #testing }
@@ -411,7 +434,7 @@ GTExample >> hasDependencies [
 
 { #category : #testing }
 GTExample >> hasDependency: aGTExample [
-	^ self arguments anySatisfy: [ :each | each matchesExample: aGTExample ]
+	^ self arguments anySatisfy: [ :each | each matchesMethod: aGTExample ]
 ]
 
 { #category : #testing }
@@ -629,14 +652,9 @@ GTExample >> method [
 	^ self methodClass >> self selector
 ]
 
-{ #category : #accessing }
-GTExample >> methodClass [
-	^ methodClass
-]
-
 { #category : #private }
-GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
-	^ GTExampleMethod new
+GTExample >> method: aMethodClass forClass: aClass named: aClassName selector: aSelector [
+	^ aMethodClass new
 		methodClass: aClass;
 		methodClassName: aClassName;
 		selector: aSelector asSymbol;
@@ -644,20 +662,25 @@ GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
 ]
 
 { #category : #private }
-GTExample >> methodForClass: aClass selector: aSelector [
-	^ self methodForClass: aClass named: aClass name selector: aSelector
+GTExample >> method: aMethodClass forClass: aClass selector: aSelector [
+	^ self method: aMethodClass forClass: aClass named: aClass name selector: aSelector
 ]
 
 { #category : #private }
-GTExample >> methodForClassNamed: aClassOrClassName selector: aSelector [
+GTExample >> method: aMethodClass forClassNamed: aClassOrClassName selector: aSelector [
 	^ self classNamed: aClassOrClassName 
-		do: [ :class | self methodForClass: class named: aClassOrClassName selector: aSelector ] 
-		ifNone: [ self methodForClass: nil named: aClassOrClassName selector: aSelector ]
+		do: [ :class | self method: aMethodClass forClass: class named: aClassOrClassName selector: aSelector ] 
+		ifNone: [ self method: aMethodClass forClass: nil named: aClassOrClassName selector: aSelector ]
 ]
 
 { #category : #private }
-GTExample >> methodForSelector: aSelector [
-	^ self methodForClass: self methodClass selector: aSelector
+GTExample >> method: aMethodClass forSelector: aSelector [
+	^ self method: aMethodClass forClass: self methodClass selector: aSelector
+]
+
+{ #category : #accessing }
+GTExample >> methodClass [
+	^ methodClass
 ]
 
 { #category : #'accessing-dynamic' }
@@ -735,8 +758,10 @@ GTExample >> raisesAny: aString [
 { #category : #initializing }
 GTExample >> reinitialize [
 	| method |
-	(method := self method) gtExamplesFactory 
-		initializeFromMethod: method forExample: self
+	(method := self method) ifNil: [ ^ self ].
+	
+	self initialize.
+	method gtExamplesFactory initializeExample: self fromMethod: method
 ]
 
 { #category : #'accessing-dynamic' }
@@ -800,7 +825,7 @@ GTExample >> subjectClass: aClassOrClassName [
 GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	
-	self addSubject: (self methodForClassNamed: aClassOrClassName selector: aSelector)
+	self addSubject: (self method: GTExampleMethodSubject forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #private }
@@ -825,11 +850,11 @@ GTExample >> subjectForClassNamed: aClassName [
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectHelp: aString1 [
-	self subjectHelp: aString1 page: nil
+	self subjectHelp: aString1 title: nil
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectHelp: aString1 page: aString2 [
+GTExample >> subjectHelp: aString1 title: aString2 [
 	self addSubject: (GTExampleHelpSubject new 
 		bookName: aString1;
 		title: aString2;
