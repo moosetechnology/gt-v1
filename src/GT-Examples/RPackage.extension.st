@@ -5,7 +5,6 @@ RPackage >> asGTExampleSubject [
 	^ GTExamplePackageSubject new 
 		thePackageName: self packageName;
 		thePackage: self;
-		ensureInitialized;
 		yourself
 ]
 

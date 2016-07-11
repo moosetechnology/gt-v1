@@ -21,7 +21,7 @@ GTExampleInstanceSubject >> exists [
 { #category : #UI }
 GTExampleInstanceSubject >> forNautilus: aBlock [
 	aBlock
-		value: #'Inspect instance ' ,  self instance gtDisplayString
+		value: #'Inspect subject Instance ' ,  self instance gtDisplayString
 		value: [ self instance inspect ]
 ]
 

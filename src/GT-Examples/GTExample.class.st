@@ -38,13 +38,18 @@ GTExample >> = anExample [
 ]
 
 { #category : #private }
+GTExample >> addChild: aGTDependency [
+	children add: aGTDependency ensureInitialized
+]
+
+{ #category : #private }
 GTExample >> addProblem: aProblem [
 	problems add: aProblem
 ]
 
 { #category : #private }
 GTExample >> addSubject: aGTExampleSubject [
-	subjects add: aGTExampleSubject
+	subjects add: aGTExampleSubject asGTExampleSubject ensureInitialized
 ]
 
 { #category : #accessing }
@@ -57,7 +62,7 @@ GTExample >> after: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodForSelector: aSelector
+	after := (self methodForSelector: aSelector) ensureInitialized
 ]
 
 { #category : #'accessing-dynamic' }
@@ -71,7 +76,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodForClassNamed: aClassOrClassName selector: aSelector
+	after := (self methodForClassNamed: aClassOrClassName selector: aSelector) ensureInitialized
 ]
 
 { #category : #'accessing-dynamic' }
@@ -158,7 +163,7 @@ GTExample >> depends: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self methodForSelector: aSelector)
+	self addChild: (self methodForSelector: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -635,7 +640,6 @@ GTExample >> methodForClass: aClass named: aClassName selector: aSelector [
 		methodClass: aClass;
 		methodClassName: aClassName;
 		selector: aSelector asSymbol;
-		ensureInitialized;
 		yourself
 ]
 
@@ -796,7 +800,7 @@ GTExample >> subjectClass: aClassOrClassName [
 GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	
-	self addSubject: (self methodForClassNamed: aClassOrClassName selector: aSelector) asGTExampleSubject
+	self addSubject: (self methodForClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #private }
@@ -809,7 +813,6 @@ GTExample >> subjectForClass: aClass named: aClassName [
 	^ GTExampleClassSubject new 
 		theClass: aClass;
 		theClassName: aClassName;
-		ensureInitialized;
 		yourself
 ]
 
@@ -830,7 +833,6 @@ GTExample >> subjectHelp: aString1 page: aString2 [
 	self addSubject: (GTExampleHelpSubject new 
 		bookName: aString1;
 		title: aString2;
-		ensureInitialized;
 		yourself)
 ]
 
@@ -838,7 +840,6 @@ GTExample >> subjectHelp: aString1 page: aString2 [
 GTExample >> subjectPackage: aString [
 	self addSubject: (GTExamplePackageSubject new 
 		thePackageName: aString;
-		ensureInitialized;
 		yourself)
 ]
 
@@ -846,7 +847,6 @@ GTExample >> subjectPackage: aString [
 GTExample >> subjectTag: aString [
 	self addSubject: (GTExampleTagSubject new 
 		theTagName: aString;
-		ensureInitialized;
 		yourself)
 ]
 

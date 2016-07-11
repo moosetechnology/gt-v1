@@ -4,7 +4,6 @@ Extension { #name : #Object }
 Object >> asGTExampleSubject [
 	^ GTExampleInstanceSubject new 
 		instance: self;
-		ensureInitialized;
 		yourself
 ]
 

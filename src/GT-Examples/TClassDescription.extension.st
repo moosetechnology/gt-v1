@@ -5,7 +5,6 @@ TClassDescription >> asGTExampleSubject [
 	^ GTExampleClassSubject new 
 		theClassName: self name;
 		theClass: self;
-		ensureInitialized;
 		yourself
 ]
 

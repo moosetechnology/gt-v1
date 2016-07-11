@@ -23,7 +23,6 @@ GTExampleMethod >> asGTExampleSubject [
 		methodClassName: self methodClassName;
 		methodClass: self methodClass;
 		selector: self selector;
-		ensureInitialized;
 		yourself
 ]
 

@@ -119,7 +119,7 @@ GTAbstractExampleFactory >> initializeSubjects: aCollection forExample: aGTExamp
 	aCollection isEmptyOrNil ifTrue: [ ^ self ].
 	
 	aCollection do: [ :subject | 
-		[ aGTExample addSubject: subject asGTExampleSubject ]
+		[ aGTExample addSubject: subject ]
 			on:Error
 			do: [ :exception | 
 				aGTExample addProblem: (GTExampleSubjectError new 

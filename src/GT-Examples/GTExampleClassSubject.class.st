@@ -18,7 +18,7 @@ GTExampleClassSubject >> = anExampleSubject [
 GTExampleClassSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self exists ifFalse: [ ^ self ].
 	
-	aSelectorEnvironment addClass: theClass
+	aSelectorEnvironment addClass: self theClass
 ]
 
 { #category : #private }
@@ -39,7 +39,7 @@ GTExampleClassSubject >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
 	aBlock 
-		value: #'Browse class ' ,  self theClassName 
+		value: #'Browse subject Class ' ,  self theClassName 
 		value: [ self theClass browse ]
 
 ]

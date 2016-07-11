@@ -44,7 +44,7 @@ GTExamplePackageSubject >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
 	aBlock 
-		value: #'Browse Package ' ,  self thePackageName
+		value: #'Browse subject Package ' ,  self thePackageName
 		value: [ self thePackage browse ]
 ]
 

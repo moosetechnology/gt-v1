@@ -10,6 +10,15 @@ GTExampleMethodSubject >> asGTExampleSubject [
 ]
 
 { #category : #ui }
+GTExampleMethodSubject >> forNautilus: aBlock [
+	self exists ifFalse: [ ^ self ].
+	
+	aBlock
+		value: #'Browse subject Method ' ,  self method gtDisplayString
+		value: [ self method browse ]
+]
+
+{ #category : #ui }
 GTExampleMethodSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>
 	aStep listProcessor

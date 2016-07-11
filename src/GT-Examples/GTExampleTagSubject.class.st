@@ -29,7 +29,7 @@ GTExampleTagSubject >> ensureInitialized [
 		RPackageOrganizer default packages do: [ :package |
 			package classTags do: [ :tag | 
 				(tag name = theTagName
-					or: [ tag categoryName = theTagName ]) ifTrue: [ ^ theTag := tag ] ] ] ]
+					or: [ tag categoryName = theTagName ]) ifTrue: [ theTag := tag. ^ self ] ] ] ]
 ]
 
 { #category : #testing }
@@ -42,7 +42,7 @@ GTExampleTagSubject >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
 	aBlock 
-		value: #'Browse Tag ' ,  self theTagName
+		value: #'Browse subject Tag ' ,  self theTagName
 		value: [ self theTag browse ]
 ]
 
@@ -64,6 +64,11 @@ GTExampleTagSubject >> hasLiteralThorough: aLiteral [
 GTExampleTagSubject >> hash [
 	^ super hash
 		bitXor: self theTagName hash
+]
+
+{ #category : #'accessing-dynamic' }
+GTExampleTagSubject >> thePackage [
+	^ self theTag package
 ]
 
 { #category : #accessing }

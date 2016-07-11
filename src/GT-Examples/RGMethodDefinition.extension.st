@@ -6,6 +6,5 @@ RGMethodDefinition >> asGTExampleSubject [
 		methodClassName: self realClass name;
 		methodClass: self realClass;
 		selector: self selector;
-		ensureInitialized;
 		yourself
 ]

@@ -6,7 +6,6 @@ CompiledMethod >> asGTExampleSubject [
 		methodClassName: self methodClass theNonMetaClass name;
 		methodClass: self methodClass;
 		selector: self selector;
-		ensureInitialized;
 		yourself
 ]
 
