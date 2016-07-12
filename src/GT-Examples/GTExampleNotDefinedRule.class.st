@@ -25,7 +25,7 @@ GTExampleNotDefinedRule >> basicCheck: aClass [
 		and: [ (self containsGTExample: aClass) not ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GTExampleNotDefinedRule >> check: aClass forCriticsDo: aCriticBlock ifNone: alternativeBlock [
 	(self basicCheck: aClass)
 		ifTrue:  [ aCriticBlock cull: (

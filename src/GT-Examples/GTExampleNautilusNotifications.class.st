@@ -61,7 +61,8 @@ GTExampleNautilusNotifications class >> restart [
 GTExampleNautilusNotifications class >> start [
 	" self start "
 	notifying == true ifTrue: [ ^ self ].
-	SystemAnnouncer uniqueInstance weak when: GTExamplesModifiedAnnouncement send: #changed: to: self.
+	SystemAnnouncer uniqueInstance weak 
+		when: GTExamplesModifiedAnnouncement send: #changed: to: self.
 	notifying := true
 ]
 
