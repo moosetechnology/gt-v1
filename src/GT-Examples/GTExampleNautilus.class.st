@@ -136,6 +136,15 @@ GTExampleNautilus >> onClass: aBuilder [
 	self onExamples: [ (class isMeta 
 		ifTrue: [ class ] 
 		ifFalse: [ class theNonMetaClass ]) gtExamplesContained ] if: true builder: aBuilder.
+	
+	(aBuilder item: #'Browse all Examples of Class ' ,  class name)
+		parent: #gte;
+		action: [ self class browse: 'Examples of Class ' , class name examples: class gtExamplesContained ].
+		
+	(aBuilder item: #'Browse all Examples in Hierarchy of Class ' , class name)
+		parent: #gte;
+		action: [ self class browse: 'Examples if Hierarchy of Class ' , class name examples: (class withAllSubclasses gather: [ :each | each gtExamplesContained ]) ].
+		
 	self onReferences: class theNonMetaClass name builder: aBuilder
 ]
 
@@ -233,11 +242,16 @@ GTExampleNautilus >> onPackage: aBuilder [
 	| target package |
 	
 	target := aBuilder model.
-	(package := target selectedPackage) ifNil: [ ^ self ].
-	package item ifNil: [ ^ self ].
+	target selectedPackage ifNil: [ ^ self ].
+	(package := target selectedPackage item) ifNil: [ ^ self ].
 	
 	self onDefault: aBuilder.
 	self onExamples: [ package gtExamplesContained ] if: true builder: aBuilder.
+	
+	(aBuilder item: #'Browse all Examples of Package ' ,  package packageName)
+		parent: #gte;
+		action: [ self class browse: 'Examples of Package ' ,  package packageName examples: package gtExamplesContained ].
+		
 	self onReferences: package packageName builder: aBuilder	
 ]
 
