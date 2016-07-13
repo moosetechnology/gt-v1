@@ -20,3 +20,15 @@ GTExampleTODOs >> coreModel [
 	"
 	
 ]
+
+{ #category : #todos }
+GTExampleTODOs >> packaging [
+	<todo>
+	"
+	GT-Examples-Spotter <--- spotter extensions (depends spotter)
+	GT-Examples-Inspector <--- inspector extensions (depends inspector)
+	GT-Examples-Roassal <--- roassal extensions + RTExampleFactory (depends roassal2) 
+	GT-Examples-Pharo <--- common pharo extensions (depends base pkgs)
+	"
+	
+]
