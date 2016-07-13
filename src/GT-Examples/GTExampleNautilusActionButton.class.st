@@ -5,13 +5,6 @@ Class {
 }
 
 { #category : #private }
-GTExampleNautilusActionButton class >> iconForMethod: aCompiledMethod [
-	^ MethodWidget methodsIconsCache 
-		at: aCompiledMethod 
-		ifAbsent: [ self iconForMethod: aCompiledMethod result: nil ]
-]
-
-{ #category : #private }
 GTExampleNautilusActionButton class >> iconForMethod: aCompiledMethod result: aResult [
 	aResult
 		ifNil: [ ^ Smalltalk ui icons iconNamed: #testNotRunIcon ].
@@ -28,7 +21,7 @@ GTExampleNautilusActionButton class >> iconForMethod: aCompiledMethod result: aR
 GTExampleNautilusActionButton class >> methodUpdated: aCompiledMethod with: aResult [
 	[	MethodWidget methodsIconsCache 
 			at: aCompiledMethod 
-			put: (self iconForMethod: aCompiledMethod result: aResult). 
+			ifPresent: [ :holder | holder labelGraphic: (self iconForMethod: aCompiledMethod result: aResult) ].
 		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
 			on: Error
 			do: [ " ignore and continue " ]
@@ -53,7 +46,7 @@ GTExampleNautilusActionButton >> privateActionIcon [
 		target: self;
 		actionSelector: #run:;
 		arguments: { method };
-		labelGraphic: (self class iconForMethod: method);
+		labelGraphic: (self class iconForMethod: method result: nil);
 		color: Color transparent;
 		helpText: 'Run';
 		extent: 12 @ 12;
@@ -63,5 +56,8 @@ GTExampleNautilusActionButton >> privateActionIcon [
 { #category : #order }
 GTExampleNautilusActionButton >> run: aCompiledMethod [
 	aCompiledMethod gtExample ifNotNil: [ :example | 
-		example run isSuccess ifFalse: [ example debug ] ]
+		example result ifNotNil: [ :result |
+			result isSuccess 
+				ifTrue: [ result returnValue inspect ]
+				ifFalse: [ example debug ] ] ]
 ]
