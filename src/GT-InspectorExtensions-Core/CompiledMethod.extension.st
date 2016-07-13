@@ -88,12 +88,14 @@ CompiledMethod >> gtInspectorPragmasIn: composite [
 
 { #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorSourceIn: composite [
-	<gtInspectorPresentationOrder: 30> 
-	^ composite pharoMethod 
+	<gtInspectorPresentationOrder: 30>
+	^ composite pharoMethod
 		title: 'Source';
 		smalltalkClass: [ self methodClass ];
-		display: [ self getSource ];
-		act: [ self browse ] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Browse'
+		display: [ self sourceCode ];
+		act: [ self browse ]
+			icon: GLMUIThemeExtraIcons glamorousBrowse
+			entitled: 'Browse'
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
