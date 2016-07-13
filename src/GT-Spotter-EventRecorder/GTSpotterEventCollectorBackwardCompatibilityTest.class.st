@@ -106,7 +106,7 @@ GTSpotterEventCollectorBackwardCompatibilityTest >> assertVersion: aMethodName [
 
 { #category : #accessing }
 GTSpotterEventCollectorBackwardCompatibilityTest >> materializePragmaVersion: aPragma [
-	^ unpacking unpack: (self perform: aPragma selector).
+	^ unpacking unpack: (self perform: aPragma methodSelector)
 ]
 
 { #category : #running }
@@ -129,19 +129,18 @@ GTSpotterEventCollectorBackwardCompatibilityTest >> testMaterializeVersions [
 	checkedEvents := Set new.
 	versions := self allPragmaVersions.
 	self assert: versions notEmpty.
-	versions do: [ :eachPragma |
-		self assertVersion: eachPragma selector ].
+	versions
+		do: [ :eachPragma | self assertVersion: eachPragma methodSelector ].
 	self assert: checkedEvents notEmpty.
-	notMaterializedEvents := GTSpotterRecorderEvent allSubclasses 
-		removeAll: checkedEvents; 
+	notMaterializedEvents := GTSpotterRecorderEvent allSubclasses
+		removeAll: checkedEvents;
 		yourself.
-	self 
+	self
 		assert: notMaterializedEvents isEmpty
-		description: [ 
-			'Some events are not tested for backward compatibility.', String cr,
-			'You should create new version using method #storeSerializedAnnouncementIntoMethod:.', String cr,
-			'Do not override the existing serialized versions!'
-		]
+		description: [ 'Some events are not tested for backward compatibility.' , String cr
+				,
+					'You should create new version using method #storeSerializedAnnouncementIntoMethod:.'
+				, String cr , 'Do not override the existing serialized versions!' ]
 ]
 
 { #category : #'serialized data' }
@@ -200,8 +199,9 @@ GTSpotterEventCollectorBackwardCompatibilityTest >> version4ston [
 
 { #category : #enumerating }
 GTSpotterEventCollectorBackwardCompatibilityTest >> versionsDo: aBlock [
-	self allPragmaVersions do: [ :eachPragmaVersion | | announcement |
-		announcement := self materializePragmaVersion: eachPragmaVersion.
-		aBlock cull: announcement cull: eachPragmaVersion selector.
-	]
+	self allPragmaVersions
+		do: [ :eachPragmaVersion | 
+			| announcement |
+			announcement := self materializePragmaVersion: eachPragmaVersion.
+			aBlock cull: announcement cull: eachPragmaVersion methodSelector ]
 ]
