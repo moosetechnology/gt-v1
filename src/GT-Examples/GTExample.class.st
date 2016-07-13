@@ -322,6 +322,20 @@ GTExample >> gtInspectorProblemsIn: composite [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorRoassalIn: composite [
+	<gtInspectorPresentationOrder: 1>
+	(Smalltalk classNamed: #GLMRoassal2Presentation) ifNil: [ ^ self ].
+	^ composite roassal2
+		title: 'Graph';
+		painting: [ :view :example | 
+			(GTExamplePainter new 
+				example: example;
+				view: view;
+				yourself) paint ];
+		yourself
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorSubjectsIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
@@ -445,6 +459,11 @@ GTExample >> hasDependent: anExample [
 { #category : #testing }
 GTExample >> hasDependents [
 	^ self directDependents notEmpty
+]
+
+{ #category : #testing }
+GTExample >> hasInternalProblems [
+	^ problems notEmpty
 ]
 
 { #category : #testing }
@@ -702,6 +721,13 @@ GTExample >> noTestReport [
 	<description: 'Do not run this example while running HDTestReport (not yet implemented)'>
 	
 	self propertyAt: #noTestReport put: true
+]
+
+{ #category : #ui }
+GTExample >> painter [
+	^ GTExamplePainter new 
+		example: self;
+		yourself
 ]
 
 { #category : #accessing }

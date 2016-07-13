@@ -68,7 +68,7 @@ GTExampleOrganizer >> addExamplesOfClass: aClassName for: announcement [
 		announcement addExamples: class theNonMetaClass gtExamples ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 GTExampleOrganizer >> announcer [
 	^ SystemAnnouncer uniqueInstance weak
 ]
