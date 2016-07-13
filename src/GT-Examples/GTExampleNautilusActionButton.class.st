@@ -1,42 +1,15 @@
 Class {
 	#name : #GTExampleNautilusActionButton,
-	#superclass : #AbstractMethodIconAction,
+	#superclass : #GTAbstractExampleNautilusActionButton,
 	#category : #'GT-Examples-UI'
 }
 
 { #category : #private }
-GTExampleNautilusActionButton class >> iconForMethod: aCompiledMethod result: aResult [
-	aResult
-		ifNil: [ ^ Smalltalk ui icons iconNamed: #testNotRunIcon ].
-	aResult isSuccess
-		ifTrue: [ ^ Smalltalk ui icons iconNamed: #testGreenIcon ].
-	aResult isFailure
-		ifTrue: [ ^ Smalltalk ui icons iconNamed: #testYellowIcon ].
-	aResult isError
-		ifTrue: [ ^ Smalltalk ui icons iconNamed: #testRedIcon ].
-	^ Smalltalk ui icons iconNamed: #testNotRunIcon
-]
-
-{ #category : #private }
 GTExampleNautilusActionButton class >> methodUpdated: aCompiledMethod with: aResult [
-	[	MethodWidget methodsIconsCache 
-			at: aCompiledMethod 
-			ifPresent: [ :holder | holder labelGraphic: (self iconForMethod: aCompiledMethod result: aResult) ].
-		NautilusUI allSubInstances do: #updateCategoryAndMethodList ]
-			on: Error
-			do: [ " ignore and continue " ]
-]
-
-{ #category : #order }
-GTExampleNautilusActionButton >> actionOrder [
-	"Return the priority of this action"
-	
-	^ 0
-]
-
-{ #category : #order }
-GTExampleNautilusActionButton >> isActionHandled [
-	^ method isGTExampleMethod
+	MethodWidget methodsIconsCache 
+		at: aCompiledMethod 
+		ifPresent: [ :holder | 
+			holder labelGraphic: (self iconForMethod: aCompiledMethod result: aResult) ]
 ]
 
 { #category : #order }
@@ -49,11 +22,11 @@ GTExampleNautilusActionButton >> privateActionIcon [
 		labelGraphic: (self class iconForMethod: method result: nil);
 		color: Color transparent;
 		helpText: 'Run';
-		extent: 12 @ 12;
+		extent: 16 @ 16;
 		borderWidth: 0
 ]
 
-{ #category : #order }
+{ #category : #private }
 GTExampleNautilusActionButton >> run: aCompiledMethod [
 	aCompiledMethod gtExample ifNotNil: [ :example | 
 		example result ifNotNil: [ :result |

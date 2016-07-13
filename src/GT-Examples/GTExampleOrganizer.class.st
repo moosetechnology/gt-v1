@@ -315,7 +315,7 @@ GTExampleOrganizer >> resultAt: aGTExample ifAbsent: aBlock [
 
 { #category : #TODO }
 GTExampleOrganizer >> resultAt: aGTExample put: aGTExampleResult [
-	GTExampleNautilusActionButton methodUpdated: aGTExample method with: aGTExampleResult.
+	GTAbstractExampleNautilusActionButton methodUpdated: aGTExample method with: aGTExampleResult.
 	^ results at: { aGTExample methodClass. aGTExample selector } put: aGTExampleResult
 ]
 
