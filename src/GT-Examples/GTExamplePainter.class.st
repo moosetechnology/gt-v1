@@ -7,6 +7,7 @@ Class {
 		'group',
 		'nodes',
 		'edges',
+		'fromTo',
 		'processing'
 	],
 	#category : #'GT-Examples-UI'
@@ -45,27 +46,33 @@ GTExamplePainter >> buildAfter: anExample1 [
 { #category : #private }
 GTExamplePainter >> buildArgument: anExample1 at: index parent: anExample2 [
 	| shape element parentNode edge line |
-	(nodes includesKey: anExample1) ifTrue: [ ^ self ].
-	shape := RTBox new 
-		width: 8;
-		height: 8;
-		color: Color white;
-		borderColor: (Color black alpha: 0.05);
-		borderWidth: 4;
-		yourself.
-	element := shape elementOn: anExample1.
-	group add: element.
-	nodes at: anExample1 put: { element. shape }.
+	(nodes includesKey: anExample1) 
+		ifTrue: [ 
+			element := (nodes at: anExample1) first.
+			shape := (nodes at: anExample1) second. ]
+		ifFalse: [ 
+			shape := RTBox new 
+				width: 8;
+				height: 8;
+				color: Color white;
+				borderColor: (Color black alpha: 0.05);
+				borderWidth: 4;
+				yourself.
+			element := shape elementOn: anExample1.
+			group add: element.
+			nodes at: anExample1 put: { element. shape } ].
 	
 	anExample2 ifNotNil: [
-		parentNode := nodes at: anExample2.
-		edge := RTEdge from: parentNode first to: element.
-		line := RTArrowedLine new 
-			color: Color yellow; 
-			attachPoint: RTVerticalAttachPoint instance;
-			yourself.
-		edge + line.
-		edges add: edge ]
+		fromTo at: anExample2 ifAbsent: [ 
+			parentNode := nodes at: anExample2.
+			edge := RTEdge from: parentNode first to: element.
+			line := RTArrowedLine new 
+				color: Color yellow; 
+				attachPoint: RTVerticalAttachPoint instance;
+				yourself.
+			edge + line.
+			edges add: edge.
+			fromTo at: anExample2 put: anExample1 ] ]
 ]
 
 { #category : #private }
@@ -87,33 +94,82 @@ GTExamplePainter >> buildDependencies: anExampleOrMethod1 at: index parent: anEx
 { #category : #private }
 GTExamplePainter >> buildDependency: anExample1 at: index parent: anExample2 [
 	| shape element parentNode edge line |
-	(nodes includesKey: anExample1) ifTrue: [ ^ self ].
-	shape := RTBox new 
-		width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
-		height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
-		color: Color white;
-		borderColor: (anExample1 hasInternalProblems
-			ifTrue: [ Color yellow ]
-			ifFalse: [ Color black ]);
-		borderWidth: 4;
-		yourself.
-	element := shape elementOn: anExample1.
-	group add: element.
-	nodes at: anExample1 put: { element. shape }.
+	(nodes includesKey: anExample1) 
+		ifTrue: [ 
+			element := (nodes at: anExample1) first.
+			shape := (nodes at: anExample1) second. ]
+		ifFalse: [ 
+			shape := RTBox new 
+				width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
+				height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
+				color: Color white;
+				borderColor: (anExample1 hasInternalProblems
+					ifTrue: [ Color yellow ]
+					ifFalse: [ Color black ]);
+				borderWidth: 4;
+				yourself.
+			element := shape elementOn: anExample1.
+			group add: element.
+			nodes at: anExample1 put: { element. shape }.
+			self buildMissingArguments: anExample1 ].
 	
 	anExample2 ifNotNil: [ 
-		parentNode := nodes at: anExample2.
-		edge := RTEdge from: parentNode first to: element.
-		line := RTArrowedLine new 
-			color: (index > anExample2 method numArgs 
-				ifTrue: [ Color yellow ] 
-				ifFalse: [ Color black ]); 
-			attachPoint: RTVerticalAttachPoint instance;
-			yourself.
-		edge + line.
-		edges add: edge ].
+		fromTo at: anExample2 ifAbsent: [ 
+			parentNode := nodes at: anExample2.
+			edge := RTEdge from: parentNode first to: element.
+			line := RTArrowedLine new 
+				color: (index > anExample2 method numArgs 
+					ifTrue: [ Color yellow ] 
+					ifFalse: [ Color black ]); 
+				attachPoint: RTVerticalAttachPoint instance;
+				yourself.
+			edge + line.
+			edges add: edge.
+			fromTo at: anExample2 put: anExample1 ] ]
+]
+
+{ #category : #private }
+GTExamplePainter >> buildDependent: anExample1 child: anExample2 [
+	| shape element childNode edge line |
+	(nodes includesKey: anExample1) 
+		ifTrue: [ 
+			element := (nodes at: anExample1) first.
+			shape := (nodes at: anExample1) second. ]
+		ifFalse: [
+			shape := RTBox new 
+				width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
+				height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
+				color: Color white;
+				borderColor: (anExample1 hasInternalProblems
+					ifTrue: [ Color yellow ]
+					ifFalse: [ Color black ]);
+				borderWidth: 4;
+				yourself.
+			element := shape elementOn: anExample1.
+			group add: element.
+			nodes at: anExample1 put: { element. shape } ].
 	
-	self buildMissingArguments: anExample1.
+	anExample2 ifNotNil: [ 
+		fromTo at: anExample1 ifAbsent: [ 
+			childNode := nodes at: anExample2.
+			edge := RTEdge from: element to: childNode first.
+			line := RTArrowedLine new 
+				color: Color black; 
+				attachPoint: RTVerticalAttachPoint instance;
+				yourself.
+			edge + line.
+			edges add: edge.
+			fromTo at: anExample1 put: anExample2 ] ]
+]
+
+{ #category : #private }
+GTExamplePainter >> buildDependents: anExampleOrMethod1 [
+	(processing includes: anExampleOrMethod1) ifTrue: [ ^ self ].
+	processing add: anExampleOrMethod1.
+	anExampleOrMethod1 directDependents do: [ :dep |
+		self buildDependent: dep child: anExampleOrMethod1.
+		self buildDependents: dep ].
+	processing remove: anExampleOrMethod1.
 ]
 
 { #category : #private }
@@ -156,9 +212,11 @@ GTExamplePainter >> example: anObject [
 GTExamplePainter >> paint [
 	group := RTGroup new.
 	edges := OrderedCollection new.
+	fromTo := Dictionary new.
 	nodes := Dictionary new.
 	processing := IdentitySet new.
 	self buildDependencies: self example at: nil parent: nil.
+	self buildDependents: self example.
 	view addAll: group @ (RTPopup text: [ :node | node gtDisplayString ]) @ RTDraggable.
 	view addAll: edges.
 	RTTreeLayout new on: group.
@@ -168,15 +226,17 @@ GTExamplePainter >> paint [
 { #category : #private }
 GTExamplePainter >> updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
 	| node parentNode edge line |
-	node := nodes at: anExampleOrMethod1.
-	parentNode := nodes at: anExampleOrMethod2.
-	edge := RTEdge from: parentNode first to: node first.
-	line := RTArrowedLine new 
-		color: Color red; 
-		attachPoint: RTVerticalAttachPoint instance;
-		yourself.
-	edge + line.
-	edges add: edge
+	fromTo at: anExampleOrMethod2 ifAbsent: [ 
+		node := nodes at: anExampleOrMethod1.
+		parentNode := nodes at: anExampleOrMethod2.
+		edge := RTEdge from: parentNode first to: node first.
+		line := RTArrowedLine new 
+			color: Color red; 
+			attachPoint: RTVerticalAttachPoint instance;
+			yourself.
+		edge + line.
+		edges add: edge.
+		fromTo at: anExampleOrMethod2 put: anExampleOrMethod1 ]
 ]
 
 { #category : #accessing }

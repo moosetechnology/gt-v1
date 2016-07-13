@@ -20,19 +20,3 @@ GTExampleTODOs >> coreModel [
 	"
 	
 ]
-
-{ #category : #todos }
-GTExampleTODOs >> inspectorIntegration [
-	<todo>
-	"
-	FIX / OLD MODEL
-	- graph painter (currently broken <-> still expects proxy)
-		- clickable boxes
-		- browse inspector by clicking boxes
-		- better hover info
-	
-	NEW
-	- result visualisation
-	"
-	
-]

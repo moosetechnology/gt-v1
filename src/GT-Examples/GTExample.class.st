@@ -336,6 +336,13 @@ GTExample >> gtInspectorRoassalIn: composite [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorSourceIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	^ (self method gtInspectorSourceIn: composite)
+		title: 'Source'
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorSubjectsIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
