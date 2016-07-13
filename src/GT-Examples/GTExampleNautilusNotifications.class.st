@@ -17,12 +17,12 @@ GTExampleNautilusNotifications class >> changed: anAnnouncement [
 
 { #category : #private }
 GTExampleNautilusNotifications class >> example: aGTExample event: anEvent from: anEventSource [
-	GTExampleNautilus browse: 'Examples with Problems' examples: { aGTExample }
+	GTExampleNavigation browse: 'Examples with Problems' examples: { aGTExample }
 ]
 
 { #category : #private }
 GTExampleNautilusNotifications class >> examples: aCollection event: anEvent from: anEventSource [
-	GTExampleNautilus browse: 'Examples with Problems' examples: aCollection
+	GTExampleNavigation browse: 'Examples with Problems' examples: aCollection
 ]
 
 { #category : #private }

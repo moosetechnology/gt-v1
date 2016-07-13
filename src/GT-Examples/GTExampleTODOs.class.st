@@ -16,6 +16,7 @@ GTExampleTODOs >> coreModel [
 	NEW
 	- debugger runtime end with #success if debugger is proceeded (bad!)
 	- better exception handling for running examples / ugly
+	- debugger does not stop at exception !
 	"
 	
 ]

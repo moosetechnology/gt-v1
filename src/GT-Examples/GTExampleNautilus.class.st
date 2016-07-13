@@ -5,87 +5,6 @@ Class {
 }
 
 { #category : #private }
-GTExampleNautilus class >> browse: aString examples: aCollection [
-	| env |
-	env := RBSelectorEnvironment new.
-	aCollection do: [ :example |
-		env addClass: example methodClass selector: example selector ].
-	env isEmpty 
-		ifTrue: [ ^ UIManager default inform: 'No examples found' ].
-	^ env gtBrowseFor: aString
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExampleAfterMethods: aCollectionOfExamples [
-	" self browseAllExampleAfterMethods: GTExample "
-	| env |
-	env := RBSelectorEnvironment new.
-	aCollectionOfExamples do: [ :example | 
-		example after ifNotNil: [
-			example after addToSelectorEnvironment: env ] ].
-	^ env gtBrowseFor: 'After Methods'
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExampleSubjects: aCollectionOfExamples [
-	" self browseAllExamplesWithSubject: GTExample "
-	| env |
-	env := RBSelectorEnvironment new.
-	aCollectionOfExamples do: [ :example | 
-		example subjects do: [ :subject | 
-			subject ifNotNil: [ 
-				subject addToSelectorEnvironment: env ] ] ].
-	^ env gtBrowseFor: 'Subjects'
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExamples [
-	" self browseAllExamples "
-	self browseExamples: 'Examples' select: [ :example | true ]
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExamplesIgnoredByTests [
-	" self browseAllExamplesIgnoredByTests "
-	self browseExamples: 'Examples ignored by Tests' select: [ :example | 
-		example ignoreTest 
-			or: [ example ignoreTestReport ] ]
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExamplesReferencing: aLiteral [
-	" self browseAllExamplesReferencing: #and: "
-	self browseExamples: 'Examples referencing #', aLiteral asString select: [ :example | 
-		example isReferencing: aLiteral ]
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExamplesWithDependencies [
-	" self browseAllExamplesWithDependencies "
-	self browseExamples: 'Examples with Dependencies' select: [ :example | 
-		example hasArguments ]
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExamplesWithProblems [
-	" self browseAllExamplesWithProblems "
-	self browseExamples: 'Examples with Problems' select: [ :example | 
-		example hasProblems ]
-]
-
-{ #category : #public }
-GTExampleNautilus class >> browseAllExamplesWithSubject: aGTExampleSubject [
-	" self browseAllExamplesWithSubject: GTExample "
-	self browseExamples: 'Examples with Subject ', aGTExampleSubject gtDisplayString select: [ :example | 
-		example hasSubject: aGTExampleSubject ]
-]
-
-{ #category : #private }
-GTExampleNautilus class >> browseExamples: aString select: aBlock [
-	^ self browse: aString examples: (Smalltalk gtExamplesContained select: [ :example | aBlock value: example ])
-]
-
-{ #category : #private }
 GTExampleNautilus >> examples: aBlock [
 	^ aBlock value
 ]
@@ -135,15 +54,15 @@ GTExampleNautilus >> onClass: aBuilder [
 	self onDefault: aBuilder.
 	self onExamples: [ (class isMeta 
 		ifTrue: [ class ] 
-		ifFalse: [ class theNonMetaClass ]) gtExamplesContained ] if: true builder: aBuilder.
+		ifFalse: [ class theNonMetaClass ]) gtExamples ] if: true builder: aBuilder.
 	
-	(aBuilder item: #'Browse all Examples of Class ' ,  class name)
+	(aBuilder item: #'Browse Examples of Class ' ,  class name)
 		parent: #gte;
-		action: [ self class browse: 'Examples of Class ' , class name examples: class gtExamplesContained ].
+		action: [ GTExampleNavigation browseExamplesOfClass: class ].
 		
-	(aBuilder item: #'Browse all Examples in Hierarchy of Class ' , class name)
+	(aBuilder item: #'Browse Examples in Hierarchy of Class ' , class name)
 		parent: #gte;
-		action: [ self class browse: 'Examples if Hierarchy of Class ' , class name examples: (class withAllSubclasses gather: [ :each | each gtExamplesContained ]) ].
+		action: [ GTExampleNavigation browseExamplesInSubclassesOfClass: class ].
 		
 	self onReferences: class theNonMetaClass name builder: aBuilder
 ]
@@ -179,11 +98,11 @@ GTExampleNautilus >> onDependencies: examples builder: aBuilder [
 	
 	(aBuilder item: #'Browse Dependencies')
 		parent: #gte;
-		action: [ self class browse: 'Dependencies' examples: (examples gather: [ :each | each dependencies ]) ].
+		action: [ GTExampleNavigation browseDependenciesOf: examples ].
 	
 	(aBuilder item: #'Browse all Dependencies')
 		parent: #gte;
-		action: [ self class browse: 'All Dependencies' examples: (examples gather: [ :each | each allDependencies ]) ];
+		action: [ GTExampleNavigation browseAllDependenciesOf: examples ];
 		withSeparatorAfter
 ]
 
@@ -193,11 +112,11 @@ GTExampleNautilus >> onDependents: examples builder: aBuilder [
 
 	(aBuilder item: #'Browse Dependents')
 		parent: #gte;
-		action: [ self class browse: 'Dependents' examples: (examples gather: [ :each | each directDependents ]) ].
+		action: [ GTExampleNavigation browseDependentsOf: examples ].
 	
 	(aBuilder item: #'Browse all Dependents')
 		parent: #gte;
-		action: [ self class browse: 'All Dependents' examples: (examples gather: [ :each | each allDependents ]) ];
+		action: [ GTExampleNavigation browseAllDependentsOf: examples ];
 		withSeparatorAfter
 ]
 
@@ -250,7 +169,7 @@ GTExampleNautilus >> onPackage: aBuilder [
 	
 	(aBuilder item: #'Browse all Examples of Package ' ,  package packageName)
 		parent: #gte;
-		action: [ self class browse: 'Examples of Package ' ,  package packageName examples: package gtExamplesContained ].
+		action: [ GTExampleNavigation browseExamplesOfPackage: package ].
 		
 	self onReferences: package packageName builder: aBuilder	
 ]
@@ -259,29 +178,29 @@ GTExampleNautilus >> onPackage: aBuilder [
 GTExampleNautilus >> onReferences: aLiteral builder: aBuilder [		
 	(aBuilder item: #'Browse all Examples referencing #' ,  aLiteral)
 		parent: #gte;
-		action: [ self class browseAllExamplesReferencing: aLiteral ].
+		action: [ GTExampleNavigation browseExamplesReferencing: aLiteral ].
 		
 	(aBuilder item: #'Browse all Examples with subject #' ,  aLiteral asString)
 		parent: #gte;
-		action: [ self class browseAllExamplesWithSubject: aLiteral ];
+		action: [ GTExampleNavigation browseExamplesWithSubject: aLiteral ];
 		withSeparatorAfter.	
 			
 	(aBuilder item: #'Browse all Examples')
 		parent: #gte;
 		keyText: 'e, a' if: Nautilus useOldStyleKeys not;
-		action: [ self class browseAllExamples ].
+		action: [ GTExampleNavigation browseExamples ].
 		
 	(aBuilder item: 'Browse all Examples with Problems')
 		parent: #gte;
-		action: [ self class browseAllExamplesWithProblems ].
+		action: [ GTExampleNavigation browseExamplesWithProblems ].
 
 	(aBuilder item: 'Browse all Examples with Dependencies')
 		parent: #gte;
-		action: [ self class browseAllExamplesWithDependencies ].
+		action: [ GTExampleNavigation browseExamplesWithDependencies ].
 		
 	(aBuilder item: 'Browse all Examples ignored by Tests')
 		parent: #gte;
-		action: [ self class browseAllExamplesIgnoredByTests ];
+		action: [ GTExampleNavigation browseExamplesIgnoredByTests ];
 		withSeparatorAfter.
 ]
 
@@ -293,7 +212,7 @@ GTExampleNautilus >> onSubjects: examples builder: aBuilder [
 	
 	(aBuilder item: #'Browse all Subjects')
 		parent: #gte;
-		action: [ self class browseAllExampleSubjects: examples ].
+		action: [ GTExampleNavigation browseAllExampleSubjects: examples ].
 		
 	
 	subjects withIndexDo: [ :subject :index | 

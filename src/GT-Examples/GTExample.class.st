@@ -276,7 +276,7 @@ GTExample >> gtInspectorActionReturnValue [
 GTExample >> gtInspectorActionSubjects [
 	<gtInspectorAction>
 	^ GLMGenericAction new
-		action: [ GTExampleNautilus browseAllExampleSubjects: { self } ];
+		action: [ GTExampleNavigation browseAllExampleSubjects: { self } ];
 		icon: (Smalltalk ui icons iconNamed: #glamorousBookmark);
 		title: 'Subjects'
 ]
