@@ -229,7 +229,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.24'.
+	spec for: #'common' version: '3.25'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -672,6 +672,23 @@ Apart from the issues:
 			project: 'GTInspectorCore' with: '3.15';
 			project: 'GTSpotter' with: '2.12';
 			project: 'GTDebugger' with: '2.10'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version325: spec [
+	<version: '3.25' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Stable version for Pharo 5.0.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/14/2016 13:48'.
+		spec 
+			project: 'GTPlaygroundCore' with: '3.13';
+			project: 'GTInspectorCore' with: '3.17';
+			project: 'GTSpotter' with: '2.14';
+			project: 'GTDebugger' with: '2.12'. ].
 
 ]
 
