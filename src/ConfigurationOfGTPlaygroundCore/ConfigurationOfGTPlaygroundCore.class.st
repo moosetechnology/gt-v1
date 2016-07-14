@@ -190,7 +190,7 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.12'.
+	spec for: #'common' version: '3.13'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
@@ -789,6 +789,22 @@ Apart from the issues:
 		spec 
 			package: 'GT-Playground' with: 'a MCLazyVersionInfo(GT-Playground-TheIntegrator.130)';
 			package: 'GT-Tests-Playground' with: 'a MCLazyVersionInfo(GT-Tests-Playground-StefanReichhart.4)'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version313: spec [
+	<version: '3.13' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Stable version for Pharo 5.0.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/14/2016 13:48'.
+		spec project: 'GTInspectorCore' with: '3.17'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-DenisKudryashov.124';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
 
