@@ -52,6 +52,13 @@ CompiledMethod >> gtSpotterGTExamplesFor: aStep [
 ]
 
 { #category : #'*GT-Examples-Core' }
+CompiledMethod >> gtValueWithReceiver: aReceiver possibleArguments: anArray [ 
+	^ anArray size = self numArgs 
+		ifTrue: [ self valueWithReceiver: aReceiver arguments: anArray  ]
+		ifFalse: [ self valueWithReceiver: aReceiver arguments: (anArray copyFrom: 1 to: self numArgs) ]
+]
+
+{ #category : #'*GT-Examples-Core' }
 CompiledMethod >> isGTExampleMethod [
 	^ self pragmas anySatisfy: [ :each | each isGTExamplePragma ]
 ]
@@ -60,11 +67,4 @@ CompiledMethod >> isGTExampleMethod [
 CompiledMethod >> isGTReservedMethod [
 	^ #( gtExamplesSubjects gtExamplesFactory gtExample gtExamples ) 
 			anySatisfy: [ :selector | selector = self selector ]
-]
-
-{ #category : #'*GT-Examples-Core' }
-CompiledMethod >> valueWithReceiver: aReceiver possibleArguments: anArray [ 
-	^ anArray size = self numArgs 
-		ifTrue: [ self valueWithReceiver: aReceiver arguments: anArray  ]
-		ifFalse: [ self valueWithReceiver: aReceiver arguments: (anArray copyFrom: 1 to: self numArgs) ]
 ]

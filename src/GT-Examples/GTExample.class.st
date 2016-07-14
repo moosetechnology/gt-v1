@@ -328,7 +328,7 @@ GTExample >> gtInspectorRoassalIn: composite [
 	^ composite roassal2
 		title: 'Graph';
 		painting: [ :view :example | 
-			(GTExamplePainter new 
+			(GTExampleGraphPainter new 
 				example: example;
 				view: view;
 				yourself) paint ];
@@ -624,6 +624,11 @@ GTExample >> invalidArguments [
 	^ self arguments reject: [ :each | each isValid ]
 ]
 
+{ #category : #'accessing-dynamic' }
+GTExample >> invalidDependencies [
+	^ self arguments reject: [ :each | each isValid or: [ each exists ] ]
+]
+
 { #category : #testing }
 GTExample >> isGTExample [
 	^ true
@@ -704,6 +709,13 @@ GTExample >> method: aMethodClass forSelector: aSelector [
 	^ self method: aMethodClass forClass: self methodClass selector: aSelector
 ]
 
+{ #category : #'accessing-dynamic' }
+GTExample >> methodArgumentNames [
+	^ self exists
+		ifTrue: [ self method argumentNames ]
+		ifFalse: [ #() ]
+]
+
 { #category : #accessing }
 GTExample >> methodClass [
 	^ methodClass
@@ -732,7 +744,7 @@ GTExample >> noTestReport [
 
 { #category : #ui }
 GTExample >> painter [
-	^ GTExamplePainter new 
+	^ GTExampleGraphPainter new 
 		example: self;
 		yourself
 ]

@@ -7,8 +7,7 @@ Class {
 		'processing',
 		'onProcess',
 		'onRecursionError',
-		'onDependencyError',
-		'onArgumentError'
+		'onDependencyError'
 	],
 	#category : #'GT-Examples-Utils'
 }
@@ -17,7 +16,7 @@ Class {
 GTExampleProcessor >> basicProcess: anExample [ 
 	^ self 
 		process: anExample 
-		withArguments: [ anExample arguments collect: [ :each | self process: each gtExample ] ] 
+		withArguments: [ anExample dependenciesOrArguments collect: [ :each | self process: each ] ] 
 ]
 
 { #category : #testing }
@@ -39,16 +38,9 @@ GTExampleProcessor >> context: anObject [
 ]
 
 { #category : #'accessing-defaults' }
-GTExampleProcessor >> defaultOnArgumentError [
-	^ [ :aProcessor :anExample :someArguments | 
-		aProcessor handleArgumentErrorFor: anExample withArguments: someArguments.
-		nil ]
-]
-
-{ #category : #'accessing-defaults' }
 GTExampleProcessor >> defaultOnDependencyError [
-	^ [ :aProcessor :anExample :anException | 
-		aProcessor handleDependencyErrorFor: anExample withException: anException.
+	^ [ :aProcessor :anExample | 
+		aProcessor handleDependencyErrorFor: anExample.
 		nil ]
 ]
 
@@ -76,20 +68,12 @@ GTExampleProcessor >> example: anObject [
 ]
 
 { #category : #private }
-GTExampleProcessor >> handleArgumentErrorFor: anExample withArguments: arguments [
-	^ (GTExampleArgumentError new
-		example: anExample;
-		expected: anExample method argumentNames;
-		defined: anExample arguments;
-		evaluated: arguments;
-		yourself) signal
-]
-
-{ #category : #private }
-GTExampleProcessor >> handleDependencyErrorFor: anExample withException: anException [
+GTExampleProcessor >> handleDependencyErrorFor: anExample [
 	^ (GTExampleDependencyError new
 		example: anExample;
-		exception: anException;
+		defined: anExample arguments;
+		expected: anExample methodArgumentNames;
+		invalid: anExample invalidArguments;
 		yourself) signal
 ]
 
@@ -108,16 +92,6 @@ GTExampleProcessor >> initialize [
 	
 	processing := IdentitySet new.
 	context := GTExampleContext new
-]
-
-{ #category : #accessing }
-GTExampleProcessor >> onArgumentError [
-	^ onArgumentError ifNil: [ onArgumentError := self defaultOnArgumentError ]
-]
-
-{ #category : #accessing }
-GTExampleProcessor >> onArgumentError: anObject [
-	onArgumentError := anObject
 ]
 
 { #category : #accessing }

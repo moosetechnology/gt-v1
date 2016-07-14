@@ -1,5 +1,5 @@
 Class {
-	#name : #GTExamplePainter,
+	#name : #GTExampleGraphPainter,
 	#superclass : #Object,
 	#instVars : [
 		'example',
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : #private }
-GTExamplePainter >> buildAfter: anExample1 [
+GTExampleGraphPainter >> buildAfter: anExample1 [
 	| shape element parentNode edge line |
 	anExample1 after ifNil: [ ^ self ].
 	(nodes includesKey: anExample1 after) ifTrue: [ ^ self ].
@@ -44,7 +44,7 @@ GTExamplePainter >> buildAfter: anExample1 [
 ]
 
 { #category : #private }
-GTExamplePainter >> buildArgument: anExample1 at: index parent: anExample2 [
+GTExampleGraphPainter >> buildArgument: anExample1 at: index parent: anExample2 [
 	| shape element parentNode edge line |
 	(nodes includesKey: anExample1) 
 		ifTrue: [ 
@@ -76,7 +76,7 @@ GTExamplePainter >> buildArgument: anExample1 at: index parent: anExample2 [
 ]
 
 { #category : #private }
-GTExamplePainter >> buildDependencies: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
+GTExampleGraphPainter >> buildDependencies: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
 	(processing includes: anExampleOrMethod1) ifTrue: [ 
 		^ self updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 ].
 	processing add: anExampleOrMethod1.
@@ -92,7 +92,7 @@ GTExamplePainter >> buildDependencies: anExampleOrMethod1 at: index parent: anEx
 ]
 
 { #category : #private }
-GTExamplePainter >> buildDependency: anExample1 at: index parent: anExample2 [
+GTExampleGraphPainter >> buildDependency: anExample1 at: index parent: anExample2 [
 	| shape element parentNode edge line |
 	(nodes includesKey: anExample1) 
 		ifTrue: [ 
@@ -129,7 +129,7 @@ GTExamplePainter >> buildDependency: anExample1 at: index parent: anExample2 [
 ]
 
 { #category : #private }
-GTExamplePainter >> buildDependent: anExample1 child: anExample2 [
+GTExampleGraphPainter >> buildDependent: anExample1 child: anExample2 [
 	| shape element childNode edge line |
 	(nodes includesKey: anExample1) 
 		ifTrue: [ 
@@ -163,7 +163,7 @@ GTExamplePainter >> buildDependent: anExample1 child: anExample2 [
 ]
 
 { #category : #private }
-GTExamplePainter >> buildDependents: anExampleOrMethod1 [
+GTExampleGraphPainter >> buildDependents: anExampleOrMethod1 [
 	(processing includes: anExampleOrMethod1) ifTrue: [ ^ self ].
 	processing add: anExampleOrMethod1.
 	anExampleOrMethod1 directDependents do: [ :dep |
@@ -173,7 +173,7 @@ GTExamplePainter >> buildDependents: anExampleOrMethod1 [
 ]
 
 { #category : #private }
-GTExamplePainter >> buildMissingArguments: anExample1 [
+GTExampleGraphPainter >> buildMissingArguments: anExample1 [
 	| method |
 	method := anExample1 method.
 	method numArgs > anExample1 arguments size ifFalse: [ ^ self ].
@@ -199,17 +199,17 @@ GTExamplePainter >> buildMissingArguments: anExample1 [
 ]
 
 { #category : #accessing }
-GTExamplePainter >> example [
+GTExampleGraphPainter >> example [
 	^ example
 ]
 
 { #category : #accessing }
-GTExamplePainter >> example: anObject [
+GTExampleGraphPainter >> example: anObject [
 	example := anObject
 ]
 
 { #category : #public }
-GTExamplePainter >> paint [
+GTExampleGraphPainter >> paint [
 	group := RTGroup new.
 	edges := OrderedCollection new.
 	fromTo := Dictionary new.
@@ -224,7 +224,7 @@ GTExamplePainter >> paint [
 ]
 
 { #category : #private }
-GTExamplePainter >> updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
+GTExampleGraphPainter >> updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
 	| node parentNode edge line |
 	fromTo at: anExampleOrMethod2 ifAbsent: [ 
 		node := nodes at: anExampleOrMethod1.
@@ -240,11 +240,11 @@ GTExamplePainter >> updateDependency: anExampleOrMethod1 at: index parent: anExa
 ]
 
 { #category : #accessing }
-GTExamplePainter >> view [
+GTExampleGraphPainter >> view [
 	^ view
 ]
 
 { #category : #accessing }
-GTExamplePainter >> view: anObject [
+GTExampleGraphPainter >> view: anObject [
 	view := anObject
 ]

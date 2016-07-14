@@ -137,6 +137,13 @@ GTAbstractExampleMethod >> method [
 		ifFalse: [ nil ]
 ]
 
+{ #category : #'accessing-dynamic' }
+GTAbstractExampleMethod >> methodArgumentNames [
+	^ self exists
+		ifTrue: [ self method argumentNames ]
+		ifFalse: [ #() ]
+]
+
 { #category : #accessing }
 GTAbstractExampleMethod >> methodClass [
 	^ methodClass

@@ -28,7 +28,7 @@ GTExampleNautilusNotifications class >> examples: aCollection event: anEvent fro
 { #category : #private }
 GTExampleNautilusNotifications class >> notifyExample: aGTExample [
 	UIManager default 
-		inform: 'Example ', aGTExample gtDisplayString , ' is invalid' , String cr, ' (click to browse)'
+		gtInform: 'Example ', aGTExample gtDisplayString , ' is invalid' , String cr, ' (click to browse)'
 		send: #example:event:from:
 		to: self
 		withValue: aGTExample
@@ -37,7 +37,7 @@ GTExampleNautilusNotifications class >> notifyExample: aGTExample [
 { #category : #private }
 GTExampleNautilusNotifications class >> notifyExamples: aCollection [
 	UIManager default 
-		inform: 'There are ' , aCollection size asString , ' invalid examples' , String cr, ' (click to browse)'
+		gtInform: 'There are ' , aCollection size asString , ' invalid examples' , String cr, ' (click to browse)'
 		send: #examples:event:from:
 		to: self
 		withValue: aCollection

@@ -40,14 +40,9 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 	| currentResult arguments |
 	currentResult := self newResultFor: anExample.
 	arguments := nil.
-	anExample hasValidArguments 
-		ifFalse: [ ^ self onArgumentError value: self value: anExample value: arguments ].
-	[ arguments := aBlock value ]
-		on: Error
-		do: [ :exception | 
-			currentResult unexpectedError: exception.
-			exception class = GTExampleRecursionDetected ifTrue: [ exception pass ].
-			^ self onDependencyError value: self value: anExample value: exception ].
+	anExample hasValidDependencies " dynamic check "
+		ifFalse: [ ^ self onDependencyError value: self value: anExample ].
+	arguments := aBlock value.
 	self do: [ currentResult returnValue: (self primitiveProcessExample: anExample withArguments: arguments) ]
 		on: anExample signalableExceptions
 		do: [ :exception | currentResult expectedError: exception ].
@@ -71,7 +66,7 @@ GTExampleEvaluator >> processAfter: anExample [
 GTExampleEvaluator >> processAfter: anExample withResult: anObject [
 	anExample after ifNil: [ ^ self ].
 	anExample after method
-		valueWithReceiver: anExample after provider 
+		gtValueWithReceiver: anExample after provider 
 		possibleArguments: { anObject }
 ]
 

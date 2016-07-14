@@ -291,10 +291,15 @@ GTExampleOrganizer >> removeExamplesOfClass: aClassName for: announcement [
 
 { #category : #'private-maintenance' }
 GTExampleOrganizer >> removeExamplesOfMethod: aCompiledMethod for: announcement [
-	theNonMetaClassExamples removeKey: aCompiledMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
+	self removeKey: aCompiledMethod methodClass theNonMetaClass name from: theNonMetaClassExamples thenDo: [ :methodDict |
 		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ].
-	theMetaClassExamples removeKey: aCompiledMethod methodClass theNonMetaClass name thenDo: [ :methodDict |
+	self removeKey: aCompiledMethod methodClass theNonMetaClass name from: theMetaClassExamples thenDo: [ :methodDict |
 		announcement removeExample: (methodDict removeKey: aCompiledMethod selector ifAbsent: [ nil ]) ]
+]
+
+{ #category : #'private-maintenance' }
+GTExampleOrganizer >> removeKey: aKey from: aDictionary thenDo: aBlock [
+	aBlock value: (aDictionary removeKey: aKey ifAbsent: [ ^ nil ])
 ]
 
 { #category : #public }

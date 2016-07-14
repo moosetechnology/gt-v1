@@ -1,7 +1,7 @@
 Extension { #name : #MorphicUIManager }
 
 { #category : #'*GT-Examples-UI' }
-MorphicUIManager >> inform: aStringOrText send: aSelector to: anObject withValue: anArgument [
+MorphicUIManager >> gtInform: aStringOrText send: aSelector to: anObject withValue: anArgument [
 	"Display a message for the user to read and then dismiss."
 	(ProvideAnswerNotification signal: aStringOrText) ifNotNil: [:answer |
 		^true].

@@ -21,11 +21,9 @@ GTExampleTraverser >> action: anObject [
 GTExampleTraverser >> process: anExample withArguments: aBlock [
 	| arguments |
 	arguments := nil.
-	anExample hasValidArguments 
-		ifFalse: [ ^ self onArgumentError value: self value: anExample value: arguments ].
-	[ arguments := aBlock value ]
-		on: Error
-		do: [ :exception | ^ self onDependencyError value: self value: anExample value: exception ].
+	anExample hasValidDependencies
+		ifFalse: [ ^ self onDependencyError value: self value: anExample value: arguments ].
+	arguments := aBlock value.
 	self action ifNotNil: [ self example == anExample ifFalse: [ self action value: anExample ] ]
 ]
 

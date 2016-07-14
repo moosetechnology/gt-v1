@@ -2,24 +2,39 @@ Class {
 	#name : #GTExampleDependencyError,
 	#superclass : #GTExampleError,
 	#instVars : [
-		'exception'
+		'expected',
+		'defined',
+		'invalid'
 	],
 	#category : #'GT-Examples-Exceptions'
 }
 
 { #category : #accessing }
-GTExampleDependencyError >> exception [
-	^ exception
+GTExampleDependencyError >> defined [
+	^ defined
 ]
 
 { #category : #accessing }
-GTExampleDependencyError >> exception: anObject [
-	exception := anObject
+GTExampleDependencyError >> defined: anObject [
+	defined := anObject
 ]
 
-{ #category : #testing }
-GTExampleDependencyError >> isGTExampleError [
-	^ self exception 
-		ifNotNil: [ self exception isGTExampleError ]
-		ifNil: [ super isGTExampleError ]
+{ #category : #accessing }
+GTExampleDependencyError >> expected [
+	^ expected
+]
+
+{ #category : #accessing }
+GTExampleDependencyError >> expected: anObject [
+	expected := anObject
+]
+
+{ #category : #accessing }
+GTExampleDependencyError >> invalid [
+	^ invalid
+]
+
+{ #category : #accessing }
+GTExampleDependencyError >> invalid: anObject [
+	invalid := anObject
 ]
