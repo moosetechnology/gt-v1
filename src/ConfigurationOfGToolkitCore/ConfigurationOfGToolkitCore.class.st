@@ -233,6 +233,8 @@ ConfigurationOfGToolkitCore >> stable: spec [
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
+	spec for: #'pharo5.x' version: '3.25'.
+
 ]
 
 { #category : #versions }
