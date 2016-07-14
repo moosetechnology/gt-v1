@@ -42,8 +42,7 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 	arguments := nil.
 	anExample hasValidDependencies " dynamic check "
 		ifFalse: [ ^ self onDependencyError value: self value: anExample ].
-	arguments := aBlock value.
-	self do: [ currentResult returnValue: (self primitiveProcessExample: anExample withArguments: arguments) ]
+	self do: [ arguments := aBlock value. currentResult returnValue: (self primitiveProcessExample: anExample withArguments: arguments) ]
 		on: anExample signalableExceptions
 		do: [ :exception | currentResult expectedError: exception ].
 	processed add: currentResult.
