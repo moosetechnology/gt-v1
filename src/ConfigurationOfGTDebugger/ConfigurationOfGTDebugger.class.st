@@ -287,6 +287,8 @@ ConfigurationOfGTDebugger >> stable: spec [
 
 	spec for: #'pharo4.x' version: '1.0.1'.
 
+	spec for: #'pharo5.x' version: '2.12'.
+
 ]
 
 { #category : #versions }
