@@ -169,6 +169,8 @@ ConfigurationOfGTEventRecorder >> stable: spec [
 
 	spec for: #'common' version: '0.20'.
 
+	spec for: #'pharo5.x' version: '0.20'.
+
 ]
 
 { #category : #versions }
