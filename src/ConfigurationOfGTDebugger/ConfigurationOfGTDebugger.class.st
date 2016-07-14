@@ -281,7 +281,7 @@ ConfigurationOfGTDebugger >> project [
 ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.11'.
+	spec for: #'common' version: '2.12'.
 
 	spec for: #'pharo3.x' version: '1.0.0'.
 
@@ -514,6 +514,24 @@ Apart from the issues:
 			package: 'GT-BytecodeDebugger' with: 'a MCLazyVersionInfo(GT-BytecodeDebugger-MarcusDenker.32)';
 			package: 'GT-SUnitDebugger' with: 'a MCLazyVersionInfo(GT-SUnitDebugger-TudorGirba.39)';
 			package: 'GT-Tests-Debugger' with: 'a MCLazyVersionInfo(GT-Tests-Debugger-AndreiChis.14)'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version212: spec [
+	<version: '2.12' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Stable version for Pharo 5.0.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/14/2016 13:48'.
+		spec project: 'GTInspectorCore' with: '3.17'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.350';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-TudorGirba.31';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
 
 ]
 
