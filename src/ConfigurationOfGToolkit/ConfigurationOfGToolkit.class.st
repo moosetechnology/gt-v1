@@ -1414,6 +1414,102 @@ ConfigurationOfGToolkit >> baseline026: aSpec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGToolkit >> baseline026pharo5: aSpec [
+	<version: '0.26-baseline-pharo5'>
+	aSpec for: #'common' do: [
+		aSpec
+			blessing: #'baseline';
+			description: 'Load the recorder for the windows';
+			author: 'AndreiChis';
+			timestamp: '2016-06-28';
+			repository: 'http://www.smalltalkhub.com/mc/Moose/GToolkit/main'.
+		aSpec
+			package: 'GT-ToolkitPharo6to5Backports';
+			package: 'GT-Coder' with: [
+				aSpec
+					requires: #( 'Glamour') ];
+			package: 'GT-Coder' with: [
+				aSpec
+					requires: #( 'Glamour') ];
+			package: 'GT-DebuggerExtensions' with: [ 
+				aSpec
+					requires: #(GTDebugger) ];
+			package: 'GT-GlamourDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger' 'Roassal2' 'GT-DebuggerExtensions') ];
+			package: 'GT-PetitParserDebugger' with: [
+				aSpec
+					requires: #( 'GTDebugger' 'PetitParser' 'GT-DebuggerExtensions') ];
+			package: 'GT-Debugger-EventRecorder' with: [ 
+				aSpec
+					requires: #(GTDebugger GTEventRecorder) ];
+			package: 'GT-Window-EventRecorder' with: [ 
+				aSpec
+					requires: #(GTEventRecorder) ];
+			package: 'GT-Setup';
+			package: 'GT-Tools' with: [
+				aSpec
+					requires: #( 'Glamour') ];
+			package: 'Glamour-Morphic-Theme' with: [
+				aSpec
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
+			package: 'GT-Tests-Release'.
+			
+		aSpec
+			project: 'AnnouncerCentricDebugger' with: [
+				aSpec
+					versionString: #'development';
+					className: 'ConfigurationOfAnnouncerCentricDebugger';
+					repository: 'http://www.smalltalkhub.com/mc/Moose/AnnouncerCentricDebugger/main' ];
+			project: 'Glamour' with: [
+				aSpec
+					versionString: #'development';
+					className: 'ConfigurationOfGlamour';
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
+			project: 'PetitParser' with: [
+				aSpec
+					versionString: #'development';
+					className: 'ConfigurationOfPetitParser';
+					repository: 'http://www.smalltalkhub.com/mc/Moose/PetitParser/main' ];
+			project: 'GTDebugger' with: [
+				aSpec
+					className: #ConfigurationOfGTDebugger;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'GTInspector' with: [
+				aSpec
+					className: #ConfigurationOfGTInspector;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'GTPlayground' with: [
+				aSpec
+					className: #ConfigurationOfGTPlayground;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
+			project: 'Roassal2' with: [
+				aSpec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
+			project: 'GTSpotter' with: [
+				aSpec
+					className: #ConfigurationOfGTSpotter;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ]; 
+			project: 'GTEventRecorder' with: [
+				aSpec
+					className: #ConfigurationOfGTEventRecorder;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ].
+			
+		aSpec
+			group: 'Tests' with: #('GT-ToolkitPharo6to5Backports' 'GT-Tests-Release');
+			group: 'debugger' with: #('GT-ToolkitPharo6to5Backports' 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
+			group: 'default' with: #('GT-ToolkitPharo6to5Backports' 'GT-Setup' 'GT-GlamourDebugger' 'AnnouncerCentricDebugger' 'GT-PetitParserDebugger' 'GT-Debugger-EventRecorder' 'GT-Window-EventRecorder' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests' 'Roassal2') ]
+]
+
+{ #category : #baselines }
 ConfigurationOfGToolkit >> baseline02: spec [ 
 	<version: '0.2-baseline'>
 	
@@ -1990,7 +2086,7 @@ ConfigurationOfGToolkit >> development: spec [
 
 	spec for: #'pharo4.x' version: '0.22-baseline'.
 	
-	spec for: #'pharo5.x' version: '0.26-baseline'.
+	spec for: #'pharo5.x' version: '0.26-baseline-pharo5'.
 	
 	spec for: #'pharo6.x' version: '0.26-baseline'.
 
