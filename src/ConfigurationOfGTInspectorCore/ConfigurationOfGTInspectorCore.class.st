@@ -181,7 +181,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.16'.
+	spec for: #'common' version: '3.17'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -931,6 +931,23 @@ Apart from the issues:
 			package: 'GT-Inspector' with: 'a MCLazyVersionInfo(GT-Inspector-JurajKubelka.434)';
 			package: 'GT-InspectorExtensions-Core' with: 'a MCLazyVersionInfo(GT-InspectorExtensions-Core-JurajKubelka.225)';
 			package: 'GT-Tests-Inspector' with: 'a MCLazyVersionInfo(GT-Tests-Inspector-JurajKubelka.57)'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version317: spec [
+	<version: '3.17' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Stable version for Pharo 5.0.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/14/2016 13:47'.
+		spec project: 'GlamourCore' with: '4.19'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.421';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TheIntegrator.214';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.56'. ].
 
 ]
 
