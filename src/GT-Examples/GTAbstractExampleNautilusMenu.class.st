@@ -103,32 +103,41 @@ GTAbstractExampleNautilusMenu >> debugExamples: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Debug Examples')
 		parent: #gte;
 		keyText: 'e, d' if: Nautilus useOldStyleKeys not;
-		action: [ self examples: aBlock do: #debug ]
+		action: [ self examples: aBlock collect: [ :each | each debug ] ]
 ]
 
 { #category : #utils }
 GTAbstractExampleNautilusMenu >> examples: aBlock [
-	^ aBlock value
+	self examples: aBlock select: [ :each | true ]
 ]
 
 { #category : #utils }
 GTAbstractExampleNautilusMenu >> examples: aBlock1 collect: aBlock2 [
-	^ aBlock1 value 
-		select: [ :each | each isGTExample ] 
-		thenCollect: [ :example | example -> (aBlock2 value: example) ]
-]
-
-{ #category : #utils }
-GTAbstractExampleNautilusMenu >> examples: aBlock1 do: aBlock2 [
-	^ aBlock1 value 
-		select: [ :each | each isGTExample ] 
-		thenDo: aBlock2
+	self examples: aBlock1 select: [ :each | true ] collect: [ :each | aBlock2 value: each ]
 ]
 
 { #category : #utils }
 GTAbstractExampleNautilusMenu >> examples: aBlock1 select: aBlock2 [
-	^ aBlock1 value 
-		select: [ :example | example isGTExample and: [ aBlock2 value: example ] ]
+	(aBlock1 value select: [ :example | 
+		example isGTExample 
+			and: [ aBlock2 value: example ] ])
+				ifNotEmpty: [ :examples | 
+					(examples size = 1 
+						ifTrue: [ examples anyOne ]
+						ifFalse: [ examples ]) inspect ]
+				ifEmpty: [ self notifyNoExamples ]
+]
+
+{ #category : #utils }
+GTAbstractExampleNautilusMenu >> examples: aBlock1 select: aBlock2 collect: aBlock3 [
+	| examples |
+	examples := Dictionary new.
+	aBlock1 value 
+		select: [ :each | each isGTExample and: [ aBlock2 value: each ] ] 
+		thenDo: [ :each | examples at: each put: (aBlock3 value: each) ].
+	examples
+		ifNotEmpty: [ examples inspect ]
+		ifEmpty: [ self notifyNoExamples ]
 ]
 
 { #category : #private }
@@ -136,21 +145,21 @@ GTAbstractExampleNautilusMenu >> inspectExamples: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Inspect Examples')
 		parent: #gte;
 		keyText: 'e, i' if: Nautilus useOldStyleKeys not;
-		action: [ (self examples: aBlock) inspect ]
+		action: [ self examples: aBlock ]
 ]
 
 { #category : #private }
 GTAbstractExampleNautilusMenu >> inspectProblems: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Inspect Problems')
 		parent: #gte;
-		action: [ (self examples: aBlock select: [ :example | example hasProblems ]) inspect ]
+		action: [ self examples: aBlock select: [ :each | each hasProblems ] collect: [ :each | each problems ] ]
 ]
 
 { #category : #private }
 GTAbstractExampleNautilusMenu >> inspectResults: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Inspect Results (full)')
 		parent: #gte;
-		action: [ (self examples: aBlock collect: [ :example | example result ]) inspect ].
+		action: [ self examples: aBlock collect: [ :example | example result ] ].
 ]
 
 { #category : #private }
@@ -158,11 +167,18 @@ GTAbstractExampleNautilusMenu >> inspectReturnValue: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: #'Inspect Return-Values')
 		parent: #gte;
 		keyText: 'e, v' if: Nautilus useOldStyleKeys not;
-		action: [ (self examples: aBlock collect: [ :example | example returnValue ]) inspect ].
+		action: [ self examples: aBlock collect: [ :example | example returnValue ] ].
 ]
 
 { #category : #public }
 GTAbstractExampleNautilusMenu >> menuFor: aBuilder [
+]
+
+{ #category : #utils }
+GTAbstractExampleNautilusMenu >> notifyNoExamples [
+	GrowlMorph 
+		openWithLabel: 'GT Examples'
+		contents: 'No examples found within the current selection' 
 ]
 
 { #category : #private }
@@ -170,5 +186,5 @@ GTAbstractExampleNautilusMenu >> runExamples: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Run Examples')
 		parent: #gte;
 		keyText: 'e, r' if: Nautilus useOldStyleKeys not;
-		action: [ self examples: aBlock do: #run ].
+		action: [ self examples: aBlock collect: [ :each | each run ] ].
 ]

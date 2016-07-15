@@ -22,5 +22,5 @@ TClassDescription >> gtExamplesFactory [
 
 { #category : #'*GT-Examples-Core' }
 TClassDescription >> gtExamplesSubjects [
-	^ {  }
+	^ { self }
 ]

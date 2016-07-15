@@ -46,11 +46,6 @@ Object >> gtExamplesFactory [
 ]
 
 { #category : #'*GT-Examples-Core' }
-Object class >> gtExamplesSubjects [
-	^ {  }
-]
-
-{ #category : #'*GT-Examples-Core' }
 Object >> gtExamplesSubjects [
 	^ {  }
 ]
