@@ -5,8 +5,8 @@ Class {
 		'example',
 		'view',
 		'group',
-		'nodes',
 		'edges',
+		'nodes',
 		'fromTo',
 		'processing'
 	],
@@ -16,8 +16,12 @@ Class {
 { #category : #private }
 GTExampleGraphPainter >> buildAfter: anExample1 [
 	| shape element parentNode edge line |
+	
+	" abort if we've done this already "
 	anExample1 after ifNil: [ ^ self ].
 	(nodes includesKey: anExample1 after) ifTrue: [ ^ self ].
+	
+	" add element and shape "
 	shape := RTEllipse new 
 		width: 8;
 		height: 8;
@@ -31,6 +35,7 @@ GTExampleGraphPainter >> buildAfter: anExample1 [
 	group add: element.
 	nodes at: anExample1 after put: { element. shape }.
 	
+	" add edge "
 	parentNode := nodes at: anExample1.
 	edge := RTEdge from: parentNode first to: element.
 	line := RTLine new 
@@ -48,9 +53,11 @@ GTExampleGraphPainter >> buildArgument: anExample1 at: index parent: anExample2 
 	| shape element parentNode edge line |
 	(nodes includesKey: anExample1) 
 		ifTrue: [ 
+			" retrieve existing element and shape"
 			element := (nodes at: anExample1) first.
 			shape := (nodes at: anExample1) second. ]
 		ifFalse: [ 
+			" add element and shape "
 			shape := RTBox new 
 				width: 8;
 				height: 8;
@@ -62,33 +69,35 @@ GTExampleGraphPainter >> buildArgument: anExample1 at: index parent: anExample2 
 			group add: element.
 			nodes at: anExample1 put: { element. shape } ].
 	
-	anExample2 ifNotNil: [
-		fromTo at: anExample2 ifAbsent: [ 
-			parentNode := nodes at: anExample2.
-			edge := RTEdge from: parentNode first to: element.
-			line := RTArrowedLine new 
-				color: Color yellow; 
-				attachPoint: RTVerticalAttachPoint instance;
-				yourself.
-			edge + line.
-			edges add: edge.
-			fromTo at: anExample2 put: anExample1 ] ]
+	" add edge if not already present "
+	self edgeFrom: anExample2 to: anExample1 ifAbsent: [ 
+		parentNode := nodes at: anExample2.
+		edge := RTEdge from: parentNode first to: element.
+		line := RTArrowedLine new 
+			color: Color yellow; 
+			attachPoint: RTVerticalAttachPoint instance;
+			yourself.
+		edge + line.
+		edges add: edge ]
 ]
 
 { #category : #private }
 GTExampleGraphPainter >> buildDependencies: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
-	(processing includes: anExampleOrMethod1) ifTrue: [ 
-		^ self updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 ].
-	processing add: anExampleOrMethod1.
-	anExampleOrMethod1 isGTExample 
-		ifTrue: [ 
-			self buildDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2.
-			anExampleOrMethod1 dependenciesOrArguments withIndexDo: [ :dep :depIndex | 
-				self buildDependencies: dep at: depIndex parent: anExampleOrMethod1 ].
-			self buildAfter: anExampleOrMethod1 ]
-		ifFalse: [ 
-			self buildArgument: anExampleOrMethod1 at: index parent: anExampleOrMethod2 ].
-	processing remove: anExampleOrMethod1.
+	self process: anExampleOrMethod1 
+		do: [ 
+			anExampleOrMethod1 isGTExample 
+				ifTrue: [ 
+					" example with all dependencies "
+					self buildDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2.
+					anExampleOrMethod1 dependenciesOrArguments withIndexDo: [ :dep :depIndex | 
+						self buildDependencies: dep at: depIndex parent: anExampleOrMethod1 ].
+					self buildAfter: anExampleOrMethod1 ]
+				ifFalse: [ 
+					" just an argument (placeholder) - example missing "
+					self buildArgument: anExampleOrMethod1 at: index parent: anExampleOrMethod2 ] ] 
+		onRecursionDo: [ 
+			self updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 ]
+
 ]
 
 { #category : #private }
@@ -96,9 +105,11 @@ GTExampleGraphPainter >> buildDependency: anExample1 at: index parent: anExample
 	| shape element parentNode edge line |
 	(nodes includesKey: anExample1) 
 		ifTrue: [ 
+			" retrieve existing element and shape"
 			element := (nodes at: anExample1) first.
 			shape := (nodes at: anExample1) second. ]
 		ifFalse: [ 
+			" add element and shape "
 			shape := RTBox new 
 				width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
 				height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
@@ -111,21 +122,21 @@ GTExampleGraphPainter >> buildDependency: anExample1 at: index parent: anExample
 			element := shape elementOn: anExample1.
 			group add: element.
 			nodes at: anExample1 put: { element. shape }.
+			" add missing arguments "
 			self buildMissingArguments: anExample1 ].
 	
-	anExample2 ifNotNil: [ 
-		fromTo at: anExample2 ifAbsent: [ 
-			parentNode := nodes at: anExample2.
-			edge := RTEdge from: parentNode first to: element.
-			line := RTArrowedLine new 
-				color: (index > anExample2 method numArgs 
-					ifTrue: [ Color yellow ] 
-					ifFalse: [ Color black ]); 
-				attachPoint: RTVerticalAttachPoint instance;
-				yourself.
-			edge + line.
-			edges add: edge.
-			fromTo at: anExample2 put: anExample1 ] ]
+	" add edge if not already present "
+	self edgeFrom: anExample2 to: anExample1 ifAbsent: [ 
+		parentNode := nodes at: anExample2.
+		edge := RTEdge from: parentNode first to: element.
+		line := RTArrowedLine new 
+			color: (index > anExample2 method numArgs 
+				ifTrue: [ Color yellow ] 
+				ifFalse: [ Color black ]); 
+			attachPoint: RTVerticalAttachPoint instance;
+			yourself.
+		edge + line.
+		edges add: edge ]
 ]
 
 { #category : #private }
@@ -133,9 +144,11 @@ GTExampleGraphPainter >> buildDependent: anExample1 child: anExample2 [
 	| shape element childNode edge line |
 	(nodes includesKey: anExample1) 
 		ifTrue: [ 
+			" retrieve existing element and shape"
 			element := (nodes at: anExample1) first.
 			shape := (nodes at: anExample1) second. ]
 		ifFalse: [
+			" add element and shape "
 			shape := RTBox new 
 				width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
 				height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
@@ -149,36 +162,40 @@ GTExampleGraphPainter >> buildDependent: anExample1 child: anExample2 [
 			group add: element.
 			nodes at: anExample1 put: { element. shape } ].
 	
-	anExample2 ifNotNil: [ 
-		fromTo at: anExample1 ifAbsent: [ 
-			childNode := nodes at: anExample2.
-			edge := RTEdge from: element to: childNode first.
-			line := RTArrowedLine new 
-				color: Color black; 
-				attachPoint: RTVerticalAttachPoint instance;
-				yourself.
-			edge + line.
-			edges add: edge.
-			fromTo at: anExample1 put: anExample2 ] ]
+	" add edge if not already present "
+	self edgeFrom: anExample1 to: anExample2 ifAbsent: [ 
+		childNode := nodes at: anExample2.
+		edge := RTEdge from: element to: childNode first.
+		line := RTArrowedLine new 
+			color: Color black; 
+			attachPoint: RTVerticalAttachPoint instance;
+			yourself.
+		edge + line.
+		edges add: edge ]
 ]
 
 { #category : #private }
-GTExampleGraphPainter >> buildDependents: anExampleOrMethod1 [
-	(processing includes: anExampleOrMethod1) ifTrue: [ ^ self ].
-	processing add: anExampleOrMethod1.
-	anExampleOrMethod1 directDependents do: [ :dep |
-		self buildDependent: dep child: anExampleOrMethod1.
-		self buildDependents: dep ].
-	processing remove: anExampleOrMethod1.
+GTExampleGraphPainter >> buildDependents: anExampleOrMethod1 child: anExampleOrMethod2 [
+	self process: anExampleOrMethod1 
+		do: [ 
+			anExampleOrMethod1 directDependents do: [ :dep |
+				self buildDependent: dep child: anExampleOrMethod1.
+				self buildDependents: dep child: anExampleOrMethod1 ] ] 
+		onRecursionDo: [ 
+			self updateDependent: anExampleOrMethod1 child: anExampleOrMethod2 ]
 ]
 
 { #category : #private }
 GTExampleGraphPainter >> buildMissingArguments: anExample1 [
 	| method |
+	
+	" abort if we've done this already "
 	method := anExample1 method.
 	method numArgs > anExample1 arguments size ifFalse: [ ^ self ].
+	
 	(1 max: anExample1 arguments size) to: method numArgs  do: [ :index |
 		| shape argumentName element edge line |
+		" add shape "
 		shape := RTBox new 
 			width: 8;
 			height: 8;
@@ -189,6 +206,8 @@ GTExampleGraphPainter >> buildMissingArguments: anExample1 [
 		argumentName := method argumentNames at: index.
 		element := shape elementOn: argumentName asString.
 		group add: element.
+		
+		" add edge "
 		edge := RTEdge from: (nodes at: anExample1) first to: element.
 		line := RTArrowedLine new 
 			color: Color yellow; 
@@ -196,6 +215,17 @@ GTExampleGraphPainter >> buildMissingArguments: anExample1 [
 			yourself.
 		edge + line.
 		edges add: edge ]
+]
+
+{ #category : #'private-utils' }
+GTExampleGraphPainter >> edgeFrom: fromExample to: toExample ifAbsent: aBlock [
+	| processedEdges |
+	fromExample ifNil: [ ^ self ].
+	toExample ifNil: [ ^ self ].
+	processedEdges := fromTo at: fromExample ifAbsentPut: [ Set new ].
+	(processedEdges includes: toExample) ifTrue: [ ^ self ].
+	[ aBlock value ] ensure: [ 
+		processedEdges add: toExample ]
 ]
 
 { #category : #accessing }
@@ -214,29 +244,61 @@ GTExampleGraphPainter >> paint [
 	edges := OrderedCollection new.
 	fromTo := Dictionary new.
 	nodes := Dictionary new.
-	processing := IdentitySet new.
+	processing := Set new.
 	self buildDependencies: self example at: nil parent: nil.
-	self buildDependents: self example.
+	self buildDependents: self example child: nil.
 	view addAll: group @ (RTPopup text: [ :node | node gtDisplayString ]) @ RTDraggable.
 	view addAll: edges.
 	RTTreeLayout new on: group.
 	^ view
 ]
 
+{ #category : #'private-utils' }
+GTExampleGraphPainter >> process: aGTExample do: aBlock onRecursionDo: aBlock2 [
+	(processing includes: aGTExample) ifTrue: [ ^ aBlock2 value ].
+	processing add: aGTExample.
+	[ aBlock value ] ensure: [ 
+		processing remove: aGTExample ]
+]
+
 { #category : #private }
 GTExampleGraphPainter >> updateDependency: anExampleOrMethod1 at: index parent: anExampleOrMethod2 [
 	| node parentNode edge line |
-	fromTo at: anExampleOrMethod2 ifAbsent: [ 
+	
+	" abort if we've done this already "
+	self edgeFrom: anExampleOrMethod2 to: anExampleOrMethod1 ifAbsent: [ 
+		" retrieve existing elements "
 		node := nodes at: anExampleOrMethod1.
 		parentNode := nodes at: anExampleOrMethod2.
+		
+		" add edge "
 		edge := RTEdge from: parentNode first to: node first.
 		line := RTArrowedLine new 
 			color: Color red; 
 			attachPoint: RTVerticalAttachPoint instance;
 			yourself.
 		edge + line.
-		edges add: edge.
-		fromTo at: anExampleOrMethod2 put: anExampleOrMethod1 ]
+		edges add: edge ]
+]
+
+{ #category : #private }
+GTExampleGraphPainter >> updateDependent: anExampleOrMethod1 child: anExampleOrMethod2 [
+	| node parentNode edge line |
+	
+	" abort if we've done this already "
+	self edgeFrom: anExampleOrMethod1 to: anExampleOrMethod2 ifAbsent: [ 
+		" retrieve existing elements "
+		node := nodes at: anExampleOrMethod2.
+		parentNode := nodes at: anExampleOrMethod1.
+		
+		" add edge "
+		edge := RTEdge from: parentNode first to: node first.
+		line := RTArrowedLine new 
+			color: Color red; 
+			attachPoint: RTVerticalAttachPoint instance;
+			yourself.
+		edge + line.
+		edges add: edge ]
 ]
 
 { #category : #accessing }

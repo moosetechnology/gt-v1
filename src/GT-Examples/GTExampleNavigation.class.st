@@ -118,7 +118,7 @@ GTExampleNavigation class >> browseExamplesWithDependencies [
 
 { #category : #'browse globally' }
 GTExampleNavigation class >> browseExamplesWithProblems [
-	" self browseAllExamplesWithProblems "
+	" self browseExamplesWithProblems "
 	self browseExamples: 'Examples with Problems' select: [ :example | 
 		example hasProblems ]
 ]
