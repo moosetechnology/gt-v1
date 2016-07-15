@@ -7,7 +7,7 @@ Class >> gtInspectorGTExamplesIn: composite [
 		title: 'Examples';
 		display: [ self gtExamples ];
 		icon: [:each | each icon];
-		format: [:each | String streamContents: [:s | each gtDisplaySummaryOn: s]];
+		format: [:each | each gtDisplayString ];
 		in: [ :list | list sorted: [ :a :b | (list format cull: a) < (list format cull: b)] ];
 		send: [ :each | each returnValue ];
 		when: [ self gtExamples notEmpty ]

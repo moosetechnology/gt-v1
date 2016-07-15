@@ -46,7 +46,8 @@ GTExampleClassSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleClassSubject >> gtDisplayOn: aStream [
-	self theClassName gtDisplayOn: aStream
+	self theClassName gtDisplayOn: aStream.
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #testing }

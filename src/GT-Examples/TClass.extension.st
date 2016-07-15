@@ -7,7 +7,7 @@ TClass >> gtInspectorGTExamplesIn: composite [
 		title: 'Examples';
 		display: [ self gtExamples ];
 		icon: [:each | each icon];
-		format: [:each | String streamContents: [:s | each gtDisplaySummaryOn: s]] ;
+		format: [ :each | each gtDisplayString ] ;
 		send: [ :each | each returnValue ];
 		when: [ self gtExamples notEmpty ]
 ]

@@ -54,20 +54,12 @@ GTAbstractExampleMethod >> forNautilus: aBlock [
 
 { #category : #ui }
 GTAbstractExampleMethod >> gtDisplayOn: aStream [
-	super gtDisplayOn: aStream.
-	self isValid 
-		ifTrue: [ 
-			aStream nextPutAll: ' ('. 
-			self method gtDisplayOn: aStream. 
-			aStream nextPut: $) ] 
-		ifFalse: [ 
-			aStream 
-				nextPutAll: ' (';
-				nextPutAll: self methodClassName asString; 
-				nextPutAll: ' >> #'; 
-				nextPutAll: self selector asString;
-				nextPut: $);
-				nextPutAll: ' [ invalid ]' ]
+	aStream 
+		nextPutAll: self methodClassName asString; 
+		nextPutAll: ' >> #'; 
+		nextPutAll: self selector asString.
+		
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #'accessing-dynamic' }
@@ -108,11 +100,6 @@ GTAbstractExampleMethod >> hash [
 	^ (self class hash 
 		bitXor: self methodClassName hash)
 			bitXor: self selector hash
-]
-
-{ #category : #testing }
-GTAbstractExampleMethod >> isValid [
-	^ self exists
 ]
 
 { #category : #testing }

@@ -9,7 +9,7 @@ GTAbstractExampleObject class >> isAbstract [
 	^ self == GTAbstractExampleObject
 ]
 
-{ #category : #UI }
+{ #category : #ui }
 GTAbstractExampleObject >> addToSelectorEnvironment: aSelectorEnvironment [
 ]
 
@@ -22,9 +22,16 @@ GTAbstractExampleObject >> exists [
 	^ false
 ]
 
-{ #category : #UI }
+{ #category : #ui }
 GTAbstractExampleObject >> forNautilus: aBlock [
 	
+]
+
+{ #category : #ui }
+GTAbstractExampleObject >> gtDisplayValidityOn: aStream [
+	self isValid ifTrue: [ ^ self ].
+	
+	aStream nextPutAll: ' [invalid]'
 ]
 
 { #category : #testing }
@@ -35,4 +42,9 @@ GTAbstractExampleObject >> hasLiteralThorough: aLiteral [
 { #category : #testing }
 GTAbstractExampleObject >> isAbstract [
 	^ self class isAbstract
+]
+
+{ #category : #testing }
+GTAbstractExampleObject >> isValid [
+	^ self exists
 ]

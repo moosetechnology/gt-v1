@@ -50,14 +50,15 @@ GTExamplePackageSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExamplePackageSubject >> gtDisplayOn: aStream [
-	self thePackageName gtDisplayOn: aStream
+	self thePackageName gtDisplayOn: aStream.
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #testing }
 GTExamplePackageSubject >> hasLiteralThorough: aLiteral [
 	^ self thePackageName = aLiteral
 		or: [ self exists
-			and: [ (self thePackage classes anySatisfy: [ :each | each name = aLiteral ])
+			and: [ (self thePackage classes anySatisfy: [ :each | each name = aLiteral asString ])
 				or: [ self thePackage methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ] ] ]
 ]
 

@@ -27,7 +27,8 @@ GTExampleInstanceSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleInstanceSubject >> gtDisplayOn: aStream [
-	self instance gtDisplayOn: aStream
+	self instance gtDisplayOn: aStream.
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #testing }

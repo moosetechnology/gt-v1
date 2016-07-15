@@ -14,6 +14,12 @@ GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self
 ]
 
+{ #category : #UI }
+GTAbstractExampleSubject >> gtDisplayOn: aStream [
+	super gtDisplayOn: aStream.
+	self gtDisplayValidityOn: aStream
+]
+
 { #category : #ui }
 GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>

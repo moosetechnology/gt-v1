@@ -56,7 +56,8 @@ GTExampleHelpSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleHelpSubject >> gtDisplayOn: aStream [
-	self topic gtDisplayOn: aStream
+	self topic gtDisplayOn: aStream.
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #testing }

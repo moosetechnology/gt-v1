@@ -50,11 +50,20 @@ GTExampleResult >> expectedError: anObject [
 { #category : #ui }
 GTExampleResult >> gtDisplayOn: aStream [
 	self example gtDisplayOn: aStream. 
-	aStream nextPutAll: ' --> '.
-	self unexpectedError 
-		ifNotNil: [ self unexpectedError gtDisplayOn: aStream ]
-		ifNil: [ self returnValue gtDisplayOn: aStream ].
+	
+	self unexpectedError ifNotNil: [ 
+		aStream nextPutAll: ' ['.
+		self unexpectedError gtDisplayOn: aStream.
+		aStream nextPutAll: ']' ]
+]
 
+{ #category : #ui }
+GTExampleResult >> gtDisplayValidityOn: aStream [
+	self isSuccess ifTrue: [ ^ self ].
+	
+	aStream nextPutAll: ' ['.
+	self unexpectedError gtDisplayOn: aStream.
+	aStream nextPutAll: ']'
 ]
 
 { #category : #testing }

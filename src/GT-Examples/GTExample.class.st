@@ -220,22 +220,23 @@ GTExample >> gtDebuggerSourceIn: composite [
 
 { #category : #ui }
 GTExample >> gtDisplayOn: aStream [
-	self printOn: aStream.
-	aStream nextPutAll: ' ('.
-	self gtDisplaySummaryOn: aStream.
-	aStream nextPutAll: ')'
+	self label isEmptyOrNil 
+		ifTrue: [ 
+			aStream 
+				print: self methodClass; 
+				nextPutAll: ' >> '; 
+				print: self selector ]
+		ifFalse: [ 
+			aStream nextPutAll: self label ].
+		
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #ui }
-GTExample >> gtDisplaySummaryOn: aStream. [
-	self label isEmptyOrNil 
-		ifFalse: [ ^ aStream nextPutAll: self label ].
-	self description isEmptyOrNil 
-		ifFalse: [ ^ aStream nextPutAll: self description ].
-	aStream 
-		print: self methodClass; 
-		nextPutAll: '>>'; 
-		print: self selector.
+GTExample >> gtDisplayValidityOn: aStream [
+	self isValid ifTrue: [ ^ self ].
+	
+	aStream nextPutAll: ' [invalid]'
 ]
 
 { #category : #'pragma-selectors' }
@@ -324,6 +325,7 @@ GTExample >> gtInspectorProblemsIn: composite [
 { #category : #ui }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
+	self hasDependencies ifFalse: [ ^ self ].
 	(Smalltalk classNamed: #GLMRoassal2Presentation) ifNil: [ ^ self ].
 	^ composite roassal2
 		title: 'Graph';
@@ -333,13 +335,6 @@ GTExample >> gtInspectorRoassalIn: composite [
 				view: view;
 				yourself) paint ];
 		yourself
-]
-
-{ #category : #ui }
-GTExample >> gtInspectorSourceIn: composite [
-	<gtInspectorPresentationOrder: 0>
-	^ (self method gtInspectorSourceIn: composite)
-		title: 'Source'
 ]
 
 { #category : #ui }
@@ -471,6 +466,16 @@ GTExample >> hasDependents [
 { #category : #testing }
 GTExample >> hasInternalProblems [
 	^ problems notEmpty
+]
+
+{ #category : #testing }
+GTExample >> hasLiteralThorough: aLiteral [
+	^ self methodClass = aLiteral
+		or: [ self selector = aLiteral
+			or: [ (self label notNil and: [ self label includesSubstring: aLiteral asString caseSensitive: false ])
+				or: [ (self description notNil and: [ self description includesSubstring: aLiteral asString caseSensitive: false ])
+					or: [ (self subjects anySatisfy: [ :each | each hasLiteralThorough: aLiteral ])
+						or: [ self exists and: [ self method hasLiteralThorough: aLiteral ] ] ] ] ] ]
 ]
 
 { #category : #testing }
@@ -740,13 +745,6 @@ GTExample >> noTestReport [
 	<description: 'Do not run this example while running HDTestReport (not yet implemented)'>
 	
 	self propertyAt: #noTestReport put: true
-]
-
-{ #category : #ui }
-GTExample >> painter [
-	^ GTExampleGraphPainter new 
-		example: self;
-		yourself
 ]
 
 { #category : #accessing }

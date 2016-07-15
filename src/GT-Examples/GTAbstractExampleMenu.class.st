@@ -46,14 +46,14 @@ GTAbstractExampleMenu >> browseAllExamplesWithProblems: aBuilder [
 
 { #category : #private }
 GTAbstractExampleMenu >> browseExamplesReferencing: aLiteral builder: aBuilder [	
-	(lastItem := aBuilder item: 'Browse all Examples referencing #' ,  aLiteral)
+	(lastItem := aBuilder item: 'Browse Examples referencing #' ,  aLiteral)
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesReferencing: aLiteral ]
 ]
 
 { #category : #private }
 GTAbstractExampleMenu >> browseExamplesWithSubject: aLiteral builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse all Examples with subject #' ,  aLiteral asString)
+	(lastItem := aBuilder item: 'Browse Examples with subject #' ,  aLiteral asString)
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesWithSubject: aLiteral ]
 ]

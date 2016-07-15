@@ -48,7 +48,8 @@ GTExampleTagSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleTagSubject >> gtDisplayOn: aStream [
-	self theTagName gtDisplayOn: aStream
+	self theTagName gtDisplayOn: aStream.
+	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #testing }
@@ -56,7 +57,7 @@ GTExampleTagSubject >> hasLiteralThorough: aLiteral [
 	^ self theTagName = aLiteral
 		or: [ self exists
 			and: [ self theTag categoryName = aLiteral
-				or: [ (self theTag classes anySatisfy: [ :each | each name = aLiteral ])
+				or: [ (self theTag classes anySatisfy: [ :each | each name = aLiteral asString ])
 					"or: [ self theTag methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ]" ] ] ]
 ]
 
