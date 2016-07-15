@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleNautilusMethodMenu,
-	#superclass : #GTAbstractExampleNautilusMenu,
+	#superclass : #GTAbstractExampleMenu,
 	#category : #'GT-Examples-UI'
 }
 
@@ -54,7 +54,8 @@ GTExampleNautilusMethodMenu >> browseDependents: aCollection builder: aBuilder [
 GTExampleNautilusMethodMenu >> browseExampleSubjects: aCollection builder: aBuilder [
 	(lastItem := aBuilder item: #'Browse Subjects')
 		parent: #gte;
-		action: [ GTExampleNavigation browseAllExampleSubjects: aCollection ]
+		action: [ GTExampleNavigation browseAllExampleSubjects: aCollection ];
+		icon: Smalltalk ui icons glamorousDiveRight
 ]
 
 { #category : #private }
@@ -109,9 +110,9 @@ GTExampleNautilusMethodMenu >> menuFor: aBuilder [
 		self buildSeparator ].
 	self browseExamplesReferencing: method selector builder: aBuilder.
 	self browseExamplesWithSubject: method selector builder: aBuilder.
-	self buildSeparator.
-	self browseAllExamples: aBuilder.
-	self browseAllExamplesWithProblems: aBuilder.
-	self browseAllExamplesWithDependencies: aBuilder.
-	self browseAllExamplesIgnoredByTests: aBuilder.
+]
+
+{ #category : #private }
+GTExampleNautilusMethodMenu >> submenuOrder [
+	^ 1450
 ]

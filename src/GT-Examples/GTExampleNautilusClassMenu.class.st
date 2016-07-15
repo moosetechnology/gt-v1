@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleNautilusClassMenu,
-	#superclass : #GTAbstractExampleNautilusMenu,
+	#superclass : #GTAbstractExampleMenu,
 	#category : #'GT-Examples-UI'
 }
 
@@ -63,9 +63,9 @@ GTExampleNautilusClassMenu >> menuFor: aBuilder [
 	self buildSeparator.
 	self browseExamplesReferencing: class theNonMetaClass name builder: aBuilder.
 	self browseExamplesWithSubject: class theNonMetaClass name builder: aBuilder.
-	self buildSeparator.
-	self browseAllExamples: aBuilder.
-	self browseAllExamplesWithProblems: aBuilder.
-	self browseAllExamplesWithDependencies: aBuilder.
-	self browseAllExamplesIgnoredByTests: aBuilder.
+]
+
+{ #category : #private }
+GTExampleNautilusClassMenu >> submenuOrder [
+	^ 1300
 ]
