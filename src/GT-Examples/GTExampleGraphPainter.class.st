@@ -111,9 +111,9 @@ GTExampleGraphPainter >> buildDependency: anExample1 at: index parent: anExample
 		ifFalse: [ 
 			" add element and shape "
 			shape := RTBox new 
-				width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
-				height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
-				color: Color white;
+				width: 16;
+				height: 16;
+				color: (self example == anExample1 ifTrue: [ Color lightGray ] ifFalse: [ Color white ]);
 				borderColor: (anExample1 hasInternalProblems
 					ifTrue: [ Color yellow ]
 					ifFalse: [ Color black ]);
@@ -150,9 +150,9 @@ GTExampleGraphPainter >> buildDependent: anExample1 child: anExample2 [
 		ifFalse: [
 			" add element and shape "
 			shape := RTBox new 
-				width: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
-				height: (self example == anExample1 ifTrue: [ 32 ] ifFalse: [ 16 ]);
-				color: Color white;
+				width: 16;
+				height: 16;
+				color: (self example == anExample1 ifTrue: [ Color lightGray ] ifFalse: [ Color white ]);
 				borderColor: (anExample1 hasInternalProblems
 					ifTrue: [ Color yellow ]
 					ifFalse: [ Color black ]);
