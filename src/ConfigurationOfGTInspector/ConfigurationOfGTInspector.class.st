@@ -579,7 +579,7 @@ ConfigurationOfGTInspector >> version2010: spec [
 		spec timestamp: '7/16/2016'.
 		
 		spec 
-			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.44'.
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.68'.
 		spec 
 			project: 'GTInspectorCore' with: #'stable';
 			project: 'Roassal2' with: #'stable';
