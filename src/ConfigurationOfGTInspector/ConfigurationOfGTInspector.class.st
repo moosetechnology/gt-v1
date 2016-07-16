@@ -569,6 +569,26 @@ ConfigurationOfGTInspector >> version200: spec [
 ]
 
 { #category : #versions }
+ConfigurationOfGTInspector >> version2010: spec [
+	<version: '2.0.10' imports: #('2.1-baseline' )>
+ 
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.0.10'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/16/2016'.
+		
+		spec 
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.44'.
+		spec 
+			project: 'GTInspectorCore' with: #'stable';
+			project: 'Roassal2' with: #'stable';
+			project: 'Glamour' with: #'stable';
+			project: 'DeepTraversal' with: #'stable'. ].
+
+]
+
+{ #category : #versions }
 ConfigurationOfGTInspector >> version201: spec [
 	<version: '2.0.1' imports: #('2.0-baseline' )>
 
@@ -736,11 +756,5 @@ ConfigurationOfGTInspector >> version209: spec [
 			project: 'GTInspectorCore' with: #'stable';
 			project: 'Glamour' with: #'stable';
 			project: 'DeepTraversal' with: #'stable'. ].
-
-]
-
-{ #category : #versions }
-ConfigurationOfGTInspector >> version210: spec [
-	"remote it"
 
 ]
