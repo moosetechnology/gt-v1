@@ -350,6 +350,8 @@ ConfigurationOfGTInspector >> development: spec [
 
 	spec for: #'common' version: '2.1-baseline'.
 	spec for: #'pharo4.x' version: '2.0-baseline'.
+	spec for: #'pharo5.x' version: '2.1-baseline'.
+	spec for: #'pharo6.x' version: '2.1-baseline'.
 
 ]
 
@@ -373,7 +375,8 @@ ConfigurationOfGTInspector >> stable: spec [
 	spec for: #'common' version: '2.0.9'.
 	spec for: #'pharo3.x' version: '2.0.5'.
 	spec for: #'pharo4.x' version: '2.0.9'.
-
+	spec for: #'pharo5.x' version: '2.0.9'.
+	spec for: #'pharo6.x' version: '2.0.9'.
 ]
 
 { #category : #versions }
