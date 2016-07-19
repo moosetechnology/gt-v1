@@ -538,6 +538,9 @@ GTExample >> icon [
 
 { #category : #'pragma-selectors' }
 GTExample >> icon: aSelector [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
+
 	self iconThemeSelector: aSelector
 ]
 
@@ -858,6 +861,7 @@ GTExample >> spotterPreviewIn: aComposite inContext: aSpotter [
 { #category : #'pragma-selectors' }
 GTExample >> subject: aClassOrClassName [
 	<gtExamplePragma>
+	<description: 'Add a class-subject to the example'>
 	
 	self subjectClass: aClassOrClassName
 ]
@@ -865,6 +869,7 @@ GTExample >> subject: aClassOrClassName [
 { #category : #'pragma-selectors' }
 GTExample >> subjectClass: aClassOrClassName [
 	<gtExamplePragma>
+	<description: 'Add a class-subject to the example'>
 	
 	self addSubject: (self subjectForClassNamed: aClassOrClassName)
 ]
@@ -872,6 +877,7 @@ GTExample >> subjectClass: aClassOrClassName [
 { #category : #'pragma-selectors' }
 GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
+	<description: 'Add a method-subject to the example'>
 	
 	self addSubject: (self method: GTExampleMethodSubject forClassNamed: aClassOrClassName selector: aSelector)
 ]
@@ -898,11 +904,17 @@ GTExample >> subjectForClassNamed: aClassName [
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectHelp: aString1 [
+	<gtExamplePragma>
+	<description: 'Add a help/topic-subject to the example'>
+	
 	self subjectHelp: aString1 title: nil
 ]
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectHelp: aString1 title: aString2 [
+	<gtExamplePragma>
+	<description: 'Add a help/topic-subject to the example'>
+	
 	self addSubject: (GTExampleHelpSubject new 
 		bookName: aString1;
 		title: aString2;
@@ -911,6 +923,9 @@ GTExample >> subjectHelp: aString1 title: aString2 [
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectPackage: aString [
+	<gtExamplePragma>
+	<description: 'Add a package-subject to the example'>
+	
 	self addSubject: (GTExamplePackageSubject new 
 		thePackageName: aString;
 		yourself)
@@ -918,6 +933,9 @@ GTExample >> subjectPackage: aString [
 
 { #category : #'pragma-selectors' }
 GTExample >> subjectTag: aString [
+	<gtExamplePragma>
+	<description: 'Add a tag-subject to the example'>
+	
 	self addSubject: (GTExampleTagSubject new 
 		theTagName: aString;
 		yourself)
@@ -931,6 +949,7 @@ GTExample >> subjects [
 { #category : #'pragma-selectors' }
 GTExample >> subjectsAll: aString [
 	<gtExamplePragma>
+	<description: 'Add multiple class-subjects to the example'>
 	
 	self substrings: aString do: [ :each | 
 		self subject: each ]
