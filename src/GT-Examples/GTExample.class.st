@@ -14,6 +14,8 @@ I also know how to handle possible exceptions, which makes me a great candidate 
 Class {
 	#name : #GTExample,
 	#superclass : #Object,
+	#traits : 'TGTExampleMethod',
+	#classTraits : 'TGTExampleMethod classTrait',
 	#instVars : [
 		'methodClass',
 		'selector',
@@ -210,7 +212,12 @@ GTExample >> exists [
 	^ self methodClass includesSelector: self selector
 ]
 
-{ #category : #accessing }
+{ #category : #private }
+GTExample >> form [
+	^ form
+]
+
+{ #category : #private }
 GTExample >> form: anIcon [
 	form := anIcon
 ]
@@ -403,17 +410,6 @@ GTExample >> gtSpotterMethodFor: aStep [
 		items: [ Array with: self method ];
 		itemName: [ :aSource | aSource gtDisplayString ];
 		filter: GTFilterSubstring
-]
-
-{ #category : #ui }
-GTExample >> gtSpotterPreviewIn: aComposite [
-	<spotterPreview: 1>
-	self exists ifFalse: [ ^ self ].
-	aComposite pharoMethod
-		title: [ self gtDisplayString ]; 
-		display: [ :entity | entity method sourceCode ];
-		smalltalkClass: [ self method methodClass ];
-		entity: self
 ]
 
 { #category : #ui }

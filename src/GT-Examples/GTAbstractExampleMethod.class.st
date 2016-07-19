@@ -1,6 +1,8 @@
 Class {
 	#name : #GTAbstractExampleMethod,
 	#superclass : #GTAbstractExampleObject,
+	#traits : 'TGTExampleMethod',
+	#classTraits : 'TGTExampleMethod classTrait',
 	#instVars : [
 		'methodClassName',
 		'methodClass',
@@ -60,18 +62,6 @@ GTAbstractExampleMethod >> gtDisplayOn: aStream [
 		nextPutAll: self selector asString.
 		
 	self gtDisplayValidityOn: aStream
-]
-
-{ #category : #ui }
-GTAbstractExampleMethod >> gtSpotterPreviewIn: aComposite [
-	<spotterPreview: 1>
-	self exists ifFalse: [ ^ self ].
-	
-	aComposite pharoMethod
-		title: [ self gtDisplayString ]; 
-		display: [ :entity | entity method sourceCode ];
-		smalltalkClass: [ self method methodClass ];
-		entity: self
 ]
 
 { #category : #testing }

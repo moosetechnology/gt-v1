@@ -38,7 +38,9 @@ GTExampleFormIcon >> converter: anObject [
 
 { #category : #testing }
 GTExampleFormIcon >> exists [
-	^ self form notNil
+	^ self converter notNil
+		and: [ (GTExampleMethodIcon includesSelector: self converter)
+			and: [ self form notNil ] ]
 ]
 
 { #category : #accessing }

@@ -1,6 +1,8 @@
 Class {
 	#name : #RTExampleMethodIcon,
 	#superclass : #GTAbstractExampleMethod,
+	#traits : 'TGTExampleIcon',
+	#classTraits : 'TGTExampleIcon classTrait',
 	#category : #'GT-Examples-TODO'
 }
 
@@ -22,11 +24,4 @@ RTExampleMethodIcon >> basicForm [
 RTExampleMethodIcon >> exists [
 	^ super exists
 		and: [ self methodClass includesSelector: (self selector, 'Icon') asSymbol ]
-]
-
-{ #category : #'accessing-dynamic' }
-RTExampleMethodIcon >> form [
-	^ self exists
-		ifTrue: [ self basicForm ]
-		ifFalse: [ nil ]
 ]

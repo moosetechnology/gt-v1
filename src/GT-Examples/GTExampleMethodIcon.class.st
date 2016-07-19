@@ -1,13 +1,15 @@
 Class {
 	#name : #GTExampleMethodIcon,
 	#superclass : #GTAbstractExampleMethod,
+	#traits : 'TGTExampleIcon',
+	#classTraits : 'TGTExampleIcon classTrait',
 	#instVars : [
 		'converter'
 	],
 	#category : #'GT-Examples-Utils'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #converters }
 GTExampleMethodIcon class >> fromBase64String: aString [
 	^ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)
 ]
@@ -33,17 +35,19 @@ GTExampleMethodIcon >> basicForm [
 		withArguments: { self provider perform: self selector }
 ]
 
-{ #category : #'accessing-dynamic' }
-GTExampleMethodIcon >> form [
-	^ self exists
-		ifTrue: [ self basicForm ]
-		ifFalse: [ nil ]
+{ #category : #accessing }
+GTExampleMethodIcon >> converter [
+	^ converter
 ]
 
-{ #category : #ui }
-GTExampleMethodIcon >> gtInspectorFormIn: composite [
-	<gtInspectorPresentationOrder: 0>
-	self exists ifFalse: [ ^ self ].
-	
-	self form gtInspectorFormIn: composite
+{ #category : #accessing }
+GTExampleMethodIcon >> converter: anObject [
+	converter := anObject
+]
+
+{ #category : #testing }
+GTExampleMethodIcon >> exists [
+	^ super exists
+		and: [ self converter notNil
+			and: [ self class includesSelector: self converter ] ]
 ]
