@@ -62,13 +62,6 @@ GTAbstractExampleMethod >> gtDisplayOn: aStream [
 	self gtDisplayValidityOn: aStream
 ]
 
-{ #category : #'accessing-dynamic' }
-GTAbstractExampleMethod >> gtExample [
-	^ self hasExample 
-		ifTrue: [ self method gtExample ]
-		ifFalse: [ nil ]
-]
-
 { #category : #ui }
 GTAbstractExampleMethod >> gtSpotterPreviewIn: aComposite [
 	<spotterPreview: 1>
@@ -79,12 +72,6 @@ GTAbstractExampleMethod >> gtSpotterPreviewIn: aComposite [
 		display: [ :entity | entity method sourceCode ];
 		smalltalkClass: [ self method methodClass ];
 		entity: self
-]
-
-{ #category : #testing }
-GTAbstractExampleMethod >> hasExample [
-	^ self exists
-		and: [ self method isGTExampleMethod ]
 ]
 
 { #category : #testing }
@@ -100,14 +87,6 @@ GTAbstractExampleMethod >> hash [
 	^ (self class hash 
 		bitXor: self methodClassName hash)
 			bitXor: self selector hash
-]
-
-{ #category : #testing }
-GTAbstractExampleMethod >> matchesExample: aGTExample [
-	^ self exists 
-		and: [ aGTExample isGTExample
-			and: [ aGTExample methodClass = self methodClass
-				and: [ aGTExample selector = self selector ] ] ]
 ]
 
 { #category : #testing }

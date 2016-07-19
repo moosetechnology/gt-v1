@@ -56,7 +56,13 @@ GTExampleHelpSubject >> forNautilus: aBlock [
 
 { #category : #UI }
 GTExampleHelpSubject >> gtDisplayOn: aStream [
-	self topic gtDisplayOn: aStream.
+	self exists 
+		ifTrue: [ self topic gtDisplayOn: aStream ]
+		ifFalse: [ 
+			self bookName gtDisplayOn: aStream.
+			self page isEmptyOrNil ifFalse: [ 
+				aStream nextPutAll: ' > '.
+				self page gtDisplayOn: aStream ] ].
 	self gtDisplayValidityOn: aStream
 ]
 

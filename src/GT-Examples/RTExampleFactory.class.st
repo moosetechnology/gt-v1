@@ -9,6 +9,27 @@ RTExampleFactory >> defaultExampleClass [
 	^ RTExampleSelection
 ]
 
+{ #category : #'private - creating examples' }
+RTExampleFactory >> initializeExample: aGTExample fromMethod: aCompiledMethod [
+	super initializeExample: aGTExample fromMethod: aCompiledMethod.
+	
+	self initializeIconFromMethod: aCompiledMethod forExample: aGTExample.
+
+]
+
+{ #category : #'private - creating examples' }
+RTExampleFactory >> initializeIconFromMethod: aCompiledMethod forExample: aGTExample [
+	aGTExample icon ifNotNil: [ ^ self ].
+
+	[ aGTExample icon: (aGTExample method: RTExampleMethodIcon forClass: aCompiledMethod methodClass selector: aCompiledMethod selector) ]
+		on:Error
+		do:[ :exception | 
+			aGTExample addProblem: (GTExampleError new 
+				example: aGTExample;
+				signaledException: exception;
+				yourself) ]
+]
+
 { #category : #testing }
 RTExampleFactory >> isExampleMethod: aCompiledMethod [
 	^ (super isExampleMethod: aCompiledMethod)

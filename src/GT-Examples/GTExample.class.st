@@ -19,7 +19,7 @@ Class {
 		'selector',
 		'label',
 		'description',
-		'form',
+		'icon',
 		'exceptions',
 		'subjects',
 		'children',
@@ -532,15 +532,12 @@ GTExample >> hash [
 
 { #category : #accessing }
 GTExample >> icon [
-	^ form
+	^ icon ifNotNil: [ icon form ]
 ]
 
-{ #category : #'pragma-selectors' }
-GTExample >> icon: aSelector [
-	<gtExamplePragma>
-	<description: 'This is a shortcut for: #iconThemeSelector:'>
-	
-	self iconThemeSelector: aSelector
+{ #category : #accessing }
+GTExample >> icon: anIcon [
+	icon := anIcon
 ]
 
 { #category : #'pragma-selectors' }
@@ -548,7 +545,10 @@ GTExample >> iconBase64: aString [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The string must represent a base64 string'>
 	
-	form := Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)
+	icon := GTExampleFormIcon new
+		converter: #fromBase64String:;
+		arguments: { aString };
+		yourself
 ]
 
 { #category : #'pragma-selectors' }
@@ -556,11 +556,10 @@ GTExample >> iconBytes: aByteArray [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the given byte-array'>
 	
-	form := (Form
-		extent: 16@16
-		depth: 32
-		fromArray: aByteArray 
-		offset: 0@0)
+	icon := GTExampleFormIcon new 
+		converter: #fromByteArray:;
+		arguments: { aByteArray };
+		yourself
 ]
 
 { #category : #'pragma-selectors' }
@@ -568,8 +567,7 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The method described by the given class and selector must return a form-icon'>
 	
-	self classNamed: aClassOrClassName do: [ :class | 
-		form := class perform: aSelector ]
+	icon := self method: GTExampleMethodIcon forClassNamed: aClassOrClassName selector: aSelector
 ]
 
 { #category : #'pragma-selectors' }
@@ -577,7 +575,9 @@ GTExample >> iconSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return an icon form'>
 	
-	form := self provider perform: aSelector
+	icon := (self method: GTExampleMethodIcon forSelector: aSelector)
+		converter: #fromByteArray:;
+		yourself
 ]
 
 { #category : #'pragma-selectors' }
@@ -585,7 +585,9 @@ GTExample >> iconSelectorBase64: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return a base64 string'>
 	
-	self iconBase64: (self provider perform: aSelector)
+	icon := (self method: GTExampleMethodIcon forSelector: aSelector)
+		converter: #fromBase64String:;
+		yourself
 ]
 
 { #category : #'pragma-selectors' }
@@ -593,7 +595,9 @@ GTExample >> iconThemeSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
 	
-	form := Smalltalk ui icons perform: aSelector
+	icon := GTExampleThemeIcon new 
+		selector: aSelector;
+		yourself
 ]
 
 { #category : #testing }

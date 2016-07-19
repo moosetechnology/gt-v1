@@ -35,9 +35,22 @@ GTExampleMethod >> forNautilus: aBlock [
 		value: [ self method browse ]
 ]
 
+{ #category : #'accessing-dynamic' }
+GTExampleMethod >> gtExample [
+	^ self hasExample 
+		ifTrue: [ self method gtExample ]
+		ifFalse: [ nil ]
+]
+
 { #category : #testing }
 GTExampleMethod >> hasArguments [
 	^ self arguments notEmpty
+]
+
+{ #category : #testing }
+GTExampleMethod >> hasExample [
+	^ self exists
+		and: [ self method isGTExampleMethod ]
 ]
 
 { #category : #testing }
@@ -50,6 +63,14 @@ GTExampleMethod >> hasValidArguments [
 GTExampleMethod >> isValid [
 	^ super isValid 
 		and: [ self hasValidArguments ]
+]
+
+{ #category : #testing }
+GTExampleMethod >> matchesExample: aGTExample [
+	^ self exists 
+		and: [ aGTExample isGTExample
+			and: [ aGTExample methodClass = self methodClass
+				and: [ aGTExample selector = self selector ] ] ]
 ]
 
 { #category : #accessing }
