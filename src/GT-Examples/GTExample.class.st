@@ -19,7 +19,7 @@ Class {
 		'selector',
 		'label',
 		'description',
-		'icon',
+		'form',
 		'exceptions',
 		'subjects',
 		'children',
@@ -208,6 +208,11 @@ GTExample >> exceptions [
 { #category : #testing }
 GTExample >> exists [
 	^ self methodClass includesSelector: self selector
+]
+
+{ #category : #accessing }
+GTExample >> form: anIcon [
+	form := anIcon
 ]
 
 { #category : #ui }
@@ -532,12 +537,12 @@ GTExample >> hash [
 
 { #category : #accessing }
 GTExample >> icon [
-	^ icon ifNotNil: [ icon form ]
+	^ form ifNotNil: [ form form ]
 ]
 
-{ #category : #accessing }
-GTExample >> icon: anIcon [
-	icon := anIcon
+{ #category : #'pragma-selectors' }
+GTExample >> icon: aSelector [
+	self iconThemeSelector: aSelector
 ]
 
 { #category : #'pragma-selectors' }
@@ -545,7 +550,7 @@ GTExample >> iconBase64: aString [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The string must represent a base64 string'>
 	
-	icon := GTExampleFormIcon new
+	form := GTExampleFormIcon new
 		converter: #fromBase64String:;
 		arguments: { aString };
 		yourself
@@ -556,7 +561,7 @@ GTExample >> iconBytes: aByteArray [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the given byte-array'>
 	
-	icon := GTExampleFormIcon new 
+	form := GTExampleFormIcon new 
 		converter: #fromByteArray:;
 		arguments: { aByteArray };
 		yourself
@@ -567,7 +572,7 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The method described by the given class and selector must return a form-icon'>
 	
-	icon := self method: GTExampleMethodIcon forClassNamed: aClassOrClassName selector: aSelector
+	form := self method: GTExampleMethodIcon forClassNamed: aClassOrClassName selector: aSelector
 ]
 
 { #category : #'pragma-selectors' }
@@ -575,7 +580,7 @@ GTExample >> iconSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return an icon form'>
 	
-	icon := (self method: GTExampleMethodIcon forSelector: aSelector)
+	form := (self method: GTExampleMethodIcon forSelector: aSelector)
 		converter: #fromByteArray:;
 		yourself
 ]
@@ -585,7 +590,7 @@ GTExample >> iconSelectorBase64: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return a base64 string'>
 	
-	icon := (self method: GTExampleMethodIcon forSelector: aSelector)
+	form := (self method: GTExampleMethodIcon forSelector: aSelector)
 		converter: #fromBase64String:;
 		yourself
 ]
@@ -595,7 +600,7 @@ GTExample >> iconThemeSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
 	
-	icon := GTExampleThemeIcon new 
+	form := GTExampleThemeIcon new 
 		selector: aSelector;
 		yourself
 ]

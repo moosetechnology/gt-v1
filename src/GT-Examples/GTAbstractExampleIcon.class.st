@@ -20,3 +20,11 @@ GTAbstractExampleIcon >> form [
 		ifTrue: [ self basicForm ]
 		ifFalse: [ nil ]
 ]
+
+{ #category : #ui }
+GTAbstractExampleIcon >> gtInspectorFormIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	self exists ifFalse: [ ^ self ].
+	
+	self form gtInspectorFormIn: composite
+]

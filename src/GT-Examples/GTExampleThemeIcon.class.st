@@ -9,10 +9,20 @@ Class {
 
 { #category : #private }
 GTExampleThemeIcon >> basicForm [
-	^ Smalltalk ui icons perform: self selector 
+	^ Smalltalk ui icons iconNamed: self selector 
 ]
 
 { #category : #testing }
 GTExampleThemeIcon >> exists [
-	^ Smalltalk ui icons class canPerform: self selector
+	^ (Smalltalk ui icons iconNamed: self selector ifNone: [ nil ]) notNil
+]
+
+{ #category : #accessing }
+GTExampleThemeIcon >> selector [
+	^ selector
+]
+
+{ #category : #accessing }
+GTExampleThemeIcon >> selector: anObject [
+	selector := anObject
 ]
