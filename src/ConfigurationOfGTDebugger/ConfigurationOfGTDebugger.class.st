@@ -257,10 +257,10 @@ ConfigurationOfGTDebugger >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.5-baseline'.
-
 	spec for: #'pharo3.x' version: '0.4-baseline'.
-
 	spec for: #'pharo4.x' version: '0.4-baseline'.
+	spec for: #'pharo5.x' version: '0.5-baseline'.
+	spec for: #'pharo6.x' version: '0.5-baseline'.
 
 ]
 
@@ -282,11 +282,10 @@ ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '2.11'.
-
 	spec for: #'pharo3.x' version: '1.0.0'.
-
 	spec for: #'pharo4.x' version: '1.0.1'.
-
+	spec for: #'pharo5.x' version: '2.12'.
+	spec for: #'pharo6.x' version: '2.13'.
 ]
 
 { #category : #versions }
@@ -492,15 +491,65 @@ ConfigurationOfGTDebugger >> version211: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'version 2.11'.
+		spec description: 'Integration for case 18773.
+
+Fixes these issues:
+- case 18691
+- case 18471
+- case 18244
+- case 18708
+
+Apart from the issues:
+- GT-InspectorExtensions: only show methods for the current class, added basic example for RBCondition
+- Uses Pragma>>#methodSelector instead of Pragma>>#selector (case 18665).
+- Uses Behavior>>#classLayout instead of Behavior>>#layout (case 16636).
+- Uses CompiledMethod>>#sourceCode instead of CompiledMethod>>#getSource (case 18694).
+- GT-EventRecorder: Add a basic recorder event'.
 		spec author: 'JurajKubelka'.
-		spec timestamp: '7/21/2016 19:05'.
+		spec timestamp: '7/13/2016 10:05'.
 		spec project: 'GTInspectorCore' with: '3.15'.
 		spec 
-			package: 'GT-Debugger' with: 'a MCLazyVersionInfo(GT-Debugger-TheIntegrator.352)';
-			package: 'GT-BytecodeDebugger' with: 'a MCLazyVersionInfo(GT-BytecodeDebugger-MarcusDenker.32)';
-			package: 'GT-SUnitDebugger' with: 'a MCLazyVersionInfo(GT-SUnitDebugger-TudorGirba.39)';
-			package: 'GT-Tests-Debugger' with: 'a MCLazyVersionInfo(GT-Tests-Debugger-AndreiChis.14)'. ].
+			package: 'GT-Debugger' with: 'GT-Debugger-TheIntegrator.352';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-MarcusDenker.32';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version212: spec [
+	<version: '2.12' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Stable version for Pharo 5.0.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/14/2016 13:48'.
+		spec project: 'GTInspectorCore' with: '3.17'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.350';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-TudorGirba.31';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version213: spec [
+	<version: '2.13' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Prevent infinite loop in GLMScrollListBrick>>#preventOverscrolling
+ - in some cases it was moving band to the top and to the bottom.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/21/2016 10:05'.
+		spec project: 'GTInspectorCore' with: '3.18'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-TheIntegrator.352';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-MarcusDenker.32';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
 
 ]
 
