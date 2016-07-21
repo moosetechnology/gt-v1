@@ -343,8 +343,8 @@ Apart from the issues:
 		spec timestamp: '7/13/2016 10:06'.
 		spec project: 'Ston' with: '0.19'.
 		spec 
-			package: #'GT-EventRecorder' with: 'a MCLazyVersionInfo(GT-EventRecorder-JurajKubelka.71)';
-			package: 'GT-EventRecorder-Tests' with: 'a MCLazyVersionInfo(GT-EventRecorder-Tests-JurajKubelka.37)'. ].
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.71';
+			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
 
 ]
 
