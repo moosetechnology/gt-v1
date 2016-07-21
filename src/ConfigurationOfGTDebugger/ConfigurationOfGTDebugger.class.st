@@ -257,10 +257,10 @@ ConfigurationOfGTDebugger >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.5-baseline'.
-
 	spec for: #'pharo3.x' version: '0.4-baseline'.
-
 	spec for: #'pharo4.x' version: '0.4-baseline'.
+	spec for: #'pharo5.x' version: '0.5-baseline'.
+	spec for: #'pharo6.x' version: '0.5-baseline'.
 
 ]
 
@@ -282,16 +282,10 @@ ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '2.11'.
-
 	spec for: #'pharo3.x' version: '1.0.0'.
-
 	spec for: #'pharo4.x' version: '1.0.1'.
-
 	spec for: #'pharo5.x' version: '2.12'.
-
-	spec for: #'pharo6.x' version: '2.11'.
-
-
+	spec for: #'pharo6.x' version: '2.13'.
 ]
 
 { #category : #versions }
@@ -535,6 +529,25 @@ ConfigurationOfGTDebugger >> version212: spec [
 		spec 
 			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.350';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-TudorGirba.31';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version213: spec [
+	<version: '2.13' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Prevent infinite loop in GLMScrollListBrick>>#preventOverscrolling
+ - in some cases it was moving band to the top and to the bottom.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/21/2016 10:05'.
+		spec project: 'GTInspectorCore' with: '3.18'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-TheIntegrator.352';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-MarcusDenker.32';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
 
