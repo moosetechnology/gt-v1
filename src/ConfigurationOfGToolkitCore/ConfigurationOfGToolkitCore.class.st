@@ -229,7 +229,7 @@ ConfigurationOfGToolkitCore >> stable: spec [
 	spec for: #'common' version: '3.24'.
 	spec for: #'pharo4.x' version: '3.0.2'.
 	spec for: #'pharo5.x' version: '3.25'.
-	spec for: #'pharo6.x' version: '3.24'.
+	spec for: #'pharo6.x' version: '3.26'.
 
 ]
 
@@ -667,7 +667,7 @@ Apart from the issues:
 		spec timestamp: '7/13/2016 10:06'.
 		spec 
 			project: 'GTPlaygroundCore' with: '3.11';
-			project: 'GTInspectorCore' with: '3.15';
+			project: 'GTInspectorCore' with: '3.16';
 			project: 'GTSpotter' with: '2.12';
 			project: 'GTDebugger' with: '2.10'. ].
 
@@ -687,6 +687,24 @@ ConfigurationOfGToolkitCore >> version325: spec [
 			project: 'GTInspectorCore' with: '3.17';
 			project: 'GTSpotter' with: '2.14';
 			project: 'GTDebugger' with: '2.12'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version326: spec [
+	<version: '3.26' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Prevent infinite loop in GLMScrollListBrick>>#preventOverscrolling
+ - in some cases it was moving band to the top and to the bottom.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/21/2016 18:06'.
+		spec 
+			project: 'GTPlaygroundCore' with: '3.14';
+			project: 'GTInspectorCore' with: '3.18';
+			project: 'GTSpotter' with: '2.15';
+			project: 'GTDebugger' with: '2.13'. ].
 
 ]
 
