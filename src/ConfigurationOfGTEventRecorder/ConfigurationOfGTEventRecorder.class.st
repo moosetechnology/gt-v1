@@ -326,8 +326,8 @@ ConfigurationOfGTEventRecorder >> version019: spec [
 		spec timestamp: '7/21/2016 18:51'.
 		spec project: 'Ston' with: '0.19'.
 		spec 
-			package: #'GT-EventRecorder' with: 'a MCLazyVersionInfo(GT-EventRecorder-YuriyTymchuk.69)';
-			package: 'GT-EventRecorder-Tests' with: 'a MCLazyVersionInfo(GT-EventRecorder-Tests-JurajKubelka.37)'. ].
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-YuriyTymchuk.69';
+			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
 
 ]
 
@@ -361,8 +361,8 @@ ConfigurationOfGTEventRecorder >> version020: spec [
 		spec timestamp: '7/21/2016 19:06'.
 		spec project: 'Ston' with: '0.19'.
 		spec 
-			package: #'GT-EventRecorder' with: 'a MCLazyVersionInfo(GT-EventRecorder-YuriyTymchuk.69)';
-			package: 'GT-EventRecorder-Tests' with: 'a MCLazyVersionInfo(GT-EventRecorder-Tests-JurajKubelka.37)'. ].
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-YuriyTymchuk.69';
+			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
 
 ]
 
