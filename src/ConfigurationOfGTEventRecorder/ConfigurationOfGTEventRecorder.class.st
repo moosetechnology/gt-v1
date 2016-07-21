@@ -145,8 +145,8 @@ ConfigurationOfGTEventRecorder >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.1-baseline'.
+
 	spec for: #'pharo5.x' version: '0.1-baseline'.
-	spec for: #'pharo6.x' version: '0.1-baseline'.
 
 ]
 
@@ -168,8 +168,6 @@ ConfigurationOfGTEventRecorder >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '0.19'.
-	spec for: #'pharo5.x' version: '0.20'.
-	spec for: #'pharo6.x' version: '0.19'.
 
 ]
 
@@ -323,26 +321,13 @@ ConfigurationOfGTEventRecorder >> version019: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'Integration for case 18773.
-
-Fixes these issues:
-- case 18691
-- case 18471
-- case 18244
-- case 18708
-
-Apart from the issues:
-- GT-InspectorExtensions: only show methods for the current class, added basic example for RBCondition
-- Uses Pragma>>#methodSelector instead of Pragma>>#selector (case 18665).
-- Uses Behavior>>#classLayout instead of Behavior>>#layout (case 16636).
-- Uses CompiledMethod>>#sourceCode instead of CompiledMethod>>#getSource (case 18694).
-- GT-EventRecorder: Add a basic recorder event'.
+		spec description: 'issue 18802'.
 		spec author: 'JurajKubelka'.
-		spec timestamp: '7/13/2016 10:06'.
-		spec project: 'Ston' with: #stable.
+		spec timestamp: '7/21/2016 18:51'.
+		spec project: 'Ston' with: '0.19'.
 		spec 
-			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.71';
-			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
+			package: #'GT-EventRecorder' with: 'a MCLazyVersionInfo(GT-EventRecorder-YuriyTymchuk.69)';
+			package: 'GT-EventRecorder-Tests' with: 'a MCLazyVersionInfo(GT-EventRecorder-Tests-JurajKubelka.37)'. ].
 
 ]
 
@@ -362,22 +347,6 @@ ConfigurationOfGTEventRecorder >> version01: spec [
 		spec 
 			package: #'GT-EventRecorder' with: 'GT-EventRecorder-AndreiChis.26';
 			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.17'. ].
-
-]
-
-{ #category : #versions }
-ConfigurationOfGTEventRecorder >> version020: spec [
-	<version: '0.20' imports: #('0.1-baseline' )>
-
-	spec for: #'common' do: [
-		spec blessing: #'stable'.
-		spec description: 'Stable version for Pharo 5.0.'.
-		spec author: 'JurajKubelka'.
-		spec timestamp: '7/14/2016 13:48'.
-		spec project: 'Ston' with: '0.19'.
-		spec 
-			package: #'GT-EventRecorder' with: 'GT-EventRecorder-TheIntegrator.68';
-			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
 
 ]
 
