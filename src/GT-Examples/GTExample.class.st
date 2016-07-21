@@ -68,7 +68,7 @@ GTExample >> after [
 { #category : #'pragma-selectors' }
 GTExample >> after: aSelector [
 	<gtExamplePragma>
-	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	<description: 'A method, implemented by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
 	after := self method: GTExampleMethodAfter forSelector: aSelector
 ]
@@ -82,7 +82,7 @@ GTExample >> afterArguments [
 { #category : #'pragma-selectors' }
 GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
-	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
+	<description: 'A method, implemented by (aClassOrClassName >> aSelector), to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
 	after := self method: GTExampleMethodAfter forClassNamed: aClassOrClassName selector: aSelector
 ]
@@ -168,7 +168,7 @@ GTExample >> depends: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> dependsAll: aString [
 	<gtExamplePragma>
-	<description: 'This example depends on all given selectors found in the given string. Any dependency will be performed before this example is performed. Order of declaration is important'>
+	<description: 'This example depends on all given selectors found in the given string (list separated by  .,;). Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
 	self substrings: aString do: [ :each | 
 		self depends: aString ]
@@ -188,11 +188,11 @@ GTExample >> description [
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> description: anObject [
+GTExample >> description: aString [
 	<gtExamplePragma>
 	<description: 'A full description of this example'>
 	
-	description := anObject
+	description := aString
 ]
 
 { #category : #TODO }
@@ -600,7 +600,7 @@ GTExample >> icon: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> iconBase64: aString [
 	<gtExamplePragma>
-	<description: 'Attach an icon to this example. The string must represent a base64 string'>
+	<description: 'Attach an icon to this example. The icon form is described by the given base64-encoded string'>
 	
 	form := GTExampleFormIcon new
 		converter: #fromBase64String:;
@@ -622,7 +622,7 @@ GTExample >> iconBytes: aByteArray [
 { #category : #'pragma-selectors' }
 GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
-	<description: 'Attach an icon to this example. The method described by the given class and selector must return a form-icon'>
+	<description: 'Attach an icon to this example. The method described by the given class and selector must return an icon form'>
 	
 	form := self method: GTExampleMethodIcon forClassNamed: aClassOrClassName selector: aSelector
 ]
@@ -640,7 +640,7 @@ GTExample >> iconSelector: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> iconSelectorBase64: aSelector [
 	<gtExamplePragma>
-	<description: 'Attach an icon to this example. The selector must return a base64 string'>
+	<description: 'Attach an icon to this example. The icon form is described by the base64 string returned by the given selector'>
 	
 	form := (self method: GTExampleMethodIcon forSelector: aSelector)
 		converter: #fromBase64String:;
@@ -689,7 +689,7 @@ GTExample >> initializeFromMethod: aCompiledMethod usingFactory: aGTExampleFacto
 { #category : #'pragma-selectors' }
 GTExample >> inspector: aSelector [
 	<gtExamplePragma>
-	<description: 'A method providing custom GTInspector-extensions for this particular example'>
+	<description: 'A method providing a custom GTInspector-extensions for this particular example'>
 	
 	self addExtension: (self method: GTExampleMethodInspectorExtension forSelector: aSelector)
 ]
@@ -697,7 +697,7 @@ GTExample >> inspector: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> inspectorAction: aSelector [
 	<gtExamplePragma>
-	<description: 'A method providing custom GTInspector-action for this particular example'>
+	<description: 'A method providing a custom GTInspector-action for this particular example'>
 	
 	self addExtension: (self method: GTExampleMethodInspectorActionExtension forSelector: aSelector)
 ]
@@ -705,7 +705,7 @@ GTExample >> inspectorAction: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
-	<description: 'A method providing custom GTInspector-actions for this particular example'>
+	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTInspector-actions for this particular example'>
 	
 	self addExtension: (self method: GTExampleMethodInspectorActionExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
@@ -713,7 +713,7 @@ GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> inspectorClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
-	<description: 'A method providing custom GTInspector-extensions for this particular example'>
+	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing custom GTInspector-extensions for this particular example'>
 	
 	self addExtension: (self method: GTExampleMethodInspectorExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
@@ -753,11 +753,11 @@ GTExample >> label [
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> label: anObject [
+GTExample >> label: aString [
 	<gtExamplePragma>
-	<description: 'A short identifier of the name of this example'>
+	<description: 'A short identifier = name of this example'>
 	
-	label := anObject
+	label := aString
 ]
 
 { #category : #'accessing-dynamic' }
@@ -877,7 +877,7 @@ GTExample >> provider [
 { #category : #'pragma-selectors' }
 GTExample >> raises: aClassOrClassName [
 	<gtExamplePragma>
-	<description: 'This example is expected to raise the given exception. The example will fail if the exception is not raised.'>
+	<description: 'This example is expected to raise the given exception. The example (as a test) will fail if the exception is not raised.'>
 	
 	self classNamed: aClassOrClassName do: [ :class | 
 		self exceptions add: class ]
@@ -886,7 +886,7 @@ GTExample >> raises: aClassOrClassName [
 { #category : #'pragma-selectors' }
 GTExample >> raisesAny: aString [
 	<gtExamplePragma>
-	<description: 'This example is expected to raise any of the given exceptions. The example will fail if none of the exceptions is raised.'>
+	<description: 'This example is expected to raise any of the given exceptions (list separated by  .,;). The example (as a test) will fail if none of the exceptions is raised.'>
 	
 	self substrings: aString do: [ :each | 
 		self raises: each ]
@@ -942,7 +942,7 @@ GTExample >> sourceCode [
 { #category : #'pragma-selectors' }
 GTExample >> spotter: aSelector [
 	<gtExamplePragma>
-	<description: 'A method providing custom GTSpotter-extensions for this particular example'>
+	<description: 'A method, implemented by aSelector, providing a custom GTSpotter-extension for this particular example'>
 	
 	self addExtension: (self method: GTExampleMethodSpotterExtension forSelector: aSelector)
 ]
@@ -950,7 +950,7 @@ GTExample >> spotter: aSelector [
 { #category : #'pragma-selectors' }
 GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
-	<description: 'A method providing custom GTSpotter-extensions for this particular example'>
+	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTSpotter-extension for this particular example'>
 	
 	self addExtension: (self method: GTExampleMethodSpotterExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
@@ -1005,41 +1005,41 @@ GTExample >> subjectForClassNamed: aClassName [
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectHelp: aString1 [
+GTExample >> subjectHelp: bookName [
 	<gtExamplePragma>
 	<description: 'Add a help/topic-subject to the example'>
 	
-	self subjectHelp: aString1 title: nil
+	self subjectHelp: bookName title: nil
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectHelp: aString1 title: aString2 [
+GTExample >> subjectHelp: bookName title: title [
 	<gtExamplePragma>
 	<description: 'Add a help/topic-subject to the example'>
 	
 	self addSubject: (GTExampleHelpSubject new 
-		bookName: aString1;
-		title: aString2;
+		bookName: bookName;
+		title: title;
 		yourself)
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectPackage: aString [
+GTExample >> subjectPackage: packageName [
 	<gtExamplePragma>
 	<description: 'Add a package-subject to the example'>
 	
 	self addSubject: (GTExamplePackageSubject new 
-		thePackageName: aString;
+		thePackageName: packageName;
 		yourself)
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectTag: aString [
+GTExample >> subjectTag: tagName [
 	<gtExamplePragma>
 	<description: 'Add a tag-subject to the example'>
 	
 	self addSubject: (GTExampleTagSubject new 
-		theTagName: aString;
+		theTagName: tagName;
 		yourself)
 ]
 
@@ -1051,7 +1051,7 @@ GTExample >> subjects [
 { #category : #'pragma-selectors' }
 GTExample >> subjectsAll: aString [
 	<gtExamplePragma>
-	<description: 'Add multiple class-subjects to the example'>
+	<description: 'Add multiple class-subjects (list separated by  .,;) to the example'>
 	
 	self substrings: aString do: [ :each | 
 		self subject: each ]
