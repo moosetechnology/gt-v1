@@ -24,16 +24,6 @@ GTExamplePackageSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 		aSelectorEnvironment addClass: method methodClass selector: method selector ]
 ]
 
-{ #category : #private }
-GTExamplePackageSubject >> ensureInitialized [
-	thePackage ifNotNil: [ thePackage isEmpty ifTrue: [ thePackage := nil ] ].
-	thePackage ifNil: [ 
-		thePackage := RPackageOrganizer default packages 
-			detect: [ :each | each packageName = thePackageName ]
-			ifNone: [ nil ] ].
-	
-]
-
 { #category : #testing }
 GTExamplePackageSubject >> exists [
 	^ self thePackage notNil
@@ -68,9 +58,16 @@ GTExamplePackageSubject >> hash [
 		bitXor: self thePackageName hash
 ]
 
+{ #category : #private }
+GTExamplePackageSubject >> resetStub [
+	thePackage := nil
+]
+
 { #category : #accessing }
 GTExamplePackageSubject >> thePackage [
-	^ thePackage
+	^ thePackage ifNil: [ thePackage := RPackageOrganizer default packages 
+		detect: [ :each | each packageName = thePackageName ]
+		ifNone: [ nil ] ]
 ]
 
 { #category : #accessing }

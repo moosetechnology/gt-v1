@@ -22,16 +22,6 @@ GTExampleTagSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 		aSelectorEnvironment addClass: class ]
 ]
 
-{ #category : #private }
-GTExampleTagSubject >> ensureInitialized [
-	theTag ifNotNil: [ theTag isEmpty ifTrue: [ theTag := nil ] ].
-	theTag ifNil: [ 
-		RPackageOrganizer default packages do: [ :package |
-			package classTags do: [ :tag | 
-				(tag name = theTagName
-					or: [ tag categoryName = theTagName ]) ifTrue: [ theTag := tag. ^ self ] ] ] ]
-]
-
 { #category : #testing }
 GTExampleTagSubject >> exists [
 	^ self theTag notNil
@@ -67,6 +57,11 @@ GTExampleTagSubject >> hash [
 		bitXor: self theTagName hash
 ]
 
+{ #category : #private }
+GTExampleTagSubject >> resetStub [
+	theTag := nil
+]
+
 { #category : #'accessing-dynamic' }
 GTExampleTagSubject >> thePackage [
 	^ self theTag package
@@ -74,6 +69,12 @@ GTExampleTagSubject >> thePackage [
 
 { #category : #accessing }
 GTExampleTagSubject >> theTag [
+	theTag ifNil: [ 
+		RPackageOrganizer default packages do: [ :package |
+			package classTags do: [ :tag | 
+				(tag name = theTagName
+					or: [ tag categoryName = theTagName ]) ifTrue: [ 
+						^ theTag := tag ] ] ] ].
 	^ theTag
 ]
 

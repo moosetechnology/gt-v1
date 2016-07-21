@@ -42,12 +42,12 @@ GTExample >> = anExample [
 
 { #category : #private }
 GTExample >> addChild: aGTDependency [
-	children add: aGTDependency ensureInitialized
+	children add: aGTDependency
 ]
 
 { #category : #private }
 GTExample >> addExtension: anExtension [
-	extensions add: anExtension ensureInitialized
+	extensions add: anExtension
 ]
 
 { #category : #private }
@@ -57,7 +57,7 @@ GTExample >> addProblem: aProblem [
 
 { #category : #private }
 GTExample >> addSubject: aGTExampleSubject [
-	subjects add: aGTExampleSubject asGTExampleSubject ensureInitialized
+	subjects add: aGTExampleSubject asGTExampleSubject
 ]
 
 { #category : #accessing }
@@ -70,7 +70,7 @@ GTExample >> after: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, provided by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := (self method: GTExampleMethodAfter forSelector: aSelector) ensureInitialized
+	after := self method: GTExampleMethodAfter forSelector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
@@ -84,7 +84,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method (implemented by a gtExampleProvider) to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := (self method: GTExampleMethodAfter forClassNamed: aClassOrClassName selector: aSelector) ensureInitialized
+	after := self method: GTExampleMethodAfter forClassNamed: aClassOrClassName selector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }

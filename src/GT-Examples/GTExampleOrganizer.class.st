@@ -94,7 +94,7 @@ GTExampleOrganizer >> categoryRemoved: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> classRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self ensureInitializedStubs.
+		self resetStubs.
 		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self removeExamplesOfClass: anAnnouncement classRemoved theNonMetaClass name for: ann ] ]
 ]
@@ -102,15 +102,10 @@ GTExampleOrganizer >> classRemoved: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> classRenamed: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self ensureInitializedStubs.
+		self resetStubs.
 		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self removeExamplesOfClass: anAnnouncement oldName for: ann.
 			self addExamplesOfClass: anAnnouncement newName for: ann ] ]
-]
-
-{ #category : #'private-events' }
-GTExampleOrganizer >> ensureInitializedStubs [
-	[ GTAbstractExampleObject allSubInstancesDo: [ :each | each ensureInitialized ] ] forkNamed: 'GTExample'
 ]
 
 { #category : #TODO }
@@ -260,7 +255,7 @@ GTExampleOrganizer >> methodAdded: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodModified: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self ensureInitializedStubs.
+		self resetStubs.
 		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self handleGTReservedMethod: anAnnouncement oldMethod for: ann.
 			self handleGTReservedMethod: anAnnouncement method for: ann.
@@ -272,7 +267,7 @@ GTExampleOrganizer >> methodModified: anAnnouncement [
 { #category : #'private-events' }
 GTExampleOrganizer >> methodRemoved: anAnnouncement [
 	self withoutExceptionsDo: [ 
-		self ensureInitializedStubs.
+		self resetStubs.
 		self with: GTExamplesModifiedAnnouncement announcement: anAnnouncement do: [ :ann |
 			self handleGTReservedMethod: anAnnouncement method for: ann.
 			self removeExamplesOfMethod: anAnnouncement method for: ann ] ]
@@ -305,6 +300,13 @@ GTExampleOrganizer >> removeKey: aKey from: aDictionary thenDo: aBlock [
 { #category : #public }
 GTExampleOrganizer >> reset [
 	self initialize
+]
+
+{ #category : #'private-events' }
+GTExampleOrganizer >> resetStubs [
+	[ GTAbstractExampleObject allSubInstancesDo: [ :each | each resetStub ] ] 
+		forkAt: 30
+		named: 'GTExampleOrganizer >> #resetStubs'
 ]
 
 { #category : #public }

@@ -30,14 +30,6 @@ GTAbstractExampleMethod >> addToSelectorEnvironment: aSelectorEnvironment [
 	aSelectorEnvironment addClass: self methodClass selector: self selector
 ]
 
-{ #category : #private }
-GTAbstractExampleMethod >> ensureInitialized [
-	" 1) reset -> 2) reinitialize  "
-	methodClass ifNotNil: [ methodClass isObsolete ifTrue: [ methodClass := nil ] ].
-	methodClass	ifNil: [ methodClass := Smalltalk classNamed: methodClassName ]
-		
-]
-
 { #category : #testing }
 GTAbstractExampleMethod >> exists [
 	^ self methodClassName notNil
@@ -102,7 +94,8 @@ GTAbstractExampleMethod >> methodArgumentNames [
 
 { #category : #accessing }
 GTAbstractExampleMethod >> methodClass [
-	^ methodClass
+	^ methodClass ifNil: [ methodClass := Smalltalk classNamed: methodClassName ]
+		
 ]
 
 { #category : #accessing }
@@ -126,6 +119,12 @@ GTAbstractExampleMethod >> provider [
 	^ self methodClass isMeta
 		ifTrue: [ self methodClass ]
 		ifFalse: [ self methodClass new ]
+]
+
+{ #category : #private }
+GTAbstractExampleMethod >> resetStub [
+	" 1) reset -> 2) reinitialize  "
+	methodClass := nil
 ]
 
 { #category : #accessing }

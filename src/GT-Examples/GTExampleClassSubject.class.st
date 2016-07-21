@@ -21,14 +21,6 @@ GTExampleClassSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	aSelectorEnvironment addClass: self theClass
 ]
 
-{ #category : #private }
-GTExampleClassSubject >> ensureInitialized [
-	" 1) reset -> 2) reinitialize "
-	theClass ifNotNil: [ theClass isObsolete ifTrue: [ theClass := nil ] ].
-	theClass ifNil: [ theClass := Smalltalk classNamed: theClassName ]
-		
-]
-
 { #category : #testing }
 GTExampleClassSubject >> exists [
 	^ self theClass notNil
@@ -66,9 +58,16 @@ GTExampleClassSubject >> hash [
 		bitXor: self theClassName hash
 ]
 
+{ #category : #private }
+GTExampleClassSubject >> resetStub [
+	" 1) reset -> 2) reinitialize "
+	theClass := nil
+]
+
 { #category : #accessing }
 GTExampleClassSubject >> theClass [
-	^ theClass
+	^ theClass ifNil: [ theClass := Smalltalk classNamed: theClassName ]
+		
 ]
 
 { #category : #accessing }

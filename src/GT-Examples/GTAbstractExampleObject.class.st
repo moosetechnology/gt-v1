@@ -13,10 +13,6 @@ GTAbstractExampleObject class >> isAbstract [
 GTAbstractExampleObject >> addToSelectorEnvironment: aSelectorEnvironment [
 ]
 
-{ #category : #private }
-GTAbstractExampleObject >> ensureInitialized [
-]
-
 { #category : #testing }
 GTAbstractExampleObject >> exists [
 	^ false
@@ -47,4 +43,8 @@ GTAbstractExampleObject >> isAbstract [
 { #category : #testing }
 GTAbstractExampleObject >> isValid [
 	^ self exists
+]
+
+{ #category : #private }
+GTAbstractExampleObject >> resetStub [
 ]

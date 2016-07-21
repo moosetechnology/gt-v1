@@ -26,19 +26,6 @@ GTExampleHelpSubject >> bookName: anObject [
 	bookName := anObject
 ]
 
-{ #category : #private }
-GTExampleHelpSubject >> ensureInitialized [
-	self bookName ifNil: [ ^ self ].
-
-	CustomHelp withAllSubclassesDo: [ :class | 
-		class asHelpTopic ifNotNil: [ :help |
-			(help title = bookName
-					and: [ title isNil 
-						or: [ help subtopics anySatisfy: [ :subhelp | 
-								subhelp title = title ] ] ]) ifTrue: [ 
-				topic := help ] ] ]
-]
-
 { #category : #testing }
 GTExampleHelpSubject >> exists [
 	^ self topic notNil
@@ -80,6 +67,11 @@ GTExampleHelpSubject >> hash [
 			bitXor: self title hash
 ]
 
+{ #category : #private }
+GTExampleHelpSubject >> resetStub [
+	topic := nil.
+]
+
 { #category : #accessing }
 GTExampleHelpSubject >> title [
 	^ title
@@ -92,6 +84,14 @@ GTExampleHelpSubject >> title: anObject [
 
 { #category : #accessing }
 GTExampleHelpSubject >> topic [
+	topic ifNil: [ 
+		CustomHelp withAllSubclassesDo: [ :class | 
+			class asHelpTopic ifNotNil: [ :help |
+				(help title = bookName
+						and: [ title isNil 
+							or: [ help subtopics anySatisfy: [ :subhelp | 
+									subhelp title = title ] ] ]) ifTrue: [ 
+					topic := help ] ] ] ].
 	^ topic
 ]
 
