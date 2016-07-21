@@ -934,9 +934,9 @@ Apart from the issues:
 		spec timestamp: '7/13/2016 10:05'.
 		spec project: 'GlamourCore' with: '4.17'.
 		spec 
-			package: 'GT-Inspector' with: 'a MCLazyVersionInfo(GT-Inspector-JurajKubelka.434)';
-			package: 'GT-InspectorExtensions-Core' with: 'a MCLazyVersionInfo(GT-InspectorExtensions-Core-JurajKubelka.225)';
-			package: 'GT-Tests-Inspector' with: 'a MCLazyVersionInfo(GT-Tests-Inspector-JurajKubelka.57)'. ].
+			package: 'GT-Inspector' with: 'GT-Inspector-JurajKubelka.434';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-JurajKubelka.225';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-JurajKubelka.57'. ].
 
 ]
 
