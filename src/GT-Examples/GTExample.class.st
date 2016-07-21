@@ -317,7 +317,7 @@ GTExample >> gtInspectorAfterIn: composite [
 
 { #category : #ui }
 GTExample >> gtInspectorCustomActions [
-	self hasExtensions ifFalse: [ ^ self ].
+	self hasExtensions ifFalse: [ ^ { } ].
 	
 	^ Array streamContents: [ :stream | 
 		extensions do: [ :each | 
