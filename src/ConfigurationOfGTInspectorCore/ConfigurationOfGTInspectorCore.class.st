@@ -183,13 +183,9 @@ ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '3.16'.
-
 	spec for: #'pharo3.x' version: '2.0.6'.
-
 	spec for: #'pharo4.x' version: '2.0.15'.
-
 	spec for: #'pharo5.x' version: '3.17'.
-
 	spec for: #'pharo6.x' version: '3.16'.
 
 
@@ -932,7 +928,7 @@ Apart from the issues:
 - GT-EventRecorder: Add a basic recorder event'.
 		spec author: 'JurajKubelka'.
 		spec timestamp: '7/13/2016 10:05'.
-		spec project: 'GlamourCore' with: '4.17'.
+		spec project: 'GlamourCore' with: '4.18'.
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-JurajKubelka.434';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-JurajKubelka.225';
