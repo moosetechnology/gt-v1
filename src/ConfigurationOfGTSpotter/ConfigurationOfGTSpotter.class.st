@@ -1065,10 +1065,10 @@ Apart from the issues:
 			project: 'GlamourCore' with: '4.17';
 			project: 'GTEventRecorder' with: '0.18'.
 		spec 
-			package: 'GT-Spotter' with: 'a MCLazyVersionInfo(GT-Spotter-JurajKubelka.401)';
-			package: 'GT-Spotter-EventRecorder' with: 'a MCLazyVersionInfo(GT-Spotter-EventRecorder-JurajKubelka.113)';
-			package: 'GT-SpotterExtensions-Core' with: 'a MCLazyVersionInfo(GT-SpotterExtensions-Core-JurajKubelka.213)';
-			package: 'GT-Tests-Spotter' with: 'a MCLazyVersionInfo(GT-Tests-Spotter-AndreiChis.19)'. ].
+			package: 'GT-Spotter' with: 'GT-Spotter-JurajKubelka.401';
+			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-JurajKubelka.113';
+			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-JurajKubelka.213';
+			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-AndreiChis.19'. ].
 
 ]
 
