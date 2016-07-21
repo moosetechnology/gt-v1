@@ -791,8 +791,8 @@ Apart from the issues:
 		spec timestamp: '7/13/2016 10:06'.
 		spec project: 'GTInspectorCore' with: '3.15'.
 		spec 
-			package: 'GT-Playground' with: 'a MCLazyVersionInfo(GT-Playground-TheIntegrator.130)';
-			package: 'GT-Tests-Playground' with: 'a MCLazyVersionInfo(GT-Tests-Playground-StefanReichhart.4)'. ].
+			package: 'GT-Playground' with: 'GT-Playground-TheIntegrator.130';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
 
