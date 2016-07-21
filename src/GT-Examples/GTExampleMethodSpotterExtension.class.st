@@ -1,10 +1,10 @@
 Class {
-	#name : #GTExampleMethodSpotter,
+	#name : #GTExampleMethodSpotterExtension,
 	#superclass : #GTAbstractExampleMethodExtension,
 	#category : #'GT-Examples-Utils'
 }
 
 { #category : #ui }
-GTExampleMethodSpotter >> gtSpotterFor: aStep example: aGTExample [
+GTExampleMethodSpotterExtension >> gtSpotterFor: aStep example: aGTExample [
 	self provider perform: self selector withArguments: { aStep. aGTExample }
 ]

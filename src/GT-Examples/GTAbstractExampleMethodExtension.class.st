@@ -10,6 +10,11 @@ GTAbstractExampleMethodExtension class >> isAbstract [
 ]
 
 { #category : #ui }
+GTAbstractExampleMethodExtension >> gtInspectorActionFor: aGTExample [
+	^ nil
+]
+
+{ #category : #ui }
 GTAbstractExampleMethodExtension >> gtInspectorFor: composite example: aGTExample [
 ]
 

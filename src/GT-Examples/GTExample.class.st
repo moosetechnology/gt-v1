@@ -301,11 +301,28 @@ GTExample >> gtInspectorActionSubjects [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorActions [
+	^ super gtInspectorActions 
+		addAll: self gtInspectorCustomActions;
+		yourself
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorAfterIn: composite [
 	<gtInspectorPresentationOrder: 3>
 	self hasAfter ifFalse: [ ^ self ].
 	^ ({ self after } gtInspectorItemsIn: composite)
 			title: 'After'
+]
+
+{ #category : #ui }
+GTExample >> gtInspectorCustomActions [
+	self hasExtensions ifFalse: [ ^ self ].
+	
+	^ Array streamContents: [ :stream | 
+		extensions do: [ :each | 
+			(each gtInspectorActionFor: self) ifNotNil: [ :action |
+				stream nextPut: action ] ] ] 
 ]
 
 { #category : #ui }
@@ -674,7 +691,23 @@ GTExample >> inspector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing custom GTInspector-extensions for this particular example'>
 	
-	self addExtension: (self method: GTExampleMethodInspector forSelector: aSelector)
+	self addExtension: (self method: GTExampleMethodInspectorExtension forSelector: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> inspectorAction: aSelector [
+	<gtExamplePragma>
+	<description: 'A method providing custom GTInspector-action for this particular example'>
+	
+	self addExtension: (self method: GTExampleMethodInspectorActionExtension forSelector: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method providing custom GTInspector-actions for this particular example'>
+	
+	self addExtension: (self method: GTExampleMethodInspectorActionExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -682,7 +715,7 @@ GTExample >> inspectorClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing custom GTInspector-extensions for this particular example'>
 	
-	self addExtension: (self method: GTExampleMethodInspector forClassNamed: aClassOrClassName selector: aSelector)
+	self addExtension: (self method: GTExampleMethodInspectorExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #'accessing-dynamic' }
@@ -911,7 +944,7 @@ GTExample >> spotter: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing custom GTSpotter-extensions for this particular example'>
 	
-	self addExtension: (self method: GTExampleMethodSpotter forSelector: aSelector)
+	self addExtension: (self method: GTExampleMethodSpotterExtension forSelector: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -919,7 +952,7 @@ GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing custom GTSpotter-extensions for this particular example'>
 	
-	self addExtension: (self method: GTExampleMethodSpotter forClassNamed: aClassOrClassName selector: aSelector)
+	self addExtension: (self method: GTExampleMethodSpotterExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #ui }
