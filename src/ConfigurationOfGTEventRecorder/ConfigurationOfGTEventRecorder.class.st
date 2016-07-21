@@ -167,7 +167,7 @@ ConfigurationOfGTEventRecorder >> project [
 ConfigurationOfGTEventRecorder >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '0.19'.
+	spec for: #'common' version: '0.20'.
 
 ]
 
@@ -347,6 +347,22 @@ ConfigurationOfGTEventRecorder >> version01: spec [
 		spec 
 			package: #'GT-EventRecorder' with: 'GT-EventRecorder-AndreiChis.26';
 			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.17'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorder >> version020: spec [
+	<version: '0.20' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 0.20'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/21/2016 19:06'.
+		spec project: 'Ston' with: '0.19'.
+		spec 
+			package: #'GT-EventRecorder' with: 'a MCLazyVersionInfo(GT-EventRecorder-YuriyTymchuk.69)';
+			package: 'GT-EventRecorder-Tests' with: 'a MCLazyVersionInfo(GT-EventRecorder-Tests-JurajKubelka.37)'. ].
 
 ]
 
