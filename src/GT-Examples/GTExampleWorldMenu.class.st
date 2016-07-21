@@ -21,7 +21,21 @@ GTExampleWorldMenu >> buildSubmenu: aBuilder [
 		withSeparatorAfter.
 ]
 
-{ #category : #public }
+{ #category : #private }
+GTExampleWorldMenu >> disableNotifications: aBuilder [
+	(lastItem := aBuilder item: 'Disable Notifications')
+		parent: #gte;
+		action: [ GTExampleNautilusNotifications stop ]
+]
+
+{ #category : #private }
+GTExampleWorldMenu >> enableNotifications: aBuilder [
+	(lastItem := aBuilder item: 'Enable Notifications')
+		parent: #gte;
+		action: [ GTExampleNautilusNotifications start ]
+]
+
+{ #category : #private }
 GTExampleWorldMenu >> inspectAllExamples: aBuilder [
 	(lastItem := aBuilder item: 'Inspect all Examples')
 		parent: #gte;
@@ -41,4 +55,33 @@ GTExampleWorldMenu >> menuFor: aBuilder [
 	self browseAllExamplesWithProblems: aBuilder.
 	self browseAllExamplesWithDependencies: aBuilder.
 	self browseAllExamplesIgnoredByTests: aBuilder.
+	
+	self buildSeparator.
+	
+	self toggleNotifications: aBuilder.
+	
+	self buildSeparator.
+	
+	self resetAllExamples: aBuilder
+]
+
+{ #category : #private }
+GTExampleWorldMenu >> resetAllExamples [
+	GTExampleOrganizer reset.
+	GTExampleOrganizer restart.
+	Smalltalk garbageCollect.
+]
+
+{ #category : #private }
+GTExampleWorldMenu >> resetAllExamples: aBuilder [
+	(lastItem := aBuilder item: 'Reset all Examples')
+		parent: #gte;
+		action: [ self resetAllExamples ]
+]
+
+{ #category : #private }
+GTExampleWorldMenu >> toggleNotifications: aBuilder [
+	GTExampleNautilusNotifications isEnabled
+		ifTrue: [ self disableNotifications: aBuilder ]
+		ifFalse: [ self enableNotifications: aBuilder ]
 ]

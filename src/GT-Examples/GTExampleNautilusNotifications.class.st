@@ -25,6 +25,11 @@ GTExampleNautilusNotifications class >> examples: aCollection event: anEvent fro
 	GTExampleNavigation browse: 'Examples with Problems' examples: aCollection
 ]
 
+{ #category : #actions }
+GTExampleNautilusNotifications class >> isEnabled [
+	^ notifying == true
+]
+
 { #category : #private }
 GTExampleNautilusNotifications class >> notifyExample: aGTExample [
 	UIManager default 
