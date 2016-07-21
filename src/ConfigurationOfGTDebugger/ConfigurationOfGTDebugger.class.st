@@ -515,10 +515,10 @@ Apart from the issues:
 		spec timestamp: '7/13/2016 10:05'.
 		spec project: 'GTInspectorCore' with: '3.15'.
 		spec 
-			package: 'GT-Debugger' with: 'a MCLazyVersionInfo(GT-Debugger-TheIntegrator.352)';
-			package: 'GT-BytecodeDebugger' with: 'a MCLazyVersionInfo(GT-BytecodeDebugger-MarcusDenker.32)';
-			package: 'GT-SUnitDebugger' with: 'a MCLazyVersionInfo(GT-SUnitDebugger-TudorGirba.39)';
-			package: 'GT-Tests-Debugger' with: 'a MCLazyVersionInfo(GT-Tests-Debugger-AndreiChis.14)'. ].
+			package: 'GT-Debugger' with: 'GT-Debugger-TheIntegrator.352';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-MarcusDenker.32';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
 
 ]
 
