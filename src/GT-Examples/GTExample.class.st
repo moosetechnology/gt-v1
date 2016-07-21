@@ -27,7 +27,8 @@ Class {
 		'children',
 		'properties',
 		'after',
-		'problems'
+		'problems',
+		'extensions'
 	],
 	#category : #'GT-Examples-Core'
 }
@@ -42,6 +43,11 @@ GTExample >> = anExample [
 { #category : #private }
 GTExample >> addChild: aGTDependency [
 	children add: aGTDependency ensureInitialized
+]
+
+{ #category : #private }
+GTExample >> addExtension: anExtension [
+	extensions add: anExtension ensureInitialized
 ]
 
 { #category : #private }
@@ -303,6 +309,15 @@ GTExample >> gtInspectorAfterIn: composite [
 ]
 
 { #category : #ui }
+GTExample >> gtInspectorCustomExtensionsFor: composite [
+	<gtInspectorPresentationOrder: 99>
+	self hasExtensions ifFalse: [ ^ self ].
+	
+	extensions do: [ :extension |
+		extension gtInspectorFor: composite example: self ]
+]
+
+{ #category : #ui }
 GTExample >> gtInspectorDependenciesIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -366,6 +381,15 @@ GTExample >> gtSpotterAfterFor: aStep [
 		items: [ { self after } ];
 		itemName: [ :example | example gtDisplayString ];
 		filter: GTFilterSubstring
+]
+
+{ #category : #ui }
+GTExample >> gtSpotterCustomExtensionsFor: aStep [
+	<spotterOrder: 99>
+	self hasExtensions ifFalse: [ ^ self ].
+	
+	extensions do: [ :extension |
+		extension gtSpotterFor: aStep example: self ]
 ]
 
 { #category : #ui }
@@ -465,6 +489,11 @@ GTExample >> hasDependents [
 ]
 
 { #category : #testing }
+GTExample >> hasExtensions [
+	^ extensions isEmptyOrNil not
+]
+
+{ #category : #testing }
 GTExample >> hasInternalProblems [
 	^ problems notEmpty
 ]
@@ -522,6 +551,13 @@ GTExample >> hasValidDependencies [
 		and: [ self hasDependencies not
 			or: [ self dependencies allSatisfy: [ :each | 
 				each notNil and: [ each exists ] ] ] ]
+]
+
+{ #category : #testing }
+GTExample >> hasValidExtensions [
+	^ self hasExtensions not
+		or: [ extensions allSatisfy: [ :each | 
+				each notNil and: [ each isValid ] ] ]
 ]
 
 { #category : #testing }
@@ -623,6 +659,7 @@ GTExample >> initialize [
 	problems := Set new.
 	exceptions := ExceptionSet new.	
 	properties := IdentityDictionary new.
+	extensions := Set new.
 ]
 
 { #category : #initializing }
@@ -630,6 +667,22 @@ GTExample >> initializeFromMethod: aCompiledMethod usingFactory: aGTExampleFacto
 	methodClass := aCompiledMethod methodClass.
 	selector := aCompiledMethod selector.
 	aGTExampleFactory initializeExample: self fromMethod: aCompiledMethod
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> inspector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method providing custom GTInspector-extensions for this particular example'>
+	
+	self addExtension: (self method: GTExampleMethodInspector forSelector: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> inspectorClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method providing custom GTInspector-extensions for this particular example'>
+	
+	self addExtension: (self method: GTExampleMethodInspector forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #'accessing-dynamic' }
@@ -851,6 +904,22 @@ GTExample >> signalableExceptions [
 { #category : #'accessing-dynamic' }
 GTExample >> sourceCode [
 	^ self method sourceCode
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> spotter: aSelector [
+	<gtExamplePragma>
+	<description: 'A method providing custom GTSpotter-extensions for this particular example'>
+	
+	self addExtension: (self method: GTExampleMethodSpotter forSelector: aSelector)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> spotterClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'A method providing custom GTSpotter-extensions for this particular example'>
+	
+	self addExtension: (self method: GTExampleMethodSpotter forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
 { #category : #ui }
