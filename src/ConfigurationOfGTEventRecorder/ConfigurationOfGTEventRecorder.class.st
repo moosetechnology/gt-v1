@@ -145,8 +145,8 @@ ConfigurationOfGTEventRecorder >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.1-baseline'.
-
 	spec for: #'pharo5.x' version: '0.1-baseline'.
+	spec for: #'pharo6.x' version: '0.1-baseline'.
 
 ]
 
@@ -168,9 +168,7 @@ ConfigurationOfGTEventRecorder >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '0.19'.
-
 	spec for: #'pharo5.x' version: '0.20'.
-
 	spec for: #'pharo6.x' version: '0.19'.
 
 ]
@@ -341,7 +339,7 @@ Apart from the issues:
 - GT-EventRecorder: Add a basic recorder event'.
 		spec author: 'JurajKubelka'.
 		spec timestamp: '7/13/2016 10:06'.
-		spec project: 'Ston' with: '0.19'.
+		spec project: 'Ston' with: #stable.
 		spec 
 			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.71';
 			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
