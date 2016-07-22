@@ -25,6 +25,24 @@ GTExampleTODOs >> coreModel [
 ]
 
 { #category : #todos }
+GTExampleTODOs >> globalConfiguration [
+	<todo>
+	"
+	- extending #gtExamplesSubjects for other 'global properties' is probably necessary
+	- but the current implementation is not suitable / does not scale
+	
+	- proposal: method with all regular pragmas (no exception)
+			blabla
+				<gtExampleConfiguration> *** identifier for the global config ***
+				<subjectCass: #Array>
+				<subjectClass: #Set>
+				<noTest>
+				<noTestReport>
+				<...>
+	"
+]
+
+{ #category : #todos }
 GTExampleTODOs >> packaging [
 	<todo>
 	"
