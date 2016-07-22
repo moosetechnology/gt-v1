@@ -33,7 +33,7 @@ GTExampleTODOs >> globalConfiguration [
 	
 	- proposal: method with all regular pragmas (no exception)
 			blabla
-				<gtExampleConfiguration> *** identifier for the global config ***
+				<gtExamplesConfiguration> *** identifier for the global config ***
 				<subjectCass: #Array>
 				<subjectClass: #Set>
 				<noTest>

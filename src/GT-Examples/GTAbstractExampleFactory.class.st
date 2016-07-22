@@ -5,8 +5,7 @@ Class {
 		'cache',
 		'source',
 		'provider',
-		'exampleClass',
-		'selectorProvidingSubjects'
+		'exampleClass'
 	],
 	#category : #'GT-Examples-Utils'
 }
@@ -21,7 +20,7 @@ GTAbstractExampleFactory >> cache: anObject [
 	^ cache := anObject
 ]
 
-{ #category : #'private - creating examples' }
+{ #category : #'private-utils' }
 GTAbstractExampleFactory >> createExample: aCompiledMethod [
 	^ self exampleClass new
 		initializeFromMethod: aCompiledMethod usingFactory: self;
@@ -91,11 +90,11 @@ GTAbstractExampleFactory >> gtExamplesContained [
 	^ examples
 ]
 
-{ #category : #'private - creating examples' }
+{ #category : #'private-init' }
 GTAbstractExampleFactory >> initializeExample: aGTExample fromMethod: aCompiledMethod [
 ]
 
-{ #category : #'private - creating examples' }
+{ #category : #'private-init' }
 GTAbstractExampleFactory >> initializePragmas: aCollection forExample: aGTExample [
 	aCollection do: [ :pragma | 
 		(aGTExample class canPerform: pragma keyword) ifTrue: [ 
@@ -109,12 +108,12 @@ GTAbstractExampleFactory >> initializePragmas: aCollection forExample: aGTExampl
 						yourself) ] ] ]
 ]
 
-{ #category : #'private - creating examples' }
+{ #category : #'private-init' }
 GTAbstractExampleFactory >> initializePragmasFromMethod: aCompiledMethod forExample: aGTExample [
 	self initializePragmas: aCompiledMethod pragmas forExample: aGTExample
 ]
 
-{ #category : #'private - creating examples' }
+{ #category : #'private-init' }
 GTAbstractExampleFactory >> initializeSubjects: aCollection forExample: aGTExample [
 	aCollection isEmptyOrNil ifTrue: [ ^ self ].
 	
@@ -129,12 +128,11 @@ GTAbstractExampleFactory >> initializeSubjects: aCollection forExample: aGTExamp
 					yourself) ] ] 
 ]
 
-{ #category : #'private - creating examples' }
-GTAbstractExampleFactory >> initializeSubjectsFromMethod: aCompiledMethod forExample: aGTExample [
-	[ 		| tmpProvider |		
-			tmpProvider := self providerFor: aCompiledMethod.
-			(tmpProvider class canPerform: #gtExamplesSubjects) ifTrue: [
-				self initializeSubjects: tmpProvider gtExamplesSubjects forExample: aGTExample ] ]
+{ #category : #'private-init' }
+GTAbstractExampleFactory >> initializeSubjectsForMethod: aCompiledMethod forExample: aGTExample [
+	[ self providerFor: aCompiledMethod do: [ :each | 
+			(each class canPerform: #gtExamplesSubjects) ifTrue: [
+				self initializeSubjects: each gtExamplesSubjects forExample: aGTExample ] ] ]
 		on: Error
 		do: [ :exception | 
 			aGTExample addProblem: (GTExampleSubjectError new 
@@ -163,29 +161,21 @@ GTAbstractExampleFactory >> provider: anObject [
 	provider := anObject
 ]
 
-{ #category : #private }
+{ #category : #'private-utils' }
 GTAbstractExampleFactory >> providerFor: aCompiledMethod [
 	^ provider ifNil: [ self defaultProviderFor: aCompiledMethod ]
 ]
 
-{ #category : #accessing }
-GTAbstractExampleFactory >> selectorProvidingSubjects [
-	^ selectorProvidingSubjects
+{ #category : #'private-utils' }
+GTAbstractExampleFactory >> providerFor: aCompiledMethod do: aBlock1 [
+	^ self providerFor: aCompiledMethod do: aBlock1 ifNone: nil
 ]
 
-{ #category : #accessing }
-GTAbstractExampleFactory >> selectorProvidingSubjects: aSelector [
-	^ selectorProvidingSubjects := aSelector
-]
-
-{ #category : #private }
-GTAbstractExampleFactory >> selectorProvidingSubjectsFor: aCompiledMethod [
-	^ selectorProvidingSubjects ifNil: [ 
-		aCompiledMethod methodClass methods 
-			detect: [ :each | 
-				each pragmas anySatisfy: [ :pragma | 
-					pragma keyword = #gtExamplesSubjects ] ]
-			ifNone: [ nil ] ]
+{ #category : #'private-utils' }
+GTAbstractExampleFactory >> providerFor: aCompiledMethod do: aBlock1 ifNone: aBlock2 [
+	^ (self providerFor: aCompiledMethod) 
+		ifNotNilDo: aBlock1
+		ifNil: aBlock2
 ]
 
 { #category : #accessing }
