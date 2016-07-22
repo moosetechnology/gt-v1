@@ -35,6 +35,15 @@ GTExampleMethod >> forNautilus: aBlock [
 		value: [ self method browse ]
 ]
 
+{ #category : #ui }
+GTExampleMethod >> gtDisplayValidityOn: aStream [
+	self isValid ifTrue: [ ^ self ].
+	
+	self exists ifFalse: [ ^ aStream nextPutAll: ' [does not exist]' ].
+	self hasValidArguments ifFalse: [ ^ aStream nextPutAll: '[invalid arguments]' ].
+	aStream nextPutAll: ' [invalid]'
+]
+
 { #category : #'accessing-dynamic' }
 GTExampleMethod >> gtExample [
 	^ self hasExample 

@@ -80,6 +80,7 @@ GTExampleTagSubject >> theTag [
 
 { #category : #accessing }
 GTExampleTagSubject >> theTag: anObject [
+	anObject ifNotNil: [ self theTagName: anObject name ].
 	theTag := anObject
 ]
 

@@ -11,7 +11,10 @@ GTExampleTODOs >> coreModel [
 	FIX / OLD MODEL
 	- GTExampleOrganizer #atClass:, ... <-> lazy generate if not present
 		--> invert lookup !
-	- deprecations of GTExampleFInder // cannot be deleted just like that 
+	- Changes
+		#gtExamplesSource ---> subjects
+		#gtExamplesProvider ---> subjects
+		#gtExampleFinder ---> gtExampleFactory
 	
 	NEW
 	- debugger runtime end with #success if debugger is proceeded (bad!)
@@ -25,10 +28,23 @@ GTExampleTODOs >> coreModel [
 GTExampleTODOs >> packaging [
 	<todo>
 	"
-	GT-Examples-Spotter-Extensions <--- spotter extensions (depends spotter)
-	GT-Examples-Inspector-Extensions <--- inspector extensions (depends inspector)
-	GT-Examples-Roassal-Extensions <--- roassal extensions + RTExampleFactory (depends roassal2) 
-	GT-Examples-Extensions <--- common pharo extensions (depends base pkgs)
+	GT-Examples (core-model)
+	GT-Tests-Examples (tests for core-model)
+	GT-Examples-Examples (all pharo-image-examples)
+	GT-Examples-Spotter
+		+ spotter extensions (depends spotter)
+		+ 'ui' / #gtSpotter*
+		+ examples specific for spotter
+	GT-Examples-Inspector
+		+ inspector extensions (depends inspector)
+		+ 'ui' / #gtInspector* / #gtDisplayOn*
+		+ examples specific for inspector
+	GT-Examples-Roassal 
+		+ roassal extensions (depends roassal2) 
+		+ 'ui' / #gtInspectorRoassal* / GTExampleGraphPainter
+	GT-Examples-Pharo 
+		+ common pharo extensions (depends base-pkgs in pharo image)
+		+ 'ui' / RB / Nautilus / SUnit / Help / ...
 	"
 	
 ]

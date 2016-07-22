@@ -72,7 +72,9 @@ GTExampleClassSubject >> theClass [
 
 { #category : #accessing }
 GTExampleClassSubject >> theClass: anObject [
-	theClass := anObject
+	anObject ifNotNil: [ self theClassName: anObject name ].
+	theClass := anObject.
+	
 ]
 
 { #category : #accessing }

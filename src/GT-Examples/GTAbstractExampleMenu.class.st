@@ -105,7 +105,7 @@ GTAbstractExampleMenu >> debugExamples: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Debug Examples')
 		parent: #gte;
 		keyText: 'e, d' if: Nautilus useOldStyleKeys not;
-		action: [ self examples: aBlock collect: [ :each | each debug ] ];
+		action: [ self examples: aBlock withProgressCollect: [ :each | each debug ] ];
 		icon: Smalltalk ui icons smallDebug.
 ]
 
@@ -117,6 +117,15 @@ GTAbstractExampleMenu >> examples: aBlock [
 { #category : #utils }
 GTAbstractExampleMenu >> examples: aBlock1 collect: aBlock2 [
 	self examples: aBlock1 select: [ :each | true ] collect: [ :each | aBlock2 value: each ]
+]
+
+{ #category : #utils }
+GTAbstractExampleMenu >> examples: aCollection do: aBlock1 progress: aBlock2 [
+	| progress |
+	aCollection size < 2 ifTrue: [ ^ aCollection do: aBlock1 ].
+	aBlock2 ifNil: [ ^ aCollection do: aBlock1 ].
+	(progress := aBlock2 value: aCollection) isEmptyOrNil ifTrue: [ ^ aCollection do: aBlock1 ].
+	aCollection do: aBlock1 displayingProgress: progress
 ]
 
 { #category : #utils }
@@ -143,6 +152,26 @@ GTAbstractExampleMenu >> examples: aBlock1 select: aBlock2 collect: aBlock3 [
 		ifEmpty: [ self notifyNoExamples ]
 ]
 
+{ #category : #utils }
+GTAbstractExampleMenu >> examples: aBlock1 select: aBlock2 collect: aBlock3 progress: aBlock4 [
+	| results |
+	results := Dictionary new.
+	self examples: (aBlock1 value select: [ :each | each isGTExample and: [ aBlock2 value: each ] ]) 
+		do: [ :each | results at: each put: (aBlock3 value: each) ]
+		progress: aBlock4.
+	results
+		ifNotEmpty: [ results inspect ]
+		ifEmpty: [ self notifyNoExamples ]
+]
+
+{ #category : #utils }
+GTAbstractExampleMenu >> examples: aBlock1 withProgressCollect: aBlock2 [
+	self examples: aBlock1 
+		select: [ :each | true ] 
+		collect: [ :each | aBlock2 value: each ] 
+		progress: [ :examples | 'Processing ' , examples size asString , ' examples ...' ]
+]
+
 { #category : #private }
 GTAbstractExampleMenu >> inspectExamples: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Inspect Examples')
@@ -164,7 +193,7 @@ GTAbstractExampleMenu >> inspectProblems: aBlock builder: aBuilder [
 GTAbstractExampleMenu >> inspectResults: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Inspect Results (full)')
 		parent: #gte;
-		action: [ self examples: aBlock collect: [ :example | example result ] ].
+		action: [ self examples: aBlock withProgressCollect: [ :example | example result ] ].
 ]
 
 { #category : #private }
@@ -172,7 +201,7 @@ GTAbstractExampleMenu >> inspectReturnValue: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: #'Inspect Return-Values')
 		parent: #gte;
 		keyText: 'e, v' if: Nautilus useOldStyleKeys not;
-		action: [ self examples: aBlock collect: [ :example | example returnValue ] ].
+		action: [ self examples: aBlock withProgressCollect: [ :example | example returnValue ] ].
 ]
 
 { #category : #public }
@@ -191,7 +220,7 @@ GTAbstractExampleMenu >> runExamples: aBlock builder: aBuilder [
 	(lastItem := aBuilder item: 'Run Examples')
 		parent: #gte;
 		keyText: 'e, r' if: Nautilus useOldStyleKeys not;
-		action: [ self examples: aBlock collect: [ :each | each run ] ];
+		action: [ self examples: aBlock withProgressCollect: [ :each | each run ] ];
 		icon: Smalltalk ui icons smallDoIt.
 ]
 

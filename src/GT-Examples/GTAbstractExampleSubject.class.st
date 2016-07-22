@@ -20,6 +20,16 @@ GTAbstractExampleSubject >> gtDisplayOn: aStream [
 	self gtDisplayValidityOn: aStream
 ]
 
+{ #category : #'accessing-dynamic' }
+GTAbstractExampleSubject >> gtExamplesContained [
+	^ Smalltalk gtExamplesContained select: [ :each | each hasSubject: self ]
+]
+
+{ #category : #converting }
+GTAbstractExampleSubject >> gtExamplesSubjects [
+	^ { self }
+]
+
 { #category : #ui }
 GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>

@@ -72,6 +72,7 @@ GTExamplePackageSubject >> thePackage [
 
 { #category : #accessing }
 GTExamplePackageSubject >> thePackage: anObject [
+	anObject ifNotNil: [ self thePackageName: anObject packageName ].
 	thePackage := anObject
 ]
 
