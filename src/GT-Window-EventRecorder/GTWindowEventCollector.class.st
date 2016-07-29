@@ -74,6 +74,9 @@ GTWindowEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
 	
+	self category: #windows;
+		register.
+	
 	self registerToSystemAnnouncer
 ]
 
