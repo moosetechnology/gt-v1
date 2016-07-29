@@ -58,6 +58,7 @@ GTWindowEventCollector class >> initialize [
 GTWindowEventCollector class >> reset [
 	uniqueInstance ifNotNil: [
 		uniqueInstance unregisterToWorldAnnouncements.
+		uniqueInstance unregisterToSystemAnnouncer.
 		uniqueInstance := nil ].
 	self initialize.
 ]
@@ -73,9 +74,7 @@ GTWindowEventCollector >> initialize [
 	super initialize.	
 	recordedEvents := WaitfreeQueue new.
 	
-	SystemAnnouncer uniqueInstance weak subscribe: PrivacyChangedAnnoucement
-		send: #privacyChanged 
-		to: self.
+	self registerToSystemAnnouncer
 ]
 
 { #category : #'announcement registration' }
@@ -93,6 +92,17 @@ GTWindowEventCollector >> recordAnnouncement: anAnnouncement [
 		event := anAnnouncement asRecorderEvent.
 		self add: event.
 		GTEventRecorder uniqueInstance announcer announce: (GTWindowRecorderEventRecorded forEvent: event). ]
+]
+
+{ #category : #'announcement registration' }
+GTWindowEventCollector >> registerToSystemAnnouncer [
+
+	SystemAnnouncer uniqueInstance unsubscribe: self.
+	
+	SystemAnnouncer uniqueInstance weak
+		when: PrivacyChangedAnnoucement
+			send: #privacyChanged 
+			to: self.
 ]
 
 { #category : #'announcement registration' }
@@ -115,6 +125,12 @@ GTWindowEventCollector >> registerToWorldAnnouncements [
 	World announcer weak
 		when: WindowOpened send: #windowOpened: to: self;
 		when: WindowClosed send: #windowClosed: to: self.
+]
+
+{ #category : #'announcement registration' }
+GTWindowEventCollector >> unregisterToSystemAnnouncer [
+
+	SystemAnnouncer uniqueInstance unsubscribe: self
 ]
 
 { #category : #'announcement registration' }
