@@ -159,8 +159,9 @@ ConfigurationOfGTInspectorCore >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '2.0-baseline'.
-
 	spec for: #'pharo4.x' version: '2.0-baseline'.
+	spec for: #'pharo5.x' version: #stable.
+	spec for: #'pharo6.x' version: '2.0-baseline'.
 
 ]
 
@@ -182,10 +183,11 @@ ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '3.16'.
-
 	spec for: #'pharo3.x' version: '2.0.6'.
-
 	spec for: #'pharo4.x' version: '2.0.15'.
+	spec for: #'pharo5.x' version: '3.17'.
+	spec for: #'pharo6.x' version: '3.18'.
+
 
 ]
 
@@ -910,14 +912,62 @@ ConfigurationOfGTInspectorCore >> version316: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'version 3.16'.
+		spec description: 'Integration for case 18773.
+
+Fixes these issues:
+- case 18691
+- case 18471
+- case 18244
+- case 18708
+
+Apart from the issues:
+- GT-InspectorExtensions: only show methods for the current class, added basic example for RBCondition
+- Uses Pragma>>#methodSelector instead of Pragma>>#selector (case 18665).
+- Uses Behavior>>#classLayout instead of Behavior>>#layout (case 16636).
+- Uses CompiledMethod>>#sourceCode instead of CompiledMethod>>#getSource (case 18694).
+- GT-EventRecorder: Add a basic recorder event'.
 		spec author: 'JurajKubelka'.
-		spec timestamp: '7/21/2016 18:56'.
-		spec project: 'GlamourCore' with: '4.17'.
+		spec timestamp: '7/13/2016 10:05'.
+		spec project: 'GlamourCore' with: '4.18'.
 		spec 
-			package: 'GT-Inspector' with: 'a MCLazyVersionInfo(GT-Inspector-AndreiChis.432)';
-			package: 'GT-InspectorExtensions-Core' with: 'a MCLazyVersionInfo(GT-InspectorExtensions-Core-TheIntegrator.224)';
-			package: 'GT-Tests-Inspector' with: 'a MCLazyVersionInfo(GT-Tests-Inspector-StefanReichhart.56)'. ].
+			package: 'GT-Inspector' with: 'GT-Inspector-JurajKubelka.434';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-JurajKubelka.225';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-JurajKubelka.57'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version317: spec [
+	<version: '3.17' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Stable version for Pharo 5.0.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/14/2016 13:47'.
+		spec project: 'GlamourCore' with: '4.19'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.421';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TheIntegrator.214';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.56'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version318: spec [
+	<version: '3.18' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Prevent infinite loop in GLMScrollListBrick>>#preventOverscrolling
+ - in some cases it was moving band to the top and to the bottom.'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/21/2016 18:05'.
+		spec project: 'GlamourCore' with: '4.20'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-JurajKubelka.434';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-JurajKubelka.225';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-JurajKubelka.57'. ].
 
 ]
 
