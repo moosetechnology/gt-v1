@@ -83,8 +83,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 		ignoredClasses: {
 			Behavior. "Has abstract methods"
 			TraitBehavior. "Has abstract methods"
-			TBehavior.
-			CatalogProject}
+			TBehavior}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing external examples'
