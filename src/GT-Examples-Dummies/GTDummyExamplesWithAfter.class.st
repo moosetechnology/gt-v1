@@ -23,7 +23,6 @@ GTDummyExamplesWithAfter class >> a: b [
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter class >> afterA [
 	self assert: (self gtExampleContext includesKey: #a).
-	self assert: (self gtExampleContext includesKey: #a2).
 	self assert: (self gtExampleContext includesKey: #b).
 	self assert: (self gtExampleContext includesKey: #b2).
 	self assert: (self gtExampleContext includesKey: #c).
@@ -40,7 +39,6 @@ GTDummyExamplesWithAfter class >> afterA [
 
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter class >> afterB [
-	self assert: (self gtExampleContext includesKey: #a2).
 	self assert: (self gtExampleContext includesKey: #c).
 	self assert: (self gtExampleContext includesKey: #c2).
 	self assert: (self gtExampleContext includesKey: #b).
@@ -48,7 +46,6 @@ GTDummyExamplesWithAfter class >> afterB [
 	
 	self gtExampleContext removeKey: #b.
 	
-	self assert: (self gtExampleContext includesKey: #a2).
 	self assert: (self gtExampleContext includesKey: #b) not.
 	self assert: (self gtExampleContext includesKey: #b2).
 	self assert: (self gtExampleContext includesKey: #c).
@@ -57,14 +54,10 @@ GTDummyExamplesWithAfter class >> afterB [
 
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter class >> afterC [	
-	self assert: (self gtExampleContext includesKey: #a2).
-	self assert: (self gtExampleContext includesKey: #b2).
 	self assert: (self gtExampleContext includesKey: #c).
 	
 	self gtExampleContext removeKey: #c.
 	
-	self assert: (self gtExampleContext includesKey: #a2).
-	self assert: (self gtExampleContext includesKey: #b2).
 	self assert: (self gtExampleContext includesKey: #c) not.
 	self assert: (self gtExampleContext includesKey: #c2).
 ]
