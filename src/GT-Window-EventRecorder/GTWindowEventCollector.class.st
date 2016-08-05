@@ -47,11 +47,12 @@ GTWindowEventCollector class >> commonWindowTypes [
 		FileDialogWindow ).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 GTWindowEventCollector class >> initialize [
 
 	Privacy sendDiagnosticsAndUsageData
 		ifTrue: [ self uniqueInstance registerToWorldAnnouncements ]
+		ifFalse: [ self uniqueInstance ]
 ]
 
 { #category : #'instance creation' }
