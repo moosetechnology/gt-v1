@@ -50,9 +50,7 @@ GTWindowEventCollector class >> commonWindowTypes [
 { #category : #'class initialization' }
 GTWindowEventCollector class >> initialize [
 
-	Privacy sendDiagnosticsAndUsageData
-		ifTrue: [ self uniqueInstance registerToWorldAnnouncements ]
-		ifFalse: [ self uniqueInstance ]
+	self uniqueInstance
 ]
 
 { #category : #'instance creation' }
@@ -78,7 +76,10 @@ GTWindowEventCollector >> initialize [
 	self category: #windows;
 		register.
 	
-	self registerToSystemAnnouncer
+	self registerToSystemAnnouncer.
+	
+	Privacy sendDiagnosticsAndUsageData
+		ifTrue: [ self registerToWorldAnnouncements ]
 ]
 
 { #category : #'announcement registration' }
