@@ -160,7 +160,7 @@ ConfigurationOfGTInspectorCore >> development: spec [
 
 	spec for: #'common' version: '2.0-baseline'.
 	spec for: #'pharo4.x' version: '2.0-baseline'.
-	spec for: #'pharo5.x' version: #stable.
+	spec for: #'pharo5.x' version: '2.0-baseline'.
 	spec for: #'pharo6.x' version: '2.0-baseline'.
 
 ]
