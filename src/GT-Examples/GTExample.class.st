@@ -547,6 +547,13 @@ GTExample >> hasSubject: aSubject [
 ]
 
 { #category : #testing }
+GTExample >> hasSubjectMatching: aStringOrSubject [
+	^ (self hasSubject: aStringOrSubject)
+		or: [ self subjects anySatisfy: [ :each | 
+			each hasLiteralThorough: aStringOrSubject ] ]
+]
+
+{ #category : #testing }
 GTExample >> hasSubjects [
 	^ self subjects notEmpty
 ]

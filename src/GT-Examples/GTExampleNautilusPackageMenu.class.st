@@ -38,8 +38,8 @@ GTExampleNautilusPackageMenu >> menuFor: aBuilder [
 	self buildSeparator.
 	self browsePackage: package builder: aBuilder.
 	self buildSeparator.
-	self browseExamplesReferencing: package packageName builder: aBuilder.
-	self browseExamplesWithSubject: package packageName builder: aBuilder.
+	self browseExamplesReferencing: package packageName  builder: aBuilder.
+	self browseExamplesWithSubject: package asGTExampleSubject builder: aBuilder.
 ]
 
 { #category : #private }

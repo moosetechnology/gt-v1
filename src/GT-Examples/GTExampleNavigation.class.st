@@ -93,6 +93,13 @@ GTExampleNavigation class >> browseExamplesInSuperclassesOfClass: aClass [
 ]
 
 { #category : #'browse with scope' }
+GTExampleNavigation class >> browseExamplesLiteralThorough: aString [
+	" self browseExamplesLiteralThorough: #and: "
+	self browseExamples: 'Examples with literal #', aString select: [ :example | 
+		example hasLiteralThorough: aString ]
+]
+
+{ #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesOfClass: aClass [
 	self browse: 'Examples of Class ' , aClass name examples: aClass gtExamples
 ]
@@ -128,4 +135,11 @@ GTExampleNavigation class >> browseExamplesWithSubject: aGTExampleSubject [
 	" self browseAllExamplesWithSubject: GTExample "
 	self browseExamples: 'Examples with Subject ', aGTExampleSubject gtDisplayString select: [ :example | 
 		example hasSubject: aGTExampleSubject ]
+]
+
+{ #category : #'browse with scope' }
+GTExampleNavigation class >> browseExamplesWithSubjectMatching: aGTExampleSubject [
+	" self browseAllExamplesWithSubject: GTExample "
+	self browseExamples: 'Examples with Subject ', aGTExampleSubject gtDisplayString select: [ :example | 
+		example hasSubjectMatching: aGTExampleSubject ]
 ]

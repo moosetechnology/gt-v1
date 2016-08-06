@@ -109,7 +109,7 @@ GTExampleNautilusMethodMenu >> menuFor: aBuilder [
 			self buildSeparator ].
 		self buildSeparator ].
 	self browseExamplesReferencing: method selector builder: aBuilder.
-	self browseExamplesWithSubject: method selector builder: aBuilder.
+	self browseExamplesWithSubject: method asGTExampleSubject builder: aBuilder.
 ]
 
 { #category : #private }

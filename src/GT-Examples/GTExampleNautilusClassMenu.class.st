@@ -62,7 +62,7 @@ GTExampleNautilusClassMenu >> menuFor: aBuilder [
 	self browseHierarchyOf: class builder: aBuilder.
 	self buildSeparator.
 	self browseExamplesReferencing: class theNonMetaClass name builder: aBuilder.
-	self browseExamplesWithSubject: class theNonMetaClass name builder: aBuilder.
+	self browseExamplesWithSubject: class asGTExampleSubject builder: aBuilder.
 ]
 
 { #category : #private }
