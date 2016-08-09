@@ -7,16 +7,16 @@ MetacelloVersion >> gtInspectorProjectMapIn: composite [
 		title: 'Project map';
 		initializeView: [ RTMondrian new ];
 		painting: [ :view |
-			view shape label text: [:each | each asString copyReplaceAll: 'ConfigurationOf' with: '']; color: Color black.
-			view nodes: ((self deepCollectAsSet: [ :each | 
+			view shape label text: [:each | (each asString copyReplaceAll: 'ConfigurationOf' with: '') copyReplaceAll: ' ' with: String cr]; color: Color black.
+			view nodes: ((self withDeepCollect: [ :each | 
 								each isNil 
 									ifTrue: [ { } ] 
-									ifFalse: [ each projects collect: #version ] ])
+									ifFalse: [ each projects collect: #version ] ] as: Set)
 								reject: #isNil).
 			view shape line color: (Color lightGray alpha: 0.2).
 			view edges
 				 connectFrom: #yourself  toAll: [:each | each projects collect: #version].
-			view layout horizontalDominanceTree layered.
+			view layout horizontalDominanceTree layered verticalGap: 20.
 			view view pushBackEdges ]
 		
 	
