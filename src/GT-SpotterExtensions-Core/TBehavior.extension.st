@@ -86,15 +86,6 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-TBehavior >> withMethodSender: aLiteral do: aBlock [
-	| specialIndex |
-	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
-	self selectorsAndMethodsDo: [ :selector :method | 
-		(method hasSelector: aLiteral specialSelectorIndex: specialIndex)
-					ifTrue: [ aBlock value: method ] ].
-]
-
-{ #category : #'*GT-SpotterExtensions-Core-private' }
 TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
 	| specialIndex |
 	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
@@ -106,5 +97,9 @@ TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
 TBehavior >> withThorougMethodsReferTo: aLiteral do: aBlock [
-	^ self withMethodSender: aLiteral do: aBlock
+	| specialIndex |
+	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
+	self selectorsAndMethodsDo: [ :selector :method | 
+		(method hasSelector: aLiteral specialSelectorIndex: specialIndex)
+					ifTrue: [ aBlock value: method ] ].
 ]
