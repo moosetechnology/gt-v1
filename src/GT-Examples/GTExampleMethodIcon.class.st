@@ -10,17 +10,17 @@ Class {
 }
 
 { #category : #converters }
-GTExampleMethodIcon class >> fromBase64String: aString [
+GTExampleMethodIcon class >> convertFromBase64String: aString [
 	^ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: aString readStream)
 ]
 
 { #category : #converters }
-GTExampleMethodIcon class >> fromByteArray: aByteArray [
-	^ self fromByteArray: aByteArray extent: 16@16 depth: 32 offset: 0@0
+GTExampleMethodIcon class >> convertFromByteArray: aByteArray [
+	^ self convertFromByteArray: aByteArray extent: 16@16 depth: 32 offset: 0@0
 ]
 
 { #category : #converters }
-GTExampleMethodIcon class >> fromByteArray: aByteArray extent: anExtent depth: aDepth offset: anOffset [
+GTExampleMethodIcon class >> convertFromByteArray: aByteArray extent: anExtent depth: aDepth offset: anOffset [
 	^ Form
 		extent: anExtent
 		depth: aDepth

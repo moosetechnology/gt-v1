@@ -1,7 +1,7 @@
 Class {
 	#name : #GTExampleMethodSubject,
 	#superclass : #GTAbstractExampleMethod,
-	#category : #'GT-Examples-Organization'
+	#category : #'GT-Examples-Subjects'
 }
 
 { #category : #'accessing-dynamic' }

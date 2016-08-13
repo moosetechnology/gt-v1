@@ -9,6 +9,22 @@ Class {
 	#category : #'GT-Examples-Organization'
 }
 
+{ #category : #'instance creation' }
+GTExampleFormIcon class >> fromBase64String: aString [
+	^ self new
+		converter: #fromBase64String:;
+		arguments: { aString };
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleFormIcon class >> fromByteArray: aByteArray [
+	^ self new
+		converter: #fromByteArray:;
+		arguments: { aByteArray };
+		yourself
+]
+
 { #category : #accessing }
 GTExampleFormIcon >> arguments [
 	^ arguments

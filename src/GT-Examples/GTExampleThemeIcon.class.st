@@ -7,6 +7,18 @@ Class {
 	#category : #'GT-Examples-Organization'
 }
 
+{ #category : #'instance creation' }
+GTExampleThemeIcon class >> fromSelector: aSelector [
+	^ self new 
+		selector: aSelector;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleThemeIcon class >> fromString: aString [
+	^ self fromSelector: aString asSymbol
+]
+
 { #category : #private }
 GTExampleThemeIcon >> basicForm [
 	^ Smalltalk ui icons iconNamed: self selector 
