@@ -1031,6 +1031,25 @@ GTExample >> subjectHelp: bookName title: title [
 ]
 
 { #category : #'pragma-selectors' }
+GTExample >> subjectKeyword: aString [
+	<gtExamplePragma>
+	<description: 'Add a keyword to the example'>
+	
+	self addSubject: (GTExampleKeywordSubject new 
+		keyword: aString;
+		yourself)
+]
+
+{ #category : #'pragma-selectors' }
+GTExample >> subjectKeywords: anArrayOrString [
+	<gtExamplePragma>
+	<description: 'Add multiple keywords to the example'>
+	
+	anArrayOrString gtExampleSubstrings do: [ :each |
+		self subjectKeyword: each ]
+]
+
+{ #category : #'pragma-selectors' }
 GTExample >> subjectPackage: packageName [
 	<gtExamplePragma>
 	<description: 'Add a package-subject to the example'>
@@ -1050,6 +1069,16 @@ GTExample >> subjectTag: tagName [
 		yourself)
 ]
 
+{ #category : #'pragma-selectors' }
+GTExample >> subjectText: aString [
+	<gtExamplePragma>
+	<description: 'Add a text-subject to the example'>
+	
+	self addSubject: (GTExampleTextSubject new 
+		text: aString;
+		yourself)
+]
+
 { #category : #accessing }
 GTExample >> subjects [
 	^ subjects asArray
@@ -1066,8 +1095,8 @@ GTExample >> subjectsAll: aString [
 
 { #category : #private }
 GTExample >> substrings: aString do: aBlock [
-	(aString substrings: ' .,;') do: [ :each | 
-		aBlock value: each trimBoth ]
+	aString gtExampleSubstrings do: [ :each | 
+		aBlock value: each ]
 ]
 
 { #category : #'accessing-dynamic' }

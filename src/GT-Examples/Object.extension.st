@@ -31,6 +31,11 @@ Object >> gtExampleSourceIn: composite inContext: aGTInspector [
 ]
 
 { #category : #'*GT-Examples-Core' }
+Object >> gtExampleSubstrings [
+	^ {  }
+]
+
+{ #category : #'*GT-Examples-Core' }
 Object >> gtExamples [
 	^ self class gtExamples
 ]
