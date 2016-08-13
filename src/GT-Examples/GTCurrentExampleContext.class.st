@@ -1,7 +1,7 @@
 Class {
 	#name : #GTCurrentExampleContext,
 	#superclass : #Notification,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Runtime'
 }
 
 { #category : #'accessing-defaults' }

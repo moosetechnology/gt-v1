@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'example'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Runtime'
 }
 
 { #category : #accessing }

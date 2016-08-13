@@ -4,8 +4,20 @@ Class {
 	#instVars : [
 		'text'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleTextSubject class >> fromString: aString [
+	^ self new 
+		text: aString;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleTextSubject class >> fromText: aText [
+	^ self fromString: aText asString
+]
 
 { #category : #testing }
 GTExampleTextSubject >> = anExampleSubject [

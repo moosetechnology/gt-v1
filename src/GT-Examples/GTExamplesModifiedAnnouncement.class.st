@@ -6,7 +6,7 @@ Class {
 		'added',
 		'removed'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Announcements'
 }
 
 { #category : #public }

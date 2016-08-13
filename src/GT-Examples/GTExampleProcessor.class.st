@@ -9,7 +9,7 @@ Class {
 		'onRecursionError',
 		'onDependencyError'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Runtime'
 }
 
 { #category : #private }

@@ -8,8 +8,26 @@ Class {
 		'methodClass',
 		'selector'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
+
+{ #category : #'instance creation' }
+GTAbstractExampleMethod class >> fromClass: aClass selector: aSelector [
+	^ self new 
+		methodClass: aClass;
+		methodClassName: aClass name;
+		selector: aSelector;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTAbstractExampleMethod class >> fromClassNamed: aString selector: aSelector [
+	^ self new 
+		methodClass: nil;
+		methodClassName: aString asString;
+		selector: aSelector;
+		yourself
+]
 
 { #category : #testing }
 GTAbstractExampleMethod class >> isAbstract [
@@ -54,6 +72,18 @@ GTAbstractExampleMethod >> gtDisplayOn: aStream [
 		nextPutAll: self selector asString.
 		
 	self gtDisplayValidityOn: aStream
+]
+
+{ #category : #ui }
+GTAbstractExampleMethod >> gtSpotterPreviewIn: aComposite [
+	<spotterPreview: 1>
+	self exists ifFalse: [ ^ self ].
+	
+	aComposite pharoMethod
+		title: [ self gtDisplayString ]; 
+		display: [ :entity | entity method sourceCode ];
+		smalltalkClass: [ self method methodClass ];
+		entity: self
 ]
 
 { #category : #testing }

@@ -4,8 +4,15 @@ Class {
 	#instVars : [
 		'instance'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleInstanceSubject class >> fromObject: anObject [
+	^ self new 
+		instance: anObject;
+		yourself
+]
 
 { #category : #testing }
 GTExampleInstanceSubject >> = anExampleSubject [

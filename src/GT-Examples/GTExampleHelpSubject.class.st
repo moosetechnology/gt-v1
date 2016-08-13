@@ -6,8 +6,28 @@ Class {
 		'title',
 		'topic'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleHelpSubject class >> fromBook: aString [
+	^ self fromBook: aString title: nil
+]
+
+{ #category : #'instance creation' }
+GTExampleHelpSubject class >> fromBook: aString1 title: aString2 [
+	^ self new 
+		bookName: aString1;
+		title: aString2;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleHelpSubject class >> fromTopic: aHelpTopic [
+	^ self fromBook: aHelpTopic title title: (aHelpTopic subtopics 
+		ifNotEmpty: [ :topics | topics first title ]
+		ifEmpty: [ nil ])
+]
 
 { #category : #testing }
 GTExampleHelpSubject >> = anExampleSubject [
@@ -47,9 +67,9 @@ GTExampleHelpSubject >> gtDisplayOn: aStream [
 		ifTrue: [ self topic gtDisplayOn: aStream ]
 		ifFalse: [ 
 			self bookName gtDisplayOn: aStream.
-			self page isEmptyOrNil ifFalse: [ 
+			self title isEmptyOrNil ifFalse: [ 
 				aStream nextPutAll: ' > '.
-				self page gtDisplayOn: aStream ] ].
+				self title gtDisplayOn: aStream ] ].
 	self gtDisplayValidityOn: aStream
 ]
 

@@ -5,7 +5,7 @@ Class {
 		'processed',
 		'result'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Runtime'
 }
 
 { #category : #private }

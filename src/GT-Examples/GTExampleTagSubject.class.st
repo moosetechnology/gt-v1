@@ -5,8 +5,24 @@ Class {
 		'theTagName',
 		'theTag'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleTagSubject class >> fromTag: aRPackageTag [
+	^ self new 
+		theTag: aRPackageTag;
+		theTagName: aRPackageTag categoryName;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleTagSubject class >> fromTagNamed: aString [
+	^ self new 
+		theTag: nil;
+		theTagName: aString asString;
+		yourself
+]
 
 { #category : #testing }
 GTExampleTagSubject >> = anExampleSubject [

@@ -1,7 +1,7 @@
 Class {
 	#name : #GTExampleHelp,
 	#superclass : #CustomHelp,
-	#category : #'GT-Examples-Core'
+	#category : #'GT-Examples-Help'
 }
 
 { #category : #accessing }

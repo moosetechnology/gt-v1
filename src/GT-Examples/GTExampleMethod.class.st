@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'arguments'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #accessing }
@@ -19,11 +19,7 @@ GTExampleMethod >> arguments: anObject [
 
 { #category : #'accessing-dynamic' }
 GTExampleMethod >> asGTExampleSubject [
-	^ GTExampleMethodSubject new 
-		methodClassName: self methodClassName;
-		methodClass: self methodClass;
-		selector: self selector;
-		yourself
+	^ GTExampleMethodSubject fromClass: self methodClass selector: self selector
 ]
 
 { #category : #ui }

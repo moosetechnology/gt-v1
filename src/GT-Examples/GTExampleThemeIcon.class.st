@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'selector'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #private }

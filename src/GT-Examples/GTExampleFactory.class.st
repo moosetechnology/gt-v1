@@ -1,7 +1,7 @@
 Class {
 	#name : #GTExampleFactory,
 	#superclass : #GTAbstractExampleFactory,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #'accessing-defaults' }

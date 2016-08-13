@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'converter'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #converters }
@@ -50,4 +50,19 @@ GTExampleMethodIcon >> exists [
 	^ super exists
 		and: [ self converter notNil
 			and: [ self class includesSelector: self converter ] ]
+]
+
+{ #category : #'accessing-dynamic' }
+GTExampleMethodIcon >> form [
+	^ self exists
+		ifTrue: [ self basicForm ]
+		ifFalse: [ nil ]
+]
+
+{ #category : #ui }
+GTExampleMethodIcon >> gtInspectorFormIn: composite [
+	<gtInspectorPresentationOrder: 0>
+	self exists ifFalse: [ ^ self ].
+	
+	self form gtInspectorFormIn: composite
 ]

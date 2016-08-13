@@ -1,6 +1,6 @@
 Trait {
 	#name : #TGTExampleIcon,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #private }

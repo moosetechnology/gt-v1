@@ -5,8 +5,20 @@ Class {
 		'selector',
 		'theClasses'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleSelectorSubject class >> fromString: aString [
+	^ self fromSymbol: aString asSymbol
+]
+
+{ #category : #'instance creation' }
+GTExampleSelectorSubject class >> fromSymbol: aSymbol [
+	^ self new
+		selector: aSymbol;
+		yourself
+]
 
 { #category : #testing }
 GTExampleSelectorSubject >> = anExampleSubject [

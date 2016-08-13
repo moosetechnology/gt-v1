@@ -1,7 +1,7 @@
 Class {
 	#name : #GTExampleMethodInspectorExtension,
 	#superclass : #GTAbstractExampleMethodExtension,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-UI'
 }
 
 { #category : #ui }

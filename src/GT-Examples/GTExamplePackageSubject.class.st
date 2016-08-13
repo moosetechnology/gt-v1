@@ -5,8 +5,24 @@ Class {
 		'thePackageName',
 		'thePackage'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExamplePackageSubject class >> fromPackage: aRPackage [
+	^ self new 
+		thePackage: aRPackage;
+		thePackageName: aRPackage packageName;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExamplePackageSubject class >> fromPackageNamed: aString [
+	^ self new 
+		thePackage: nil;
+		thePackageName: aString asString;
+		yourself
+]
 
 { #category : #testing }
 GTExamplePackageSubject >> = anExampleSubject [

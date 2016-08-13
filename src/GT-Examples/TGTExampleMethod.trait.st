@@ -1,6 +1,6 @@
 Trait {
 	#name : #TGTExampleMethod,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #ui }

@@ -11,7 +11,7 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #examples }

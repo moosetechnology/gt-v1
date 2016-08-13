@@ -4,8 +4,22 @@ Class {
 	#instVars : [
 		'keyword'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleKeywordSubject class >> fromString: aString [
+	^ self new 
+		keyword: aString;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleKeywordSubject class >> fromSymbol: aSymbol [
+	^ self new 
+		keyword: aSymbol;
+		yourself
+]
 
 { #category : #testing }
 GTExampleKeywordSubject >> = anExampleSubject [

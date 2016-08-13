@@ -6,7 +6,7 @@ Class {
 		'converter',
 		'form'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #accessing }

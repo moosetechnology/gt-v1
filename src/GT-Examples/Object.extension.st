@@ -2,9 +2,7 @@ Extension { #name : #Object }
 
 { #category : #'*GT-Examples-Core' }
 Object >> asGTExampleSubject [
-	^ GTExampleInstanceSubject new 
-		instance: self;
-		yourself
+	^ GTExampleInstanceSubject fromObject: self
 ]
 
 { #category : #'*GT-Examples-Core' }

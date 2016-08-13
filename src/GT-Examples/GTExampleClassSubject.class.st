@@ -5,8 +5,24 @@ Class {
 		'theClassName',
 		'theClass'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Subjects'
 }
+
+{ #category : #'instance creation' }
+GTExampleClassSubject class >> fromClass: aClass [
+	^ self new 
+		theClass: aClass;
+		theClassName: aClass name;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleClassSubject class >> fromClassNamed: aString [
+	^ self new 
+		theClass: nil;
+		theClassName: aString asString;
+		yourself
+]
 
 { #category : #testing }
 GTExampleClassSubject >> = anExampleSubject [

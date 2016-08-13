@@ -1,7 +1,7 @@
 Class {
 	#name : #GTExampleMethodAfter,
 	#superclass : #GTAbstractExampleMethod,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #ui }

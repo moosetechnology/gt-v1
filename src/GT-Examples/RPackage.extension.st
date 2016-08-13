@@ -2,10 +2,7 @@ Extension { #name : #RPackage }
 
 { #category : #'*GT-Examples-Core' }
 RPackage >> asGTExampleSubject [
-	^ GTExamplePackageSubject new 
-		thePackageName: self packageName;
-		thePackage: self;
-		yourself
+	^ GTExamplePackageSubject fromPackage: self
 ]
 
 { #category : #'*GT-Examples-Core' }

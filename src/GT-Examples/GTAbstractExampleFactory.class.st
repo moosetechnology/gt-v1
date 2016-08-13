@@ -7,7 +7,7 @@ Class {
 		'provider',
 		'exampleClass'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #accessing }

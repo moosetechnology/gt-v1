@@ -1,7 +1,7 @@
 Class {
 	#name : #GTAbstractExampleObject,
 	#superclass : #Object,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Organization'
 }
 
 { #category : #testing }

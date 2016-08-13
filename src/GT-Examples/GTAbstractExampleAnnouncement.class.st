@@ -1,7 +1,7 @@
 Class {
 	#name : #GTAbstractExampleAnnouncement,
 	#superclass : #Announcement,
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Announcements'
 }
 
 { #category : #testing }

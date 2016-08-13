@@ -2,9 +2,7 @@ Extension { #name : #String }
 
 { #category : #'*GT-Examples-Core' }
 String >> asGTExampleSubject [
-	^ GTExampleTextSubject new 
-		text: self;
-		yourself
+	^ GTExampleTextSubject fromString: self
 ]
 
 { #category : #'*GT-Examples-Core' }

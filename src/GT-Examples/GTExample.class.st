@@ -992,23 +992,10 @@ GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 ]
 
 { #category : #private }
-GTExample >> subjectForClass: aClass [
-	^ self subjectForClass: aClass named: aClass name
-]
-
-{ #category : #private }
-GTExample >> subjectForClass: aClass named: aClassName [
-	^ GTExampleClassSubject new 
-		theClass: aClass;
-		theClassName: aClassName;
-		yourself
-]
-
-{ #category : #private }
 GTExample >> subjectForClassNamed: aClassName [
 	^ self classNamed: aClassName 
-		do: [ :class | self subjectForClass: class named: aClassName ] 
-		ifNone: [ self subjectForClass: nil named: aClassName ]
+		do: [ :class | GTExampleClassSubject fromClass: class ] 
+		ifNone: [ GTExampleClassSubject fromClassNamed: aClassName ]
 ]
 
 { #category : #'pragma-selectors' }
@@ -1024,20 +1011,15 @@ GTExample >> subjectHelp: bookName title: title [
 	<gtExamplePragma>
 	<description: 'Add a help/topic-subject to the example'>
 	
-	self addSubject: (GTExampleHelpSubject new 
-		bookName: bookName;
-		title: title;
-		yourself)
+	self addSubject: (GTExampleHelpSubject fromBook: bookName title: title)
 ]
 
 { #category : #'pragma-selectors' }
-GTExample >> subjectKeyword: aString [
+GTExample >> subjectKeyword: aStringOrSymbol [
 	<gtExamplePragma>
 	<description: 'Add a keyword to the example'>
 	
-	self addSubject: (GTExampleKeywordSubject new 
-		keyword: aString;
-		yourself)
+	self addSubject: (GTExampleKeywordSubject fromString: aStringOrSymbol)
 ]
 
 { #category : #'pragma-selectors' }
@@ -1054,9 +1036,7 @@ GTExample >> subjectPackage: packageName [
 	<gtExamplePragma>
 	<description: 'Add a package-subject to the example'>
 	
-	self addSubject: (GTExamplePackageSubject new 
-		thePackageName: packageName;
-		yourself)
+	self addSubject: (GTExamplePackageSubject fromPackageNamed: packageName)
 ]
 
 { #category : #'pragma-selectors' }
@@ -1064,9 +1044,7 @@ GTExample >> subjectSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Add a selector subject to the example'>
 	
-	self addSubject: (GTExampleSelectorSubject new 
-		selector: aSelector asSymbol;
-		yourself)
+	self addSubject: (GTExampleSelectorSubject fromString: aSelector)
 ]
 
 { #category : #'pragma-selectors' }
@@ -1074,9 +1052,7 @@ GTExample >> subjectTag: tagName [
 	<gtExamplePragma>
 	<description: 'Add a tag-subject to the example'>
 	
-	self addSubject: (GTExampleTagSubject new 
-		theTagName: tagName;
-		yourself)
+	self addSubject: (GTExampleTagSubject fromTagNamed: tagName)
 ]
 
 { #category : #'pragma-selectors' }
@@ -1084,9 +1060,7 @@ GTExample >> subjectText: aString [
 	<gtExamplePragma>
 	<description: 'Add a text-subject to the example'>
 	
-	self addSubject: (GTExampleTextSubject new 
-		text: aString;
-		yourself)
+	self addSubject: (GTExampleTextSubject fromText: aString)
 ]
 
 { #category : #accessing }

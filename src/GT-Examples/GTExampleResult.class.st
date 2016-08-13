@@ -8,7 +8,7 @@ Class {
 		'expectedError',
 		'unexpectedError'
 	],
-	#category : #'GT-Examples-Utils'
+	#category : #'GT-Examples-Runtime'
 }
 
 { #category : #accessing }

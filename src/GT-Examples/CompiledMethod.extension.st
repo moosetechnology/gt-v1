@@ -2,11 +2,7 @@ Extension { #name : #CompiledMethod }
 
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> asGTExampleSubject [
-	^ GTExampleMethodSubject new 
-		methodClassName: self methodClass theNonMetaClass name;
-		methodClass: self methodClass;
-		selector: self selector;
-		yourself
+	^ GTExampleMethodSubject fromClass: self methodClass selector: self selector
 ]
 
 { #category : #'*GT-Examples-Core' }
