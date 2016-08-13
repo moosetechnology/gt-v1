@@ -5,6 +5,7 @@ MetacelloVersion >> gtInspectorProjectMapIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite roassal2
 		title: 'Project map';
+		when: [ self projects notEmpty ];
 		initializeView: [ RTMondrian new ];
 		painting: [ :view |
 			view shape label text: [:each | (each asString copyReplaceAll: 'ConfigurationOf' with: '') copyReplaceAll: ' ' with: String cr]; color: Color black.
