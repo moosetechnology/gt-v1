@@ -1060,6 +1060,16 @@ GTExample >> subjectPackage: packageName [
 ]
 
 { #category : #'pragma-selectors' }
+GTExample >> subjectSelector: aSelector [
+	<gtExamplePragma>
+	<description: 'Add a selector subject to the example'>
+	
+	self addSubject: (GTExampleSelectorSubject new 
+		selector: aSelector asSymbol;
+		yourself)
+]
+
+{ #category : #'pragma-selectors' }
 GTExample >> subjectTag: tagName [
 	<gtExamplePragma>
 	<description: 'Add a tag-subject to the example'>

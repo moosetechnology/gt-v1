@@ -9,6 +9,11 @@ GTAbstractExampleSubject class >> isAbstract [
 	^ self == GTAbstractExampleSubject
 ]
 
+{ #category : #testing }
+GTAbstractExampleSubject >> = anExampleSubject [
+	^ self subclassResponsibility
+]
+
 { #category : #converting }
 GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self
@@ -30,7 +35,7 @@ GTAbstractExampleSubject >> gtExamplesSubjects [
 	^ { self }
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>
 	aStep listProcessor
@@ -39,4 +44,9 @@ GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 			GTExampleOrganizer instance examplesDo: [ :cn :s :example |
 				(example hasSubject: self) ifTrue: [ filter value: example ] ] ];
 		wantsToDisplayOnEmptyQuery: true
+]
+
+{ #category : #testing }
+GTAbstractExampleSubject >> hash [
+	^ self subclassResponsibility
 ]

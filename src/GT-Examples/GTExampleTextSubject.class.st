@@ -9,7 +9,7 @@ Class {
 
 { #category : #testing }
 GTExampleTextSubject >> = anExampleSubject [
-	^ super = anExampleSubject
+	^ self class = anExampleSubject class
 		and: [ self text = anExampleSubject text ]
 ]
 
@@ -31,7 +31,7 @@ GTExampleTextSubject >> hasLiteralThorough: aLiteral [
 
 { #category : #testing }
 GTExampleTextSubject >> hash [
-	^ super hash
+	^ self class hash
 		bitXor: self text hash
 ]
 
