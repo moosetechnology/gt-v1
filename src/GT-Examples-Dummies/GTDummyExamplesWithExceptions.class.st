@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamplesWithExceptions,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-1'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #'examples 1' }

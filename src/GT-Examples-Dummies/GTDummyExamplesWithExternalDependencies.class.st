@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamplesWithExternalDependencies,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-1'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #examples }
@@ -9,7 +9,7 @@ GTDummyExamplesWithExternalDependencies class >> a: aBoolean [
 	<gtExample>
 	<label: 'Dummy #a:'>
 	<description: 'Dummy #a:, depends: GTDummyExamples>>#a'>
-	<dependsClass: #GTDummyExamples selector: #a> 
+	<dependsClass: 'GTDummyExamples class' selector: #a> 
 	
 	^ aBoolean
 ]
@@ -19,8 +19,8 @@ GTDummyExamplesWithExternalDependencies class >> b: aBoolean1 b: aBoolean2 [
 	<gtExample>
 	<label: 'Dummy #b:b:'>
 	<description: 'Dummy #b:b:, depends: GTDummyExamples>>#a and GTDummyExamples>>#b:'>
-	<dependsClass: #GTDummyExamples selector: #a> 
-	<dependsClass: #GTDummyExamples selector: #b:> 
+	<dependsClass: 'GTDummyExamples class' selector: #a> 
+	<dependsClass: 'GTDummyExamples class' selector: #b:> 
 	
 	^ aBoolean1 & aBoolean2
 ]
@@ -30,9 +30,9 @@ GTDummyExamplesWithExternalDependencies class >> c: aBoolean1 c: aBoolean2 c: aB
 	<gtExample>
 	<label: 'Dummy #c:c:'>
 	<description: 'Dummy #c:c:c:, depends: GTDummyExamples>>#a and GTDummyExamples>>#b: and GTDummyExamplesWithDependencies>>#a'>
-	<dependsClass: #GTDummyExamples selector: #a> 
-	<dependsClass: #GTDummyExamples selector: #b:> 
-	<dependsClass: 'GTDummyExamplesWithDependencies' selector: #a>
+	<dependsClass: #'GTDummyExamples class' selector: #a> 
+	<dependsClass: 'GTDummyExamples class' selector: #b:> 
+	<dependsClass: 'GTDummyExamplesWithDependencies class' selector: #a>
 	
 	^ aBoolean1 & aBoolean2 & aBoolean3
 ]

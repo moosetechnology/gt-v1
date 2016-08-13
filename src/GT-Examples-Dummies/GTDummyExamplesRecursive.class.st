@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamplesRecursive,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-1'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #'examples 1' }
@@ -93,6 +93,11 @@ GTDummyExamplesRecursive class >> i: aBoolean1 i: aBoolean2 [
 	<noTest>
 	
 	^ aBoolean1 & aBoolean2
+]
+
+{ #category : #testing }
+GTDummyExamplesRecursive class >> isExpectedRecursion [
+	^ true
 ]
 
 { #category : #'examples 3' }

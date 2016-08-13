@@ -6,38 +6,34 @@ Class {
 
 { #category : #accessing }
 GTDummyExamplesTest >> allExamplesDummiesProviders [
-	^ { 
-		GTDummyExamples. 
-		GTDummyExamplesPragmas. 
-		GTDummyExamplesRecursive. 
-		GTDummyExamplesWithDependencies. 
-		GTDummyExamplesWithExternalDependencies.
-		GTDummyExamplesWithExceptions 
-	}
+	^ GTAbstractDummyExamples withAllSubclasses select: [ :each | 
+		each isAbstract not ]
 ]
 
 { #category : #utils }
 GTDummyExamplesTest >> examplesInClasses: aSelector do: aBlock [
 	| classes examples |
 	self shouldnt: [ classes  := (self perform: aSelector) ] raise: Error.
+	self assert: classes notEmpty.
 	classes do: [ :each |
 		self shouldnt: [ examples := each gtExamples ] raise: Error.
+		self assert: examples notEmpty.
 		examples do: [ :example |
 			self shouldnt: [ aBlock value: example ] raise: Error ] ]
 ]
 
 { #category : #accessing }
 GTDummyExamplesTest >> invalidExamplesDummiesProviders [
-	^ { 
-		GTDummyExamplesInvalid.
-	}
+	^ GTAbstractDummyExamples withAllSubclasses select: [ :each | 
+		each isAbstract not 
+			and: [ each isExpectedFailure ] ]
 ]
 
 { #category : #accessing }
 GTDummyExamplesTest >> recursiveExamplesDummiesProviders [
-	^ { 
-		GTDummyExamplesRecursive.
-	}
+	^ GTAbstractDummyExamples withAllSubclasses select: [ :each | 
+		each isAbstract not 
+			and: [ each isExpectedRecursion ] ]
 ]
 
 { #category : #tests }
@@ -85,7 +81,6 @@ GTDummyExamplesTest >> testResult [
 	self examplesInClasses: #allExamplesDummiesProviders do: [ :example | 
 		self shouldnt: [ example result ] raise: Error.
 		self shouldnt: [ example returnValue ] raise: Error.
-		self shouldnt: [ example detachResultFromSystem ] raise: Error.
 		self shouldnt: [ example result ] raise: Error.
 		self shouldnt: [ example returnValue ] raise: Error. ]
 ]

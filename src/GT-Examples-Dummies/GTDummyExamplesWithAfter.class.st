@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamplesWithAfter,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-3'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #'as yet unclassified' }

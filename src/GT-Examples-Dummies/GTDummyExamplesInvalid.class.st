@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamplesInvalid,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-1'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #examples }
@@ -42,4 +42,40 @@ GTDummyExamplesInvalid class >> d [
 	<depends: #b:>
 	<noTest>
 	
+]
+
+{ #category : #examples }
+GTDummyExamplesInvalid class >> e: anObject [
+	<gtExample>
+	<label: 'Dummy #e:'>
+	<description: 'not enough dependencies defined'>
+	<depends: #a:>
+	<depends: #b>
+	<noTest>
+	
+]
+
+{ #category : #examples }
+GTDummyExamplesInvalid class >> f [
+	<gtExample>
+	<label: 'Dummy #f'>
+	<description: 'non existing after method'>
+	<after: #afterF> " ! "
+	<noTest>
+	
+]
+
+{ #category : #examples }
+GTDummyExamplesInvalid class >> g [
+	<gtExample>
+	<label: 'Dummy #f'>
+	<description: 'non existing after method'>
+	<after: nil>
+	<noTest>
+	
+]
+
+{ #category : #testing }
+GTDummyExamplesInvalid class >> isExpectedFailure [
+	^ true
 ]

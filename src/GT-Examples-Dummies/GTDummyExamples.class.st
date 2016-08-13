@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExamples,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-1'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #examples }
@@ -116,7 +116,7 @@ GTDummyExamples class >> k [
 	<gtExample>
 	<label: 'Dummy #k'>
 	<description: 'example with an icon'>
-	<icon: #alertIcon>
+	<icon: #objects>
 
 	^ nil
 ]
@@ -194,7 +194,7 @@ GTDummyExamples class >> s: aBoolean [
 { #category : #'examples-failing' }
 GTDummyExamples class >> t: aBoolean [
 	<gtExample>
-	<label: 'Dummy #s, invalid recursion'>
+	<label: 'Dummy #t, invalid recursion'>
 	<depends: #s:>
 	<noTest>
 	

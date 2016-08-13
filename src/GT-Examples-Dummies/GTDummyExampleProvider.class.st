@@ -1,7 +1,7 @@
 Class {
 	#name : #GTDummyExampleProvider,
-	#superclass : #Object,
-	#category : #'GT-Examples-Dummies-Set-2'
+	#superclass : #GTAbstractDummyExamples,
+	#category : #'GT-Examples-Dummies-Data'
 }
 
 { #category : #'bidirectional-example-linking' }
