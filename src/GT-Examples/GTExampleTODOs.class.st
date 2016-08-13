@@ -11,10 +11,6 @@ GTExampleTODOs >> coreModel [
 	FIX / OLD MODEL
 	- GTExampleOrganizer #atClass:, ... <-> lazy generate if not present
 		--> invert lookup !
-	- Changes
-		#gtExamplesSource ---> subjects
-		#gtExamplesProvider ---> subjects
-		#gtExampleFinder ---> gtExampleFactory
 	
 	NEW
 	- debugger runtime end with #success if debugger is proceeded (bad!)
@@ -28,9 +24,6 @@ GTExampleTODOs >> coreModel [
 GTExampleTODOs >> globalConfiguration [
 	<todo>
 	"
-	- extending #gtExamplesSubjects for other 'global properties' is probably necessary
-	- but the current implementation is not suitable / does not scale
-	
 	- proposal: method with all regular pragmas (no exception)
 			blabla
 				<gtExamplesConfiguration> *** identifier for the global config ***

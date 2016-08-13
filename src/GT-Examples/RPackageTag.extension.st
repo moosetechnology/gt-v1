@@ -4,7 +4,7 @@ Extension { #name : #RPackageTag }
 RPackageTag >> gtExamplesContained [
 	| examples |
 	examples := OrderedCollection new.
-	self methods do: [ :method |
+	self package methods do: [ :method |
 		method gtExamplesFactory exampleMethod: method do: [ :example | 
 			examples add: example ] ].
 	^ examples
