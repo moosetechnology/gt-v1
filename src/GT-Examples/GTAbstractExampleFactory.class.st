@@ -33,6 +33,11 @@ GTAbstractExampleFactory >> defaultCache [
 ]
 
 { #category : #'accessing-defaults' }
+GTAbstractExampleFactory >> defaultExampleClass [
+	^ self subclassResponsibility
+]
+
+{ #category : #'accessing-defaults' }
 GTAbstractExampleFactory >> defaultProviderFor: aCompiledMethod [ 
 	^ aCompiledMethod methodClass isMeta
 		ifTrue: [ aCompiledMethod methodClass theNonMetaClass ]

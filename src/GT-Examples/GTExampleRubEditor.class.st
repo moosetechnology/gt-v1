@@ -13,7 +13,7 @@ GTExampleRubEditor class >> menuFor: aBuilder [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #public }
 GTExampleRubEditor >> menuFor: aBuilder [
 	| selection selectedText selectedString |
 	aBuilder model ifNil: [ ^ self ].

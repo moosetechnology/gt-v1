@@ -82,28 +82,3 @@ GTExampleMethod >> matchesExample: aGTExample [
 GTExampleMethod >> methodClass [
 	^ methodClass
 ]
-
-{ #category : #accessing }
-GTExampleMethod >> methodClass: anObject [
-	methodClass := anObject
-]
-
-{ #category : #accessing }
-GTExampleMethod >> methodClassName [
-	^ methodClassName
-]
-
-{ #category : #accessing }
-GTExampleMethod >> methodClassName: anObject [
-	methodClassName := anObject
-]
-
-{ #category : #accessing }
-GTExampleMethod >> selector [
-	^ selector
-]
-
-{ #category : #accessing }
-GTExampleMethod >> selector: anObject [
-	selector := anObject
-]
