@@ -2085,9 +2085,9 @@ ConfigurationOfGToolkit >> development: spec [
 	spec for: #'pharo3.x' version: '0.19'.
 
 	spec for: #'pharo4.x' version: '0.22-baseline'.
-	
-	spec for: #'pharo5.x' version: '0.26-baseline-pharo5'.
-	
+
+	spec for: #'pharo5.x' version: #'stable'.
+
 	spec for: #'pharo6.x' version: '0.26-baseline'.
 
 ]
@@ -2316,8 +2316,10 @@ ConfigurationOfGToolkit >> stable: spec [
 	spec for: #'pharo2.x' version: '0.7-snapshot'.
 
 	spec for: #'pharo3.x' version: '0.19'.
-	
+
 	spec for: #'pharo4.x' version: '0.22'.
+
+	spec for: #'pharo5.x' version: '1.0'.
 
 ]
 
@@ -2431,4 +2433,38 @@ ConfigurationOfGToolkit >> version07snapshot: spec [
 
 	spec for: #common do: [
 		self populateSpec: spec with: self snapshot2 ]
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkit >> version10: spec [
+	<version: '1.0' imports: #('0.26-baseline-pharo5' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Moose 6.0 release'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '8/14/2016 20:44'.
+		spec 
+			project: 'AnnouncerCentricDebugger' with: #'stable';
+			project: 'Glamour' with: #'stable';
+			project: 'PetitParser' with: #'stable';
+			project: 'GTDebugger' with: #'stable';
+			project: 'GTInspector' with: #'stable';
+			project: 'GTPlayground' with: #'stable';
+			project: 'Roassal2' with: #'stable';
+			project: 'GTSpotter' with: #'stable';
+			project: 'GTEventRecorder' with: #'stable'.
+		spec 
+			package: 'GT-ToolkitPharo6to5Backports' with: 'GT-ToolkitPharo6to5Backports-JurajKubelka.1';
+			package: 'GT-Coder' with: 'GT-Coder';
+			package: 'GT-DebuggerExtensions' with: 'GT-DebuggerExtensions-AndreiChis.2';
+			package: 'GT-GlamourDebugger' with: 'GT-GlamourDebugger-AndreiChis.50';
+			package: 'GT-PetitParserDebugger' with: 'GT-PetitParserDebugger-AndreiChis.59';
+			package: 'GT-Debugger-EventRecorder' with: 'GT-Debugger-EventRecorder-AndreiChis.68';
+			package: 'GT-Window-EventRecorder' with: 'GT-Window-EventRecorder-RogerStebler.17';
+			package: 'GT-Setup' with: 'GT-Setup-TudorGirba.41';
+			package: 'GT-Tools' with: 'GT-Tools';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TheIntegrator.224';
+			package: 'GT-Tests-Release' with: 'GT-Tests-Release-TudorGirba.30'. ].
+
 ]
