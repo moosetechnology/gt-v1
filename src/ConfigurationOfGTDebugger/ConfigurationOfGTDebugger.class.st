@@ -257,9 +257,13 @@ ConfigurationOfGTDebugger >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '0.5-baseline'.
+
 	spec for: #'pharo3.x' version: '0.4-baseline'.
+
 	spec for: #'pharo4.x' version: '0.4-baseline'.
-	spec for: #'pharo5.x' version: '0.5-baseline'.
+
+	spec for: #'pharo5.x' version: #'stable'.
+
 	spec for: #'pharo6.x' version: '0.5-baseline'.
 
 ]
@@ -282,10 +286,15 @@ ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '2.11'.
+
 	spec for: #'pharo3.x' version: '1.0.0'.
+
 	spec for: #'pharo4.x' version: '1.0.1'.
-	spec for: #'pharo5.x' version: '2.12'.
+
+	spec for: #'pharo5.x' version: '3.0'.
+
 	spec for: #'pharo6.x' version: '2.13'.
+
 ]
 
 { #category : #versions }
@@ -710,6 +719,24 @@ ConfigurationOfGTDebugger >> version29: spec [
 		spec 
 			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.350';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-TudorGirba.31';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version30: spec [
+	<version: '3.0' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Moose 6.0 release'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '8/14/2016 20:44'.
+		spec project: 'GTInspectorCore' with: #'stable'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-TheIntegrator.352';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-MarcusDenker.32';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
 
