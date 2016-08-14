@@ -65,7 +65,7 @@ GTExample >> after [
 	^ after
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> after: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
@@ -79,7 +79,7 @@ GTExample >> afterArguments [
 	^ self after arguments
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), to be performed after this example has run ~ similar but not identical to teardown of sunit'>
@@ -157,7 +157,7 @@ GTExample >> dependenciesOrArguments [
 	^ self arguments collect: [ :each | each gtExample ifNil: [ each ] ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> depends: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
@@ -165,7 +165,7 @@ GTExample >> depends: aSelector [
 	self addChild: (self method: GTExampleMethod forSelector: aSelector)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> dependsAll: aString [
 	<gtExamplePragma>
 	<description: 'This example depends on all given selectors found in the given string (list separated by  .,;). Any dependency will be performed before this example is performed. Order of declaration is important'>
@@ -174,7 +174,7 @@ GTExample >> dependsAll: aString [
 		self depends: aString ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> dependsClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
@@ -187,7 +187,7 @@ GTExample >> description [
 	^ description
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> description: aString [
 	<gtExamplePragma>
 	<description: 'A full description of this example'>
@@ -228,7 +228,7 @@ GTExample >> form: anIcon [
 	form := anIcon
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtDebuggerSourceIn: composite [
 	<gtDebuggerPresentationOrder: 1>
 	self exists ifFalse: [ ^ self ].
@@ -236,7 +236,7 @@ GTExample >> gtDebuggerSourceIn: composite [
 		title: 'Method'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtDisplayOn: aStream [
 	self label isEmptyOrNil 
 		ifTrue: [ 
@@ -250,14 +250,14 @@ GTExample >> gtDisplayOn: aStream [
 	self gtDisplayValidityOn: aStream
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtDisplayValidityOn: aStream [
 	self isValid ifTrue: [ ^ self ].
 	
 	aStream nextPutAll: ' [invalid]'
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> gtExample [
 	<gtExamplePragma>
 	<description: 'This method is turned into a gtExample if provided'>
@@ -265,7 +265,7 @@ GTExample >> gtExample [
 	^ self
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> gtExample: anObject [
 	<toBeDeprecated: 'Please define your example-label (or description) using the pragma #label: or #description:'>
 	self label: anObject.
@@ -282,7 +282,7 @@ GTExample >> gtExamplesFactory [
 	^ self method gtExamplesFactory
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorActionReturnValue [
 	<gtInspectorAction>
 	^ GLMGenericAction new
@@ -291,7 +291,7 @@ GTExample >> gtInspectorActionReturnValue [
 		title: 'Evaluate and inspect return-value'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorActionSubjects [
 	<gtInspectorAction>
 	^ GLMGenericAction new
@@ -300,14 +300,14 @@ GTExample >> gtInspectorActionSubjects [
 		title: 'Subjects'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorActions [
 	^ super gtInspectorActions 
 		addAll: self gtInspectorCustomActions;
 		yourself
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorAfterIn: composite [
 	<gtInspectorPresentationOrder: 3>
 	self hasAfter ifFalse: [ ^ self ].
@@ -315,7 +315,7 @@ GTExample >> gtInspectorAfterIn: composite [
 			title: 'After'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorCustomActions [
 	self hasExtensions ifFalse: [ ^ { } ].
 	
@@ -325,7 +325,7 @@ GTExample >> gtInspectorCustomActions [
 				stream nextPut: action ] ] ] 
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorCustomExtensionsFor: composite [
 	<gtInspectorPresentationOrder: 99>
 	self hasExtensions ifFalse: [ ^ self ].
@@ -334,7 +334,7 @@ GTExample >> gtInspectorCustomExtensionsFor: composite [
 		extension gtInspectorFor: composite example: self ]
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorDependenciesIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -342,7 +342,7 @@ GTExample >> gtInspectorDependenciesIn: composite [
 			title: 'Dependencies'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorDependentsIn: composite [
 	<gtInspectorPresentationOrder: 2>
 	self hasDependents ifFalse: [ ^ self ].
@@ -350,7 +350,7 @@ GTExample >> gtInspectorDependentsIn: composite [
 			title: 'Dependents'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorMethodIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].
@@ -358,7 +358,7 @@ GTExample >> gtInspectorMethodIn: composite [
 		title: 'Method'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorProblemsIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	self hasProblems ifFalse: [ ^ self ].
@@ -366,7 +366,7 @@ GTExample >> gtInspectorProblemsIn: composite [
 			title: 'Problems'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -381,14 +381,14 @@ GTExample >> gtInspectorRoassalIn: composite [
 		yourself
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ (self method gtInspectorSourceIn: composite)
 		title: 'Source'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtInspectorSubjectsIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
@@ -396,7 +396,7 @@ GTExample >> gtInspectorSubjectsIn: composite [
 			title: 'Subjects'
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterAfterFor: aStep [
 	<spotterOrder: 3>
 	self hasAfter ifFalse: [ ^ self ].
@@ -407,7 +407,7 @@ GTExample >> gtSpotterAfterFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterCustomExtensionsFor: aStep [
 	<spotterOrder: 99>
 	self hasExtensions ifFalse: [ ^ self ].
@@ -416,7 +416,7 @@ GTExample >> gtSpotterCustomExtensionsFor: aStep [
 		extension gtSpotterFor: aStep example: self ]
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterDependenciesFor: aStep [
 	<spotterOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -427,7 +427,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterDependentsFor: aStep [
 	<spotterOrder: 2>
 	self hasDependents ifFalse: [ ^ self ].
@@ -438,7 +438,7 @@ GTExample >> gtSpotterDependentsFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 	<spotterOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
@@ -449,7 +449,7 @@ GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterMethodFor: aStep [
 	<spotterOrder: 0>
 	self exists ifFalse: [ ^ self ].
@@ -460,7 +460,7 @@ GTExample >> gtSpotterMethodFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> gtSpotterProblemsFor: aStep [
 	<spotterOrder: 5>
 	self hasProblems ifFalse: [ ^ self ].
@@ -603,7 +603,7 @@ GTExample >> icon [
 	^ form ifNotNil: [ form form ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> icon: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
@@ -611,7 +611,7 @@ GTExample >> icon: aSelector [
 	self iconThemeSelector: aSelector
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> iconBase64: aString [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the given base64-encoded string'>
@@ -619,7 +619,7 @@ GTExample >> iconBase64: aString [
 	form := GTExampleFormIcon fromBase64String: aString
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> iconBytes: aByteArray [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the given byte-array'>
@@ -627,7 +627,7 @@ GTExample >> iconBytes: aByteArray [
 	form := GTExampleFormIcon fromByteArray: aByteArray
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The method described by the given class and selector must return an icon form'>
@@ -635,7 +635,7 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	form := self method: GTExampleMethodIcon forClassNamed: aClassOrClassName selector: aSelector
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> iconSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return an icon form'>
@@ -645,7 +645,7 @@ GTExample >> iconSelector: aSelector [
 		yourself
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> iconSelectorBase64: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the base64 string returned by the given selector'>
@@ -655,7 +655,7 @@ GTExample >> iconSelectorBase64: aSelector [
 		yourself
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> iconThemeSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must be implemented by the currently active theme'>
@@ -692,7 +692,7 @@ GTExample >> initializeFromMethod: aCompiledMethod usingFactory: aGTExampleFacto
 	aGTExampleFactory initializeExample: self fromMethod: aCompiledMethod
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> inspector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing a custom GTInspector-extensions for this particular example'>
@@ -700,7 +700,7 @@ GTExample >> inspector: aSelector [
 	self addExtension: (self method: GTExampleMethodInspectorExtension forSelector: aSelector)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> inspectorAction: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing a custom GTInspector-action for this particular example'>
@@ -708,7 +708,7 @@ GTExample >> inspectorAction: aSelector [
 	self addExtension: (self method: GTExampleMethodInspectorActionExtension forSelector: aSelector)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTInspector-actions for this particular example'>
@@ -716,7 +716,7 @@ GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 	self addExtension: (self method: GTExampleMethodInspectorActionExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> inspectorClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing custom GTInspector-extensions for this particular example'>
@@ -758,7 +758,7 @@ GTExample >> label [
 	^ label
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> label: aString [
 	<gtExamplePragma>
 	<description: 'A short identifier = name of this example'>
@@ -831,7 +831,7 @@ GTExample >> methodReference [
 	^ self method asRingDefinition
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> noTest [
 	<gtExamplePragma>
 	<description: 'Do not run this example while running SUnit tests'>
@@ -839,7 +839,7 @@ GTExample >> noTest [
 	self propertyAt: #noTest put: true
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> noTestReport [
 	<gtExamplePragma>
 	<description: 'Do not run this example while running HDTestReport (not yet implemented)'>
@@ -880,7 +880,7 @@ GTExample >> provider [
 		ifFalse: [ self methodClass theNonMetaClass new ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> raises: aClassOrClassName [
 	<gtExamplePragma>
 	<description: 'This example is expected to raise the given exception. The example (as a test) will fail if the exception is not raised.'>
@@ -889,7 +889,7 @@ GTExample >> raises: aClassOrClassName [
 		self exceptions add: class ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> raisesAny: aString [
 	<gtExamplePragma>
 	<description: 'This example is expected to raise any of the given exceptions (list separated by  .,;). The example (as a test) will fail if none of the exceptions is raised.'>
@@ -945,7 +945,7 @@ GTExample >> sourceCode [
 	^ self method sourceCode
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> spotter: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by aSelector, providing a custom GTSpotter-extension for this particular example'>
@@ -953,7 +953,7 @@ GTExample >> spotter: aSelector [
 	self addExtension: (self method: GTExampleMethodSpotterExtension forSelector: aSelector)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTSpotter-extension for this particular example'>
@@ -961,12 +961,12 @@ GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	self addExtension: (self method: GTExampleMethodSpotterExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
-{ #category : #ui }
+{ #category : #UI }
 GTExample >> spotterPreviewIn: aComposite inContext: aSpotter [
 	^ self gtSpotterPreviewIn: aComposite
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subject: aClassOrClassName [
 	<gtExamplePragma>
 	<description: 'Add a class-subject to the example'>
@@ -974,7 +974,7 @@ GTExample >> subject: aClassOrClassName [
 	self subjectClass: aClassOrClassName
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectClass: aClassOrClassName [
 	<gtExamplePragma>
 	<description: 'Add a class-subject to the example'>
@@ -982,7 +982,7 @@ GTExample >> subjectClass: aClassOrClassName [
 	self addSubject: (self subjectForClassNamed: aClassOrClassName)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Add a method-subject to the example'>
@@ -997,7 +997,7 @@ GTExample >> subjectForClassNamed: aClassName [
 		ifNone: [ GTExampleClassSubject fromClassNamed: aClassName ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectHelp: bookName [
 	<gtExamplePragma>
 	<description: 'Add a help/topic-subject to the example'>
@@ -1005,7 +1005,7 @@ GTExample >> subjectHelp: bookName [
 	self subjectHelp: bookName title: nil
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectHelp: bookName title: title [
 	<gtExamplePragma>
 	<description: 'Add a help/topic-subject to the example'>
@@ -1013,7 +1013,7 @@ GTExample >> subjectHelp: bookName title: title [
 	self addSubject: (GTExampleHelpSubject fromBook: bookName title: title)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectKeyword: aStringOrSymbol [
 	<gtExamplePragma>
 	<description: 'Add a keyword to the example'>
@@ -1021,7 +1021,7 @@ GTExample >> subjectKeyword: aStringOrSymbol [
 	self addSubject: (GTExampleKeywordSubject fromString: aStringOrSymbol)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectKeywords: anArrayOrString [
 	<gtExamplePragma>
 	<description: 'Add multiple keywords to the example'>
@@ -1030,7 +1030,7 @@ GTExample >> subjectKeywords: anArrayOrString [
 		self subjectKeyword: each ]
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectPackage: packageName [
 	<gtExamplePragma>
 	<description: 'Add a package-subject to the example'>
@@ -1038,7 +1038,7 @@ GTExample >> subjectPackage: packageName [
 	self addSubject: (GTExamplePackageSubject fromPackageNamed: packageName)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Add a selector subject to the example'>
@@ -1046,7 +1046,7 @@ GTExample >> subjectSelector: aSelector [
 	self addSubject: (GTExampleSelectorSubject fromString: aSelector)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectTag: tagName [
 	<gtExamplePragma>
 	<description: 'Add a tag-subject to the example'>
@@ -1054,7 +1054,7 @@ GTExample >> subjectTag: tagName [
 	self addSubject: (GTExampleTagSubject fromTagNamed: tagName)
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectText: aString [
 	<gtExamplePragma>
 	<description: 'Add a text-subject to the example'>
@@ -1067,7 +1067,7 @@ GTExample >> subjects [
 	^ subjects asArray
 ]
 
-{ #category : #'pragma-selectors' }
+{ #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectsAll: aString [
 	<gtExamplePragma>
 	<description: 'Add multiple class-subjects (list separated by  .,;) to the example'>

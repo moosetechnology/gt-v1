@@ -77,8 +77,3 @@ GTExampleMethod >> matchesExample: aGTExample [
 			and: [ aGTExample methodClass = self methodClass
 				and: [ aGTExample selector = self selector ] ] ]
 ]
-
-{ #category : #accessing }
-GTExampleMethod >> methodClass [
-	^ methodClass
-]
