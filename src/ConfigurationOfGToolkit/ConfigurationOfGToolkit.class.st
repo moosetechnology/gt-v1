@@ -2460,8 +2460,8 @@ ConfigurationOfGToolkit >> version10: spec [
 			package: 'GT-DebuggerExtensions' with: 'GT-DebuggerExtensions-AndreiChis.2';
 			package: 'GT-GlamourDebugger' with: 'GT-GlamourDebugger-AndreiChis.50';
 			package: 'GT-PetitParserDebugger' with: 'GT-PetitParserDebugger-AndreiChis.59';
-			package: 'GT-Debugger-EventRecorder' with: 'GT-Debugger-EventRecorder-AndreiChis.61';
-			package: 'GT-Window-EventRecorder' with: 'GT-Window-EventRecorder-RogerStebler.1';
+			package: 'GT-Debugger-EventRecorder' with: 'GT-Debugger-EventRecorder-AndreiChis.68';
+			package: 'GT-Window-EventRecorder' with: 'GT-Window-EventRecorder-RogerStebler.17';
 			package: 'GT-Setup' with: 'GT-Setup-TudorGirba.41';
 			package: 'GT-Tools' with: 'GT-Tools';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TheIntegrator.224';
