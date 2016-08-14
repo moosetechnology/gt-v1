@@ -349,8 +349,11 @@ ConfigurationOfGTInspector >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '2.1-baseline'.
+
 	spec for: #'pharo4.x' version: '2.0-baseline'.
-	spec for: #'pharo5.x' version: '2.1-baseline'.
+
+	spec for: #'pharo5.x' version: #'stable'.
+
 	spec for: #'pharo6.x' version: '2.1-baseline'.
 
 ]
@@ -373,10 +376,15 @@ ConfigurationOfGTInspector >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '2.0.10'.
+
 	spec for: #'pharo3.x' version: '2.0.5'.
+
 	spec for: #'pharo4.x' version: '2.0.9'.
-	spec for: #'pharo5.x' version: '2.0.10'.
+
+	spec for: #'pharo5.x' version: '3.0'.
+
 	spec for: #'pharo6.x' version: '2.0.10'.
+
 ]
 
 { #category : #versions }
@@ -756,5 +764,25 @@ ConfigurationOfGTInspector >> version209: spec [
 			project: 'GTInspectorCore' with: #'stable';
 			project: 'Glamour' with: #'stable';
 			project: 'DeepTraversal' with: #'stable'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspector >> version30: spec [
+	<version: '3.0' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Moose 6.0 release'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '8/14/2016 20:44'.
+		spec 
+			project: 'GTInspectorCore' with: #'stable';
+			project: 'Glamour' with: #'stable';
+			project: 'Roassal2' with: #'stable';
+			project: 'DeepTraverser' with: #'stable'.
+		spec 
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.73';
+			package: 'GT-Examples-Dummies' with: 'GT-Examples-Dummies-StefanReichhart.3'. ].
 
 ]
