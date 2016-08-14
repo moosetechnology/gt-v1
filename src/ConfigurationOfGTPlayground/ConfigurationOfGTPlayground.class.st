@@ -188,7 +188,10 @@ ConfigurationOfGTPlayground >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '2.0-baseline'.
+
 	spec for: #'pharo4.x' version: '2.0-baseline'.
+
+	spec for: #'pharo5.x' version: #'stable'.
 
 ]
 
@@ -210,8 +213,12 @@ ConfigurationOfGTPlayground >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '2.0.5'.
+
 	spec for: #'pharo3.x' version: '2.0.5'.
+
 	spec for: #'pharo4.x' version: '2.0.5'.
+
+	spec for: #'pharo5.x' version: '3.0'.
 
 ]
 
@@ -432,5 +439,20 @@ ConfigurationOfGTPlayground >> version205: spec [
 		
 		spec project: 'GTPlaygroundCore' with: #'stable'.
 		spec project: 'GTInspector' with: #'stable'. ]
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlayground >> version30: spec [
+	<version: '3.0' imports: #('2.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Moose 6.0 release'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '8/14/2016 20:44'.
+		spec 
+			project: 'GTPlaygroundCore' with: #'stable';
+			project: 'GTInspector' with: #'stable'. ].
 
 ]
