@@ -187,11 +187,11 @@ ConfigurationOfGTPlayground >> customProjectAttributes [
 ConfigurationOfGTPlayground >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '2.0-baseline'.
+	spec for: #'pharo4.x' version: '2.0.5'.
 
-	spec for: #'pharo4.x' version: '2.0-baseline'.
-
-	spec for: #'pharo5.x' version: #'stable'.
+	spec for: #'pharo5.x' version: '3.0'.
+	
+	spec for: #'pharo6.x' version: '2.0-baseline'.
 
 ]
 
