@@ -2080,13 +2080,11 @@ ConfigurationOfGToolkit >> baseline09: spec [
 ConfigurationOfGToolkit >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.23-baseline'.
-
 	spec for: #'pharo3.x' version: '0.19'.
 
-	spec for: #'pharo4.x' version: '0.22-baseline'.
+	spec for: #'pharo4.x' version: '0.22'.
 
-	spec for: #'pharo5.x' version: #'stable'.
+	spec for: #'pharo5.x' version: '1.0'.
 
 	spec for: #'pharo6.x' version: '0.26-baseline'.
 
