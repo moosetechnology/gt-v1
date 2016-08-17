@@ -146,6 +146,39 @@ ConfigurationOfGTInspectorCore >> baseline20: spec [
 
 ]
 
+{ #category : #baselines }
+ConfigurationOfGTInspectorCore >> baseline30: spec [
+	<version: '3.0-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec description: 'For Pharo 6'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '2016-08-17'.
+		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
+		
+		spec 
+			package: 'GT-Inspector' with: [
+				spec requires: #('GlamourCore' ). ];
+			package: 'GT-InspectorExtensions-Core' with: [
+				spec requires: #('GT-Inspector' 'GlamourCore' ). ];
+			package: 'GT-Tests-Inspector' with: [
+				spec requires: #('GT-Inspector' 'GT-InspectorExtensions-Core' ). ].
+		
+		spec 
+			project: 'GlamourCore' with: [
+				spec
+					className: #ConfigurationOfGlamourCore;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
+		
+		spec 
+			group: 'Core' with: #('GT-Inspector' 'GT-InspectorExtensions-Core' );
+			group: 'Tests' with: #('GT-Tests-Inspector' );
+			group: 'default' with: #('GT-Inspector' 'GT-InspectorExtensions-Core' 'GT-Tests-Inspector' ) ]
+
+]
+
 { #category : #accessing }
 ConfigurationOfGTInspectorCore >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -160,7 +193,7 @@ ConfigurationOfGTInspectorCore >> development: spec [
 
 	spec for: #'pharo4.x' version: '2.0.15'.
 	spec for: #'pharo5.x' version: '3.17'.
-	spec for: #'pharo6.x' version: '2.0-baseline'.
+	spec for: #'pharo6.x' version: '3.0-baseline'.
 
 ]
 
