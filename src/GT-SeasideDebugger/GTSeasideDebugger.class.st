@@ -134,8 +134,8 @@ GTSeasideDebugger >> nestedContexts [
 					ctxt methodSelector = #acceptDecorated: ] ] ]
 		until: [ :ctxt |
 			ctxt outerContext isNil and: [ 
-				ctxt methodClass = WARequestContext and: [ 
-					ctxt methodSelector = #respond: ] ] ]
+				ctxt methodClass = WASession and: [ 
+					ctxt methodSelector = #start ] ] ]
 		startingFrom: self session interruptedContext
 ]
 
