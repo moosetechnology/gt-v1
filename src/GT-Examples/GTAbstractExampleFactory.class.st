@@ -178,8 +178,8 @@ GTAbstractExampleFactory >> providerFor: aCompiledMethod do: aBlock1 [
 
 { #category : #'private-utils' }
 GTAbstractExampleFactory >> providerFor: aCompiledMethod do: aBlock1 ifNone: aBlock2 [
-	^ (self providerFor: aCompiledMethod) 
-		ifNotNilDo: aBlock1
+	^ (self providerFor: aCompiledMethod)
+		ifNotNil: aBlock1
 		ifNil: aBlock2
 ]
 
