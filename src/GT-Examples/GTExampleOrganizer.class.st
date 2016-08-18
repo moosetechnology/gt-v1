@@ -14,14 +14,6 @@ Class {
 	#category : #'GT-Examples-Organization'
 }
 
-{ #category : #examples }
-GTExampleOrganizer class >> gtExampleInstance [
-	<gtExample>
-	<label: 'An instance of an example organizer'>
-	
-	^ GTExampleOrganizer instance
-]
-
 { #category : #public }
 GTExampleOrganizer class >> instance [
 	^ instance ifNil: [ instance := self basicNew initialize start ]
