@@ -1,3 +1,10 @@
+"
+I am extension of the GTDebugger for the Seaside web framework.
+
+I am a work in progress. Currently I display information about the  context and the chain of components present in the call stack.
+
+I can be used if the class size method #handlesContext: returns true when called with the interrupted context of the process handling the Seaside request.
+"
 Class {
 	#name : #GTSeasideDebugger,
 	#superclass : #GTGenericStackDebugger,
@@ -6,19 +13,14 @@ Class {
 
 { #category : #query }
 GTSeasideDebugger class >> collectContextMatching: aBlock until: aTerminationBlock startingFrom: aContext [
-	| currentContext counter collectedContexts|
+	| collectedContexts |
 	
 	collectedContexts := OrderedCollection new.
-	currentContext := aContext.
-	counter := 1.
-	[ currentContext notNil 
-		and: [counter < 9999 
-			and: [ (aTerminationBlock value: currentContext) not ] ] ] 
-		whileTrue: [
-			(aBlock value: currentContext) ifTrue: [ 
-				collectedContexts add: currentContext ].
-			currentContext := currentContext sender.
-			counter := counter + 1 ].
+	self 
+		forContextMatching: aBlock 
+		do: [ :ctxt | collectedContexts add: ctxt ] 
+		until: aTerminationBlock 
+		startingFrom: aContext.
 	^ collectedContexts
 ]
 
@@ -30,16 +32,29 @@ GTSeasideDebugger class >> defaultTitle [
 
 { #category : #query }
 GTSeasideDebugger class >> findContextMatching: aBlock startingFrom: aContext [
+	
+	self
+		forContextMatching: aBlock 
+		do: [ :ctxt | ^ ctxt ] 
+		until: [ :ctxt | false ] 
+		startingFrom: aContext.
+	^ nil
+]
+
+{ #category : #query }
+GTSeasideDebugger class >> forContextMatching: aBlock do: anActionBlock until: aTerminationBlock startingFrom: aContext [
 	| currentContext counter |
 	
 	currentContext := aContext.
 	counter := 1.
-	[ currentContext notNil and: [counter < 9999 ]] 
+	[ currentContext notNil 
+		and: [counter < self lookupStackSize 
+			and: [ (aTerminationBlock value: currentContext) not ] ] ] 
 		whileTrue: [
-			(aBlock value: currentContext) ifTrue: [ ^ currentContext ].
+			(aBlock value: currentContext) ifTrue: [ 
+				anActionBlock value: currentContext ].
 			currentContext := currentContext sender.
 			counter := counter + 1 ].
-	^ nil
 ]
 
 { #category : #testing }
@@ -50,6 +65,11 @@ GTSeasideDebugger class >> handlesContext: aContext [
 			ctxt methodClass = WASession and: [
 				ctxt methodSelector = #start ] ] 
 		startingFrom: aContext) notNil
+]
+
+{ #category : #accessing }
+GTSeasideDebugger class >> lookupStackSize [
+	^ 9999
 ]
 
 { #category : #'tools registry' }
@@ -69,36 +89,13 @@ GTSeasideDebugger class >> registerToolsOn: registry [
 GTSeasideDebugger >> componentsNestingIn: aComposite [
 	|nestedComponents|
 
-	nestedComponents := self class
-		collectContextMatching: [ :ctxt |
-			ctxt outerContext isNil and: [ 
-				(ctxt methodClass =  WAComponent) and: [ 
-					ctxt methodSelector = #acceptDecorated: ] ] ]
-		until: [ :ctxt |
-			ctxt outerContext isNil and: [ 
-				ctxt methodClass = WARequestContext and: [ 
-					ctxt methodSelector = #respond: ] ] ]
-		startingFrom: self session interruptedContext.
+	nestedComponents := self nestedContexts collect: #receiver.
 
 	nestedComponents ifNotEmpty: [ 
-		aComposite dynamic 
-			title: 'Top component';
-			display:[ 
-				(GTDebuggerInspector new 
-					debugger: self;
-					startOn: nestedComponents first) ] ].
+		self topComponent: nestedComponents first in: aComposite ].
 
 	(nestedComponents size >= 2) ifTrue: [ 
-		aComposite dynamic 
-			title: 'Nesting context';
-			display:[ 
-				(GTDebuggerInspector new  
-					debugger: self;
-					showFirst: [ :a | 
-						a list ];
-					startOn: nestedComponents;
-					yourself)  ] 
-	]
+		self nestedComponents: nestedComponents in: aComposite  ]
 	
 ]
 
@@ -113,31 +110,69 @@ GTSeasideDebugger >> inspectorIn: aComposite [
 ]
 
 { #category : #'building presentations' }
-GTSeasideDebugger >> requestObjectIn: aComposite [
-	| requestContext |
+GTSeasideDebugger >> nestedComponents: nestedComponents in: aComposite [ 
+
+	^ aComposite dynamic 
+		title: 'Nesting context';
+		display:[ 
+			(GTDebuggerInspector new  
+				debugger: self;
+				showFirst: [ :a | 
+					a list ];
+				startOn: nestedComponents;
+				yourself) ]
 	
-	requestContext := (self class 
+]
+
+{ #category : #accessing }
+GTSeasideDebugger >> nestedContexts [
+
+	^ self class
+		collectContextMatching: [ :ctxt |
+			ctxt outerContext isNil and: [ 
+				(ctxt methodClass =  WAComponent) and: [ 
+					ctxt methodSelector = #acceptDecorated: ] ] ]
+		until: [ :ctxt |
+			ctxt outerContext isNil and: [ 
+				ctxt methodClass = WARequestContext and: [ 
+					ctxt methodSelector = #respond: ] ] ]
+		startingFrom: self session interruptedContext
+]
+
+{ #category : #accessing }
+GTSeasideDebugger >> requestContext [
+
+	^ (self class 
 		findContextMatching: [ :ctxt |
 			ctxt outerContext isNil and: [ 
 				ctxt methodClass = WARequestContext and: [ 
 					ctxt methodSelector = #push:during: ] ] ]
-		startingFrom: self session interruptedContext).
+		startingFrom: self session interruptedContext)
+		
+]
 
+{ #category : #'building presentations' }
+GTSeasideDebugger >> requestObjectIn: aComposite [
+	| requestContext |
+	
+	requestContext := self requestContext.
 	requestContext ifNotNil: [ 
 		aComposite dynamic 
 			title: 'Request context';
 			display:[ 
 				(GTDebuggerInspector new 
 					debugger: self;
-					startOn: requestContext receiver).
-		"aComposite custom: (GTDebuggerInspector new 
-			title: 'Request';
-			debugger: self;
-			startOn: requestContext receiver ) " ] ] .
+					startOn: requestContext receiver) ] ] 
+]
+
+{ #category : #'building presentations' }
+GTSeasideDebugger >> topComponent: aComponent in: aComposite [ 
+
+	aComposite dynamic 
+		title: 'Top component';
+		display:[ 
+			(GTDebuggerInspector new 
+				debugger: self;
+				startOn: aComponent) ]
 	
-		
-	"requestContext ifNotNil: [ 
-		 requestContext gtInspectorRawIn: aComposite.
-		 aComposite last title: 'Request context']"
-		
 ]
