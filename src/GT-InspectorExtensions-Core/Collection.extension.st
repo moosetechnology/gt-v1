@@ -18,18 +18,6 @@ Collection >> gtDisplayOn: s [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Collection class >> gtExampleEmptyArray [
-	<gtExample>
-	^ #()
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Collection class >> gtExampleOrderedCollectionWithOneElement [
-	<gtExample>
-	^ #(42) asOrderedCollection
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Collection >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 0>  
 	^ (composite list)

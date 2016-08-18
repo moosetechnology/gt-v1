@@ -1,44 +1,6 @@
 Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Dictionary class >> gtExampleEmptyDictionary [
-	<gtExample>
-	<label: 'Empty dictionary'>
-
-	^ Dictionary new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Dictionary class >> gtExampleOneElementDictionaryFrom: anEmptyDictionary [
-	<gtExample>
-	<label: 'One element dictionary'>
-	<depends: #gtExampleEmptyDictionary>
-	
-	anEmptyDictionary at: 4 put: 2.
-	^ anEmptyDictionary
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Dictionary class >> gtExampleRemoveElementFrom: anEmptyDictionary [
-	<gtExample>
-	<label: 'Remove element'>
-	<depends: #gtExampleOneElementDictionaryFrom:>
-	
-	anEmptyDictionary removeKey: 4.
-	^ anEmptyDictionary
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Dictionary class >> gtExampleTwoElementsDictionaryFrom: aDictionary [
-	<gtExample>
-	<label: 'Two elements dictionary'>
-	<depends: #gtExampleOneElementDictionaryFrom:>
-	
-	aDictionary at: #fourty put: 'two'.
-	^ aDictionary
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
 		title: 'Items';

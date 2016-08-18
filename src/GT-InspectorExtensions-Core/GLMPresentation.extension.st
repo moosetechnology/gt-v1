@@ -1,12 +1,6 @@
 Extension { #name : #GLMPresentation }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-GLMPresentation class >> gtExampleBasic [
-	<gtExample>
-	^ self new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 GLMPresentation >> gtInspectorBrowserIn: composite [
 	<gtInspectorPresentationOrder: 40>  
 	^ composite tabulator with: [ :t |

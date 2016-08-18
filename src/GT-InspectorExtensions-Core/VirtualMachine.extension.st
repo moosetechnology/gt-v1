@@ -1,12 +1,6 @@
 Extension { #name : #VirtualMachine }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-VirtualMachine class >> gtExampleBasic [
-	<gtExample>
-	^ self new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 VirtualMachine >> gtInspectorDetailsIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	composite table

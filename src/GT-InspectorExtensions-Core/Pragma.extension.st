@@ -8,14 +8,6 @@ Pragma >> gtDisplayOn: stream [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Pragma class >> gtExamplePragma [
-	<gtExample>
-	<label: 'Pragma'>
-	
-	^ (Pragma class >> #gtExamplePragma) pragmas anyOne
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Pragma class >> gtInspectorAnnotatedMethodsIn: composite [
 	<gtInspectorPresentationOrder: 30> 
 	composite table 

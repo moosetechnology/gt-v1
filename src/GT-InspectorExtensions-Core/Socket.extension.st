@@ -1,22 +1,6 @@
 Extension { #name : #Socket }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Socket class >> gtExampleTCPSocket [
-	<gtExample>
-	<label: 'TCP Socket'>
-	
-	^ Socket newTCP
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Socket class >> gtExampleUDPSocket [
-	<gtExample>
-	<label: 'UDP Socket'>
-	
-	^ Socket newUDP
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Socket >> gtInspectorSocketInfo: composite [
 	<gtInspectorPresentationOrder: 1>
 	^ ((Dictionary new

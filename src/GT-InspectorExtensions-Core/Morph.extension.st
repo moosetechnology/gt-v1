@@ -1,25 +1,6 @@
 Extension { #name : #Morph }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Morph class >> gtExampleEmpty [
-	<gtExample>
-	<label: 'Empty'>
-	
-	^ self new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Morph class >> gtExampleSubmorphs [
-	<gtExample>
-	<label: 'Submorphs'>
-	
-	^ self new
-		addMorph: self new;
-		addMorph: self new;
-		yourself
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Morph >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 95>
 	(self hasProperty: #kmDispatcher) ifFalse: [^self].

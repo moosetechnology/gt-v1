@@ -1,12 +1,6 @@
 Extension { #name : #KMRepository }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-KMRepository class >> gtExampleDefault [
-	<gtExample>
-	^ self default
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 KMRepository >> gtInspectorGlobalsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite table 

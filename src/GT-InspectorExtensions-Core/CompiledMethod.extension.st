@@ -6,12 +6,6 @@ CompiledMethod >> gtDisplayOn: aStream [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-CompiledMethod class >> gtExampleSimple [
-	<gtExample>
-	^ self class>>#gtExampleSimple
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 CompiledMethod >> gtInspectorASTIn: composite [
 	<gtInspectorPresentationOrder: 35> 
 	(GTSimpleRBTreeBrowser new treeIn: composite)

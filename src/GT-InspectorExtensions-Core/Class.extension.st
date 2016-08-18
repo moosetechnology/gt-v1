@@ -1,12 +1,6 @@
 Extension { #name : #Class }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Class class >> gtExampleClass [
-	<gtExample>
-	^ self
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Class >> gtInspectorInstanceVariablesIn: composite [
 	"This provides a list of all class instance variables and the corresponding values"
 	<gtInspectorPresentationOrder: 21>

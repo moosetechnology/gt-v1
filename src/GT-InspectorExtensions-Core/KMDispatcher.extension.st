@@ -11,30 +11,6 @@ KMDispatcher >> gtAllKeyCategoryPairs [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-KMDispatcher class >> gtExampleDispatcherWithTarget [
-	<gtExample>
-	<label: 'Dispatcher with target'>
-	
-	^ self target: Morph new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-KMDispatcher class >> gtExampleDispatcherWithTargetAndShortcuts [
-	<gtExample>
-	<label: 'Dispatcher with target and shortcuts'>
-	
-	^ BorderedMorph new kmDispatcher
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-KMDispatcher class >> gtExampleEmptyDispatcher [
-	<gtExample>
-	<label: 'Empty dispatcher'>
-	
-	^ self new
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 KMDispatcher >> gtInspectorMappingsIn: composite [
 	<gtInspectorPresentationOrder: 40>
 	composite table 

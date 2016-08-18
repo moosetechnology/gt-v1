@@ -1,12 +1,6 @@
 Extension { #name : #Integer }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Integer class >> gtExample42 [
-	<gtExample>
-	^ 42
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Integer >> gtInspectorIntegerIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table

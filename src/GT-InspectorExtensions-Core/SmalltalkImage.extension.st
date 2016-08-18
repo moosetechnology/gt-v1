@@ -1,12 +1,6 @@
 Extension { #name : #SmalltalkImage }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-SmalltalkImage class >> gtExampleCurrent [
-	<gtExample>
-	^ self current
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 SmalltalkImage >> gtInspectorDetailsIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	composite table

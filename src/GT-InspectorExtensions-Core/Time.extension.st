@@ -1,14 +1,6 @@
 Extension { #name : #Time }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Time class >> gtExampleNow [
-	<gtExample>
-	<label: 'Now'>
-	
-	^ self now
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
 Time >> gtInspectorDetailsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	^ composite table
