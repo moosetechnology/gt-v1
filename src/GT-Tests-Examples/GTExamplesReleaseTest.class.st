@@ -1,11 +1,11 @@
 Class {
-	#name : #GTReleaseTest,
+	#name : #GTExamplesReleaseTest,
 	#superclass : #TestCase,
 	#category : #'GT-Tests-Examples'
 }
 
 { #category : #private }
-GTReleaseTest >> assertIncludesPackages: includedPackageNames excludedPackages: excludedPackageNames ignoredClasses: ignoredClasses pragmas: pragmas examples: examples description: aString [
+GTExamplesReleaseTest >> assertIncludesPackages: includedPackageNames excludedPackages: excludedPackageNames ignoredClasses: ignoredClasses pragmas: pragmas examples: examples description: aString [
 	| packages missingExamples missingExamplesWithoutIgnoredClasses obsoleteIgnoredClasses |
 	
 	" gather all packages that should be checked "
@@ -32,7 +32,7 @@ GTReleaseTest >> assertIncludesPackages: includedPackageNames excludedPackages: 
 ]
 
 { #category : #private }
-GTReleaseTest >> includesPackages: includedPackageNames excludedPackages: excludedPackageNames [
+GTExamplesReleaseTest >> includesPackages: includedPackageNames excludedPackages: excludedPackageNames [
 	| packages |
 	packages := OrderedCollection new.
 	(RPackageOrganizer default packages 
@@ -47,7 +47,7 @@ GTReleaseTest >> includesPackages: includedPackageNames excludedPackages: exclud
 ]
 
 { #category : #private }
-GTReleaseTest >> missingExamples: missingExamples withoutIgnoredClasses: classes [
+GTExamplesReleaseTest >> missingExamples: missingExamples withoutIgnoredClasses: classes [
 	| missingExamplesWithoutIgnoredClasses |
 	classes isEmptyOrNil ifTrue: [ ^ missingExamples ].
 	missingExamplesWithoutIgnoredClasses := missingExamples copy.
@@ -56,7 +56,7 @@ GTReleaseTest >> missingExamples: missingExamples withoutIgnoredClasses: classes
 ]
 
 { #category : #private }
-GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: examplePragmas [
+GTExamplesReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: examplePragmas [
 	| missingExamples |
 	missingExamples := Dictionary new.
 	packages do: [ :package |
@@ -76,7 +76,7 @@ GTReleaseTest >> packages: packages pragmas: pragmasRequiringExamples examples: 
 ]
 
 { #category : #tests }
-GTReleaseTest >> testAllMissingExternalExamples [
+GTExamplesReleaseTest >> testAllMissingExternalExamples [
 	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: nil
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. 'Petit'. 'Renraku'. 'Slot'. 'Opal'. 'Roassal' }
@@ -90,7 +90,7 @@ GTReleaseTest >> testAllMissingExternalExamples [
 ]
 
 { #category : #tests }
-GTReleaseTest >> testAllMissingInternalExamples [
+GTExamplesReleaseTest >> testAllMissingInternalExamples [
 	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
@@ -119,7 +119,7 @@ GTReleaseTest >> testAllMissingInternalExamples [
 ]
 
 { #category : #tests }
-GTReleaseTest >> testMissingGTInspectorExamples [
+GTExamplesReleaseTest >> testMissingGTInspectorExamples [
 	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
@@ -140,7 +140,7 @@ GTReleaseTest >> testMissingGTInspectorExamples [
 ]
 
 { #category : #tests }
-GTReleaseTest >> testMissingGTSpotterExamples [
+GTExamplesReleaseTest >> testMissingGTSpotterExamples [
 	<toBeDeprecated: #gtExample:>
 	self assertIncludesPackages: { 'GT-Spotter' }
 		excludedPackages: nil
@@ -156,7 +156,7 @@ GTReleaseTest >> testMissingGTSpotterExamples [
 ]
 
 { #category : #tests }
-GTReleaseTest >> testMissingTests [
+GTExamplesReleaseTest >> testMissingTests [
 	self flag: 'maybe enhance the following abstract classes (generic extension may work for most/all subclasses). Most/all subclasses would be examples. Intermediate classes are not tagged as abstract - not distinguishable - #allSubclasses doesn^t work. Announcer. Canvas. ComposableModel OCAbstractScope. RTView. TRCanvas. IRInstruction. Slot. Slot/Inspector is buggy'.
 	self flag: 'find a solution to provide examples for TClass + MooseModel but still have usable tests / examples in both classes will slow down tests tremendously'
 ]
