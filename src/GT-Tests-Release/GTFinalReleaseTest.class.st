@@ -11,9 +11,6 @@ Class {
 GTFinalReleaseTest >> setUp [
 	super setUp.
 	
-	GTExampleOrganizer instance reset.
-	GTExampleOrganizer stop.
-	
 	Smalltalk garbageCollect
 ]
 
@@ -21,18 +18,7 @@ GTFinalReleaseTest >> setUp [
 GTFinalReleaseTest >> tearDown [
 	super tearDown.
 	
-	GTExampleOrganizer instance reset.
-	GTExampleOrganizer start.
-	
 	Smalltalk garbageCollect
-]
-
-{ #category : #tests }
-GTFinalReleaseTest >> testNoExampleInstances [
-
-	self assert: GTExample allInstances size equals: 0.
-	self assert: GTExampleResult allInstances size equals: 0.
-	
 ]
 
 { #category : #tests }
