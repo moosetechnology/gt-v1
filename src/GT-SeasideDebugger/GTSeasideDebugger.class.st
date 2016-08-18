@@ -4,6 +4,24 @@ Class {
 	#category : #'GT-SeasideDebugger'
 }
 
+{ #category : #query }
+GTSeasideDebugger class >> collectContextMatching: aBlock until: aTerminationBlock startingFrom: aContext [
+	| currentContext counter collectedContexts|
+	
+	collectedContexts := OrderedCollection new.
+	currentContext := aContext.
+	counter := 1.
+	[ currentContext notNil 
+		and: [counter < 9999 
+			and: [ (aTerminationBlock value: currentContext) not ] ] ] 
+		whileTrue: [
+			(aBlock value: currentContext) ifTrue: [ 
+				collectedContexts add: currentContext ].
+			currentContext := currentContext sender.
+			counter := counter + 1 ].
+	^ collectedContexts
+]
+
 { #category : #accessing }
 GTSeasideDebugger class >> defaultTitle [
 
@@ -12,8 +30,8 @@ GTSeasideDebugger class >> defaultTitle [
 
 { #category : #query }
 GTSeasideDebugger class >> findContextMatching: aBlock startingFrom: aContext [
-
 	| currentContext counter |
+	
 	currentContext := aContext.
 	counter := 1.
 	[ currentContext notNil and: [counter < 9999 ]] 
@@ -48,11 +66,49 @@ GTSeasideDebugger class >> registerToolsOn: registry [
 ]
 
 { #category : #'building presentations' }
+GTSeasideDebugger >> componentsNestingIn: aComposite [
+	|nestedComponents|
+
+	nestedComponents := self class
+		collectContextMatching: [ :ctxt |
+			ctxt outerContext isNil and: [ 
+				(ctxt methodClass =  WAComponent) and: [ 
+					ctxt methodSelector = #acceptDecorated: ] ] ]
+		until: [ :ctxt |
+			ctxt outerContext isNil and: [ 
+				ctxt methodClass = WARequestContext and: [ 
+					ctxt methodSelector = #respond: ] ] ]
+		startingFrom: self session interruptedContext.
+
+	nestedComponents ifNotEmpty: [ 
+		aComposite dynamic 
+			title: 'Top component';
+			display:[ 
+				(GTDebuggerInspector new 
+					debugger: self;
+					startOn: nestedComponents first) ] ].
+
+	(nestedComponents size >= 2) ifTrue: [ 
+		aComposite dynamic 
+			title: 'Nesting context';
+			display:[ 
+				(GTDebuggerInspector new  
+					debugger: self;
+					showFirst: [ :a | 
+						a list ];
+					startOn: nestedComponents;
+					yourself)  ] 
+	]
+	
+]
+
+{ #category : #'building presentations' }
 GTSeasideDebugger >> inspectorIn: aComposite [
 
 	(super inspectorIn: aComposite)
 		title: 'Inspector'.
 	(self requestObjectIn: aComposite).
+	(self componentsNestingIn: aComposite)
 	
 ]
 
