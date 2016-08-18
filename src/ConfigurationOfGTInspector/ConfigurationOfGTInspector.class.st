@@ -329,10 +329,8 @@ ConfigurationOfGTInspector >> baseline21: spec [
 					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ].
 		spec 
 			package: 'GT-InspectorExtensions-CoreRoassal' with: [
-				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2' ). ];
-			package: 'GT-Examples-Dummies' with: [
-				spec requires: #('GTInspectorCore' ). ].
-		spec group: 'default' with: #('GTInspectorCore' 'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser' 'GT-Examples-Dummies' ). ].
+				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2' ). ].
+		spec group: 'default' with: #('GTInspectorCore' 'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser' ). ].
 
 ]
 
@@ -782,7 +780,6 @@ ConfigurationOfGTInspector >> version30: spec [
 			project: 'Roassal2' with: #'stable';
 			project: 'DeepTraverser' with: #'stable'.
 		spec 
-			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.73';
-			package: 'GT-Examples-Dummies' with: 'GT-Examples-Dummies-StefanReichhart.3'. ].
+			package: 'GT-InspectorExtensions-CoreRoassal' with: 'GT-InspectorExtensions-CoreRoassal-TudorGirba.73' ].
 
 ]
