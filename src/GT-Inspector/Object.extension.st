@@ -1,14 +1,5 @@
 Extension { #name : #Object }
 
-{ #category : #'*GT-Inspector-Examples-Core-private' }
-Object >> detachFromSystem [
-]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-Object >> equalsExample: anExampleOrExampleFutureOrSomethingElse [
-	^ false
-]
-
 { #category : #'*GT-Inspector' }
 Object >> gtDisplayOn: stream [
 	"This offers a means to customize how the object is shown in the inspector"
@@ -25,41 +16,6 @@ Object >> gtDisplayString [
 	limitedString := String streamContents: [:s | self gtDisplayOn: s] limitedTo: limit.
 	limitedString size < limit ifTrue: [^ limitedString].
 	^ limitedString , ' ...'
-]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-Object class >> gtExampleContext [
-	^ GTCurrentExampleContext value
-]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-Object >> gtExampleContext [
-	^ self class gtExampleContext
-]
-
-{ #category : #'*GT-Inspector-Examples-UI' }
-Object >> gtExampleSourceIn: composite inContext: aGTInspector [
-	<gtInspectorPresentationOrder: 100>
-	| previousRawSelection |
-	"we first check to see if we have at least two panes, because only
-	if we have two panes does it make sense to check the raw selection of the previous pane"
-	((aGTInspector isKindOf: GTInspector) and: [aGTInspector first panes size >= 2]) ifFalse: [ ^ self ].
-	
-	previousRawSelection := (aGTInspector first panes reverse second port: #rawSelection) value.
-	previousRawSelection isGTExample ifTrue: [ 
-		previousRawSelection gtInspectorSourceIn: composite ]
-]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-Object >> gtExamples [
-	^ self class gtExamples
-]
-
-{ #category : #'*GT-Inspector-Examples-UI' }
-Object >> gtExamplesContained [
-	^ [ self gtExamples ]
-		on: Error
-		do: [ #() ]
 ]
 
 { #category : #'*GT-Inspector' }
@@ -98,10 +54,4 @@ Object >> gtInspectorVariableValuePairs [
 		addAll: ((self class allSlots 
 					collect: [ :slot | slot name -> (slot read: self) ]) sort asOrderedCollection).
 	^ bindings
-]
-
-{ #category : #'*GT-Inspector-Examples-Core' }
-Object >> isGTExample [
-	
-	^ false
 ]
