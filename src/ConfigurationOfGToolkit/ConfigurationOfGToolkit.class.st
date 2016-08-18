@@ -1603,7 +1603,7 @@ ConfigurationOfGToolkit >> baseline027: aSpec [
 		aSpec
 			group: 'Tests' with: #('GT-Tests-Release');
 			group: 'debugger' with: #( 'GT-GlamourDebugger' 'GT-PetitParserDebugger' 'AnnouncerCentricDebugger');
-			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'AnnouncerCentricDebugger' 'GT-PetitParserDebugger' 'GT-Debugger-EventRecorder' 'GT-Window-EventRecorder' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests' 'Roassal2') ]
+			group: 'default' with: #( 'GT-Setup' 'GT-GlamourDebugger' 'AnnouncerCentricDebugger' 'GT-PetitParserDebugger' 'GT-Debugger-EventRecorder' 'GT-Window-EventRecorder' 'GTInspector' 'GTPlayground' 'GTSpotter' 'Tests' 'Roassal2' 'Beacon') ]
 ]
 
 { #category : #baselines }
