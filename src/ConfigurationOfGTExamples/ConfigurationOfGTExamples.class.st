@@ -136,9 +136,7 @@ ConfigurationOfGTExamples >> baseline01: spec [
 				spec requires: #('GT-Examples' ). ];
 			package: 'GT-Tests-Examples' with: [
 				spec requires: #('GT-Examples-Examples' #'GT-Examples-Dummies' ). ].
-		spec 
-			group: 'Default' with: #('GT-Examples-Examples' 'GT-Examples' 'GT-Tests-Examples' );
-			group: 'Development' with: #('Default' #'GT-Examples-Dummies' ). ].
+		spec group: 'Default' with: #('GT-Examples-Examples' 'GT-Examples' 'GT-Tests-Examples' #'GT-Examples-Dummies' ). ].
 
 ]
 
