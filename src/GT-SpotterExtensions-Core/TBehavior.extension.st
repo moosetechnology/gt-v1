@@ -3,13 +3,12 @@ Extension { #name : #TBehavior }
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterClassInstanceVariablesFor: aStep [
 	<spotterOrder: 25>
-	self isTrait
-		ifTrue: [ ^ self ].
+	self isTrait ifTrue: [ ^ self ].
 	aStep listProcessor
-		title: 'Class instance variables';
-		allCandidates: [ self class classLayout allSlots ];
-		itemName: [ :each | each name asString ];
-		filter: GTFilterSubstring
+			title: 'Class instance variables';
+			allCandidates: [ self class layout allSlots ];
+			itemName: [:each | each name asString];
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -25,13 +24,12 @@ TBehavior >> spotterCompositionFor: aStep [
 { #category : #'*GT-SpotterExtensions-Core' }
 TBehavior >> spotterInstanceVariablesFor: aStep [
 	<spotterOrder: 20>
-	self isTrait
-		ifTrue: [ ^ self ].
+	self isTrait ifTrue: [ ^ self ].
 	aStep listProcessor
-		title: 'Instance variables';
-		allCandidates: [ self classLayout allSlots ];
-		itemName: [ :each | each name asString ];
-		filter: GTFilterSubstring
+			title: 'Instance variables';
+			allCandidates: [ self layout allSlots ];
+			itemName: [:each | each name asString];
+			filter: GTFilterSubstring
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -86,20 +84,32 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
-	| specialIndex |
-	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
+TBehavior >> withMethodSender: aLiteral do: aBlock [
+	| special byte |
+	special := Smalltalk hasSpecialSelector: aLiteral ifTrueSetByte: [ :value | byte := value ].
 	self selectorsAndMethodsDo: [ :selector :method | 
 		((method hasLiteral: aLiteral) 
-			or: [ specialIndex notNil and: [ method scanFor: method encoderClass firstSpecialSelectorByte + specialIndex ] ])
+			or: [ (method refersToLiteral: aLiteral) 
+				or: [ special and: [ method scanFor: byte ] ] ])
+					ifTrue: [ aBlock value: method ] ].
+]
+
+{ #category : #'*GT-SpotterExtensions-Core-private' }
+TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
+	| special byte |
+	special := Smalltalk hasSpecialSelector: aLiteral ifTrueSetByte: [ :value | byte := value ].
+	self selectorsAndMethodsDo: [ :selector :method | 
+		((method hasLiteral: aLiteral) 
+			or: [ special and: [ method scanFor: byte ] ])
 				ifTrue: [ aBlock value: method ] ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
 TBehavior >> withThorougMethodsReferTo: aLiteral do: aBlock [
-	| specialIndex |
-	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
-	self selectorsAndMethodsDo: [ :selector :method | 
-		(method hasSelector: aLiteral specialSelectorIndex: specialIndex)
-					ifTrue: [ aBlock value: method ] ].
+	| special byte |
+	special := Smalltalk hasSpecialSelector: aLiteral ifTrueSetByte: [ :value | byte := value ].
+	self selectorsAndMethodsDo: [ :selector :method |
+		((method refersToLiteral: aLiteral) 
+			or: [ special and: [ method scanFor: byte ] ]) 
+				ifTrue: [ aBlock value: method ] ]
 ]
