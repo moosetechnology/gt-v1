@@ -65,7 +65,7 @@ CompiledMethod >> spotterPreviewCodeIn: aComposite [
 	aComposite pharoMethod
 		title: [ self gtDisplayString ];
 		display: [:compiledMethod | 
-			' ', compiledMethod getSource];
+			' ', compiledMethod sourceCode];
 		smalltalkClass: [self methodClass];
 		entity: self.
 		

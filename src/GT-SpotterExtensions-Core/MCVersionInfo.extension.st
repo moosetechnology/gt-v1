@@ -22,17 +22,6 @@ MCVersionInfo >> gtDisplayOn: stream [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-MCVersionInfo class >> gtExampleVersionInfo [
-	<gtExample>
-	<label: 'Metacello version-info'>
-	
-	MCWorkingCopy allManagers do: [ :each | 
-		each packageName = 'GT-SpotterExtensions-Core' ifTrue: [ 
-			^ each versionInfo ] ].
-	^ nil
-]
-
-{ #category : #'*GT-SpotterExtensions-Core' }
 MCVersionInfo >> spotterAncestorsFor: aStep [
 	<spotterOrder: 1>
 	self flag: 'rewrite for direct streaming - get rid of recursion'.

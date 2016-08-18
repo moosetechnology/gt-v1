@@ -18,15 +18,6 @@ MCWorkingCopy >> gtDisplayOn: stream [
 		
 ]
 
-{ #category : #'*GT-SpotterExtensions-Core' }
-MCWorkingCopy class >> gtExampleWorkingCopy [
-	<gtExample>
-	<label: 'Metacello working-copy'>
-	
-	^ (RPackageOrganizer default packageOf: GTSpotter) mcPackage 
-		ifNotNil: [ :mcp | mcp workingCopy ]
-]
-
 { #category : #'*GT-SpotterExtensions-Core-private' }
 MCWorkingCopy >> nextAncestors [
 	^ self versionInfo 
