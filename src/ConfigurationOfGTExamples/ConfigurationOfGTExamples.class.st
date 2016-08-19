@@ -116,19 +116,6 @@ ConfigurationOfGTExamples >> baseline01: spec [
 		spec blessing: #'baseline'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
 		spec 
-			project: 'GTInspector' with: [
-				spec
-					className: #ConfigurationOfGTInspector;
-					versionString: #'stable';
-					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/';
-					repository: 'http://smalltalkhub.com/mc/StefanReichhart/GT/main/' ];
-			project: 'GTSpotter' with: [
-				spec
-					className: #ConfigurationOfGTSpotter;
-					versionString: #'stable';
-					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/';
-					repository: 'http://smalltalkhub.com/mc/StefanReichhart/GT/main/' ].
-		spec 
 			package: 'GT-Examples';
 			package: #'GT-Examples-Dummies' with: [
 				spec requires: #('GT-Examples' ). ];
