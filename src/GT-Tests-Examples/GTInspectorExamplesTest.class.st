@@ -59,8 +59,7 @@ GTInspectorExamplesTest >> setUp [
 	super setUp.
 	
 	pragmas := IdentityDictionary new.
-	GTExampleOrganizer instance reset.
-	GTExampleOrganizer stop.
+	GTExampleOrganizer reset; stop
 ]
 
 { #category : #running }
@@ -68,8 +67,7 @@ GTInspectorExamplesTest >> tearDown [
 	super tearDown.
 	
 	pragmas := nil.
-	GTExampleOrganizer instance reset.
-	GTExampleOrganizer start.
+	GTExampleOrganizer reset; start
 ]
 
 { #category : #tests }

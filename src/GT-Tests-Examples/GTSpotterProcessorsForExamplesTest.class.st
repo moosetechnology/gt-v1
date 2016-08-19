@@ -8,18 +8,14 @@ Class {
 GTSpotterProcessorsForExamplesTest >> setUp [
 	super setUp.
 	
-	(Smalltalk classNamed: #GTExampleOrganizer) ifNotNil: [ :class | 
-		class instance reset. 
-		class stop ]
+	GTExampleOrganizer reset; stop
 ]
 
 { #category : #running }
 GTSpotterProcessorsForExamplesTest >> tearDown [
 	super tearDown.
 	
-	(Smalltalk classNamed: #GTExampleOrganizer) ifNotNil: [ :class | 
-		class instance reset. 
-		class start ]
+	GTExampleOrganizer reset; start
 ]
 
 { #category : #tests }

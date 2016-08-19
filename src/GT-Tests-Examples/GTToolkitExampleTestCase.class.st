@@ -4,6 +4,20 @@ Class {
 	#category : #'GT-Tests-Examples'
 }
 
+{ #category : #running }
+GTToolkitExampleTestCase >> setUp [
+	super setUp.
+	
+	GTExampleOrganizer reset; stop
+]
+
+{ #category : #running }
+GTToolkitExampleTestCase >> tearDown [
+	super tearDown.
+	
+	GTExampleOrganizer reset; start
+]
+
 { #category : #tests }
 GTToolkitExampleTestCase >> testExamplesDebugger [
 	self runExampleContainers: (self packages: { 'GT-Debugger*' })
