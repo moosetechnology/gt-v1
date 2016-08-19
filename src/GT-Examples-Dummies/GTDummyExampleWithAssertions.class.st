@@ -4,11 +4,6 @@ Class {
 	#category : #'GT-Examples-Dummies-Data'
 }
 
-{ #category : #'as yet unclassified' }
-GTDummyExampleWithAssertions class >> gtExamplesProvider [
-	^ self new
-]
-
 { #category : #examples }
 GTDummyExampleWithAssertions >> a [
 	<gtExample>
