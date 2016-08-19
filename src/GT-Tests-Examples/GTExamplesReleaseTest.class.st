@@ -95,8 +95,12 @@ GTExamplesReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
 		ignoredClasses: {
-			AbstractMorphicAdapter. 
+			AbstractMorphicAdapter. " abstract "
 			ComposableModel. 
+			GTExample. " skeleton object "
+			GTAbstractExampleIcon. " abstract "
+			GTAbstractExampleSubject. " abstract "
+			GTExampleMethodAfter. " would require mocks "
 			GTEventCollectors. 
 			GTEventRecorder. 
 			GTSpotterExceptionMock1. " mock "
@@ -109,9 +113,9 @@ GTExamplesReleaseTest >> testAllMissingInternalExamples [
 			Slot. " corrupt package detection "
 			TClass. " corrupt package detection "
 			TClassDescription. " corrupt package detection "
+			TGTExampleIcon. " trait "
 			ZnMessage. " corrupt package detection "
-			TBehavior. 
-			RBAbstractCondition.
+			TBehavior.
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )

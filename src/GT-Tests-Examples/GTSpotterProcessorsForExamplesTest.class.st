@@ -37,7 +37,6 @@ GTSpotterProcessorsForExamplesTest >> testEachProcessor [
 									yourself);
 								origin: exampleToTest " do don't use #result here anymore, because it is not our responsibility to check whether an example runs sucessfully or not ";
 								processContext: (step newContextForQuery: 'a') ] 
-						raise: Error.
-					exampleToTest detachResultFromSystem " just to be sure " ] ]  ]
+						raise: Error ] ]  ]
 		displayingProgress: 'Testing GTSpotter examples (#testEachProcessor)'
 ]
