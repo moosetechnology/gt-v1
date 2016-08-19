@@ -1,39 +1,39 @@
 Class {
-	#name : #GTToolkitExampleTestCase,
+	#name : #GTToolkitExamplesTests,
 	#superclass : #GTExampleTestCase,
 	#category : #'GT-Tests-Examples'
 }
 
 { #category : #running }
-GTToolkitExampleTestCase >> setUp [
+GTToolkitExamplesTests >> setUp [
 	super setUp.
 	
 	GTExampleOrganizer reset; stop
 ]
 
 { #category : #running }
-GTToolkitExampleTestCase >> tearDown [
+GTToolkitExamplesTests >> tearDown [
 	super tearDown.
 	
 	GTExampleOrganizer reset; start
 ]
 
 { #category : #tests }
-GTToolkitExampleTestCase >> testExamplesDebugger [
+GTToolkitExamplesTests >> testExamplesDebugger [
 	self runExampleContainers: (self packages: { 'GT-Debugger*' })
 ]
 
 { #category : #tests }
-GTToolkitExampleTestCase >> testExamplesInspector [
+GTToolkitExamplesTests >> testExamplesInspector [
 	self runExampleContainers: (self packages: { 'GT-Inspector*' })
 ]
 
 { #category : #tests }
-GTToolkitExampleTestCase >> testExamplesPlayground [
+GTToolkitExamplesTests >> testExamplesPlayground [
 	self runExampleContainers: (self packages: { 'GT-Playground*' })
 ]
 
 { #category : #tests }
-GTToolkitExampleTestCase >> testExamplesSpotter [
+GTToolkitExamplesTests >> testExamplesSpotter [
 	self runExampleContainers: (self packages: { 'GT-Spotter*' })
 ]

@@ -61,7 +61,7 @@ GTExamplesReleaseTest >> packages: packages pragmas: pragmasRequiringExamples ex
 	missingExamples := Dictionary new.
 	packages do: [ :package |
 		package classes do: [ :class |
-			class theNonMetaClass = class ifTrue: [ " we are only interested in classes "
+			(self shouldDefineExamples: class)  ifTrue: [ " we are only interested in classes "
 				| methodsRequiringExamples |
 				methodsRequiringExamples := pragmasRequiringExamples flatCollect: [ :each | Pragma allNamed: each in: class ].
 				methodsRequiringExamples ifNotEmpty: [ " example required "
@@ -75,6 +75,14 @@ GTExamplesReleaseTest >> packages: packages pragmas: pragmasRequiringExamples ex
 	^ missingExamples
 ]
 
+{ #category : #private }
+GTExamplesReleaseTest >> shouldDefineExamples: class [
+	^ (class theNonMetaClass = class)
+		and: [ class isTrait not 
+			and: [ (class theNonMetaClass name includesSubstring: 'abstract' caseSensitive: false) not 
+				and: [ (class theNonMetaClass name includesSubstring: 'mock' caseSensitive: false) not ] ] ]
+]
+
 { #category : #tests }
 GTExamplesReleaseTest >> testAllMissingExternalExamples [
 	<toBeDeprecated: #gtExample:>
@@ -82,8 +90,7 @@ GTExamplesReleaseTest >> testAllMissingExternalExamples [
 		excludedPackages: { 'Glamour-'. 'GT-'. 'Moose-'. 'Petit'. 'Renraku'. 'Slot'. 'Opal'. 'Roassal' }
 		ignoredClasses: {
 			Behavior. "Has abstract methods"
-			TraitBehavior. "Has abstract methods"
-			TBehavior. }
+		 }
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
 		description: 'All missing external examples'
@@ -95,27 +102,15 @@ GTExamplesReleaseTest >> testAllMissingInternalExamples [
 	self assertIncludesPackages: { 'Glamour-'. 'GT-'. 'Moose-'. }
 		excludedPackages: nil
 		ignoredClasses: {
-			AbstractMorphicAdapter. " abstract "
 			ComposableModel. 
 			GTExample. " skeleton object "
-			GTAbstractExampleIcon. " abstract "
-			GTAbstractExampleSubject. " abstract "
 			GTExampleMethodAfter. " would require mocks "
 			GTEventCollectors. 
 			GTEventRecorder. 
-			GTSpotterExceptionMock1. " mock "
-			GTSpotterExceptionMock2. " mock "
-			GTSpotterExceptionMock3. " mock "
-			GTSpotterExceptionMock4. " mock "
-			GTSpotterExceptionMock5. " mock "
 			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
 			Slot. " corrupt package detection "
-			TClass. " corrupt package detection "
-			TClassDescription. " corrupt package detection "
-			TGTExampleIcon. " trait "
 			ZnMessage. " corrupt package detection "
-			TBehavior.
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
@@ -128,14 +123,9 @@ GTExamplesReleaseTest >> testMissingGTInspectorExamples [
 	self assertIncludesPackages: { 'GT-Inspector' }
 		excludedPackages: nil
 		ignoredClasses: {
-			AbstractMorphicAdapter. " corrupt package detection "
-			"BlMorph" " corrupt package detection "
-			"GTExample" " makes no sense "
 			ComposableModel. " abstract superclass "
 			MetacelloVersionLoadDirective. " corrupt package detection "
 			MorphicTreeNodeAdapter. " corrupt package detection "
-			TClass. " spotter/processor tests would be ulimatively slow "
-			TClassDescription.
 			ZnMessage. " abstract factory & superclass / subclasses provide examples "
 		}
 		pragmas: #( #gtInspectorPresentationOrder: )
@@ -150,9 +140,6 @@ GTExamplesReleaseTest >> testMissingGTSpotterExamples [
 		excludedPackages: nil
 		ignoredClasses: { 
 			Slot. " abstract "
-			TClass. " spotter/processor tests would be ulimatively slow "
-			TClassDescription.
-			TBehavior. 
 		}
 		pragmas: #( #spotterOrder: )
 		examples: #( #gtExample #gtExample: )

@@ -8,20 +8,20 @@ Class {
 }
 
 { #category : #running }
-GTInspectorExamplesTest >> allExamplesClasses [
+GTInspectorExamplesTest >> allExamples [
 	" IMPORTANT NOTICE 
 	1) We expicitly exclude examples from Roassal and Woden. Running all of those examples at once will severely slow down all tests and eventually cause segmentation faults - crash of image. This is not a fault/bug of GTExample - it happens also if the GTExample-wrapper is not used at all ! "
-	^ ((Object withAllSubclasses 
-		reject: [ :each | 
-			(each name beginsWith: 'RT') 
-				or: [ (each name beginsWith: 'RW')
-					or: [ each name beginsWith: 'GTDummy' ] ] ]) 
-		sort: [ :a :b | a name <= b name ])
+	^ Smalltalk gtExamplesContained reject: [ :each | 
+		each ignoreTest
+			or: [ each ignoreTestReport
+				or: [ { 'RT'. 'RW'. 'GTDummy' } anySatisfy: [ :prefix | 
+									each methodClass name beginsWith: prefix ] ] ] ]
 ]
 
 { #category : #running }
 GTInspectorExamplesTest >> checkAllPresentationsOf: exampleToTest [
 	| browser window |
+	exampleToTest class name = #ProtoObject ifTrue: [ ^ self ]. " no longer implemented "
 	(Pragma
 		allNamed: #gtInspectorPresentationOrder:
 		from: exampleToTest class
@@ -72,16 +72,16 @@ GTInspectorExamplesTest >> tearDown [
 
 { #category : #tests }
 GTInspectorExamplesTest >> testAllExamples [
-	self allExamplesClasses
-		do: [ :eachClass | 
-			eachClass gtExamples do: [ :exampleToTest | 
-				exampleToTest ignoreTest ifFalse: [ 
-					self checkAllPresentationsOf: exampleToTest returnValue ] ] ]
-		displayingProgress: 'Checking Example Presentations'
+	| examples |
+	(examples := self allExamples)
+		do: [ :exampleToTest | self checkAllPresentationsOf: exampleToTest returnValue ]
+		displayingProgress: 'Running ', examples size asString, ' Examples for Inspector-Presentations'
 ]
 
 { #category : #tests }
 GTInspectorExamplesTest >> testGlobals [
-	{ Smalltalk . RBMessageNode . Trait . TClass . TBehavior . GTInspector . Object . Class . CompiledMethod } 
+	| globals |
+	(globals := { Smalltalk . RBMessageNode . Trait . TClass . TBehavior . GTInspector . Object . Class . CompiledMethod })
 		do: [ :each | self checkAllPresentationsOf: each ]
+		displayingProgress: 'Running ', globals size asString, ' globals for Inspector-Presentations'
 ]
