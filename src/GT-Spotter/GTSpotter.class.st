@@ -97,12 +97,6 @@ GTSpotter class >> extensionsPragma [
 	^ #spotterOrder:
 ]
 
-{ #category : #example }
-GTSpotter class >> gtExamplesProvider [
-
-	^ GTSpotterExamples 
-]
-
 { #category : #inspecting }
 GTSpotter class >> gtInspectorExtensionsIn: composite [
 	<gtInspectorPresentationOrder: 40>

@@ -111,8 +111,3 @@ GTSpotterExamples class >> gtExampleWorldMenuSearchOn: aSpotter [
 	
 	
 ]
-
-{ #category : #examples }
-GTSpotterExamples class >> gtExamplesSource [
-	^ GTSpotter
-]
