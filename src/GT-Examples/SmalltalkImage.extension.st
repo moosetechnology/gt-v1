@@ -17,7 +17,7 @@ SmalltalkImage class >> gtExamplesFactory [
 		yourself
 ]
 
-{ #category : #'*GT-Examples-Core' }
+{ #category : #'*GT-Examples-UI' }
 SmalltalkImage >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor

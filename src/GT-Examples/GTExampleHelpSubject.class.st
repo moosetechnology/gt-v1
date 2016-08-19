@@ -51,7 +51,7 @@ GTExampleHelpSubject >> exists [
 	^ self topic notNil
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleHelpSubject >> forNautilus: aBlock [
 	aBlock 
 		value: #'Browse subject Help ' ,  self topic gtDisplayString , (self title ifNotNil: [ ' > ', self title ] ifNil: [ '' ])
@@ -61,7 +61,7 @@ GTExampleHelpSubject >> forNautilus: aBlock [
 			self title ifNotNil: [ browser selectTopicSatisfying: [ :subhelp | subhelp title = self title ] ] ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleHelpSubject >> gtDisplayOn: aStream [
 	self exists 
 		ifTrue: [ self topic gtDisplayOn: aStream ]

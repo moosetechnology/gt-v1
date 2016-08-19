@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-Examples-Exceptions'
 }
 
-{ #category : #ui }
+{ #category : #UI }
 GTExampleUnexpectedExceptionRaised >> gtDisplayOn: aStream [
 	super gtDisplayOn: aStream.
 	aStream nextPutAll: ' ('.

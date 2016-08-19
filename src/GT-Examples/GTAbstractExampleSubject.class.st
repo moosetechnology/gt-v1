@@ -19,7 +19,7 @@ GTAbstractExampleSubject >> asGTExampleSubject [
 	^ self
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleSubject >> gtDisplayOn: aStream [
 	super gtDisplayOn: aStream.
 	self gtDisplayValidityOn: aStream
@@ -35,7 +35,7 @@ GTAbstractExampleSubject >> gtExamplesSubjects [
 	^ { self }
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>
 	aStep listProcessor

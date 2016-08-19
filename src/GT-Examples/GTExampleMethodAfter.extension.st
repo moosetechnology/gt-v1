@@ -1,8 +1,4 @@
-Class {
-	#name : #GTExampleMethodAfter,
-	#superclass : #GTAbstractExampleMethod,
-	#category : #'GT-Examples-Organization'
-}
+Extension { #name : #GTExampleMethodAfter }
 
 { #category : #'*GT-Examples-UI' }
 GTExampleMethodAfter >> forNautilus: aBlock [

@@ -228,7 +228,7 @@ GTExample >> form: anIcon [
 	form := anIcon
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtDebuggerSourceIn: composite [
 	<gtDebuggerPresentationOrder: 1>
 	self exists ifFalse: [ ^ self ].
@@ -236,7 +236,7 @@ GTExample >> gtDebuggerSourceIn: composite [
 		title: 'Method'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtDisplayOn: aStream [
 	self label isEmptyOrNil 
 		ifTrue: [ 
@@ -250,7 +250,7 @@ GTExample >> gtDisplayOn: aStream [
 	self gtDisplayValidityOn: aStream
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtDisplayValidityOn: aStream [
 	self isValid ifTrue: [ ^ self ].
 	
@@ -282,7 +282,7 @@ GTExample >> gtExamplesFactory [
 	^ self method gtExamplesFactory
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorActionReturnValue [
 	<gtInspectorAction>
 	^ GLMGenericAction new
@@ -291,7 +291,7 @@ GTExample >> gtInspectorActionReturnValue [
 		title: 'Evaluate and inspect return-value'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorActionSubjects [
 	<gtInspectorAction>
 	^ GLMGenericAction new
@@ -300,14 +300,14 @@ GTExample >> gtInspectorActionSubjects [
 		title: 'Subjects'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorActions [
 	^ super gtInspectorActions 
 		addAll: self gtInspectorCustomActions;
 		yourself
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorAfterIn: composite [
 	<gtInspectorPresentationOrder: 3>
 	self hasAfter ifFalse: [ ^ self ].
@@ -315,7 +315,7 @@ GTExample >> gtInspectorAfterIn: composite [
 			title: 'After'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorCustomActions [
 	self hasExtensions ifFalse: [ ^ { } ].
 	
@@ -325,7 +325,7 @@ GTExample >> gtInspectorCustomActions [
 				stream nextPut: action ] ] ] 
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorCustomExtensionsFor: composite [
 	<gtInspectorPresentationOrder: 99>
 	self hasExtensions ifFalse: [ ^ self ].
@@ -334,7 +334,7 @@ GTExample >> gtInspectorCustomExtensionsFor: composite [
 		extension gtInspectorFor: composite example: self ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorDependenciesIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -342,7 +342,7 @@ GTExample >> gtInspectorDependenciesIn: composite [
 			title: 'Dependencies'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorDependentsIn: composite [
 	<gtInspectorPresentationOrder: 2>
 	self hasDependents ifFalse: [ ^ self ].
@@ -350,7 +350,7 @@ GTExample >> gtInspectorDependentsIn: composite [
 			title: 'Dependents'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorMethodIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].
@@ -358,7 +358,7 @@ GTExample >> gtInspectorMethodIn: composite [
 		title: 'Method'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorProblemsIn: composite [
 	<gtInspectorPresentationOrder: 5>
 	self hasProblems ifFalse: [ ^ self ].
@@ -366,7 +366,7 @@ GTExample >> gtInspectorProblemsIn: composite [
 			title: 'Problems'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -381,14 +381,14 @@ GTExample >> gtInspectorRoassalIn: composite [
 		yourself
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ (self method gtInspectorSourceIn: composite)
 		title: 'Source'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorSubjectsIn: composite [
 	<gtInspectorPresentationOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
@@ -396,7 +396,7 @@ GTExample >> gtInspectorSubjectsIn: composite [
 			title: 'Subjects'
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterAfterFor: aStep [
 	<spotterOrder: 3>
 	self hasAfter ifFalse: [ ^ self ].
@@ -407,7 +407,7 @@ GTExample >> gtSpotterAfterFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterCustomExtensionsFor: aStep [
 	<spotterOrder: 99>
 	self hasExtensions ifFalse: [ ^ self ].
@@ -416,7 +416,7 @@ GTExample >> gtSpotterCustomExtensionsFor: aStep [
 		extension gtSpotterFor: aStep example: self ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterDependenciesFor: aStep [
 	<spotterOrder: 1>
 	self hasDependencies ifFalse: [ ^ self ].
@@ -427,7 +427,7 @@ GTExample >> gtSpotterDependenciesFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterDependentsFor: aStep [
 	<spotterOrder: 2>
 	self hasDependents ifFalse: [ ^ self ].
@@ -438,7 +438,7 @@ GTExample >> gtSpotterDependentsFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 	<spotterOrder: 4>
 	self hasSubjects ifFalse: [ ^ self ].
@@ -449,7 +449,7 @@ GTExample >> gtSpotterGTExampleSubjectsFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterMethodFor: aStep [
 	<spotterOrder: 0>
 	self exists ifFalse: [ ^ self ].
@@ -460,7 +460,7 @@ GTExample >> gtSpotterMethodFor: aStep [
 		filter: GTFilterSubstring
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> gtSpotterProblemsFor: aStep [
 	<spotterOrder: 5>
 	self hasProblems ifFalse: [ ^ self ].
@@ -692,7 +692,7 @@ GTExample >> initializeFromMethod: aCompiledMethod usingFactory: aGTExampleFacto
 	aGTExampleFactory initializeExample: self fromMethod: aCompiledMethod
 ]
 
-{ #category : #'PRAGMA-SELECTORS' }
+{ #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
 GTExample >> inspector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing a custom GTInspector-extensions for this particular example'>
@@ -700,7 +700,7 @@ GTExample >> inspector: aSelector [
 	self addExtension: (self method: GTExampleMethodInspectorExtension forSelector: aSelector)
 ]
 
-{ #category : #'PRAGMA-SELECTORS' }
+{ #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
 GTExample >> inspectorAction: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing a custom GTInspector-action for this particular example'>
@@ -708,7 +708,7 @@ GTExample >> inspectorAction: aSelector [
 	self addExtension: (self method: GTExampleMethodInspectorActionExtension forSelector: aSelector)
 ]
 
-{ #category : #'PRAGMA-SELECTORS' }
+{ #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
 GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTInspector-actions for this particular example'>
@@ -716,7 +716,7 @@ GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 	self addExtension: (self method: GTExampleMethodInspectorActionExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
-{ #category : #'PRAGMA-SELECTORS' }
+{ #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
 GTExample >> inspectorClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing custom GTInspector-extensions for this particular example'>
@@ -945,7 +945,7 @@ GTExample >> sourceCode [
 	^ self method sourceCode
 ]
 
-{ #category : #'PRAGMA-SELECTORS' }
+{ #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
 GTExample >> spotter: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by aSelector, providing a custom GTSpotter-extension for this particular example'>
@@ -953,7 +953,7 @@ GTExample >> spotter: aSelector [
 	self addExtension: (self method: GTExampleMethodSpotterExtension forSelector: aSelector)
 ]
 
-{ #category : #'PRAGMA-SELECTORS' }
+{ #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
 GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTSpotter-extension for this particular example'>
@@ -961,7 +961,7 @@ GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	self addExtension: (self method: GTExampleMethodSpotterExtension forClassNamed: aClassOrClassName selector: aSelector)
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExample >> spotterPreviewIn: aComposite inContext: aSpotter [
 	^ self gtSpotterPreviewIn: aComposite
 ]

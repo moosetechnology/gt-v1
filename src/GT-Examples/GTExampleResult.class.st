@@ -47,7 +47,7 @@ GTExampleResult >> expectedError: anObject [
 	expectedError := anObject
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTExampleResult >> gtDisplayOn: aStream [
 	self example gtDisplayOn: aStream. 
 	
@@ -57,7 +57,7 @@ GTExampleResult >> gtDisplayOn: aStream [
 		aStream nextPutAll: ']' ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTExampleResult >> gtDisplayValidityOn: aStream [
 	self isSuccess ifTrue: [ ^ self ].
 	

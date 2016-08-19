@@ -15,7 +15,7 @@ TGTExampleIcon >> form [
 		ifFalse: [ nil ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 TGTExampleIcon >> gtInspectorFormIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].

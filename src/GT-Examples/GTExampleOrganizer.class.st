@@ -195,7 +195,7 @@ GTExampleOrganizer >> gtExamplesContained [
 	^ self examplesCollect: [ :each | each ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 100>
 	aStep listProcessor

@@ -9,7 +9,7 @@ GTAbstractExampleObject class >> isAbstract [
 	^ self == GTAbstractExampleObject
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleObject >> addToSelectorEnvironment: aSelectorEnvironment [
 ]
 
@@ -18,12 +18,12 @@ GTAbstractExampleObject >> exists [
 	^ false
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleObject >> forNautilus: aBlock [
 	
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleObject >> gtDisplayValidityOn: aStream [
 	self isValid ifTrue: [ ^ self ].
 	

@@ -22,7 +22,7 @@ GTExampleMethod >> asGTExampleSubject [
 	^ GTExampleMethodSubject fromClass: self methodClass selector: self selector
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTExampleMethod >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
@@ -31,7 +31,7 @@ GTExampleMethod >> forNautilus: aBlock [
 		value: [ self method browse ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTExampleMethod >> gtDisplayValidityOn: aStream [
 	self isValid ifTrue: [ ^ self ].
 	

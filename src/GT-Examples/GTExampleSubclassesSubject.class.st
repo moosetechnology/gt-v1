@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-Examples-Subjects'
 }
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleSubclassesSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self exists ifFalse: [ ^ self ].
 	

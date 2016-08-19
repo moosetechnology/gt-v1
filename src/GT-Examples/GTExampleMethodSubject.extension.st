@@ -1,13 +1,4 @@
-Class {
-	#name : #GTExampleMethodSubject,
-	#superclass : #GTAbstractExampleMethod,
-	#category : #'GT-Examples-Subjects'
-}
-
-{ #category : #'accessing-dynamic' }
-GTExampleMethodSubject >> asGTExampleSubject [
-	^ self
-]
+Extension { #name : #GTExampleMethodSubject }
 
 { #category : #'*GT-Examples-UI' }
 GTExampleMethodSubject >> forNautilus: aBlock [

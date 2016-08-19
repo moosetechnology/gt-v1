@@ -30,7 +30,7 @@ GTExamplePackageSubject >> = anExampleSubject [
 		and: [ self thePackageName = anExampleSubject thePackageName ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExamplePackageSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self thePackage ifNil: [ ^ self ].
 	
@@ -45,7 +45,7 @@ GTExamplePackageSubject >> exists [
 	^ self thePackage notNil
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExamplePackageSubject >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
@@ -54,7 +54,7 @@ GTExamplePackageSubject >> forNautilus: aBlock [
 		value: [ self thePackage browse ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExamplePackageSubject >> gtDisplayOn: aStream [
 	self thePackageName gtDisplayOn: aStream.
 	self gtDisplayValidityOn: aStream

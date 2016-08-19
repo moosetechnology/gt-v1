@@ -30,7 +30,7 @@ GTExampleClassSubject >> = anExampleSubject [
 		and: [ self theClassName = anExampleSubject theClassName ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleClassSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self exists ifFalse: [ ^ self ].
 	
@@ -42,7 +42,7 @@ GTExampleClassSubject >> exists [
 	^ self theClass notNil
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleClassSubject >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
@@ -52,7 +52,7 @@ GTExampleClassSubject >> forNautilus: aBlock [
 
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleClassSubject >> gtDisplayOn: aStream [
 	self theClassName gtDisplayOn: aStream.
 	self gtDisplayValidityOn: aStream

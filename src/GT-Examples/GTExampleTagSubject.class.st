@@ -30,7 +30,7 @@ GTExampleTagSubject >> = anExampleSubject [
 		and: [ self theTagName = anExampleSubject theTagName ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleTagSubject >> addToSelectorEnvironment: aSelectorEnvironment [
 	self thePackage ifNil: [ ^ self ].
 	
@@ -43,7 +43,7 @@ GTExampleTagSubject >> exists [
 	^ self theTag notNil
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleTagSubject >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
@@ -52,7 +52,7 @@ GTExampleTagSubject >> forNautilus: aBlock [
 		value: [ self theTag browse ]
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleTagSubject >> gtDisplayOn: aStream [
 	self theTagName gtDisplayOn: aStream.
 	self gtDisplayValidityOn: aStream

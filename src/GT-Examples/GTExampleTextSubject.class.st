@@ -30,7 +30,7 @@ GTExampleTextSubject >> exists [
 	^ true
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleTextSubject >> gtDisplayOn: aStream [
 	self text gtDisplayOn: aStream
 ]

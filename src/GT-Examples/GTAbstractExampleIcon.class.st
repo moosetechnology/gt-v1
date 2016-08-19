@@ -23,7 +23,7 @@ GTAbstractExampleIcon >> form [
 		ifFalse: [ nil ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleIcon >> gtInspectorFormIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].

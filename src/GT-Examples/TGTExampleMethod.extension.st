@@ -1,7 +1,4 @@
-Trait {
-	#name : #TGTExampleMethod,
-	#category : #'GT-Examples-Organization'
-}
+Extension { #name : #TGTExampleMethod }
 
 { #category : #'*GT-Examples-UI' }
 TGTExampleMethod >> gtSpotterPreviewIn: aComposite [

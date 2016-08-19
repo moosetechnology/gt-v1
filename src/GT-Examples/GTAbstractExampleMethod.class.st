@@ -41,7 +41,7 @@ GTAbstractExampleMethod >> = anExampleMethod [
 			and: [ self selector = anExampleMethod selector ] ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleMethod >> addToSelectorEnvironment: aSelectorEnvironment [
 	self exists ifFalse: [ ^ self ].
 	
@@ -55,7 +55,7 @@ GTAbstractExampleMethod >> exists [
 			and: [ self methodClass includesSelector: self selector ] ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleMethod >> forNautilus: aBlock [
 	self exists ifFalse: [ ^ self ].
 	
@@ -64,7 +64,7 @@ GTAbstractExampleMethod >> forNautilus: aBlock [
 		value: [ self method browse ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleMethod >> gtDisplayOn: aStream [
 	aStream 
 		nextPutAll: self methodClassName asString; 
@@ -74,7 +74,7 @@ GTAbstractExampleMethod >> gtDisplayOn: aStream [
 	self gtDisplayValidityOn: aStream
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTAbstractExampleMethod >> gtSpotterPreviewIn: aComposite [
 	<spotterPreview: 1>
 	self exists ifFalse: [ ^ self ].
@@ -147,8 +147,8 @@ GTAbstractExampleMethod >> methodClassName: anObject [
 GTAbstractExampleMethod >> provider [ 
 	self exists ifFalse: [ ^ nil ].
 	^ self methodClass isMeta
-		ifTrue: [ self methodClass theNonMetaClass ]
-		ifFalse: [ self methodClass theNonMetaClass new ]
+		ifTrue: [ self methodClass ]
+		ifFalse: [ self methodClass new ]
 ]
 
 { #category : #private }

@@ -59,7 +59,7 @@ GTExampleMethodIcon >> form [
 		ifFalse: [ nil ]
 ]
 
-{ #category : #ui }
+{ #category : #'*GT-Examples-UI' }
 GTExampleMethodIcon >> gtInspectorFormIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].

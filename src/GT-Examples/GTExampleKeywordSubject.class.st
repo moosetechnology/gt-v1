@@ -32,7 +32,7 @@ GTExampleKeywordSubject >> exists [
 	^ true
 ]
 
-{ #category : #UI }
+{ #category : #'*GT-Examples-UI' }
 GTExampleKeywordSubject >> gtDisplayOn: aStream [
 	self keyword gtDisplayOn: aStream
 ]
