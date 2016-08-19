@@ -12,7 +12,7 @@ Class {
 { #category : #'instance creation' }
 GTExampleFormIcon class >> fromBase64String: aString [
 	^ self new
-		converter: #fromBase64String:;
+		converter: #convertFromBase64String:;
 		arguments: { aString };
 		yourself
 ]
@@ -20,7 +20,7 @@ GTExampleFormIcon class >> fromBase64String: aString [
 { #category : #'instance creation' }
 GTExampleFormIcon class >> fromByteArray: aByteArray [
 	^ self new
-		converter: #fromByteArray:;
+		converter: #convertFromByteArray:;
 		arguments: { aByteArray };
 		yourself
 ]

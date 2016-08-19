@@ -49,7 +49,7 @@ GTExampleMethodIcon >> converter: anObject [
 GTExampleMethodIcon >> exists [
 	^ super exists
 		and: [ self converter notNil
-			and: [ self class includesSelector: self converter ] ]
+			and: [ self class class includesSelector: self converter ] ]
 ]
 
 { #category : #'accessing-dynamic' }
