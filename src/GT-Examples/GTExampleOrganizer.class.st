@@ -1,3 +1,6 @@
+"
+I keep track of all examples defined in the image.
+"
 Class {
 	#name : #GTExampleOrganizer,
 	#superclass : #Object,
@@ -296,7 +299,7 @@ GTExampleOrganizer >> reset [
 
 { #category : #'private-events' }
 GTExampleOrganizer >> resetStubs [
-	[ GTAbstractExampleObject allSubInstancesDo: [ :each | each resetStub ] ] 
+	[ GTExampleAspect allSubInstancesDo: [ :each | each resetStub ] ] 
 		forkAt: 30
 		named: 'GTExampleOrganizer >> #resetStubs'
 ]

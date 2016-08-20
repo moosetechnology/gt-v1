@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleThemeIcon,
-	#superclass : #GTAbstractExampleIcon,
+	#superclass : #GTExampleIcon,
 	#instVars : [
 		'selector'
 	],

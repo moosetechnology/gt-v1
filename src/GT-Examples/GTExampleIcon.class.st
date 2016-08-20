@@ -1,30 +1,30 @@
 Class {
-	#name : #GTAbstractExampleIcon,
-	#superclass : #GTAbstractExampleObject,
+	#name : #GTExampleIcon,
+	#superclass : #GTExampleAspect,
 	#traits : 'TGTExampleIcon',
 	#classTraits : 'TGTExampleIcon classTrait',
 	#category : #'GT-Examples-Organization'
 }
 
 { #category : #testing }
-GTAbstractExampleIcon class >> isAbstract [
-	^ self == GTAbstractExampleIcon
+GTExampleIcon class >> isAbstract [
+	^ self == GTExampleIcon
 ]
 
 { #category : #private }
-GTAbstractExampleIcon >> basicForm [
+GTExampleIcon >> basicForm [
 	^ self subclassResponsibility
 ]
 
 { #category : #'accessing-dynamic' }
-GTAbstractExampleIcon >> form [
+GTExampleIcon >> form [
 	^ self exists
 		ifTrue: [ self basicForm ]
 		ifFalse: [ nil ]
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleIcon >> gtInspectorFormIn: composite [
+GTExampleIcon >> gtInspectorFormIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].
 	

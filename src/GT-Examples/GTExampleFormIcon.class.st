@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleFormIcon,
-	#superclass : #GTAbstractExampleIcon,
+	#superclass : #GTExampleIcon,
 	#instVars : [
 		'arguments',
 		'converter',

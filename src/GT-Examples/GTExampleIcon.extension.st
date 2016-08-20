@@ -1,7 +1,7 @@
-Extension { #name : #GTAbstractExampleIcon }
+Extension { #name : #GTExampleIcon }
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleIcon >> gtInspectorFormIn: composite [
+GTExampleIcon >> gtInspectorFormIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	self exists ifFalse: [ ^ self ].
 	

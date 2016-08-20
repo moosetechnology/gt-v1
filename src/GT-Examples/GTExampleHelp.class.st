@@ -1,3 +1,6 @@
+"
+I hold the help for the examples engine.
+"
 Class {
 	#name : #GTExampleHelp,
 	#superclass : #CustomHelp,

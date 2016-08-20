@@ -1,16 +1,16 @@
-Extension { #name : #GTAbstractExampleObject }
+Extension { #name : #GTExampleAspect }
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleObject >> addToSelectorEnvironment: aSelectorEnvironment [
+GTExampleAspect >> addToSelectorEnvironment: aSelectorEnvironment [
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleObject >> forNautilus: aBlock [
+GTExampleAspect >> forNautilus: aBlock [
 	
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleObject >> gtDisplayValidityOn: aStream [
+GTExampleAspect >> gtDisplayValidityOn: aStream [
 	self isValid ifTrue: [ ^ self ].
 	
 	self exists ifFalse: [ ^ aStream nextPutAll: ' [does not exist]' ].

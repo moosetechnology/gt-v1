@@ -1,30 +1,30 @@
 Class {
-	#name : #GTAbstractExampleObject,
+	#name : #GTExampleAspect,
 	#superclass : #Object,
 	#category : #'GT-Examples-Organization'
 }
 
 { #category : #testing }
-GTAbstractExampleObject class >> isAbstract [
-	^ self == GTAbstractExampleObject
+GTExampleAspect class >> isAbstract [
+	^ self == GTExampleAspect
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleObject >> addToSelectorEnvironment: aSelectorEnvironment [
+GTExampleAspect >> addToSelectorEnvironment: aSelectorEnvironment [
 ]
 
 { #category : #testing }
-GTAbstractExampleObject >> exists [
+GTExampleAspect >> exists [
 	^ false
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleObject >> forNautilus: aBlock [
+GTExampleAspect >> forNautilus: aBlock [
 	
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleObject >> gtDisplayValidityOn: aStream [
+GTExampleAspect >> gtDisplayValidityOn: aStream [
 	self isValid ifTrue: [ ^ self ].
 	
 	self exists ifFalse: [ ^ aStream nextPutAll: ' [does not exist]' ].
@@ -32,20 +32,20 @@ GTAbstractExampleObject >> gtDisplayValidityOn: aStream [
 ]
 
 { #category : #testing }
-GTAbstractExampleObject >> hasLiteralThorough: aLiteral [
+GTExampleAspect >> hasLiteralThorough: aLiteral [
 	^ false
 ]
 
 { #category : #testing }
-GTAbstractExampleObject >> isAbstract [
+GTExampleAspect >> isAbstract [
 	^ self class isAbstract
 ]
 
 { #category : #testing }
-GTAbstractExampleObject >> isValid [
+GTExampleAspect >> isValid [
 	^ self exists
 ]
 
 { #category : #private }
-GTAbstractExampleObject >> resetStub [
+GTExampleAspect >> resetStub [
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #GTAbstractExampleMethod,
-	#superclass : #GTAbstractExampleObject,
+	#superclass : #GTExampleAspect,
 	#traits : 'TGTExampleMethod',
 	#classTraits : 'TGTExampleMethod classTrait',
 	#instVars : [
@@ -147,8 +147,8 @@ GTAbstractExampleMethod >> methodClassName: anObject [
 GTAbstractExampleMethod >> provider [ 
 	self exists ifFalse: [ ^ nil ].
 	^ self methodClass isMeta
-		ifTrue: [ self methodClass theNonMetaClass ]
-		ifFalse: [ self methodClass theNonMetaClass new ]
+		ifTrue: [ self methodClass ]
+		ifFalse: [ self methodClass new ]
 ]
 
 { #category : #private }
