@@ -147,8 +147,8 @@ GTAbstractExampleMethod >> methodClassName: anObject [
 GTAbstractExampleMethod >> provider [ 
 	self exists ifFalse: [ ^ nil ].
 	^ self methodClass isMeta
-		ifTrue: [ self methodClass ]
-		ifFalse: [ self methodClass new ]
+		ifTrue: [ self methodClass theNonMetaClass ]
+		ifFalse: [ self methodClass theNonMetaClass new ]
 ]
 
 { #category : #private }
