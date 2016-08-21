@@ -1,7 +1,7 @@
 "
 I am an abstract class for manipulating examples.
 
-I know how to 
+My subclasses can add different semantics for different use cases. For example, evaluating an example is to be treated differently from a debugging scenario, or from a  scenario to recorver static dependencies.
 "
 Class {
 	#name : #GTExampleProcessor,
@@ -10,9 +10,7 @@ Class {
 		'example',
 		'context',
 		'processing',
-		'onProcess',
-		'onRecursionError',
-		'onDependencyError'
+		'onProcess'
 	],
 	#category : #'GT-Examples-Runtime'
 }
