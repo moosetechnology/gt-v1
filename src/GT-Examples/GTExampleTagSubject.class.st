@@ -1,3 +1,6 @@
+"
+I describe a package tag subject of an example.
+"
 Class {
 	#name : #GTExampleTagSubject,
 	#superclass : #GTExampleSubject,

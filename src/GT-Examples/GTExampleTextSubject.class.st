@@ -1,3 +1,6 @@
+"
+I describe a plain text as a subject of an example.
+"
 Class {
 	#name : #GTExampleTextSubject,
 	#superclass : #GTExampleSubject,

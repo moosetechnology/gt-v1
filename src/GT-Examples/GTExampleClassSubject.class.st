@@ -1,3 +1,6 @@
+"
+I describe a class subject of an example.
+"
 Class {
 	#name : #GTExampleClassSubject,
 	#superclass : #GTExampleSubject,
