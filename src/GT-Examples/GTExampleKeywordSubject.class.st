@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleKeywordSubject,
-	#superclass : #GTAbstractExampleSubject,
+	#superclass : #GTExampleSubject,
 	#instVars : [
 		'keyword'
 	],

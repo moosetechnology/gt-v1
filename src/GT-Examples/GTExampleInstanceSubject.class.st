@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleInstanceSubject,
-	#superclass : #GTAbstractExampleSubject,
+	#superclass : #GTExampleSubject,
 	#instVars : [
 		'instance'
 	],

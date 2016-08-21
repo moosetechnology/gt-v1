@@ -1,6 +1,6 @@
 Class {
 	#name : #GTExampleSelectorSubject,
-	#superclass : #GTAbstractExampleSubject,
+	#superclass : #GTExampleSubject,
 	#instVars : [
 		'selector',
 		'theClasses'

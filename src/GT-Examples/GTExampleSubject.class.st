@@ -6,44 +6,44 @@ For example, the goal of an example might be to exemplify the way an instance of
 The subject information is useful both when understanding the goal of an example, and to link examples to the static entities. For example, if a class has examples associated, these can appear in the static code browser, or in the inspector of the class.
 "
 Class {
-	#name : #GTAbstractExampleSubject,
+	#name : #GTExampleSubject,
 	#superclass : #GTExampleAspect,
 	#category : #'GT-Examples-Subjects'
 }
 
 { #category : #testing }
-GTAbstractExampleSubject class >> isAbstract [
-	^ self == GTAbstractExampleSubject
+GTExampleSubject class >> isAbstract [
+	^ self == GTExampleSubject
 ]
 
 { #category : #testing }
-GTAbstractExampleSubject >> = anExampleSubject [
+GTExampleSubject >> = anExampleSubject [
 	^ self subclassResponsibility
 ]
 
 { #category : #converting }
-GTAbstractExampleSubject >> asGTExampleSubject [
+GTExampleSubject >> asGTExampleSubject [
 	^ self
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleSubject >> gtDisplayOn: aStream [
+GTExampleSubject >> gtDisplayOn: aStream [
 	super gtDisplayOn: aStream.
 	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #'accessing-dynamic' }
-GTAbstractExampleSubject >> gtExamplesContained [
+GTExampleSubject >> gtExamplesContained [
 	^ Smalltalk gtExamplesContained select: [ :each | each hasSubject: self ]
 ]
 
 { #category : #converting }
-GTAbstractExampleSubject >> gtExamplesSubjects [
+GTExampleSubject >> gtExamplesSubjects [
 	^ { self }
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
+GTExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>
 	aStep listProcessor
 		title: 'Examples with Subject ', self gtDisplayString;
@@ -54,6 +54,6 @@ GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
 ]
 
 { #category : #testing }
-GTAbstractExampleSubject >> hash [
+GTExampleSubject >> hash [
 	^ self subclassResponsibility
 ]

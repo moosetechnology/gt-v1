@@ -1,13 +1,13 @@
-Extension { #name : #GTAbstractExampleSubject }
+Extension { #name : #GTExampleSubject }
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleSubject >> gtDisplayOn: aStream [
+GTExampleSubject >> gtDisplayOn: aStream [
 	super gtDisplayOn: aStream.
 	self gtDisplayValidityOn: aStream
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTAbstractExampleSubject >> gtSpotterGTExamplesFor: aStep [
+GTExampleSubject >> gtSpotterGTExamplesFor: aStep [
 	<spotterOrder: 102>
 	aStep listProcessor
 		title: 'Examples with Subject ', self gtDisplayString;
