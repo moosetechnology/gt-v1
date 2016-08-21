@@ -10,6 +10,7 @@ Class {
 
 { #category : #private }
 GTExampleEvaluator >> do: aBlock on: anException do: anotherBlock [
+	"I give a chance to my subclass to not handle the exception is needed"
 	aBlock
 		on: anException
 		do: anotherBlock
@@ -41,12 +42,18 @@ GTExampleEvaluator >> process: anExample withArguments: aBlock [
 	currentResult := self newResultFor: anExample.
 	arguments := nil.
 	anExample hasValidDependencies " dynamic check "
-		ifFalse: [ ^ self onDependencyError value: self value: anExample ].
-	self do: [ arguments := aBlock value. currentResult returnValue: (self primitiveProcessExample: anExample withArguments: arguments) ]
+		ifFalse: [ ^ self handleDependencyErrorFor: anExample ].
+	self 
+		do: [ 
+			arguments := aBlock value. 
+			currentResult returnValue: (self 
+				primitiveProcessExample: anExample 
+				withArguments: arguments) ]
 		on: anExample signalableExceptions
 		do: [ :exception | currentResult expectedError: exception ].
 	processed add: currentResult.
-	self do: [ self processAfter: anExample ]
+	self
+		do: [ self processAfter: anExample ]
 		on: anExample signalableExceptions
 		do: [ :exception | currentResult expectedError: exception ].
 	anExample == self example ifTrue: [ result := currentResult ].

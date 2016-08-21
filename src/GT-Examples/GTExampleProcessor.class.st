@@ -1,3 +1,8 @@
+"
+I am an abstract class for manipulating examples.
+
+I know how to 
+"
 Class {
 	#name : #GTExampleProcessor,
 	#superclass : #Object,
@@ -38,23 +43,9 @@ GTExampleProcessor >> context: anObject [
 ]
 
 { #category : #'accessing-defaults' }
-GTExampleProcessor >> defaultOnDependencyError [
-	^ [ :aProcessor :anExample | 
-		aProcessor handleDependencyErrorFor: anExample.
-		nil ]
-]
-
-{ #category : #'accessing-defaults' }
 GTExampleProcessor >> defaultOnProcess [
 	^ [ :aProcessor :anExample | 
 		aProcessor basicProcess: anExample ]
-]
-
-{ #category : #'accessing-defaults' }
-GTExampleProcessor >> defaultOnRecursionError [
-	^ [ :aProcessor :anExample | 
-		aProcessor handleRecursionErrorFor: anExample.
-		nil ]
 ]
 
 { #category : #accessing }
@@ -95,16 +86,6 @@ GTExampleProcessor >> initialize [
 ]
 
 { #category : #accessing }
-GTExampleProcessor >> onDependencyError [
-	^ onDependencyError ifNil: [ onDependencyError := self defaultOnDependencyError ]
-]
-
-{ #category : #accessing }
-GTExampleProcessor >> onDependencyError: anObject [
-	onDependencyError := anObject
-]
-
-{ #category : #accessing }
 GTExampleProcessor >> onProcess [
 	^ onProcess ifNil: [ onProcess := self defaultOnProcess ]
 ]
@@ -112,16 +93,6 @@ GTExampleProcessor >> onProcess [
 { #category : #accessing }
 GTExampleProcessor >> onProcess: anObject [
 	onProcess := anObject
-]
-
-{ #category : #accessing }
-GTExampleProcessor >> onRecursionError [
-	^ onRecursionError ifNil: [ onRecursionError := self defaultOnRecursionError ]
-]
-
-{ #category : #accessing }
-GTExampleProcessor >> onRecursionError: anObject [
-	onRecursionError := anObject
 ]
 
 { #category : #private }
@@ -142,7 +113,7 @@ GTExampleProcessor >> process: anExample withoutLoopsDo: aBlock [
 	value := nil.
 	processing do: [ :processingExample |
 		(processingExample = anExample) ifTrue: [
-			^ self onRecursionError value: self value: anExample ] ].	
+			^ self handleRecursionErrorFor: anExample ] ].	
 	processing add: anExample. " prepare processing this example "
 	context example: anExample.
 	value := aBlock value. " process this example "
