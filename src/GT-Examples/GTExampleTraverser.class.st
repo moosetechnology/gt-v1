@@ -1,3 +1,6 @@
+"
+I am an example processor that can traverse examples and execute an action on each of them.
+"
 Class {
 	#name : #GTExampleTraverser,
 	#superclass : #GTExampleProcessor,
