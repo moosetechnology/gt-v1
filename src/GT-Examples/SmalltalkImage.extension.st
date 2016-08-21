@@ -16,13 +16,3 @@ SmalltalkImage class >> gtExamplesFactory [
 		provider: SmalltalkImage current;
 		yourself
 ]
-
-{ #category : #'*GT-Examples-UI' }
-SmalltalkImage >> gtSpotterGTExamplesFor: aStep [
-	<spotterOrder: 100>
-	aStep listProcessor
-		title: 'Examples';
-		allCandidates: [ self gtExamplesContained ];
-		itemName: [ :example | example gtDisplayString ];
-		filter: GTFilterSubstring
-]
