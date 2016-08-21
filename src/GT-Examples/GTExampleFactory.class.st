@@ -97,8 +97,6 @@ GTExampleFactory >> gtExamplesContained [
 
 { #category : #'private - creating examples' }
 GTExampleFactory >> initializeExample: aGTExample fromMethod: aCompiledMethod [
-	super initializeExample: aGTExample fromMethod: aCompiledMethod.
-
 	self initializeSubjectsForMethod: aCompiledMethod forExample: aGTExample.
 	self initializePragmasFromMethod: aCompiledMethod forExample: aGTExample.
 
