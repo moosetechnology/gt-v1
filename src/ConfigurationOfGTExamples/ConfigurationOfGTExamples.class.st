@@ -117,6 +117,8 @@ ConfigurationOfGTExamples >> baseline01: spec [
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
 		spec 
 			package: 'GT-Examples';
+			package: 'GT-Examples-UI' with: [
+				spec requires: #'GT-Examples' ];
 			package: #'GT-Examples-Dummies' with: [
 				spec requires: #('GT-Examples' ). ];
 			package: 'GT-Examples-Examples' with: [
