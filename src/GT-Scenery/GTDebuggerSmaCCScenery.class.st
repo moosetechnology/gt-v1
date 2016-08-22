@@ -8,11 +8,10 @@ Class {
 GTDebuggerSmaCCScenery class >> menuCommandOn: aBuilder [
 	<worldMenu>
 	(aBuilder item: self name)
-		order: 201.0; 
+		order: 200.0; 
 		parent: #GTScenery;
-		label: 'Debugger - PetitParser';
-		action:[self new setUp];
-		withSeparatorAfter
+		label: 'Debugger - SmaCC';
+		action:[self new setUp]
 ]
 
 { #category : #setUp }
