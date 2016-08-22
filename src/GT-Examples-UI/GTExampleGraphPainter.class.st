@@ -132,7 +132,7 @@ GTExampleGraphPainter >> buildDependency: anExample1 at: index parent: anExample
 		line := RTArrowedLine new 
 			color: (index > anExample2 method numArgs 
 				ifTrue: [ Color yellow ] 
-				ifFalse: [ Color black ]); 
+				ifFalse: [ Color lightGray ]); 
 			attachPoint: RTVerticalAttachPoint instance;
 			yourself.
 		edge + line.
@@ -167,7 +167,7 @@ GTExampleGraphPainter >> buildDependent: anExample1 child: anExample2 [
 		childNode := nodes at: anExample2.
 		edge := RTEdge from: element to: childNode first.
 		line := RTArrowedLine new 
-			color: Color black; 
+			color: Color lightGray; 
 			attachPoint: RTVerticalAttachPoint instance;
 			yourself.
 		edge + line.
