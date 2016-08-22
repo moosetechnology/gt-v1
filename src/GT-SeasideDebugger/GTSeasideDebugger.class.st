@@ -62,8 +62,8 @@ GTSeasideDebugger class >> handlesContext: aContext [
 	
 	^ (self 
 		findContextMatching: [ :ctxt | 
-			ctxt methodClass = WASession and: [
-				ctxt methodSelector = #start ] ] 
+			ctxt methodClass = WARequestHandler and: [
+				ctxt methodSelector = #handle: ] ] 
 		startingFrom: aContext) notNil
 ]
 
@@ -126,17 +126,22 @@ GTSeasideDebugger >> nestedComponents: nestedComponents in: aComposite [
 
 { #category : #accessing }
 GTSeasideDebugger >> nestedContexts [
-
-	^ self class
-		collectContextMatching: [ :ctxt |
-			ctxt outerContext isNil and: [ 
-				(ctxt methodClass =  WAComponent) and: [ 
-					ctxt methodSelector = #acceptDecorated: ] ] ]
+	|collectedContexts|
+	collectedContexts := OrderedCollection new.
+	self class
+		forContextMatching: [ :ctxt |
+			ctxt methodClass inheritsFrom: WAComponent ] 
+		do: [ :ctxt | 
+			collectedContexts size == 0 
+				ifTrue: [collectedContexts add: ctxt]
+				ifFalse: [ collectedContexts last methodClass = ctxt methodClass ifFalse: [ 
+					collectedContexts add: ctxt ] ]  ]
 		until: [ :ctxt |
 			ctxt outerContext isNil and: [ 
 				ctxt methodClass = WASession and: [ 
 					ctxt methodSelector = #start ] ] ]
-		startingFrom: self session interruptedContext
+		startingFrom: self session interruptedContext.
+	^ collectedContexts
 ]
 
 { #category : #accessing }
