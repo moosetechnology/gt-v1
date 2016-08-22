@@ -20,3 +20,10 @@ Symbol >> gtInspectorSendersIn: composite [
 		showOnly: 30;
 		withSmalltalkSearch 
 ]
+
+{ #category : #'*GT-InspectorExtensions-Core' }
+Symbol >> pragmas [
+	^ (SystemNavigation default allBehaviors flatCollect: [ :each | 
+		(Pragma allNamed: self in: each) 
+			collect: [ :p | p method asRingDefinition ] ])
+]
