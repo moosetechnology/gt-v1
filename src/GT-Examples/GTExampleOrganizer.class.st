@@ -1,7 +1,7 @@
 "
-I am a singleton that keeps track of all examples defined in the image.
-
 I know how to traverse the image to iterate over examples.
+I am primarily an internal implementation utility.
+
 "
 Class {
 	#name : #GTExampleOrganizer,

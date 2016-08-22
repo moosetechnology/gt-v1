@@ -1,3 +1,6 @@
+"
+I am a utility that holds custom contextual information about the current example.
+"
 Class {
 	#name : #GTExampleContext,
 	#superclass : #IdentityDictionary,

@@ -1,3 +1,6 @@
+"
+I am an internal factory for creating concrete instances of various classes, such as: example,  provider etc.
+"
 Class {
 	#name : #GTExampleFactory,
 	#superclass : #Object,
