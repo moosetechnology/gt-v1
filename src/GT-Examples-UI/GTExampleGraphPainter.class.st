@@ -250,6 +250,7 @@ GTExampleGraphPainter >> paint [
 	view addAll: group @ (RTPopup text: [ :node | node gtDisplayString ]) @ RTDraggable.
 	view addAll: edges.
 	RTTreeLayout new on: group.
+	view pushBackEdges.
 	^ view
 ]
 
