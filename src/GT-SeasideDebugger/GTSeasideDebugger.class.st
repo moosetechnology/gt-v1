@@ -91,8 +91,8 @@ GTSeasideDebugger >> componentsNestingIn: aComposite [
 
 	nestedComponents := self nestedContexts collect: #receiver.
 
-	nestedComponents ifNotEmpty: [ 
-		self topComponent: nestedComponents first in: aComposite ].
+	"nestedComponents ifNotEmpty: [ 
+		self topComponent: nestedComponents first in: aComposite ]."
 
 	(nestedComponents size >= 2) ifTrue: [ 
 		self nestedComponents: nestedComponents in: aComposite  ]
@@ -168,6 +168,32 @@ GTSeasideDebugger >> requestObjectIn: aComposite [
 				(GTDebuggerInspector new 
 					debugger: self;
 					startOn: requestContext receiver) ] ] 
+]
+
+{ #category : #'as yet unclassified' }
+GTSeasideDebugger >> stackComponentsIn: composite [
+	|nestedContexts|
+	nestedContexts := self nestedContexts.
+	^ composite fastTable	
+		title: 'Components stack';
+		display: [:aSession | (self retrieveStackFrom: aSession) select: [:ctxt |
+			nestedContexts anySatisfy: [:targetContext | targetContext methodClass = ctxt methodClass ]]];
+		column: 'Class' 
+			evaluated: [ :aContext | self formatStackClassColumnForContext: aContext]
+			width: 300;
+		column: 'Method' 
+			evaluated: [ :aContext | self formatStackMethodColumnForContext: aContext ];
+		column: 'Other' 
+			evaluated: [ :aContext | self formatStackExtraColumnForContext: aContext ];
+		hideHeader
+]
+
+{ #category : #'as yet unclassified' }
+GTSeasideDebugger >> stackIn: composite [
+
+	super stackIn: composite.
+	self stackComponentsIn: composite.
+	^ composite
 ]
 
 { #category : #'building presentations' }
