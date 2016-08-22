@@ -4,7 +4,7 @@ Extension { #name : #SmalltalkImage }
 SmalltalkImage >> gtExamplesContained [
 	| examples |
 	examples := OrderedCollection new.
-	Object withAllSubclassesDo: [ :class |
+	self allClassesAndTraitsDo: [ :class |
 		class gtExamplesFactory examplesDo: [ :example | 
 			examples add: example ] ].
 	^ examples
