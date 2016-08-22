@@ -28,10 +28,10 @@ InMemoryLogger start.
 InMemoryLogger instance.
 InMemoryLogger stop.
 
-"GLMCompositePresentation new
+"InMemoryLogger new runDuring: [ GLMCompositePresentation new
     with: [ :c |
         c fastList selectionAct: #inspect entitled: ''Value'' ];
-    openOn: (1 to: 42)"').
+    openOn: (1 to: 42) ]"').
 	GTSnippets reset.
 	GTSnippets snippetAt: OrderedCollection put: '| view |
 view := RTMondrian new.
