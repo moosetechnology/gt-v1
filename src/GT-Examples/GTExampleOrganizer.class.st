@@ -9,7 +9,6 @@ Class {
 	#instVars : [
 		'theNonMetaClassExamples',
 		'theMetaClassExamples',
-		'results',
 		'systemAnnouncements',
 		'monticelloAnnouncements'
 	],
@@ -221,9 +220,6 @@ GTExampleOrganizer >> initialize [
 	
 	theNonMetaClassExamples := WeakIdentityKeyDictionary new: 10000.
 	theMetaClassExamples := WeakIdentityKeyDictionary new: 10000.
-	results := LRUCache new
-		maximumWeight: 20;
-		yourself
 ]
 
 { #category : #'private-events' }
@@ -310,17 +306,6 @@ GTExampleOrganizer >> resetStubs [
 GTExampleOrganizer >> restart [
 	self stopThoroughly.
 	self start.
-]
-
-{ #category : #TODO }
-GTExampleOrganizer >> resultAt: aGTExample ifAbsent: aBlock [
-	^ results at: { aGTExample methodClass. aGTExample selector } ifAbsent: aBlock
-]
-
-{ #category : #TODO }
-GTExampleOrganizer >> resultAt: aGTExample put: aGTExampleResult [
-	GTAbstractExampleNautilusActionButton methodUpdated: aGTExample method with: aGTExampleResult.
-	^ results at: { aGTExample methodClass. aGTExample selector } put: aGTExampleResult
 ]
 
 { #category : #public }

@@ -766,16 +766,6 @@ GTExample >> label: aString [
 	label := aString
 ]
 
-{ #category : #'accessing-dynamic' }
-GTExample >> lastResult [
-	^ GTExampleOrganizer instance resultAt: self ifAbsent: [ nil ]
-]
-
-{ #category : #'accessing-dynamic' }
-GTExample >> lastReturnValue [
-	^ self lastResult ifNotNil: [ :lr | lr returnValue ]
-]
-
 { #category : #testing }
 GTExample >> matchesMethod: aCompiledMethod [
 	^ aCompiledMethod class = CompiledMethod

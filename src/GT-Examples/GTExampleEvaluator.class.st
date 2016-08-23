@@ -85,6 +85,5 @@ GTExampleEvaluator >> result [
 	self do: [ self value ] 
 		on: Error
 		do: [ :exception | result returnValue: nil; unexpectedError: exception ].
-	GTExampleOrganizer instance resultAt: self example put: result.
 	^ result
 ]
