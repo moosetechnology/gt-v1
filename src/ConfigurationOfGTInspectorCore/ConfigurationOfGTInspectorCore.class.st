@@ -191,8 +191,12 @@ ConfigurationOfGTInspectorCore >> customProjectAttributes [
 ConfigurationOfGTInspectorCore >> development: spec [
 	<symbolicVersion: #'development'>
 
+	spec for: #'common' version: '3.0-baseline'.
+
 	spec for: #'pharo4.x' version: '2.0.15'.
+
 	spec for: #'pharo5.x' version: '3.17'.
+
 	spec for: #'pharo6.x' version: '3.0-baseline'.
 
 ]
@@ -214,12 +218,15 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.16'.
-	spec for: #'pharo3.x' version: '2.0.6'.
-	spec for: #'pharo4.x' version: '2.0.15'.
-	spec for: #'pharo5.x' version: '3.17'.
-	spec for: #'pharo6.x' version: '3.18'.
+	spec for: #'common' version: '3.19'.
 
+	spec for: #'pharo3.x' version: '2.0.6'.
+
+	spec for: #'pharo4.x' version: '2.0.15'.
+
+	spec for: #'pharo5.x' version: '3.17'.
+
+	spec for: #'pharo6.x' version: '3.18'.
 
 ]
 
@@ -1000,6 +1007,23 @@ ConfigurationOfGTInspectorCore >> version318: spec [
 			package: 'GT-Inspector' with: 'GT-Inspector-JurajKubelka.434';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-JurajKubelka.225';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-JurajKubelka.57'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version319: spec [
+	<version: '3.19' imports: #('3.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GToolkit Version 3.27'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '8/25/2016 14:40'.
+		spec project: 'GlamourCore' with: '4.21'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-StefanReichhart.436';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-TudorGirba.227';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.59'. ].
 
 ]
 
