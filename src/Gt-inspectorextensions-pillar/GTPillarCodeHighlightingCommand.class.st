@@ -18,7 +18,7 @@ GTPillarCodeHighlightingCommand >> executeOn: aText inPresentation: aPresentatio
 			aText replaceFrom: self token start to: self token stop with: styledText ]
 		ifFalse: [ 
 			aText 
-				addAttribute: TextColor gray
+				addAttribute: TextColor black
 				from: self token start 
 				to: self token stop ].
 	aText 
