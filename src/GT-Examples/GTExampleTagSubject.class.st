@@ -42,9 +42,7 @@ GTExampleTagSubject >> exists [
 GTExampleTagSubject >> hasLiteralThorough: aLiteral [
 	^ self theTagName = aLiteral
 		or: [ self exists
-			and: [ self theTag categoryName = aLiteral
-				or: [ (self theTag classes anySatisfy: [ :each | each name = aLiteral asString ])
-					"or: [ self theTag methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ]" ] ] ]
+			and: [ self theTag categoryName = aLiteral ] ]
 ]
 
 { #category : #testing }

@@ -42,10 +42,7 @@ GTExampleClassSubject >> exists [
 GTExampleClassSubject >> hasLiteralThorough: aLiteral [
 	^ self theClassName = aLiteral
 		or: [ self exists 
-			and: [ self theClass = aLiteral
-				or: [ self theClass methods anySatisfy: [ :method | 
-							method selector = aLiteral
-								or: [ 	method hasLiteralThorough: aLiteral ] ] ] ] ]
+			and: [ self theClass = aLiteral ] ]
 ]
 
 { #category : #testing }

@@ -41,9 +41,6 @@ GTExamplePackageSubject >> exists [
 { #category : #testing }
 GTExamplePackageSubject >> hasLiteralThorough: aLiteral [
 	^ self thePackageName = aLiteral
-		or: [ self exists
-			and: [ (self thePackage classes anySatisfy: [ :each | each name = aLiteral asString ])
-				or: [ self thePackage methods anySatisfy: [ :each | each hasLiteralThorough: aLiteral ] ] ] ]
 ]
 
 { #category : #testing }
