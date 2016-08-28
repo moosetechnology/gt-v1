@@ -53,9 +53,12 @@ GTAbstractExampleMenu >> browseExamplesReferencing: aLiteral builder: aBuilder [
 
 { #category : #private }
 GTAbstractExampleMenu >> browseExamplesWithSubject: aLiteral builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse examples with subject "' ,  aLiteral gtDisplayString , '"')
+	" this is yet too complicated - SIMPLIFY term and behavior for the user
+	
+	(lastItem := aBuilder item: 'Browse examples with subject ""' ,  aLiteral gtDisplayString , '""')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesWithSubject: aLiteral ]
+	"
 ]
 
 { #category : #private }
