@@ -19,7 +19,7 @@ GTExampleRubEditor >> menuFor: aBuilder [
 	aBuilder model ifNil: [ ^ self ].
 	aBuilder model model ifNil: [ ^ self ].
 	(selection := aBuilder model selectionInterval) isEmptyOrNil ifTrue: [ ^ self ].
-	(selectedText := aBuilder model text copyFrom: selection first to: selection last) isEmptyOrNil ifTrue: [ ^ self ].
+	(selectedText := aBuilder model gtGetText copyFrom: selection first to: selection last) isEmptyOrNil ifTrue: [ ^ self ].
 	(selectedString := selectedText asString) isEmptyOrNil ifTrue: [ ^ self ].
 	
 	(lastItem := aBuilder item: 'GT Examples')

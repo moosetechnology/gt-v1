@@ -29,7 +29,7 @@ GTExampleNautilusClassMenu >> browseHierarchyOf: aClass builder: aBuilder [
 
 { #category : #private }
 GTExampleNautilusClassMenu >> browseSubclassesOf: aClass builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse xxamples in subclasses of class "' , aClass name , '"')
+	(lastItem := aBuilder item: 'Browse examples in subclasses of class "' , aClass name , '"')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesInSubclassesOfClass: aClass ].
 ]
