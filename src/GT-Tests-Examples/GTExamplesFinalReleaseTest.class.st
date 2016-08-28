@@ -9,7 +9,7 @@ GTExamplesFinalReleaseTest >> setUp [
 	super setUp.
 	
 	GTExampleOrganizer reset; stop.
-	Smalltalk garbageCollect; garbageCollectMost.
+	Smalltalk garbageCollect
 ]
 
 { #category : #running }
@@ -17,7 +17,7 @@ GTExamplesFinalReleaseTest >> tearDown [
 	super tearDown.
 	
 	GTExampleOrganizer reset; start.
-	Smalltalk garbageCollect; garbageCollectMost.
+	Smalltalk garbageCollect
 ]
 
 { #category : #tests }
