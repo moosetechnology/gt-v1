@@ -23,21 +23,21 @@ GTExampleWorldMenu >> buildSubmenu: aBuilder [
 
 { #category : #private }
 GTExampleWorldMenu >> disableNotifications: aBuilder [
-	(lastItem := aBuilder item: 'Disable Notifications')
+	(lastItem := aBuilder item: 'Disable notifications')
 		parent: #gte;
 		action: [ GTExampleNautilusNotifications stop ]
 ]
 
 { #category : #private }
 GTExampleWorldMenu >> enableNotifications: aBuilder [
-	(lastItem := aBuilder item: 'Enable Notifications')
+	(lastItem := aBuilder item: 'Enable notifications')
 		parent: #gte;
 		action: [ GTExampleNautilusNotifications start ]
 ]
 
 { #category : #private }
 GTExampleWorldMenu >> inspectAllExamples: aBuilder [
-	(lastItem := aBuilder item: 'Inspect all Examples')
+	(lastItem := aBuilder item: 'Inspect all examples')
 		parent: #gte;
 		action: [ self examples: [ Smalltalk gtExamplesContained ] ];
 		icon: Smalltalk ui icons glamorousInspect.
@@ -69,12 +69,12 @@ GTExampleWorldMenu >> menuFor: aBuilder [
 GTExampleWorldMenu >> resetAllExamples [
 	GTExampleOrganizer reset.
 	GTExampleOrganizer restart.
-	Smalltalk garbageCollect.
+	Smalltalk garbageCollect; garbageCollectMost.
 ]
 
 { #category : #private }
 GTExampleWorldMenu >> resetAllExamples: aBuilder [
-	(lastItem := aBuilder item: 'Reset all Examples')
+	(lastItem := aBuilder item: 'Reset all examples')
 		parent: #gte;
 		action: [ self resetAllExamples ]
 ]

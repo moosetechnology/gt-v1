@@ -15,7 +15,7 @@ GTExampleNautilusPackageMenu class >> menuFor: aBuilder [
 
 { #category : #private }
 GTExampleNautilusPackageMenu >> browsePackage: aPackage builder: aBuilder [
-	(lastItem := aBuilder item: #'Browse all Examples of Package ' ,  aPackage packageName)
+	(lastItem := aBuilder item: #'Browse all examples of package "' ,  aPackage packageName , '"')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesOfPackage: aPackage ]
 ]

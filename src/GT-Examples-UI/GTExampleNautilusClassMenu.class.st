@@ -15,28 +15,28 @@ GTExampleNautilusClassMenu class >> menuFor: aBuilder [
 
 { #category : #private }
 GTExampleNautilusClassMenu >> browseClass: aClass builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse Examples of Class ' ,  aClass name)
+	(lastItem := aBuilder item: 'Browse examples of class "' ,  aClass name , '"')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesOfClass: aClass ].
 ]
 
 { #category : #private }
 GTExampleNautilusClassMenu >> browseHierarchyOf: aClass builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse Examples in Hierarchy of Class ' , aClass name)
+	(lastItem := aBuilder item: 'Browse examples in hierarchy of class "' , aClass name , '"')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesInHierarchyOfClass: aClass ].
 ]
 
 { #category : #private }
 GTExampleNautilusClassMenu >> browseSubclassesOf: aClass builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse Examples in Subclasses of Class ' , aClass name)
+	(lastItem := aBuilder item: 'Browse xxamples in subclasses of class "' , aClass name , '"')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesInSubclassesOfClass: aClass ].
 ]
 
 { #category : #private }
 GTExampleNautilusClassMenu >> browseSuperclassesOf: aClass builder: aBuilder [
-	(lastItem := aBuilder item: 'Browse Examples in Superclasses of Class ' , aClass name)
+	(lastItem := aBuilder item: 'Browse examples in superclasses of class "' , aClass name , '"')
 		parent: #gte;
 		action: [ GTExampleNavigation browseExamplesInSuperclassesOfClass: aClass ].
 ]

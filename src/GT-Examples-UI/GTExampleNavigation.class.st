@@ -22,7 +22,7 @@ GTExampleNavigation class >> browseAllDependenciesOf: aCollectionOfExamples [
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseAllDependentsOf: aCollectionOfExamples [
-	self browse: 'All Dependents' examples: (aCollectionOfExamples gather: [ :each | each allDependents ])
+	self browse: 'All dependents' examples: (aCollectionOfExamples gather: [ :each | each allDependents ])
 ]
 
 { #category : #'browse with scope' }
@@ -33,7 +33,7 @@ GTExampleNavigation class >> browseAllExampleAfterMethods: aCollectionOfExamples
 	aCollectionOfExamples do: [ :example | 
 		example after ifNotNil: [
 			example after addToSelectorEnvironment: env ] ].
-	^ env gtBrowseFor: 'After Methods'
+	^ env gtBrowseFor: 'After-methods'
 ]
 
 { #category : #private }
@@ -72,74 +72,74 @@ GTExampleNavigation class >> browseExamples: aString select: aBlock [
 { #category : #'browse globally' }
 GTExampleNavigation class >> browseExamplesIgnoredByTests [
 	" self browseAllExamplesIgnoredByTests "
-	self browseExamples: 'Examples ignored by Tests' select: [ :example | 
+	self browseExamples: 'Examples ignored by tests' select: [ :example | 
 		example ignoreTest 
 			or: [ example ignoreTestReport ] ]
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesInHierarchyOfClass: aClass [
-	self browse: 'Examples in Hierarchy of Class ' , aClass name examples: (aClass withAllSubclasses gather: [ :each | each gtExamples ]), (aClass allSuperclasses gather: [ :each | each gtExamples ])
+	self browse: 'Examples in hierarchy of class "' , aClass name , '"' examples: (aClass withAllSubclasses gather: [ :each | each gtExamples ]), (aClass allSuperclasses gather: [ :each | each gtExamples ])
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesInSubclassesOfClass: aClass [
-	self browse: 'Examples in Subclasses of Class ' , aClass name examples: (aClass withAllSubclasses gather: [ :each | each gtExamples ])
+	self browse: 'Examples in subclasses of class "' , aClass name , '"' examples: (aClass withAllSubclasses gather: [ :each | each gtExamples ])
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesInSuperclassesOfClass: aClass [
-	self browse: 'Examples in Superclasses of Class ' , aClass name examples: (aClass withAllSuperclasses gather: [ :each | each gtExamples ])
+	self browse: 'Examples in superclasses of class "' , aClass name , '"' examples: (aClass withAllSuperclasses gather: [ :each | each gtExamples ])
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesLiteralThorough: aString [
 	" self browseExamplesLiteralThorough: #and: "
-	self browseExamples: 'Examples with literal #', aString select: [ :example | 
+	self browseExamples: 'Examples with literal "', aString, '"' select: [ :example | 
 		example hasLiteralThorough: aString ]
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesOfClass: aClass [
-	self browse: 'Examples of Class ' , aClass name examples: aClass gtExamples
+	self browse: 'Examples of class "' , aClass name, '"' examples: aClass gtExamples
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesOfPackage: anRPackage [
-	self browse: 'Examples of Package ' , anRPackage packageName examples: anRPackage gtExamplesContained
+	self browse: 'Examples of package "' , anRPackage packageName, '"' examples: anRPackage gtExamplesContained
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesReferencing: aLiteral [
 	" self browseAllExamplesReferencing: #and: "
-	self browseExamples: 'Examples referencing #', aLiteral asString select: [ :example | 
+	self browseExamples: 'Examples referencing "', aLiteral asString, '"' select: [ :example | 
 		example isReferencing: aLiteral ]
 ]
 
 { #category : #'browse globally' }
 GTExampleNavigation class >> browseExamplesWithDependencies [
 	" self browseAllExamplesWithDependencies "
-	self browseExamples: 'Examples with Dependencies' select: [ :example | 
+	self browseExamples: 'Examples with dependencies' select: [ :example | 
 		example hasArguments ]
 ]
 
 { #category : #'browse globally' }
 GTExampleNavigation class >> browseExamplesWithProblems [
 	" self browseExamplesWithProblems "
-	self browseExamples: 'Examples with Problems' select: [ :example | 
+	self browseExamples: 'Examples with problems' select: [ :example | 
 		example hasProblems ]
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesWithSubject: aGTExampleSubject [
 	" self browseAllExamplesWithSubject: GTExample "
-	self browseExamples: 'Examples with Subject ', aGTExampleSubject gtDisplayString select: [ :example | 
+	self browseExamples: 'Examples with subject "', aGTExampleSubject gtDisplayString, '"' select: [ :example | 
 		example hasSubject: aGTExampleSubject ]
 ]
 
 { #category : #'browse with scope' }
 GTExampleNavigation class >> browseExamplesWithSubjectMatching: aGTExampleSubject [
 	" self browseAllExamplesWithSubject: GTExample "
-	self browseExamples: 'Examples with Subject ', aGTExampleSubject gtDisplayString select: [ :example | 
+	self browseExamples: 'Examples with subject "', aGTExampleSubject gtDisplayString, '"' select: [ :example | 
 		example hasSubjectMatching: aGTExampleSubject ]
 ]

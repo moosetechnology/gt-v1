@@ -24,35 +24,35 @@ GTExampleNautilusMethodMenu >> browseAfter: aCollection builder: aBuilder [
 
 { #category : #private }
 GTExampleNautilusMethodMenu >> browseAllDependencies: aCollection builder: aBuilder [
-	(lastItem := aBuilder item: #'Browse all Dependencies')
+	(lastItem := aBuilder item: #'Browse all dependencies')
 		parent: #gte;
 		action: [ GTExampleNavigation browseAllDependenciesOf: aCollection ]
 ]
 
 { #category : #private }
 GTExampleNautilusMethodMenu >> browseAllDependents: aCollection builder: aBuilder [
-	(lastItem := aBuilder item: #'Browse all Dependents')
+	(lastItem := aBuilder item: #'Browse all dependents')
 		parent: #gte;
 		action: [ GTExampleNavigation browseAllDependentsOf: aCollection ]
 ]
 
 { #category : #private }
 GTExampleNautilusMethodMenu >> browseDependencies: aCollection builder: aBuilder [ 
-	(lastItem := aBuilder item: #'Browse Dependencies')
+	(lastItem := aBuilder item: #'Browse dependencies')
 		parent: #gte;
 		action: [ GTExampleNavigation browseDependenciesOf: aCollection ]
 ]
 
 { #category : #private }
 GTExampleNautilusMethodMenu >> browseDependents: aCollection builder: aBuilder [
-	(lastItem := aBuilder item: #'Browse Dependents')
+	(lastItem := aBuilder item: #'Browse dependents')
 		parent: #gte;
 		action: [ GTExampleNavigation browseDependentsOf: aCollection ]
 ]
 
 { #category : #private }
 GTExampleNautilusMethodMenu >> browseExampleSubjects: aCollection builder: aBuilder [
-	(lastItem := aBuilder item: #'Browse Subjects')
+	(lastItem := aBuilder item: #'Browse subjects')
 		parent: #gte;
 		action: [ GTExampleNavigation browseAllExampleSubjects: aCollection ];
 		icon: Smalltalk ui icons glamorousDiveRight

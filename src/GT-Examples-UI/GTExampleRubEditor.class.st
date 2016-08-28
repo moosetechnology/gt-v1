@@ -25,8 +25,8 @@ GTExampleRubEditor >> menuFor: aBuilder [
 	(lastItem := aBuilder item: 'GT Examples')
 		withSeparatorAfter;
 		with: [ 
-			(lastItem := aBuilder item: #'Browse Examples with subject #' , selectedString)
+			(lastItem := aBuilder item: #'Browse examples with subject "' , selectedString , '"')
 				action: [ GTExampleNavigation browseExamplesWithSubjectMatching: selectedString ].
-			(lastItem := aBuilder item: #'Browse Examples with literal #' , selectedString)
-				action: [ GTExampleNavigation browseExamplesLiteralThorough: selectedString asSymbol ]. ]
+			(lastItem := aBuilder item: #'Browse examples with literal "' , selectedString, '"')
+				action: [ GTExampleNavigation browseExamplesLiteralThorough: selectedString ]. ]
 ]
