@@ -51,28 +51,6 @@ GTExampleHelpSubject >> exists [
 	^ self topic notNil
 ]
 
-{ #category : #'*GT-Examples-UI' }
-GTExampleHelpSubject >> forNautilus: aBlock [
-	aBlock 
-		value: #'Browse subject Help ' ,  self topic gtDisplayString , (self title ifNotNil: [ ' > ', self title ] ifNil: [ '' ])
-		value: [ 
-			| browser |
-			browser := (HelpBrowser openOn: self topic).
-			self title ifNotNil: [ browser selectTopicSatisfying: [ :subhelp | subhelp title = self title ] ] ]
-]
-
-{ #category : #'*GT-Examples-UI' }
-GTExampleHelpSubject >> gtDisplayOn: aStream [
-	self exists 
-		ifTrue: [ self topic gtDisplayOn: aStream ]
-		ifFalse: [ 
-			self bookName gtDisplayOn: aStream.
-			self title isEmptyOrNil ifFalse: [ 
-				aStream nextPutAll: ' > '.
-				self title gtDisplayOn: aStream ] ].
-	self gtDisplayValidityOn: aStream
-]
-
 { #category : #testing }
 GTExampleHelpSubject >> hasLiteralThorough: aLiteral [
 	^ self topic notNil 

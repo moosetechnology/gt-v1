@@ -199,15 +199,6 @@ GTExampleOrganizer >> gtExamplesContained [
 	^ self examplesCollect: [ :each | each ]
 ]
 
-{ #category : #'*GT-Examples-UI' }
-GTExampleOrganizer >> gtSpotterGTExamplesFor: aStep [
-	<spotterOrder: 100>
-	aStep listProcessor
-		title: 'Examples';
-		filter: GTNullFilter item: [ :filter :context | 
-			self examplesDo: [ :cn :s :example | filter value: example ] ]
-]
-
 { #category : #'private-maintenance' }
 GTExampleOrganizer >> handleGTReservedMethod: aCompiledMethod for: announcement [
 	aCompiledMethod isGTReservedMethod ifFalse: [ ^ self ].

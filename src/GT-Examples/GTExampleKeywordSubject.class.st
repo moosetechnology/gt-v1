@@ -32,11 +32,6 @@ GTExampleKeywordSubject >> exists [
 	^ true
 ]
 
-{ #category : #'*GT-Examples-UI' }
-GTExampleKeywordSubject >> gtDisplayOn: aStream [
-	self keyword gtDisplayOn: aStream
-]
-
 { #category : #testing }
 GTExampleKeywordSubject >> hasLiteralThorough: aLiteral [
 	^ self keyword = aLiteral

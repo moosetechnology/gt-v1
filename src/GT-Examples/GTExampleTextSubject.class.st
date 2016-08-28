@@ -33,11 +33,6 @@ GTExampleTextSubject >> exists [
 	^ true
 ]
 
-{ #category : #'*GT-Examples-UI' }
-GTExampleTextSubject >> gtDisplayOn: aStream [
-	self text gtDisplayOn: aStream
-]
-
 { #category : #testing }
 GTExampleTextSubject >> hasLiteralThorough: aLiteral [
 	^ self text = aLiteral
