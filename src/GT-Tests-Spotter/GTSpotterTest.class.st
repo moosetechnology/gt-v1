@@ -85,7 +85,7 @@ GTSpotterTest >> testNewSpotter [
 	self testInstanceCreation.
 	
 	self assert: spotter notNil.
-	self assert: spotter isEmpty.
+	self assert: spotter hasSteps not.
 	self assert: spotter steps isEmpty.
 	self deny: spotter hasMultipleSteps.
 	
