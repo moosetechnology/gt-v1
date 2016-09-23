@@ -95,6 +95,6 @@ GTSpotterTest >> testNewSpotter [
 	"self assert: step1 == spotter currentStep"
 	
 	self assert: step1 notNil.
-	self assert: spotter isEmpty.
+	self assert: spotter hasSteps not.
 	self assert: spotter steps isEmpty.
 ]
