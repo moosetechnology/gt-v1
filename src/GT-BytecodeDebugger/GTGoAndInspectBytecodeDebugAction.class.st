@@ -15,10 +15,10 @@ GTGoAndInspectBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugge
 	^ (self forDebugger: aDebugger)
 ]
 
-{ #category : #'as yet unclassified' }
-GTGoAndInspectBytecodeDebugAction >> defaultKeyText [
+{ #category : #accessing }
+GTGoAndInspectBytecodeDebugAction >> defaultKeymap [
 
-	^ 'g'
+	^ $g meta
 ]
 
 { #category : #accessing }
