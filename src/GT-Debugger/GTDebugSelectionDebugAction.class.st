@@ -15,9 +15,9 @@ GTDebugSelectionDebugAction class >> gtActionFor: aDebugger [
 ]
 
 { #category : #accessing }
-GTDebugSelectionDebugAction >> defaultKeyText [
+GTDebugSelectionDebugAction >> defaultKeymap [
 
-	^ 'D'
+	^ PharoShortcuts current debugItShortcut
 ]
 
 { #category : #accessing }

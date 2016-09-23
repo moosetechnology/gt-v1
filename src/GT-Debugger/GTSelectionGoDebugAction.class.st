@@ -15,9 +15,9 @@ GTSelectionGoDebugAction class >> gtActionFor: aDebugger [
 ]
 
 { #category : #accessing }
-GTSelectionGoDebugAction >> defaultKeyText [
+GTSelectionGoDebugAction >> defaultKeymap [
 
-	^ 'g'
+	^ $g meta
 ]
 
 { #category : #accessing }

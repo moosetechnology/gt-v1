@@ -25,15 +25,15 @@ GTInspectSelectionDebugAction class >> gtBasicInspectActionFor: aDebugger [
 	^ (self forDebugger: aDebugger)
 			makeBasicInspect;
 			label: 'Basic inspect it';
-			keyText: 'I'; 
+			keymap: $i meta shift; 
 			order: 16;
 			icon: GLMUIThemeExtraIcons glamorousInspect
 ]
 
 { #category : #accessing }
-GTInspectSelectionDebugAction >> defaultKeyText [
+GTInspectSelectionDebugAction >> defaultKeymap [
 
-	^ 'i'
+	^ PharoShortcuts current inspectItShortcut 
 ]
 
 { #category : #accessing }

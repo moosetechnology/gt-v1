@@ -15,10 +15,10 @@ GTSaveDebugAction class >> gtActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousAccept
 ]
 
-{ #category : #accessing }
-GTSaveDebugAction >> defaultKeyText [
+{ #category : #'as yet unclassified' }
+GTSaveDebugAction >> defaultKeymap [
 
-	^ 's'
+	^ PharoShortcuts current acceptShortcut
 ]
 
 { #category : #initialization }

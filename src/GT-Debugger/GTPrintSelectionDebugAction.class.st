@@ -16,9 +16,9 @@ GTPrintSelectionDebugAction class >> gtActionFor: aDebugger [
 ]
 
 { #category : #accessing }
-GTPrintSelectionDebugAction >> defaultKeyText [
+GTPrintSelectionDebugAction >> defaultKeymap [
 
-	^ 'p'
+	^ PharoShortcuts current printItShortcut
 ]
 
 { #category : #accessing }

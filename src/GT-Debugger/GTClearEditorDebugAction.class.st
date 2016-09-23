@@ -23,9 +23,9 @@ GTClearEditorDebugAction >> defaultIcon [
 ]
 
 { #category : #accessing }
-GTClearEditorDebugAction >> defaultKeyText [
+GTClearEditorDebugAction >> defaultKeymap [
 
-	^ 'l'
+	^ PharoShortcuts current cancelShortcut
 ]
 
 { #category : #accessing }
