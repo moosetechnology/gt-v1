@@ -1596,7 +1596,7 @@ ConfigurationOfGToolkit >> baseline027: aSpec [
 					repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/' ];
 			project: 'Beacon' with: [
 				aSpec
-					className: #ConfigurationOfBeaconCore;
+					className: #ConfigurationOfBeacon;
 					versionString: #'development';
 					repository: 'http://smalltalkhub.com/mc/Pharo/Beacon/main/' ].
 			
