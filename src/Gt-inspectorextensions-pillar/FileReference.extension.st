@@ -6,7 +6,7 @@ FileReference >> gtInspectorPillarIn: composite [
 	(#('pier' 'pillar') includes: self extension)
 		ifFalse: [ ^ self ].
 	
-	composite custom: (GLMRubricHighlightedTextPresentation new
+	^ composite custom: (GLMRubricHighlightedTextPresentation new
 		title: 'Pillar';
 		editingMode: [ : rubPresentation |
 			GLMHighlighterTextRubEditingMode withStylerDecorator: (

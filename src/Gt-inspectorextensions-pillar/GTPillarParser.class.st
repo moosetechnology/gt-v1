@@ -40,7 +40,7 @@ GTPillarParser >> code [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> codeIsland [
-	^ code island ==> #second
+	^ code sea ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,7 +56,7 @@ GTPillarParser >> comment [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> commentIsland [
-	^ comment island ==> #second
+	^ comment sea ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -68,7 +68,7 @@ GTPillarParser >> embed [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> embedIsland [
-	^ embed island ==> #second
+	^ embed sea ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -104,7 +104,7 @@ GTPillarParser >> heading [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> headingIsland [
-	^ heading island ==> #second
+	^ heading sea ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,7 +115,7 @@ GTPillarParser >> link [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> linkIsland [
-	^ link island ==> #second
+	^ link sea ==> #second
 ]
 
 { #category : #'as yet unclassified' }
@@ -126,7 +126,7 @@ GTPillarParser >> note [
 
 { #category : #'as yet unclassified' }
 GTPillarParser >> noteIsland [
-	^ note island ==> #second
+	^ note sea ==> #second
 ]
 
 { #category : #'as yet unclassified' }
