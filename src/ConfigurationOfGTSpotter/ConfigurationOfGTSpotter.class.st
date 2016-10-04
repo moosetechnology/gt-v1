@@ -297,7 +297,7 @@ ConfigurationOfGTSpotter >> stable: spec [
 
 	spec for: #'pharo5.x' version: '2.14'.
 
-	spec for: #'pharo6.x' version: '2.18'.
+	spec for: #'pharo6.x' version: '2.19'.
 
 ]
 
