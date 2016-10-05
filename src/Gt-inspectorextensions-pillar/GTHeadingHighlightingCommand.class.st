@@ -4,7 +4,7 @@ Class {
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #execute }
 GTHeadingHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	aText 
 		addAttribute: (TextColor color: Color blue darker)

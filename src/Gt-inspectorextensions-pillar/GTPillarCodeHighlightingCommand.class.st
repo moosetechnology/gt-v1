@@ -8,7 +8,7 @@ Class {
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #execute }
 GTPillarCodeHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	| styler styledText |
 	self isSmalltalk

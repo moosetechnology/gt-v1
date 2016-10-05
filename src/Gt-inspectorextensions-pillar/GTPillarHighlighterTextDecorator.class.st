@@ -25,7 +25,7 @@ GTPillarHighlighterTextDecorator class >> key [
 	^ self name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPillarHighlighterTextDecorator >> defaultStyler [
 
 	^ GLMHighlighterTextParserStyler new
@@ -45,7 +45,7 @@ GTPillarHighlighterTextDecorator >> fileReference: anObject [
 	fileReference := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #parsing }
 GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
 	| result highlighter |
 	result := aString asText.
@@ -59,7 +59,7 @@ GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
 	^ result
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTPillarHighlighterTextDecorator >> parser [
 	^ self
 ]

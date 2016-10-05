@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
-{ #category : #accessing }
+{ #category : #execute }
 GTPillarFileHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	| attribute targetFileReference |
 	targetFileReference := aFileReference parent resolveString: (self fileName removePrefix: 'file://').

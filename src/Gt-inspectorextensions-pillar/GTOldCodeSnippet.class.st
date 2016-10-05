@@ -7,7 +7,7 @@ Class {
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GTOldCodeSnippet >> start [
 	| separator snippet islandSnippet |
 	separator := #newline asParser , $= asParser.

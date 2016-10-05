@@ -11,7 +11,7 @@ Class {
 	#category : #'GT-InspectorExtensions-Pillar'
 }
 
-{ #category : #accessing }
+{ #category : #execute }
 GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	self subclassResponsibility 
 ]
