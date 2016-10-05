@@ -47,9 +47,11 @@ GTPillarHighlighterTextDecorator >> fileReference: anObject [
 
 { #category : #'as yet unclassified' }
 GTPillarHighlighterTextDecorator >> parse: aString onError: anError [
-	| result |
+	| result highlighter |
 	result := aString asText.
-	(GTPillarParser new parse: aString) do: [ :each | 
+	highlighter := GTPillarHighlighter new.
+	highlighter parse: aString.
+	highlighter commands do: [ :each | 
 		each 
 			executeOn: result 
 			inPresentation: self presentation 

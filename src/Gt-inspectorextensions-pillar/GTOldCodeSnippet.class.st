@@ -1,3 +1,6 @@
+"
+This is a utility parser that identifies old style of code formatting (= at the beginning of the line) and transforms it into the new format ([[[ ... ]]])
+"
 Class {
 	#name : #GTOldCodeSnippet,
 	#superclass : #PPCompositeParser,

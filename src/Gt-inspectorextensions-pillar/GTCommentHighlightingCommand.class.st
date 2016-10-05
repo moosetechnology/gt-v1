@@ -8,6 +8,6 @@ Class {
 GTCommentHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	aText 
 		addAttribute: (TextColor color: Color gray)
-		from: self token start 
-		to: self token stop
+		from: self start 
+		to: self stop
 ]

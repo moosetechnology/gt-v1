@@ -8,6 +8,6 @@ Class {
 GTNoteHighlightingCommand >> executeOn: aText inPresentation: aPresentation relativeToFileReference: aFileReference [
 	aText 
 		addAttribute: (TextColor color: Color red muchDarker)
-		from: self token start 
-		to: self token stop
+		from: self start 
+		to: self stop
 ]

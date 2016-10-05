@@ -1,8 +1,12 @@
+"
+These are commands that are applicable on a file.
+"
 Class {
 	#name : #GTHighlightingCommand,
 	#superclass : #Object,
 	#instVars : [
-		'token'
+		'start',
+		'stop'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -13,11 +17,21 @@ GTHighlightingCommand >> executeOn: aText inPresentation: aPresentation relative
 ]
 
 { #category : #accessing }
-GTHighlightingCommand >> token [
-	^ token
+GTHighlightingCommand >> start [
+	^ start
 ]
 
 { #category : #accessing }
-GTHighlightingCommand >> token: anObject [
-	token := anObject
+GTHighlightingCommand >> start: anObject [
+	start := anObject
+]
+
+{ #category : #accessing }
+GTHighlightingCommand >> stop [
+	^ stop
+]
+
+{ #category : #accessing }
+GTHighlightingCommand >> stop: anObject [
+	stop := anObject
 ]

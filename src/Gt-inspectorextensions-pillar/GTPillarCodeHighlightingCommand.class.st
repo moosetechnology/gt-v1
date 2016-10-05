@@ -2,7 +2,8 @@ Class {
 	#name : #GTPillarCodeHighlightingCommand,
 	#superclass : #GTHighlightingCommand,
 	#instVars : [
-		'language'
+		'properties',
+		'string'
 	],
 	#category : #'GT-InspectorExtensions-Pillar'
 }
@@ -14,30 +15,48 @@ GTPillarCodeHighlightingCommand >> executeOn: aText inPresentation: aPresentatio
 		ifTrue: [ 
 			styler := SHTextStylerST80 new.
 			styler classOrMetaClass: nil.
-			styledText := styler styledTextFor: (aText copyFrom: self token start to: self token stop).
-			aText replaceFrom: self token start to: self token stop with: styledText ]
+			styledText := styler styledTextFor: (aText copyFrom: self start to: self stop).
+			aText replaceFrom: self start to: self stop with: styledText ]
 		ifFalse: [ 
 			aText 
 				addAttribute: TextColor black
-				from: self token start 
-				to: self token stop ].
+				from: self start 
+				to: self stop ].
 	aText 
 		addAttribute: (TextFontReference toFont: StandardFonts codeFont)
-		from: self token start 
-		to: self token stop.
+		from: self start
+		to: self stop.
 ]
 
 { #category : #accessing }
 GTPillarCodeHighlightingCommand >> isSmalltalk [ 
-	^ self language asLowercase = 'smalltalk'
+	^ self language = 'smalltalk'
 ]
 
 { #category : #accessing }
 GTPillarCodeHighlightingCommand >> language [
-	^ language ifNil: [ language := 'smalltalk' ]
+	^ self properties 
+		detect: [ :each | each key asLowercase = 'language' ]
+		ifFound: [ :languagePair | languagePair value asLowercase ]
+		ifNone: [ 'smalltalk' ]
 ]
 
 { #category : #accessing }
-GTPillarCodeHighlightingCommand >> language: anObject [
-	language := anObject
+GTPillarCodeHighlightingCommand >> properties [
+	^ properties
+]
+
+{ #category : #accessing }
+GTPillarCodeHighlightingCommand >> properties: anObject [
+	properties := anObject
+]
+
+{ #category : #accessing }
+GTPillarCodeHighlightingCommand >> string [
+	^ string
+]
+
+{ #category : #accessing }
+GTPillarCodeHighlightingCommand >> string: anObject [
+	string := anObject
 ]
