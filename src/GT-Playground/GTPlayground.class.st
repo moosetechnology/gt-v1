@@ -254,7 +254,7 @@ GTPlayground class >> settingsOn: aBuilder [
 GTPlayground class >> taskbarIcon [
 	"Answer the icon for the receiver in a task bar."
 
-	^ Smalltalk ui icons iconNamed: #workspaceIcon
+	^ self iconNamed: #workspaceIcon
 ]
 
 { #category : #'instance creation' }
@@ -304,7 +304,7 @@ GTPlayground >> codeIn: a [
 			on: $G
 			entitled: 'Do it all and go';
 		act: [ :text :page | page publish ]
-			icon: (Smalltalk ui icons iconNamed: #glamorousSaveToUrl)
+			iconName: #glamorousSaveToUrl
 			entitled: 'Remote publish';
 		addAction:
 			(GLMPopupAction new
@@ -316,7 +316,7 @@ GTPlayground >> codeIn: a [
 						when: #inspect do: [ :binding | binding value inspect ];
 						when: #go do: [ :binding | text selection: binding value ];
 						yourself ];
-				icon: (Smalltalk ui icons iconNamed: #glamorousTable);
+				iconName: #glamorousTable;
 				title: 'Bindings';
 				yourself);
 		addAction:
@@ -329,7 +329,7 @@ GTPlayground >> codeIn: a [
 							text entity saveContent: playPage content.
 							text update ];
 						yourself ];
-				icon: (Smalltalk ui icons iconNamed: #glamorousMore);
+				iconName: #glamorousMore;
 				title: 'Play pages';
 				yourself);
 		dynamicActionsOnSelection: [ self contextMenuActions ];
