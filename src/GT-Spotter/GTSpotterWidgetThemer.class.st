@@ -400,17 +400,17 @@ GTSpotterWidgetThemer >> hintRevealStyleFor: aBrick [
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconAct [
-	^ Smalltalk ui icons iconNamed: #glamorousAccept
+	^ self iconNamed: #glamorousAccept
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveIn [
-	^ Smalltalk ui icons iconNamed: #glamorousDiveRightIcon
+	^ self iconNamed: #glamorousDiveRightIcon
 ]
 
 { #category : #icons }
 GTSpotterWidgetThemer >> iconDiveInCategory [
-	^ Smalltalk ui icons iconNamed: #glamorousDiveAllRightIcon
+	^ self iconNamed: #glamorousDiveAllRightIcon
 ]
 
 { #category : #values }
