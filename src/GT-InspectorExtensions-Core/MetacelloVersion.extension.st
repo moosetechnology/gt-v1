@@ -29,7 +29,7 @@ MetacelloVersion >> gtInspectorActionLoad [
 	<gtInspectorAction>
 	^ GLMGenericAction new
 		action: [ self load ];
-		icon: (Smalltalk ui icons iconNamed: #smallLoadProject);
+		iconName: #smallLoadProject;
 		title: 'Load'
 ]
 
