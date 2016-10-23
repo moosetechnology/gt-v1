@@ -160,6 +160,12 @@ GTSpotterResultsBrick >> categoryBrickOf: aProcessor ifAbsent: aBlock [
 		ifAbsent: aBlock
 ]
 
+{ #category : #drawing }
+GTSpotterResultsBrick >> clipSubmorphs [
+
+	^ true
+]
+
 { #category : #initialization }
 GTSpotterResultsBrick >> initialize [
 	super initialize.
