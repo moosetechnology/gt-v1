@@ -18,8 +18,9 @@ GTSpotterGlobalShortcut class >> openGlobalSpotter [
 		
 	self reset.
 	spotterModel := GTSpotter new.
-	(Smalltalk hasClassNamed: #GTSpotterEventCollector) ifTrue: [ 
-		#GTSpotterEventCollector asClass new
+	
+	self class environment at: #GTSpotterEventCollector ifPresent: [ :eventCollector |
+		eventCollector new
 			perform: #occupant: with: spotterModel;
 			perform: #category: with: #spotter;
 			register;
