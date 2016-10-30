@@ -89,7 +89,7 @@ GTRawObjectVariablesBrowser >> iconFor: anObject [
 
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> iconFor: anEyeElement error: error [
-	^ self iconNamed: #smallWarningIcon
+	^ Smalltalk ui icons iconNamed: #smallWarningIcon
 ]
 
 { #category : #'private building' }
