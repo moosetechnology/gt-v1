@@ -293,7 +293,7 @@ ConfigurationOfGTDebugger >> stable: spec [
 
 	spec for: #'pharo5.x' version: '3.0'.
 
-	spec for: #'pharo6.x' version: '3.3'.
+	spec for: #'pharo6.x' version: '3.4'.
 
 ]
 
