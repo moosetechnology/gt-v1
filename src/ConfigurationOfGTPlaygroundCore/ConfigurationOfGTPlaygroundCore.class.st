@@ -194,7 +194,7 @@ ConfigurationOfGTPlaygroundCore >> project [
 ConfigurationOfGTPlaygroundCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.17'.
+	spec for: #'common' version: '3.18'.
 
 	spec for: #'pharo3.x' version: '2.0.5'.
 
@@ -877,6 +877,22 @@ ConfigurationOfGTPlaygroundCore >> version317: spec [
 		spec project: 'GTInspectorCore' with: '3.21'.
 		spec 
 			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.131';
+			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTPlaygroundCore >> version318: spec [
+	<version: '3.18' imports: #('2.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GToolkit version 3.30'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/1/2016 11:15'.
+		spec project: 'GTInspectorCore' with: '3.22'.
+		spec 
+			package: 'GT-Playground' with: 'GT-Playground-TheIntegrator.133';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
