@@ -285,7 +285,7 @@ ConfigurationOfGTDebugger >> project [
 ConfigurationOfGTDebugger >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.3'.
+	spec for: #'common' version: '3.4'.
 
 	spec for: #'pharo3.x' version: '1.0.0'.
 
@@ -790,6 +790,24 @@ ConfigurationOfGTDebugger >> version33: spec [
 		spec project: 'GTInspectorCore' with: '3.21'.
 		spec 
 			package: 'GT-Debugger' with: 'GT-Debugger-AndreiChis.354';
+			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.33';
+			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
+			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTDebugger >> version34: spec [
+	<version: '3.4' imports: #('0.5-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GToolkit version 3.30'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '11/1/2016 11:15'.
+		spec project: 'GTInspectorCore' with: '3.22'.
+		spec 
+			package: 'GT-Debugger' with: 'GT-Debugger-TheIntegrator.356';
 			package: 'GT-BytecodeDebugger' with: 'GT-BytecodeDebugger-AndreiChis.33';
 			package: 'GT-SUnitDebugger' with: 'GT-SUnitDebugger-TudorGirba.39';
 			package: 'GT-Tests-Debugger' with: 'GT-Tests-Debugger-AndreiChis.14'. ].
