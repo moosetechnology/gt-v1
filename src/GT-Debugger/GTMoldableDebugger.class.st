@@ -162,8 +162,8 @@ GTMoldableDebugger class >> spanNewSessionLabeled: aString forContext: aContext 
 ]
 
 { #category : #icons }
-GTMoldableDebugger class >> taskbarIcon [
-	^ self iconNamed: #smallDebugIcon
+GTMoldableDebugger class >> taskbarIconName [
+	^ #smallDebugIcon
 ]
 
 { #category : #callbacks }
