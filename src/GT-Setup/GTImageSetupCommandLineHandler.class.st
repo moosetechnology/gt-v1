@@ -37,17 +37,13 @@ GTImageSetupCommandLineHandler >> activateWithoutSaving [
 	self cleanupWorld.
 "	self installGLMWhitespaceTheme."
 	self installFonts.
-"	self installGTInspector.
-"	self installGTDebuggers.
-"	self installGTPlayground.
-"	self flushMCCache.
+	self installGTDebuggers.
+	self flushMCCache.
 	self setPreferredSettings
 ]
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> cleanupWorld [
-"	SystemWindow allSubInstances do: #delete.
-"	
 	(World submorphs select: [ :each | each isSystemWindow ]) do: #delete.
 	World color: Color white
 ]
@@ -59,7 +55,6 @@ GTImageSetupCommandLineHandler >> flushMCCache [
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> installDemoFonts [
-	self loadFonts.
 	StandardFonts 
 		setAllStandardFontsTo: (LogicalFont familyName: 'Source Sans Pro' pointSize: 12);
 		haloFont: (LogicalFont familyName: 'Source Sans Pro' pointSize: 12);
@@ -82,34 +77,19 @@ GTImageSetupCommandLineHandler >> installFonts [
 GTImageSetupCommandLineHandler >> installGLMWhitespaceTheme [
 	GLMWhitespaceTheme 
 		defaultSettings: nil;
-		setPreferredWorldBackground;
 		beCurrent
 ]
 
 { #category : #utilities }
 GTImageSetupCommandLineHandler >> installGTDebuggers [
-	
 	GTGenericStackDebugger registerToolsOn: Smalltalk tools.
-	
 	GTGenericStackDebugger registerExtraToolsOn: Smalltalk tools.
 	GTGlamourDebugger registerToolsOn: Smalltalk tools.
 	#GTPPDebugger asClassIfPresent: [ :ppDebugger | ppDebugger registerToolsOn: Smalltalk tools ].
 	#ACGlamourDebugger asClassIfPresent: [ :acdDebugger | acdDebugger register ].
 	#GTBytecodeDebugger asClassIfPresent: [ :bytecodeDebugger | bytecodeDebugger registerToolsOn: Smalltalk tools ].
 	GTSUnitDebugger registerToolsOn: Smalltalk tools.
-	
 	GTMoldableDebugger enableDebuggerWindowDistinctColor: true
-]
-
-{ #category : #utilities }
-GTImageSetupCommandLineHandler >> installGTInspector [
-	GTInspector registerToolsOn: Smalltalk tools 
-]
-
-{ #category : #utilities }
-GTImageSetupCommandLineHandler >> installGTPlayground [
-	
-	GTPlayground registerToolsOn: Smalltalk tools
 ]
 
 { #category : #utilities }
@@ -119,7 +99,6 @@ GTImageSetupCommandLineHandler >> setPreferredSettings [
 		expandPrefixes: true;
 		popupShowWithShortcut: Character tab asShortcut.
 	GTGenericStackDebugger enableStackColoring: true.
-"	GLMWhitespaceTheme setPreferredShoutColors."
 	KMRepository reset.
 	"ThemeIcons current: GLMThemeIcons new"
 ]
