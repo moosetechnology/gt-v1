@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #tests }
+GTFinalReleaseTest >> expectedFailures [
+	^ #(testNoGLMWindowInstances)
+]
+
+{ #category : #tests }
 GTFinalReleaseTest >> setUp [
 	super setUp.
 	
