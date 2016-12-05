@@ -2,7 +2,6 @@ Extension { #name : #SequenceableCollection }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 SequenceableCollection >> gtInspectorItemsIn: composite [
-	self size > self gtCollectionSizeThreshold ifTrue: [ ^ self ].
 	^ composite table
 		title: 'Items';
 		display: [ :aCollection | [(1 to: self size) collect: [ :index | index -> (self at: index) ]] on:Error do:[#()]];

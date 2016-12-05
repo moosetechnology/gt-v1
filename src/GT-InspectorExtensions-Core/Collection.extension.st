@@ -1,25 +1,20 @@
 Extension { #name : #Collection }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Collection >> gtCollectionSizeThreshold [
-	"Return the maximum collection size that GT supports while showing all elements.
-	When this threshold is reached, we no longer show certain views that would take too much resources."
-
-	^ 16rFFFF "65535"
-]
-
-{ #category : #'*GT-InspectorExtensions-Core' }
-Collection >> gtDisplayOn: stream [
-	self printNameOn: stream.
-	stream
+Collection >> gtDisplayOn: s [
+	self printNameOn: s.
+	s
 		space;
 		nextPut: $[;
-		print: self size;
-		nextPutAll: (' item' asPluralBasedOn: self size);
+		nextPutAll: self size asString;
+		nextPutAll:
+				(self size = 1
+						ifTrue: [ ' item' ]
+						ifFalse: [ ' items' ]);
 		nextPut: $];
 		space.
-	self size <= self gtCollectionSizeThreshold 
-		ifTrue: [ self printElementsOn: stream ]
+		self printElementsOn: s.
+	
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }

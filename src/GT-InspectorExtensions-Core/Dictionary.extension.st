@@ -4,10 +4,10 @@ Extension { #name : #Dictionary }
 Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite table)
 		title: 'Items';
-		display: [ self associations ];
+		display: [ self associations sort: [ :a :b | a key printString <  b key printString ]];
 		children: [ :each | 
 			(each value isDictionary) 
-				ifTrue: [ each value associations ] 
+				ifTrue: [ each value associations sort: [ :a :b | a key printString <  b key printString]] 
 				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
 						ifTrue: [ each value collectWithIndex: [:x :i | i -> x ] ]
 						ifFalse: [ #() ] ] ];
