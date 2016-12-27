@@ -5,5 +5,5 @@ Set >> gtInspectorItemsIn: composite [
 	"we override this because sets do not work well in morph tree morphs"
 
 	^ (super gtInspectorItemsIn: composite)
-		display: [ :set | set asOrderedCollection sort: [ :a :b | a printString < b printString ] ]
+		display: [ :set | set asOrderedCollection ]
 ]
