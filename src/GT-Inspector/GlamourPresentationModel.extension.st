@@ -4,18 +4,25 @@ Extension { #name : #GlamourPresentationModel }
 GlamourPresentationModel class >> exampleInspectorOn42 [
 	<gtExample>
 	"open an inspector on 42"
-	|ui|
-	ui := GlamourPresentationModel new.
-	ui presentationClass: GTInspector startOn: 42.
-	^ ui openWithSpec
+	^ self inspectorOn: 42
 ]
 
 { #category : #'*GT-Inspector' }
 GlamourPresentationModel class >> exampleSimpleMethodsBrowser [
 	<gtExample>
-	"open a Methods Browser on Object"
+	"Open a Methods Browser on Object."
 	|ui|
 	ui := GlamourPresentationModel new.
 	ui presentationClass: GTSimpleMethodsBrowser startOn: Object.
+	^ ui openWithSpec
+]
+
+{ #category : #'*GT-Inspector' }
+GlamourPresentationModel class >> inspectorOn: anObject [
+	"Open an inspector on 42. Execute the following code:"
+	"self inspectorOn: 42."
+	|ui|
+	ui := GlamourPresentationModel new.
+	ui presentationClass: GTInspector startOn: 42.
 	^ ui openWithSpec
 ]
