@@ -4,7 +4,7 @@ Extension { #name : #Collection }
 Collection >> spotterItemsFor: aStep [
 	<spotterOrder: 10>
 	| processor |
-	self ifEmpty: [ ^ self ].
+	(self isEmpty or: [ self size > self gtCollectionSizeThreshold ]) ifTrue: [ ^ self ].
 	processor := aStep previousProcessorFrom: self.
 	^ aStep listProcessor
 		title: processor title;
