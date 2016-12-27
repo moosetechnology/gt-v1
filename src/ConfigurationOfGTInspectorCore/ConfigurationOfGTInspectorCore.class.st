@@ -218,7 +218,7 @@ ConfigurationOfGTInspectorCore >> project [
 ConfigurationOfGTInspectorCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.22'.
+	spec for: #'common' version: '3.23'.
 
 	spec for: #'pharo3.x' version: '2.0.6'.
 
@@ -1091,6 +1091,23 @@ ConfigurationOfGTInspectorCore >> version322: spec [
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.439';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.234';
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.59'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTInspectorCore >> version323: spec [
+	<version: '3.23' imports: #('3.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Adds some examples for GlamourPresentationModel'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '12/27/2016 13:01'.
+		spec project: 'GlamourCore' with: '4.28'.
+		spec 
+			package: 'GT-Inspector' with: 'GT-Inspector-JurajKubelka.441';
+			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-JurajKubelka.237';
 			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.59'. ].
 
 ]
