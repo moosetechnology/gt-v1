@@ -231,7 +231,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.30'.
+	spec for: #'common' version: '3.31'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -799,6 +799,23 @@ ConfigurationOfGToolkitCore >> version330: spec [
 			project: 'GTInspectorCore' with: '3.22';
 			project: 'GTSpotter' with: '2.20';
 			project: 'GTDebugger' with: '3.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version331: spec [
+	<version: '3.31' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Glamour version 4.28 includes Glamour <--> Spec integration'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '12/27/2016 13:19'.
+		spec 
+			project: 'GTPlaygroundCore' with: '3.19';
+			project: 'GTInspectorCore' with: '3.23';
+			project: 'GTSpotter' with: '2.21';
+			project: 'GTDebugger' with: '3.5'. ].
 
 ]
 
