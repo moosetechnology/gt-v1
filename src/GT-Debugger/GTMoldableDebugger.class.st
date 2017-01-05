@@ -162,8 +162,8 @@ GTMoldableDebugger class >> spanNewSessionLabeled: aString forContext: aContext 
 ]
 
 { #category : #icons }
-GTMoldableDebugger class >> taskbarIcon [
-	^ self iconNamed: #smallDebugIcon
+GTMoldableDebugger class >> taskbarIconName [
+	^ #smallDebugIcon
 ]
 
 { #category : #callbacks }
@@ -314,8 +314,8 @@ GTMoldableDebugger >> open [
 	| window |
 	window := super open.
 	
-	self class environment at: #GTDebuggerEventCollector ifPresent: [ :eventCollector | 
-		eventCollector new collectDataFrom: self ].
+	(Smalltalk hasClassNamed: #GTDebuggerEventCollector) ifTrue: [ 
+		#GTDebuggerEventCollector asClass new collectDataFrom: self ].
 		
 	^ window.
 ]
