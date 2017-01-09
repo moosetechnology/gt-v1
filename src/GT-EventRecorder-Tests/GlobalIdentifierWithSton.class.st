@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-GlobalIdentifierWithSton >> fileName [
+GlobalIdentifierWithSton >> actualPreferencesFileName [
 	^ 'preferences.ston'
 ]
 

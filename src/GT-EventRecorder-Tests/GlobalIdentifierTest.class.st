@@ -5,15 +5,19 @@ Class {
 	#name : #GlobalIdentifierTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'disk',
-		'preferences',
-		'identifier'
+		'identifier',
+		'preferences'
 	],
 	#category : #'GT-EventRecorder-Tests-Identifier'
 }
 
+{ #category : #testing }
+GlobalIdentifierTest class >> isAbstract [
+	^ self = GlobalIdentifierTest 
+]
+
 { #category : #accessing }
-GlobalIdentifierTest >> fileName [
+GlobalIdentifierTest >> actualPreferencesFileName [
 	^ identifier persistenceStrategy fileName
 ]
 
@@ -26,20 +30,19 @@ GlobalIdentifierTest >> folderName [
 GlobalIdentifierTest >> setUp [
 	super setUp.
 	identifier := GlobalIdentifier basicNew initialize.
-	preferences := FileLocator workingDirectory / self folderName / 'pharoX' / self fileName.
+	preferences := FileLocator workingDirectory / self folderName / 'pharoX' / self actualPreferencesFileName.
 	preferences ensureDelete.
 	self setUpPersistenceStrategy
 ]
 
 { #category : #running }
 GlobalIdentifierTest >> setUpPersistenceStrategy [
-	identifier persistenceStrategy preferences: preferences
+	self subclassResponsibility
 ]
 
 { #category : #running }
 GlobalIdentifierTest >> tearDown [
 	super tearDown.
-	"disk := FileSystem memory."
 	preferences ensureDelete.
 	(FileLocator workingDirectory / self folderName) 
 		ensureDeleteAllChildren; 
@@ -162,8 +165,25 @@ GlobalIdentifierTest >> testEnsure [
 	"The computer UUID is not stored immediately because the Pharo Integration Server
 	raised building errors when storing the computer UUID on the CI server."
 	| stored |
+	self testPreferenceFilesNotCollideWithRealPreferences.
 	identifier ensure.
-	self assert: preferences exists description: 'The preferences should be stored now.'.
+	self assert: preferences exists description: 'The actual preferences should be stored now.'.
 	stored := identifier persistenceStrategy load.
 	self assert: stored equals: identifier persistedInformation.
+
+]
+
+{ #category : #tests }
+GlobalIdentifierTest >> testPreferenceFilesNotCollideWithRealPreferences [
+	"Ensure that setUp is done correctly and we do not override or change production preferences.
+	See https://pharo.fogbugz.com/f/cases/19501"
+	| strategy |
+	strategy := identifier persistenceStrategy.
+	[ strategy ] whileNotNil: [ 
+		self deny: (FileLocator preferences contains: strategy preferences)
+			description: 'Tested preference file should NOT be stored in the preferences directory.'.
+		self assert: (FileLocator preferences contains: strategy defaultPreferences)
+			description: 'Default preference file should BE stored in the preferences directory.'.
+		strategy := strategy previous.
+	].
 ]

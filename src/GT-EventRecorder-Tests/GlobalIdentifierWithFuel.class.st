@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-GlobalIdentifierWithFuel >> fileName [
+GlobalIdentifierWithFuel >> actualPreferencesFileName [
 	^ 'preferences.fuel'
 ]
 
