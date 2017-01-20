@@ -314,8 +314,8 @@ GTMoldableDebugger >> open [
 	| window |
 	window := super open.
 	
-	(Smalltalk hasClassNamed: #GTDebuggerEventCollector) ifTrue: [ 
-		#GTDebuggerEventCollector asClass new collectDataFrom: self ].
+	self class environment at: #GTDebuggerEventCollector ifPresent: [ :eventCollector | 
+		eventCollector new collectDataFrom: self ].
 		
 	^ window.
 ]
@@ -377,7 +377,6 @@ GTMoldableDebugger >> updateBrowser [
 	browserPane := self browser pane.
 	(browserPane port: #entity) silentValue: nil.
 	(browserPane port: #entity) value: session.
-	browserPane update.
 ]
 
 { #category : #updating }
