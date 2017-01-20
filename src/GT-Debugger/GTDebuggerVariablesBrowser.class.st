@@ -84,7 +84,7 @@ GTDebuggerVariablesBrowser >> variablesFromContext: aContext [
 
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesIn: composite [
-	^ composite fastTable
+	^ composite table
 		showOnly: 50;
 		shouldValidate: false;
 		allowsRecursiveSearch: false;
