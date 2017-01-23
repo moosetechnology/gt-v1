@@ -534,12 +534,6 @@ GTGenericStackDebugger >> transmitFromStackToCodeIn: browser [
 ]
 
 { #category : #updating }
-GTGenericStackDebugger >> updateBrowser [
-	super updateBrowser.
-	self updateSelectionInterval.
-]
-
-{ #category : #updating }
 GTGenericStackDebugger >> updateCodeEditor [
 	self codePane update.
 	self updateSelectionInterval.
