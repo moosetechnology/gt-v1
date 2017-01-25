@@ -1,12 +1,5 @@
 Extension { #name : #MCWorkingCopy }
 
-{ #category : #'*GT-SpotterExtensions-Core-private' }
-MCWorkingCopy >> allAncestors [
-	^ self versionInfo 
-		ifNotNil: [ :versionInfo | versionInfo allAncestors ]
-		ifNil: [ #() ]
-]
-
 { #category : #'*GT-SpotterExtensions-Core' }
 MCWorkingCopy >> gtDisplayOn: stream [
 	ancestry ancestors isEmpty 
@@ -16,13 +9,6 @@ MCWorkingCopy >> gtDisplayOn: stream [
 			ancestry ancestors first gtDisplayOn: stream.
 			self needsSaving ifTrue: [ stream nextPutAll: ' (modified)' ] ]
 		
-]
-
-{ #category : #'*GT-SpotterExtensions-Core-private' }
-MCWorkingCopy >> nextAncestors [
-	^ self versionInfo 
-		ifNotNil: [ :versionInfo | versionInfo ancestors ]
-		ifNil: [ #() ]
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
@@ -95,11 +81,4 @@ MCWorkingCopy >> spotterPackageRepositoriesFor: aStep [
 			step exit.
 			self spotterCommit: self in: item ];
 		filter: GTFilterSubstring
-]
-
-{ #category : #'*GT-SpotterExtensions-Core-private' }
-MCWorkingCopy >> versionInfo [
-	^ self ancestors 
-		ifNotEmpty: [ :list | list first ] 
-		ifEmpty: [ nil ]
 ]
