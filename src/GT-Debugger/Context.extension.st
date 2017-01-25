@@ -58,13 +58,6 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 ]
 
 { #category : #'*GT-Debugger' }
-Context >> outerMostContext [
-	^ self outerContext 
-		ifNil: [ self ]
-		ifNotNil: [ self outerContext ]
-]
-
-{ #category : #'*GT-Debugger' }
 Context >> reservedNames [
 
 	^ #( 'self' 'thisContext' 'stack top')
