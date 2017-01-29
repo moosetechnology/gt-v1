@@ -5,6 +5,7 @@ Class {
 	#name : #GTExampleEvaluator,
 	#superclass : #GTExampleProcessor,
 	#instVars : [
+		'providers',
 		'processed',
 		'result'
 	],
@@ -23,7 +24,8 @@ GTExampleEvaluator >> do: aBlock on: anException do: anotherBlock [
 GTExampleEvaluator >> initialize [
 	super initialize.
 	
-	processed := OrderedCollection new
+	processed := OrderedCollection new.
+	providers := IdentityDictionary new.
 ]
 
 { #category : #private }
@@ -36,7 +38,7 @@ GTExampleEvaluator >> newResultFor: anExample [
 
 { #category : #primitives }
 GTExampleEvaluator >> primitiveProcessExample: anExample withArguments: arguments [
-	^ anExample provider perform: anExample method selector withArguments: arguments
+	^ (self providerFor: anExample) perform: anExample method selector withArguments: arguments
 ]
 
 { #category : #private }
@@ -73,10 +75,20 @@ GTExampleEvaluator >> processAfter: anExample [
 
 { #category : #private }
 GTExampleEvaluator >> processAfter: anExample withResult: anObject [
+	| provider |
 	anExample after ifNil: [ ^ self ].
+	provider := self providerFor: anExample after.
 	anExample after method
-		gtValueWithReceiver: anExample after provider 
-		possibleArguments: { anObject }
+		gtValueWithReceiver: provider 
+		possibleArguments: { anObject }.
+	providers removeKey: provider class
+]
+
+{ #category : #private }
+GTExampleEvaluator >> providerFor: anExampleOrExampleMethod [
+	| newProvider |
+	newProvider := anExampleOrExampleMethod provider.
+	^ providers at: newProvider class ifAbsentPut: [ newProvider ]
 ]
 
 { #category : #public }
