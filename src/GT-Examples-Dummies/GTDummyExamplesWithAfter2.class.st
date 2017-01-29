@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter2 class >> a: b [
 	<gtExample>
-	<depends: #b:>
+	<dependsOn: #b:>
 	<after: #afterA:>
 	" START -> C B A -> afterA -> afterB -> afterC -> END "
 	
@@ -62,7 +62,7 @@ GTDummyExamplesWithAfter2 class >> afterC: arg [
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithAfter2 class >> b: c [
 	<gtExample>
-	<depends: #c>
+	<dependsOn: #c>
 	<after: #afterB:>
 	" START -> C B -> afterB -> afterC -> END "
 	

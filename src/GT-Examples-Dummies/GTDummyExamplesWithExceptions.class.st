@@ -61,7 +61,7 @@ GTDummyExamplesWithExceptions class >> f: anObject [
 	<gtExample>
 	<label: 'Dummy #f'>
 	<description: 'Dummy #f, depends: #b which raises an expected exception, returns nil'>
-	<depends: #b>
+	<dependsOn: #b>
 	
 	self assert: anObject isNil
 ]
@@ -71,7 +71,7 @@ GTDummyExamplesWithExceptions class >> g: anObject [
 	<gtExample>
 	<label: 'Dummy #g'>
 	<description: 'Dummy #g, depends: #e, should raise a dependency error since the only dependency is raising an exception'>
-	<depends: #e>
+	<dependsOn: #e>
 	<noTest>
 	
 	^ anObject

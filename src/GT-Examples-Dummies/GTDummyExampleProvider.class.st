@@ -19,7 +19,7 @@ GTDummyExampleProvider >> b [
 { #category : #examples }
 GTDummyExampleProvider >> c: a c: b [
 	<gtExample>
-	<depends: #a>
-	<depends: #b>
+	<dependsOn: #a>
+	<dependsOn: #b>
 	^ a | b
 ]

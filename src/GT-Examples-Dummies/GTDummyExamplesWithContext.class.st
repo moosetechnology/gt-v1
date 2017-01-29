@@ -15,8 +15,8 @@ GTDummyExamplesWithContext class >> a [
 { #category : #'as yet unclassified' }
 GTDummyExamplesWithContext class >> b: a c: c [
 	<gtExample>
-	<depends: #a>
-	<depends: #c>
+	<dependsOn: #a>
+	<dependsOn: #c>
 	self assert: self gtExampleContext notNil.
 	self assert: a == self gtExampleContext.
 	self assert: c == self gtExampleContext.

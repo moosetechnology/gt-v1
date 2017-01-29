@@ -18,7 +18,7 @@ GTDummyExamples class >> b: aBoolean [
 	<gtExample>
 	<label: 'Dummy #b:, depends #a'>
 	<description: 'should return false'>
-	<depends: #a>
+	<dependsOn: #a>
 	
 	^ aBoolean & false
 ]
@@ -28,7 +28,7 @@ GTDummyExamples class >> c: aBoolean [
 	<gtExample>
 	<label: 'Dummy #c:, depends #b:'>
 	<description: 'should return true'>
-	<depends: #b:>
+	<dependsOn: #b:>
 	
 	^ aBoolean | true
 ]
@@ -38,7 +38,7 @@ GTDummyExamples class >> d: anInteger [
 	<gtExample>
 	<label: 'Dummy #d:, depends #c:'>
 	<description: 'should raise an exception as the argument is not anInteger'>
-	<depends: #c:>
+	<dependsOn: #c:>
 	<raises: #MessageNotUnderstood>
 	
 	^ 1 + anInteger
@@ -49,7 +49,7 @@ GTDummyExamples class >> e: aString [
 	<gtExample>
 	<label: 'Dummy #e:, depends #c:'>
 	<description: 'should raise an exception as the argument is not aString'>
-	<depends: #c:>
+	<dependsOn: #c:>
 	<raises: #Error>
 	
 	^ 'Hellow World', aString
@@ -60,7 +60,7 @@ GTDummyExamples class >> f: aBoolean [
 	<gtExample>
 	<label: 'Dummy #f:, depends: #c:'>
 	<description: 'shouldnt raise any exception'>
-	<depends: #c:>
+	<dependsOn: #c:>
 	
 	self assert: aBoolean.
 	^ aBoolean
@@ -83,7 +83,7 @@ GTDummyExamples class >> h: aBoolean [
 	<gtExample>
 	<label: 'Dummy #h, depends: #e:'>
 	<description: 'shouldnt raise any exception, but dependency should'>
-	<depends: #e:>
+	<dependsOn: #e:>
 	<noTest>
 	
 	^ aBoolean & false
@@ -152,9 +152,9 @@ GTDummyExamples class >> p: aBoolean1 p: aBoolean2 p: aBoolean3 [
 	<gtExample>
 	<label: 'Dummy #p:p:p:, depends #a, #b:, #c:'>
 	<description: 'with description only'>
-	<depends: #a>
-	<depends: #b:>
-	<depends: #c:>
+	<dependsOn: #a>
+	<dependsOn: #b:>
+	<dependsOn: #c:>
 	
 	self assert: (aBoolean1 | aBoolean2 | aBoolean3).
 	^ aBoolean1 | aBoolean2 | aBoolean3
@@ -164,7 +164,7 @@ GTDummyExamples class >> p: aBoolean1 p: aBoolean2 p: aBoolean3 [
 GTDummyExamples class >> q: aBoolean [
 	<gtExample>
 	<description: 'with description only'>
-	<depends: #p:p:p:>
+	<dependsOn: #p:p:p:>
 	
 	self assert: aBoolean.
 	^ aBoolean
@@ -174,8 +174,8 @@ GTDummyExamples class >> q: aBoolean [
 GTDummyExamples class >> r: aBoolean1 r: aBoolean2 [
 	<gtExample>
 	<label: 'Dummy #r:, depends #q: and p:p:p:'>
-	<depends: #p:p:p:>
-	<depends: #q:>
+	<dependsOn: #p:p:p:>
+	<dependsOn: #q:>
 	
 	self assert: aBoolean1 & aBoolean2.
 	^ aBoolean1 & aBoolean2
@@ -185,7 +185,7 @@ GTDummyExamples class >> r: aBoolean1 r: aBoolean2 [
 GTDummyExamples class >> s: aBoolean [
 	<gtExample>
 	<label: 'Dummy #s, invalid recursion'>
-	<depends: #s:>
+	<dependsOn: #s:>
 	<noTest>
 	
 	^ aBoolean
@@ -195,7 +195,7 @@ GTDummyExamples class >> s: aBoolean [
 GTDummyExamples class >> t: aBoolean [
 	<gtExample>
 	<label: 'Dummy #t, invalid recursion'>
-	<depends: #s:>
+	<dependsOn: #s:>
 	<noTest>
 	
 	^ aBoolean
@@ -205,7 +205,7 @@ GTDummyExamples class >> t: aBoolean [
 GTDummyExamples class >> u: aBoolean [
 	<gtExample>
 	<label: 'Dummy #u, invalid recursion'>
-	<depends: #v:>
+	<dependsOn: #v:>
 	<noTest>
 	
 	^ aBoolean
@@ -215,7 +215,7 @@ GTDummyExamples class >> u: aBoolean [
 GTDummyExamples class >> v: aBoolean [
 	<gtExample>
 	<label: 'Dummy #v, invalid recursion'>
-	<depends: #u:>
+	<dependsOn: #u:>
 	<noTest>
 	
 	^ aBoolean
@@ -225,7 +225,7 @@ GTDummyExamples class >> v: aBoolean [
 GTDummyExamples class >> w: aBoolean [
 	<gtExample>
 	<label: 'Dummy #w'>
-	<depends: #z:>
+	<dependsOn: #z:>
 	<noTest>
 	
 	^ aBoolean
@@ -235,7 +235,7 @@ GTDummyExamples class >> w: aBoolean [
 GTDummyExamples class >> x: aBoolean [
 	<gtExample>
 	<label: 'Dummy #x:, depends: w:'>
-	<depends: #w:>
+	<dependsOn: #w:>
 	<noTest>
 	
 	^ aBoolean
@@ -245,8 +245,8 @@ GTDummyExamples class >> x: aBoolean [
 GTDummyExamples class >> y: aBoolean1 y: aBoolean2 [
 	<gtExample>
 	<label: 'Dummy #y:y:, depends: #x: and #w:'>
-	<depends: #x:>
-	<depends: #w:>
+	<dependsOn: #x:>
+	<dependsOn: #w:>
 	<noTest>
 	
 	^ aBoolean1 & aBoolean2
@@ -256,7 +256,7 @@ GTDummyExamples class >> y: aBoolean1 y: aBoolean2 [
 GTDummyExamples class >> z: aBoolean [
 	<gtExample>
 	<label: 'Dummy #z, depends: #y:y:'>
-	<depends: #y:y:>
+	<dependsOn: #y:y:>
 	<noTest>
 	
 	^ aBoolean
