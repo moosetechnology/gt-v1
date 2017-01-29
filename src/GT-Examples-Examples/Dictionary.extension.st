@@ -12,7 +12,7 @@ Dictionary class >> gtExampleEmptyDictionary [
 Dictionary class >> gtExampleOneElementDictionaryFrom: anEmptyDictionary [
 	<gtExample>
 	<label: 'One element dictionary'>
-	<depends: #gtExampleEmptyDictionary>
+	<dependsOn: #gtExampleEmptyDictionary>
 	
 	anEmptyDictionary at: 4 put: 2.
 	^ anEmptyDictionary
@@ -22,7 +22,7 @@ Dictionary class >> gtExampleOneElementDictionaryFrom: anEmptyDictionary [
 Dictionary class >> gtExampleRemoveElementFrom: anEmptyDictionary [
 	<gtExample>
 	<label: 'Remove element'>
-	<depends: #gtExampleOneElementDictionaryFrom:>
+	<dependsOn: #gtExampleOneElementDictionaryFrom:>
 	
 	anEmptyDictionary removeKey: 4.
 	^ anEmptyDictionary
@@ -32,7 +32,7 @@ Dictionary class >> gtExampleRemoveElementFrom: anEmptyDictionary [
 Dictionary class >> gtExampleTwoElementsDictionaryFrom: aDictionary [
 	<gtExample>
 	<label: 'Two elements dictionary'>
-	<depends: #gtExampleOneElementDictionaryFrom:>
+	<dependsOn: #gtExampleOneElementDictionaryFrom:>
 	
 	aDictionary at: #fourty put: 'two'.
 	^ aDictionary
