@@ -6,6 +6,7 @@ Class {
 	#instVars : [
 		'methodClassName',
 		'methodClass',
+		'meta',
 		'selector'
 	],
 	#category : #'GT-Examples-Organization'
@@ -16,6 +17,7 @@ GTAbstractExampleMethod class >> fromClass: aClass selector: aSelector [
 	^ self new 
 		methodClass: aClass;
 		methodClassName: aClass name;
+		meta: aClass isMeta;
 		selector: aSelector;
 		yourself
 ]
@@ -25,6 +27,17 @@ GTAbstractExampleMethod class >> fromClassNamed: aString selector: aSelector [
 	^ self new 
 		methodClass: nil;
 		methodClassName: aString asString;
+		meta: false;
+		selector: aSelector;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTAbstractExampleMethod class >> fromMetaClassNamed: aString selector: aSelector [
+	^ self new 
+		methodClass: nil;
+		methodClassName: aString asString;
+		meta: true;
 		selector: aSelector;
 		yourself
 ]
@@ -70,6 +83,16 @@ GTAbstractExampleMethod >> matchesMethod: aCompiledMethod [
 			and: [ self selector = aCompiledMethod selector ] ]
 ]
 
+{ #category : #accessing }
+GTAbstractExampleMethod >> meta [
+	^ meta ifNil: [ meta := false ]
+]
+
+{ #category : #accessing }
+GTAbstractExampleMethod >> meta: anObject [
+	meta := anObject
+]
+
 { #category : #'accessing-dynamic' }
 GTAbstractExampleMethod >> method [
 	^ self exists 
@@ -86,7 +109,7 @@ GTAbstractExampleMethod >> methodArgumentNames [
 
 { #category : #accessing }
 GTAbstractExampleMethod >> methodClass [
-	^ methodClass ifNil: [ methodClass := Smalltalk classNamed: methodClassName ]
+	^ methodClass ifNil: [ methodClass := self resolveMethodClass ]
 		
 ]
 
@@ -105,6 +128,15 @@ GTAbstractExampleMethod >> methodClassName: anObject [
 	methodClassName := anObject
 ]
 
+{ #category : #private }
+GTAbstractExampleMethod >> methodClassResolver [
+	^ GTExampleMethodResolver new 
+		methodClassName: self methodClassName;
+		meta: self meta;
+		selector: self selector;
+		yourself
+]
+
 { #category : #'accessing-dynamic' }
 GTAbstractExampleMethod >> provider [ 
 	self exists ifFalse: [ ^ nil ].
@@ -117,6 +149,12 @@ GTAbstractExampleMethod >> provider [
 GTAbstractExampleMethod >> resetStub [
 	" 1) reset -> 2) reinitialize  "
 	methodClass := nil
+]
+
+{ #category : #private }
+GTAbstractExampleMethod >> resolveMethodClass [
+	" an aspect might reference a class not being present in the system - it has to be resolved again in this case "
+	^ self methodClassResolver methodClassDo: [ :class | class ] ifNone: [ nil ]
 ]
 
 { #category : #accessing }

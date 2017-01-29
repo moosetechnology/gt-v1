@@ -6,7 +6,8 @@ Class {
 	#superclass : #GTExampleSubject,
 	#instVars : [
 		'theClassName',
-		'theClass'
+		'theClass',
+		'meta'
 	],
 	#category : #'GT-Examples-Subjects'
 }
@@ -16,6 +17,7 @@ GTExampleClassSubject class >> fromClass: aClass [
 	^ self new 
 		theClass: aClass;
 		theClassName: aClass name;
+		meta: aClass isMeta;
 		yourself
 ]
 
@@ -24,6 +26,16 @@ GTExampleClassSubject class >> fromClassNamed: aString [
 	^ self new 
 		theClass: nil;
 		theClassName: aString asString;
+		meta: false;
+		yourself
+]
+
+{ #category : #'instance creation' }
+GTExampleClassSubject class >> fromMetaClassNamed: aString [
+	^ self new 
+		theClass: nil;
+		theClassName: aString asString;
+		meta: true;
 		yourself
 ]
 
@@ -31,6 +43,14 @@ GTExampleClassSubject class >> fromClassNamed: aString [
 GTExampleClassSubject >> = anExampleSubject [
 	^ self class = anExampleSubject class
 		and: [ self theClassName = anExampleSubject theClassName ]
+]
+
+{ #category : #private }
+GTExampleClassSubject >> classResolver [
+	^ GTExampleClassResolver new 
+		theClassName: self theClassName;
+		meta: self meta;
+		yourself
 ]
 
 { #category : #testing }
@@ -51,15 +71,31 @@ GTExampleClassSubject >> hash [
 		bitXor: self theClassName hash
 ]
 
+{ #category : #accessing }
+GTExampleClassSubject >> meta [
+	^ meta
+]
+
+{ #category : #accessing }
+GTExampleClassSubject >> meta: anObject [
+	meta := anObject
+]
+
 { #category : #private }
 GTExampleClassSubject >> resetStub [
 	" 1) reset -> 2) reinitialize "
 	theClass := nil
 ]
 
+{ #category : #private }
+GTExampleClassSubject >> resolveClass [
+	" an aspect might reference a class not being present in the system - it has to be resolved again in this case "
+	^ self classResolver theClassDo: [ :class | class ] ifNone: [ nil ]
+]
+
 { #category : #accessing }
 GTExampleClassSubject >> theClass [
-	^ theClass ifNil: [ theClass := Smalltalk classNamed: theClassName ]
+	^ theClass ifNil: [ theClass := self resolveClass ]
 		
 ]
 
