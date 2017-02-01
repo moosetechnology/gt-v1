@@ -110,7 +110,7 @@ GTPlayPage >> content [
 
 { #category : #accessing }
 GTPlayPage >> content: aString [
-	content := aString
+	content := aString asString
 ]
 
 { #category : #'accessing-dynamic' }

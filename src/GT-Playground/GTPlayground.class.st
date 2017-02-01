@@ -251,10 +251,10 @@ GTPlayground class >> settingsOn: aBuilder [
 ]
 
 { #category : #'tools registry' }
-GTPlayground class >> taskbarIcon [
+GTPlayground class >> taskbarIconName [
 	"Answer the icon for the receiver in a task bar."
 
-	^ self iconNamed: #workspaceIcon
+	^ #workspaceIcon
 ]
 
 { #category : #'instance creation' }
