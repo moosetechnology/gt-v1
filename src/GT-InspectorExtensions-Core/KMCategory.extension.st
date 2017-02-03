@@ -2,7 +2,11 @@ Extension { #name : #KMCategory }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 KMCategory >> gtDisplayOn: stream [
-	^ stream nextPutAll: self name asString
+	super gtDisplayOn: stream.
+	^ stream
+		nextPut: $(;
+		nextPutAll: self name asString;
+		nextPut: $)
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
