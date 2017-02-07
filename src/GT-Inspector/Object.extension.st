@@ -45,8 +45,8 @@ Object >> gtInspectorVariableNodesIn: aCollection [
 	indexableDisplayLimit := 21.        
 	top := 1.
 	bottom := self basicSize.
-	topLimit := bottom min: indexableDisplayLimit.
-	bottomLimit := (bottom - indexableDisplayLimit) max: indexableDisplayLimit.
+	topLimit    := indexableDisplayLimit min: bottom.
+	bottomLimit := indexableDisplayLimit max: (bottom - indexableDisplayLimit).
 
 	top to: topLimit do: [ :index | 
 		aCollection add: (GTInspectorIndexedNode hostObject: self index: index) ].
