@@ -20,9 +20,9 @@ Float >> gtInspectorFloatIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-Float >> gtInspectorVariableValuePairs [
+Float >> gtInspectorVariableNodesIn: aCollection [
 	
-	^ OrderedCollection
-		with: '1' -> (self at: 1)
-		with: '2' -> (self at: 2)
+	aCollection
+		add: (GTInspectorDynamicNode hostObject: self label: '1' value: (self at: 1));
+		add: (GTInspectorDynamicNode hostObject: self label: '2' value: (self at: 2))
 ]

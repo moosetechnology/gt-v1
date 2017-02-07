@@ -88,14 +88,12 @@ CompiledCode >> gtInspectorSourceIn: composite [
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
-CompiledCode >> gtInspectorVariableValuePairs [
-	| literalIndex values |
-	literalIndex := 0.
-	values := OrderedCollection new.
-	values addAll: (self literals collect: [ :aLiteral | 'literal', ( literalIndex := literalIndex + 1 ) asString -> aLiteral ]).
+CompiledCode >> gtInspectorVariableNodesIn: aCollection [
+
+	aCollection addAll: (self literals collectWithIndex: [ :aLiteral :anIndex | 
+		GTInspectorDynamicNode hostObject: self label: ('literal', anIndex asString) value: aLiteral ]).
 	self initialPC to: self size do: [ :index |
-		values add:  ('bc ', index asString) ->  (self at: index)].
-	^values.
+		aCollection add: (GTInspectorDynamicNode hostObject: self label: ('bc ', index asString) value: (self at: index) ) ] 
 	
 
 ]
