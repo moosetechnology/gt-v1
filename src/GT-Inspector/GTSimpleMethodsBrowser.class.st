@@ -20,7 +20,7 @@ GTSimpleMethodsBrowser >> accumulatedSourceOf: m for: object in: composite [
 
 { #category : #building }
 GTSimpleMethodsBrowser >> classesIn: a [
-	^ a list
+	^ a fastList
 		display: [ :object | 
 			| all |
 			all := OrderedCollection new.

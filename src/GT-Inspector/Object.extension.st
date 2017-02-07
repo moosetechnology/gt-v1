@@ -41,13 +41,20 @@ Object >> gtInspectorVariableValuePairs [
 		variable_name -> value
 	for the current object.
 	Subclasses can override it to specialize what appears in the variables presentation"
-	| bindings |
+	| indexableDisplayLimit top bottom topLimit bottomLimit bindings |
+	
+	indexableDisplayLimit := 21.        
+	top := 1.
+	bottom := self basicSize.
+	topLimit := bottom min: indexableDisplayLimit.
+	bottomLimit := (bottom - indexableDisplayLimit) max: indexableDisplayLimit.
+	
 	bindings := OrderedCollection new.
 					
-	1 to: (self basicSize min: 21) do: [ :index | 
+	top to: topLimit do: [ :index | 
 		bindings add: (index "asString""asTwoCharacterString" -> (self basicAt: index)) ].
 	
-	((self basicSize - 20) max: 22) to: (self basicSize) do: [ :index | "self haltIf: [ index = 99 ]."
+	bottomLimit + 1 to: bottom do: [ :index | "self haltIf: [ index = 99 ]."
 		bindings add: (index "asString" -> (self basicAt: index)) ].
 	
 	bindings
