@@ -36,29 +36,38 @@ Object >> gtInspectorRawIn: composite [
 ]
 
 { #category : #'*GT-Inspector' }
-Object >> gtInspectorVariableValuePairs [
-	"This is a helper method that returns a collection of 
-		variable_name -> value
-	for the current object.
-	Subclasses can override it to specialize what appears in the variables presentation"
-	| indexableDisplayLimit top bottom topLimit bottomLimit bindings |
+Object >> gtInspectorVariableNodesIn: aCollection [
+	"This is a helper method that adds to the given collection all nodes modeling named and 
+	indexed attributes for the current object.
+	Subclasses can override it to specialize what appears in the variables presentation."
+	| indexableDisplayLimit top bottom topLimit bottomLimit |
 	
 	indexableDisplayLimit := 21.        
 	top := 1.
 	bottom := self basicSize.
 	topLimit := bottom min: indexableDisplayLimit.
 	bottomLimit := (bottom - indexableDisplayLimit) max: indexableDisplayLimit.
-	
-	bindings := OrderedCollection new.
-					
+
 	top to: topLimit do: [ :index | 
-		bindings add: (index "asString""asTwoCharacterString" -> (self basicAt: index)) ].
+		aCollection add: (GTInspectorIndexedNode hostObject: self index: index) ].
 	
 	bottomLimit + 1 to: bottom do: [ :index | "self haltIf: [ index = 99 ]."
-		bindings add: (index "asString" -> (self basicAt: index)) ].
+		aCollection add: (GTInspectorIndexedNode hostObject: self index: index) ].
 	
-	bindings
-		addAll: ((self class allSlots 
-					collect: [ :slot | slot name -> (slot read: self) ]) sort asOrderedCollection).
-	^ bindings
+	aCollection
+		addAll: ((self class allSlots collect: [ :slot | 
+			GTInspectorSlotNode hostObject: self slotName: slot name ]) 
+				sort: [:aNode :anotherNode | aNode label < anotherNode label ])
+]
+
+{ #category : #'*GT-Inspector' }
+Object >> gtInspectorVariableValuePairs [
+	"This is a helper method that returns a collection of 
+		variable_name -> value
+	for the current object.
+	Subclasses can override it to specialize what appears in the variables presentation"
+	| bindings |
+	bindings := OrderedCollection new.
+	self gtInspectorVariableNodesIn: bindings.
+	^ bindings collect: [ :aNode | aNode key -> aNode value ]
 ]

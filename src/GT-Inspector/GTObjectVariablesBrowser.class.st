@@ -11,9 +11,9 @@ Class {
 }
 
 { #category : #'private building' }
-GTObjectVariablesBrowser >> basicVariableValuePairsFor: anObject [
+GTObjectVariablesBrowser >> basicVariableNodesFor: anObject in: aCollection [
 
-	^ anObject gtInspectorVariableValuePairs asOrderedCollection 
+	^ anObject gtInspectorVariableNodesIn: aCollection 
 ]
 
 { #category : #'private building' }

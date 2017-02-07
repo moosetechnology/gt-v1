@@ -11,7 +11,13 @@ Class {
 }
 
 { #category : #'private building' }
-GTRawObjectVariablesBrowser >> basicVariableValuePairsFor: anObject [
+GTRawObjectVariablesBrowser >> basicVariableNodesFor: anObject [
+
+	^ #()
+]
+
+{ #category : #'private building' }
+GTRawObjectVariablesBrowser >> basicVariableNodesFor: anObject in: aCollection [
 
 	self subclassResponsibility 
 ]
@@ -30,7 +36,7 @@ GTRawObjectVariablesBrowser >> compose [
 		browser transmit 
 			from: #variables; 
 			toOutsidePort: #selection; 
-			transformed: [:assoc | assoc ifNotNil: [assoc value]].
+			transformed: [ :aNode | aNode ifNotNil: [aNode value]].
 		browser transmit 
 			from: #evaluator; 
 			toOutsidePort: #selection ]
@@ -60,7 +66,7 @@ GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
 	| valuesCache |
 	
 	valuesCache := OrderedDictionary new.
-	((self basicVariableValuePairsFor: anObject) do: [ :assoc | 
+	((self basicVariableNodesFor: anObject) do: [ :assoc | 
 		valuesCache 
 			at: assoc key 
 			put: (self generateHashFor: assoc value) ]).
@@ -71,7 +77,7 @@ GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
 { #category : #'private - updating' }
 GTRawObjectVariablesBrowser >> generateHashFor: anObject [ 
 
-	^ (self basicVariableValuePairsFor: anObject)
+	^ (self basicVariableNodesFor: anObject)
 		inject: anObject gtInspectorHash
 		into: [ :hashValue :assoc | hashValue bitXor: assoc value gtInspectorHash ].
 	
@@ -154,11 +160,13 @@ GTRawObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject ba
 ]
 
 { #category : #'private building' }
-GTRawObjectVariablesBrowser >> variableValuePairsFor: anObject [
-
-	^ (self basicVariableValuePairsFor: anObject) asOrderedCollection 
-		addFirst: 'self' -> anObject; 
-		yourself
+GTRawObjectVariablesBrowser >> variableValueNodesFor: anObject [
+	| variableNodes |
+	variableNodes := OrderedCollection new: anObject class allSlots size.
+	variableNodes add: (GTInspectorSelfNode hostObject: anObject).
+	self basicVariableNodesFor: anObject in: variableNodes.
+	^ variableNodes
+		
 ]
 
 { #category : #'private building' }
@@ -167,21 +175,18 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 		showOnly: 50;
 		shouldValidate: false;
 		allowsRecursiveSearch: false;
-		children: [ :assoc | 
-			assoc key = 'self'
+		children: [ :aNode | 
+			aNode label = 'self'
 				ifTrue: [ #() ]
-				ifFalse: [ self variableValuePairsFor: assoc value ] ];
-		icon: [ :assoc | self iconFor: assoc value ];
+				ifFalse: [ self variableValueNodesFor: aNode value ] ];
+		icon: [ :aNode | self iconFor: aNode value ];
 		display: [ :anObject | 
-			self rebuildCacheFor: anObject.
-			self variableValuePairsFor: anObject ];
+			"self rebuildCacheFor: anObject."
+			self variableValueNodesFor: anObject ];
 		column: 'Variable' 
-			evaluated: [:assoc | '  ', (GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
+			evaluated: [ :aNode | '  ', (GTObjectPrinter new asNonTruncatedTextFrom: aNode key) ];
 		column: 'Value' 
-			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
-			modified: [:newValue :assoc :presentation | 
-				self updateInstanceVariable: assoc key from: presentation entity basedOn: newValue.
-				presentation update ];
+			evaluated: [ :aNode | GTObjectPrinter new asTruncatedTextFrom: aNode value ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
@@ -190,22 +195,12 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 			icon: GLMUIThemeExtraIcons glamorousInspect 
 			on: $i 
 			entitled: 'Inspect';
-		selectionAct: [:list | 
-			((list selection pointersToExcept: { list selection })
-									reject: [ :each | each pointsOnlyWeaklyTo: list selection ]) inspect ] 
-			on: $t
-			entitled: 'Open pointers to';
 		dynamicActionsOnSelection: [ :presentation |
-			(presentation entity class allInstVarNames includes: presentation rawSelection key)
-				ifTrue: [ 
-					{
-						GLMGenericAction new 
-								action: [:list | self systemNavigation browseAllAccessesTo: list rawSelection key from: list entity class ]; 
-								title: 'List methods using this variable'.
-						GLMGenericAction new 
-								action: [:list | self systemNavigation browseAllStoresInto: list rawSelection key from: list entity class ]; 
-								title: 'List methods storing into this variable'.		
-					}
-					]
-				ifFalse: [ #() ] ]
+			presentation selection inspectorActionsForNode ];
+		selectionAct: [:list | 
+			((list selection value pointersToExcept: { list selection value })
+									reject: [ :each | each pointsOnlyWeaklyTo: list selection value ]) inspect ] 
+			on: $t
+			entitled: 'Open pointers to'
+	
 ]
