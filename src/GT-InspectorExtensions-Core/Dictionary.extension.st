@@ -2,7 +2,7 @@ Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary >> gtInspectorItemsIn: composite [
-	^ (composite table)
+	^ (composite fastTreeTable)
 		title: 'Items';
 		display: [ self associations ];
 		children: [ :each | 
@@ -23,22 +23,22 @@ Dictionary >> gtInspectorItemsIn: composite [
 			entitled: 'Open key'
 			with: [ :table | (table rawSelection collect: #key) gtInspectorInterestingObject ];
 		beMultiple;
-		withSmalltalkSearch;
 		send: [ :selection | 
 			selection isNil 
 			ifTrue:[nil]
 			ifFalse:[ (selection size = 1) 
 				ifTrue: [ selection anyOne value ] 
-				ifFalse: [ selection collect: #value ] ]];
+				ifFalse: [ selection collect: #value ] ]]
+		"withSmalltalkSearch;
 		showOnly: 50;
-		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'
+		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'"
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary >> gtInspectorKeysIn: composite [
 	<gtInspectorPresentationOrder: 1>
 
-	^ composite list
+	^ composite fastList
 		title: 'Keys';
 		display: [ self keys ]
 ]
