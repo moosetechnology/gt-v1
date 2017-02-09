@@ -10,7 +10,9 @@ Class {
 
 { #category : #'instance creation' }
 GTInspectorIndexedNode class >> hostObject: anObject index: index [
-	^ (self hostObject: anObject) index: index
+	^ (self hostObject: anObject)
+		index: index;
+		yourself
 ]
 
 { #category : #accessing }

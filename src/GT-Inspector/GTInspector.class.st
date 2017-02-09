@@ -224,10 +224,23 @@ GTInspector class >> settingsOn: aBuilder [
 ]
 
 { #category : #callbacks }
-GTInspector >> actOnPaneAdded: ann [
+GTInspector >> actOnPaneAdded: anAnnouncement [
+	
+	"Update toolbar of a pane before the last (added) pane if there is one"
+	(self panes atLast: 2 ifAbsent: [ ^ self ])
+		updateToolbar
+]
 
-	self panes size > 1 ifTrue: [ 
-		(self panes before: self panes last) updateToolbar "announce: (GLMPresentationToolbarUpdated new presentation: ann presentation)" ]
+{ #category : #callbacks }
+GTInspector >> actOnPaneRemoved: anAnnouncement [
+
+	"Update toolbar of a pane before the removed pane (now it is last one)"
+	self panes last updateToolbar
+]
+
+{ #category : #accessing }
+GTInspector >> browser [
+	^ self first
 ]
 
 { #category : #actions }
@@ -238,7 +251,7 @@ GTInspector >> closeActionFor: aPresentation [
 			icon: GLMUIThemeExtraIcons glamorousClose;
 			condition: [ :currentPresentation |
 				self panes size > 1 and: [ self panes last presentations = currentPresentation ] ];
-			title: 'Close this inspector column' 
+			title: 'Close this inspector column'
 ]
 
 { #category : #building }
@@ -252,7 +265,7 @@ GTInspector >> compose [
 				each title = 'Overview' ] ] ] ] 
 		icon: GLMUIThemeExtraIcons glamorousHelp 
 		entitled: 'Help'.
-	self act: [:b | b presentationFilter ifNotNil: [ :filter | filter changeFilterRequestFor: b] ] entitled: 'Filter presentations'.
+	self act: [:b | b presentationFilter changeFilterRequestFor: b ] entitled: 'Filter presentations'.
 	self pager with: [ :browser | 
 		browser fixedSizePanes: self class numberOfInspectorPanes.
 		browser show: [ :a :each |
@@ -268,14 +281,14 @@ GTInspector >> compose [
 							inContext: self ])
 							startOn: x ] ] ].
 			
-	self first when: GLMPaneAdded send: #actOnPaneAdded: to: self
+	self browser when: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	self browser when: GLMPaneRemoved send: #actOnPaneRemoved: to: self
 ]
 
 { #category : #accessing }
 GTInspector >> entities [
 	"returns the list of objects from the #entity port of each pane of the finder"
-	^ self first panes collect: [ :each | 
-		(each port: #entity) value ]
+	^ self panes collect: [ :each | (each port: #entity) value ]
 ]
 
 { #category : #context }
@@ -283,10 +296,9 @@ GTInspector >> filterByMethods: aCollection [
 	| filter |
 	
 	filter := GTInspectorMethodListFilter new.
-	aCollection  do: [ :aMethod |
+	aCollection do: [ :aMethod |
 		filter addAndSelectSignatureFor: aMethod ].
 	self presentationFilter: filter
-		
 ]
 
 { #category : #accessing }
@@ -327,34 +339,28 @@ GTInspector >> openOn: aPage [
 
 { #category : #accessing }
 GTInspector >> panes [
-	^ self first panes
+	^ self browser panes
 ]
 
 { #category : #context }
 GTInspector >> presentationFilter [
+	"Return a filter for limiting the number of visible presentations.
+	Filter can not be nil"
+	<return: #GTInspectorPresentationFilter>
 
 	^ presentationFilter
 ]
 
 { #category : #context }
-GTInspector >> presentationFilter: aPresentationFilterStragery [
-	"Set a filter for limiting the number of visible presentations."
-	presentationFilter := aPresentationFilterStragery
-]
-
-{ #category : #accessing }
-GTInspector >> previousEntity [
-	^ self entities reverse second
-]
-
-{ #category : #accessing }
-GTInspector >> previousEntityTo: anObject [
-	| entities index |
-	entities := self entities.
-	index := entities indexOf: anObject.
-	^ index < 2 
-		ifTrue: [ nil ]
-		ifFalse: [ entities at: index - 1 ]
+GTInspector >> presentationFilter: aPresentationFilter [
+	"Set a filter for limiting the number of visible presentations.
+	Presentation filter must not be nil. If you don't need any filter use GTInspectorNoneFilter instead"
+	
+	self
+		assert: [ aPresentationFilter isNotNil ]
+		description: [ 'Presentation filter must not be nil' ].
+	
+	presentationFilter := aPresentationFilter
 ]
 
 { #category : #private }
@@ -375,30 +381,21 @@ GTInspector >> printObjectAsAnItem: anObject [
 GTInspector >> removeLastPane [
 	| lastPane |
 	
-	lastPane := self first panes last.
-	self first removeLastPane.
-	self first announce: (GLMPaneRemoved pane: lastPane fromBrowser: self first).
-	self first panes last updateToolbar
+	lastPane := self panes last.
+	self browser removeLastPane.
+	self browser announce: (GLMPaneRemoved pane: lastPane fromBrowser: self browser)
 ]
 
 { #category : #context }
-GTInspector >> shouldDisplayPresentationCreateBy: aMethod [
+GTInspector >> shouldDisplayPresentationCreatedBy: aMethod [
 	"Verify whether or not the presentation created by the given method should be displayed.
 	If no filter is given display all presentations."
-	^ self presentationFilter 
-		ifNil: [ true]
-		ifNotNil: [ self presentationFilter shouldDisplayPresentationCreateBy: aMethod ]
+
+	^ self presentationFilter shouldDisplayPresentationCreatedBy: aMethod
 ]
 
 { #category : #scripting }
 GTInspector >> showFirst: aBlock [
 
-	self first showFirst: aBlock
-]
-
-{ #category : #actions }
-GTInspector >> updatePanesFor: anObject [
-
-	(self panes select: [ :each | 
-		(each port: #entity) value == anObject ]) do: [ :each | each update ]
+	self browser showFirst: aBlock
 ]
