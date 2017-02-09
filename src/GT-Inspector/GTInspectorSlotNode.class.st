@@ -2,25 +2,28 @@ Class {
 	#name : #GTInspectorSlotNode,
 	#superclass : #GTInspectorVariableNode,
 	#instVars : [
-		'slotName',
+		'slot',
 		'value'
 	],
 	#category : #'GT-Inspector'
 }
 
-{ #category : #'as yet unclassified' }
-GTInspectorSlotNode class >> hostObject: anObject slotName: aString [
-	^ (self hostObject: anObject) slotName: aString
+{ #category : #'instance creation' }
+GTInspectorSlotNode class >> hostObject: anObject slot: aSlot [
+	^ (self hostObject: anObject)
+		slot: aSlot;
+		yourself
 ]
 
 { #category : #accessing }
 GTInspectorSlotNode >> browsingActionsForNode [
+
 	^ {
 			GLMGenericAction new 
 				action: [ self systemNavigation browseAllAccessesTo: self label from: self hostObject class ]; 
 				title: 'List methods using this variable'.
 			GLMGenericAction new 
-				action: [:list | self systemNavigation browseAllStoresInto: self label from: self hostObject class ]; 
+				action: [ self systemNavigation browseAllStoresInto: self label from: self hostObject class ]; 
 				title: 'List methods storing into this variable'.		
 		}
 ]
@@ -29,12 +32,15 @@ GTInspectorSlotNode >> browsingActionsForNode [
 GTInspectorSlotNode >> editingActionForNode [
 
 	^ GLMGenericAction new 
-		action: [ :currentPresentation | self inform: 'To be implemented' ]; 
+		action: [ self inform: 'To be implemented' ]; 
 		title: 'Edit value'
 ]
 
 { #category : #accessing }
 GTInspectorSlotNode >> inspectorActionsForNode [
+	"Return a collection of available inspector actions associated with a variable node"
+	<return: #Collection of: #GLMAction>
+
 	^ 
 		{ self editingActionForNode },
 		self browsingActionsForNode
@@ -42,18 +48,23 @@ GTInspectorSlotNode >> inspectorActionsForNode [
 
 { #category : #accessing }
 GTInspectorSlotNode >> key [
-	^ self slotName
+	^ self slot name
 ]
 
 { #category : #accessing }
-GTInspectorSlotNode >> slotName [
-	^ slotName
+GTInspectorSlotNode >> slot [
+	^ slot
 ]
 
 { #category : #accessing }
-GTInspectorSlotNode >> slotName: aString [
-	slotName := aString.
-	value := self hostObject readSlotNamed: slotName
+GTInspectorSlotNode >> slot: aSlot [
+
+	self
+		assert: [ aSlot isNotNil ]
+		description: [ 'Slot can not be nil' ].
+
+	slot := aSlot.
+	value := self hostObject readSlot: slot
 ]
 
 { #category : #accessing }

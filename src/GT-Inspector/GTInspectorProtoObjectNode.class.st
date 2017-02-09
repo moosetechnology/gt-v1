@@ -11,7 +11,9 @@ Class {
 
 { #category : #'instance creation' }
 GTInspectorProtoObjectNode class >> hostObject: anObject index: index slotName: aSlotName [
-	^ (self hostObject: anObject) index: index slotName: aSlotName
+	^ (self hostObject: anObject)
+		index: index slotName: aSlotName;
+		yourself
 ]
 
 { #category : #accessing }
