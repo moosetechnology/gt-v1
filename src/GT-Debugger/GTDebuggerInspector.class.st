@@ -18,16 +18,16 @@ Class {
 { #category : #callbacks }
 GTDebuggerInspector >> actOnPaneAdded: ann [
 
-	self panes size > 1 ifTrue: [ 
-		(self panes before: self panes last) presentations first updateToolbar ]
+	(self panes atLast: 2 ifAbsent: [ ^ self ])
+		presentations first updateToolbar
 ]
 
 { #category : #callbacks }
-GTDebuggerInspector >> actOnPaneRemoved: ann [
+GTDebuggerInspector >> actOnPaneRemoved: anAnnouncement [
 
-	self first panes last presentations first updateToolbar.
+	self panes last presentations first updateToolbar.
 	self notifyPaneRemoved ifTrue: [ 
-		self debugger announce: ann ]
+		self debugger announce: anAnnouncement ]
 ]
 
 { #category : #building }
