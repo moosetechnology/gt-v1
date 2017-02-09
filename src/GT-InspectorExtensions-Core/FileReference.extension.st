@@ -74,7 +74,7 @@ FileReference >> gtInspectorGifIn: composite [
 { #category : #'*GT-InspectorExtensions-Core' }
 FileReference >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 0>
-	^ composite table 
+	^ composite fastTable 
 		title: 'Items';
 		display: [ 
 			| children |
