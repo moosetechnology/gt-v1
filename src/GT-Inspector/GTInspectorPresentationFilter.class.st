@@ -31,7 +31,7 @@ GTInspectorPresentationFilter >> openListChooseLabeled: sString forInspector: aG
 ]
 
 { #category : #testing }
-GTInspectorPresentationFilter >> shouldDisplayPresentationCreatedBy: aMethod [
+GTInspectorPresentationFilter >> shouldDisplayPresentationCreateBy: aMethod [
 
 	self subclassResponsibility
 ]

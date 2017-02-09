@@ -89,7 +89,8 @@ GTRawObjectVariablesBrowser >> iconFor: anObject [
 		
 	^ [ (anObject iconOrThumbnailOfSize: 16)
 		ifNil: [ anObject class systemIcon ] ]
-			on: Error do: [ :error | self iconFor: anObject error: error ]
+			on: Error do: [ :error |
+			self iconFor: anObject error: error ]
 ]
 
 { #category : #'private building' }
@@ -143,64 +144,61 @@ GTRawObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject basedOn: aString [
-	| aResult |
+	|result|
 
-	self
-		assert: [ anObject class hasInstVarNamed: aSymbol ]
-		description: [ 'Instance variable ', aSymbol asString, ' must exist in ', anObject asString ].
-
-	aResult := anObject class compiler
+	(anObject class hasInstVarNamed: aSymbol) 
+		ifFalse: [ ^ self ].
+	result := anObject class compiler
 			source: aString;
 			context: nil;
 			receiver: anObject;
 			failBlock: [ ^ self ];
 			evaluate.
 						
-	anObject writeSlotNamed: aSymbol value: aResult
+	anObject writeSlotNamed: aSymbol value: result.
+	
 ]
 
 { #category : #'private building' }
-GTRawObjectVariablesBrowser >> variableNodesFor: anObject [
+GTRawObjectVariablesBrowser >> variableValueNodesFor: anObject [
 	| variableNodes |
-
-	"nil objects do not have any variables"
-	anObject ifNil: [ ^ #() ].
-
 	variableNodes := OrderedCollection new: anObject class allSlots size.
 	variableNodes add: (GTInspectorSelfNode hostObject: anObject).
 	self basicVariableNodesFor: anObject in: variableNodes.
 	^ variableNodes
+		
 ]
 
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> variablesIn: composite [
-	^ composite table
-		showOnly: 50;
-		shouldValidate: false;
-		allowsRecursiveSearch: false;
-		children: [ :aNode | aNode childrenNodesFor: self ];
+	^ composite fastTreeTable
+		hasChildren: [ :aNode | aNode key ~= 'self' ];
+		children: [ :aNode | 
+			aNode label = 'self'
+				ifTrue: [ #() ]
+				ifFalse: [ self variableValueNodesFor: aNode value ] ];
 		icon: [ :aNode | self iconFor: aNode value ];
 		display: [ :anObject | 
 			"self rebuildCacheFor: anObject."
-			self variableNodesFor: anObject ];
-		column: 'Variable' translated
+			self variableValueNodesFor: anObject ];
+		column: 'Variable' 
 			evaluated: [ :aNode | '  ', (GTObjectPrinter new asNonTruncatedTextFrom: aNode key) ];
-		column: 'Value' translated
+		column: 'Value' 
 			evaluated: [ :aNode | GTObjectPrinter new asTruncatedTextFrom: aNode value ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
-			entitled: 'Browse' translated;
+			entitled: 'Browse';
 		morphicSelectionAct: [:list | list selection value inspect ] 
 			icon: GLMUIThemeExtraIcons glamorousInspect 
 			on: $i 
-			entitled: 'Inspect' translated;
+			entitled: 'Inspect';
 		dynamicActionsOnSelection: [ :presentation |
 			presentation selection inspectorActionsForNode ];
 		selectionAct: [:list | 
 			((list selection value pointersToExcept: { list selection value })
 									reject: [ :each | each pointsOnlyWeaklyTo: list selection value ]) inspect ] 
 			on: $t
-			entitled: 'Open pointers to' translated
+			entitled: 'Open pointers to'
 	
 ]

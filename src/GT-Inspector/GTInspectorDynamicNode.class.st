@@ -12,8 +12,7 @@ Class {
 GTInspectorDynamicNode class >> hostObject: anObject label: aString value: anotherObject [
 	^ (self hostObject: anObject) 
 		label: aString;
-		value: anotherObject;
-		yourself
+		value: anotherObject
 ]
 
 { #category : #accessing }
