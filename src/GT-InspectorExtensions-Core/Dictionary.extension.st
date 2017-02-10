@@ -2,15 +2,15 @@ Extension { #name : #Dictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 Dictionary >> gtInspectorItemsIn: composite [
-	^ (composite fastTreeTable)
+	^ (composite fastTable)
 		title: 'Items';
 		display: [ self associations ];
-		children: [ :each | 
+		"children: [ :each | 
 			(each value isDictionary) 
 				ifTrue: [ each value associations ] 
 				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
 						ifTrue: [ each value collectWithIndex: [:x :i | i -> x ] ]
-						ifFalse: [ #() ] ] ];
+						ifFalse: [ #() ] ] ];"
 		column: 'Key' 
 			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
 		column: 'Value' 
