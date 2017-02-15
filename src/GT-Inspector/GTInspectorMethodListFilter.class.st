@@ -166,7 +166,7 @@ GTInspectorMethodListFilter >> replaceSelectedSignaturesWith: aList in: aGTInspe
 ]
 
 { #category : #testing }
-GTInspectorMethodListFilter >> shouldDisplayPresentationCreatedBy: aMethod [
+GTInspectorMethodListFilter >> shouldDisplayPresentationCreateBy: aMethod [
 
 	^ selectedMethodSignatures anySatisfy: [ :aSignature | 
 		aSignature first = aMethod methodClass and: [ aSignature second = aMethod selector ] ]
