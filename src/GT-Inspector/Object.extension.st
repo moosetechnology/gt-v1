@@ -52,6 +52,6 @@ Object >> gtInspectorVariableValuePairs [
 	
 	bindings
 		addAll: ((self class allSlots 
-					collect: [ :slot | slot name -> (slot read: self) ])).
+					collect: [ :slot | slot name -> (slot read: self) ]) sort asOrderedCollection).
 	^ bindings
 ]
