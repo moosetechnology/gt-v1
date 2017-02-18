@@ -32,16 +32,6 @@ GTAbstractExampleMethod class >> fromClassNamed: aString selector: aSelector [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-GTAbstractExampleMethod class >> fromMetaClassNamed: aString selector: aSelector [
-	^ self new 
-		methodClass: nil;
-		methodClassName: aString asString;
-		meta: true;
-		selector: aSelector;
-		yourself
-]
-
 { #category : #testing }
 GTAbstractExampleMethod class >> isAbstract [
 	^ self == GTAbstractExampleMethod

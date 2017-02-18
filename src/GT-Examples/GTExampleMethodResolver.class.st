@@ -86,7 +86,7 @@ GTExampleMethodResolver >> resolveByClass: aClass [
 GTExampleMethodResolver >> resolveByName [
 	^ self aspectClass new
 		methodClass: nil;
-		methodClassName: self methodClassName;
+		methodClassName: self methodClassName asSymbol;
 		meta: self meta;
 		selector: self selector asSymbol;
 		yourself
