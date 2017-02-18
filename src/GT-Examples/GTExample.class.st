@@ -221,7 +221,7 @@ GTExample >> dependsOnClass: aClassOrClassName selector: aSelector [
 { #category : #'PRAGMA-SELECTORS' }
 GTExample >> dependsOnMetaClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
-	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
+	<description: 'This example depends on the example declared by the given meta-class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
 	children add: (self methodResolver resolve: GTExampleMethod example: self className: aClassOrClassName meta: true selector: aSelector)
 ]
@@ -459,6 +459,14 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<description: 'Attach an icon to this example. The method described by the given class and selector must return an icon form'>
 	
 	form := self methodResolver resolve: GTExampleMethodIcon example: self className: aClassOrClassName meta: false selector: aSelector
+]
+
+{ #category : #'PRAGMA-SELECTORS' }
+GTExample >> iconMetaClass: aClassOrClassName selector: aSelector [
+	<gtExamplePragma>
+	<description: 'Attach an icon to this example. The method described by the given meta-class and selector must return an icon form'>
+	
+	form := self methodResolver resolve: GTExampleMethodIcon example: self className: aClassOrClassName meta: true selector: aSelector
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -803,7 +811,7 @@ GTExample >> subjectKeywords: anArrayOrString [
 { #category : #'PRAGMA-SELECTORS' }
 GTExample >> subjectMetaClass: aClassOrClassName [
 	<gtExamplePragma>
-	<description: 'Add a class-subject to the example'>
+	<description: 'Add a meta-class-subject to the example'>
 	
 	self addSubject: (self classResolver resolve: GTExampleClassSubject example: self className: aClassOrClassName meta: true)
 ]
