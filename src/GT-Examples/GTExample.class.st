@@ -176,7 +176,7 @@ GTExample >> dependenciesOrArguments [
 
 { #category : #DEPRECATED }
 GTExample >> depends: aSelector [
-"	self deprecated: 'use #dependsOn: instead'."
+	self deprecated: 'use #dependsOn: instead'.
 	self dependsOn: aSelector
 ]
 

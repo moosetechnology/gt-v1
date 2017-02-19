@@ -25,9 +25,17 @@ GTExampleFactory >> cache: anObject [
 
 { #category : #'private-utils' }
 GTExampleFactory >> createExample: aCompiledMethod [
-	^ self exampleClass new
-		initializeFromMethod: aCompiledMethod usingFactory: self;
-		yourself
+	| newExample |
+	newExample := self exampleClass new.
+	[ newExample initializeFromMethod: aCompiledMethod usingFactory: self ]
+		on: Deprecation
+		do: [ :exception | 
+			newExample addProblem: (GTExampleDeprecationDetected new
+				example: newExample;
+				signaledException: exception; 
+				yourself).
+			exception resume ].
+	^ newExample
 ]
 
 { #category : #'accessing-defaults' }
