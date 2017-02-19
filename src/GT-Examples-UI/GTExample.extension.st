@@ -223,7 +223,7 @@ GTExample >> inspector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing a custom GTInspector-extensions for this particular example'>
 	
-	self addExtension: (self methodResolver resolve: GTExampleMethodInspectorExtension example: self selector: aSelector)
+	self addExtension: (self methodResolverClass resolve: GTExampleMethodInspectorExtension example: self selector: aSelector)
 ]
 
 { #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
@@ -231,7 +231,7 @@ GTExample >> inspectorAction: aSelector [
 	<gtExamplePragma>
 	<description: 'A method providing a custom GTInspector-action for this particular example'>
 	
-	self addExtension: (self methodResolver resolve: GTExampleMethodInspectorActionExtension example: self selector: aSelector)
+	self addExtension: (self methodResolverClass resolve: GTExampleMethodInspectorActionExtension example: self selector: aSelector)
 ]
 
 { #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
@@ -239,7 +239,7 @@ GTExample >> inspectorActionClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTInspector-actions for this particular example'>
 	
-	self addExtension: (self methodResolver resolve: GTExampleMethodInspectorActionExtension example: self className: aClassOrClassName meta: false selector: aSelector)
+	self addExtension: (self methodResolverClass resolve: GTExampleMethodInspectorActionExtension example: self className: aClassOrClassName meta: false selector: aSelector)
 ]
 
 { #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
@@ -247,7 +247,7 @@ GTExample >> inspectorClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing custom GTInspector-extensions for this particular example'>
 	
-	self addExtension: (self methodResolver resolve: GTExampleMethodInspectorExtension example: self className: aClassOrClassName meta: false selector: aSelector)
+	self addExtension: (self methodResolverClass resolve: GTExampleMethodInspectorExtension example: self className: aClassOrClassName meta: false selector: aSelector)
 ]
 
 { #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
@@ -255,7 +255,7 @@ GTExample >> spotter: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by aSelector, providing a custom GTSpotter-extension for this particular example'>
 	
-	self addExtension: (self methodResolver resolve: GTExampleMethodSpotterExtension example: self selector: aSelector)
+	self addExtension: (self methodResolverClass resolve: GTExampleMethodSpotterExtension example: self selector: aSelector)
 ]
 
 { #category : #'*GT-Examples-UI-PRAGMA-SELECTORS' }
@@ -263,7 +263,7 @@ GTExample >> spotterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), providing a custom GTSpotter-extension for this particular example'>
 	
-	self addExtension: (self methodResolver resolve: GTExampleMethodSpotterExtension example: self className: aClassOrClassName meta: false selector: aSelector)
+	self addExtension: (self methodResolverClass resolve: GTExampleMethodSpotterExtension example: self className: aClassOrClassName meta: false selector: aSelector)
 ]
 
 { #category : #'*GT-Examples-UI' }
