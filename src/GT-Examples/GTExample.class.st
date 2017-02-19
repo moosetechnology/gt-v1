@@ -70,7 +70,7 @@ GTExample >> after: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by the given selector, to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodResolver resolve: GTExampleMethodAfter example: self selector: aSelector
+	after := self methodResolverClass resolve: GTExampleMethodAfter example: self selector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
@@ -84,7 +84,7 @@ GTExample >> afterClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodResolver resolve: GTExampleMethodAfter example: self className: aClassOrClassName meta: false selector: aSelector
+	after := self methodResolverClass resolve: GTExampleMethodAfter example: self className: aClassOrClassName meta: false selector: aSelector
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -92,7 +92,7 @@ GTExample >> afterMetaClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'A method, implemented by (aClassOrClassName >> aSelector), to be performed after this example has run ~ similar but not identical to teardown of sunit'>
 	
-	after := self methodResolver resolve: GTExampleMethodAfter example: self className: aClassOrClassName meta: true selector: aSelector
+	after := self methodResolverClass resolve: GTExampleMethodAfter example: self className: aClassOrClassName meta: true selector: aSelector
 ]
 
 { #category : #'accessing-dynamic' }
@@ -123,7 +123,7 @@ GTExample >> arguments [
 { #category : #DEPRECATED }
 GTExample >> classNamed: aClassOrClassName [
 	self deprecated: 'use GTExampleClassResolver instead'.
-	^ (self classResolver
+	^ (self classResolverClass
 		theClassName: aClassOrClassName;
 		meta: false; " lucky guess "
 		yourself) theClassDo: [ :class | class ] ifNone: [ nil ]
@@ -132,7 +132,7 @@ GTExample >> classNamed: aClassOrClassName [
 { #category : #DEPRECATED }
 GTExample >> classNamed: aClassName do: aBlock [
 	self deprecated: 'use GTExampleClassResolver instead'.
-	^ (self classResolver
+	^ (self classResolverClass
 		theClassName: aClassName;
 		meta: false; " lucky guess "
 		yourself) theClassDo: aBlock
@@ -141,14 +141,14 @@ GTExample >> classNamed: aClassName do: aBlock [
 { #category : #DEPRECATED }
 GTExample >> classNamed: aClassName do: aBlock1 ifNone: aBlock2 [
 	self deprecated: 'use GTExampleClassResolver instead'.
-	(self classResolver
+	(self classResolverClass
 		theClassName: aClassName;
 		meta: false; " lucky guess "
 		yourself) theClassDo: aBlock1 ifNone: aBlock2
 ]
 
 { #category : #private }
-GTExample >> classResolver [
+GTExample >> classResolverClass [
 	^ GTExampleClassResolver
 ]
 
@@ -177,7 +177,6 @@ GTExample >> dependenciesOrArguments [
 { #category : #DEPRECATED }
 GTExample >> depends: aSelector [
 "	self deprecated: 'use #dependsOn: instead'."
-	self flag: 'using self deprecated: raises a ton of warnings when someone is using the old API'.
 	self dependsOn: aSelector
 ]
 
@@ -198,7 +197,7 @@ GTExample >> dependsOn: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	self addChild: (self methodResolver resolve: GTExampleMethod example: self selector: aSelector)
+	self addChild: (self methodResolverClass resolve: GTExampleMethod example: self selector: aSelector)
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -215,7 +214,7 @@ GTExample >> dependsOnClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self methodResolver resolve: GTExampleMethod example: self className: aClassOrClassName meta: false selector: aSelector)
+	children add: (self methodResolverClass resolve: GTExampleMethod example: self className: aClassOrClassName meta: false selector: aSelector)
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -223,7 +222,7 @@ GTExample >> dependsOnMetaClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'This example depends on the example declared by the given meta-class and selector. Any dependency will be performed before this example is performed. Order of declaration is important'>
 	
-	children add: (self methodResolver resolve: GTExampleMethod example: self className: aClassOrClassName meta: true selector: aSelector)
+	children add: (self methodResolverClass resolve: GTExampleMethod example: self className: aClassOrClassName meta: true selector: aSelector)
 ]
 
 { #category : #accessing }
@@ -458,7 +457,7 @@ GTExample >> iconClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The method described by the given class and selector must return an icon form'>
 	
-	form := self methodResolver resolve: GTExampleMethodIcon example: self className: aClassOrClassName meta: false selector: aSelector
+	form := self methodResolverClass resolve: GTExampleMethodIcon example: self className: aClassOrClassName meta: false selector: aSelector
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -466,7 +465,7 @@ GTExample >> iconMetaClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The method described by the given meta-class and selector must return an icon form'>
 	
-	form := self methodResolver resolve: GTExampleMethodIcon example: self className: aClassOrClassName meta: true selector: aSelector
+	form := self methodResolverClass resolve: GTExampleMethodIcon example: self className: aClassOrClassName meta: true selector: aSelector
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -474,7 +473,7 @@ GTExample >> iconSelector: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The selector must return an icon form'>
 	
-	form := (self methodResolver resolve: GTExampleMethodIcon example: self selector: aSelector)
+	form := (self methodResolverClass resolve: GTExampleMethodIcon example: self selector: aSelector)
 		converter: #convertFromByteArray:;
 		yourself
 ]
@@ -484,7 +483,7 @@ GTExample >> iconSelectorBase64: aSelector [
 	<gtExamplePragma>
 	<description: 'Attach an icon to this example. The icon form is described by the base64 string returned by the given selector'>
 	
-	form := (self methodResolver resolve: GTExampleMethodIcon example: self selector: aSelector)
+	form := (self methodResolverClass resolve: GTExampleMethodIcon example: self selector: aSelector)
 		converter: #convertFromBase64String:;
 		yourself
 ]
@@ -583,19 +582,19 @@ GTExample >> method [
 { #category : #DEPRECATED }
 GTExample >> method: aMethodClass forClass: aClass named: aClassName selector: aSelector [
 	self deprecated: 'use GTExampleMethodResolver instead'.
-	^ self methodResolver resolve: aMethodClass example: self className: (aClass ifNotNil: [ aClass name ] ifNil: [ aClassName ]) meta: (aClass ifNotNil: [ aClass isMeta ] ifNil: [ false " lucky guess " ]) selector: aSelector
+	^ self methodResolverClass resolve: aMethodClass example: self className: (aClass ifNotNil: [ aClass name ] ifNil: [ aClassName ]) meta: (aClass ifNotNil: [ aClass isMeta ] ifNil: [ false " lucky guess " ]) selector: aSelector
 ]
 
 { #category : #DEPRECATED }
 GTExample >> method: aGTExampleMethodClass forClass: aClass selector: aSelector [
 	self deprecated: 'use GTExampleMethodResolver instead'.
-	^ self methodResolver resolve: aGTExampleMethodClass example: self className: aClass meta: aClass isMeta selector: aSelector
+	^ self methodResolverClass resolve: aGTExampleMethodClass example: self className: aClass meta: aClass isMeta selector: aSelector
 ]
 
 { #category : #DEPRECATED }
 GTExample >> method: aMethodClass forClassNamed: aClassOrClassName selector: aSelector [
 	self deprecated: 'use GTExampleMethodResolver instead'.
-	^ self methodResolver resolve: aMethodClass example: self className: aClassOrClassName meta: false " lucky guess " selector: aSelector
+	^ self methodResolverClass resolve: aMethodClass example: self className: aClassOrClassName meta: false " lucky guess " selector: aSelector
 ]
 
 { #category : #DEPRECATED }
@@ -623,7 +622,7 @@ GTExample >> methodReference [
 ]
 
 { #category : #private }
-GTExample >> methodResolver [
+GTExample >> methodResolverClass [
 	^ GTExampleMethodResolver
 ]
 
@@ -680,7 +679,7 @@ GTExample >> provider [
 GTExample >> raises: aClassOrClassName [
 	<gtExamplePragma>
 	<description: 'This example is expected to raise the given exception. The example (as a test) will fail if the exception is not raised.'>
-	(self classResolver new
+	(self classResolverClass new
 		theClassName: aClassOrClassName;
 		meta: false;
 		yourself) theClassDo: [ :class | self exceptions add: class ]
@@ -755,7 +754,7 @@ GTExample >> subjectClass: aClassOrClassName [
 	<gtExamplePragma>
 	<description: 'Add a class-subject to the example'>
 	
-	self addSubject: (self classResolver resolve: GTExampleClassSubject example: self className: aClassOrClassName meta: false)
+	self addSubject: (self classResolverClass resolve: GTExampleClassSubject example: self className: aClassOrClassName meta: false)
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -763,13 +762,13 @@ GTExample >> subjectClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Add a method-subject to the example'>
 	
-	self addSubject: (self methodResolver resolve: GTExampleMethodSubject example: self className: aClassOrClassName meta: false selector: aSelector)
+	self addSubject: (self methodResolverClass resolve: GTExampleMethodSubject example: self className: aClassOrClassName meta: false selector: aSelector)
 ]
 
 { #category : #DEPRECATED }
 GTExample >> subjectForClassNamed: aClassName [
 	self deprecated: 'use GTExampleClassResolver instead'.
-	^ (self classResolver
+	^ (self classResolverClass
 		theClassName: aClassName;
 		meta: false; " lucky guess "
 		yourself) theClassDo: [ :class | class ] ifNone: [ nil ]
@@ -813,7 +812,7 @@ GTExample >> subjectMetaClass: aClassOrClassName [
 	<gtExamplePragma>
 	<description: 'Add a meta-class-subject to the example'>
 	
-	self addSubject: (self classResolver resolve: GTExampleClassSubject example: self className: aClassOrClassName meta: true)
+	self addSubject: (self classResolverClass resolve: GTExampleClassSubject example: self className: aClassOrClassName meta: true)
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
@@ -821,7 +820,7 @@ GTExample >> subjectMetaClass: aClassOrClassName selector: aSelector [
 	<gtExamplePragma>
 	<description: 'Add a method-subject to the example'>
 	
-	self addSubject: (self methodResolver resolve: GTExampleMethodSubject example: self className: aClassOrClassName meta: true selector: aSelector)
+	self addSubject: (self methodResolverClass resolve: GTExampleMethodSubject example: self className: aClassOrClassName meta: true selector: aSelector)
 ]
 
 { #category : #'PRAGMA-SELECTORS' }
