@@ -24,6 +24,16 @@ Class {
 	#category : #'GT-Inspector'
 }
 
+{ #category : #'utilities api' }
+GTInspector class >> closeAllInspectors [
+	<script>
+	"self closeAllInspectors"
+	(SystemWindow allSubInstances select: [:w | 
+		 w model isKindOf: self])
+			do: [:w | w delete ].
+
+]
+
 { #category : #openning }
 GTInspector class >> explore: anObject [ 
 	self openOn: anObject.
