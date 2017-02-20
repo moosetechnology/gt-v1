@@ -22,7 +22,7 @@ GTSpotterExamples class >> gtExampleCustomImplementorsSearchOn: aSpotter [
 	<label: 'Custom implementors search'>
 	<description: 'A spotter for searching through the implementors of a 
 	method that overrides properties of the search step.'>
-	<dependsOn: #gtExampleOnCompliedMethod>
+	<depends: #gtExampleOnCompliedMethod>
 	
 	^ aSpotter
 		processorsFilter: (GTSpotterMethodListProcessorFilter new 
@@ -41,7 +41,7 @@ GTSpotterExamples class >> gtExampleCustomImplementorsSearchWithNavigationOn: aS
 	<description: 'A spotter for searching through the implementors of a method that 
 	overrides properties of the search step and enables the Collection 
 	processor for items (to allow dive in).'>
-	<dependsOn: #gtExampleOnCompliedMethod>
+	<depends: #gtExampleOnCompliedMethod>
 	
 	^ aSpotter
 		processorsFilter: (GTSpotterMethodListProcessorFilter new 
@@ -59,7 +59,7 @@ GTSpotterExamples class >> gtExampleHelpSearchOn: aSpotter [
 	<gtExample>
 	<label: 'Help search'>
 	<description: 'A spotter for searching through help pages.'>
-	<dependsOn: #gtExampleBasic>
+	<depends: #gtExampleBasic>
 	
 	^ aSpotter
 		filterByMethods: {
@@ -72,7 +72,7 @@ GTSpotterExamples class >> gtExampleImplementorsSearchOn: aSpotter [
 	<gtExample>
 	<label: 'Implementors search on single method'>
 	<description: 'A spotter for searching through the implementors of a method.'>
-	<dependsOn: #gtExampleOnCompliedMethod>
+	<depends: #gtExampleOnCompliedMethod>
 	
 	^ aSpotter
 		filterByMethods: {
@@ -90,7 +90,7 @@ GTSpotterExamples class >> gtExampleOnCompliedMethod [
 GTSpotterExamples class >> gtExampleWithOneStepFrom: aSpotter [
 	<gtExample>
 	<label: 'Spotter object with one step'>
-	<dependsOn: #gtExampleBasic>
+	<depends: #gtExampleBasic>
 	| step |
 	step := GTSpotterStep new spotter: aSpotter.
 	aSpotter steps add: step.
@@ -103,7 +103,7 @@ GTSpotterExamples class >> gtExampleWorldMenuSearchOn: aSpotter [
 	<gtExample>
 	<label: 'World menu search'>
 	<description: 'A spotter for searching through the world menu'>
-	<dependsOn: #gtExampleBasic>
+	<depends: #gtExampleBasic>
 
 	^ aSpotter
 		filterByMethods: {
