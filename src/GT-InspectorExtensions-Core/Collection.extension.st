@@ -29,7 +29,7 @@ Collection >> gtInspectorItemsIn: composite [
 		title: 'Items';
 		display: [ :aCollection | self ];
 		beMultiple;	
-		format: [ :each | GTObjectPrinter new asTruncatedTextFrom: each ];
+		format: [ :each | GTObjectPrinter asTruncatedTextFrom: each ];
 		send: [ :result | result isNil 
 			ifTrue:[nil]
 			ifFalse:[ (result size = 1) 

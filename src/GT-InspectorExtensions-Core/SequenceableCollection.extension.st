@@ -8,7 +8,7 @@ SequenceableCollection >> gtInspectorItemsIn: composite [
 		beMultiple;
 		enableElementIndex;
 		column: 'Index' evaluated: [ :value :idex | idex asString ] width: 50;
-		column: 'Item' evaluated: [ :value | GTObjectPrinter new asTruncatedTextFrom: value ];
+		column: 'Item' evaluated: [ :value | GTObjectPrinter asTruncatedTextFrom: value ];
 		send: [ :result | 
 			result isNil
 				ifTrue: [ nil ]

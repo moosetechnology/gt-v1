@@ -2,19 +2,19 @@ Extension { #name : #OrderedDictionary }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 OrderedDictionary >> gtInspectorItemsIn: composite [
-	^ (composite fastTreeTable)
+	^ (composite fastTable)
 		title: 'Items';
 		display: [ self associations ];
-		children: [ :each | 
+		"children: [ :each | 
 			(each value isDictionary) 
 				ifTrue: [ each value associations ] 
 				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
 						ifTrue: [ each value collectWithIndex: [:x :i | i -> x ] ]
-						ifFalse: [ #() ] ] ];
+						ifFalse: [ #() ] ] ];"
 		column: 'Key' 
-			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each key ];
+			evaluated: [:each | GTObjectPrinter asTruncatedTextFrom: each key ];
 		column: 'Value' 
-			evaluated: [:each | GTObjectPrinter new asTruncatedTextFrom: each value ];
+			evaluated: [:each | GTObjectPrinter asTruncatedTextFrom: each value ];
 		selectionAct: [ :table |
 			table rawSelection do: [ :assoc | self removeKey: assoc key ].
 			table update ]
