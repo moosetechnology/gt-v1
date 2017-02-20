@@ -1,3 +1,6 @@
+"
+I am a variable node for representing any dynamically computed attribute that should be displayed in the Raw presentation. I should not be used for slots or indexed variables.
+"
 Class {
 	#name : #GTInspectorDynamicNode,
 	#superclass : #GTInspectorVariableNode,
