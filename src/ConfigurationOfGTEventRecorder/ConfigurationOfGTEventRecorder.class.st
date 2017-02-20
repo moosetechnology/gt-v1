@@ -169,7 +169,7 @@ ConfigurationOfGTEventRecorder >> project [
 ConfigurationOfGTEventRecorder >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.5'.
+	spec for: #'common' version: '1.6'.
 
 	spec for: #'pharo5.x' version: '1.0'.
 
@@ -624,6 +624,22 @@ ConfigurationOfGTEventRecorder >> version15: spec [
 		spec project: 'Ston' with: '0.23'.
 		spec 
 			package: #'GT-EventRecorder' with: 'GT-EventRecorder-TheIntegrator.77';
+			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-TheIntegrator.40'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorder >> version16: spec [
+	<version: '1.6' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GToolkit version 3.35'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '2/20/2017 16:30'.
+		spec project: 'Ston' with: '0.23'.
+		spec 
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-AndreiChis.80';
 			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-TheIntegrator.40'. ].
 
 ]
