@@ -56,8 +56,7 @@ Object >> gtInspectorVariableNodesIn: aCollection [
 	
 	aCollection
 		addAll: ((self class allSlots collect: [ :slot | 
-			GTInspectorSlotNode hostObject: self slot: slot ]) 
-				sort: [:aNode :anotherNode | aNode label < anotherNode label ])
+			GTInspectorSlotNode hostObject: self slot: slot ]))
 ]
 
 { #category : #'*GT-Inspector' }
