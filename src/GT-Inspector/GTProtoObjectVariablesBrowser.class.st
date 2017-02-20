@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #'private building' }
-GTProtoObjectVariablesBrowser >> basicVariableValuePairsFor: anObject [
+GTProtoObjectVariablesBrowser >> basicVariableNodesFor: anObject in: aCollection [
 
-	^ (anObject class allInstVarNames 
+	aCollection addAll: ((anObject class allInstVarNames 
 			collectWithIndex: [ :ivName :index | 
-				ivName -> (thisContext object: anObject instVarAt: index) ]) 
-					sort
+				GTInspectorProtoObjectNode hostObject: anObject index: index slotName: ivName]) 
+					sort: [:aNode :anotherNode | aNode label < anotherNode label ])
 			
 ]
 

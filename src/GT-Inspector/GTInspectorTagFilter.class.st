@@ -138,7 +138,7 @@ GTInspectorTagFilter >> replaceSelectedTagsWith: aListOfSymbols in: aGTInspector
 ]
 
 { #category : #testing }
-GTInspectorTagFilter >> shouldDisplayPresentationCreateBy: aMethod [
+GTInspectorTagFilter >> shouldDisplayPresentationCreatedBy: aMethod [
 
 	^ (self tagsFrom: aMethod) includesAny: selectedTags
 ]

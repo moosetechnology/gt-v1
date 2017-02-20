@@ -11,7 +11,13 @@ Class {
 }
 
 { #category : #'private building' }
-GTRawObjectVariablesBrowser >> basicVariableValuePairsFor: anObject [
+GTRawObjectVariablesBrowser >> basicVariableNodesFor: anObject [
+
+	^ #()
+]
+
+{ #category : #'private building' }
+GTRawObjectVariablesBrowser >> basicVariableNodesFor: anObject in: aCollection [
 
 	self subclassResponsibility 
 ]
@@ -30,7 +36,7 @@ GTRawObjectVariablesBrowser >> compose [
 		browser transmit 
 			from: #variables; 
 			toOutsidePort: #selection; 
-			transformed: [:assoc | assoc ifNotNil: [assoc value]].
+			transformed: [ :aNode | aNode ifNotNil: [aNode value]].
 		browser transmit 
 			from: #evaluator; 
 			toOutsidePort: #selection ]
@@ -60,7 +66,7 @@ GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
 	| valuesCache |
 	
 	valuesCache := OrderedDictionary new.
-	((self basicVariableValuePairsFor: anObject) do: [ :assoc | 
+	((self basicVariableNodesFor: anObject) do: [ :assoc | 
 		valuesCache 
 			at: assoc key 
 			put: (self generateHashFor: assoc value) ]).
@@ -71,7 +77,7 @@ GTRawObjectVariablesBrowser >> generateCacheFor: anObject [
 { #category : #'private - updating' }
 GTRawObjectVariablesBrowser >> generateHashFor: anObject [ 
 
-	^ (self basicVariableValuePairsFor: anObject)
+	^ (self basicVariableNodesFor: anObject)
 		inject: anObject gtInspectorHash
 		into: [ :hashValue :assoc | hashValue bitXor: assoc value gtInspectorHash ].
 	
@@ -83,8 +89,7 @@ GTRawObjectVariablesBrowser >> iconFor: anObject [
 		
 	^ [ (anObject iconOrThumbnailOfSize: 16)
 		ifNil: [ anObject class systemIcon ] ]
-			on: Error do: [ :error |
-			self iconFor: anObject error: error ]
+			on: Error do: [ :error | self iconFor: anObject error: error ]
 ]
 
 { #category : #'private building' }
@@ -138,74 +143,63 @@ GTRawObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject basedOn: aString [
-	|result|
+	| aResult |
 
-	(anObject class hasInstVarNamed: aSymbol) 
-		ifFalse: [ ^ self ].
-	result := anObject class compiler
+	self
+		assert: [ anObject class hasInstVarNamed: aSymbol ]
+		description: [ 'Instance variable ', aSymbol asString, ' must exist in ', anObject asString ].
+
+	aResult := anObject class compiler
 			source: aString;
 			context: nil;
 			receiver: anObject;
 			failBlock: [ ^ self ];
 			evaluate.
 						
-	anObject writeSlotNamed: aSymbol value: result.
-	
+	anObject writeSlotNamed: aSymbol value: aResult
 ]
 
 { #category : #'private building' }
-GTRawObjectVariablesBrowser >> variableValuePairsFor: anObject [
+GTRawObjectVariablesBrowser >> variableNodesFor: anObject [
+	| variableNodes |
 
-	^ (self basicVariableValuePairsFor: anObject) asOrderedCollection 
-		addFirst: 'self' -> anObject; 
-		yourself
+	"Nil should have now a single child: `self`. For now this is needed for
+	a smooth navigation in the tree widget."
+	"anObject ifNil: [ ^ #() ]."
+
+	variableNodes := OrderedCollection new: anObject class allSlots size.
+	variableNodes add: (GTInspectorSelfNode hostObject: anObject).
+	self basicVariableNodesFor: anObject in: variableNodes.
+	^ variableNodes
 ]
 
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> variablesIn: composite [
-	^ composite table
-		showOnly: 50;
-		shouldValidate: false;
-		allowsRecursiveSearch: false;
-		children: [ :assoc | 
-			assoc key = 'self'
-				ifTrue: [ #() ]
-				ifFalse: [ self variableValuePairsFor: assoc value ] ];
-		icon: [ :assoc | self iconFor: assoc value ];
+	^ composite fastTreeTable
+		hasChildren: [ :aNode | aNode key ~= 'self' ];
+		children: [ :aNode | aNode childrenNodesFor: self ];
+		icon: [ :aNode | self iconFor: aNode value ];
 		display: [ :anObject | 
-			self rebuildCacheFor: anObject.
-			self variableValuePairsFor: anObject ];
-		column: 'Variable' 
-			evaluated: [:assoc | '  ', (GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
-		column: 'Value' 
-			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
-			modified: [:newValue :assoc :presentation | 
-				self updateInstanceVariable: assoc key from: presentation entity basedOn: newValue.
-				presentation update ];
+			"self rebuildCacheFor: anObject."
+			self variableNodesFor: anObject ];
+		column: 'Variable' translated
+			evaluated: [ :aNode | (GTObjectPrinter asNonTruncatedTextFrom: aNode key) ];
+		column: 'Value' translated
+			evaluated: [ :aNode | GTObjectPrinter asTruncatedTextFrom: aNode value ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
-			entitled: 'Browse';
+			entitled: 'Browse' translated;
 		morphicSelectionAct: [:list | list selection value inspect ] 
 			icon: GLMUIThemeExtraIcons glamorousInspect 
 			on: $i 
-			entitled: 'Inspect';
-		selectionAct: [:list | 
-			((list selection pointersToExcept: { list selection })
-									reject: [ :each | each pointsOnlyWeaklyTo: list selection ]) inspect ] 
-			on: $t
-			entitled: 'Open pointers to';
+			entitled: 'Inspect' translated;
 		dynamicActionsOnSelection: [ :presentation |
-			(presentation entity class allInstVarNames includes: presentation rawSelection key)
-				ifTrue: [ 
-					{
-						GLMGenericAction new 
-								action: [:list | self systemNavigation browseAllAccessesTo: list rawSelection key from: list entity class ]; 
-								title: 'List methods using this variable'.
-						GLMGenericAction new 
-								action: [:list | self systemNavigation browseAllStoresInto: list rawSelection key from: list entity class ]; 
-								title: 'List methods storing into this variable'.		
-					}
-					]
-				ifFalse: [ #() ] ]
+			presentation selection inspectorActionsForNode ];
+		selectionAct: [:list | 
+			((list selection value pointersToExcept: { list selection value })
+									reject: [ :each | each pointsOnlyWeaklyTo: list selection value ]) inspect ] 
+			on: $t
+			entitled: 'Open pointers to' translated
+	
 ]
