@@ -52,19 +52,6 @@ Class {
 	#category : #'GT-EventRecorder-Core'
 }
 
-{ #category : #examples }
-GTEventCollector class >> notRegisteredCollector [
-	<gtExample>
-	<label: 'It collects an integer and a string'>
-	^ self new
-		category: #testingForFun; "the data are stored under the defined category."
-		occupant: nil; "object that represents your application, if nil, the collector will be removed from GTEventRecorder object once collected data are sent"
-		add: 42; "collected data"
-		add: 'Hallo Pharo user'; "collected data"
-		register; "please, be aware that we collect the data"
-		yourself.
-]
-
 { #category : #adding }
 GTEventCollector >> add: anEvent [ 
 	"And an event (any object) that you want to send to a server."
@@ -113,19 +100,6 @@ GTEventCollector >> defaultCategory [
 GTEventCollector >> flush [
 	"Be careful when using it. You will lost all data."
 	recordedEvents flush
-]
-
-{ #category : #'gt-inspector-extension' }
-GTEventCollector >> gtInspectorActionHelp [
-	<gtInspectorAction>
-	^ GLMGenericAction new
-		action: [:b | 
-		HelpBrowser open selectTopicSatisfying: [:each |
-			each owner notNil and:  [
-			(each owner key = GTEventRecorderHelp key) and: [
-				each title = 'Client' ] ] ] ];
-		icon: GLMUIThemeExtraIcons glamorousHelp;
-		title: 'Help'
 ]
 
 { #category : #initialization }

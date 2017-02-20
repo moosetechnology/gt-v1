@@ -77,19 +77,6 @@ GTEventTool >> extract [
 	(ZipArchive new readFrom: self defaultDownloadFilename) extractAllTo: FileLocator workingDirectory.
 ]
 
-{ #category : #'gt-inspector-extension' }
-GTEventTool >> gtInspectorActionHelp [
-	<gtInspectorAction>
-	^ GLMGenericAction new
-		action: [:b | 
-		HelpBrowser open selectTopicSatisfying: [:each |
-			each owner notNil and:  [
-			(each owner key = GTEventRecorderHelp key) and: [
-				each title = 'Data Analysis' ] ] ] ];
-		icon: GLMUIThemeExtraIcons glamorousHelp;
-		title: 'Help'
-]
-
 { #category : #printing }
 GTEventTool >> printHumanReadableSize: aTotalNumber [
 	| humanReadable length unit |
