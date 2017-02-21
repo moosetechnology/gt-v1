@@ -100,15 +100,9 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 					withVariable: y key
 					in: ((self presentations first paneNamed: #variables) port: #entity) value];
 		column: 'Variable' 
-			evaluated: [:assoc | 
-			[ Text fromString: assoc key asString ]
-					on: Error
-					do: [ Text string: 'error printing' attribute: TextColor red ] ]
+			evaluated: [:assoc | GTObjectPrinter asNonTruncatedTextFrom: assoc key ]
 			width: 175;
-		column: 'Value' evaluated: [:assoc | 
-			[ Text fromString: (assoc value printString contractTo: 50) ]
-					on: Error
-					do: [ Text string: 'error printing' attribute: TextColor red ] ];
+		column: 'Value' evaluated: [:assoc | GTObjectPrinter asTruncatedTextFrom: assoc value ];
 		"send: #value;"
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
