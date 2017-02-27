@@ -218,7 +218,9 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 			on: $i 
 			entitled: 'Inspect' translated;
 		dynamicActionsOnSelection: [ :presentation |
-			presentation selection inspectorActionsForNode ];
+			(presentation rawSelection isKindOf: GTInspectorVariableNode) 
+				ifTrue: [presentation rawSelection inspectorActionsForNode ]
+				ifFalse: [ #() ] ];
 		selectionAct: [:list | 
 			((list selection value pointersToExcept: { list selection value })
 									reject: [ :each | each pointsOnlyWeaklyTo: list selection value ]) inspect ] 
