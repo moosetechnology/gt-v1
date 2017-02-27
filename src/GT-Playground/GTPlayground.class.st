@@ -370,7 +370,12 @@ GTPlayground >> compose [
 					self codeIn: composite ];
 				yourself);
 		when: GLMBrowserClosing do: [ :ann |
-			self actOnBrowserClosing: ann ]
+			self actOnBrowserClosing: ann ].
+	
+	GTInspector hasRefreshRate ifTrue: [
+		self wantsSteps: true.
+		self stepTime: GTInspector stepRefreshRate ]
+	
 ]
 
 { #category : #'building actions' }
@@ -432,6 +437,11 @@ GTPlayground >> openOn: aPage [
 	^ window
 ]
 
+{ #category : #updating }
+GTPlayground >> refreshRequest [
+	self inspectorPresentation refreshPanes
+]
+
 { #category : #'accessing-dynamic' }
 GTPlayground >> removeBinding: anAssociation [
 
@@ -453,4 +463,12 @@ GTPlayground >> setBindings: aDictionary [
 	self inspectorPresentation firstPresentation 
 		variableBindings: [ aDictionary associations ];
 		updateVariableBindings
+]
+
+{ #category : #'stepping and presenter' }
+GTPlayground >> step [
+	self window ifNil: [ ^ self ].
+	self window isActive ifFalse: [ ^ self ].
+	
+	self refreshRequest
 ]
