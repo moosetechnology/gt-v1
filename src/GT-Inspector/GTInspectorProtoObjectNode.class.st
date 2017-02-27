@@ -1,12 +1,11 @@
 "
-I am a variable node for representing the slots of objects that subclass ProtoObject directly and not Object. My main responsability is to extract the value of a slot using thisContext and not a direct message send to the object.  I used the name of a slot as a key.
+I am a variable node for representing the slots of objects that subclass ProtoObject directly and not Object. My main responsability is to extract the value of a slot using thisContext and not a direct message send to the object.  I used the name of a slot as a key. I extract the value from the host object every time #rawValue is called.
 "
 Class {
 	#name : #GTInspectorProtoObjectNode,
 	#superclass : #GTInspectorVariableNode,
 	#instVars : [
 		'index',
-		'value',
 		'slotName'
 	],
 	#category : #'GT-Inspector'
@@ -23,7 +22,6 @@ GTInspectorProtoObjectNode class >> hostObject: anObject index: index slotName: 
 GTInspectorProtoObjectNode >> index: anIndex slotName: aSlotName [
 	index := anIndex.
 	slotName := aSlotName.
-	value := thisContext object: self hostObject instVarAt: anIndex
 ]
 
 { #category : #accessing }
@@ -32,6 +30,6 @@ GTInspectorProtoObjectNode >> key [
 ]
 
 { #category : #accessing }
-GTInspectorProtoObjectNode >> value [ 
-	^ value 
+GTInspectorProtoObjectNode >> rawValue [ 
+	^ thisContext object: self hostObject instVarAt: index 
 ]

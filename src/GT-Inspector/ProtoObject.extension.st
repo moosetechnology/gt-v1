@@ -41,6 +41,11 @@ ProtoObject >> gtInspectorActions [
 ]
 
 { #category : #'*GT-Inspector' }
+ProtoObject >> gtInspectorIcon [
+	^ nil
+]
+
+{ #category : #'*GT-Inspector' }
 ProtoObject >> gtInspectorMetaIn: composite [
 	"This presentation offers the methods of the class of the current object"
 	<gtInspectorPresentationOrder: 1000>

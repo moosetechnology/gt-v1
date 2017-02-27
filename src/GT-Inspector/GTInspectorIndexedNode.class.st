@@ -1,12 +1,11 @@
 "
-I am a variable node for representing the indexed variables of an object. I used the index of a variable as a key.
+I am a variable node for representing the indexed variables of an object. I used the index of a variable as a key. I extract the value from the host object every time #rawValue is called.
 "
 Class {
 	#name : #GTInspectorIndexedNode,
 	#superclass : #GTInspectorVariableNode,
 	#instVars : [
-		'index',
-		'value'
+		'index'
 	],
 	#category : #'GT-Inspector'
 }
@@ -25,8 +24,7 @@ GTInspectorIndexedNode >> index [
 
 { #category : #accessing }
 GTInspectorIndexedNode >> index: anInteger [
-	index := anInteger.
-	value := self hostObject basicAt: index
+	index := anInteger
 ]
 
 { #category : #accessing }
@@ -35,6 +33,6 @@ GTInspectorIndexedNode >> key [
 ]
 
 { #category : #accessing }
-GTInspectorIndexedNode >> value [
-	^ value
+GTInspectorIndexedNode >> rawValue [
+	^ self hostObject basicAt: index
 ]

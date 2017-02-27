@@ -22,6 +22,20 @@ GTRawObjectVariablesBrowser >> basicVariableNodesFor: anObject in: aCollection [
 	self subclassResponsibility 
 ]
 
+{ #category : #'private building' }
+GTRawObjectVariablesBrowser >> childrenVariableNodesForNode: aNode [
+	| variableNodes |
+
+	"Nil should have now a single child: `self`. For now this is needed for
+	a smooth navigation in the tree widget."
+	"anObject ifNil: [ ^ #() ]."
+
+	variableNodes := OrderedCollection new: aNode value class allSlots size.
+	variableNodes add: (GTInspectorWrapperNode hostObject: aNode label: 'self').
+	self basicVariableNodesFor: aNode value in: variableNodes.
+	^ variableNodes
+]
+
 { #category : #building }
 GTRawObjectVariablesBrowser >> compose [
 	self title: 'Raw'.
@@ -39,7 +53,8 @@ GTRawObjectVariablesBrowser >> compose [
 			transformed: [ :aNode | aNode ifNotNil: [aNode value]].
 		browser transmit 
 			from: #evaluator; 
-			toOutsidePort: #selection ]
+			toOutsidePort: #selection ].
+	self wantsAutomaticRefresh: true
 ]
 
 { #category : #'private building' }
@@ -87,7 +102,7 @@ GTRawObjectVariablesBrowser >> generateHashFor: anObject [
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> iconFor: anObject [
 		
-	^ [ (anObject iconOrThumbnailOfSize: 16)
+	^ [ (anObject gtInspectorIcon)
 		ifNil: [ anObject class systemIcon ] ]
 			on: Error do: [ :error | self iconFor: anObject error: error ]
 ]
@@ -106,6 +121,11 @@ GTRawObjectVariablesBrowser >> printStringOf: anObject [
 GTRawObjectVariablesBrowser >> rebuildCacheFor: anObject [
 
 	cachedHashes := self generateCacheFor: anObject
+]
+
+{ #category : #stepping }
+GTRawObjectVariablesBrowser >> refreshRequest [
+	(self presentations first paneNamed: #variables) presentations first refreshRequest
 ]
 
 { #category : #'private - updating' }
@@ -180,12 +200,15 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 		children: [ :aNode | aNode childrenNodesFor: self ];
 		icon: [ :aNode | self iconFor: aNode value ];
 		display: [ :anObject | 
-			"self rebuildCacheFor: anObject."
 			self variableNodesFor: anObject ];
 		column: 'Variable' translated
 			evaluated: [ :aNode | (GTObjectPrinter asNonTruncatedTextFrom: aNode key) ];
 		column: 'Value' translated
-			evaluated: [ :aNode | GTObjectPrinter asTruncatedTextFrom: aNode value ];
+			evaluated: [ :aNode | | rawValue displayValue |
+				[ rawValue := aNode rawValue. ] 
+					on: Error 
+					do: [ displayValue := Text string: 'error obtaining attribute value' attribute: TextColor red ].
+				displayValue ifNil: [ GTObjectPrinter asTruncatedTextFrom: rawValue ] ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 

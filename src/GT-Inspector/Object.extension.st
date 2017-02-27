@@ -25,6 +25,11 @@ Object >> gtInspectorHash [
 ]
 
 { #category : #'*GT-Inspector' }
+Object >> gtInspectorIcon [
+	^ self iconOrThumbnailOfSize: 16
+]
+
+{ #category : #'*GT-Inspector' }
 Object >> gtInspectorInterestingObject [
 	^ self
 ]
@@ -42,7 +47,7 @@ Object >> gtInspectorVariableNodesIn: aCollection [
 	Subclasses can override it to specialize what appears in the variables presentation."
 	| indexableDisplayLimit top bottom topLimit bottomLimit |
 	
-	indexableDisplayLimit := 21.        
+	indexableDisplayLimit := GTInspector indexableDisplayLimit.        
 	top := 1.
 	bottom := self basicSize.
 	topLimit    := indexableDisplayLimit min: bottom.
@@ -51,7 +56,7 @@ Object >> gtInspectorVariableNodesIn: aCollection [
 	top to: topLimit do: [ :index | 
 		aCollection add: (GTInspectorIndexedNode hostObject: self index: index) ].
 	
-	bottomLimit + 1 to: bottom do: [ :index | "self haltIf: [ index = 99 ]."
+	bottomLimit + 1 to: bottom do: [ :index |
 		aCollection add: (GTInspectorIndexedNode hostObject: self index: index) ].
 	
 	aCollection

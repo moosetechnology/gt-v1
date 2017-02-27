@@ -1,12 +1,11 @@
 "
-I am a variable node for representing the slots of an object. I used the name of a slot as a key.
+I am a variable node for representing the slots of an object. I used the name of a slot as a key. I extract the value from the host object every time #rawValue is called.
 "
 Class {
 	#name : #GTInspectorSlotNode,
 	#superclass : #GTInspectorVariableNode,
 	#instVars : [
-		'slot',
-		'value'
+		'slot'
 	],
 	#category : #'GT-Inspector'
 }
@@ -55,6 +54,11 @@ GTInspectorSlotNode >> key [
 ]
 
 { #category : #accessing }
+GTInspectorSlotNode >> rawValue [
+	^ self hostObject readSlot: slot
+]
+
+{ #category : #accessing }
 GTInspectorSlotNode >> slot [
 	^ slot
 ]
@@ -67,10 +71,4 @@ GTInspectorSlotNode >> slot: aSlot [
 		description: [ 'Slot can not be nil' ].
 
 	slot := aSlot.
-	value := self hostObject readSlot: slot
-]
-
-{ #category : #accessing }
-GTInspectorSlotNode >> value [
-	^ value
 ]

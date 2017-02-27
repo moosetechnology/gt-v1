@@ -3,10 +3,11 @@ I model an attribute of an object in the GTInspector. I am used in the Raw prese
 
 Public API and Key Messages
 
-- hostObject return the object (host) holding the  attribute that I represent
-- label return a string label of the attribute, which may be an instance variable name or a dynamically generated name for dynamic attributes.
-- value return the value  of the attribute
-- key return an object used as unique key to identify an attribute, it may be an integer for indexed variables or a string for dynamic ones
+- hostObject return the object (host) holding the  attribute that I represent;
+- label return a string label of the attribute, which may be an instance variable name or a dynamically generated name for dynamic attributes;
+- value return the value  of the attribute; catches any errors and returns nil;
+- rawValue return the value of the attribute without any catch for errors;
+- key return an object used as unique key to identify an attribute, it may be an integer for indexed variables or a string for dynamic ones.
  
 Internal Representation and Key Implementation Points.
 
@@ -35,7 +36,7 @@ GTInspectorVariableNode >> childrenNodesFor: aVariablesBrowser [
 	Note: by default we dispatch to browser and let it perform collection"
 	<return: #Collection of: #GTInspectorVariableNode>
 
-	^ aVariablesBrowser variableNodesFor: self value
+	^ aVariablesBrowser childrenVariableNodesForNode: self
 ]
 
 { #category : #accessing }
@@ -80,7 +81,14 @@ GTInspectorVariableNode >> label [
 ]
 
 { #category : #accessing }
-GTInspectorVariableNode >> value [
+GTInspectorVariableNode >> rawValue [
 	"Answer the object value of this object variable (slot, indexed attribute, computed value)."
 	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+GTInspectorVariableNode >> value [
+	"Answer the object value of this object variable (slot, indexed attribute, computed value).
+	Return nil in case there is an error obtaining the value"
+	^ [ self rawValue ] on: Error do: [ nil ]
 ]

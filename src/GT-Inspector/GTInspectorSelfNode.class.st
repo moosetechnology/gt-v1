@@ -21,6 +21,6 @@ GTInspectorSelfNode >> key [
 ]
 
 { #category : #accessing }
-GTInspectorSelfNode >> value [
+GTInspectorSelfNode >> rawValue [
 	^ self hostObject
 ]

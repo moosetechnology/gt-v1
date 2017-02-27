@@ -18,8 +18,10 @@ Class {
 	#classVars : [
 		'GTInspectorEnabledStatus',
 		'GTNumberOfInspectorPanes',
+		'IndexableDisplayLimit',
 		'PreferredExtent',
-		'RememberPreferredExtent'
+		'RememberPreferredExtent',
+		'StepRefreshRate'
 	],
 	#category : #'GT-Inspector'
 }
@@ -32,6 +34,16 @@ GTInspector class >> closeAllInspectors [
 		 w model isKindOf: self])
 			do: [:w | w delete ].
 
+]
+
+{ #category : #settings }
+GTInspector class >> disableStepRefresh [
+	self stepRefreshRate: 0
+]
+
+{ #category : #settings }
+GTInspector class >> enableStepRefresh [
+	self stepRefreshRate: 1500
 ]
 
 { #category : #openning }
@@ -82,6 +94,21 @@ GTInspector class >> gtInspectorExtensionsIn: composite [
 		showOnly: 50;
 		format: [ :each | each gtDisplayString ];
 		filterOn: [ :text :each | each gtDisplayString includesSubstring: text caseSensitive: false ]
+]
+
+{ #category : #settings }
+GTInspector class >> hasRefreshRate [
+	^ self stepRefreshRate > 0
+]
+
+{ #category : #settings }
+GTInspector class >> indexableDisplayLimit [
+	^ IndexableDisplayLimit ifNil: [ 5000 ]
+]
+
+{ #category : #settings }
+GTInspector class >> indexableDisplayLimit: anInteger [
+	IndexableDisplayLimit := anInteger
 ]
 
 { #category : #'class initialization' }
@@ -233,6 +260,16 @@ GTInspector class >> settingsOn: aBuilder [
 		 		description: 'Enable or disable the GTInspector.'.]
 ]
 
+{ #category : #settings }
+GTInspector class >> stepRefreshRate [
+	^ StepRefreshRate ifNil: [ 0 ]
+]
+
+{ #category : #settings }
+GTInspector class >> stepRefreshRate: anInteger [
+	StepRefreshRate := anInteger
+]
+
 { #category : #callbacks }
 GTInspector >> actOnPaneAdded: anAnnouncement [
 	
@@ -292,7 +329,12 @@ GTInspector >> compose [
 							startOn: x ] ] ].
 			
 	self browser when: GLMPaneAdded send: #actOnPaneAdded: to: self.
-	self browser when: GLMPaneRemoved send: #actOnPaneRemoved: to: self
+	self browser when: GLMPaneRemoved send: #actOnPaneRemoved: to: self.
+	
+	self class hasRefreshRate ifTrue: [ 
+		self wantsSteps: true.
+		self stepTime: self class stepRefreshRate ].
+	
 ]
 
 { #category : #accessing }
@@ -387,6 +429,21 @@ GTInspector >> printObjectAsAnItem: anObject [
 				out << header; << ' ('; << printString; << ')' ] ]
 ]
 
+{ #category : #updating }
+GTInspector >> refreshPanes [
+	self panes do: [ :aPane | 
+		aPane updateToolbar.
+		aPane presentations presentations first withAllPresentations do: [ :aPresentation |
+			aPresentation wantsAutomaticRefresh ifTrue: [ 
+				aPresentation refreshRequest ] ]  ]
+]
+
+{ #category : #updating }
+GTInspector >> refreshRequest [
+	self updateToolbar.
+	self refreshPanes
+]
+
 { #category : #actions }
 GTInspector >> removeLastPane [
 	| lastPane |
@@ -408,4 +465,12 @@ GTInspector >> shouldDisplayPresentationCreatedBy: aMethod [
 GTInspector >> showFirst: aBlock [
 
 	self browser showFirst: aBlock
+]
+
+{ #category : #'stepping and presenter' }
+GTInspector >> step [
+	self window ifNil: [ ^ self ].
+	self window isActive ifFalse: [ ^ self ].
+	
+	self refreshRequest
 ]
