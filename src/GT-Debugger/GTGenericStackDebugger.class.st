@@ -6,7 +6,7 @@ Class {
 	#name : #GTGenericStackDebugger,
 	#superclass : #GTMoldableDebugger,
 	#instVars : [
-		'selectedVariableName'
+		'cache'
 	],
 	#classVars : [
 		'AlwaysOpenFullDebugger',
@@ -173,6 +173,11 @@ GTGenericStackDebugger >> actOnInspectorPaneRemoved: ann [
 
 	ann browser panes size == 1 ifTrue: [ 
 		self selectedVariableName: nil ]
+]
+
+{ #category : #accessing }
+GTGenericStackDebugger >> cache [
+	^ cache ifNil: [ cache := Dictionary new ]
 ]
 
 { #category : #'building actions' }
@@ -420,12 +425,12 @@ GTGenericStackDebugger >> selectedText [
 
 { #category : #accessing }
 GTGenericStackDebugger >> selectedVariableName [
-	^ selectedVariableName
+	^ self cache at: #selectedVariableName ifAbsent: [ nil ]
 ]
 
 { #category : #accessing }
 GTGenericStackDebugger >> selectedVariableName: anObject [
-	selectedVariableName := anObject
+	self cache at: #selectedVariableName put: anObject
 ]
 
 { #category : #updating }
