@@ -332,6 +332,7 @@ GTInspector >> compose [
 	self browser when: GLMPaneRemoved send: #actOnPaneRemoved: to: self.
 	
 	self class hasRefreshRate ifTrue: [ 
+		self wantsAutomaticRefresh: true.
 		self wantsSteps: true.
 		self stepTime: self class stepRefreshRate ].
 	
@@ -467,10 +468,11 @@ GTInspector >> showFirst: aBlock [
 	self browser showFirst: aBlock
 ]
 
-{ #category : #'stepping and presenter' }
+{ #category : #stepping }
 GTInspector >> step [
 	self window ifNil: [ ^ self ].
 	self window isActive ifFalse: [ ^ self ].
 	
-	self requestRefresh
+	self wantsAutomaticRefresh ifTrue: [
+		self requestRefresh ]
 ]
