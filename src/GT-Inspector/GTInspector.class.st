@@ -16,6 +16,7 @@ Class {
 		'presentationFilter'
 	],
 	#classVars : [
+		'EnabledStepRefreshStatus',
 		'GTInspectorEnabledStatus',
 		'GTNumberOfInspectorPanes',
 		'IndexableDisplayLimit',
@@ -38,12 +39,12 @@ GTInspector class >> closeAllInspectors [
 
 { #category : #settings }
 GTInspector class >> disableStepRefresh [
-	self stepRefreshRate: 0
+	self setEnabledStepRefreshStatus: false
 ]
 
 { #category : #settings }
 GTInspector class >> enableStepRefresh [
-	self stepRefreshRate: 1500
+	self setEnabledStepRefreshStatus: true
 ]
 
 { #category : #openning }
@@ -97,11 +98,6 @@ GTInspector class >> gtInspectorExtensionsIn: composite [
 ]
 
 { #category : #settings }
-GTInspector class >> hasRefreshRate [
-	^ self stepRefreshRate > 0
-]
-
-{ #category : #settings }
 GTInspector class >> indexableDisplayLimit [
 	^ IndexableDisplayLimit ifNil: [ 5000 ]
 ]
@@ -149,6 +145,12 @@ GTInspector class >> inspectorExtendingMethods [
 GTInspector class >> isGTInspectorEnabled [
 
 	^ GTInspectorEnabledStatus ifNil: [ GTInspectorEnabledStatus := Smalltalk tools inspector = self ]
+]
+
+{ #category : #settings }
+GTInspector class >> isStepRefreshEnabled [
+
+	^ EnabledStepRefreshStatus ifNil: [ false ]
 ]
 
 { #category : #settings }
@@ -221,6 +223,11 @@ GTInspector class >> rememberPreferredExtent: aBoolean [
 ]
 
 { #category : #settings }
+GTInspector class >> setEnabledStepRefreshStatus: aBoolean [
+	EnabledStepRefreshStatus := aBoolean
+]
+
+{ #category : #settings }
 GTInspector class >> setGTInspectorEnabledStatus: aBoolean [
 	| oldStatus |
 	
@@ -257,7 +264,13 @@ GTInspector class >> settingsOn: aBuilder [
 				getSelector: #isGTInspectorEnabled;
 				setSelector: #setGTInspectorEnabledStatus:; 
 				label: 'GTInspector';
-		 		description: 'Enable or disable the GTInspector.'.]
+		 		description: 'Enable or disable the GTInspector.'.
+			(aBuilder setting: #EnabledStepRefreshStatus)
+				target: self;
+				getSelector: #isStepRefreshEnabled;
+				setSelector: #setEnabledStepRefreshStatus:; 
+				label: 'GTInspector Step Refresh';
+		 		description: 'Enable or disable the automatic refresh in GTInspector that uses a busy update loop (based on the stepping mechanism from Morphic).']
 ]
 
 { #category : #settings }
@@ -331,7 +344,7 @@ GTInspector >> compose [
 	self browser when: GLMPaneAdded send: #actOnPaneAdded: to: self.
 	self browser when: GLMPaneRemoved send: #actOnPaneRemoved: to: self.
 	
-	self class hasRefreshRate ifTrue: [ 
+	self class isStepRefreshEnabled ifTrue: [ 
 		self wantsAutomaticRefresh: true.
 		self wantsSteps: true.
 		self stepTime: self class stepRefreshRate ].
