@@ -437,11 +437,6 @@ GTPlayground >> openOn: aPage [
 	^ window
 ]
 
-{ #category : #updating }
-GTPlayground >> refreshRequest [
-	self inspectorPresentation refreshPanes
-]
-
 { #category : #'accessing-dynamic' }
 GTPlayground >> removeBinding: anAssociation [
 
@@ -449,6 +444,11 @@ GTPlayground >> removeBinding: anAssociation [
 	bindings := self currentBindings copy.
 	bindings removeKey: anAssociation key ifAbsent: [ ].
 	self setBindings: bindings.
+]
+
+{ #category : #updating }
+GTPlayground >> requestRefresh [
+	self inspectorPresentation refreshPanes
 ]
 
 { #category : #actions }
@@ -470,5 +470,5 @@ GTPlayground >> step [
 	self window ifNil: [ ^ self ].
 	self window isActive ifFalse: [ ^ self ].
 	
-	self refreshRequest
+	self requestRefresh
 ]
