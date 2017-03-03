@@ -366,6 +366,7 @@ GTPlayground >> compose [
 			(GTInspector new
 				noTitle; 
 				noActions;
+				wantsAutomaticRefresh: true;
 				showFirst: [ :composite |
 					self codeIn: composite ];
 				yourself);
@@ -373,6 +374,7 @@ GTPlayground >> compose [
 			self actOnBrowserClosing: ann ].
 	
 	GTInspector hasRefreshRate ifTrue: [
+		self wantsAutomaticRefresh: true.
 		self wantsSteps: true.
 		self stepTime: GTInspector stepRefreshRate ]
 	
@@ -465,10 +467,11 @@ GTPlayground >> setBindings: aDictionary [
 		updateVariableBindings
 ]
 
-{ #category : #'stepping and presenter' }
+{ #category : #stepping }
 GTPlayground >> step [
 	self window ifNil: [ ^ self ].
 	self window isActive ifFalse: [ ^ self ].
 	
-	self requestRefresh
+	self wantsAutomaticRefresh ifTrue: [
+		self requestRefresh ]
 ]
