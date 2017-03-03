@@ -435,13 +435,7 @@ GTInspector >> refreshPanes [
 		aPane updateToolbar.
 		aPane presentations presentations first withAllPresentations do: [ :aPresentation |
 			aPresentation wantsAutomaticRefresh ifTrue: [ 
-				aPresentation refreshRequest ] ]  ]
-]
-
-{ #category : #updating }
-GTInspector >> refreshRequest [
-	self updateToolbar.
-	self refreshPanes
+				aPresentation requestRefresh ] ]  ]
 ]
 
 { #category : #actions }
@@ -451,6 +445,12 @@ GTInspector >> removeLastPane [
 	lastPane := self panes last.
 	self browser removeLastPane.
 	self browser announce: (GLMPaneRemoved pane: lastPane fromBrowser: self browser)
+]
+
+{ #category : #updating }
+GTInspector >> requestRefresh [
+	self updateToolbar.
+	self refreshPanes
 ]
 
 { #category : #context }
@@ -472,5 +472,5 @@ GTInspector >> step [
 	self window ifNil: [ ^ self ].
 	self window isActive ifFalse: [ ^ self ].
 	
-	self refreshRequest
+	self requestRefresh
 ]

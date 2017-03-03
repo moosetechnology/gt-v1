@@ -124,8 +124,8 @@ GTRawObjectVariablesBrowser >> rebuildCacheFor: anObject [
 ]
 
 { #category : #stepping }
-GTRawObjectVariablesBrowser >> refreshRequest [
-	(self presentations first paneNamed: #variables) presentations first refreshRequest
+GTRawObjectVariablesBrowser >> requestRefresh [
+	(self presentations first paneNamed: #variables) presentations first requestRefresh
 ]
 
 { #category : #'private - updating' }
