@@ -20,30 +20,39 @@ GTDebuggerVariablesBrowser >> compareVariableTypeOf: x withVariable: y in: aCont
 
 { #category : #building }
 GTDebuggerVariablesBrowser >> compose [  
-	"self title: [:each | GTInspector new printObjectAsAnItem: each receiver ]."
-	"self morphicAct: [:anotherComposite | anotherComposite entity receiver browse]
-				icon: GLMUIThemeExtraIcons glamorousBrowse 
-				entitled: 'Browse'."
-	self tabulator with: [:browser | 
-		browser row: #variables.
-		browser transmit to: #variables; andShow: [:a | 
-			self variablesIn: a.
-			self contextEvaluatorIn: a. ].
-		browser transmit 
-			from: #variables port: #entity; 
-			to: #variables port: #selection; 
-			when: [ :aContext | self debugger selectedVariableName notNil and: [aContext notNil] ];
-			transformed: [ :aContext | self selectedVariableForContext: aContext ].
-		browser transmit from: #variables; toOutsidePort: #selection; transformed: [ :pair | pair value ] ]
+	| tabulator |
+	tabulator := self tabulator.
+	tabulator row: #main.
+	tabulator transmit to: #main; andShow: [ :aComposite | 
+		aComposite tabulator with: [:browser | 
+			browser title: 'Variables'.
+			browser row: #variables.
+			browser transmit 
+				from: #variables port: #entity; 
+				to: #variables port: #selection; 
+				when: [ :aContext | self debugger selectedVariableName notNil and: [aContext notNil] ];
+				transformed: [ :aContext | self selectedVariableForContext: aContext ].
+			browser transmit to: #variables; andShow: [:a | 
+				self variablesIn: a ].
+			browser transmit from: #variables; toOutsidePort: #selection; transformed: [ :pair | pair value ] ].
+		aComposite tabulator with: [:browser | 
+			browser title: 'Evaluator'.
+			browser row: #evaluator.
+			browser transmit to: #evaluator; andShow: [:a | 
+				self contextEvaluatorIn: a. ].
+			browser transmit from: #evaluator; toOutsidePort: #selection ].
+		
+		aComposite onChangeOfPort: #activePresentation act: [ :presentation |
+			(presentation pane port: #activePresentation) value 
+				ifNotNil: [ :activePresentation | 
+					self debugger cache at: #activePresentationTitle put: activePresentation title ] ] ].
+	tabulator transmit from: #main; toOutsidePort: #selection.
 ]
 
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> contextEvaluatorIn: aComposite [
 
 	aComposite pharoScript
-		onChangeOfPort: #activePresentation act: [ :presentation |
-				self debugger cache at: #activePresentationTitle put: (presentation pane port: #activePresentation) value title ];
-		title: 'Evaluator';
 		doItReceiver: [ self debugger selectedContext receiver ];
 		doItContext: [ self debugger selectedContext ];
 		smalltalkClass: [ self debugger selectedContext receiver class ];
@@ -74,8 +83,8 @@ GTDebuggerVariablesBrowser >> restoreSettings [
 	| currentPane presentationTitle lastActivePresentation |
 	
 	presentationTitle := self debugger cache at: #activePresentationTitle ifAbsent: [ nil ].
-	currentPane := self presentations first paneNamed: #variables.
-	lastActivePresentation := currentPane presentations presentations 
+	currentPane := self presentations first paneNamed: #main.
+	lastActivePresentation := currentPane presentations  presentations
 		detect: [ :each | each title = presentationTitle ] 
 		ifNone: [ ^ self ].
 	currentPane lastActivePresentation: lastActivePresentation
@@ -120,7 +129,6 @@ GTDebuggerVariablesBrowser >> variablesFromContext: aContext [
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesIn: composite [
 	^ composite fastTable
-		title: 'Variables';
 		showOnly: 50;
 		shouldValidate: false;
 		allowsRecursiveSearch: false;
@@ -150,6 +158,5 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 			entitled: 'Inspect';
 		onChangeOfPort: #rawSelection 
 			act: [ :aPresentation | 
-				(aPresentation rawSelection isKindOf: Association) ifTrue: [
-					self debugger selectedVariableName: aPresentation rawSelection key ] ]
+				self debugger selectedVariableName: aPresentation rawSelection key ] 
 ]
