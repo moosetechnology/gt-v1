@@ -373,7 +373,7 @@ GTPlayground >> compose [
 		when: GLMBrowserClosing do: [ :ann |
 			self actOnBrowserClosing: ann ].
 	
-	GTInspector hasRefreshRate ifTrue: [
+	GTInspector isStepRefreshEnabled ifTrue: [
 		self wantsAutomaticRefresh: true.
 		self wantsSteps: true.
 		self stepTime: GTInspector stepRefreshRate ]
