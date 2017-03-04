@@ -40,6 +40,11 @@ GTInspectorVariableNode >> childrenNodesFor: aVariablesBrowser [
 ]
 
 { #category : #accessing }
+GTInspectorVariableNode >> errorMessage [
+	^ 'error obtaining value'
+]
+
+{ #category : #accessing }
 GTInspectorVariableNode >> hostObject [
 	^ hostObject
 ]

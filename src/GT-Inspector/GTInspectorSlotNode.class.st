@@ -39,6 +39,11 @@ GTInspectorSlotNode >> editingActionForNode [
 ]
 
 { #category : #accessing }
+GTInspectorSlotNode >> errorMessage [
+	^ 'error obtaining attribute value'
+]
+
+{ #category : #accessing }
 GTInspectorSlotNode >> inspectorActionsForNode [
 	"Return a collection of available inspector actions associated with a variable node"
 	<return: #Collection of: #GLMAction>

@@ -23,6 +23,11 @@ GTInspectorWrapperNode >> childrenNodesFor: aVariablesBrowser [
 ]
 
 { #category : #accessing }
+GTInspectorWrapperNode >> errorMessage [
+	^ self hostObject errorMessage
+]
+
+{ #category : #accessing }
 GTInspectorWrapperNode >> inspectorActionsForNode [
 	^ self hostObject inspectorActionsForNode
 ]

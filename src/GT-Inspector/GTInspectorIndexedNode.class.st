@@ -18,6 +18,11 @@ GTInspectorIndexedNode class >> hostObject: anObject index: index [
 ]
 
 { #category : #accessing }
+GTInspectorIndexedNode >> errorMessage [
+	^ 'error obtaining indexed attribute value'
+]
+
+{ #category : #accessing }
 GTInspectorIndexedNode >> index [
 	^ index
 ]

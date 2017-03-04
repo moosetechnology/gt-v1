@@ -202,12 +202,12 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 		display: [ :anObject | 
 			self variableNodesFor: anObject ];
 		column: 'Variable' translated
-			evaluated: [ :aNode | (GTObjectPrinter asNonTruncatedTextFrom: aNode key) ];
+			evaluated: [ :aNode | (GTObjectPrinter asNonTruncatedTextFrom: aNode label) ];
 		column: 'Value' translated
 			evaluated: [ :aNode | | rawValue displayValue |
 				[ rawValue := aNode rawValue. ] 
 					on: Error 
-					do: [ displayValue := Text string: 'error obtaining attribute value' attribute: TextColor red ].
+					do: [ displayValue := Text string: aNode errorMessage attribute: TextColor red ].
 				displayValue ifNil: [ GTObjectPrinter asTruncatedTextFrom: rawValue ] ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
