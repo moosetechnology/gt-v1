@@ -9,6 +9,12 @@ Class {
 	#category : #'GT-BytecodeDebugger-UI'
 }
 
+{ #category : #'private building' }
+GTBytecodeDebuggerVariablesBrowser >> buildVariablesFromContext: aContext [ 
+
+	^ aContext gtBytecodeDebuggerRetrieveContextValues
+]
+
 { #category : #'as yet unclassified' }
 GTBytecodeDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 	|variableName|
@@ -19,12 +25,6 @@ GTBytecodeDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 	^ super 
 		variableTypeOf: variableName
 		in: aContext
-]
-
-{ #category : #'private building' }
-GTBytecodeDebuggerVariablesBrowser >> variablesFromContext: aContext [ 
-
-	^ aContext gtBytecodeDebuggerRetrieveContextValues
 ]
 
 { #category : #'private building' }
