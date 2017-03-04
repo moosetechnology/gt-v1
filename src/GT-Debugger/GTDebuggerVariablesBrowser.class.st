@@ -7,10 +7,16 @@ Class {
 	#name : #GTDebuggerVariablesBrowser,
 	#superclass : #GLMCompositePresentation,
 	#instVars : [
-		'debugger'
+		'debugger',
+		'cachedVariables'
 	],
 	#category : #'GT-Debugger-UI'
 }
+
+{ #category : #'private building' }
+GTDebuggerVariablesBrowser >> buildVariablesFromContext: aContext [ 
+	^ aContext gtDebuggerRetrieveVariableValuePairs
+]
 
 { #category : #testing }
 GTDebuggerVariablesBrowser >> compareVariableTypeOf: x withVariable: y in: aContext [
@@ -28,13 +34,15 @@ GTDebuggerVariablesBrowser >> compose [
 			browser title: 'Variables'.
 			browser row: #variables.
 			browser transmit 
+				to: #variables port: #entity; 
+				andShow: [:a | 
+					self variablesIn: a ].
+			browser transmit 
 				from: #variables port: #entity; 
 				to: #variables port: #selection; 
 				when: [ :aContext | self debugger selectedVariableName notNil and: [aContext notNil] ];
 				transformed: [ :aContext | self selectedVariableForContext: aContext ].
-			browser transmit to: #variables; andShow: [:a | 
-				self variablesIn: a ].
-			browser transmit from: #variables; toOutsidePort: #selection; transformed: [ :pair | pair value ] ].
+			browser transmit from: #variables; toOutsidePort: #selection; transformed: [ :aNode | aNode value ] ].
 		aComposite tabulator with: [:browser | 
 			browser title: 'Evaluator'.
 			browser row: #evaluator.
@@ -90,14 +98,11 @@ GTDebuggerVariablesBrowser >> restoreSettings [
 	currentPane lastActivePresentation: lastActivePresentation
 ]
 
-{ #category : #building }
+{ #category : #accessing }
 GTDebuggerVariablesBrowser >> selectedVariableForContext: aContext [ 
-	|variablesMappings|
-	
-	variablesMappings := self variablesFromContext: aContext.
-	^ variablesMappings 
+	^ (self variablesFromContext: aContext) 
 		detect: [ :each | each key = self debugger selectedVariableName ] 
-		ifNone: [ variablesMappings detect: [ :each | each key = 'self' ] ifNone: [ nil ] ]
+		ifNone: [ cachedVariables detect: [ :each | each key = 'self' ] ifNone: [ nil ] ]
 ]
 
 { #category : #'private building' }
@@ -109,7 +114,12 @@ GTDebuggerVariablesBrowser >> tagsForVariable: aString from: aContext [
 	
 ]
 
-{ #category : #building }
+{ #category : #actions }
+GTDebuggerVariablesBrowser >> updateVariablesForContext [
+	cachedVariables := self 
+]
+
+{ #category : #accessing }
 GTDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 	^ (aContext receiver class classThatDefinesInstanceVariable: aString) notNil
 			ifTrue: [ 'attribute' ]
@@ -122,32 +132,36 @@ GTDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
 
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesFromContext: aContext [ 
-
-	^ aContext gtDebuggerRetrieveVariableValuePairs
+	^ cachedVariables ifNil: [ cachedVariables := self buildVariablesFromContext: aContext ]
 ]
 
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesIn: composite [
 	^ composite fastTable
-		showOnly: 50;
-		shouldValidate: false;
-		allowsRecursiveSearch: false;
-		display: [ :context | self variablesFromContext: context ];
+		display: [ :aContext | self variablesFromContext: aContext. ];
 		column: 'Type'
 			evaluated: [ '' ]
 			width: 75
-			tags: [ :assoc :context |
-				self tagsForVariable: assoc key from: context ]
+			tags: [ :aNode :context |
+				self tagsForVariable: aNode key from: context ]
 			sortedBy: [ :x :y | 
 				self 
 					compareVariableTypeOf: x key
 					withVariable: y key
 					in: ((self presentations first paneNamed: #variables) port: #entity) value];
 		column: 'Variable' 
-			evaluated: [:assoc | GTObjectPrinter asNonTruncatedTextFrom: assoc key ]
+			evaluated: [ :aNode | GTObjectPrinter asNonTruncatedTextFrom: aNode key ]
 			width: 175;
-		column: 'Value' evaluated: [:assoc | GTObjectPrinter asTruncatedTextFrom: assoc value ];
-		"send: #value;"
+		column: 'Value' 
+			evaluated: [ :aNode | | rawValue displayValue |
+				[ rawValue := aNode rawValue. ] 
+					on: Error 
+					do: [ displayValue := Text string: aNode errorMessage attribute: TextColor red ].
+				displayValue ifNil: [ GTObjectPrinter asTruncatedTextFrom: rawValue ] ];
+		dynamicActionsOnSelection: [ :presentation |
+			(presentation rawSelection isKindOf: GTInspectorVariableNode) 
+				ifTrue: [presentation rawSelection inspectorActionsForNode ]
+				ifFalse: [ #() ] ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 

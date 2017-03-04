@@ -14,7 +14,6 @@ Context >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 		notifyPaneRemoved: true;
 		showFirst: [ :a | a custom: (aDebugger class variablesBrowserClass new 
 			debugger: aDebugger;
-			startOn: self;
 			restoreSettings).];
 		yourself) 
 			startOn: self)
@@ -22,47 +21,23 @@ Context >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 
 { #category : #'*GT-Debugger' }
 Context >> gtDebuggerRetrieveVariableValuePairs [
-	|fieldList context|
+	|fieldList|
 
 	fieldList := SortedCollection 
 						sortBlock: [:variablePair1 :variablePair2 | 
 							variablePair1 key < variablePair2 key].
-	context := self.
-	fieldList 
-		addAll: (context receiver class allSlots collect: [:slot ||value| 
-				value := [(slot read: context receiver)] 
-					on: Error 
-					do: [ value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
-			slot name -> value ] ).
-	
-	
-	context isNil ifTrue: [
-		^ fieldList asOrderedCollection 
-			addLast: ('thisContext' -> context);
-			yourself].
+	fieldList
+		addAll: ((self receiver class allSlots collect: [ :slot | 
+			GTInspectorSlotNode hostObject: self receiver slot: slot ])).
 		
-	fieldList addAll: context gtDebuggerTempsValuePairs.
+	fieldList addAll: self gtInspectorTempNodes.
 	
 	^ fieldList asOrderedCollection 
-		addFirst: ('self' ->  context receiver);
-		addLast: ('thisContext' -> context);
-		addLast: ('stack top' -> ( context stackPtr > 0 ifTrue: [ context top]));
+		addFirst: (GTInspectorSelfNode hostObject: self receiver);
+		addLast: (GTInspectorDynamicNode hostObject: self label: 'thisContext' value: self);
+		addLast: (GTInspectorDynamicNode hostObject: self label: 'stack top' value: ( self stackPtr > 0 ifTrue: [ self top]));
 		yourself
 
-]
-
-{ #category : #'*GT-Debugger' }
-Context >> gtDebuggerTempsValuePairs [
-	| values |
-	values := OrderedCollection new.
-	(self tempNames notEmpty) ifTrue: [
-		values addAll: ((1 to: self tempNames size) collect: [ :index || key value |
-			key := self tempNames at: index.
-			value := [self debuggerMap namedTempAt: index in: self] 
-				on: Error 
-				do: [value := (Text string: 'error obtaining field value' attribute: TextColor red) asString ].
-			key -> value ] ) ].
-	^ values
 ]
 
 { #category : #'*GT-Debugger' }
