@@ -30,6 +30,9 @@ Context >> gtBytecodeDebuggerRetrieveContextValues [
 		uninitializedTemps do: [ :each |
 			GTInspectorDynamicNode hostObject: self label: ('- [', each, ']') value: nil ] ].
 	
+	fieldList addAll: (self gtDebuggerDoItBindings collect: [:aBinding |
+		(GTInspectorDynamicNode hostObject: self label: aBinding key value: aBinding value) ]).
+	
 	slotsSize := self receiver class allSlots size.
 	fieldList 
 		addAll: ((self receiver class allSlots reverse) collect: [:slot ||slotNode|
