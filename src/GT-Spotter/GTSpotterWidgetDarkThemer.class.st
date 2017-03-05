@@ -7,20 +7,33 @@ Class {
 { #category : #values }
 GTSpotterWidgetDarkThemer >> backgroundColor [
 	"used as background color for all panes"
-	^ Color r: 0.25 g: 0.25 b: 0.25
+	^ UITheme current class baseColor lighter
+	"^ Color r: 0.25 g: 0.25 b: 0.25"
 ]
 
 { #category : #values }
 GTSpotterWidgetDarkThemer >> borderColor [
 	"color that is used for border and dividers of UI parts of Spotter
 	for example divider between header and results or between preview and list"
-	^ self backgroundColor darker
+	^ self backgroundColor lighter
+]
+
+{ #category : #values }
+GTSpotterWidgetDarkThemer >> breadcrumbItemTextColor [
+
+	^ UITheme current textColor
 ]
 
 { #category : #values }
 GTSpotterWidgetDarkThemer >> itemActionSelectedBackgroundColor [
 
 	^ self itemSelectedBackgroundColor slightlyDarker
+]
+
+{ #category : #values }
+GTSpotterWidgetDarkThemer >> itemHoveredBackgroundColor [
+
+	^ self itemSelectedBackgroundColor alpha: 0.35
 ]
 
 { #category : #values }
@@ -32,13 +45,22 @@ GTSpotterWidgetDarkThemer >> itemIconAlphaValue [
 { #category : #values }
 GTSpotterWidgetDarkThemer >> itemSelectedBackgroundColor [
 
-	^ self backgroundColor slightlyDarker
+	^ UITheme current spotterSelectionBackgroundColor 
+
 ]
 
 { #category : #values }
 GTSpotterWidgetDarkThemer >> searchFieldTextColor [
 	
-	^ Color white slightlyDarker
+	^ UITheme current textColor twiceDarker
+]
+
+{ #category : #values }
+GTSpotterWidgetDarkThemer >> spotterPreviewWidgetStyleFor: aBrick [
+	
+	aBrick
+		borderColor: self borderColor;
+		color: self backgroundColor
 ]
 
 { #category : #values }
