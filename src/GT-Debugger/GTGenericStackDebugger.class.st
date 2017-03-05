@@ -293,7 +293,8 @@ GTGenericStackDebugger >> inspectorIn: aComposite on: anObject [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> installBindingsForDoItIn: aPresentation from: aContext [
 
-	aPresentation variableBindings: aContext gtDebuggerDoItBindings
+	(aContext notNil and: [aContext method isDoIt and: [ aContext receiver isNil ] ]) ifTrue: [
+		aPresentation variableBindings: aContext gtDebuggerDoItBindings ]
 
 	
 ]
@@ -325,9 +326,7 @@ GTGenericStackDebugger >> methodCodeIn: composite forContext: aContext [
 		initialize: [ :code | 
 			code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
 		with: [ :code | 
-			self installCodeActionsFor: code.
-			(aContext notNil and: [aContext method isDoIt and: [ aContext receiver isNil ] ]) ifTrue: [
-				self installBindingsForDoItIn: code from: aContext ] ]
+			self installCodeActionsFor: code ]
 ]
 
 { #category : #'building presentations' }
@@ -338,7 +337,9 @@ GTGenericStackDebugger >> methodCodeWidgetIn: composite forContext: aContext [
 		format: [ aContext sourceCode ];
 		smalltalkClass: [  aContext methodClass ];
 		doItReceiver: [ aContext receiver ];
-		doItContext: [  aContext ]
+		doItContext: [  aContext ];
+		with: [ :codePresentation | 
+			self installBindingsForDoItIn: codePresentation from: aContext ]
 ]
 
 { #category : #opening }
