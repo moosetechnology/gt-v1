@@ -293,7 +293,7 @@ GTGenericStackDebugger >> inspectorIn: aComposite on: anObject [
 { #category : #'building presentations' }
 GTGenericStackDebugger >> installBindingsForDoItIn: aPresentation from: aContext [
 
-	aPresentation variableBindings: (aContext method literals select: [ :each | each class = WorkspaceVariable ] )
+	aPresentation variableBindings: aContext gtDebuggerDoItBindings
 
 	
 ]
@@ -326,8 +326,8 @@ GTGenericStackDebugger >> methodCodeIn: composite forContext: aContext [
 			code selectionInterval: (self session selectedCodeRangeForContext: self currentContext) ];
 		with: [ :code | 
 			self installCodeActionsFor: code.
-			"(aContext notNil and: [aContext method isDoIt]) ifTrue: [
-				self installBindingsForDoItIn: code from: aContext ]" ]
+			(aContext notNil and: [aContext method isDoIt and: [ aContext receiver isNil ] ]) ifTrue: [
+				self installBindingsForDoItIn: code from: aContext ] ]
 ]
 
 { #category : #'building presentations' }
