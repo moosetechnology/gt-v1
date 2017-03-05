@@ -64,6 +64,7 @@ GTDebuggerVariablesBrowser >> contextEvaluatorIn: aComposite [
 		doItReceiver: [ self debugger selectedContext receiver ];
 		doItContext: [ self debugger selectedContext ];
 		smalltalkClass: [ self debugger selectedContext receiver class ];
+		variableBindings: [ self debugger selectedContext gtDebuggerDoItBindings ];
 		display: [ 
 			String streamContents: [ :stream | 
 				stream 
@@ -90,7 +91,7 @@ GTDebuggerVariablesBrowser >> debugger: anObject [
 GTDebuggerVariablesBrowser >> restoreSettings [
 	| currentPane presentationTitle lastActivePresentation |
 	
-	presentationTitle := self debugger cache at: #activePresentationTitle ifAbsent: [ nil ].
+	presentationTitle := self debugger cache at: #activePresentationTitle ifAbsent: [ ^ self ].
 	currentPane := self presentations first paneNamed: #main.
 	lastActivePresentation := currentPane presentations  presentations
 		detect: [ :each | each title = presentationTitle ] 

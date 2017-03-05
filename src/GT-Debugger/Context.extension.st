@@ -14,9 +14,19 @@ Context >> gtConstructDebuggerInspectorIn: composite for: aDebugger [
 		notifyPaneRemoved: true;
 		showFirst: [ :a | a custom: (aDebugger class variablesBrowserClass new 
 			debugger: aDebugger;
-			restoreSettings).];
+			startOn: self;
+			restoreSettings;
+			yourself).];
 		yourself) 
 			startOn: self)
+]
+
+{ #category : #'*GT-Debugger' }
+Context >> gtDebuggerDoItBindings [
+	^ (self method isDoIt and: [ self receiver isNil ]) 
+		ifTrue: [ self method literals select: [ :each | 
+			each class = WorkspaceVariable ] ]
+		ifFalse: [ #() ]
 ]
 
 { #category : #'*GT-Debugger' }
@@ -31,6 +41,8 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 			GTInspectorSlotNode hostObject: self receiver slot: slot ])).
 		
 	fieldList addAll: self gtInspectorTempNodes.
+	fieldList addAll: (self gtDebuggerDoItBindings collect: [:aBinding |
+		(GTInspectorDynamicNode hostObject: self label: aBinding key value: aBinding value) ]).
 	
 	^ fieldList asOrderedCollection 
 		addFirst: (GTInspectorSelfNode hostObject: self receiver);
