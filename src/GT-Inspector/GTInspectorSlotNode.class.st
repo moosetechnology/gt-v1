@@ -31,14 +31,6 @@ GTInspectorSlotNode >> browsingActionsForNode [
 ]
 
 { #category : #accessing }
-GTInspectorSlotNode >> editingActionForNode [
-
-	^ GLMGenericAction new 
-		action: [ self inform: 'To be implemented' ]; 
-		title: 'Edit value'
-]
-
-{ #category : #accessing }
 GTInspectorSlotNode >> errorMessage [
 	^ 'error obtaining attribute value'
 ]
@@ -48,9 +40,7 @@ GTInspectorSlotNode >> inspectorActionsForNode [
 	"Return a collection of available inspector actions associated with a variable node"
 	<return: #Collection of: #GLMAction>
 
-	^ 
-		{ self editingActionForNode },
-		self browsingActionsForNode
+	^ self browsingActionsForNode
 ]
 
 { #category : #accessing }
@@ -61,6 +51,11 @@ GTInspectorSlotNode >> key [
 { #category : #accessing }
 GTInspectorSlotNode >> rawValue [
 	^ self hostObject readSlot: slot
+]
+
+{ #category : #actions }
+GTInspectorSlotNode >> save: anObject [
+	self hostObject writeSlot: self slot value: anObject
 ]
 
 { #category : #accessing }

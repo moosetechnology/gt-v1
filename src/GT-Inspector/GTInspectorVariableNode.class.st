@@ -91,6 +91,10 @@ GTInspectorVariableNode >> rawValue [
 	^ self subclassResponsibility
 ]
 
+{ #category : #actions }
+GTInspectorVariableNode >> save: aValue [
+]
+
 { #category : #accessing }
 GTInspectorVariableNode >> value [
 	"Answer the object value of this object variable (slot, indexed attribute, computed value).

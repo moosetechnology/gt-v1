@@ -41,3 +41,8 @@ GTInspectorIndexedNode >> key [
 GTInspectorIndexedNode >> rawValue [
 	^ self hostObject basicAt: index
 ]
+
+{ #category : #actions }
+GTInspectorIndexedNode >> save: aValue [
+	self hostObject at: self index put: aValue
+]

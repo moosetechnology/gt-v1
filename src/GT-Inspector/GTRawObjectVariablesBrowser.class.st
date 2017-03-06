@@ -162,21 +162,17 @@ GTRawObjectVariablesBrowser >> stringWithoutInitialCommentFrom: aString [
 ]
 
 { #category : #'private building' }
-GTRawObjectVariablesBrowser >> updateInstanceVariable: aSymbol from: anObject basedOn: aString [
+GTRawObjectVariablesBrowser >> updateVariableNode: aNode basedOn: aString [
 	| aResult |
 
-	self
-		assert: [ anObject class hasInstVarNamed: aSymbol ]
-		description: [ 'Instance variable ', aSymbol asString, ' must exist in ', anObject asString ].
-
-	aResult := anObject class compiler
+	aResult := aNode hostObject class compiler
 			source: aString;
 			context: nil;
-			receiver: anObject;
+			receiver: aNode hostObject;
 			failBlock: [ ^ self ];
 			evaluate.
 						
-	anObject writeSlotNamed: aSymbol value: aResult
+	aNode save: aResult
 ]
 
 { #category : #'private building' }
@@ -209,7 +205,10 @@ GTRawObjectVariablesBrowser >> variablesIn: composite [
 				[ rawValue := aNode rawValue. ] 
 					on: Error 
 					do: [ displayValue := Text string: aNode errorMessage attribute: TextColor red ].
-				displayValue ifNil: [ GTObjectPrinter asTruncatedTextFrom: rawValue ] ];
+				displayValue ifNil: [ GTObjectPrinter asTruncatedTextFrom: rawValue ] ]
+			modified: [:newValue :editedNode :curentPresentation | 
+				self updateVariableNode: editedNode basedOn: newValue.
+				curentPresentation requestRefresh ];
 		morphicSelectionAct: [:list | list selection value browse ] 
 			icon: GLMUIThemeExtraIcons glamorousBrowse 
 			on: $b 
