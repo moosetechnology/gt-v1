@@ -226,7 +226,7 @@ ConfigurationOfGTInspectorCore >> stable: spec [
 
 	spec for: #'pharo5.x' version: '3.17'.
 
-	spec for: #'pharo6.x' version: '3.27'.
+	spec for: #'pharo6.x' version: '3.28'.
 
 ]
 
