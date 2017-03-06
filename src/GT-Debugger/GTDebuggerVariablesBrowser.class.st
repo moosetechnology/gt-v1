@@ -139,6 +139,7 @@ GTDebuggerVariablesBrowser >> variablesFromContext: aContext [
 { #category : #'private building' }
 GTDebuggerVariablesBrowser >> variablesIn: composite [
 	^ composite fastTable
+		useCache;
 		display: [ :aContext | self variablesFromContext: aContext. ];
 		column: 'Type'
 			evaluated: [ '' ]

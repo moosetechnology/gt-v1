@@ -517,6 +517,7 @@ GTGenericStackDebugger >> stackWidgetIn: composite [
 
 	^ composite fastTable	
 		title: 'Stack';
+		useCache;
 		display: [:aSession | self retrieveStackFrom: aSession];
 		column: 'Class' 
 			evaluated: [ :aContext | self formatStackClassColumnForContext: aContext]
