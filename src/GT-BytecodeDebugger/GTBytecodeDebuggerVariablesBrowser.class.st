@@ -15,18 +15,6 @@ GTBytecodeDebuggerVariablesBrowser >> buildVariablesFromContext: aContext [
 	^ aContext gtBytecodeDebuggerRetrieveContextValues
 ]
 
-{ #category : #'as yet unclassified' }
-GTBytecodeDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
-	|variableName|
-	
-	variableName := (aString includes: $[)
-			ifTrue: [ (aString copyFrom: (aString indexOf: $[) +1 to: (aString indexOf: $])-1) trim  ]
-			ifFalse: [ aString ].
-	^ super 
-		variableTypeOf: variableName
-		in: aContext
-]
-
 { #category : #'private building' }
 GTBytecodeDebuggerVariablesBrowser >> variablesIn: aComposite [
 
