@@ -196,6 +196,7 @@ GTRawObjectVariablesBrowser >> variableNodesFor: anObject [
 { #category : #'private building' }
 GTRawObjectVariablesBrowser >> variablesIn: composite [
 	^ composite fastTreeTable
+		useCache;
 		hasChildren: [ :aNode | aNode key ~= 'self' ];
 		children: [ :aNode | aNode childrenNodesFor: self ];
 		icon: [ :aNode | self iconFor: aNode value ];
