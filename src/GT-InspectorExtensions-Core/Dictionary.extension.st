@@ -4,6 +4,7 @@ Extension { #name : #Dictionary }
 Dictionary >> gtInspectorItemsIn: composite [
 	^ (composite fastTable)
 		title: 'Items';
+		useCache;
 		display: [ self associations ];
 		"children: [ :each | 
 			(each value isDictionary) 
@@ -40,5 +41,6 @@ Dictionary >> gtInspectorKeysIn: composite [
 
 	^ composite fastList
 		title: 'Keys';
+		useCache;
 		display: [ self keys ]
 ]

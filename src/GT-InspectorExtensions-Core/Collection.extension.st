@@ -27,6 +27,7 @@ Collection >> gtInspectorItemsIn: composite [
 	<gtInspectorPresentationOrder: 0> 
 	^ (composite fastList)
 		title: 'Items';
+		useCache;
 		display: [ 
 			"The FastTable renderer needs to access elements by index so we transform
 			the collection to an OrderedCollection. Subclasses can override the #display

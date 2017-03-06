@@ -4,6 +4,7 @@ Extension { #name : #OrderedDictionary }
 OrderedDictionary >> gtInspectorItemsIn: composite [
 	^ (composite fastTable)
 		title: 'Items';
+		useCache;
 		display: [ self associations ];
 		"children: [ :each | 
 			(each value isDictionary) 
