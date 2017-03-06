@@ -1193,7 +1193,7 @@ ConfigurationOfGTInspectorCore >> version328: spec [
 		spec 
 			package: 'GT-Inspector' with: 'GT-Inspector-AndreiChis.465';
 			package: 'GT-InspectorExtensions-Core' with: 'GT-InspectorExtensions-Core-AndreiChis.256';
-			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-StefanReichhart.59'. ].
+			package: 'GT-Tests-Inspector' with: 'GT-Tests-Inspector-AndreiChis.60'. ].
 
 ]
 
