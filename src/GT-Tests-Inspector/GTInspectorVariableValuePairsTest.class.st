@@ -5,47 +5,41 @@ Class {
 }
 
 { #category : #object }
-GTInspectorVariableValuePairsTest >> testArrayPairs41 [
-	| pairs |
+GTInspectorVariableValuePairsTest >> testArrayPairsEqualLimit [
+	| limit pairs|
 	
-	pairs := (1 to: 41) asArray gtInspectorVariableValuePairs.
-	self assert: pairs size = 41.
+	limit := 2*GTInspector indexableDisplayLimit.
+	pairs := (1 to: limit) asArray gtInspectorVariableValuePairs.
+	self assert: pairs size = limit.
 	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
 	
-	self assert: ((pairs collect: #key) = (1 to: 41) asOrderedCollection).
-]
-
-{ #category : #object }
-GTInspectorVariableValuePairsTest >> testArrayPairs42 [
-	| pairs |
-	
-	pairs := (1 to: 42) asArray gtInspectorVariableValuePairs.
-	self assert: pairs size = 42.
-	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
-	
-	self assert: ((pairs collect: #key) = (1 to: 42) asOrderedCollection).
-]
-
-{ #category : #object }
-GTInspectorVariableValuePairsTest >> testArrayPairs43 [
-	| pairs |
-	
-	pairs := (1 to: 43) asArray gtInspectorVariableValuePairs.
-	self assert: pairs size = 42.
-	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
-	
-	self assert: ((pairs collect: #key) = ((1 to: 21) asOrderedCollection addAll: (23 to: 43) asOrderedCollection; yourself)).
+	self assert: ((pairs collect: #key) = (1 to: limit) asOrderedCollection).
 ]
 
 { #category : #object }
 GTInspectorVariableValuePairsTest >> testArrayPairsLong [
-	| pairs |
+		| limit pairs |
 	
-	pairs := (1 to: 100) asArray gtInspectorVariableValuePairs.
-	self assert: pairs size = 42.
+	limit := 3*GTInspector indexableDisplayLimit.
+	pairs := (1 to: limit) asArray gtInspectorVariableValuePairs.
+	self assert: pairs size = (2*GTInspector indexableDisplayLimit).
 	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
 	
-	self assert: ((pairs collect: #key) = ((1 to: 21) asOrderedCollection addAll: (80 to: 100) asOrderedCollection; yourself)).
+	self assert: ((pairs collect: #key) = ((1 to: GTInspector indexableDisplayLimit ) asOrderedCollection 
+		addAll: (limit - GTInspector indexableDisplayLimit + 1 to: limit) asOrderedCollection; yourself)).
+]
+
+{ #category : #object }
+GTInspectorVariableValuePairsTest >> testArrayPairsOverLimit [
+	| limit pairs |
+	
+	limit := 2*GTInspector indexableDisplayLimit + 1.
+	pairs := (1 to: limit) asArray gtInspectorVariableValuePairs.
+	self assert: pairs size = (2*GTInspector indexableDisplayLimit).
+	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
+	
+	self assert: ((pairs collect: #key) = ((1 to: GTInspector indexableDisplayLimit ) asOrderedCollection 
+		addAll: (limit - GTInspector indexableDisplayLimit + 1 to: limit) asOrderedCollection; yourself)).
 ]
 
 { #category : #object }
@@ -57,19 +51,33 @@ GTInspectorVariableValuePairsTest >> testArrayPairsSmall [
 	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
 ]
 
+{ #category : #object }
+GTInspectorVariableValuePairsTest >> testArrayPairsUnderLimit [
+	| limit pairs|
+	
+	limit := 2*GTInspector indexableDisplayLimit - 1.
+	pairs := (1 to: limit) asArray gtInspectorVariableValuePairs.
+	self assert: pairs size = limit.
+	(pairs collect: #key) allSatisfy: [ :e | (pairs at: e) = e ].
+	
+	self assert: ((pairs collect: #key) = (1 to: limit) asOrderedCollection).
+]
+
 { #category : #context }
-GTInspectorVariableValuePairsTest >> testContextPairs [
+GTInspectorVariableValuePairsTest >> testContextNodes [
 	| pairs x tempVariables indexVariables instVariables |
 	
 	x:=42.
-	pairs := [:y| y+1+x ] asContext gtInspectorVariableValuePairs withIndexCollect: [ :e :i | i -> e].	
+	pairs := OrderedCollection new.
+	[:y| y+1+x ] asContext gtInspectorVariableNodesIn: pairs.	
+	pairs := pairs withIndexCollect: [ :e :i | i -> e].
 	
-	tempVariables := pairs select: [ :e | e value key asString beginsWith: '[' ].
+	tempVariables := pairs select: [ :e | e value label beginsWith: '[' ].
 	indexVariables := pairs select: [ :e | e value key isInteger ].
-	instVariables := pairs select: [ :e | e value key isSymbol ].
+	instVariables := pairs select: [ :e | e value isKindOf: GTInspectorSlotNode ].
 	
-	self assert: (tempVariables sort last key) < (indexVariables sort first key).
-	self assert: (indexVariables sort last key) < (instVariables sort first key).
+	self assert: (tempVariables sort last key) < (indexVariables first key).
+	self assert: (indexVariables sort last key) < (instVariables first key).
 ]
 
 { #category : #float }
