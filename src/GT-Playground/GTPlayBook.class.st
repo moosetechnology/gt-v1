@@ -99,7 +99,9 @@ GTPlayBook class >> instance [
 { #category : #private }
 GTPlayBook class >> reset [
 	
-	instance := nil
+	instance := nil.
+	stashDirectory := nil.
+	self resetDirectories
 ]
 
 { #category : #private }
