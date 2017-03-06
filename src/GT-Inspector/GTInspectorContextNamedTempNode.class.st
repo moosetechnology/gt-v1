@@ -6,7 +6,8 @@ Class {
 	#superclass : #GTInspectorVariableNode,
 	#instVars : [
 		'tempName',
-		'tempIndex'
+		'tempIndex',
+		'tag'
 	],
 	#category : #'GT-Inspector'
 }
@@ -16,6 +17,9 @@ GTInspectorContextNamedTempNode class >> hostObject: aContext tempName: aString 
 	^ (self hostObject: aContext) 
 		tempName: aString;
 		tempIndex: anInteger;
+		variableTag: ((aContext method argumentNames includes: aString)
+			ifTrue: [ 'parameter' ]
+			ifFalse: [ 'temp' ])
 		yourself
 ]
 
@@ -57,4 +61,14 @@ GTInspectorContextNamedTempNode >> tempName [
 { #category : #accessing }
 GTInspectorContextNamedTempNode >> tempName: aString [
 	tempName := aString
+]
+
+{ #category : #accessing }
+GTInspectorContextNamedTempNode >> variableTag [
+	^ tag ifNil: [ 'temp' ]
+]
+
+{ #category : #accessing }
+GTInspectorContextNamedTempNode >> variableTag: aTag [
+	tag := aTag
 ]

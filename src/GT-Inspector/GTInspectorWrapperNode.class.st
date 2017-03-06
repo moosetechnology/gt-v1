@@ -46,3 +46,8 @@ GTInspectorWrapperNode >> label: aString [
 GTInspectorWrapperNode >> rawValue [
 	^ self hostObject rawValue
 ]
+
+{ #category : #accessing }
+GTInspectorWrapperNode >> variableTag [
+	^ self hostObject variableTag
+]

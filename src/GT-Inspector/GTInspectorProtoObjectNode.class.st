@@ -33,3 +33,8 @@ GTInspectorProtoObjectNode >> key [
 GTInspectorProtoObjectNode >> rawValue [ 
 	^ thisContext object: self hostObject instVarAt: index 
 ]
+
+{ #category : #accessing }
+GTInspectorProtoObjectNode >> variableTag [
+	^ 'attribute'
+]

@@ -46,3 +46,8 @@ GTInspectorIndexedNode >> rawValue [
 GTInspectorIndexedNode >> save: aValue [
 	self hostObject at: self index put: aValue
 ]
+
+{ #category : #accessing }
+GTInspectorIndexedNode >> variableTag [
+	^ 'attribute'
+]

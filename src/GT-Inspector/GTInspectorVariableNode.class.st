@@ -101,3 +101,8 @@ GTInspectorVariableNode >> value [
 	Return nil in case there is an error obtaining the value"
 	^ [ self rawValue ] on: Error do: [ nil ]
 ]
+
+{ #category : #accessing }
+GTInspectorVariableNode >> variableTag [
+	^ 'implicit'
+]

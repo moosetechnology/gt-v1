@@ -6,7 +6,8 @@ Class {
 	#superclass : #GTInspectorVariableNode,
 	#instVars : [
 		'label',
-		'value'
+		'value',
+		'tag'
 	],
 	#category : #'GT-Inspector'
 }
@@ -42,4 +43,14 @@ GTInspectorDynamicNode >> rawValue [
 { #category : #accessing }
 GTInspectorDynamicNode >> rawValue: anObject [
 	value := anObject
+]
+
+{ #category : #accessing }
+GTInspectorDynamicNode >> variableTag [
+	^  tag ifNil: [ super variableTag ]
+]
+
+{ #category : #accessing }
+GTInspectorDynamicNode >> variableTag: aTag [
+	tag := aTag
 ]

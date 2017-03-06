@@ -72,3 +72,8 @@ GTInspectorSlotNode >> slot: aSlot [
 
 	slot := aSlot.
 ]
+
+{ #category : #accessing }
+GTInspectorSlotNode >> variableTag [
+	^ 'attribute'
+]

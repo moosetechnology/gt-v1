@@ -36,3 +36,8 @@ GTInspectorContextIndexedTempNode >> tempIndex [
 GTInspectorContextIndexedTempNode >> tempIndex: anObject [
 	tempIndex := anObject
 ]
+
+{ #category : #accessing }
+GTInspectorContextIndexedTempNode >> variableTag [
+	^  'temp' 
+]
