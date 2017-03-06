@@ -18,12 +18,6 @@ GTDebuggerVariablesBrowser >> buildVariablesFromContext: aContext [
 	^ aContext gtDebuggerRetrieveVariableValuePairs
 ]
 
-{ #category : #testing }
-GTDebuggerVariablesBrowser >> compareVariableTypeOf: x withVariable: y in: aContext [
-
-	^ (self variableTypeOf: x in: aContext) < (self variableTypeOf: y in: aContext)
-]
-
 { #category : #building }
 GTDebuggerVariablesBrowser >> compose [  
 	| tabulator |
@@ -106,29 +100,9 @@ GTDebuggerVariablesBrowser >> selectedVariableForContext: aContext [
 		ifNone: [ cachedVariables detect: [ :each | each key = 'self' ] ifNone: [ nil ] ]
 ]
 
-{ #category : #'private building' }
-GTDebuggerVariablesBrowser >> tagsForVariable: aString from: aContext [
-	^ (aContext reservedNames includes: aString) 
-		ifTrue: [ 'implicit' ]
-		ifFalse: [ self variableTypeOf: aString in: aContext ]
-			
-	
-]
-
 { #category : #actions }
 GTDebuggerVariablesBrowser >> updateVariablesForContext [
 	cachedVariables := self 
-]
-
-{ #category : #accessing }
-GTDebuggerVariablesBrowser >> variableTypeOf: aString in: aContext [
-	^ (aContext receiver class classThatDefinesInstanceVariable: aString) notNil
-			ifTrue: [ 'attribute' ]
-			ifFalse: [ (aContext method argumentNames includes: aString)
-				ifTrue: [ 'parameter' ]
-				ifFalse: [ 'temp' ] ]
-			
-	
 ]
 
 { #category : #'private building' }
@@ -144,13 +118,8 @@ GTDebuggerVariablesBrowser >> variablesIn: composite [
 		column: 'Type'
 			evaluated: [ '' ]
 			width: 75
-			tags: [ :aNode :context |
-				self tagsForVariable: aNode key from: context ]
-			sortedBy: [ :x :y | 
-				self 
-					compareVariableTypeOf: x key
-					withVariable: y key
-					in: ((self presentations first paneNamed: #variables) port: #entity) value];
+			tags: [ :aNode  | { aNode variableTag } ]
+			sortedBy: [ :x :y |  x variableTag < y  variableTag ];
 		column: 'Variable' 
 			evaluated: [ :aNode | GTObjectPrinter asNonTruncatedTextFrom: aNode key ]
 			width: 175;

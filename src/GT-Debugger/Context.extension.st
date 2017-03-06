@@ -42,7 +42,9 @@ Context >> gtDebuggerRetrieveVariableValuePairs [
 		
 	fieldList addAll: self gtInspectorTempNodes.
 	fieldList addAll: (self gtDebuggerDoItBindings collect: [:aBinding |
-		(GTInspectorDynamicNode hostObject: self label: aBinding key value: aBinding value) ]).
+		(GTInspectorDynamicNode hostObject: self label: aBinding key value: aBinding value)
+			variableTag: 'temp';
+			yourself ]).
 	
 	^ fieldList asOrderedCollection 
 		addFirst: (GTInspectorSelfNode hostObject: self receiver);
