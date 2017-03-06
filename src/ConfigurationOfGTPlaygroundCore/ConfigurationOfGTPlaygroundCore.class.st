@@ -1004,7 +1004,7 @@ ConfigurationOfGTPlaygroundCore >> version324: spec [
 		spec timestamp: '3/6/2017 14:09'.
 		spec project: 'GTInspectorCore' with: '3.28'.
 		spec 
-			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.144';
+			package: 'GT-Playground' with: 'GT-Playground-AndreiChis.145';
 			package: 'GT-Tests-Playground' with: 'GT-Tests-Playground-StefanReichhart.4'. ].
 
 ]
