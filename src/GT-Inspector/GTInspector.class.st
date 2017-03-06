@@ -275,7 +275,7 @@ GTInspector class >> settingsOn: aBuilder [
 
 { #category : #settings }
 GTInspector class >> stepRefreshRate [
-	^ StepRefreshRate ifNil: [ 0 ]
+	^ StepRefreshRate ifNil: [ 1500 ]
 ]
 
 { #category : #settings }
