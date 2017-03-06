@@ -106,7 +106,7 @@ GTSpotterItemActionbarBrick >> onRevealHints [
 GTSpotterItemActionbarBrick >> onThemerChanged [
 	super onThemerChanged.
 	
-	self allSubbricks do: [ :each | self themer spotterThemer itemActionButtonWidgetStyleFor: each ]
+	self subbricks do: [ :each | self themer spotterThemer itemActionButtonWidgetStyleFor: each ]
 ]
 
 { #category : #accessing }

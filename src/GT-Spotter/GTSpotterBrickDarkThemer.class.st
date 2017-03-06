@@ -1,6 +1,6 @@
 Class {
 	#name : #GTSpotterBrickDarkThemer,
-	#superclass : #GTSpotterBrickThemer,
+	#superclass : #GLMBrickDarkThemer,
 	#category : #'GT-Spotter-Theme'
 }
 
@@ -10,24 +10,14 @@ GTSpotterBrickDarkThemer >> rubricBackgroundColor [
 	^ self spotterThemer backgroundColor
 ]
 
-{ #category : #'brick-scrollpane' }
-GTSpotterBrickDarkThemer >> rubricTextColor [
-	^UITheme current textColor
-]
-
 { #category : #'brick-scrollbar' }
 GTSpotterBrickDarkThemer >> scrollbarColor [
 
-	^ UITheme current scrollbarColor alpha: 0.5
+	^ Color black alpha: 0.5
 ]
 
 { #category : #'brick-scrollpane' }
 GTSpotterBrickDarkThemer >> scrollpaneBackgroundColor [
 
 	^ self spotterThemer backgroundColor
-]
-
-{ #category : #'brick-scrollpane' }
-GTSpotterBrickDarkThemer >> textColor [
-	^UITheme current textColor
 ]

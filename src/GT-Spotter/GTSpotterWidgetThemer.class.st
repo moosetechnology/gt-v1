@@ -433,8 +433,7 @@ GTSpotterWidgetThemer >> itemActionButtonStyleFor: aBrick [
 GTSpotterWidgetThemer >> itemActionButtonWidgetStyleFor: aBrick [
 
 	aBrick
-		pressedColor: self itemActionSelectedBackgroundColor.
-
+		pressedColor: self itemActionSelectedBackgroundColor
 ]
 
 { #category : #values }
