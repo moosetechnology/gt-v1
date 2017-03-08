@@ -25,7 +25,7 @@ GTPlayBindingThemer >> emptyTextColor [
 { #category : #'empty-text' }
 GTPlayBindingThemer >> emptyTextFontSize [
 
-	^ 13
+	^ Smalltalk ui theme textFont pointSize
 ]
 
 { #category : #'empty-text' }
