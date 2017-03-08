@@ -136,8 +136,18 @@ GTSpotterCandidatesList >> head [
 
 { #category : #testing }
 GTSpotterCandidatesList >> isEmpty [
+	"Return true if there are no candidates in the list, false otherwise"
+	<return: #Boolean>
 
 	^ self candidates isEmpty
+]
+
+{ #category : #testing }
+GTSpotterCandidatesList >> isNotEmpty [
+	"Return true if there is at least one candidate in the list, false otherwise"
+	<return: #Boolean>
+
+	^ self isEmpty not
 ]
 
 { #category : #processors }

@@ -35,7 +35,7 @@ GTSpotterItemActionbarBrick >> addActionButton: anActionButton [
 	self themer spotterThemer itemActionButtonWidgetStyleFor: anActionButton.
 		
 	self addBrickBack: anActionButton.
-	
+
 	self stepModel spotter isShiftPressed
 		ifTrue: [ self themer spotterThemer hintRevealStyleFor: anActionButton ].
 ]
@@ -106,7 +106,8 @@ GTSpotterItemActionbarBrick >> onRevealHints [
 GTSpotterItemActionbarBrick >> onThemerChanged [
 	super onThemerChanged.
 	
-	self subbricks do: [ :each | self themer spotterThemer itemActionButtonWidgetStyleFor: each ]
+	self themer spotterThemer itemActionbarStyleFor: self.
+	self subbricks do: [ :aBrick | self themer spotterThemer itemActionButtonWidgetStyleFor: aBrick ]
 ]
 
 { #category : #accessing }

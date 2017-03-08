@@ -19,11 +19,11 @@ GTSpotterSelectedCandidateChanged >> eventType: anObject [
 ]
 
 { #category : #accessing }
-GTSpotterSelectedCandidateChanged >> selected [
-	^ selected
+GTSpotterSelectedCandidateChanged >> select: anObject [
+	selected := anObject
 ]
 
 { #category : #accessing }
-GTSpotterSelectedCandidateChanged >> selected: anObject [
-	selected := anObject
+GTSpotterSelectedCandidateChanged >> selected [
+	^ selected
 ]

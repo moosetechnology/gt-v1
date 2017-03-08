@@ -38,12 +38,17 @@ GTSpotterStep class >> gtExampleBasic [
 
 { #category : #actions }
 GTSpotterStep >> actDueTo: anEventType [
-	self selected ifNil: [ ^ self ].
+	"Perform an action associated with currently selected item.
+	(can be triggered by doubleClick: or keyboard Enter press)"
+	
+	self
+		assert: [ self hasSelected ]
+		description: [ 'Spotter can not perform an action due to ', anEventType asString, ' if there is no selected candidate' ].
+
 	self spotter
 		historize: self selected;
-		notifyActOn: self selected candidate for: anEventType.
-	self selected processor actOn: self selected candidate for: self
-
+		notifyActOn: self selectedCandidate for: anEventType.
+	self selectedCategory actOn: self selectedCandidate for: self
 ]
 
 { #category : #accessing }
@@ -140,12 +145,12 @@ GTSpotterStep >> context: aGTSpotterContext [
 	context := aGTSpotterContext
 ]
 
-{ #category : #'accessing-defaults' }
+{ #category : #'accessing - defaults' }
 GTSpotterStep >> defaultStream [
 	^ GTSpotterUIThreadStream new
 ]
 
-{ #category : #'accessing-defaults' }
+{ #category : #'accessing - defaults' }
 GTSpotterStep >> defaultTask [
 	^ GLMAsyncTask new
 ]
@@ -153,6 +158,7 @@ GTSpotterStep >> defaultTask [
 { #category : #selecting }
 GTSpotterStep >> deselect [
 	"Deselects a candidate without notifying anyone"
+
 	selected := nil
 ]
 
@@ -203,7 +209,7 @@ GTSpotterStep >> event: anObject [
 	event := anObject
 ]
 
-{ #category : #'accessing-dynamic' }
+{ #category : #'accessing - dynamic' }
 GTSpotterStep >> exceptionHandler [
 	^ GTCurrentSpotterExceptionHandler value ifNil: [ self spotter exceptionHandler ]
 	" #ifNil: is necessary because the sender chain of #spotterProcessorsFor:pragma: may have multiple callees outside of the exception handler (async) ... so we have to provide a global but yet easy fallback "
@@ -231,7 +237,7 @@ GTSpotterStep >> hasCandidates [
 	false otherwise"
 	<return: #Boolean>
 	
-	^ self candidates isEmpty not
+	^ self candidates isNotEmpty
 ]
 
 { #category : #testing }
@@ -257,7 +263,7 @@ GTSpotterStep >> hasPreviousStep [
 
 { #category : #testing }
 GTSpotterStep >> hasSelected [
-	"Return true if there is selected candidate, false otherwise"
+	"Return true if there is a selected candidate, false otherwise"
 	<return: #Boolean>
 	
 	^ selected isNotNil
@@ -308,16 +314,20 @@ GTSpotterStep >> newContextForQuery: aString [
 { #category : #notifying }
 GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink [
 	
-	^ self notifySelectedCandidateChanged: aDoubleLink for: #unknown
+	self notifySelectedCandidateChanged: aDoubleLink for: #unknown
 ]
 
 { #category : #notifying }
-GTSpotterStep >> notifySelectedCandidateChanged: aDoubleLink for: anEventType [
-	|candidate|
+GTSpotterStep >> notifySelectedCandidateChanged: aCandidateLink for: anEventType [
+	| aCandidate |
 	
-	candidate := aDoubleLink ifNotNil: [ :o | o value ].
-	self announcer announce: (GTSpotterSelectedCandidateChanged new selected: candidate).
-	self spotter notifyCandidateSelected: candidate for: anEventType
+	self
+		assert: [ aCandidateLink isNotNil ]
+		description: [ 'aCandidateLink must not be nil' ].
+
+	aCandidate := aCandidateLink candidate.
+	self announcer announce: (GTSpotterSelectedCandidateChanged new select: aCandidate).
+	self spotter notifyCandidateSelected: aCandidate for: anEventType
 ]
 
 { #category : #'event processing' }
@@ -350,7 +360,7 @@ GTSpotterStep >> previousProcessorFrom: aCollection [
 		yourself
 ]
 
-{ #category : #'accessing-dynamic' }
+{ #category : #'accessing - dynamic' }
 GTSpotterStep >> previousStep [
 	"Return a spotter step before me which must exist,
 	otherwise behavior is undefined."
@@ -422,7 +432,7 @@ GTSpotterStep >> processors: aCollection [
 	processors := aCollection
 ]
 
-{ #category : #'accessing-dynamic' }
+{ #category : #'accessing - dynamic' }
 GTSpotterStep >> processorsFilter [
 
 	^ self spotter processorsFilter
@@ -439,32 +449,70 @@ GTSpotterStep >> relevantProcessorsProcess: aSpotterContext [
 ]
 
 { #category : #selecting }
-GTSpotterStep >> selectFirst [
-	self
-		assert: self candidates isEmpty not
-		description: 'There must be at least one candidate in order to selected first'.
+GTSpotterStep >> select: aCandidateLink [
+	"Select a given candidate link due to unknown reason.
+	It is not recommended to use this method, unless you really need to.
+	Note: use #select:dueTo: to allow better usage statistics"
 	
-	self selected: self candidates head
+	self select: aCandidateLink dueTo: #unknown
+]
+
+{ #category : #selecting }
+GTSpotterStep >> select: aCandidateLink dueTo: anEventType [
+	"Select a given candidate due to provided event type.
+	A selection reason is used for statistical purposes and helps us
+	better understand how users use spotter and as result improve it.
+	aCandidateLink must not be nil.
+	anEventType must not be nil"
+
+	self
+		assert: [ aCandidateLink isNotNil ]
+		description: [ 'Candidate link must not be nil' ].
+
+	self
+		assert: [ aCandidateLink processor isNotNil ]
+		description: [ 'Candidate must have assigned category (processor)' ].
+	
+	"A given candidate is already selected, do nothing"
+	(self isSelected: aCandidateLink)
+		ifTrue: [ ^ self ].
+
+	self spotter
+		after: [
+			selected := aCandidateLink.
+			self notifySelectedCandidateChanged: aCandidateLink for: anEventType ]
+		do: [ self spotter notifyCategorySelected: self selected processor ]
+		ifTrue: [ (self isCategorySelected: aCandidateLink processor) not ]
+]
+
+{ #category : #selecting }
+GTSpotterStep >> selectFirst [
+	"Select the first candidate.
+	Note: there must be at least one candidate in order to select first,
+	make sure to check #hasCandidates before using me"
+	self
+		assert: [ self candidates isNotEmpty ]
+		description: [ 'There must be at least one candidate in order to select the first' ].
+
+	self select: self candidates head
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectNextCategory [
-	|currentCategory nextCategory|
-	
+	| currentCategory nextCategory |
+
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	nextCategory := self candidates nextProcessorLinkOf: currentCategory.
 	
-	self selected: ((currentCategory = nextCategory)
+	self select: ((currentCategory = nextCategory)
 		ifTrue: [ nextCategory tailLink ]
 		ifFalse: [ nextCategory headLink ])
-	
-	
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectNextDueTo: anEventType [
 	
-	self selected: self selected next dueTo: anEventType
+	self select: self selected next dueTo: anEventType
 ]
 
 { #category : #selecting }
@@ -475,66 +523,46 @@ GTSpotterStep >> selectPreviousCategory [
 	currentCategory := self candidates getProcessorLinkByCandidateLink: self selected.
 	previousCategory := self candidates previousProcessorLinkOf: currentCategory.
 	
-	self selected: previousCategory headLink
+	self select: previousCategory headLink
 ]
 
 { #category : #selecting }
 GTSpotterStep >> selectPreviousDueTo: anEventType [
 
-	self selected: self selected previous dueTo: anEventType
+	self select: self selected previous dueTo: anEventType
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selected' }
 GTSpotterStep >> selected [
-	"Return a candidate represented by double link to allow fast access to
+	"Return a candidate link (represented by double link) to allow fast access to
 	next and previous candidate. In order to get actual candidate object behind
 	the link send #candidate to it.
-
 	selected can not be nil (always use hasSelected before using me)"
 	<return: #GTSpotterCandidateLink>
-	self assert: selected isNotNil.
+	self
+		assert: [ selected isNotNil ]
+		description: [ 'Selected candidate can not be accessed where there is no one' ].
 	
 	^ selected
-	
-	" ifNil: [
-		selected := (self candidates isEmpty
-			ifTrue: [ ^ nil ]
-			ifFalse: [ self candidates head ]).
-		self assert: selected isNotNil.
-		self notifySelectedCandidateChanged: selected.
-		self spotter notifyCategorySelected: self selected processor.
-		selected ]"
 ]
 
-{ #category : #selecting }
-GTSpotterStep >> selected: aDoubleLink [
-	
-	^ self selected: aDoubleLink dueTo: #unknown
-	
-	
+{ #category : #'accessing - selected' }
+GTSpotterStep >> selectedCandidate [
+	"Return an actual candidate object behind candidate link. 
+	Note: Since selected link can not be accessed if there is no selected one,
+	always check #hasSelected before using me"
+	<return: #Object>
+
+	^ self selected candidate
 ]
 
-{ #category : #selecting }
-GTSpotterStep >> selected: aDoubleLink dueTo: anEvenType [
-	self assert: aDoubleLink isNotNil.
-	self assert: aDoubleLink processor isNotNil.
-	
-	(self isSelected: aDoubleLink)
-		ifTrue: [ ^ self ].
-	
-	self spotter
-		after: [
-			selected := aDoubleLink.
-			self notifySelectedCandidateChanged: selected for: anEvenType]
-		do: [ 		
-			self spotter notifyCategorySelected: self selected processor ]
-		ifTrue: [ (self isCategorySelected: aDoubleLink processor) not ]
-	
-	
-]
-
-{ #category : #accessing }
+{ #category : #'accessing - selected' }
 GTSpotterStep >> selectedCategory [
+	"Return a category processor that produced a currently selected candidate.
+	Note: Since selected link can not be accessed if there is no selected one,
+	always check #hasSelected before using me"
+	<return: #GTSpotterProcessor>
+	
 	^ self selected processor
 ]
 
