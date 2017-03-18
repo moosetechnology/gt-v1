@@ -26,15 +26,15 @@ GTExampleNotDefinedRule >> basicCheck: aClass [
 ]
 
 { #category : #private }
-GTExampleNotDefinedRule >> check: aClass forCriticsDo: aCriticBlock ifNone: alternativeBlock [
-	(self basicCheck: aClass)
-		ifTrue:  [ aCriticBlock cull: (
-			(ReMissingMethodCritic
-				for: aClass
-				by: self
-				class: aClass class
-				selector: #gtExample) beShouldBeImplemented )  ]
-		ifFalse: alternativeBlock 
+GTExampleNotDefinedRule >> check: aClass forCritiquesDo: aCriticBlock ifNone: alternativeBlock [ 
+	Smalltalk at: #ReMissingMethodCritic ifPresent: [ :class |
+		(self basicCheck: aClass)
+			ifTrue:  [ aCriticBlock cull: (class
+							for: aClass
+							by: self
+							class: aClass class
+							selector: #gtExample) beShouldBeImplemented ]
+			ifFalse: alternativeBlock ]
 ]
 
 { #category : #running }
@@ -49,8 +49,8 @@ GTExampleNotDefinedRule >> containsCustomExtension: aClass [
 
 	^ aClass methods anySatisfy: [:aMethod | 
 		aMethod pragmas anySatisfy: [ :aPragma |
-			aPragma keyword = GTInspector extensionsPragma or: [
-				aPragma keyword = GTSpotter extensionsPragma ]]]
+			aPragma keyword = #gtInspectorPresentationOrder: or: [
+				aPragma keyword = #spotterOrder: ]]]
 ]
 
 { #category : #running }
