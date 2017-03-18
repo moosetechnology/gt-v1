@@ -117,15 +117,17 @@ ConfigurationOfGTExamples >> baseline01: spec [
 		spec repository: 'http://smalltalkhub.com/mc/Moose/GToolkit/main/'.
 		spec 
 			package: 'GT-Examples';
-			package: 'GT-Examples-UI' with: [
-				spec requires: #'GT-Examples' ];
 			package: #'GT-Examples-Dummies' with: [
 				spec requires: #('GT-Examples' ). ];
 			package: 'GT-Examples-Examples' with: [
 				spec requires: #('GT-Examples' ). ];
+			package: #'GT-Examples-Roassal2' with: [
+				spec requires: #('GT-Examples-UI' ). ];
+			package: 'GT-Examples-UI' with: [
+				spec requires: #(#'GT-Examples' ). ];
 			package: 'GT-Tests-Examples' with: [
 				spec requires: #('GT-Examples-Examples' #'GT-Examples-Dummies' ). ].
-		spec group: 'default' with: #('GT-Examples-Examples' 'GT-Examples' 'GT-Examples-UI' 'GT-Tests-Examples' #'GT-Examples-Dummies' ). ].
+		spec group: 'default' with: #('GT-Examples-Examples' 'GT-Examples' 'GT-Examples-UI' 'GT-Tests-Examples' #'GT-Examples-Dummies' #'GT-Examples-Roassal2' ). ].
 
 ]
 
