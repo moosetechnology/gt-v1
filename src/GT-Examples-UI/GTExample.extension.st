@@ -114,21 +114,6 @@ GTExample >> gtInspectorProblemsIn: composite [
 ]
 
 { #category : #'*GT-Examples-UI' }
-GTExample >> gtInspectorRoassalIn: composite [
-	<gtInspectorPresentationOrder: 1>
-	self hasDependencies ifFalse: [ ^ self ].
-	(Smalltalk classNamed: #GLMRoassal2Presentation) ifNil: [ ^ self ].
-	^ composite roassal2
-		title: 'Graph';
-		painting: [ :view :example | 
-			(GTExampleGraphPainter new 
-				example: example;
-				view: view;
-				yourself) paint ];
-		yourself
-]
-
-{ #category : #'*GT-Examples-UI' }
 GTExample >> gtInspectorSourceIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	^ (self method gtInspectorSourceIn: composite)
