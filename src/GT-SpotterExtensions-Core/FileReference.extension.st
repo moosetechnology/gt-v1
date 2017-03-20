@@ -91,11 +91,14 @@ FileReference >> spotterPreviewItemsIn: aComposite [
 		title: [ self gtDisplayString ];
 		display: #yourself;
 		format: [ :folder | 
+			|iconName |			
+			iconName := folder isDirectory 
+				ifTrue: [ #glamorousFolder ]
+				ifFalse: [ #glamorousBrowse ].
+			
 			GTSpotterItemBrick new 
 				text: folder basename; 
-				icon: (folder isDirectory 
-								ifTrue: [Smalltalk ui theme icons glamorousFolder]
-								ifFalse: [Smalltalk ui theme icons glamorousBrowse] ); 
+				icon: (self iconNamed: iconName); 
 				disable; 
 				yourself ];
 		styled: [ :brick | brick ];
@@ -140,11 +143,14 @@ FileReference >> spotterPreviewZipItemsIn: aComposite [
 		title: [ self gtDisplayString ];
 		display: #yourself;
 		format: [ :folder | 
+			|iconName |			
+			iconName := folder isDirectory 
+				ifTrue: [ #glamorousFolder ]
+				ifFalse: [ #glamorousBrowse ].
+				
 			GTSpotterItemBrick new 
 				text: folder basename; 
-				icon: (folder isDirectory 
-								ifTrue: [Smalltalk ui theme icons glamorousFolder]
-								ifFalse: [Smalltalk ui theme icons glamorousBrowse] ); 
+				icon: (self iconNamed: iconName); 
 				disable; 
 				yourself ];
 		styled: [ :brick | brick ];
