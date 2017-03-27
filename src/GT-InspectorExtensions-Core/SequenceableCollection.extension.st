@@ -5,6 +5,7 @@ SequenceableCollection >> gtInspectorItemsIn: composite [
 	^ composite fastTable
 		title: 'Items';
 		display: [ self ];
+		useCache;
 		beMultiple;
 		enableElementIndex;
 		wantsAutomaticRefresh: true;
@@ -13,9 +14,9 @@ SequenceableCollection >> gtInspectorItemsIn: composite [
 		send: [ :result | 
 			result isNil
 				ifTrue: [ nil ]
-				ifFalse: [ result value size = 1 
-					ifTrue: [result anyOne value]  
-					ifFalse: [self species withAll: (result collect: [:each | each value])]]]
+				ifFalse: [ result size = 1 
+					ifTrue: [result anyOne ]  
+					ifFalse: [self species withAll: result]]]
 		"withSmalltalkSearch;
 		showOnly: 50;
 		helpMessage: 'Quick selection field. Given your INPUT, it executes: self select: [:each | INPUT ]'."
