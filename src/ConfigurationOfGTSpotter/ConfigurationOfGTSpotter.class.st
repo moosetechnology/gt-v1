@@ -1371,7 +1371,7 @@ ConfigurationOfGTSpotter >> version227: spec [
 			package: 'GT-Spotter' with: 'GT-Spotter-AliakseiSyrel.412';
 			package: 'GT-Spotter-EventRecorder' with: 'GT-Spotter-EventRecorder-AndreiChis.114';
 			package: 'GT-SpotterExtensions-Core' with: 'GT-SpotterExtensions-Core-TheIntegrator.224';
-			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-TheIntegrator.30'. ].
+			package: 'GT-Tests-Spotter' with: 'GT-Tests-Spotter-AndreiChis.31'. ].
 
 ]
 
