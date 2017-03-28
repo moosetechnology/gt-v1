@@ -202,7 +202,7 @@ ConfigurationOfGTPlaygroundCore >> stable: spec [
 
 	spec for: #'pharo5.x' version: '3.13'.
 
-	spec for: #'pharo6.x' version: '3.24'.
+	spec for: #'pharo6.x' version: '3.25'.
 
 ]
 
