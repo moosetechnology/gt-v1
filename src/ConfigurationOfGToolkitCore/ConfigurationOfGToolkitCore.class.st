@@ -231,7 +231,7 @@ ConfigurationOfGToolkitCore >> project [
 ConfigurationOfGToolkitCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.36'.
+	spec for: #'common' version: '3.37'.
 
 	spec for: #'pharo4.x' version: '3.0.2'.
 
@@ -901,6 +901,23 @@ ConfigurationOfGToolkitCore >> version336: spec [
 			project: 'GTInspectorCore' with: '3.28';
 			project: 'GTSpotter' with: '2.26';
 			project: 'GTDebugger' with: '3.10'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGToolkitCore >> version337: spec [
+	<version: '3.37' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'GToolkit Version 3.37'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '3/28/2017 16:27'.
+		spec 
+			project: 'GTPlaygroundCore' with: '3.25';
+			project: 'GTInspectorCore' with: '3.29';
+			project: 'GTSpotter' with: '2.27';
+			project: 'GTDebugger' with: '3.11'. ].
 
 ]
 
