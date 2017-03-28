@@ -221,7 +221,7 @@ GTMoldableDebugger >> compose [
 
 { #category : #'accessing context' }
 GTMoldableDebugger >> contextToSelectFrom: aSession [
-	^ aSession context
+	^ aSession interruptedContext
 ]
 
 { #category : #'accessing context' }
@@ -241,11 +241,7 @@ GTMoldableDebugger >> debug: aContext using: aDebuggerClass [
 	self browser close.
 	currentSession updateContextTo: aContext.
 	newDebugger := aDebuggerClass on: (aDebuggerClass spanNewSessionFrom: currentSession).
-	newDebugger openWithFullView.
-	newDebugger window window "Hack to get this working with SpecDebugger"
-		position: self window position;
-		extent: self window extent.
-	^ newDebugger
+	^ self openAndInitialize: newDebugger 
 		
 ]
 
@@ -300,7 +296,7 @@ GTMoldableDebugger >> installDebuggingActionsFor: aPresentation [
 { #category : #'accessing context' }
 GTMoldableDebugger >> interruptedContext [
 
-	^ self session context
+	^ self session interruptedContext
 ]
 
 { #category : #accessing }
@@ -320,6 +316,17 @@ GTMoldableDebugger >> open [
 	^ window.
 ]
 
+{ #category : #actions }
+GTMoldableDebugger >> openAndInitialize: aNewDebugger [
+	
+	aNewDebugger color: self color.
+	aNewDebugger openWithFullView.
+	aNewDebugger window window "Hack to get this working with SpecDebugger"
+		position: self window position;
+		extent: self window extent.
+	^ aNewDebugger
+]
+
 { #category : #'scripting opening' }
 GTMoldableDebugger >> openOn: anObject [
 	
@@ -336,6 +343,12 @@ GTMoldableDebugger >> registerActions [
 	self when: DebugActionExecuted send: #updateBrowserFrom: to: self.
 	self when: GLMPaneRemoved send: #actOnInspectorPaneRemoved: to: self.
 
+]
+
+{ #category : #updating }
+GTMoldableDebugger >> removeSessionSilently [
+
+	(self browser pane port: #entity) silentValue: nil
 ]
 
 { #category : #'accessing context' }
