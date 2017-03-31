@@ -451,7 +451,8 @@ GTGenericStackDebugger >> selectionChanged: aContext [
 	aContext isNotNil ifTrue: [ self announce: (GTGenericStackDebuggerSelectionChanged forDebugger: self) ].
 
 	UIManager default defer: [ 
-		(self browser paneNamed: #stack) presentations updateToolbar ].
+		self session ifNotNil: [
+			(self browser paneNamed: #stack) presentations updateToolbar ] ].
 	
 	self class enableStackColoring ifFalse: [ ^ self ].  
 
@@ -561,5 +562,5 @@ GTGenericStackDebugger >> updateCodeEditor [
 GTGenericStackDebugger >> updateSelectionInterval [
 
 	self selectedContext ifNil: [ ^ self ].
-	self selectionInterval: (self session pcRangeForContext:  self selectedContext )
+	self selectionInterval: (self session selectedCodeRangeForContext:  self selectedContext )
 ]
