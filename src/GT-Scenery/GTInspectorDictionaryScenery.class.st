@@ -10,7 +10,7 @@ GTInspectorDictionaryScenery class >> menuCommandOn: aBuilder [
 	(aBuilder item: self name)
 		order: 1.0; 
 		parent: #GTScenery;
-		label: 'Inspector - Dictionary';
+		label: 'Inspector - Dictionary Basic';
 		action:[self new setUp]
 ]
 

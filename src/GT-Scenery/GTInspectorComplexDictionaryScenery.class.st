@@ -10,16 +10,19 @@ GTInspectorComplexDictionaryScenery class >> menuCommandOn: aBuilder [
 	(aBuilder item: self name)
 		order: 1.1; 
 		parent: #GTScenery;
-		label: 'Inspector - Dictionary 2';
+		label: 'Inspector - Dictionary Extended';
 		action:[self new setUp]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GTInspectorComplexDictionaryScenery >> setUp [
-	"self cleanWindows."
-	(GTPlayground openContents: 'Dictionary new
-   	at: #date put: Date today;
-   at: #text put: Text loremImpsum;
-	at: #color put: Color red;
+	self cleanWindows.
+	(GTPlayground openContents: 'OrderedDictionary  new
+	at: ''Time''                put: Time now;
+	at: ''Morph''              put: HSVAColorSelectorMorph new; 
+	at: ''FileReference''  put: ''data'' asFileReference;
+	at: ''Date''                put: Date today;
+	at: ''Color''               put: Color cyan;
+	at: ''GTInspector''    put: GTInspector;
 	yourself.')
 ]
