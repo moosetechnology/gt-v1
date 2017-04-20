@@ -3,6 +3,12 @@ Extension { #name : #Class }
 { #category : #'*GT-Examples-UI' }
 Class >> gtInspectorGTExamplesIn: composite [
 	<gtInspectorPresentationOrder: 40>
+
+	<localClassMethod> 
+   "This method is supposed to be local in Class because of a good reason.
+   We use this pragma to test if Class does not contain some accidental 
+   local selectors."
+
 	composite list 
 		title: 'Examples';
 		display: [ self gtExamples ];
