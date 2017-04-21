@@ -111,6 +111,9 @@ GTExamplesReleaseTest >> testAllMissingInternalExamples [
 			MorphicTreeNodeAdapter. " corrupt package detection "
 			Slot. " corrupt package detection "
 			ZnMessage. " corrupt package detection "
+			GTExampleIcon. "abstract"
+			GTExampleSubject. "abstract"
+			CompiledCode. "abstract"
 		}
 		pragmas: #( #spotterOrder: #gtInspectorPresentationOrder: )
 		examples: #( #gtExample #gtExample: )
