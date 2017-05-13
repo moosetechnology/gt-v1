@@ -5,12 +5,7 @@ Class {
 	#name : #GTExamplesHDReport,
 	#superclass : #HDReport,
 	#instVars : [
-		'suite',
 		'stream',
-		'suitePosition',
-		'suiteTime',
-		'suiteFailures',
-		'suiteErrors',
 		'progressFile',
 		'examples',
 		'executionTime',
@@ -49,8 +44,11 @@ GTExamplesHDReport >> begin [
 { #category : #private }
 GTExamplesHDReport >> beginExample: anExample runBlock: aBlock [
 	| time |
-	progressFile nextPutAll: 'starting example: '.
-	anExample printOn: progressFile.
+	progressFile 
+		nextPutAll: 'starting example: ';
+		nextPutAll: anExample methodClass name;
+		nextPutAll: '>>';
+		nextPutAll: anExample selector.
 	progressFile nextPutAll: ' ... '; flush.
 	time := aBlock timeToRun.
 	stream tab; 
@@ -97,21 +95,6 @@ GTExamplesHDReport >> endExample [
 
 ]
 
-{ #category : #accessing }
-GTExamplesHDReport >> exampleErrors [
-	^ suiteErrors
-]
-
-{ #category : #accessing }
-GTExamplesHDReport >> exampleFailures [
-	^ suiteFailures
-]
-
-{ #category : #accessing }
-GTExamplesHDReport >> examplePassing [ 
-	^ self suiteTotal - self suiteFailures - self suiteErrors
-]
-
 { #category : #initialization }
 GTExamplesHDReport >> examples: aCollection [
 	examples := aCollection
@@ -119,24 +102,22 @@ GTExamplesHDReport >> examples: aCollection [
 
 { #category : #accessing }
 GTExamplesHDReport >> examplesErrors [
-	^ suiteErrors
+	^ examplesErrors
 ]
 
 { #category : #accessing }
 GTExamplesHDReport >> examplesFailures [
-	^ suiteFailures
+	^ examplesFailures
 ]
 
 { #category : #accessing }
 GTExamplesHDReport >> examplesPassing [ 
-	^ self suiteTotal - self suiteFailures - self suiteErrors
+	^ self examplesTotal - self examplesFailures - self examplesErrors
 ]
 
 { #category : #accessing }
 GTExamplesHDReport >> examplesTotal [
-	^ suite 
-		ifNotNil: [ suite tests size ]
-		ifNil: [ 0 ]
+	^ examples size
 ]
 
 { #category : #testing }
@@ -152,8 +133,8 @@ GTExamplesHDReport >> hasFailures [
 { #category : #initialization }
 GTExamplesHDReport >> initialize [
 	super initialize.
-	suiteTime := 0 asDuration.
-	suitePosition := suiteFailures := examplesErrors := 0.
+	executionTime := 0 asDuration.
+	examplesPosition := examplesFailures := examplesErrors := 0.
 	progressFile := StandardFileStream forceNewFileNamed: 'progress.log'
 	
 ]
@@ -226,7 +207,7 @@ GTExamplesHDReport >> serializeError: error of: anExample [
 
 { #category : #running }
 GTExamplesHDReport >> setUp [
-	progressFile nextPutAll: 'running suite: ';
+	progressFile nextPutAll: 'running examples: ';
 		nextPutAll: title ; crlf; flush.
 		
 	stream := StandardFileStream forceNewFileNamed: title , '-Test.xml'.
@@ -241,11 +222,15 @@ GTExamplesHDReport >> setUp [
 ]
 
 { #category : #private }
-GTExamplesHDReport >> stackTraceString: err of: aTestCase [
+GTExamplesHDReport >> stackTraceString: err of: anExample [
 	^ String streamContents: [ :str | 
 		| context |
 		context := err signalerContext.
-		[ context isNil or: [ context receiver == aTestCase and: [ context methodSelector == #runCase ] ] ] whileFalse: [
+		[ context isNil 
+			or: [  
+				(context methodSelector == #'primitiveProcessExample:withArguments:' and: [ 
+					context arguments first = anExample ])
+					or: [ context receiver = anExample and: [ context methodSelector = #debug ] ] ] ] whileFalse: [
 			str print: context; lf.
 			context := context sender ] ] 
 ]
@@ -265,7 +250,7 @@ GTExamplesHDReport >> tearDown [
 	stream close.
 	
 	progressFile 
-		nextPutAll: 'finished running suite: ';
+		nextPutAll: 'finished running examples: ';
 		nextPutAll: title;
 		close
 ]
