@@ -7,19 +7,27 @@ Class {
 	#instVars : [
 		'suite',
 		'stream',
+		'suitePosition',
+		'suiteTime',
+		'suiteFailures',
+		'suiteErrors',
 		'progressFile',
 		'examples',
-		'examplesFailures',
-		'examplesErrors',
+		'executionTime',
 		'examplesPosition',
-		'executionTime'
+		'examplesErrors',
+		'examplesFailures',
+		'title'
 	],
 	#category : #'GT-Examples-Testing'
 }
 
 { #category : #running }
 GTExamplesHDReport class >> runPackage: aString [
-	^ (RPackage organizer packageNamed: aString) gtExamplesContained 
+	^ self new 
+		initializeExamples: (RPackage organizer packageNamed: aString) gtExamplesContained 
+		entitled: aString;
+		run
 ]
 
 { #category : #running }
@@ -39,56 +47,17 @@ GTExamplesHDReport >> begin [
 ]
 
 { #category : #private }
-GTExamplesHDReport >> beginExample: aTestCase runBlock: aBlock [
-	| time |
-	progressFile 
-		nextPutAll: 'starting testcase: ' ; 
-		nextPutAll: aTestCase class name; 
-		nextPutAll:'>>';
-		nextPutAll: aTestCase selector; 
-		nextPutAll: ' ... '; 
-		flush.
-		
-	time := aBlock timeToRun.
-	stream tab; 
-		nextPutAll: '<testcase classname="'; 
-		nextPutAll: (self encode: (aTestCase class category copyReplaceAll: '-' with: '.')); 
-		nextPut: $.; nextPutAll: (self encode: aTestCase class name); 
-		nextPutAll: '" name="'; nextPutAll: (self encode: aTestCase selector); 
-		nextPutAll: '" time="'; print: (time asMilliSeconds / 1000.0); 
-		nextPutAll: '">'; lf
-	
-
-]
-
-{ #category : #private }
-GTExamplesHDReport >> beginExamples: anExample runBlock: aBlock [
+GTExamplesHDReport >> beginExample: anExample runBlock: aBlock [
 	| time |
 	progressFile nextPutAll: 'starting example: '.
 	anExample printOn: progressFile.
-	progressFile nextPutAll: ' ... '; cr; flush.
-	time := aBlock timeToRun.
-	stream tab; 
-		nextPutAll: '<testcase classname="'; 
-		nextPutAll: (self encode: (anExample class category copyReplaceAll: '-' with: '.')); 
-		nextPut: $.; nextPutAll: (self encode: anExample class name); 
-		nextPutAll: '" name="'; nextPutAll: (self encode: anExample selector); 
-		nextPutAll: '" time="'; print: (time asMilliSeconds / 1000.0); 
-		nextPutAll: '">'; lf
-]
-
-{ #category : #private }
-GTExamplesHDReport >> beginTestCase: aTestCase runBlock: aBlock [
-	| time |
-	progressFile nextPutAll: 'starting example: '.
-	aTestCase printOn: progressFile.
 	progressFile nextPutAll: ' ... '; flush.
 	time := aBlock timeToRun.
 	stream tab; 
 		nextPutAll: '<testcase classname="'; 
-		nextPutAll: (self encode: (aTestCase class category copyReplaceAll: '-' with: '.')); 
-		nextPut: $.; nextPutAll: (self encode: aTestCase class name); 
-		nextPutAll: '" name="'; nextPutAll: (self encode: aTestCase selector); 
+		nextPutAll: (self encode: (anExample methodClass category copyReplaceAll: '-' with: '.')); 
+		nextPut: $.; nextPutAll: (self encode: anExample methodClass name); 
+		nextPutAll: '" name="'; nextPutAll: (self encode: anExample selector); 
 		nextPutAll: '" time="'; print: (time asMilliSeconds / 1000.0); 
 		nextPutAll: '">'; lf
 	
@@ -130,12 +99,12 @@ GTExamplesHDReport >> endExample [
 
 { #category : #accessing }
 GTExamplesHDReport >> exampleErrors [
-	^ examplesErrors
+	^ suiteErrors
 ]
 
 { #category : #accessing }
 GTExamplesHDReport >> exampleFailures [
-	^ examplesFailures
+	^ suiteFailures
 ]
 
 { #category : #accessing }
@@ -150,12 +119,12 @@ GTExamplesHDReport >> examples: aCollection [
 
 { #category : #accessing }
 GTExamplesHDReport >> examplesErrors [
-	^ examplesErrors
+	^ suiteErrors
 ]
 
 { #category : #accessing }
 GTExamplesHDReport >> examplesFailures [
-	^ examplesFailures
+	^ suiteFailures
 ]
 
 { #category : #accessing }
@@ -180,16 +149,11 @@ GTExamplesHDReport >> hasFailures [
 	^ examplesFailures ~= 0
 ]
 
-{ #category : #testing }
-GTExamplesHDReport >> hasFailuresOrErrors [
-	^ self hasFailures or: [ self hasErrors ]
-]
-
 { #category : #initialization }
 GTExamplesHDReport >> initialize [
 	super initialize.
-	executionTime := 0 asDuration.
-	examplesPosition := examplesFailures := examplesErrors := 0.
+	suiteTime := 0 asDuration.
+	suitePosition := suiteFailures := examplesErrors := 0.
 	progressFile := StandardFileStream forceNewFileNamed: 'progress.log'
 	
 ]
@@ -214,49 +178,46 @@ GTExamplesHDReport >> run [
 { #category : #running }
 GTExamplesHDReport >> runAll [
 	CurrentExecutionEnvironment runTestsBy: [ 
-		examples tests do: [ :each | each run: self ]
+		examples do: [ :each | self runExample: each ]
 	]
 ]
 
 { #category : #running }
-GTExamplesHDReport >> runExample: aTestCase [
+GTExamplesHDReport >> runExample: anExample [
 	| error stack  |
 	self
-		beginTestCase: aTestCase
-		runBlock: [ [ [ aTestCase runCaseManaged ]
-			on: Halt, Error, TestFailure
-			do: [ :err |
-				error := err.
-				aTestCase shouldPass ifTrue: [
+		beginExample: anExample
+		runBlock: [ 
+			[ anExample debug ]
+				on: Halt, Error, AssertionFailure
+				do: [ :err |
+					error := err.
 					self
 						serializeError: error
-						of: aTestCase ].
-				stack := self
-					stackTraceString: err
-					of: aTestCase ]]
-						on: TestSkip
-						do: [ :err | "nothing to do..." ] ].
-	
+						of: anExample.
+					stack := self
+						stackTraceString: err
+						of: anExample ] ].
 	self
 		writeError: error
 		andStack: stack
-		for: aTestCase.
-	self endTestCase
+		for: anExample.
+	self endExample
 ]
 
 { #category : #running }
-GTExamplesHDReport >> serializeError: error of: aTestCase [
+GTExamplesHDReport >> serializeError: error of: anExample [
 	"We got an error from a test, let's serialize it so we can properly debug it later on..."
 	| context testCaseMethodContext |
 	
 	context := error signalerContext.
 	testCaseMethodContext := context findContextSuchThat: [ :ctx| 
-		ctx receiver == aTestCase and: [ ctx methodSelector == #performTest ]].
+		ctx receiver == anExample and: [ ctx methodSelector == #performTest ]].
 	context := context copyTo: testCaseMethodContext.
 	
 	[ FuelOutStackDebugAction
 		serializeTestFailureContext: context sender 		
-		toFileNamed: aTestCase class name asString,'-', aTestCase selector, '.fuel' ] 
+		toFileNamed: anExample methodClass name asString,'-', anExample selector, '.fuel' ] 
 	on: Error 
 	do: [:err| "simply continue..." ]
 
@@ -266,22 +227,17 @@ GTExamplesHDReport >> serializeError: error of: aTestCase [
 { #category : #running }
 GTExamplesHDReport >> setUp [
 	progressFile nextPutAll: 'running suite: ';
-		nextPutAll: suite name ; crlf; flush.
+		nextPutAll: title ; crlf; flush.
 		
-	stream := StandardFileStream forceNewFileNamed: suite name , '-Test.xml'.
+	stream := StandardFileStream forceNewFileNamed: title , '-Test.xml'.
 	stream := MultiByteFileStream newFrom: stream.
 	stream nextPutAll: '<?xml version="1.0" encoding="UTF-8"?>'; lf.
-	stream nextPutAll: '<testsuite name="'; nextPutAll: (self encode: suite name); 
-		nextPutAll: '" tests="'; print: suite tests size; nextPutAll: '">'.
+	stream nextPutAll: '<testsuite name="'; nextPutAll: (self encode: title); 
+		nextPutAll: '" tests="'; print: examples size; nextPutAll: '">'.
 	
 	"Now this is ugly. We want to update the time and the number of failures and errors, but still at the same time stream a valid XML. So remember this position and add some whitespace, that we can fill later."
 	examplesPosition := stream position - 1.
 	stream nextPutAll: (String new: 100 withAll: $ ); lf.
-	
-	"Initialize the test resources."
-	suite resources do: [ :each |
-		each isAvailable
-			ifFalse: [ each signalInitializationError ] ]
 ]
 
 { #category : #private }
@@ -296,9 +252,6 @@ GTExamplesHDReport >> stackTraceString: err of: aTestCase [
 
 { #category : #running }
 GTExamplesHDReport >> tearDown [
-	suite resources 
-		do: [ :each | each reset ].
-		
 	stream tab; nextPutAll: '<system-out><![CDATA[]]></system-out>'; lf.
 	stream tab; nextPutAll: '<system-err><![CDATA[]]></system-err>'; lf.
 	stream nextPutAll: '</testsuite>'.
@@ -313,7 +266,7 @@ GTExamplesHDReport >> tearDown [
 	
 	progressFile 
 		nextPutAll: 'finished running suite: ';
-		nextPutAll: suite name;
+		nextPutAll: title;
 		close
 ]
 
