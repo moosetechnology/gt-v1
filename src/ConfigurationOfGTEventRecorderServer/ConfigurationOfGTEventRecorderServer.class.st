@@ -161,7 +161,7 @@ ConfigurationOfGTEventRecorderServer >> project [
 ConfigurationOfGTEventRecorderServer >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '0.1'.
+	spec for: #'common' version: '0.2'.
 
 ]
 
@@ -176,5 +176,20 @@ ConfigurationOfGTEventRecorderServer >> version01: spec [
 		spec timestamp: '11/15/2015 19:17'.
 		spec project: 'GTEventRecorder' with: '0.2'.
 		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.5'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorderServer >> version02: spec [
+	<version: '0.2' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Introduce GTEventRecorderZipHandler that allows to compress and download a given category using:
+ http://gc.dcc.uchile.cl:8080/gt/zip?category=spotter'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '6/5/2017 21:27'.
+		spec project: 'GTEventRecorder' with: '1.8'.
+		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.7'. ].
 
 ]
