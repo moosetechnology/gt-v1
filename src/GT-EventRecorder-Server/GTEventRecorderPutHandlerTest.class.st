@@ -84,7 +84,6 @@ GTEventRecorderPutHandlerTest >> storage [
 GTEventRecorderPutHandlerTest >> tearDown [
 	super tearDown.
 	server stop.
-	server unsubscribeAll.
 ]
 
 { #category : #tests }

@@ -1,3 +1,7 @@
+"
+I know how to start and stop default Event Recorder server.
+Check my two start and stop methods on the class side.
+"
 Class {
 	#name : #GTEventRecorderServer,
 	#superclass : #Object,
@@ -16,4 +20,8 @@ GTEventRecorderServer class >> start [
 GTEventRecorderServer class >> stop [
 	"self stop"
 	ZnServer stopDefault
+]
+
+{ #category : #'see class side' }
+GTEventRecorderServer >> seeClassSide [
 ]

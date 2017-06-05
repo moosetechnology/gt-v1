@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'dispatcher',
-		'putHandler'
+		'putHandler',
+		'zipHandler'
 	],
 	#category : #'GT-EventRecorder-Server-Core'
 }
@@ -20,6 +21,11 @@ GTEventRecorderDelegate >> initialize [
 	putHandler storage: (GTEventRecorderFileStorage new
 		directory: FileLocator home / 'gt' / 'events';
 		yourself).
+	zipHandler := GTEventRecorderZipHandler new.
+	zipHandler 
+		fileDirectory: FileLocator home / 'gt' / 'events';
+		zipRootUrl: 'http://gc.dcc.uchile.cl/' asZnUrl;
+		archiver: GTEventRecorderExternalZipScript new.
 	dispatcher := ZnDispatcherDelegate new.
 	self initializeDispatcher
 ]
@@ -32,6 +38,8 @@ GTEventRecorderDelegate >> initializeDispatcher [
 		map: '/' to: okResponse;
 		map: '/gt' to: okResponse;
 		map: '/gt/' to: okResponse;
+		map: '/gt/zip' to: zipHandler;
+		map: '/gt/zip/' to: zipHandler;
 		map: '/gt/events' to: putHandler;
 		map: '/gt/events/' to: putHandler;
 		yourself
@@ -41,4 +49,10 @@ GTEventRecorderDelegate >> initializeDispatcher [
 GTEventRecorderDelegate >> putHandler [
 	"for the testing purpose"
 	^ putHandler
+]
+
+{ #category : #accessing }
+GTEventRecorderDelegate >> zipHandler [
+	"for the testing purpose"
+	^ zipHandler
 ]

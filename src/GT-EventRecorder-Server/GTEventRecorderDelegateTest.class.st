@@ -23,13 +23,22 @@ GTEventRecorderDelegateTest >> assertLocation: location input: input [
 	self assert: output equals: input
 ]
 
+{ #category : #private }
+GTEventRecorderDelegateTest >> compress: aFileReference [
+	^ (aFileReference basename, '.zip')
+]
+
 { #category : #running }
 GTEventRecorderDelegateTest >> setUp [
 	super setUp.
 	serverSemaphore := Semaphore new.
 	fileSystem := FileSystem memory.
 	delegate := GTEventRecorderDelegate new.
-	delegate putHandler directory: fileSystem workingDirectory.
+	delegate putHandler directory: fileSystem workingDirectory / 'files'.
+	delegate zipHandler 
+		fileDirectory: fileSystem workingDirectory / 'files';
+		zipRootUrl: 'http://localhost/gt/zip' asZnUrl;
+		archiver: self.
 	server := GTEventRecorderTestServer new.
 	server initializeUsingDelegate: delegate semaphore: serverSemaphore.
 	client := ZnClient new
@@ -39,13 +48,6 @@ GTEventRecorderDelegateTest >> setUp [
 		enforceHttpSuccess: true;
 		logToTranscript;
 		yourself.
-]
-
-{ #category : #running }
-GTEventRecorderDelegateTest >> tearDown [
-	super tearDown.
-	server stop.
-	server unsubscribeAll.
 ]
 
 { #category : #tests }
@@ -109,6 +111,29 @@ GTEventRecorderDelegateTest >> testHandleGetFromRoot2 [
 ]
 
 { #category : #tests }
+GTEventRecorderDelegateTest >> testHandleGetFromZip [
+	"It returns 204 if a category does not exist."
+	client path: '/gt/zip'; queryAt: 'category' put: 'categoryOne'; get.
+	self assert: client isSuccess.
+	self assert: client response code equals: 204.
+]
+
+{ #category : #tests }
+GTEventRecorderDelegateTest >> testHandleGetFromZip2 [
+	"It returns 200 if a category does exist."
+	| directory |
+	directory := (fileSystem workingDirectory / 'files' / 'categoryOne').
+	directory ensureCreateDirectory.
+	client 
+		followRedirects: false;
+		path: '/gt/zip'; queryAt: 'category' put: 'categoryOne'; 
+		get.
+	self assert: client isRedirect.
+	self assert: client response code equals: 302.
+	self assert: client response location equals: 'http://localhost/gt/zip/categoryOne.zip'.
+]
+
+{ #category : #tests }
 GTEventRecorderDelegateTest >> testHandlePut [
 	| data entity |
 	data := #[1 2 3 4].
@@ -120,7 +145,7 @@ GTEventRecorderDelegateTest >> testHandlePut [
 		put.
 	self assert: client isSuccess.
 	self assert: client isCreated.
-	self assertLocation: client response location input: data
+	self assertLocation: 'files/' , client response location input: data
 	
 ]
 
@@ -135,38 +160,6 @@ GTEventRecorderDelegateTest >> testHandlePut2 [
 		put.
 	self assert: client isSuccess.
 	self assert: client isCreated.
-	self assertLocation: client response location input: data
+	self assertLocation: 'files/' , client response location input: data
 
-]
-
-{ #category : #tests }
-GTEventRecorderDelegateTest >> testHandlePutOfEventRecorder [
-	| recorder collector semaphore files contents unpackedData |
-	semaphore := Semaphore new.
-	server when: ZnConnectionAcceptedEvent do: [ :announcement | semaphore signal ].
-	server when: ZnServerConnectionClosedEvent do: [ :announcement | semaphore signal ].
-	recorder := GTEventRecorder new.
-	recorder deliveryPreSuspendingAction: [ recorder deliveryPreSuspendingAction: []. semaphore signal ].
-	recorder offerPrivacy.
-	collector := GTEventCollector new.
-	collector url: (server url
-		addPathSegment: 'gt';
-		addPathSegment: 'events';
-		yourself).
-	collector category: #testingCategory.
-	recorder addCollector: collector.
-	collector add: 42.
-	[	self deny: (semaphore waitTimeoutMSecs: 200).
-		recorder deliverNow.	
-		self deny: (semaphore waitTimeoutMSecs: 200).
-		self deny: (semaphore waitTimeoutMSecs: 200) ] ensure: [ recorder deactivateDelivery ].
-	files := (fileSystem workingDirectory / 'testingCategory') allFiles.
-	self assert: files size equals: 1.
-	contents := GTEventUnpacking default unpackFile: files first.
-	self assert: (contents isKindOf: GTEventAnnouncement).
-	unpackedData := contents unpackedData.
-	self assert: unpackedData isCollection.
-	self assert: unpackedData size equals: 1.
-	self assert: unpackedData first equals: 42.
-	
 ]
