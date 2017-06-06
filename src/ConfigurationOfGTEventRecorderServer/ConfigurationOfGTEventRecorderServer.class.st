@@ -161,7 +161,11 @@ ConfigurationOfGTEventRecorderServer >> project [
 ConfigurationOfGTEventRecorderServer >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '0.2'.
+	spec for: #'common' version: '0.3'.
+
+	spec for: #'pharo4.x' version: '0.1'.
+
+	spec for: #'pharo5.x' version: '0.2'.
 
 ]
 
@@ -191,5 +195,20 @@ ConfigurationOfGTEventRecorderServer >> version02: spec [
 		spec timestamp: '6/5/2017 21:27'.
 		spec project: 'GTEventRecorder' with: '1.8'.
 		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.7'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorderServer >> version03: spec [
+	<version: '0.3' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'add more tests and fix configuration for Pharo 4.0. 
+the new version depends on Pharo 5.0 because of UFFI'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '6/6/2017 03:46'.
+		spec project: 'GTEventRecorder' with: '0.16'.
+		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.8'. ].
 
 ]
