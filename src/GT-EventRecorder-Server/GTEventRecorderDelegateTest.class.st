@@ -50,6 +50,13 @@ GTEventRecorderDelegateTest >> setUp [
 		yourself.
 ]
 
+{ #category : #running }
+GTEventRecorderDelegateTest >> tearDown [
+	super tearDown.
+	server stop.
+	server unsubscribeAll.
+]
+
 { #category : #tests }
 GTEventRecorderDelegateTest >> testHandleGetFromEvents [
 	| contents |
@@ -162,4 +169,36 @@ GTEventRecorderDelegateTest >> testHandlePut2 [
 	self assert: client isCreated.
 	self assertLocation: 'files/' , client response location input: data
 
+]
+
+{ #category : #tests }
+GTEventRecorderDelegateTest >> testHandlePutOfEventRecorder [
+	| recorder collector semaphore files contents unpackedData |
+	semaphore := Semaphore new.
+	server when: ZnConnectionAcceptedEvent do: [ :announcement | semaphore signal ].
+	server when: ZnServerConnectionClosedEvent do: [ :announcement | semaphore signal ].
+	recorder := GTEventRecorder new.
+	recorder deliveryPreSuspendingAction: [ recorder deliveryPreSuspendingAction: []. semaphore signal ].
+	recorder offerPrivacy.
+	collector := GTEventCollector new.
+	collector url: (server url
+		addPathSegment: 'gt';
+		addPathSegment: 'events';
+		yourself).
+	collector category: #testingCategory.
+	recorder addCollector: collector.
+	collector add: 42.
+	[	self deny: (semaphore waitTimeoutMSecs: 200).
+		recorder deliverNow.	
+		self deny: (semaphore waitTimeoutMSecs: 200).
+		self deny: (semaphore waitTimeoutMSecs: 200) ] ensure: [ recorder deactivateDelivery ].
+	files := (fileSystem workingDirectory / 'files' / 'testingCategory') allFiles.
+	self assert: files size equals: 1.
+	contents := GTEventUnpacking default unpackFile: files first.
+	self assert: (contents isKindOf: GTEventAnnouncement).
+	unpackedData := contents unpackedData.
+	self assert: unpackedData isCollection.
+	self assert: unpackedData size equals: 1.
+	self assert: unpackedData first equals: 42.
+	
 ]
