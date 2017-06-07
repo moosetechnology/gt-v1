@@ -119,10 +119,15 @@ GTEventRecorderDelegateTest >> testHandleGetFromRoot2 [
 
 { #category : #tests }
 GTEventRecorderDelegateTest >> testHandleGetFromZip [
-	"It returns 204 if a category does not exist."
-	client path: '/gt/zip'; queryAt: 'category' put: 'categoryOne'; get.
-	self assert: client isSuccess.
-	self assert: client response code equals: 204.
+	"It returns 404 if a category does not exist."
+	client 
+		path: '/gt/zip'; 
+		queryAt: 'category' put: 'categoryOne';
+		enforceHttpSuccess: false;
+		get.
+	self deny: client isSuccess.
+	self assert: client response code equals: 404.
+	self assert: client contents equals: 'Category Not Found categoryOne', String crlf
 ]
 
 { #category : #tests }
@@ -138,6 +143,18 @@ GTEventRecorderDelegateTest >> testHandleGetFromZip2 [
 	self assert: client isRedirect.
 	self assert: client response code equals: 302.
 	self assert: client response location equals: 'http://localhost/gt/zip/categoryOne.zip'.
+]
+
+{ #category : #tests }
+GTEventRecorderDelegateTest >> testHandleGetFromZip3 [
+	"It returns 404 if a category is not specified."
+	client 
+		path: '/gt/zip'; 
+		enforceHttpSuccess: false;
+		get.
+	self deny: client isSuccess.
+	self assert: client response code equals: 400.
+	self assert: client contents equals: '?category=<category-name> is missing in /gt/zip', String crlf
 ]
 
 { #category : #tests }

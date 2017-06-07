@@ -49,7 +49,7 @@ GTEventRecorderZipHandler >> compressCategory: aString request: aZnRequest respo
 	directory := self fileDirectory / aString.
 	directory exists ifFalse: [ 
 			^ aZnResponse 
-				statusLine: ZnStatusLine noContent; 
+				statusLine: ZnStatusLine notFound; 
 				entity: (ZnEntity textCRLF: 'Category Not Found ', aString asString );
 				yourself ].
 	fileName := self compress: directory.
@@ -81,7 +81,7 @@ GTEventRecorderZipHandler >> handleGetRequest: aZnRequest response: aZnResponse 
 	category := aZnRequest url queryAt: 'category' ifAbsent: [ nil ].
 	category ifNil: [	^ aZnResponse
 		statusLine: ZnStatusLine badRequest;
-		entity: (ZnEntity textCRLF: '?category=<category-name> is missing in ', aZnRequest uri);
+		entity: (ZnEntity textCRLF: '?category=<category-name> is missing in ', aZnRequest uri asString);
 		yourself ].
 	^ self compressCategory: category request: aZnRequest response: aZnResponse.
 ]
