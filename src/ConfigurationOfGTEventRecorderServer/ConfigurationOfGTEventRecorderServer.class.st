@@ -165,7 +165,7 @@ ConfigurationOfGTEventRecorderServer >> stable: spec [
 
 	spec for: #'pharo4.x' version: '0.1'.
 
-	spec for: #'pharo5.x' version: '0.3'.
+	spec for: #'pharo5.x' version: '0.4'.
 
 ]
 
