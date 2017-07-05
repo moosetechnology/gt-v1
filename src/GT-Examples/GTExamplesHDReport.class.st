@@ -165,31 +165,24 @@ GTExamplesHDReport >> runAll [
 
 { #category : #running }
 GTExamplesHDReport >> runExample: anExample [
-	| error stack result |
-	
+	| error stack  |
 	self
 		beginExample: anExample
-		runBlock: [ result := anExample run. ].
-				
-	( result isFailure or: [ result isError ]) ifTrue: [ 
-		
-		error := result unexpectedError 
-			ifNil: [ result expectedError ].
-		
-		self 
-			serializeError: error
-			of: anExample.
-		
-		stack := self 
-			stackTraceString: error
-			of: anExample.
-		
-		self 
-			writeError: error 
-			andStack: stack 
-			for: anExample.
-	 ].
-
+		runBlock: [ 
+			[ anExample debug ]
+				on: Halt, Error, AssertionFailure
+				do: [ :err |
+					error := err.
+					self
+						serializeError: error
+						of: anExample.
+					stack := self
+						stackTraceString: err
+						of: anExample ] ].
+	self
+		writeError: error
+		andStack: stack
+		for: anExample.
 	self endExample
 ]
 
