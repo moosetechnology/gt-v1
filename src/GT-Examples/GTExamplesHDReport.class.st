@@ -172,13 +172,16 @@ GTExamplesHDReport >> runExample: anExample [
 			[ anExample debug ]
 				on: Halt, Error, AssertionFailure
 				do: [ :err |
+					
+					(anExample exceptions handles: err) ifFalse: [ 
 					error := err.
+					
 					self
 						serializeError: error
 						of: anExample.
 					stack := self
 						stackTraceString: err
-						of: anExample ] ].
+						of: anExample ] ] ].
 	self
 		writeError: error
 		andStack: stack
