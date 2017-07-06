@@ -63,6 +63,34 @@ GTExamplesHDReport >> beginExample: anExample runBlock: aBlock [
 ]
 
 { #category : #running }
+GTExamplesHDReport >> checkAllPresentationsOf: exampleToTest [
+	| browser window failedSelectors |
+	exampleToTest class name = #ProtoObject ifTrue: [ ^ self ]. " no longer implemented "
+	failedSelectors := OrderedCollection new.
+	(Pragma
+		allNamed: #gtInspectorPresentationOrder:
+		from: exampleToTest class
+		to: ProtoObject)
+		do: [ :eachPragma | 
+			browser := GLMWrapper new.
+			 [ browser
+				show: [ :composite | 
+					(eachPragma methodSelector findTokens: $:) size = 1
+						ifTrue: [ exampleToTest perform: eachPragma methodSelector with: composite ].
+					(eachPragma methodSelector findTokens: $:) size = 2
+						ifTrue: [ exampleToTest
+								perform: eachPragma methodSelector
+								with: composite
+								with: browser ] ].
+			window := browser openOn: exampleToTest ]
+				on: Error
+				do: [ :err | failedSelectors add: eachPragma methodSelector -> err ] 
+			].
+		window ifNotNil: [ window delete ].
+		^ failedSelectors.
+]
+
+{ #category : #running }
 GTExamplesHDReport >> done [
 	"just close the file"
 	[ progressFile close ] on: Error do: []
@@ -165,27 +193,23 @@ GTExamplesHDReport >> runAll [
 
 { #category : #running }
 GTExamplesHDReport >> runExample: anExample [
-	| error stack  |
+	| errors |
+	errors := OrderedCollection new.
 	self
 		beginExample: anExample
-		runBlock: [ 
-			[ anExample debug ]
-				on: Halt, Error, AssertionFailure
-				do: [ :err |
-					
-					(anExample exceptions handles: err) ifFalse: [ 
-					error := err.
-					
-					self
-						serializeError: error
-						of: anExample.
-					stack := self
-						stackTraceString: err
-						of: anExample ] ] ].
-	self
-		writeError: error
-		andStack: stack
-		for: anExample.
+		runBlock: [ | result stack |
+			[ result := anExample result.
+			(self checkAllPresentationsOf: result returnValue)
+				do: [ :each | 
+					stack := each value asString , Character cr asString , Character tab asString , ' in ' , result returnValue class name , '>>>' , each key asString.
+					errors add: each value -> stack ] ]
+				on: Halt , Error , AssertionFailure
+				do: [ :err | 
+					(anExample exceptions handles: err)
+						ifFalse: [ stack := self stackTraceString: err of: anExample.
+							errors add: err -> stack ] ] ].
+	errors do: [ :each | self writeError: each key andStack: each value for: anExample ].
+	
 	self endExample
 ]
 
