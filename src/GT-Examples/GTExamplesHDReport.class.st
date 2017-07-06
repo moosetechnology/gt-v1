@@ -197,11 +197,11 @@ GTExamplesHDReport >> runExample: anExample [
 	errors := OrderedCollection new.
 	self
 		beginExample: anExample
-		runBlock: [ | result stack |
-			[ result := anExample result.
-			(self checkAllPresentationsOf: result returnValue)
+		runBlock: [ | returnValue stack |
+			[ returnValue := anExample debug returnValue.
+			(self checkAllPresentationsOf: returnValue)
 				do: [ :each | 
-					stack := each value asString , Character cr asString , Character tab asString , ' in ' , result returnValue class name , '>>>' , each key asString.
+					stack := each value asString , Character cr asString , Character tab asString , ' in ' , returnValue class name , '>>>' , each key asString.
 					errors add: each value -> stack ] ]
 				on: Halt , Error , AssertionFailure
 				do: [ :err | 
