@@ -1,7 +1,7 @@
-Extension { #name : #TClassDescription }
+Extension { #name : #ClassDescription }
 
 { #category : #'*GT-Examples-Core' }
-TClassDescription >> asGTExampleSubject [
+ClassDescription >> asGTExampleSubject [
 	^ GTExampleClassSubject new 
 		theClassName: self name;
 		theClass: self;
@@ -10,18 +10,18 @@ TClassDescription >> asGTExampleSubject [
 ]
 
 { #category : #'*GT-Examples-Core' }
-TClassDescription >> gtExamples [
+ClassDescription >> gtExamples [
 	^ self gtExamplesFactory gtExamplesContained
 ]
 
 { #category : #'*GT-Examples-Core' }
-TClassDescription >> gtExamplesFactory [
+ClassDescription >> gtExamplesFactory [
 	^ GTExampleFactory new
 		source: self;
 		yourself
 ]
 
 { #category : #'*GT-Examples-Core' }
-TClassDescription >> gtExamplesSubjects [
+ClassDescription >> gtExamplesSubjects [
 	^ { self }
 ]
