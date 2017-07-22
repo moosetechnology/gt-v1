@@ -58,12 +58,12 @@ GTExampleGraphPainter >> buildArgument: anExample1 at: index parent: anExample2 
 			shape := (nodes at: anExample1) second. ]
 		ifFalse: [ 
 			" add element and shape "
-			shape := RTBox new 
+			shape := RTEllipse new 
 				width: 8;
 				height: 8;
 				color: Color white;
 				borderColor: (Color black alpha: 0.05);
-				borderWidth: 4;
+				borderWidth: 2;
 				yourself.
 			element := shape elementOn: anExample1.
 			group add: element.
@@ -110,14 +110,14 @@ GTExampleGraphPainter >> buildDependency: anExample1 at: index parent: anExample
 			shape := (nodes at: anExample1) second. ]
 		ifFalse: [ 
 			" add element and shape "
-			shape := RTBox new 
+			shape := RTEllipse new 
 				width: 16;
 				height: 16;
 				color: (self example == anExample1 ifTrue: [ Color lightGray ] ifFalse: [ Color white ]);
 				borderColor: (anExample1 hasInternalProblems
 					ifTrue: [ Color yellow ]
 					ifFalse: [ Color black ]);
-				borderWidth: 4;
+				borderWidth: 2;
 				yourself.
 			element := shape elementOn: anExample1.
 			group add: element.
@@ -149,14 +149,14 @@ GTExampleGraphPainter >> buildDependent: anExample1 child: anExample2 [
 			shape := (nodes at: anExample1) second. ]
 		ifFalse: [
 			" add element and shape "
-			shape := RTBox new 
+			shape := RTEllipse new 
 				width: 16;
 				height: 16;
 				color: (self example == anExample1 ifTrue: [ Color lightGray ] ifFalse: [ Color white ]);
 				borderColor: (anExample1 hasInternalProblems
 					ifTrue: [ Color yellow ]
 					ifFalse: [ Color black ]);
-				borderWidth: 4;
+				borderWidth: 2;
 				yourself.
 			element := shape elementOn: anExample1.
 			group add: element.
@@ -196,12 +196,11 @@ GTExampleGraphPainter >> buildMissingArguments: anExample1 [
 	(1 max: anExample1 arguments size) to: method numArgs  do: [ :index |
 		| shape argumentName element edge line |
 		" add shape "
-		shape := RTBox new 
+		shape := RTEllipse new 
 			width: 8;
 			height: 8;
 			color: Color white;
-			color: Color white;
-			borderWidth: 4;
+			borderWidth: 2;
 			yourself.
 		argumentName := method argumentNames at: index.
 		element := shape elementOn: argumentName asString.

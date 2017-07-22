@@ -3,7 +3,6 @@ Extension { #name : #GTExample }
 { #category : #'*GT-Examples-Roassal2' }
 GTExample >> gtInspectorRoassalIn: composite [
 	<gtInspectorPresentationOrder: 1>
-	self hasDependencies ifFalse: [ ^ self ].
 	^ composite roassal2
 		title: 'Graph';
 		painting: [ :view :example | 
@@ -11,5 +10,5 @@ GTExample >> gtInspectorRoassalIn: composite [
 				example: example;
 				view: view;
 				yourself) paint ];
-		yourself
+		when: [ self hasDependencies or: [ self hasDependents ] ]
 ]
