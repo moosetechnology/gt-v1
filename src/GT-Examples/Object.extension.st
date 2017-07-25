@@ -6,6 +6,11 @@ Object >> asGTExampleSubject [
 ]
 
 { #category : #'*GT-Examples-Core' }
+Object >> assert: actual equals: expected [
+	self assert: actual = expected
+]
+
+{ #category : #'*GT-Examples-Core' }
 Object class >> gtExampleContext [
 	^ GTCurrentExampleContext value
 ]
