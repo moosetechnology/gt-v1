@@ -13,13 +13,6 @@ GTExampleNautilusPackageMenu class >> menuFor: aBuilder [
 		yourself
 ]
 
-{ #category : #private }
-GTExampleNautilusPackageMenu >> browsePackage: aPackage builder: aBuilder [
-	(lastItem := aBuilder item: #'Browse all examples of package "' ,  aPackage packageName , '"')
-		parent: #gte;
-		action: [ GTExampleNavigation browseExamplesOfPackage: aPackage ]
-]
-
 { #category : #public }
 GTExampleNautilusPackageMenu >> menuFor: aBuilder [
 	| model node package |
@@ -30,16 +23,10 @@ GTExampleNautilusPackageMenu >> menuFor: aBuilder [
 	self buildSubmenu: aBuilder.
 	self inspectExamples: [ package gtExamplesContained ] builder: aBuilder.
 	self inspectReturnValue: [ package gtExamplesContained ] builder: aBuilder.
-	self inspectResults: [ package gtExamplesContained ] builder: aBuilder.
 	self inspectProblems: [ package gtExamplesContained ] builder: aBuilder.
 	self buildSeparator.
 	self runExamples: [ package gtExamplesContained ] builder: aBuilder.
 	self debugExamples: [ package gtExamplesContained ] builder: aBuilder.
-	self buildSeparator.
-	self browsePackage: package builder: aBuilder.
-	self buildSeparator.
-	self browseExamplesReferencing: package packageName  builder: aBuilder.
-	self browseExamplesWithSubject: package asGTExampleSubject builder: aBuilder.
 ]
 
 { #category : #private }

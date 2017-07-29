@@ -50,7 +50,6 @@ GTExampleNautilusClassMenu >> menuFor: aBuilder [
 	self buildSubmenu: aBuilder.
 	self inspectExamples: [ class gtExamples ] builder: aBuilder.
 	self inspectReturnValue: [ class gtExamples ] builder: aBuilder.
-	self inspectResults: [ class gtExamples ] builder: aBuilder.
 	self inspectProblems: [ class gtExamples ] builder: aBuilder.
 	self buildSeparator.
 	self runExamples: [ class gtExamples ] builder: aBuilder.
@@ -59,10 +58,7 @@ GTExampleNautilusClassMenu >> menuFor: aBuilder [
 	self browseClass: class builder: aBuilder.
 	self browseSubclassesOf: class builder: aBuilder.
 	self browseSuperclassesOf: class builder: aBuilder.
-	self browseHierarchyOf: class builder: aBuilder.
-	self buildSeparator.
-	self browseExamplesReferencing: class theNonMetaClass name builder: aBuilder.
-	self browseExamplesWithSubject: class asGTExampleSubject builder: aBuilder.
+	self browseHierarchyOf: class builder: aBuilder
 ]
 
 { #category : #private }

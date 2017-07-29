@@ -132,15 +132,13 @@ GTAbstractExampleMenu >> examples: aCollection do: aBlock1 progress: aBlock2 [
 ]
 
 { #category : #utils }
-GTAbstractExampleMenu >> examples: aBlock1 select: aBlock2 [
-	(aBlock1 value select: [ :example | 
-		example isGTExample 
-			and: [ aBlock2 value: example ] ])
-				ifNotEmpty: [ :examples | 
-					(examples size = 1 
-						ifTrue: [ examples anyOne ]
-						ifFalse: [ examples ]) inspect ]
-				ifEmpty: [ self notifyNoExamples ]
+GTAbstractExampleMenu >> examples: examplesBlock select: selectionBlock [
+	| examples |
+	examples := examplesBlock value select: [ :example | 
+		example isGTExample and: [ selectionBlock value: example ] ].
+	examples
+		ifNotEmpty: [ (GTExampleGroup new examples: examples) inspect ]
+		ifEmpty: [ self notifyNoExamples ]
 ]
 
 { #category : #utils }
