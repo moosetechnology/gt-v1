@@ -14,13 +14,13 @@ GTExampleGroup >> gtInspectorMapIn: composite [
 				view shape circle size: 10; fillColor: Color transparent; borderColor: Color black.
 				view nodes: assoc value.
 				view shape line color: (Color black alpha: 0.5).
-				view edges source: assoc value connectFromAll: #directDependents to: #yourself.
+				view edges source: assoc value connectFrom: #yourself toAll: #dependenciesOrArguments.
 				view layout dominanceTree ].
 			view edges 
 				source: self examples 
-				connectFromAll: [ :each | 
-					each directDependents select: [ :dependent | 
-						dependent methodClass ~= each methodClass ] ] 
-				to: #yourself ];
+				connectFrom: #yourself
+				toAll: [ :each | 
+					each dependenciesOrArguments select: [ :dependent | 
+						dependent methodClass ~= each methodClass ] ] ];
 		send: [ :x | (x isKindOf: Association) ifTrue: [ self class new examples: x value ] ifFalse: [ x ] ]
 ]
