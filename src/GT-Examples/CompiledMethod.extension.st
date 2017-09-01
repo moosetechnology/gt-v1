@@ -25,7 +25,7 @@ CompiledMethod >> gtExamples [
 
 { #category : #'*GT-Examples-Core' }
 CompiledMethod >> gtExamplesFactory [
-	^ self methodClass gtExamplesFactory
+	^ self methodClass theNonMetaClass gtExamplesFactory
 ]
 
 { #category : #'*GT-Examples-Core' }
