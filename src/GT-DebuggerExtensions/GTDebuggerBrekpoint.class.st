@@ -10,8 +10,12 @@ Class {
 	#category : #'GT-DebuggerExtensions'
 }
 
-{ #category : #callbacks }
+{ #category : #actions }
 GTDebuggerBrekpoint >> breakpointReached [
+	"I am called when the breakpoint is reached. If there is an 
+	associated condition with the breakpoint I am only called if
+	the conditions holds."
+	
 	targetAction breakpointReachedFrom: self 
 ]
 
@@ -22,11 +26,12 @@ GTDebuggerBrekpoint >> install [
 
 { #category : #accessing }
 GTDebuggerBrekpoint >> instrumentationContextFrom: aContext [
-	|ctxt|
-	ctxt := aContext sender sender sender sender sender.
-	^ ctxt sender methodClass = ReflectiveMethod 
-		ifTrue: [ ctxt sender ]
-		ifFalse: [ ctxt ]
+	"The action of opening the debugger will be called from the debugging action.
+	Hence the top context will not be the one where the metalink was declared,
+	but the one were the debugger was opened. To avoid that we give the breakpoint a
+	chance to return the correct context that contains the metalink instrumentation."
+	
+	^ aContext
 ]
 
 { #category : #accessing }
@@ -56,10 +61,12 @@ GTDebuggerBrekpoint >> uninstall [
 
 { #category : #actions }
 GTDebuggerBrekpoint >> updateDebuggingSession: aSession [
-
+	"I am a callback that is called before the debugger is opened.
+	I can be used to remove the instrumentation from the displayed methods.
+	At this point the debugger process is suspended."
 ]
 
-{ #category : #accessing }
+{ #category : #conditions }
 GTDebuggerBrekpoint >> whenReceiver: aBlock [
 
 	condition := aBlock.

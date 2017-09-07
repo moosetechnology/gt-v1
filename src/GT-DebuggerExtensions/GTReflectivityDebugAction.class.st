@@ -16,28 +16,28 @@ GTReflectivityDebugAction >> addBreakpoint: aBreakpoint [
 ]
 
 { #category : #callbacks }
+GTReflectivityDebugAction >> attachBreakpoints [
+	self subclassResponsibility
+]
+
+{ #category : #callbacks }
 GTReflectivityDebugAction >> breakpointReachedFrom: aBreakpoint [
+	"Callback method called when any one of the breakpoints installed 
+	by this action is reached."
 
-	breakpoints do: #uninstall.
-
-	UIManager default 
-		debugProcess: Processor activeProcess 
-		context: (aBreakpoint instrumentationContextFrom: thisContext)
-		label: (self debuggerData at: #title)
-		fullView: true 
-		notification: nil 
-		usingDebugger: GTPPDebugger
-		initializedWith: [ :aDebugger | 
-			"aBreakpoint updateDebuggingSession: aDebugger session."
-			aDebugger window 
-				position: (self debuggerData at: #position);
-				extent: (self debuggerData at: #extent) ]
+	self uninstallBreakpoints.
+	self openDebuggerForBreakpoint: aBreakpoint
 ]
 
 { #category : #accessing }
 GTReflectivityDebugAction >> breakpoints [
 
 	^ breakpoints ifNil: [ breakpoints := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GTReflectivityDebugAction >> debuggerClass [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -62,8 +62,29 @@ GTReflectivityDebugAction >> initialize [
 
 { #category : #actions }
 GTReflectivityDebugAction >> installBreakpoints [
+	self breakpoints do: #install.
+]
 
-	breakpoints do: #install.
+{ #category : #opening }
+GTReflectivityDebugAction >> openDebuggerForBreakpoint: aBreakpoint [
+	|ctxt|
+	ctxt := thisContext.
+	
+	UIManager default 
+		debugProcess: Processor activeProcess 
+		context: (aBreakpoint instrumentationContextFrom: ctxt)
+		label: (self debuggerData at: #title)
+		fullView: true 
+		notification: nil 
+		usingDebugger: self debuggerClass
+		initializedWith: [ :aDebugger | 
+			"FIX ME: do not update the entire debugger. Instead have a hook for updating the 
+			session before opening the debugger and one after to update the actual debugger."
+			aBreakpoint updateDebuggingSession: aDebugger session.
+			aDebugger updateBrowser. 
+			aDebugger window 
+				position: (self debuggerData at: #position);
+				extent: (self debuggerData at: #extent) ]
 ]
 
 { #category : #actions }
@@ -82,4 +103,9 @@ GTReflectivityDebugAction >> saveDebuggerData [
 	self debuggerData at: #title put: self debugger title.
 	self debuggerData at: #position put: self debugger window position.
 	self debuggerData at: #extent put: self debugger window extent.
+]
+
+{ #category : #actions }
+GTReflectivityDebugAction >> uninstallBreakpoints [
+	self breakpoints do: #uninstall.
 ]

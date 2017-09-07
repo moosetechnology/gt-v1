@@ -22,7 +22,13 @@ GTDebuggerMethodAfterBreakpoint >> install [
 { #category : #accessing }
 GTDebuggerMethodAfterBreakpoint >> instrumentationContextFrom: aContext [
 
-	^ (super instrumentationContextFrom: aContext) sender
+	^ aContext  "--(GTReflectivityDebugAction)>>openDebuggerForBreakpoint:" 
+		sender   "--(GTReflectivityDebugAction)>>breakpointReachedFrom:"
+		sender   "--(GTDebuggerBrekpoint)>>breakpointReached"
+		sender   "instrumented method -> ensure block calling breakpointReached"
+		sender   "Context>>#resume:through:"
+		sender   "Context>>ensure:"
+		sender   "instrumented method -> before exiting"
 ]
 
 { #category : #accessing }
@@ -39,7 +45,6 @@ GTDebuggerMethodAfterBreakpoint >> targetMethod: anObject [
 GTDebuggerMethodAfterBreakpoint >> updateDebuggingSession: aSession [
 	super updateDebuggingSession: aSession.
 	
-	"aSession stepInto."
-	
-	"aSession updateContextTo: aSession interruptedContext sender"
+	aSession stepOver. "instrumented method -> ensure block calling breakpointReached"
+	aSession stepOver. "ReflectiveMethod>>run:with:in:"
 ]
