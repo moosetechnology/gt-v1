@@ -1,6 +1,6 @@
 Class {
-	#name : #GTPPFastStepToStreamPositionAction,
-	#superclass : #GTReflectivityDebugAction,
+	#name : #GTPPStepToStreamPositionReflectivityAction,
+	#superclass : #GTPPReflectivityStepDebugAction,
 	#instVars : [
 		'position'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #registration }
-GTPPFastStepToStreamPositionAction class >> gtSelectedStreamPositionActionFor: aDebugger [
+GTPPStepToStreamPositionReflectivityAction class >> gtSelectedStreamPositionActionFor: aDebugger [
 	"<gtPPStreamDebuggingAction>
 	<gtContextPPStreamDebuggingAction>"
 	
@@ -17,15 +17,8 @@ GTPPFastStepToStreamPositionAction class >> gtSelectedStreamPositionActionFor: a
 		label: 'Run to here (fast)'
 ]
 
-{ #category : #testing }
-GTPPFastStepToStreamPositionAction >> appliesToContext: aContext [
-
-	^ self session isActive and: [
-		aContext locateTopPPParser notNil ]
-]
-
 { #category : #actions }
-GTPPFastStepToStreamPositionAction >> attachBreakpoints [
+GTPPStepToStreamPositionReflectivityAction >> attachBreakpoints [
 
 	self addBreakpoint: (GTDebuggerMethodAfterBreakpoint new
 		targetMethod: PPContext>>#next;
@@ -33,13 +26,13 @@ GTPPFastStepToStreamPositionAction >> attachBreakpoints [
 ]
 
 { #category : #accessing }
-GTPPFastStepToStreamPositionAction >> position [
+GTPPStepToStreamPositionReflectivityAction >> position [
 	
 	^ position
 ]
 
 { #category : #accessing }
-GTPPFastStepToStreamPositionAction >> position: anInteger [
+GTPPStepToStreamPositionReflectivityAction >> position: anInteger [
 	
 	position := anInteger
 ]
