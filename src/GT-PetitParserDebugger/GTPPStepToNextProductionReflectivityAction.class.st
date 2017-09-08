@@ -13,8 +13,8 @@ GTPPStepToNextProductionReflectivityAction class >> gtToNextProductionAction [
 { #category : #accessing }
 GTPPStepToNextProductionReflectivityAction >> attachBreakpoints [
 		
-	self addBreakpoint: (GTDebuggerMethodEntryBreakpoint new
-		targetMethod: PPDelegateParser>>#parseOn:)
+	self beforeMethodBreakpoint
+		targetMethod: PPDelegateParser>>#parseOn:
 ]
 
 { #category : #initialization }

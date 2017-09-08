@@ -20,9 +20,9 @@ GTPPStepToStreamPositionReflectivityAction class >> gtSelectedStreamPositionActi
 { #category : #actions }
 GTPPStepToStreamPositionReflectivityAction >> attachBreakpoints [
 
-	self addBreakpoint: (GTDebuggerMethodAfterBreakpoint new
+	self afterMethodBreakpoint
 		targetMethod: PPContext>>#next;
-		whenReceiver: [ :aPPContext | aPPContext position = self position ]).
+		whenReceiver: [ :aPPContext | aPPContext position = self position ]
 ]
 
 { #category : #accessing }
