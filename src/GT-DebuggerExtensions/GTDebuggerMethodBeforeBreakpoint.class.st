@@ -1,5 +1,5 @@
 Class {
-	#name : #GTDebuggerMethodEntryBreakpoint,
+	#name : #GTDebuggerMethodBeforeBreakpoint,
 	#superclass : #GTDebuggerBrekpoint,
 	#instVars : [
 		'targetMethod'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #actions }
-GTDebuggerMethodEntryBreakpoint >> install [
+GTDebuggerMethodBeforeBreakpoint >> install [
 
 	self metaLink: (MetaLink new
 		metaObject: self;
@@ -20,7 +20,7 @@ GTDebuggerMethodEntryBreakpoint >> install [
 ]
 
 { #category : #accessing }
-GTDebuggerMethodEntryBreakpoint >> instrumentationContextFrom: aContext [
+GTDebuggerMethodBeforeBreakpoint >> instrumentationContextFrom: aContext [
 
 	^ aContext  "GTPPStepToNextProductionReflectivityAction(GTReflectivityDebugAction)>>openDebuggerForBreakpoint:"
 		sender   "GTPPStepToNextProductionReflectivityAction(GTReflectivityDebugAction)>>breakpointReachedFrom:"
@@ -29,17 +29,17 @@ GTDebuggerMethodEntryBreakpoint >> instrumentationContextFrom: aContext [
 ]
 
 { #category : #accessing }
-GTDebuggerMethodEntryBreakpoint >> targetMethod [
+GTDebuggerMethodBeforeBreakpoint >> targetMethod [
 	^ targetMethod
 ]
 
 { #category : #accessing }
-GTDebuggerMethodEntryBreakpoint >> targetMethod: anObject [
+GTDebuggerMethodBeforeBreakpoint >> targetMethod: anObject [
 	targetMethod := anObject
 ]
 
 { #category : #actions }
-GTDebuggerMethodEntryBreakpoint >> updateDebuggingSession: aSession [
+GTDebuggerMethodBeforeBreakpoint >> updateDebuggingSession: aSession [
 	"I remove the reflectivity instrumentation from the top of the stack.
 	The at this point the stack in the <suspended context> from the <interrupted process> has this shape: 
 	   [1] suspended: MorphicUIManager>>debugProcess:context:label:fullView:notification:usingDebugger:initializedWith:

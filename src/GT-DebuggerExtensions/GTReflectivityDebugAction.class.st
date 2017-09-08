@@ -12,12 +12,22 @@ Class {
 GTReflectivityDebugAction >> addBreakpoint: aBreakpoint [
 
 	aBreakpoint targetAction: self.
-	self breakpoints add: aBreakpoint
+	^ self breakpoints add: aBreakpoint
+]
+
+{ #category : #scripting }
+GTReflectivityDebugAction >> afterMethodBreakpoint [
+	^ self addBreakpoint: GTDebuggerMethodAfterBreakpoint new
 ]
 
 { #category : #callbacks }
 GTReflectivityDebugAction >> attachBreakpoints [
 	self subclassResponsibility
+]
+
+{ #category : #scripting }
+GTReflectivityDebugAction >> beforeMethodBreakpoint [
+	^ self addBreakpoint: GTDebuggerMethodBeforeBreakpoint new
 ]
 
 { #category : #callbacks }
