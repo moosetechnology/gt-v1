@@ -9,11 +9,28 @@ GTExampleGroup >> gtInspectorExamplesIn: composite [
 		title: 'Examples';
 		display: [ examplesWithResults ];
 		icon: [ :each | each icon ];
+		column: 'Status' evaluated: [ :each | each statusText ];
+		column: 'Result' evaluated: [ :each | each resultOrErrorClassName ];
 		column: 'Name' evaluated: [ :each | each gtDisplayString ];
 		column: 'Selector' evaluated: [ :each | each example selector ];
 		column: 'Class' evaluated: [ :each | each example methodClass instanceSide name ];
-		selectionAct: [ :list | list rawSelection run . list update . list selection: list rawSelection result returnValue ] on: $r entitled: 'Run';
-		selectionAct: [ :list | list rawSelection debug . list update ] entitled: 'Debug';
-		act: [ :list | list displayValue do: [ :each | each run ] displayingProgress: 'Running examples ...'. list update ] on: $R entitled: 'Run all';
-		send: [ :each | (each isKindOf: GTExampleWithResult) ifTrue: [ each example ] ifFalse: [ each ] ]
+		selectionAct: [ :list | 
+			list rawSelection run.
+			list update.
+			list selection: list rawSelection result returnValue ]
+			on: $r
+			entitled: 'Run';
+		selectionAct: [ :list | 
+			list rawSelection debug.
+			list update ]
+			entitled: 'Debug';
+		act: [ :list | 
+			list displayValue do: [ :each | each run ] displayingProgress: 'Running examples ...'.
+			list update ]
+			on: $R
+			entitled: 'Run all';
+		send: [ :each | 
+			(each isKindOf: GTExampleWithResult)
+				ifTrue: [ each example ]
+				ifFalse: [ each ] ]
 ]

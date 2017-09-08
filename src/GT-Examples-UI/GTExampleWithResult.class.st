@@ -65,7 +65,40 @@ GTExampleWithResult >> result: anObject [
 	result := anObject
 ]
 
+{ #category : #printing }
+GTExampleWithResult >> resultOrErrorClassName [
+	self hasResult
+		ifTrue: [ self isSuccess
+				ifTrue: [ ^ self result returnValue class name asString ]
+				ifFalse: [ self isError
+						ifTrue: [ self result unexpectedError ifNotNil: [ ^ self result unexpectedError class name asString ] ]
+						ifFalse: [ self isFailure
+								ifTrue: [ self result expectedError ifNotNil: [ ^ self result expectedError class name asString ] ] ] ] ]
+		ifFalse: [ ^ 'N/A' ]
+]
+
 { #category : #public }
 GTExampleWithResult >> run [
 	^ self result: self example run
+]
+
+{ #category : #printing }
+GTExampleWithResult >> statusText [
+	self hasResult
+		ifTrue: [ self isSuccess
+				ifTrue: [ ^ 'Success' ]
+				ifFalse: [ self isError
+						ifTrue: [ ^ 'Error' ].
+					self isFailure
+						ifTrue: [ ^ 'Failure' ] ] ]
+		ifFalse: [ ^ 'N/A' ]
+]
+
+{ #category : #printing }
+GTExampleWithResult >> statusTextWithResultValueClassName [
+	| status resultOrErrorClassName |
+	status := self statusText.
+	resultOrErrorClassName := self resultOrErrorClassName.
+	resultOrErrorClassName ifNotNil: [ status := status , ': ' , resultOrErrorClassName ].
+	^ status
 ]
