@@ -77,6 +77,8 @@ GTReflectivityDebugAction >> installBreakpoints [
 
 { #category : #opening }
 GTReflectivityDebugAction >> openDebuggerForBreakpoint: aBreakpoint [
+	"FIX ME: consider moving this method to the actual breakpoint 
+	so that actions become more lighweight"
 	|ctxt|
 	ctxt := thisContext.
 	
