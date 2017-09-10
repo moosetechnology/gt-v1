@@ -88,7 +88,7 @@ GTReflectivityDebugAction >> openDebuggerForBreakpoint: aBreakpoint [
 		label: (self debuggerData at: #title)
 		fullView: true 
 		notification: nil 
-		usingDebugger: self debuggerClass
+		usingDebuggerClass: self debuggerClass
 		initializedWith: [ :aDebugger | 
 			"FIX ME: do not update the entire debugger. Instead have a hook for updating the 
 			session before opening the debugger and one after to update the actual debugger."
