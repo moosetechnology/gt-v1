@@ -1,7 +1,7 @@
 Extension { #name : #MorphicUIManager }
 
 { #category : #'*GT-DebuggerExtensions' }
-MorphicUIManager >> debugProcess: process context: context label: title fullView: bool notification: notificationString usingDebuggerClass: debuggerClass initializedWith: aBlock [
+MorphicUIManager >> debugProcess: process context: context label: title usingDebuggerClass: debuggerClass initializedSessionWith: aSessionBlock initializedDebuggerWith: aDebuggerBlock [
 	"Open a notifier in response to an error, halt, or notify. A notifier view
 	just shows a short view of the sender stack and provides a menu that
 	lets the user open a full debugger."
@@ -17,8 +17,10 @@ MorphicUIManager >> debugProcess: process context: context label: title fullView
 			"schedule debugger in deferred UI message to address
 			redraw problems after opening a debugger e.g. from
 			the testrunner."
-		[ debuggerClass 
-				openOn: debugSession withFullView: bool notification: notificationString initializedWith: aBlock.
+		[
+			aSessionBlock value: debugSession.
+			debuggerClass 
+				openOn: debugSession withFullView: false notification: nil initializedWith: aDebuggerBlock.
 		] on: Error do: [ :ex | 	debugSession signalDebuggerError: ex] 
 	].
 
@@ -27,7 +29,7 @@ MorphicUIManager >> debugProcess: process context: context label: title fullView
 ]
 
 { #category : #'*GT-DebuggerExtensions' }
-MorphicUIManager >> debugProcess: process context: context label: title fullView: bool notification: notificationString usingDebuggerInstance: aDebugger initializedWith: aBlock [
+MorphicUIManager >> debugProcess: process context: context label: title usingDebuggerInstance: aDebugger initializedSessionWith: aSessionBlock initializedDebuggerWith: aDebuggerBlock [
 	"Open a notifier in response to an error, halt, or notify. A notifier view
 	just shows a short view of the sender stack and provides a menu that
 	lets the user open a full debugger."
@@ -44,9 +46,9 @@ MorphicUIManager >> debugProcess: process context: context label: title fullView
 			redraw problems after opening a debugger e.g. from
 			the testrunner."
 		[
-
+			aSessionBlock value: debugSession.
 			(aDebugger session: debugSession).
-			aBlock value: aDebugger.
+			aDebuggerBlock value: aDebugger.
 		] on: Error do: [ :ex | 	debugSession signalDebuggerError: ex] 
 	].
 

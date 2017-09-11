@@ -12,7 +12,8 @@ Class {
 GTReflectivityDebugAction >> addBreakpoint: aBreakpoint [
 
 	aBreakpoint targetAction: self.
-	^ self breakpoints add: aBreakpoint
+	self breakpoints add: aBreakpoint.
+	^ aBreakpoint
 ]
 
 { #category : #scripting }
@@ -22,7 +23,8 @@ GTReflectivityDebugAction >> afterMethodBreakpoint [
 
 { #category : #callbacks }
 GTReflectivityDebugAction >> attachBreakpoints [
-	self subclassResponsibility
+	"I am a callback used to add breakpoints to this debugging action."
+	
 ]
 
 { #category : #scripting }
@@ -47,7 +49,10 @@ GTReflectivityDebugAction >> breakpoints [
 
 { #category : #accessing }
 GTReflectivityDebugAction >> debuggerClass [
-	self subclassResponsibility
+	"I return the debugger class that this action will open when 
+	one of its breakpoints is reached. Subclasses should override
+	me if they need to open a specific debugger."
+	^ Smalltalk tools debugger
 ]
 
 { #category : #accessing }
@@ -86,14 +91,10 @@ GTReflectivityDebugAction >> openDebuggerForBreakpoint: aBreakpoint [
 		debugProcess: Processor activeProcess 
 		context: (aBreakpoint instrumentationContextFrom: ctxt)
 		label: (self debuggerData at: #title)
-		fullView: true 
-		notification: nil 
 		usingDebuggerClass: self debuggerClass
-		initializedWith: [ :aDebugger | 
-			"FIX ME: do not update the entire debugger. Instead have a hook for updating the 
-			session before opening the debugger and one after to update the actual debugger."
-			aBreakpoint updateDebuggingSession: aDebugger session.
-			aDebugger updateBrowser. 
+		initializedSessionWith: [ :aSession | 
+			self updateDebuggingSession: aSession forBreakpoint: aBreakpoint. ]
+		initializedDebuggerWith: [ :aDebugger | 
 			aDebugger window 
 				position: (self debuggerData at: #position);
 				extent: (self debuggerData at: #extent) ]
@@ -120,4 +121,12 @@ GTReflectivityDebugAction >> saveDebuggerData [
 { #category : #actions }
 GTReflectivityDebugAction >> uninstallBreakpoints [
 	self breakpoints do: #uninstall.
+]
+
+{ #category : #callbacks }
+GTReflectivityDebugAction >> updateDebuggingSession: aSession forBreakpoint: aBreakpoint [
+	"I update the session based on the breakpoint that was reached.
+	Subclasses that want to provide custom update for the session
+	should override me."
+	aBreakpoint updateDebuggingSession: aSession
 ]
