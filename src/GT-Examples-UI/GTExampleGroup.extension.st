@@ -9,9 +9,9 @@ GTExampleGroup >> gtInspectorExamplesIn: composite [
 		title: 'Examples';
 		display: [ examplesWithResults ];
 		icon: [ :each | each icon ];
-		column: 'Status' evaluated: [ :each | each statusText ];
-		column: 'Result' evaluated: [ :each | each resultOrErrorClassName ];
-		column: 'Name' evaluated: [ :each | each gtDisplayString ];
+		column: 'Status' evaluated: [ :each | each statusText ] width: 80;
+		column: 'Result' evaluated: [ :each | each resultOrErrorClassName ] width: 120;
+		"column: 'Name' evaluated: [ :each | each gtDisplayString ];"
 		column: 'Selector' evaluated: [ :each | each example selector ];
 		column: 'Class' evaluated: [ :each | each example methodClass instanceSide name ];
 		selectionAct: [ :list | 
