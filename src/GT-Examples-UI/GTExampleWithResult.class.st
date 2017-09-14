@@ -79,7 +79,7 @@ GTExampleWithResult >> resultOrErrorClassName [
 
 { #category : #public }
 GTExampleWithResult >> run [
-	^ self result: self example run
+	^ self example ignoreTest ifFalse: [self result: self example run]
 ]
 
 { #category : #printing }
