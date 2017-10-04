@@ -2,7 +2,7 @@ Extension { #name : #Object }
 
 { #category : #'*GT-Examples-Core' }
 Object >> asGTExampleSubject [
-	^ GTExampleInstanceSubject fromObject: self
+	^ self class gtExamplesFactoryClass instanceSubjectFromObject: self
 ]
 
 { #category : #'*GT-Examples-Core' }
@@ -12,7 +12,7 @@ Object >> assert: actual equals: expected [
 
 { #category : #'*GT-Examples-Core' }
 Object class >> gtExampleContext [
-	^ GTCurrentExampleContext value
+	^ self gtExamplesFactoryClass gtExampleContext
 ]
 
 { #category : #'*GT-Examples-Core' }

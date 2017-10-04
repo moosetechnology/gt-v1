@@ -13,6 +13,21 @@ Class {
 	#category : #'GT-Examples-Organization'
 }
 
+{ #category : #subjects }
+GTExampleFactory class >> classSubjectFrom: aClass [
+	^ GTExampleClassSubject fromClass: aClass
+]
+
+{ #category : #accessing }
+GTExampleFactory class >> gtExampleContext [
+	^ GTCurrentExampleContext value 
+]
+
+{ #category : #subjects }
+GTExampleFactory class >> instanceSubjectFromObject: anObject [
+	^ GTExampleInstanceSubject fromObject: self
+]
+
 { #category : #accessing }
 GTExampleFactory >> cache [
 	^ cache ifNil: [ cache := self defaultCache ]

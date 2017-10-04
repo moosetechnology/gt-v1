@@ -2,11 +2,7 @@ Extension { #name : #TraitDescription }
 
 { #category : #'*GT-Examples-Core' }
 TraitDescription >> asGTExampleSubject [
-	^ GTExampleClassSubject new 
-		theClassName: self name;
-		theClass: self;
-		meta: self isMeta;
-		yourself
+	^ self class gtExamplesFactoryClass classSubjectFrom: self
 ]
 
 { #category : #'*GT-Examples-Core' }
@@ -16,7 +12,7 @@ TraitDescription >> gtExamples [
 
 { #category : #'*GT-Examples-Core' }
 TraitDescription >> gtExamplesFactory [
-	^ GTExampleFactory new
+	^ self class gtExamplesFactoryClass new
 		source: self;
 		yourself
 ]
