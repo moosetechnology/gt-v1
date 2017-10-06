@@ -2,14 +2,12 @@ Extension { #name : #GlamourPresentationModel }
 
 { #category : #'*GT-Inspector' }
 GlamourPresentationModel class >> exampleInspectorOn42 [
-	<gtExample>
 	"open an inspector on 42"
 	^ self inspectorOn: 42
 ]
 
 { #category : #'*GT-Inspector' }
 GlamourPresentationModel class >> exampleSimpleMethodsBrowser [
-	<gtExample>
 	"Open a Methods Browser on Object."
 	|ui|
 	ui := GlamourPresentationModel new.
