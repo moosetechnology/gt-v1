@@ -171,7 +171,7 @@ ConfigurationOfGTEventRecorder >> stable: spec [
 
 	spec for: #'common' version: '1.8'.
 
-	spec for: #'pharo5.x' version: '1.0'.
+	spec for: #'pharo5.x' version: '1.0.1'.
 
 	spec for: #'pharo6.x' version: '1.8'.
 
@@ -530,6 +530,25 @@ ConfigurationOfGTEventRecorder >> version09: spec [
 			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.59';
 			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.36'. ].
 
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorder >> version101: spec [
+	<version: '1.0.1' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'add missing Pragma >> #methodSelector message that was introduced in Pharo 6'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '11/29/2017 09:10'.
+		spec project: 'Ston' with: #'stable'.
+		spec 
+			package: #'GT-EventRecorder' with: 'GT-EventRecorder-JurajKubelka.71';
+			package: 'GT-EventRecorder-Tests' with: 'GT-EventRecorder-Tests-JurajKubelka.37'. ].
+	spec for: #'pharo5.x' do: [
+		spec
+			package: 'GT-EventRecorder-Pharo5-ForwardCompatibility';
+			package: 'GT-EventRecorder' with: [ spec requires: 'GT-EventRecorder-Pharo5-ForwardCompatibility' ] ].
 ]
 
 { #category : #versions }
