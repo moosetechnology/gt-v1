@@ -165,7 +165,7 @@ ConfigurationOfGTEventRecorderServer >> stable: spec [
 
 	spec for: #'pharo4.x' version: '0.1'.
 
-	spec for: #'pharo5.x' version: '0.4'.
+	spec for: #'pharo5.x' version: '0.5'.
 
 ]
 
@@ -223,6 +223,20 @@ ConfigurationOfGTEventRecorderServer >> version04: spec [
 		spec author: 'JurajKubelka'.
 		spec timestamp: '6/7/2017 10:28'.
 		spec project: 'GTEventRecorder' with: '1.0'.
+		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.9'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGTEventRecorderServer >> version05: spec [
+	<version: '0.5' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'add missing Pragma >> #methodSelector message that was introduced in Pharo 6'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '11/29/2017 09:10'.
+		spec project: 'GTEventRecorder' with: '1.0.1'.
 		spec package: 'GT-EventRecorder-Server' with: 'GT-EventRecorder-Server-JurajKubelka.9'. ].
 
 ]
