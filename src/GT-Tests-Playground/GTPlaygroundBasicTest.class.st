@@ -46,7 +46,7 @@ GTPlaygroundBasicTest >> testPageActionsIn [
 	| actions selector action |
 	selector := playground class 
 		compile: 'mockMethodPageAction
-	<pageAction>
+	<pageActionOrder: 100>
 	^ GLMGenericAction new
 		action: [ :presentation | self inform: ''page action works'' ];
 		iconNamed: #abstract;
@@ -69,7 +69,7 @@ GTPlaygroundBasicTest >> testPlaygroundActionsIn [
 	| actions selector action |
 	selector := playground class 
 		compile: 'mockMethodPlaygrounAction
-	<playgroundAction>
+	<playgroundActionOrder: 200>
 	^ GLMGenericAction new
 		action: [ :presentation | self inform: ''playground action works'' ];
 		iconNamed: #abstract;
