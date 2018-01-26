@@ -452,7 +452,7 @@ GTPlayground >> openOn: aPage [
 
 { #category : #accessing }
 GTPlayground >> pageActionPragma [
-	^ #pageAction
+	^ #pageActionOrder:
 ]
 
 { #category : #'building actions' }
@@ -460,7 +460,8 @@ GTPlayground >> pageActions [
 	^ (Pragma
 		allNamed: self pageActionPragma
 		from: self class
-		to: Object)
+		to: Object
+		sortedByArgument: 1)
 		collect:
 			[ :eachPragma | self perform: eachPragma methodSelector ]
 ]
@@ -474,7 +475,7 @@ GTPlayground >> pageActionsIn: aGLMPharoScriptPresentation [
 
 { #category : #accessing }
 GTPlayground >> playgroundActionPragma [
-	^ #playgroundAction
+	^ #playgroundActionOrder:
 ]
 
 { #category : #'building actions' }
@@ -482,7 +483,8 @@ GTPlayground >> playgroundActions [
 	^ (Pragma
 		allNamed: self playgroundActionPragma
 		from: self class
-		to: Object)
+		to: Object
+		sortedByArgument: 1)
 		collect:
 			[ :eachPragma | self perform: eachPragma methodSelector ]
 ]
