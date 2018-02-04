@@ -19,7 +19,5 @@ GTInspectorInspectorSizeScenery class >> menuCommandOn: aBuilder [
 GTInspectorInspectorSizeScenery >> setUp [
 	self cleanWindows.
 	(GTPlayground openContents: 'GTInspector package linesOfCode + 
-((RPackageOrganizer default packages 
-	select: [:each | each name beginsWith: ''GT-InspectorExtensions'']) 
-		sum: #linesOfCode).')
+(GTInspector inspectorExtendingMethods sum: #numberOfLinesOfCode).')
 ]
