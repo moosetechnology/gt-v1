@@ -17,37 +17,26 @@ GTInspectorPostgresScenery class >> menuCommandOn: aBuilder [
 { #category : #setUp }
 GTInspectorPostgresScenery >> setUp [
 	self cleanWindows.
-	(GTPlayground openContents: '| conn |
-conn := PGConnection new.
-conn connectionArgs:
-		(PGConnectionArgs
-			hostname: ''localhost''
-			portno: 5432
-			databaseName: ''girba''
-			userName: ''girba''
-			password: '''').
-conn startup.
-conn').
+	(GTPlayground openContents: 'P3Client new url: ''psql://girba:@localhost:5432/girba''').
 	GTSnippets reset.
-	GTSnippets snippetAt: #'PGConnection-SQL' put: 'select 
+	GTSnippets snippetAt: #'P3Client-SQL' put: 'select 
 		city.name as cityname, 
 		city.population, 
 		country.continent 
 			from city 
 			left join country
 				on city.countrycode=country.code'.
-	GTSnippets snippetAt: #PGResultSet asClass put: 'models := (self dataRows
-		sortDescending: [ :x | x atName: #population ])
+	GTSnippets snippetAt: #P3Result asClass put: 'models := (self data
+		sortDescending: [ :x | x second ])
 		first: 20.
 builder := RTGrapher new.
-data := RTData new.
-data points: models.
-data barShape "color: (RTNIdentityNormalizer 
-		withCommand: [ :row | row atName: #continent ])".
-data barChartWithBarTitle: [ :row | 
-	row atName: #cityname ];
-	y: [ :row | row atName: #population ].
-builder add: data.
+rtData := RTData new.
+rtData points: models.
+"rtData barShape color: (RTNIdentityNormalizer withCommand: [ :row | row third ])."
+rtData 
+	barChartWithBarTitle: [ :row | row first ];
+	y: [ :row | row second ].
+builder add: rtData.
 builder axisY.
 builder axisX noTick; noLabel.
 builder extent: 400@300.
