@@ -18,11 +18,6 @@ Class {
 	#category : #'GT-Debugger-UI'
 }
 
-{ #category : #'settings api' }
-GTMoldableDebugger class >> alwaysOpenFullDebugger [
-	^ false
-]
-
 { #category : #testing }
 GTMoldableDebugger class >> availableAutomatically [
 	"Should this debugger be taken into account when looking for a debugger to handle an exception."
