@@ -8,7 +8,11 @@ MetacelloVersion >> gtInspectorProjectMapIn: composite [
 		when: [ self projects notEmpty ];
 		initializeView: [ RTMondrian new ];
 		painting: [ :view |
-			view shape label text: [:each | (each asString copyReplaceAll: 'ConfigurationOf' with: '') copyReplaceAll: ' ' with: String cr]; color: Color black.
+			view interaction popupText: ''. 
+			view shape label text: [:each | 
+				[(each asString copyReplaceAll: 'ConfigurationOf' with: '') copyReplaceAll: ' ' with: String cr]
+				on: Error
+				do: [:e | e asString ]]; color: Color black.
 			view nodes: ((self 
 							withDeepCollect: [ :each | each projects collect: #version ] 
 							as: Set) 	reject: #isNil).
