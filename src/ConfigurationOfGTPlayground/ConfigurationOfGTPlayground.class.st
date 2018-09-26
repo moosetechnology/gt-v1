@@ -192,6 +192,8 @@ ConfigurationOfGTPlayground >> development: spec [
 	spec for: #'pharo5.x' version: '3.0'.
 	
 	spec for: #'pharo6.x' version: '2.0-baseline'.
+	
+	spec for: #'pharo7.x' version: '2.0-baseline'.
 
 ]
 
