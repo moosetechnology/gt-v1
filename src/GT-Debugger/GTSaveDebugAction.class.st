@@ -46,6 +46,11 @@ GTSaveDebugAction >> executeAction [
 	self codePresentation flash
 ]
 
+{ #category : #actions }
+GTSaveDebugAction >> help [
+	^ 'Save the current method.'
+]
+
 { #category : #accessing }
 GTSaveDebugAction >> id [
 
