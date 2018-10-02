@@ -53,6 +53,11 @@ GTPPStepToGlamourDebugger >> executeAction [
 
 ]
 
+{ #category : #accessing }
+GTPPStepToGlamourDebugger >> help [
+	^ 'Resume execution until a Glamour browser is opened'
+]
+
 { #category : #testing }
 GTPPStepToGlamourDebugger >> isGlamourDebuggerActivePredicate [
 
