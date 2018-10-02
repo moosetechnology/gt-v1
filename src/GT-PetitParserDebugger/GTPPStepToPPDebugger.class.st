@@ -54,6 +54,11 @@ GTPPStepToPPDebugger >> executeAction [
 
 ]
 
+{ #category : #accessing }
+GTPPStepToPPDebugger >> help [ 
+	^ 'Open the PetitParser Debugger'
+]
+
 { #category : #'as yet unclassified' }
 GTPPStepToPPDebugger >> initialize [ 
 	super initialize.
