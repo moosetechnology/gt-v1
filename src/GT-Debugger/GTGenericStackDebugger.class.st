@@ -458,7 +458,8 @@ GTGenericStackDebugger >> selectionChanged: aContext [
 
 	UIManager default defer: [
 		(self browser paneNamed: #stack) presentations presentations ifNotEmpty: [ :p | 
-			self session interruptedProcess ifNotNil: [ p first update ] ] ]
+			self session ifNotNil: [ 
+				self session interruptedProcess ifNotNil: [ p first update ] ] ] ]
 ]
 
 { #category : #accessing }
