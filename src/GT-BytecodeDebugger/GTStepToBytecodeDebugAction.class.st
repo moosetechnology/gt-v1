@@ -43,6 +43,11 @@ GTStepToBytecodeDebugAction >> executeAction [
 ]
 
 { #category : #accessing }
+GTStepToBytecodeDebugAction >> help [
+	^ 'Step to a selected bytecode.'
+]
+
+{ #category : #accessing }
 GTStepToBytecodeDebugAction >> id [
 
 	^ GTStepToBytecodeDebugAction name

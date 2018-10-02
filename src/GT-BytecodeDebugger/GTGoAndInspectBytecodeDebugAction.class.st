@@ -36,6 +36,11 @@ GTGoAndInspectBytecodeDebugAction >> executeAction [
 ]
 
 { #category : #accessing }
+GTGoAndInspectBytecodeDebugAction >> help [
+	^ 'Inspect the currently selected bytecode.'
+]
+
+{ #category : #accessing }
 GTGoAndInspectBytecodeDebugAction >> id [
 
 	^ GTGoAndInspectBytecodeDebugAction name
