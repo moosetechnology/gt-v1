@@ -19,6 +19,7 @@ GTSUnitExampleWithProblematicSetUpTest class >> isUnitTest [
 
 { #category : #setup }
 GTSUnitExampleWithProblematicSetUpTest >> setUp [
+	super setUp.
 	42 messageThatIsNotUnderstood
 ]
 
