@@ -20,13 +20,13 @@ GTSUnitExampleWithSetUpAndTearDownTest class >> isUnitTest [
 	^ false
 ]
 
-{ #category : #setup }
+{ #category : #running }
 GTSUnitExampleWithSetUpAndTearDownTest >> setUp [
 	super setUp.
 	a := 42.
 ]
 
-{ #category : #setup }
+{ #category : #running }
 GTSUnitExampleWithSetUpAndTearDownTest >> tearDown [
 	a := nil.
 	super tearDown

@@ -20,7 +20,7 @@ GTSUnitExampleWithSetUpAndNoTearDownTest class >> isUnitTest [
 	^ false
 ]
 
-{ #category : #setup }
+{ #category : #running }
 GTSUnitExampleWithSetUpAndNoTearDownTest >> setUp [
 	super setUp.
 	a := 42.
