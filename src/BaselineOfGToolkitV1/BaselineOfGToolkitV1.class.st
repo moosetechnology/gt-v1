@@ -46,17 +46,17 @@ BaselineOfGToolkitV1 >> baseline: spec [
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
 			baseline: 'GTDebugger' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'AnnouncerCentricDebugger' with: [ 
-				spec repository: 'github://moosetechnology/AnnouncerCentricDebugger:pharo6/src' ];
+				spec repository: 'github://moosetechnology/AnnouncerCentricDebugger/src' ];
 			baseline: 'GTInspector' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'GTPlayground' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ]; 
+				spec repository: 'github://moosetechnology/gt-v1/src' ]; 
 			baseline: 'GTSpotter' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ]; 
+				spec repository: 'github://moosetechnology/gt-v1/src' ]; 
 			baseline: 'GTEventRecorder' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'Beacon' with: [ 
 				spec repository: 'github://pharo-project/pharo-beacon/repository' ]  ]
 ]

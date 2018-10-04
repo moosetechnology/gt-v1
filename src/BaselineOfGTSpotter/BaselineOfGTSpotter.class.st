@@ -16,7 +16,7 @@ BaselineOfGTSpotter >> baseline: spec [
 					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
 		spec 
 			baseline: 'GTEventRecorder' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ].
+				spec repository: 'github://moosetechnology/gt-v1/src' ].
 		spec 
 			package: 'GT-Spotter' with: [
 				spec requires: #('GlamourCore' ). ];

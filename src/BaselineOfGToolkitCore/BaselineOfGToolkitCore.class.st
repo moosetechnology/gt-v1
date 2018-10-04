@@ -10,11 +10,11 @@ BaselineOfGToolkitCore >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'GTInspectorCore' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'GTPlaygroundCore' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'GTSpotter' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'GTDebugger' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ] ].
+				spec repository: 'github://moosetechnology/gt-v1/src' ] ].
 ]

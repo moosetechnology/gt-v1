@@ -10,7 +10,7 @@ BaselineOfGTPlayground >> baseline: spec [
 	spec for: #'common' do: [
 		spec 
 			baseline: 'GTPlaygroundCore' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'GTInspector' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ] ]
+				spec repository: 'github://moosetechnology/gt-v1/src' ] ]
 ]
