@@ -9,8 +9,9 @@ BaselineOfGTInspector >> baseline: spec [
 	<baseline>
 	
 	spec for: #'common' do: [
-		spec 
-			baseline: 'GTInspectorCore';
+		spec  
+			baseline: 'GTInspectorCore' with: [ 
+				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
 			
 			project: 'Glamour' with: [
 				spec
