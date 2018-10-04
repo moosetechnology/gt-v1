@@ -30,7 +30,6 @@ BaselineOfGTInspector >> baseline: spec [
 					repository: 'http://smalltalkhub.com/mc/Moose/DeepTraverser/main/' ].
 		spec 
 			package: 'GT-InspectorExtensions-CoreRoassal' with: [
-				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2' ). ].
-		spec group: 'default' with: #('GTInspectorCore' 'GT-InspectorExtensions-CoreRoassal' 'DeepTraverser' ). ].
+				spec requires: #('GTInspectorCore' 'Glamour' 'Roassal2' ) ] ]
 
 ]
