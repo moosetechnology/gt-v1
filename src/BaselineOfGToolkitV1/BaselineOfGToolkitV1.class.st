@@ -29,11 +29,6 @@ BaselineOfGToolkitV1 >> baseline: spec [
 			package: 'GT-Tests-Release'.
 			
 		spec
-			project: 'AnnouncerCentricDebugger' with: [
-				spec
-					versionString: #'development';
-					className: 'ConfigurationOfAnnouncerCentricDebugger';
-					repository: 'http://www.smalltalkhub.com/mc/Moose/AnnouncerCentricDebugger/main' ];
 			project: 'Glamour' with: [
 				spec
 					versionString: #'development';
@@ -52,6 +47,8 @@ BaselineOfGToolkitV1 >> baseline: spec [
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
 			baseline: 'GTDebugger' with: [ 
 				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
+			baseline: 'AnnouncerCentricDebugger' with: [ 
+				spec repository: 'github://moosetechnology/AnnouncerCentricDebugger:pharo6/src' ];
 			baseline: 'GTInspector' with: [ 
 				spec repository: 'github://moosetechnology/gt-v1:pharo6/src' ];
 			baseline: 'GTPlayground' with: [ 
