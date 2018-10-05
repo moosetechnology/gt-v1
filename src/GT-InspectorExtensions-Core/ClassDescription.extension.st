@@ -1,7 +1,7 @@
-Extension { #name : #TClassDescription }
+Extension { #name : #ClassDescription }
 
 { #category : #'*GT-InspectorExtensions-Core' }
-TClassDescription >> gtInspectorUsersIn: composite [
+ClassDescription >> gtInspectorUsersIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite list 	
 		title: 'Users';

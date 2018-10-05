@@ -2,12 +2,12 @@ Extension { #name : #NewValueHolder }
 
 { #category : #'*GT-InspectorExtensions-Core' }
 NewValueHolder >> gtAnnouncer [
-	^ announcer
+	^ self announcer
 ]
 
 { #category : #'*GT-InspectorExtensions-Core' }
 NewValueHolder >> gtInspectorPresentationsIn: composite inContext: aGTInspector [
 	composite 
-		updateOn: Announcement from: announcer.
+		updateOn: Announcement from: self announcer.
 	super gtInspectorPresentationsIn: composite inContext: aGTInspector
 ]

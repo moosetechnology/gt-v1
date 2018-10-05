@@ -150,7 +150,7 @@ GTInspector class >> isGTInspectorEnabled [
 { #category : #settings }
 GTInspector class >> isStepRefreshEnabled [
 
-	^ EnabledStepRefreshStatus ifNil: [ false ]
+	^ EnabledStepRefreshStatus ifNil: [ true ]
 ]
 
 { #category : #settings }

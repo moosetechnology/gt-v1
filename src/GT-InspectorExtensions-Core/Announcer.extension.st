@@ -20,7 +20,7 @@ Announcer >> gtInspectorAnnouncementsIn: composite context: aGTContext [
 		send: #value;
 		showOnly: 50;
 		format: #gtDisplayString;
-		filterOn: [:text :each | Smalltalk compiler evaluate: '| date each | date := self key. each := self value. ', text for: each logged: false ];
+		filterOn: [:text :each | Smalltalk compiler receiver: each; evaluate: '| date each | date := self key. each := self value. ', text ];
 		updateOn: Announcement from: recordedAnnouncements gtAnnouncer;
 		act: [ :table | 
 			recordedAnnouncements removeAll.
@@ -33,16 +33,22 @@ Announcer >> gtInspectorAnnouncementsIn: composite context: aGTContext [
 Announcer >> gtInspectorSubscriptionsIn: composite [
 	<gtInspectorPresentationOrder: 30>
 	composite table
-		title: 'Subscriptions';
+		title: [ 'Subscriptions' translated ];
 		display: [ self subscriptions glmSubscriptions ];
 		when: [ self numberOfSubscriptions isZero not ];
+		beMultiple;
 		column: 'Subscriber' evaluated: [ :each | each subscriber asString ];
 		column: 'Announcement' evaluated: [ :each | each announcementClass printString ];
 		column: 'Kind' evaluated: [ :each | each class name ];
-		act: [ :table | 
-			self subscriptions reset.
-			table update ] icon: GLMUIThemeExtraIcons glamorousCancel entitled: 'Reset';
+		addAction: (GLMGenericAction new
+				action: [ :table | self subscriptions reset. table update ]; 
+				iconName: #glamorousCancel;
+				title: 'Reset All(!)' translated;
+				shouldShowTitle: true);
 		selectionAct: [ :table | 
-			self subscriptions remove: table selection.
-			table update ] entitled: 'Remove subscription'
+				table selection do: [ :eachSelection | 
+					self subscriptions remove: eachSelection ].
+				table update ] 
+			iconName: #glamorousCancel
+			entitled: 'Reset subscription(s)' translated
 ]

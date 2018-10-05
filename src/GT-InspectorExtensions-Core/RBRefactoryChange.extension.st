@@ -5,6 +5,5 @@ RBRefactoryChange >> gtInspectorPreviewIn: composite [
 	<gtInspectorPresentationOrder: 0>
 	composite diff
 		title: 'Changes';
-		display: [ { self oldVersionTextToDisplay . self textToDisplay } ];
-		act: [ self execute ] icon: GLMUIThemeExtraIcons glamorousPlay entitled: 'Execute'
+		display: [ { self oldVersionTextToDisplay . self textToDisplay } ]
 ]
