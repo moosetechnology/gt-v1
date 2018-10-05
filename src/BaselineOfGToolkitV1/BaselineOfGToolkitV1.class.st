@@ -29,22 +29,15 @@ BaselineOfGToolkitV1 >> baseline: spec [
 			package: 'GT-Tests-Release'.
 			
 		spec
-			project: 'Glamour' with: [
-				spec
-					versionString: #'development';
-					className: 'ConfigurationOfGlamour';
-					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'PetitParser' with: [
 				spec
 					versionString: #'development';
 					className: 'ConfigurationOfPetitParser';
 					repository: 'http://www.smalltalkhub.com/mc/Moose/PetitParser/main' ];
-			project: 'Roassal2' with: [
-				spec
-					className: 'ConfigurationOfRoassal2';
-					file: 'ConfigurationOfRoassal2';
-					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
+			baseline: 'Roassal2' with: [ 
+				spec repository: 'github://ObjectProfile/Roassal2/src' ];
+			baseline: 'Glamour' with: [ 
+				spec repository: 'github://moosetechnology/Glamour/src' ];
 			baseline: 'GTDebugger' with: [ 
 				spec repository: 'github://moosetechnology/gt-v1/src' ];
 			baseline: 'AnnouncerCentricDebugger' with: [ 

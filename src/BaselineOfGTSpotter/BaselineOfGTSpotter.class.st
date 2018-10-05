@@ -8,13 +8,9 @@ Class {
 BaselineOfGTSpotter >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
-		spec 
-			project: 'GlamourCore' with: [
-				spec
-					className: #ConfigurationOfGlamourCore;
-					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
-		spec 
+		spec
+			baseline: 'GlamourCore' with: [ 
+				spec repository: 'github://moosetechnology/Glamour/src' ];
 			baseline: 'GTEventRecorder' with: [ 
 				spec repository: 'github://moosetechnology/gt-v1/src' ].
 		spec 

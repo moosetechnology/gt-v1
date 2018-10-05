@@ -11,18 +11,11 @@ BaselineOfGTInspector >> baseline: spec [
 	spec for: #'common' do: [
 		spec  
 			baseline: 'GTInspectorCore' with: [ 
-				spec repository: 'github://moosetechnology/gt-v1/src' ];
-			
-			project: 'Glamour' with: [
-				spec
-					className: #ConfigurationOfGlamour;
-					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ];
-			project: 'Roassal2' with: [
-				spec
-					className: #ConfigurationOfRoassal2;
-					versionString: #'development';
-					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ];
+				spec repository: 'github://moosetechnology/gt-v1/src' ]; 
+			baseline: 'Glamour' with: [ 
+				spec repository: 'github://moosetechnology/Glamour/src' ];
+			baseline: 'Roassal2' with: [ 
+				spec repository: 'github://ObjectProfile/Roassal2/src' ];
 			project: 'DeepTraverser' with: [
 				spec
 					className: #ConfigurationOfDeepTraverser;
