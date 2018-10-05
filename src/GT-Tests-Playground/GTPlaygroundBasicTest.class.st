@@ -10,16 +10,17 @@ Class {
 
 { #category : #running }
 GTPlaygroundBasicTest >> setUp [
-
+	super setUp.
 	playground := GTPlayground new.
 ]
 
 { #category : #running }
 GTPlaygroundBasicTest >> tearDown [
-
 	window ifNotNil: [ window delete ].
 	window := nil.
-	playground := nil
+	(RPackageOrganizer default packageNamed: 'GTMockTests' ifAbsent: [ "No package to delete" ]) ifNotNil: #removeFromSystem.
+	playground := nil.
+	super tearDown
 ]
 
 { #category : #running }
@@ -42,48 +43,46 @@ GTPlaygroundBasicTest >> testAccessBindings [
 
 { #category : #running }
 GTPlaygroundBasicTest >> testPageActionsIn [
-
 	| actions selector action |
-	selector := playground class 
-		compile: 'mockMethodPageAction
-	<pageActionOrder: 100>
+	selector := playground class
+		compile:
+			'mockMethodPageAction
+	<pageActionOrder: 10>
 	^ GLMGenericAction new
 		action: [ :presentation | self inform: ''page action works'' ];
 		iconNamed: #abstract;
-		title: ''A mock page action''' 
+		title: ''A mock page action'''
 		classified: '*GTMockTests'.
 		
-	self assert: selector notNil.
+	[ self assert: selector notNil.
 	window := playground openOn: (GTPlayPage new saveContent: 'a:=1. b:=a+1').
 	actions := playground pageActions.
 	self deny: actions size isZero.
 	action := actions detect: [ :eachAction | eachAction title = 'A mock page action' ].
-	self deny: action isNil.
-	playground class removeSelector: selector.
-	'GTMockTests' asPackage removeFromSystem.
+	self deny: action isNil ]
+		ensure: [ playground class removeSelector: selector ]
 ]
 
 { #category : #running }
 GTPlaygroundBasicTest >> testPlaygroundActionsIn [
-
 	| actions selector action |
-	selector := playground class 
-		compile: 'mockMethodPlaygrounAction
-	<playgroundActionOrder: 200>
+	selector := playground class
+		compile:
+			'mockMethodPlaygrounAction
+	<playgroundActionOrder: 100>
 	^ GLMGenericAction new
 		action: [ :presentation | self inform: ''playground action works'' ];
 		iconNamed: #abstract;
-		title: ''A mock playground action''' 
+		title: ''A mock playground action'''
 		classified: '*GTMockTests'.
 		
-	self assert: selector notNil.
+	[ self assert: selector notNil.
 	window := playground openOn: (GTPlayPage new saveContent: 'a:=1. b:=a+1').
 	actions := playground playgroundActions.
 	self deny: actions size isZero.
 	action := actions detect: [ :eachAction | eachAction title = 'A mock playground action' ].
-	self deny: action isNil.
-	playground class removeSelector: selector.
-	'GTMockTests' asPackage removeFromSystem.
+	self deny: action isNil ]
+		ensure: [ playground class removeSelector: selector ]
 ]
 
 { #category : #running }
