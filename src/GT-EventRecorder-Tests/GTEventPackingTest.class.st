@@ -50,12 +50,21 @@ GTEventPackingTest >> setUp [
 	event1 := GTDummyEvent new data: 'string'.
 	event2 := GTDummyEvent new data: 42.
 	collector := GTEventCollector new.
-	collector add: event1; add: event2.
+	collector
+		add: event1;
+		add: event2.
 	collector category: #category1.
 	packing := self packingClass new.
 	storage := FileSystem memory.
-	file := storage workingDirectory / 'data'.
+	file := (storage workingDirectory / 'data')
+		ensureCreateFile;
+		yourself
+]
 
+{ #category : #running }
+GTEventPackingTest >> tearDown [
+	(storage workingDirectory / 'data') ensureDelete.
+	super tearDown
 ]
 
 { #category : #'tests-packing' }
@@ -86,8 +95,7 @@ GTEventPackingTest >> testPack [
 { #category : #'tests-packing' }
 GTEventPackingTest >> testUnpackBinaryBinaryStream [
 	self assertBundle.
-	file writeStreamDo: [ :aStream | 
-		aStream binary.
+	file binaryWriteStreamDo: [ :aStream | 
 		aStream nextPutAll: bundle data ].
 	file binaryReadStreamDo: [ :aStream | 
 		announcement := packing unpack: aStream contents ].
@@ -98,17 +106,16 @@ GTEventPackingTest >> testUnpackBinaryBinaryStream [
 { #category : #'tests-packing' }
 GTEventPackingTest >> testUnpackBinaryUnspecifiedStream [
 	self assertBundle.
-	file writeStreamDo: [ :aStream | 
-		aStream binary.
+	file binaryWriteStreamDo: [ :aStream | 
 		aStream nextPutAll: bundle data ].
-	announcement := packing unpack: file contents.
+	announcement := packing unpack: (file binaryReadStreamDo: [ :stream | stream upToEnd ]).
 	self assertUnpackedData.
 ]
 
 { #category : #'tests-packing' }
 GTEventPackingTest >> testUnpackUnspecifiedBinaryStream [
 	self assertBundle.
-	file writeStreamDo: [ :aStream | 
+	file binaryWriteStreamDo: [ :aStream | 
 		aStream nextPutAll: bundle data ].
 	file binaryReadStreamDo: [ :aStream | 
 		announcement := packing unpack: aStream contents ].
@@ -119,8 +126,8 @@ GTEventPackingTest >> testUnpackUnspecifiedBinaryStream [
 { #category : #'tests-packing' }
 GTEventPackingTest >> testUnpackUnspecifiedUnspecifiedStream [
 	self assertBundle.
-	file writeStreamDo: [ :aStream | 
+	file binaryWriteStreamDo: [ :aStream | 
 		aStream nextPutAll: bundle data ].
-	announcement := packing unpack: file contents.
+	announcement := packing unpack: (file binaryReadStreamDo: [ :stream | stream upToEnd ]).
 	self assertUnpackedData.
 ]
