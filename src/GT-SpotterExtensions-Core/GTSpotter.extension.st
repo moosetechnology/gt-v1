@@ -259,9 +259,9 @@ GTSpotter >> spotterForReferencesFor: aStep [
 	<spotterOrder: 32>
 	
 	aStep listProcessor
-		title: 'References' translated;
+		title: 'References';
 		filter: GTNullFilter item: [ :filter :context |
-			self class environment at: context textTrimmed asSymbol ifPresent: [ :class | 
+			self class environment at: context textTrimmed ifPresent: [ :class |  
 				SystemNavigation default allReferencesTo: class binding do: filter ] ];
 		keyBinding: $n shift meta;
 		itemName: [ :method | method gtDisplayString ]
@@ -328,7 +328,7 @@ GTSpotter >> spotterImplementorsFor: aStep [
 	aStep listProcessor
 		title: 'Implementors';
 		filter: GTFilterImplementor item: [ :filter :context | 
-			SystemNavigation default allBehaviorsDo: [ :class | class methodsDo: filter ] ];
+			SystemNavigation default allBehaviorsDo: [ :class | class localMethods do: filter ] ];
 		keyBinding: $m meta;
 		wantsToDisplayOnEmptyQuery: false
 ]
@@ -342,6 +342,21 @@ GTSpotter >> spotterStfxFor: aStep [
 		filter: GTNullFilter item: [ :filter :context | 
 			(context textTrimmed beginsWith: 'http://ws.stfx.eu')
 				ifTrue: [ GTPlayPage loadFromPublishUrl: context textTrimmed thenDo: filter ] ]
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+GTSpotter >> spotterWindowsFor: aStep [
+	<spotterOrder: 5>
+
+	aStep listProcessor
+			title: 'Windows';
+			candidatesLimit: 10;
+			allCandidates: [ World submorphs 	select: [ :window | window isKindOf: SystemWindow ] ];
+			itemName: [ :window | '{1} [{2}]' format: { window  label. window className } ];
+			itemIcon: [ :window | window taskbarIcon ];
+			sort:  [ :window1 :window2 | window1 label < window2 label ];
+			filter: GTFilterSubstring;
+		wantsToDisplayOnEmptyQuery: true
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }

@@ -46,6 +46,7 @@ GTSpotter class >> dontShowPreview [
 
 { #category : #example }
 GTSpotter class >> exampleInWindow [
+	<sampleInstance>
 	
 	^ GTSpotterMorph new
 		extent: 400@500;
@@ -57,7 +58,7 @@ GTSpotter class >> exampleInWindow [
 { #category : #example }
 GTSpotter class >> exampleMC [
 	"self exampleMC"
-	
+	<sampleInstance>
 	^ GTSpotterMorph new
 		extent: 400@500;
 		doLayout;
@@ -67,6 +68,7 @@ GTSpotter class >> exampleMC [
 
 { #category : #example }
 GTSpotter class >> exampleSpotterWithoutMorph [
+	<sampleInstance>
 	<gtExample>
 	<label: 'A GTSpotter without UI'>
 	
@@ -75,6 +77,7 @@ GTSpotter class >> exampleSpotterWithoutMorph [
 
 { #category : #example }
 GTSpotter class >> exampleWithPreview [
+	<sampleInstance>
 	^ GTSpotterMorph new
 		extent: (World width / 2.5 @ (World height / 1.5)) asIntegerPoint;
 		spotterModel: self new;
@@ -84,7 +87,7 @@ GTSpotter class >> exampleWithPreview [
 
 { #category : #example }
 GTSpotter class >> exampleWorldMenu [
-	
+	<sampleInstance>
 	^ GTSpotterMorph new
 		extent: 400@500;
 		doLayout;
@@ -131,8 +134,9 @@ GTSpotter class >> menuCommandOn: aBuilder [
 	(aBuilder item: #Spotter)
 		action: [ GTSpotterGlobalShortcut openGlobalSpotter ];
 		keyText: 'Shift + Enter';
-		order: 0.7;
-		parent: #MostUsedTools;
+		order: 50;
+		parent: #Tools;
+		help: 'Search tool to explore Pharo system effectively.';
 		iconName: #smallFindIcon
 ]
 
@@ -261,6 +265,15 @@ GTSpotter >> defaultPagerModel [
 { #category : #'accessing-defaults' }
 GTSpotter >> defaultStep [
 	^ GTSpotterStep new
+]
+
+{ #category : #'actions api' }
+GTSpotter >> doIt [
+	| result |
+	Smalltalk compiler
+		silentlyDo: [ result := Smalltalk compiler evaluate: text string trimBoth ]
+		exceptionDo: [:ex | ^ex ]. 
+	"self exitDueTo: #doIt"
 ]
 
 { #category : #accessing }
@@ -400,6 +413,16 @@ GTSpotter >> initialize [
 	super initialize.
 	
 	processorsFilter := GTSpotterSettingsProcessorFilter new
+]
+
+{ #category : #'actions api' }
+GTSpotter >> inspectIt [
+	| result |
+	Smalltalk compiler
+		silentlyDo: [ result := Smalltalk compiler evaluate: text string trimBoth ]
+		exceptionDo: [ :ex | ^ex  ].
+	result inspect.
+	self exitDueTo: #inspectIt 
 ]
 
 { #category : #testing }

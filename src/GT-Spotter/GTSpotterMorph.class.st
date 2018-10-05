@@ -7,7 +7,6 @@ Class {
 		'paneBrick',
 		'spotterModel',
 		'autoHide',
-		'privacyAgreementNotificationBrick',
 		'processorKeyBindings'
 	],
 	#category : #'GT-Spotter-UI'
@@ -35,27 +34,29 @@ GTSpotterMorph >> autoHide: aBoolean [
 
 { #category : #initialization }
 GTSpotterMorph >> bindingDictionnary [
-	^ {Character escape -> [ self spotterModel exitDueTo: #keyPressedEscape ].
-	$w meta -> [ self spotterModel exitDueTo: #keyPressedW ].
-	$p meta -> [ self togglePreview ].
-	Character arrowUp -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
-	Character arrowDown -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
-	Character arrowUp meta -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
-	Character arrowDown meta -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
-	Character arrowUp shift -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ].
-	Character arrowDown shift -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ].
-	Character arrowUp meta shift -> [ self selectPreviousCategory ].
-	Character arrowDown meta shift -> [ self selectNextCategory ].
-	Character arrowRight meta -> [ self diveInDueTo: #keyPressed ].
-	Character arrowLeft meta -> [ self diveOut ].
-	Character arrowRight meta shift -> [ self diveInCategoryDueTo: #keyPressed ].
-	Character arrowLeft meta shift -> [ self diveOut ].
-	Character arrowUp alt -> [ self stepScrollPageUp ].
-	Character arrowDown alt -> [ self stepScrollPageDown ].
-	Character pageUp -> [ self stepScrollPageUp ].
-	Character pageDown -> [ self stepScrollPageDown ].
-	Character cr asKeyCombination -> [ self actDueTo: #keyPressed ].
-	$p meta shift -> [ self exportAsPNGSilently ]}
+	^ {(Character escape -> [ self spotterModel exitDueTo: #keyPressedEscape ]).
+	($w meta -> [ self spotterModel exitDueTo: #keyPressedW ]).
+	($p meta -> [ self togglePreview ]).
+	($i meta -> [ self spotterModel inspectIt ]).
+	($d meta -> [ self spotterModel doIt ]). 
+	(Character arrowUp -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ]).
+	(Character arrowDown -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ]).
+	(Character arrowUp meta -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ]).
+	(Character arrowDown meta -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ]).
+	(Character arrowUp shift -> [ self selectPreviousCandidateDueTo: #keyPressedArrowUp ]).
+	(Character arrowDown shift -> [ self selectNextCandidateDueTo: #keyPressedArrowDown ]).
+	(Character arrowUp meta shift -> [ self selectPreviousCategory ]).
+	(Character arrowDown meta shift -> [ self selectNextCategory ]).
+	(Character arrowRight meta -> [ self diveInDueTo: #keyPressed ]).
+	(Character arrowLeft meta -> [ self diveOut ]).
+	(Character arrowRight meta shift -> [ self diveInCategoryDueTo: #keyPressed ]).
+	(Character arrowLeft meta shift -> [ self diveOut ]).
+	(Character arrowUp alt -> [ self stepScrollPageUp ]).
+	(Character arrowDown alt -> [ self stepScrollPageDown ]).
+	(Character pageUp -> [ self stepScrollPageUp ]).
+	(Character pageDown -> [ self stepScrollPageDown ]).
+	(Character cr asKeyCombination -> [ self actDueTo: #keyPressed ]).
+	($p meta shift -> [ self exportAsPNGSilently ])}
 ]
 
 { #category : #accessing }
@@ -156,8 +157,7 @@ GTSpotterMorph >> initialize [
 	
 	self breadcrumbBrick: self newBreadcrumbBrick.
 	self paneBrick: self newPaneBrick.
-	self class environment at: #GTSpotterEventCollector ifPresent: [ 
-		GTSpotter wasOpened ifFalse: [ self privacyAgreementNotificationBrick: self newPrivacyAgreementNotificationBrick ] ].
+
 	
 	
 	
@@ -182,12 +182,6 @@ GTSpotterMorph >> newBreadcrumbBrick [
 GTSpotterMorph >> newPaneBrick [
 
 	^ GTSpotterPaneBrick new
-]
-
-{ #category : #'instance creation' }
-GTSpotterMorph >> newPrivacyAgreementNotificationBrick [
-
-	^ GLMPrivacyAgreementBrick new
 ]
 
 { #category : #'events-processing' }
@@ -295,27 +289,6 @@ GTSpotterMorph >> paneBrick: aBrick [
 	self themer spotterThemer spotterPaneStyleFor: paneBrick.
 
 	self addBrickBack: paneBrick
-]
-
-{ #category : #accessing }
-GTSpotterMorph >> privacyAgreementNotificationBrick [
-	^ privacyAgreementNotificationBrick
-]
-
-{ #category : #accessing }
-GTSpotterMorph >> privacyAgreementNotificationBrick: aBrick [
-	
-	privacyAgreementNotificationBrick ifNotNil: [self removeBrick: privacyAgreementNotificationBrick].
-	privacyAgreementNotificationBrick := aBrick.
-	
-	self themer spotterThemer privacyAgreementNotificationStyleFor: privacyAgreementNotificationBrick.
-	privacyAgreementNotificationBrick layout widthDependency: self.
-	privacyAgreementNotificationBrick width: [ self width - (self paneBrick isPreviewShown 
-			ifFalse: [self themer spotterThemer previewArrowWidth - (2*self themer spotterThemer previewBorderWidth)] 
-			ifTrue: [0])].
-	
-	privacyAgreementNotificationBrick settingsButtonBrick when: #onClicked send: #closeSpotter to: self.
-	self addBrickBack: privacyAgreementNotificationBrick
 ]
 
 { #category : #private }

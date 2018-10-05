@@ -1,7 +1,7 @@
-Extension { #name : #TBehavior }
+Extension { #name : #Behavior }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterClassInstanceVariablesFor: aStep [
+Behavior >> spotterClassInstanceVariablesFor: aStep [
 	<spotterOrder: 25>
 	self isTrait
 		ifTrue: [ ^ self ].
@@ -13,7 +13,7 @@ TBehavior >> spotterClassInstanceVariablesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterCompositionFor: aStep [
+Behavior >> spotterCompositionFor: aStep [
 	<spotterOrder: 25>
 	aStep listProcessor
 			title: 'Composing traits';
@@ -23,7 +23,7 @@ TBehavior >> spotterCompositionFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterInstanceVariablesFor: aStep [
+Behavior >> spotterInstanceVariablesFor: aStep [
 	<spotterOrder: 20>
 	self isTrait
 		ifTrue: [ ^ self ].
@@ -35,7 +35,7 @@ TBehavior >> spotterInstanceVariablesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterSubclassesFor: aStep [
+Behavior >> spotterSubclassesFor: aStep [
 	<spotterOrder: 50>
 	aStep listProcessor
 			title: 'All subclasses';
@@ -45,7 +45,7 @@ TBehavior >> spotterSubclassesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterSuperclassesFor: aStep [
+Behavior >> spotterSuperclassesFor: aStep [
 	<spotterOrder: 40>
 	aStep listProcessor
 			title: 'All superclasses';
@@ -55,7 +55,7 @@ TBehavior >> spotterSuperclassesFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterTraitUsersFor: aStep [
+Behavior >> spotterTraitUsersFor: aStep [
 	<spotterOrder: 20>
 	self isTrait ifFalse: [ ^ self ].
 	aStep listProcessor
@@ -66,7 +66,7 @@ TBehavior >> spotterTraitUsersFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterUsedSlotsFor: aStep [
+Behavior >> spotterUsedSlotsFor: aStep [
 	<spotterOrder: 70>
 	aStep listProcessor
 			title: 'Special Slots';
@@ -76,7 +76,7 @@ TBehavior >> spotterUsedSlotsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TBehavior >> spotterUsedTraitsFor: aStep [
+Behavior >> spotterUsedTraitsFor: aStep [
 	<spotterOrder: 60>
 	aStep listProcessor
 			title: 'Uses Traits';
@@ -86,7 +86,7 @@ TBehavior >> spotterUsedTraitsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
+Behavior >> withMethodsReferTo: aLiteral do: aBlock [
 	| specialIndex |
 	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
 	self selectorsAndMethodsDo: [ :selector :method | 
@@ -96,7 +96,7 @@ TBehavior >> withMethodsReferTo: aLiteral do: aBlock [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core-private' }
-TBehavior >> withThorougMethodsReferTo: aLiteral do: aBlock [
+Behavior >> withThorougMethodsReferTo: aLiteral do: aBlock [
 	| specialIndex |
 	specialIndex := Smalltalk specialSelectorIndexOrNil: aLiteral.
 	self selectorsAndMethodsDo: [ :selector :method | 

@@ -9,6 +9,12 @@ GTFilterImplementor class >> gtListFilter [
 	^ GTFilterSubstring new
 ]
 
+{ #category : #private }
+GTFilterImplementor >> applyFilterWithQuery [ 
+	super applyFilterWithQuery.
+	self filteredItems: (self filteredItems reject: [:each | each isFromTrait]).
+]
+
 { #category : #public }
 GTFilterImplementor >> gtListFilter [
 	^ GTFilterSubstring new

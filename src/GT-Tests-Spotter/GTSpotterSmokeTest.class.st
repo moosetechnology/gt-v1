@@ -14,11 +14,11 @@ GTSpotterSmokeTest >> setUp [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 GTSpotterSmokeTest >> tearDown [
-	super tearDown.
-	
-	window ifNotNil: [ window delete ]
+		
+	window ifNotNil: [ window delete ].
+	super tearDown
 ]
 
 { #category : #tests }

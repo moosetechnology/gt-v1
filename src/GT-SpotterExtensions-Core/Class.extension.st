@@ -1,12 +1,29 @@
-Extension { #name : #TClass }
+Extension { #name : #Class }
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterActDefault [
+Class >> definitionForSpotter [
+	| str |
+	str := WriteStream on: String new.
+	str nextPutAll: self definitionForNautilus.
+	str cr; cr.
+	str nextPut: $".
+	str nextPutAll: 'Hierarchy: '.
+	str nextPutAll: ($> join: self allSuperclasses reversed).
+	str cr; cr.
+	self hasComment ifTrue: [ 
+		str nextPutAll: self comment.
+	].	
+	str nextPut: $".
+	^ str contents
+]
+
+{ #category : #'*GT-SpotterExtensions-Core' }
+Class >> spotterActDefault [
 	^ self browse
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterClassMethodsFor: aStep [
+Class >> spotterClassMethodsFor: aStep [
 	<spotterOrder: 15>
 	aStep listProcessor
 			title: 'Class methods';
@@ -16,7 +33,7 @@ TClass >> spotterClassMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterMethodsFor: aStep [
+Class >> spotterMethodsFor: aStep [
 	<spotterOrder: 10>
 	aStep listProcessor
 			title: 'Instance methods';
@@ -26,7 +43,7 @@ TClass >> spotterMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterPreviewCodeIn: aComposite [
+Class >> spotterPreviewCodeIn: aComposite [
 	<spotterPreview: 10>
 	aComposite pharoMethod
 		title: [self name];
@@ -38,7 +55,7 @@ TClass >> spotterPreviewCodeIn: aComposite [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterReferenceFor: aStep [
+Class >> spotterReferenceFor: aStep [
 	<spotterOrder: 30>
 	aStep listProcessor
 			title: 'References';
@@ -48,7 +65,7 @@ TClass >> spotterReferenceFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterSuperClassMethodsFor: aStep [
+Class >> spotterSuperClassMethodsFor: aStep [
 	<spotterOrder: 16>
 	|superclasses|
 	superclasses := self class withAllSuperclasses select: #isMeta.
@@ -59,7 +76,7 @@ TClass >> spotterSuperClassMethodsFor: aStep [
 ]
 
 { #category : #'*GT-SpotterExtensions-Core' }
-TClass >> spotterSuperMethodsFor: aStep [
+Class >> spotterSuperMethodsFor: aStep [
 	<spotterOrder: 11>
 	aStep listProcessor
 			title: 'Super instance methods';
