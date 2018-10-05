@@ -8,12 +8,9 @@ Class {
 BaselineOfGTInspectorCore >> baseline: spec [
 	<baseline>
 	spec for: #'common' do: [
-		spec 
-			project: 'GlamourCore' with: [
-				spec
-					className: #ConfigurationOfGlamourCore;
-					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main/' ].
+		spec  
+			baseline: 'GlamourCore' with: [ 
+				spec repository: 'github://moosetechnology/Glamour:pharo6/src' ].
 		spec 
 			package: 'GT-Inspector' with: [
 				spec requires: #('GlamourCore' ). ];
