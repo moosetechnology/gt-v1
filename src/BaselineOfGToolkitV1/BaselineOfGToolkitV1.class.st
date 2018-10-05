@@ -25,7 +25,7 @@ BaselineOfGToolkitV1 >> baseline: spec [
 			package: 'GT-Tools' with: [
 				spec requires: #( 'Glamour') ];
 			package: 'Glamour-Morphic-Theme' with: [
-				spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
+				spec repository: 'github://moosetechnology/Glamour:pharo6/src' ];
 			package: 'GT-Tests-Release'.
 			
 		spec
