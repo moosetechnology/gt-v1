@@ -6,7 +6,7 @@ I receive a instance to a full debugger that I'll open if the user continues deb
 "
 Class {
 	#name : #GTSpecPreDebugWindow,
-	#superclass : #DynamicComposableModel,
+	#superclass : #DynamicComposablePresenter,
 	#instVars : [
 		'debugger',
 		'title',
@@ -26,6 +26,7 @@ GTSpecPreDebugWindow class >> spec [
 GTSpecPreDebugWindow >> actionsForPragmas: aSymbolsCollection [
 
 	^ (self session class debuggingActionsForPragmas: aSymbolsCollection for: self debugger)
+				
 ]
 
 { #category : #'building widgets' }
@@ -38,22 +39,15 @@ GTSpecPreDebugWindow >> buildButtonWidgetsSpecForActions: aCollection [
 				add: action specId;
 			 	add: action specModel;
 				yourself ]
+	
 ]
 
 { #category : #'building widgets' }
 GTSpecPreDebugWindow >> buildNotifierPaneWidgetsSpec [
-	"This method has a hack to work both in Pharo 6.1 and Pharo 7, as models in Spec were renamed."
+	
 	^ self message 
-		ifNil: [ {#stackPane. 
-			Smalltalk globals 
-				at: #MultiColumnListPresenter 
-				ifPresent: [ #MultiColumnListPresenter ] 
-				ifAbsent: [ #MultiColumnListModel ] } ] 
-		ifNotNil: [ {#codePane. 
-			Smalltalk globals 
-				at: #TextPresenter 
-				ifPresent: [ #TextPresenter ] 
-				ifAbsent: [ #TextModel ] } ]
+		ifNil: [ {#stackPane. #MultiColumnListPresenter} ] 
+		ifNotNil: [ {#codePane. #TextPresenter} ]
 ]
 
 { #category : #actions }
@@ -71,6 +65,7 @@ GTSpecPreDebugWindow >> clearWidget [
 	self needRebuild: false.
 	
  	self buildWithSpecLayout: self emptyLayout	
+
 ]
 
 { #category : #actions }
@@ -91,7 +86,7 @@ GTSpecPreDebugWindow >> columnsFor: aContext [
 { #category : #'building widgets' }
 GTSpecPreDebugWindow >> createButtonWidgetsForActions: aCollection [
 
-	self instantiateModels: (self buildButtonWidgetsSpecForActions: aCollection).
+	self instantiatePresenters: (self buildButtonWidgetsSpecForActions: aCollection).
 	aCollection do: [ :action | 
 		self initializeButtonWidget: (self widgets at: action specId) forAction: action ]
 ]
@@ -99,7 +94,7 @@ GTSpecPreDebugWindow >> createButtonWidgetsForActions: aCollection [
 { #category : #'building widgets' }
 GTSpecPreDebugWindow >> createNotifierPaneWidgets [
 
-	self instantiateModels: self buildNotifierPaneWidgetsSpec.
+	self instantiatePresenters: self buildNotifierPaneWidgetsSpec.
 	(self widgets keys includes: #codePane) ifTrue: [ 
 		(self widgets at: #codePane) beForText.
 	].
@@ -323,7 +318,7 @@ GTSpecPreDebugWindow >> stackPane [
 	^widgets at: #stackPane
 ]
 
-{ #category : #accessing }
+{ #category : #api }
 GTSpecPreDebugWindow >> title [
 
 	^ title 

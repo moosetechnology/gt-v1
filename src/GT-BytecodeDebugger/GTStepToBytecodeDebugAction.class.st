@@ -15,7 +15,7 @@ GTStepToBytecodeDebugAction class >> gtBytecodeDebuggerActionFor: aDebugger [
 			icon: GLMUIThemeExtraIcons glamorousPlay
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GTStepToBytecodeDebugAction >> appliesToDebugger: aDebugger [
 
 	^ (aDebugger session isContextPostMortem: aDebugger currentContext) not and: [ 

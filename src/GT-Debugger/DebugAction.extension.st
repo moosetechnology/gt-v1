@@ -15,10 +15,31 @@ DebugAction >> asGlamourAction [
 ]
 
 { #category : #'*GT-Debugger' }
+DebugAction >> asMenuRegistrationIn: aBuilder [
+	| item |
+	item := (aBuilder item: self specId)
+		label: self label, (self keyText ifNil: [ '' ] ifNotNil: [ '  (', self keyText, ')' ] );
+		setBalloonText: self help;
+		icon: self icon;
+		enabled: self enabled;
+		order: self order asFloat;
+		target: self; 
+		selector: #execute;
+		arguments: #().
+	self needsSeparatorAfter 
+		ifTrue: [ item withSeparatorAfter ].
+	^ item
+
+]
+
+{ #category : #'*GT-Debugger' }
+DebugAction >> specId [
+
+	^ (self id, 'SpecId') asSymbol
+]
+
+{ #category : #'*GT-Debugger' }
 DebugAction >> specModel [
-	"This method has a hack to work both in Pharo 6.1 and Pharo 7, as models in Spec were renamed."
-	^ Smalltalk globals 
-		at: #GTDebugActionButton 
-		ifPresent: [ #GTDebugActionButton ] 
-		ifAbsent: [ #SpecDebugActionButton ]
+
+	^ #GTDebugActionButton
 ]

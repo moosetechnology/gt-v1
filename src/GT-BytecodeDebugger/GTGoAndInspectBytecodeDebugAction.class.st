@@ -1,5 +1,5 @@
 "
-I am a debugging action that inspects the currently selected bytecode.
+I am a debugging action that inspect the currently selected bytecode.
 
 "
 Class {

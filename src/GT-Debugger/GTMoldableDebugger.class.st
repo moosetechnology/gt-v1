@@ -12,16 +12,10 @@ Class {
 	#classTraits : 'GTBrowsingActions classTrait',
 	#classVars : [
 		'EnableDebuggerWindowDistinctColor',
-		'EnableStackColoring',
-		'GTDebuggerEnabledStatus'
+		'EnableStackColoring'
 	],
 	#category : #'GT-Debugger-UI'
 }
-
-{ #category : #'settings api' }
-GTMoldableDebugger class >> alwaysOpenFullDebugger [
-	^ false
-]
 
 { #category : #testing }
 GTMoldableDebugger class >> availableAutomatically [
@@ -76,12 +70,6 @@ GTMoldableDebugger class >> helpClass [
 	self subclassResponsibility
 ]
 
-{ #category : #'settings api' }
-GTMoldableDebugger class >> isGTDebuggerEnabled [
-
-	^ GTDebuggerEnabledStatus ifNil: [ GTDebuggerEnabledStatus := Smalltalk tools debugger = self ]
-]
-
 { #category : #'instance creation api' }
 GTMoldableDebugger class >> on: aDebugSession [
 
@@ -125,20 +113,6 @@ GTMoldableDebugger class >> patchworkUIThemeColor [
 { #category : #accessing }
 GTMoldableDebugger class >> sessionClass [
 	self subclassResponsibility
-]
-
-{ #category : #'settings api' }
-GTMoldableDebugger class >> setGTDebuggerEnabledStatus: aBoolean [
-	| oldStatus |
-	
-	oldStatus := self isGTDebuggerEnabled.
-	GTDebuggerEnabledStatus := aBoolean.
-	oldStatus ~= GTDebuggerEnabledStatus ifTrue: [ 
-		GTDebuggerEnabledStatus 
-			ifTrue: [ self register ]
-			ifFalse: [ SpecDebugger registerToolsOn: Smalltalk tools ] ]
-	
-	
 ]
 
 { #category : #private }
@@ -392,9 +366,13 @@ GTMoldableDebugger >> updateBrowser [
 	| browserPane session |
 	
 	session := self session.
+	session interruptedContext ifNil: [ 
+		self close.
+		UIManager default inform: 'End of debugged execution'.
+		 ] ifNotNil: [  
 	browserPane := self browser pane.
 	(browserPane port: #entity) silentValue: nil.
-	(browserPane port: #entity) value: session.
+	(browserPane port: #entity) value: session. ]
 ]
 
 { #category : #updating }

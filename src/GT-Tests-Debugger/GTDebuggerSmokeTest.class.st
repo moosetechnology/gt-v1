@@ -66,6 +66,7 @@ GTDebuggerSmokeTest >> initializeSessionForContext: aContext withStepBlock: aBlo
 
 { #category : #running }
 GTDebuggerSmokeTest >> setUp [
+	super setUp.
 	debugger := self debuggerToTest new.
 ]
 
@@ -75,4 +76,5 @@ GTDebuggerSmokeTest >> tearDown [
 	window := nil.
 	debugger := nil.
 	session := nil.
+	super tearDown
 ]
